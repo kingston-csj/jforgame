@@ -11,8 +11,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Protocol {
 	
-	short module();
+	/** 消息所属模块号 */
 	
+	short module();
+	/** 消息所属子类型 */
 	short cmd();
 
 }

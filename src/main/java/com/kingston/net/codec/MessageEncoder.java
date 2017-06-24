@@ -17,13 +17,11 @@ public class MessageEncoder implements ProtocolEncoder{
 
 	@Override
 	public void dispose(IoSession arg0) throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		// TODO Auto-generated method stub
 		_encode(session, message, out);
 	}
 	
@@ -38,12 +36,15 @@ public class MessageEncoder implements ProtocolEncoder{
 	}
 	
 	private IoBuffer writeMessage(Message message) {
+		//----------------消息协议格式-------------------------
+		// packetLength | moduleId | cmd   |  body
+		// int            short      short   byte[]
+		
 		IoBuffer buffer = IoBuffer.allocate(CodecContext.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 		
 		//消息内容长度，先占个坑
 		buffer.putInt(0);
-		
 		short moduleId = message.getModule();
 		short cmd = message.getCmd();
 		//写入module类型
@@ -59,9 +60,9 @@ public class MessageEncoder implements ProtocolEncoder{
 			body = codec.encode(message);
 		} catch (IOException e) {
 			e.printStackTrace();
+			//logger
 		}
 		buffer.put(body);
-		
 		//回到buff字节数组头部
 		buffer.flip();
 		//重新写入包体长度
@@ -69,7 +70,6 @@ public class MessageEncoder implements ProtocolEncoder{
 		buffer.rewind();
 		
 		return buffer;
-				
 	}
 
 }

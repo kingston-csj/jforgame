@@ -57,6 +57,7 @@ public class SocketServer {
 		
 	}
 	
+	
 	private SocketSessionConfig getSessionConfig() {
 		SocketSessionConfig config = new DefaultSocketSessionConfig();
 		config.setKeepAlive(true);

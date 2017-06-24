@@ -2,6 +2,9 @@ package com.kingston.net;
 
 import com.kingston.net.annotation.Protocol;
 
+/**
+ * 通信消息体定义
+ */
 public abstract class Message {
 	
 	public short getModule() {
