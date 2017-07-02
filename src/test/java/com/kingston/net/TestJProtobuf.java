@@ -1,4 +1,4 @@
-package com.kingston.test.net;
+package com.kingston.net;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class TestJProtobuf {
 	@Test
 	public void testRequest() {
 		ReqLoginMessage request = new ReqLoginMessage();
-		request.setPlayerId(123456L);
+		request.setAccountId(123456L);
 		request.setPassword("kingston");
 		Codec<ReqLoginMessage> simpleTypeCodec = ProtobufProxy
 				.create(ReqLoginMessage.class);
@@ -25,7 +25,7 @@ public class TestJProtobuf {
 			byte[] bb = simpleTypeCodec.encode(request);
 			// 反序列化
 			ReqLoginMessage request2 = simpleTypeCodec.decode(bb);
-			Assert.assertTrue(request2.getPlayerId() == request.getPlayerId());
+			Assert.assertTrue(request2.getAccountId() == request.getAccountId());
 			Assert.assertTrue(request2.getPassword().equals(request.getPassword()));
 		} catch (IOException e) {
 			e.printStackTrace();

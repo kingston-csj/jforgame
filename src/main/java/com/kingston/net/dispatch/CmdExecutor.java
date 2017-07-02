@@ -2,15 +2,21 @@ package com.kingston.net.dispatch;
 
 import java.lang.reflect.Method;
 
+/**
+ * 消息执行单元封装
+ * @author kingston
+ *
+ */
 public class CmdExecutor {
 
+	/** 业务处理的工作方法 */
 	private Method method;
-
+	/** 传递给工作方法的相关参数 */
 	private Class<?>[] params;
+	/** 控制器实例 */
+	private Object handler;
 
-	private Class<?> handler;
-
-	public static CmdExecutor valueOf(Method method, Class<?>[] params, Class<?> handler) {
+	public static CmdExecutor valueOf(Method method, Class<?>[] params, Object handler) {
 		CmdExecutor executor = new CmdExecutor();
 		executor.method = method;
 		executor.params = params;
@@ -27,7 +33,7 @@ public class CmdExecutor {
 		return params;
 	}
 
-	public Class<?> getHandler() {
+	public Object getHandler() {
 		return handler;
 	}
 

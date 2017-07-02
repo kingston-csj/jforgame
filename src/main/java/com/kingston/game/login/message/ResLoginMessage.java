@@ -6,12 +6,12 @@ import com.kingston.net.Message;
 import com.kingston.net.Modules;
 import com.kingston.net.annotation.Protocol;
 
-@Protocol(module = Modules.LOGIN, cmd=LoginDataPool.CMD_RES_LOGIN)
+@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.CMD_RES_LOGIN)
 public class ResLoginMessage extends Message {
 
-	@Protobuf
+	@Protobuf(order = 1)
 	private int code;
-	@Protobuf
+	@Protobuf(order = 2)
 	private String tips;
 	
 	public ResLoginMessage() {
@@ -30,6 +30,10 @@ public class ResLoginMessage extends Message {
 	public void setTips(String tips) {
 		this.tips = tips;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ResLoginMessage [code=" + code + ", tips=" + tips + "]";
+	}
 	
 }

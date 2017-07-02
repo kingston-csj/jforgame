@@ -13,4 +13,5 @@ public class ClientStarter {
 		robot.buildConnection();
 		robot.sendMessage();
 	}
+	
 }

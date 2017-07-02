@@ -51,7 +51,7 @@ public class SocketServer {
 		logger.info("socket启动端口为{},正在监听客户端的连接", port);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance())); 
-		acceptor.setHandler( new IOHandler() );//指定业务逻辑处理器 
+		acceptor.setHandler( new IoHandler() );//指定业务逻辑处理器 
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(port) );//设置端口号 
 		acceptor.bind();//启动监听 
 		

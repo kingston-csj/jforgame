@@ -3,7 +3,9 @@ package com.kingston.net;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-public class IOHandler extends IoHandlerAdapter {
+import com.kingston.net.dispatch.MessageDispatcher;
+
+public class IoHandler extends IoHandlerAdapter {
 	
 	@Override 
 	public void sessionCreated(IoSession session) { 
@@ -15,6 +17,9 @@ public class IOHandler extends IoHandlerAdapter {
 	public void messageReceived(IoSession session, Object data ) throws Exception 
 	{ 
 		Message message = (Message)data;
-		System.out.println("收到消息-->" + message); 
+		System.err.println("收到消息-->" + message); 
+		//交由消息分发器处理
+		MessageDispatcher.getInstance().dispatch(session, message);
+		
 	} 
 } 

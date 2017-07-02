@@ -6,15 +6,18 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
+import org.slf4j.Logger;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import com.kingston.game.login.message.ReqLoginMessage;
+import com.kingston.logs.LoggerSystem;
 import com.kingston.net.Message;
 import com.kingston.net.MessageFactory;
 import com.kingston.net.SessionProperties;
 
 public class MessageDecoder implements ProtocolDecoder{
+	
+	private static final Logger logger = LoggerSystem.EXCEPTION.getLogger();
 
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		_decode(session, in, out);
@@ -22,6 +25,7 @@ public class MessageDecoder implements ProtocolDecoder{
 	}
 
 	private void _decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) {
+		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
 		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CONTEXT_KEY);
 		if (context == null) {
 			context = new CodecContext();
@@ -39,6 +43,9 @@ public class MessageDecoder implements ProtocolDecoder{
 				ioBuffer.compact();
 				return;
 			}
+			//----------------消息协议格式-------------------------
+			// packetLength | moduleId | cmd   |  body
+			// int            short      short   byte[]
 			int length = ioBuffer.getInt();
 			int packLen = length + 4;
 			//大于消息body长度，说明至少有一条完整的message消息
@@ -70,10 +77,9 @@ public class MessageDecoder implements ProtocolDecoder{
 		try {
 			Codec<?> codec = ProtobufProxy.create(msgClazz);
 			Message message = (Message) codec.decode(body);
-
 			return message;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("读取消息出错,模块号{}，类型{},异常{}", new Object[]{module, cmd ,e});
 		}
 		return null;
 	}
