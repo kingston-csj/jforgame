@@ -18,6 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.ServerConfig;
 import com.kingston.net.codec.MessageCodecFactory;
 
 public class SocketServer {
@@ -46,17 +47,16 @@ public class SocketServer {
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 		
-		//暂时写死在代码里，后期使用独立配置文件
-		int port = 9527;
-		logger.info("socket启动端口为{},正在监听客户端的连接", port);
+		//接受客户端连接的服务器端口
+		int serverPort = ServerConfig.getInstance().getServerPort();
+		logger.info("socket启动端口为{},正在监听客户端的连接", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance())); 
 		acceptor.setHandler( new IoHandler() );//指定业务逻辑处理器 
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(port) );//设置端口号 
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号 
 		acceptor.bind();//启动监听 
 		
 	}
-	
 	
 	private SocketSessionConfig getSessionConfig() {
 		SocketSessionConfig config = new DefaultSocketSessionConfig();
@@ -65,4 +65,5 @@ public class SocketServer {
 
 		return config;
 	}
+	
 }

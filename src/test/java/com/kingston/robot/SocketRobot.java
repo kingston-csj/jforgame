@@ -8,6 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
+import com.kingston.ServerConfig;
 import com.kingston.game.login.message.ReqLoginMessage;
 import com.kingston.net.codec.MessageCodecFactory;
 
@@ -27,7 +28,8 @@ public class SocketRobot {
 		connector.setHandler(new ClientHandler());
 
 		System.out.println("开始连接socket服务端"); 
-		ConnectFuture future = connector.connect(new InetSocketAddress(9527));
+		int serverPort = ServerConfig.getInstance().getServerPort();
+		ConnectFuture future = connector.connect(new InetSocketAddress(serverPort));
 		
 		future.awaitUninterruptibly();
 
