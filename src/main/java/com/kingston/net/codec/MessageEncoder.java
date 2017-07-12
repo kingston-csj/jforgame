@@ -26,10 +26,10 @@ public class MessageEncoder implements ProtocolEncoder{
 	}
 	
 	public void _encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CONTEXT_KEY);
+		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CODEC_CONTEXT);
 		if (context == null) {
 			context = new CodecContext();
-			session.setAttribute(SessionProperties.CONTEXT_KEY, context);
+			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
 		}
 		IoBuffer buffer = writeMessage((Message) message);
 		out.write(buffer);

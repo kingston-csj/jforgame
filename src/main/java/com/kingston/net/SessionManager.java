@@ -1,11 +1,16 @@
 package com.kingston.net;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 
 public enum SessionManager {
 	
 	INSTANCE;
+	
+	/** 分发器索引生成器 */
+	private AtomicInteger distributeKeyGenerator = new AtomicInteger();
 	
 	/**
 	 * 获取session对应的角色id
@@ -30,6 +35,10 @@ public enum SessionManager {
 	@SuppressWarnings("unchecked")
 	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, T attrType) {
 		return (T)session.getAttribute(attrKey);
+	}
+	
+	public int getNextDistributeKey() {
+		return this.distributeKeyGenerator.getAndIncrement();
 	}
 
 }

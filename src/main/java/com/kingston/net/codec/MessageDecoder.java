@@ -26,10 +26,10 @@ public class MessageDecoder implements ProtocolDecoder{
 
 	private void _decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
-		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CONTEXT_KEY);
+		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CODEC_CONTEXT);
 		if (context == null) {
 			context = new CodecContext();
-			session.setAttribute(SessionProperties.CONTEXT_KEY, context);
+			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
 		}
 		IoBuffer ioBuffer = context.getBuffer();
 		ioBuffer.put(in);

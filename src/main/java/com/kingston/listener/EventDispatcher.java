@@ -4,18 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class EventDispatcher {
 
 	private static EventDispatcher instance = new EventDispatcher();
 
-	private EventDispatcher() {};  
+	private EventDispatcher() {
+		new Thread(new EventWorker()).start();
+	};  
 
 	public static EventDispatcher getInstance() {
 		return instance;
 	}
 
-	private final Map<EventType, Set<EventListener>> observers = new HashMap<>();  
+	/** 事件类型与事件监听器列表的映射关系 */
+	private final Map<EventType, Set<EventListener>> observers = new HashMap<>(); 
+	/** 异步执行的事件队列 */
+	private LinkedBlockingQueue<GameEvent> eventQueue = new LinkedBlockingQueue<>();
 
 	/**
 	 * 注册事件监听器
@@ -39,7 +45,17 @@ public class EventDispatcher {
 		if(event == null){  
 			throw new NullPointerException("event cannot be null");  
 		}  
-
+		//如果事件是同步的，那么就在消息主线程执行逻辑
+		if (event.isSynchronized()) {
+			triggerEvent(event);
+		} else {
+		//否则，就丢到事件线程异步执行
+			eventQueue.add(event);
+		}
+		
+	}  
+	
+	private void triggerEvent(GameEvent event) {
 		EventType evtType = event.getEventType();  
 		Set<EventListener> listeners = observers.get(evtType);  
 		if(listeners != null){  
@@ -51,6 +67,20 @@ public class EventDispatcher {
 				}  
 			}  
 		}  
-	}  
+	}
+	
+	private class EventWorker implements Runnable {
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					GameEvent event = eventQueue.take();
+					triggerEvent(event);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 }

@@ -11,6 +11,8 @@ public class IoHandler extends IoHandlerAdapter {
 	public void sessionCreated(IoSession session) { 
 		//显示客户端的ip和端口 
 		System.out.println(session.getRemoteAddress().toString()); 
+		session.setAttributeIfAbsent(SessionProperties.DISTRIBUTE_KEY,
+				SessionManager.INSTANCE.getNextDistributeKey());
 	} 
 	
 	@Override 
