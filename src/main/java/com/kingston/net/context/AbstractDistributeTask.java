@@ -1,6 +1,5 @@
 package com.kingston.net.context;
 
-import com.kingston.net.dispatch.IDistributeTask;
 
 public abstract class AbstractDistributeTask implements IDistributeTask{
 

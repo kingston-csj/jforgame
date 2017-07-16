@@ -35,6 +35,7 @@ public enum MessageFactory {
 		}
 	}
 
+	
 	public Class<?> getMessage(short module, short cmd) {
 		return messagePool.get(buildKey(module, cmd));
 	}

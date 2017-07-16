@@ -22,5 +22,13 @@ public abstract class GameEvent {
 	public EventType getEventType() {
 		return this.eventType;
 	}
+	
+	/**
+	 * 是否在消息主线程同步执行
+	 * @return
+	 */
+	public boolean isSynchronized() {
+		return true;
+	}
 
 }

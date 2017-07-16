@@ -54,6 +54,8 @@ public class MessageEncoder implements ProtocolEncoder{
 		
 		//写入具体消息的内容
 		byte[] body = null;
+		
+		@SuppressWarnings("unchecked")
 		Class<Message> msgClazz = (Class<Message>) MessageFactory.INSTANCE.getMessage(moduleId, cmd);
 		try {
 			Codec<Message> codec = ProtobufProxy.create(msgClazz);

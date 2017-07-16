@@ -47,7 +47,7 @@ public class MessageDecoder implements ProtocolDecoder{
 			// packetLength | moduleId | cmd   |  body
 			// int            short      short   byte[]
 			int length = ioBuffer.getInt();
-			int packLen = length + 4;
+			//int packLen = length + 4;
 			//大于消息body长度，说明至少有一条完整的message消息
 			if (ioBuffer.remaining() >= length) {
 				short moduleId =  ioBuffer.getShort();
