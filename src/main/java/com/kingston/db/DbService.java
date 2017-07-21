@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 import com.kingston.logs.LoggerUtils;
 import com.kingston.utils.BlockingUniqueQueue;
+import com.kingston.utils.NameableThreadFactory;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 
@@ -30,7 +31,7 @@ public class DbService {
 	 * 启动消费者线程
 	 */
 	public void init() {
-		new Thread(new Worker()).start();
+		new NameableThreadFactory("db-save-service").newThread(new Worker()).start();
 	}
 	
 	@SuppressWarnings("rawtypes")

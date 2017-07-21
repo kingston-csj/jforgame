@@ -1,4 +1,4 @@
-package com.kingston.game.player.model;
+package com.kingston.game.database.user.player;
 
 import com.kingston.db.BaseEntity;
 import com.kingston.orm.annotation.Column;

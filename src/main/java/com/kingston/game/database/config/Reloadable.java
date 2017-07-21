@@ -1,4 +1,4 @@
-package com.kingston.game.configs;
+package com.kingston.game.database.config;
 
 public interface Reloadable {
 

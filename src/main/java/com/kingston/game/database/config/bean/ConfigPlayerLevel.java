@@ -1,4 +1,4 @@
-package com.kingston.game.configs.bean;
+package com.kingston.game.database.config.bean;
 
 import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;

@@ -13,6 +13,7 @@ import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.logs.LoggerSystem;
 import com.kingston.net.Message;
 import com.kingston.net.MessageFactory;
+import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
 
 public class MessageDecoder implements ProtocolDecoder{
@@ -26,7 +27,7 @@ public class MessageDecoder implements ProtocolDecoder{
 
 	private void _decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
-		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CODEC_CONTEXT);
+		CodecContext context = SessionManager.INSTANCE.getSessionAttr(session, SessionProperties.CODEC_CONTEXT, CodecContext.class);
 		if (context == null) {
 			context = new CodecContext();
 			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);

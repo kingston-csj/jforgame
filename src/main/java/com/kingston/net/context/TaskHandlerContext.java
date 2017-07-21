@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.kingston.utils.NameableThreadFactory;
+
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -26,7 +28,7 @@ public enum TaskHandlerContext {
 		for (int i=0; i<CORE_SIZE+1; i++) {
 			TaskWorker worker = new TaskWorker(i);
 			workerPool.add(worker);
-			new Thread(worker).start();
+			new NameableThreadFactory("message-task-handler").newThread(worker).start();
 		}
 	}
 	

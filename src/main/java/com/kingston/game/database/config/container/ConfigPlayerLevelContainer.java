@@ -1,12 +1,13 @@
-package com.kingston.game.configs.container;
+package com.kingston.game.database.config.container;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.kingston.game.configs.Reloadable;
-import com.kingston.game.configs.bean.ConfigPlayerLevel;
+import com.kingston.game.database.config.Reloadable;
+import com.kingston.game.database.config.bean.ConfigPlayerLevel;
 import com.kingston.orm.utils.DbUtils;
 
 /**
@@ -23,7 +24,7 @@ public class ConfigPlayerLevelContainer implements Reloadable{
 		List<ConfigPlayerLevel> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigPlayerLevel.class);
 		//使用jdk8，将list转为map
 		levels = datas.stream().collect(
-				Collectors.toMap(ConfigPlayerLevel::getLevel, e -> e));
+				Collectors.toMap(ConfigPlayerLevel::getLevel, Function.identity()));
 	}
 	
 	public ConfigPlayerLevel getConfigBy(int level) {

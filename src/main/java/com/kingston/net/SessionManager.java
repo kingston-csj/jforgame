@@ -33,7 +33,7 @@ public enum SessionManager {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, T attrType) {
+	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, Class<T> attrType) {
 		return (T)session.getAttribute(attrKey);
 	}
 	

@@ -1,6 +1,5 @@
 package com.kingston.cache;
 
-
 /**
  * 抽象缓存服务
  * @author kingston

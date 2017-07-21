@@ -6,12 +6,14 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.kingston.utils.NameableThreadFactory;
+
 public class EventDispatcher {
 
 	private static EventDispatcher instance = new EventDispatcher();
 
 	private EventDispatcher() {
-		new Thread(new EventWorker()).start();
+		new NameableThreadFactory("event-dispatch").newThread(new EventWorker()).start();
 	};  
 
 	public static EventDispatcher getInstance() {

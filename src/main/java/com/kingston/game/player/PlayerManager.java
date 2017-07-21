@@ -3,7 +3,7 @@ package com.kingston.game.player;
 import java.text.MessageFormat;
 
 import com.kingston.cache.CacheService;
-import com.kingston.game.player.model.Player;
+import com.kingston.game.database.user.player.Player;
 import com.kingston.orm.utils.DbUtils;
 
 /**

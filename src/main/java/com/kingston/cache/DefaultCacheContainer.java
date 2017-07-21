@@ -14,9 +14,4 @@ public class DefaultCacheContainer<K, V> extends CacheContainer<K, V> {
         return persistable.load(k);
     }
 
-//    @Override
-//    public void save(K k, V v) throws PersistenceException {
-//        persistable.save(k, v);
-//    }
-
 }
