@@ -1,6 +1,8 @@
 package com.kingston.game.player;
 
 import java.text.MessageFormat;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.kingston.cache.CacheService;
 import com.kingston.game.database.user.player.Player;
@@ -13,6 +15,8 @@ import com.kingston.orm.utils.DbUtils;
 public class PlayerManager extends CacheService<Long, Player> {
 
 	private static PlayerManager instance = new PlayerManager();
+	
+	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
 
 	private PlayerManager() {}
 
@@ -37,6 +41,24 @@ public class PlayerManager extends CacheService<Long, Player> {
 		sql = MessageFormat.format(sql, String.valueOf(playerId));
 		Player player = DbUtils.queryOne(DbUtils.DB_USER, sql, Player.class);
 		return player;
+	}
+	
+	/**
+	 * 添加进在线列表
+	 * @param player
+	 */
+	public void add2Online(Player player) {
+		this.onlines.put(player.getId(), player);
+	}
+	
+	/**
+	 * 从在线列表中移除
+	 * @param player
+	 */
+	public void removeFromOnline(Player player) {
+		if (player != null) {
+			this.onlines.remove(player.getId());
+		}
 	}
 
 }
