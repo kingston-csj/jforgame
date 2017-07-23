@@ -52,6 +52,14 @@ public class PlayerManager extends CacheService<Long, Player> {
 	}
 	
 	/**
+	 * 返回在线玩家列表的拷贝
+	 * @return
+	 */
+	public ConcurrentMap<Long, Player> getOnlinePlayers() {
+		return new ConcurrentHashMap<>(this.onlines);
+	}
+	
+	/**
 	 * 从在线列表中移除
 	 * @param player
 	 */
