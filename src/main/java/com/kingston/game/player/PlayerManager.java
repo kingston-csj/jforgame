@@ -35,6 +35,9 @@ public class PlayerManager extends CacheService<Long, Player> {
 	}
 
 
+	/**
+	 * 从用户表里读取玩家数据
+	 */
 	@Override
 	public Player load(Long playerId) throws Exception {
 		String sql = "SELECT * FROM Player where Id = {0} ";

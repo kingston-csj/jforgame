@@ -2,6 +2,10 @@ package com.kingston.cache;
 
 import com.kingston.utils.TimeUtils;
 
+/**
+ * 缓存相关配置
+ * @author kingston
+ */
 public class CacheOptions {
 
     private final static int DEFAULT_INITIAL_CAPACITY = 1024; 

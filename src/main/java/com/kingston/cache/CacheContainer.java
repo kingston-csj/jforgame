@@ -12,6 +12,10 @@ import com.google.common.cache.RemovalNotification;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.kingston.logs.LoggerUtils;
 
+/**
+ * 缓存容器
+ * @author kingston
+ */
 public abstract class CacheContainer<K, V> {
 
     private LoadingCache<K, V> cache;
@@ -20,6 +24,7 @@ public abstract class CacheContainer<K, V> {
         cache = CacheBuilder.newBuilder()
                 .initialCapacity(p.initialCapacity)
                 .maximumSize(p.maximumSize)
+                //超时自动删除
                 .expireAfterAccess(p.expireAfterAccessSeconds, TimeUnit.SECONDS)
                 .expireAfterWrite(p.expireAfterWriteSeconds, TimeUnit.SECONDS)
                 .removalListener(new MyRemovalListener())
