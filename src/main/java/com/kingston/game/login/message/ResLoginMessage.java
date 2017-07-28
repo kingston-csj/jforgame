@@ -6,7 +6,7 @@ import com.kingston.game.login.LoginDataPool;
 import com.kingston.net.Message;
 import com.kingston.net.annotation.Protocol;
 
-@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.CMD_RES_LOGIN)
+@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.RES_LOGIN)
 public class ResLoginMessage extends Message {
 
 	@Protobuf(order = 1)

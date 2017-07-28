@@ -31,7 +31,7 @@ public class Player extends BaseEntity<Long>{
 	private long exp;
 	
 	public Player() {
-		this.id = IdGenerator.getUid();
+		this.id = IdGenerator.getNextId();
 	}
 
 	@Override

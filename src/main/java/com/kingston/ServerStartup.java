@@ -6,7 +6,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 import com.kingston.db.DbService;
-import com.kingston.game.ConfigDatasPool;
+import com.kingston.game.database.config.ConfigDatasPool;
 import com.kingston.logs.LoggerUtils;
 import com.kingston.monitor.jmx.Controller;
 import com.kingston.monitor.jmx.ControllerMBean;
@@ -16,7 +16,11 @@ import com.kingston.net.context.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
 import com.kingston.orm.utils.DbUtils;
 
-public class ServerStarter {
+/**
+ * 服务点启动程序
+ * @author kingston
+ */
+public class ServerStartup {
 
 	public static void main(String args[]) {
 		//初始化协议池

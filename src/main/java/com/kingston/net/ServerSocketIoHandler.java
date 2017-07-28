@@ -3,9 +3,10 @@ package com.kingston.net;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
+import com.kingston.logs.LoggerUtils;
 import com.kingston.net.dispatch.MessageDispatcher;
 
-public class IoHandler extends IoHandlerAdapter {
+public class ServerSocketIoHandler extends IoHandlerAdapter {
 	
 	@Override 
 	public void sessionCreated(IoSession session) { 
@@ -24,4 +25,8 @@ public class IoHandler extends IoHandlerAdapter {
 		MessageDispatcher.getInstance().dispatch(session, message);
 		
 	} 
+	
+	 public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+		 LoggerUtils.error("server exception", cause);
+	 }
 } 

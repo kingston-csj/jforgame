@@ -103,7 +103,7 @@ public class MessageDispatcher {
   
         CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(buildKey(module, cmd));  
         if (cmdExecutor == null) {  
-            LoggerUtils.error("请求协议不存在,module=[%d],cmd=[%d]", module, cmd);  
+            LoggerUtils.error("请求协议不存在,module={},cmd={}", module, cmd);  
             return;  
         }  
   

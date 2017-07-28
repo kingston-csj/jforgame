@@ -8,6 +8,7 @@ public interface SessionProperties {
 	AttributeKey CODEC_CONTEXT = new AttributeKey(SessionProperties.class, "CONTEXT_KEY");
 	/** 线程池分发器的索引 */
 	AttributeKey DISTRIBUTE_KEY = new AttributeKey(SessionProperties.class, "DISTRIBUTE_KEY");
-	
+	/** 玩家id */
+	AttributeKey PLAYER_ID = new AttributeKey(SessionProperties.class, "PLAYER_ID");
 	
 }

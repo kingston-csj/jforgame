@@ -1,8 +1,7 @@
-package com.kingston.game;
+package com.kingston.game.database.config;
 
 import java.lang.reflect.Field;
 
-import com.kingston.game.database.config.Reloadable;
 import com.kingston.game.database.config.container.ConfigPlayerLevelContainer;
 import com.kingston.logs.LoggerUtils;
 

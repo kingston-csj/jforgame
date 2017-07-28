@@ -15,7 +15,7 @@ public class IdGenerator {
 	/**
 	 * 生成全局唯一id
 	 */
-	public static long getUid() {
+	public static long getNextId() {
 		//----------------id格式 -------------------------
 		//----------long类型8个字节64个比特位----------------
 		// 高16位          | 中32位          | 低16位

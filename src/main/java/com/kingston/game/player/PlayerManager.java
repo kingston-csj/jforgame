@@ -18,8 +18,6 @@ public class PlayerManager extends CacheService<Long, Player> {
 	
 	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
 
-	private PlayerManager() {}
-
 	public static PlayerManager getInstance() {
 		return instance;
 	}

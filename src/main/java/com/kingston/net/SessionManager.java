@@ -20,7 +20,7 @@ public enum SessionManager {
 	public long getPlayerId(IoSession session) {
 		long result = 0;
 		if (session != null) {
-			
+			result = getSessionAttr(session, SessionProperties.PLAYER_ID, Long.class);
 		}
 		return result;
 	}

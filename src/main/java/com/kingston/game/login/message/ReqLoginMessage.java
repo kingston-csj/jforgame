@@ -10,7 +10,7 @@ import com.kingston.net.annotation.Protocol;
  * 请求－账号登录
  * @author kingston
  */
-@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.CMD_REQ_LOGIN)
+@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
 public class ReqLoginMessage extends Message {
 	
 	/** 账号流水号 */
