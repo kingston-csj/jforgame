@@ -1,5 +1,7 @@
 package com.kingston.net;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.mina.core.session.AttributeKey;
@@ -11,18 +13,31 @@ public enum SessionManager {
 	
 	/** 分发器索引生成器 */
 	private AtomicInteger distributeKeyGenerator = new AtomicInteger();
+	/** playerid与session的对应关系 */
+	private ConcurrentMap<Long, IoSession> player_sessions = new ConcurrentHashMap<>();
+	
+	
+	public void registerNewPlayer(long playerId, IoSession session) {
+		//绑定session与玩家id
+		session.setAttribute(SessionProperties.PLAYER_ID, playerId);
+		this.player_sessions.put(playerId, session);
+	}
 	
 	/**
 	 * 获取session对应的角色id
 	 * @param session
 	 * @return
 	 */
-	public long getPlayerId(IoSession session) {
+	public long getPlayerIdBy(IoSession session) {
 		long result = 0;
 		if (session != null) {
 			result = getSessionAttr(session, SessionProperties.PLAYER_ID, Long.class);
 		}
 		return result;
+	}
+	
+	public IoSession getSessionBy(long playerId) {
+		return player_sessions.get(playerId);
 	}
 	
 	/**

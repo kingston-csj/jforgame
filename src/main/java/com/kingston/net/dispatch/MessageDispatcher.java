@@ -138,9 +138,9 @@ public class MessageDispatcher {
             if (IoSession.class.isAssignableFrom(param)) {  
                 result[i] = session;  
             }else if (Long.class.isAssignableFrom(param)) {  
-                result[i] = SessionManager.INSTANCE.getPlayerId(session);  
+                result[i] = SessionManager.INSTANCE.getPlayerIdBy(session);  
             }else if (long.class.isAssignableFrom(param)) {  
-                result[i] = SessionManager.INSTANCE.getPlayerId(session);  
+                result[i] = SessionManager.INSTANCE.getPlayerIdBy(session);  
             }else if (Message.class.isAssignableFrom(param)) {  
                 result[i] = message;  
             }  
