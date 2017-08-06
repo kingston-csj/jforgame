@@ -1,6 +1,6 @@
 # game_server
-game_server是一个用java编写的手游服务端框架，使用Mina作为IO网关。除了简单的业务功能之外，也包含各种辅助组件。使用maven工具管理依赖及打包。\<br /\> 　
-(A mobile game server socket frameworkd, including all the base functions)\<br /\> 
+game_server是一个用java编写的手游服务端框架，使用Mina作为IO网关。除了简单的业务功能之外，也包含各种辅助组件。使用maven工具管理依赖及打包。\<br> 　
+(A mobile game server socket frameworkd, including all the base functions)\<br>
 \<br /\> 　　
 \<br /\>   
 game包是游戏的业务模块\<br /\> 
