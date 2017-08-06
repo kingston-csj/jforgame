@@ -1,5 +1,6 @@
 # game_server
-  game_server是一个用java编写的手游服务端框架，使用Mina作为IO网关。除了简单的业务功能之外，也包含各种辅助组件。使用maven工具管理依赖及打包。 　
+  game_server是一个用java编写的手游服务端框架，使用Mina作为IO网关。除了简单的业务功能之外，也包含各种辅助组件。使用maven工具管理依赖及打包。
+  
   (A mobile game server socket frameworkd, including all the base functions)
   
   game包是游戏的业务模块
@@ -14,5 +15,5 @@
   * utils包，各种工具类； 　　
 
 
-ServerStartup为服务端的启动入口。
-ClientStartup为客户端机器人启动入口，放到test目录下。
+  ServerStartup为服务端的启动入口。
+  ClientStartup为客户端机器人启动入口，放到test目录下。
