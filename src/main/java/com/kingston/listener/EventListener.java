@@ -6,7 +6,7 @@ public interface EventListener {
 	 * 触发event的逻辑处理
 	 * @param event
 	 */
-	void onEvent(GameEvent event);  
+//	void onEvent(GameEvent event);  
 
 
 }

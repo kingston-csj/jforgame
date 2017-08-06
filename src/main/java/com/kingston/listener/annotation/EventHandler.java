@@ -1,4 +1,4 @@
-package com.kingston.listener;
+package com.kingston.listener.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,12 +6,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.kingston.listener.EventType;
+
 /**
- * 监听器注解
+ * 事件处理者
+ * @author kingston
  */
 @Documented
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Listener {
-
+public @interface EventHandler {
+	
+	/** 绑定的事件类型列表 */
+	public EventType[] value();
+	
 }

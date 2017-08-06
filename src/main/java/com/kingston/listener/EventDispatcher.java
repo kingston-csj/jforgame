@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.kingston.logs.LoggerUtils;
 import com.kingston.utils.NameableThreadFactory;
 
 public class EventDispatcher {
@@ -21,7 +22,7 @@ public class EventDispatcher {
 	}
 
 	/** 事件类型与事件监听器列表的映射关系 */
-	private final Map<EventType, Set<EventListener>> observers = new HashMap<>(); 
+	private final Map<EventType, Set<Object>> observers = new HashMap<>(); 
 	/** 异步执行的事件队列 */
 	private LinkedBlockingQueue<GameEvent> eventQueue = new LinkedBlockingQueue<>();
 
@@ -30,10 +31,10 @@ public class EventDispatcher {
 	 * @param evtType
 	 * @param listener
 	 */
-	public void registerEvent(EventType evtType, EventListener listener) {  
-		Set<EventListener> listeners = observers.get(evtType);  
+	public void registerEvent(EventType evtType, Object listener) {  
+		Set<Object> listeners = observers.get(evtType);  
 		if(listeners == null){  
-			listeners = new CopyOnWriteArraySet<EventListener>();  
+			listeners = new CopyOnWriteArraySet<>();  
 			observers.put(evtType, listeners);  
 		}  
 		listeners.add(listener);  
@@ -59,15 +60,15 @@ public class EventDispatcher {
 	
 	private void triggerEvent(GameEvent event) {
 		EventType evtType = event.getEventType();  
-		Set<EventListener> listeners = observers.get(evtType);  
+		Set<Object> listeners = observers.get(evtType);  
 		if(listeners != null){  
-			for(EventListener listener:listeners){  
+			listeners.forEach(listener->{
 				try{  
-					listener.onEvent(event);  
+					ListenerManager.INSTANCE.fireEvent(listener, event);
 				}catch(Exception e){  
-					e.printStackTrace();  //防止其中一个listener报异常而中断其他逻辑  
+					LoggerUtils.error("triggerEvent failed", e);;  //防止其中一个listener报异常而中断其他逻辑  
 				}  
-			}  
+			});
 		}  
 	}
 	

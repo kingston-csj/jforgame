@@ -14,7 +14,7 @@ import com.kingston.orm.utils.DbUtils;
  * 玩家等级配置表
  * @author kingston
  */
-public class ConfigPlayerLevelContainer implements Reloadable{
+public class ConfigPlayerLevelContainer implements Reloadable {
 	
 	private Map<Integer, ConfigPlayerLevel> levels = new HashMap<>();
 

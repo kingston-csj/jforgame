@@ -3,6 +3,7 @@ package com.kingston.game.database.config;
 import java.lang.reflect.Field;
 
 import com.kingston.game.database.config.container.ConfigPlayerLevelContainer;
+import com.kingston.game.database.config.container.ConfigSkillContainer;
 import com.kingston.logs.LoggerUtils;
 
 /**
@@ -21,6 +22,8 @@ public class ConfigDatasPool {
 	
 	public ConfigPlayerLevelContainer configPlayerLevelContainer = new ConfigPlayerLevelContainer();
 
+	public ConfigSkillContainer configSkillContainer = new ConfigSkillContainer();
+	
 	/**
 	 * 起服读取所有的配置数据
 	 */
@@ -31,7 +34,6 @@ public class ConfigDatasPool {
 			try {
 			if (Reloadable.class.isAssignableFrom(f.getType())) {
 				Reloadable container = (Reloadable) f.getType().newInstance();
-				System.err.println(f.getType());
 				container.reload();
 				f.set(instance, container);
 			}
