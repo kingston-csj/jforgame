@@ -14,37 +14,39 @@ import com.kingston.utils.ClassScanner;
 public enum ListenerManager {
 
 	INSTANCE;
-	
+
 	private Map<String, Method> map = new HashMap<>();
-	
-	public void initalize() {  
-        Set<Class<?>> controllers = ClassScanner.getClasses("com.kingston.game", new ClassFilter() {  
-            @Override  
-            public boolean accept(Class<?> clazz) {  
-                return clazz.getAnnotation(Listener.class) != null;  
-            }  
-        });  
-  
-        for (Class<?> controller: controllers) {  
-            try {  
-                Object handler = controller.newInstance();  
-                Method[] methods = controller.getDeclaredMethods();  
-                for (Method method:methods) {  
-                	EventHandler mapperAnnotation = method.getAnnotation(EventHandler.class);  
+
+	private final String SCAN_PATH = "com.kingston.game";
+
+	public void initalize() {
+        Set<Class<?>> listeners = ClassScanner.getClasses(SCAN_PATH, new ClassFilter() {
+            @Override
+            public boolean accept(Class<?> clazz) {
+                return clazz.getAnnotation(Listener.class) != null;
+            }
+        });
+
+        for (Class<?> listener: listeners) {
+            try {
+                Object handler = listener.newInstance();
+                Method[] methods = listener.getDeclaredMethods();
+                for (Method method:methods) {
+                	EventHandler mapperAnnotation = method.getAnnotation(EventHandler.class);
                     if (mapperAnnotation != null) {
                     	EventType[] eventTypes = mapperAnnotation.value();
                     	 for(EventType eventType: eventTypes) {
                     		 EventDispatcher.getInstance().registerEvent(eventType, handler);
                     		 map.put(getKey(handler, eventType), method);
                          }
-                    }  
-                }  
-            }catch(Exception e) {  
+                    }
+                }
+            }catch(Exception e) {
                 LoggerUtils.error("", e);
-            }  
-        }  
-    }  
-	
+            }
+        }
+    }
+
 	/**
 	 * 分发给具体监听器执行
 	 * @param handler
@@ -56,11 +58,11 @@ public enum ListenerManager {
 			method.invoke(handler, event);
 		} catch (Exception e) {
 			LoggerUtils.error("", e);
-		} 
-		
+		}
+
 	}
-	
+
 	private String getKey(Object handler, EventType eventType) {
-		return handler.getClass().getName()+"-"+eventType.toString();
+		return handler.getClass().getName() + "-" + eventType.toString();
 	}
 }
