@@ -1,6 +1,6 @@
  #!/bin/sh
 serverId="001"
-JVM_ARGS='-Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution -Dgame.serverId=001 ' 
+JVM_ARGS='-Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution' 
 if [ $1 == "start" ]; then
   cd target/
   serverName='GameServer'
@@ -10,7 +10,7 @@ if [ $1 == "start" ]; then
   then
     mkdir -p $localdir
   fi
-  java -server ${JVM_ARGS} \
+  java -server $JVM_ARGS \
   -Xloggc:$localdir/gc_$today.log \
   -Dgame.serverId=$serverId \
   -Dfile.encoding=UTF-8 -jar $serverName.jar > /dev/null &

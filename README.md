@@ -15,7 +15,7 @@
   ## QuickStart  
   1. 分别下载服务端和客户端的代码，并导入到IDE;  
   2. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
-  3. 启动服务，入口为ServerStartup类;  
+  3. 启动服务端，入口为ServerStartup类;  
   4. 启动客户端，入口为ClientStartup类;
 
 
