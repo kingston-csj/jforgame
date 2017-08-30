@@ -55,12 +55,21 @@
 			<version>1.6.1</version>
 		</dependency>
 
+
+
 		<!-- 网关相关 -->
 		<dependency>
 			<groupId>org.apache.mina</groupId>
 			<artifactId>mina-core</artifactId>
 			<version>2.0.7</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.mina/mina-http -->
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-http</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.baidu</groupId>
 			<artifactId>jprotobuf</artifactId>
@@ -131,25 +140,17 @@
 
 	<build>
 		<plugins>
+			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
+			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId> 
+				<version>1.2.1</version> <configuration> <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound> 
+				<filterClassPackage>com.baidu</filterClassPackage> </configuration> <executions> 
+				<execution> <phase>compile</phase> <goals> <goal>precompile</goal> </goals> 
+				</execution> </executions> </plugin> -->
 			<plugin>
-				<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-				<groupId>com.baidu</groupId>
-				<artifactId>jprotobuf-precompile-plugin</artifactId>
-				<version>1.2.1</version>
-				<configuration>
-					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-					<filterClassPackage>com.baidu</filterClassPackage>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>precompile</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -189,7 +190,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
