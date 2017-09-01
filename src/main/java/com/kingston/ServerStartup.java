@@ -7,6 +7,7 @@ import javax.management.ObjectName;
 
 import com.kingston.db.DbService;
 import com.kingston.game.database.config.ConfigDatasPool;
+import com.kingston.game.http.HttpServer;
 import com.kingston.logs.LoggerUtils;
 import com.kingston.monitor.jmx.Controller;
 import com.kingston.monitor.jmx.ControllerMBean;
@@ -53,6 +54,12 @@ public class ServerStartup {
 			new SocketServer().start();
 		}catch(Exception e) {
 			LoggerUtils.error("ServerStarter failed ", e);
+		}
+		
+		try{
+			new HttpServer().start();
+		}catch(Exception e) {
+			LoggerUtils.error("HttpServer failed ", e);
 		}
 
 	} 

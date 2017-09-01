@@ -39,10 +39,10 @@ public class MessageDispatcher {
     }  
   
     private MessageDispatcher() {  
-        initalize();  
+        initialize();  
     }  
   
-    public void initalize() {  
+    public void initialize() {  
         Set<Class<?>> controllers = ClassScanner.getClasses("com.kingston.game", new ClassFilter() {  
             @Override  
             public boolean accept(Class<?> clazz) {  

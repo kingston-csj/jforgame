@@ -15,6 +15,8 @@ public class ServerConfig {
 	private int serverId;
 	/** 服务器端口 */
 	private int serverPort;
+	/** 后台管理端口 */
+	private int httpPort;
 
 	private ServerConfig() {}
 
@@ -30,8 +32,10 @@ public class ServerConfig {
 		this.serverId = Integer.parseInt(serverIdValue);
 		String serverPortValue = rootElement.getElementsByTagName("server_port").item(0).getTextContent();
 		this.serverPort = Integer.parseInt(serverPortValue);
+		String httpPortValue = rootElement.getElementsByTagName("http_port").item(0).getTextContent();
+		this.httpPort = Integer.parseInt(httpPortValue);
 		
-		logger.info("本服serverId为{}", serverId);
+		logger.info("本服serverId为{},后台端口为{}", serverId, httpPort);
 	}
 
 	public int getServerId() {
@@ -40,6 +44,10 @@ public class ServerConfig {
 	
 	public int getServerPort() {
 		return serverPort;
+	}
+	
+	public int getHttpPort() {
+		return httpPort;
 	}
 
 }

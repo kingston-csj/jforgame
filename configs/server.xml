@@ -3,5 +3,6 @@
 	<platform>0</platform>
     <server_id>10001</server_id>
     <server_port>9527</server_port>
+    <http_port>8080</http_port>
     <server_name>我为游戏狂</server_name>
 </server>
