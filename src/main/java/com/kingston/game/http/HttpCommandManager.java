@@ -28,7 +28,7 @@ public class HttpCommandManager {
 	}
 
 	private void initialize() {
-		Set<Class<?>> handleClazzs = ClassScanner.getClasses("com.kingston.http", new ClassFilter() {  
+		Set<Class<?>> handleClazzs = ClassScanner.getClasses("com.kingston.game.http", new ClassFilter() {  
 			@Override  
 			public boolean accept(Class<?> clazz) {  
 				return clazz.getAnnotation(CommandHandler.class) != null;  

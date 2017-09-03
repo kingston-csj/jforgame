@@ -1,9 +1,9 @@
 package com.kingston.game.http;
 
 public class HttpCommandResponse {
-	
+	/**  执行成功 */
 	public static final byte SUCC = 1;
-	
+	/**  执行失败 */
 	public static final byte FAILED = 2;
 	/** 执行结果状态码 */
 	private byte code;
@@ -13,6 +13,7 @@ public class HttpCommandResponse {
 	public static HttpCommandResponse valueOfSucc() {
 		HttpCommandResponse response = new HttpCommandResponse();
 		response.code = SUCC;
+		response.message = "执行成功";
 		return response;
 	}
 	
@@ -36,6 +37,12 @@ public class HttpCommandResponse {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "HttpCommandResponse [code=" + code + ", message="
+						+ message + "]";
 	}
 
 }

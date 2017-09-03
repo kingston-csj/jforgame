@@ -16,6 +16,8 @@ import org.apache.mina.http.api.HttpResponse;
 import org.apache.mina.http.api.HttpStatus;
 import org.apache.mina.http.api.HttpVersion;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.ServerConfig;
@@ -26,12 +28,15 @@ public class HttpServer {
 		IoAcceptor acceptor = new NioSocketAcceptor();  
 		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());  
 		acceptor.setHandler(new HttpServerHandle()); 
+		//http端口
 		int port = ServerConfig.getInstance().getHttpPort();
 		acceptor.bind(new InetSocketAddress(port));  
 	}  
 }  
 
 class HttpServerHandle extends IoHandlerAdapter {  
+	
+	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
 	@Override  
 	public void exceptionCaught(IoSession session, Throwable cause)  
@@ -70,13 +75,14 @@ class HttpServerHandle extends IoHandlerAdapter {
 	private HttpCommandResponse handleCommand(HttpRequest request) {
 		HttpCommandParams httpParams = toHttpParams(request);
 		if (httpParams == null) {
-			HttpCommandResponse failed = HttpCommandResponse.valueOfSucc();
+			HttpCommandResponse failed = HttpCommandResponse.valueOfFailed();
 			failed.setMessage("参数错误");
 			return failed;
 		}
+		logger.info("收到http后台命令，参数为{}", httpParams);
 		HttpCommandResponse commandResponse = HttpCommandManager.getInstance().handleCommand(httpParams);
 		if (commandResponse == null) {
-			HttpCommandResponse failed = HttpCommandResponse.valueOfSucc();
+			HttpCommandResponse failed = HttpCommandResponse.valueOfFailed();
 			failed.setMessage("该后台命令不存在");
 			return failed;
 		}

@@ -3,7 +3,7 @@ package com.kingston.game.http;
 import java.util.Map;
 
 public class HttpCommandParams {
-	
+	/**  命令类型 {@link HttpCommands} */
 	private int cmd;
 	
 	private Map<String, String> params;
@@ -36,6 +36,12 @@ public class HttpCommandParams {
 			return Integer.parseInt(params.get(key));
 		}
 		return 0;
+	}
+
+	@Override
+	public String toString() {
+		return "HttpCommandParams [cmd=" + cmd + ", params=" + params
+						+ "]";
 	}
 	
 }
