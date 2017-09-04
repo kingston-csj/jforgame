@@ -34,6 +34,8 @@ public class SocketServer {
 
 	private SocketAcceptor acceptor;
 	
+	private int serverPort = ServerConfig.getInstance().getServerPort();
+	
 	/**
 	 * 开始启动mina serversocket
 	 * @throws Exception
@@ -48,8 +50,7 @@ public class SocketServer {
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 		
 		//接受客户端连接的服务器端口
-		int serverPort = ServerConfig.getInstance().getServerPort();
-		logger.info("socket启动端口为{},正在监听客户端的连接", serverPort);
+		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance())); 
 		acceptor.setHandler( new ServerSocketIoHandler() );//指定业务逻辑处理器 
@@ -64,6 +65,14 @@ public class SocketServer {
 		config.setReuseAddress(true);
 
 		return config;
+	}
+	
+	public void stop() {
+		if (acceptor != null) {
+			acceptor.unbind();
+			acceptor.dispose();
+		}
+		logger.error("---------> socket server stop at port:{}", serverPort);
 	}
 	
 }

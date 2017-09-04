@@ -1,21 +1,7 @@
 package com.kingston;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-
-import com.kingston.db.DbService;
-import com.kingston.game.database.config.ConfigDatasPool;
-import com.kingston.game.http.HttpServer;
-import com.kingston.logs.LoggerUtils;
-import com.kingston.monitor.jmx.Controller;
-import com.kingston.monitor.jmx.ControllerMBean;
-import com.kingston.net.MessageFactory;
-import com.kingston.net.SocketServer;
-import com.kingston.net.context.TaskHandlerContext;
-import com.kingston.orm.OrmProcessor;
-import com.kingston.orm.utils.DbUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 服务点启动程序
@@ -23,45 +9,23 @@ import com.kingston.orm.utils.DbUtils;
  */
 public class ServerStartup {
 
+	private static Logger logger = LoggerFactory.getLogger(ServerStartup.class);
+
 	public static void main(String args[]) {
-		//初始化协议池
-		MessageFactory.INSTANCE.initMeesagePool();
-		//读取服务器配置
-		ServerConfig.getInstance().initFromConfigFile();
-		//初始化orm框架
-		OrmProcessor.INSTANCE.initOrmBridges();
-		//初始化消息工作线程池
-		TaskHandlerContext.INSTANCE.initialize();
-		//初始化数据库连接池
-		DbUtils.init();
-		//读取所有策划配置
-		ConfigDatasPool.getInstance().loadAllConfigs();
-		//异步持久化服务
-		DbService.getInstance().init();
 
 		try{
-			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();  
-			//创建MBean    
-			ControllerMBean controller = new Controller();    
-			//将MBean注册到MBeanServer中    
-			mbs.registerMBean(controller, new ObjectName("GameMBean:name=controller")); 
+			GameServer.getInstance().start();
 		}catch(Exception e){
-			LoggerUtils.error("register mbean failed ", e);
+			logger.error("服务启动报错", e);
+		}finally {
+			//增加关闭钩子
+			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+				@Override
+				public void run() {
+					GameServer.getInstance().shutdown();
+				}
+			}));
 		}
-
-		//启动socket服务
-		try{
-			new SocketServer().start();
-		}catch(Exception e) {
-			LoggerUtils.error("ServerStarter failed ", e);
-		}
-		
-		try{
-			new HttpServer().start();
-		}catch(Exception e) {
-			LoggerUtils.error("HttpServer failed ", e);
-		}
-
 	} 
 
 }
