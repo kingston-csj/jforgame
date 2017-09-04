@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
-	<platform>0</platform>
-    <server_id>10001</server_id>
-    <server_port>9527</server_port>
-    <http_port>8080</http_port>
-    <server_name>我为游戏狂</server_name>
+	<game-server>
+		<platform>0</platform>
+		<server_id>10001</server_id>
+		<server_port>9527</server_port>
+		<server_name>我为游戏狂</server_name>
+	</game-server>
+	<!-- http后台管理 -->
+	<http-server>
+		<http_port>8080</http_port>
+		<white_ips>127.0.0.1;192.168.*;10.11.*</white_ips>
+	</http-server>
 </server>

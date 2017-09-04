@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.ServerConfig;
+import com.kingston.net.SessionManager;
 
 public class HttpServer {  
 
@@ -43,6 +44,20 @@ class HttpServerHandle extends IoHandlerAdapter {
 			throws Exception {  
 		cause.printStackTrace();  
 	}  
+	
+	@Override 
+	public void sessionOpened(IoSession session) throws Exception { 
+		String ipAddr = SessionManager.INSTANCE.getRemoteIp(session);
+		if (!ServerConfig.getInstance().isInWhiteIps(ipAddr)) {
+			logger.error("非法后台登录,remoteIp=[{}]", ipAddr);
+			byte[] body = "too young too simple".getBytes("UTF-8");
+			IoBuffer out = IoBuffer.allocate(body.length);
+			out.put(body);
+			out.flip();
+			session.write(out);
+			session.close(false);
+		}
+	} 
 
 	@Override  
 	public void messageReceived(IoSession session, Object message)  

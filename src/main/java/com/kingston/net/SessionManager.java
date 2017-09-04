@@ -1,5 +1,6 @@
 package com.kingston.net;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,6 +55,10 @@ public enum SessionManager {
 	
 	public int getNextDistributeKey() {
 		return this.distributeKeyGenerator.getAndIncrement();
+	}
+	
+	public String getRemoteIp(IoSession session) {
+		return ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress();
 	}
 
 }
