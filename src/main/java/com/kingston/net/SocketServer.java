@@ -67,7 +67,7 @@ public class SocketServer {
 		return config;
 	}
 	
-	public void stop() {
+	public void shutdown() {
 		if (acceptor != null) {
 			acceptor.unbind();
 			acceptor.dispose();

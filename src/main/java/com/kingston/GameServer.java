@@ -28,6 +28,8 @@ public class GameServer {
 	private static GameServer gameServer = new GameServer();
 
 	private SocketServer socketServer;
+	
+	private HttpServer httpServer;
 
 	public static GameServer getInstance() {
 		return gameServer;
@@ -73,16 +75,6 @@ public class GameServer {
 		//异步持久化服务
 		DbService.getInstance().init();
 
-		try{
-			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();  
-			//创建MBean    
-			ControllerMBean controller = new Controller();    
-			//将MBean注册到MBeanServer中    
-			mbs.registerMBean(controller, new ObjectName("GameMBean:name=controller")); 
-		}catch(Exception e){
-			LoggerUtils.error("register mbean failed ", e);
-		}
-
 		//启动socket服务
 		try{
 			socketServer = new SocketServer();
@@ -92,7 +84,8 @@ public class GameServer {
 		}
 		//启动http服务
 		try{
-			new HttpServer().start();
+			httpServer = new HttpServer();
+			httpServer.start();
 		}catch(Exception e) {
 			LoggerUtils.error("HttpServer failed ", e);
 		}
@@ -109,6 +102,9 @@ public class GameServer {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		//各种业务逻辑的关闭写在这里。。。
+		socketServer.shutdown();
+		httpServer.shutdown();
+		
 		stopWatch.stop();
 		logger.error("游戏服务正常关闭，耗时[{}]毫秒", stopWatch.getTime());
 	}

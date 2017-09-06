@@ -7,8 +7,8 @@ public enum LoggerSystem {
 	
 	/** 异常日志 */
 	EXCEPTION,
-//	/** 网关日志 */
-//	NET,
+	/** 后台日志 */
+	HTTP_COMMAND,
 	
 	;
 	

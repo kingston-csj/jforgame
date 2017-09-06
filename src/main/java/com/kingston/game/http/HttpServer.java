@@ -25,18 +25,32 @@ import com.kingston.net.SessionManager;
 
 public class HttpServer {  
 
+	private Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
+	private IoAcceptor acceptor;
+
+	//http端口
+	int port = ServerConfig.getInstance().getHttpPort();
+
 	public void start() throws Exception {  
-		IoAcceptor acceptor = new NioSocketAcceptor();  
+		acceptor = new NioSocketAcceptor();  
 		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());  
 		acceptor.setHandler(new HttpServerHandle()); 
-		//http端口
-		int port = ServerConfig.getInstance().getHttpPort();
+
 		acceptor.bind(new InetSocketAddress(port));  
 	}  
+
+	public void shutdown() {
+		if (acceptor != null) {
+			acceptor.unbind();
+			acceptor.dispose();
+		}
+		logger.error("---------> http server stop at port:{}", port);
+	}
 }  
 
 class HttpServerHandle extends IoHandlerAdapter {  
-	
+
 	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
 	@Override  
@@ -44,7 +58,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 			throws Exception {  
 		cause.printStackTrace();  
 	}  
-	
+
 	@Override 
 	public void sessionOpened(IoSession session) throws Exception { 
 		String ipAddr = SessionManager.INSTANCE.getRemoteIp(session);
@@ -112,6 +126,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 		String paramJson = httpReq.getParameter("params"); 
 		if (StringUtils.isNotEmpty(paramJson)) {
 			try{
+				@SuppressWarnings("unchecked")
 				Map<String, String> params = new Gson().fromJson(paramJson, HashMap.class);
 				return HttpCommandParams.valueOf(Integer.parseInt(cmd), params);
 			}catch(Exception e) {
