@@ -1,5 +1,6 @@
 package com.kingston.net;
 
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,7 @@ public enum MessageFactory {
 	
 	private Map<String, Class<?>> messagePool = new HashMap<>();
 	
-	private final String SCAN_PATH = "com.kingston.game";
+	private final String SCAN_PATH = "com.kingston";
 	
 	/**
 	 * 初始化所有通信协议库
@@ -23,7 +24,7 @@ public enum MessageFactory {
 		Set<Class<?>> messages = ClassScanner.getClasses(SCAN_PATH, new ClassFilter() {
 			@Override
 			public boolean accept(Class<?> clazz) {
-				return Message.class.isAssignableFrom(clazz);
+				return Message.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers());
 			}
 		});
 		

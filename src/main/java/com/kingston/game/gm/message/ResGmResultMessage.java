@@ -10,7 +10,7 @@ import com.kingston.net.annotation.Protocol;
  * gm执行结果
  * @author kingston
  */
-@Protocol(module=Modules.LOGIN, cmd=GmConstant.RES_GM_RESULT)
+@Protocol(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
 public class ResGmResultMessage extends Message {
 	
 	/** 执行失败 */
@@ -19,10 +19,14 @@ public class ResGmResultMessage extends Message {
 	public static final byte SUCC = 1;
 	
 	@Protobuf(order = 1)
-	private byte result;
+	private int result;
 	@Protobuf(order = 2)
 	private String message;
 	
+	public ResGmResultMessage() {
+		super();
+	}
+
 	private ResGmResultMessage(byte result, String message) {
 		this.result  = result;
 		this.message = message;
@@ -36,12 +40,18 @@ public class ResGmResultMessage extends Message {
 		return new ResGmResultMessage(FAIL, msg);
 	}
 
-	public byte getResult() {
+	public int getResult() {
 		return result;
 	}
 
 	public String getMessage() {
 		return message;
+	}
+
+	@Override
+	public String toString() {
+		return "ResGmResultMessage [result=" + result + ", message="
+						+ message + "]";
 	}
 	
 }

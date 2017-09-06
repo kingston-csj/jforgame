@@ -21,4 +21,9 @@ public class ResPlayerEnterSceneMessage extends Message {
 		this.mapId = mapId;
 	}
 
+	@Override
+	public String toString() {
+		return "ResPlayerEnterSceneMessage [mapId=" + mapId + "]";
+	}
+
 }

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 服务点启动程序
+ * 服务端启动程序
  * @author kingston
  */
 public class ServerStartup {

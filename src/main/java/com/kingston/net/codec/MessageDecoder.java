@@ -1,6 +1,7 @@
 package com.kingston.net.codec;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -15,6 +16,8 @@ import com.kingston.net.Message;
 import com.kingston.net.MessageFactory;
 import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
+import com.kingston.net.combine.CombineMessage;
+import com.kingston.net.combine.Packet;
 
 public class MessageDecoder implements ProtocolDecoder{
 	
@@ -55,10 +58,18 @@ public class MessageDecoder implements ProtocolDecoder{
 				short cmd = ioBuffer.getShort();
 				byte[] body = new byte[length-4];
 				ioBuffer.get(body);
-
 				Message msg = readMessage(moduleId, cmd, body);
-				out.write(msg);
-
+				
+				if (moduleId > 0) {
+					out.write(msg);
+				} else { //属于组合包
+					CombineMessage combineMessage = (CombineMessage)msg;
+					List<Packet> packets = combineMessage.getPackets();
+					for (Packet packet :packets) {
+						//依次拆包反序列化为具体的Message
+						out.write(Packet.asMessage(packet));
+					}
+				}
 				if (ioBuffer.remaining() == 0) {
 					ioBuffer.clear();
 					break;

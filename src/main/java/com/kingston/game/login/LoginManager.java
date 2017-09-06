@@ -3,12 +3,14 @@ package com.kingston.game.login;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.game.database.user.player.Player;
+import com.kingston.game.gm.message.ResGmResultMessage;
 import com.kingston.game.login.message.ResLoginMessage;
 import com.kingston.game.player.PlayerManager;
 import com.kingston.game.scene.message.ResPlayerEnterSceneMessage;
+import com.kingston.net.Message;
 import com.kingston.net.MessagePusher;
-import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
+import com.kingston.net.combine.CombineMessage;
 
 public class LoginManager {
 	
@@ -27,8 +29,13 @@ public class LoginManager {
 	 */
 	public void handleAccountLogin(IoSession session, long accoundId, String password) {
 		if ("kingston".equals(password)) {
-			MessagePusher.pushMessage(session, 
-					new ResLoginMessage(LoginDataPool.LOGIN_SUCC, "登录成功"));
+			Message response  = new ResLoginMessage(LoginDataPool.LOGIN_SUCC, "登录成功");
+			
+			CombineMessage combineMessage = new CombineMessage();
+			combineMessage.addMessage(response);
+			combineMessage.addMessage(new ResPlayerEnterSceneMessage());
+			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
+			MessagePusher.pushMessage(session, combineMessage);
 		} else {
 			MessagePusher.pushMessage(session, 
 					new ResLoginMessage(LoginDataPool.LOGIN_FAIL, "登录失败"));

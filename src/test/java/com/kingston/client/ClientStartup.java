@@ -1,7 +1,6 @@
 package com.kingston.client;
 
 import com.kingston.ServerConfig;
-import com.kingston.game.gm.message.ReqGmExecMessage;
 import com.kingston.net.MessageFactory;
 import com.kingston.robot.SocketRobot;
 
@@ -19,14 +18,7 @@ public class ClientStartup {
 
 		SocketRobot robot = new SocketRobot("kingston");
 		robot.buildConnection();
-		robot.selectedPlayer(10000L);
-		
-		//
-		Thread.sleep(3000L);
-		ReqGmExecMessage reqGm = new ReqGmExecMessage();
-		reqGm.command = "playerLv 2";
-		robot.sendMessage(reqGm);
-		
+		robot.login();
 		
 	}
 
