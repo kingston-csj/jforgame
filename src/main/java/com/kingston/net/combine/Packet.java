@@ -36,7 +36,6 @@ public class Packet {
 			throw new IllegalArgumentException("parse packet attachment failed",e);
 		}
 		
-		System.err.println("sdf");
 		return packet;
 	}
 	

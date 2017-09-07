@@ -1,12 +1,10 @@
 package com.kingston.net;
 
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import com.kingston.net.annotation.Protocol;
-import com.kingston.utils.ClassFilter;
 import com.kingston.utils.ClassScanner;
 
 public enum MessageFactory {
@@ -21,12 +19,7 @@ public enum MessageFactory {
 	 * 初始化所有通信协议库
 	 */
 	public void initMeesagePool() {
-		Set<Class<?>> messages = ClassScanner.getClasses(SCAN_PATH, new ClassFilter() {
-			@Override
-			public boolean accept(Class<?> clazz) {
-				return Message.class.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers());
-			}
-		});
+		Set<Class<?>> messages = ClassScanner.listAllSubclasses(SCAN_PATH, Message.class);
 		
 		for (Class<?> clazz: messages) {
 			Protocol protocol = clazz.getAnnotation(Protocol.class);

@@ -28,12 +28,7 @@ public class HttpCommandManager {
 	}
 
 	private void initialize() {
-		Set<Class<?>> handleClazzs = ClassScanner.getClasses("com.kingston.game.http", new ClassFilter() {  
-			@Override  
-			public boolean accept(Class<?> clazz) {  
-				return clazz.getAnnotation(CommandHandler.class) != null;  
-			}  
-		});  
+		Set<Class<?>> handleClazzs = ClassScanner.listClassesWithAnnotation("com.kingston.game.http", CommandHandler.class);  
 
 		for (Class<?> clazz: handleClazzs) {  
 			try {  

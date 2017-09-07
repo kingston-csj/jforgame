@@ -3,6 +3,8 @@ package com.kingston.utils;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -29,14 +31,36 @@ public class ClassScanner {
   
     /** 
      * 扫描目录下的所有class文件 
-     * @param pack 包路径 
+     * @param scanPackage 搜索的包根路径 
      * @return 
      */  
-    public static Set<Class<?>> getClasses(String pack) {  
-        return getClasses(pack,defaultFilter);  
+    public static Set<Class<?>> getClasses(String scanPackage) {  
+        return getClasses(scanPackage,defaultFilter);  
     }  
   
-  
+    /**
+     * 返回所有的子类（不包括抽象类）
+     * @param scanPackage 搜索的包根路径
+     * @param parent
+     * @return
+     */
+    public static Set<Class<?>> listAllSubclasses(String scanPackage, Class<?> parent) {
+    	return getClasses(scanPackage, (clazz) -> {
+    		return parent.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers());
+    	});
+    }
+    
+    /**
+     * 返回所有带制定注解的class列表
+     * @param scanPackage 搜索的包根路径
+     * @param annotation 
+     * @return
+     */
+    public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage, Class<A> annotation) {
+    	return getClasses(scanPackage, (clazz) -> {
+    		return clazz.getAnnotation(annotation) != null;
+    	});
+    }
     /** 
      * 扫描目录下的所有class文件 
      * @param pack 包路径 
@@ -118,7 +142,7 @@ public class ClassScanner {
                                     name.length() - 6);    
                             try {    
                                 // 添加到classes    
-                                Class c = Class.forName(packageName+'.'+className);  
+                                Class<?> c = Class.forName(packageName+'.'+className);  
                                 if (filter.accept(c)) {  
                                     result.add(c);    
                                 }  
@@ -166,7 +190,7 @@ public class ClassScanner {
                         file.getName().length() - 6);    
                 try {    
                     // 添加到集合中去    
-                    Class clazz = Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className);  
+                    Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className);  
                     if (filter.accept(clazz)) {  
                         classes.add(clazz);  
                     }  

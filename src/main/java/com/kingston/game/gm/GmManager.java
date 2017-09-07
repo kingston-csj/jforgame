@@ -41,13 +41,7 @@ public class GmManager {
 	}
 
 	private void init() {
-		Set<Class<?>> clazzs = ClassScanner.getClasses(SCAN_PATH, new ClassFilter() {
-			@Override
-			public boolean accept(Class<?> clazz) {
-				return AbstractGmCommand.class.isAssignableFrom(clazz) 
-						&& !Modifier.isAbstract(clazz.getModifiers());
-			}
-		});
+		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses(SCAN_PATH, AbstractGmCommand.class);
 
 		for (Class<?> clazz:clazzs) {
 			try{

@@ -43,12 +43,7 @@ public class MessageDispatcher {
     }  
   
     public void initialize() {  
-        Set<Class<?>> controllers = ClassScanner.getClasses("com.kingston.game", new ClassFilter() {  
-            @Override  
-            public boolean accept(Class<?> clazz) {  
-                return clazz.getAnnotation(Controller.class) != null;  
-            }  
-        });  
+        Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation("com.kingston.game", Controller.class);  
   
         for (Class<?> controller: controllers) {  
             try {  

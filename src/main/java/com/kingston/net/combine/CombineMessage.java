@@ -7,7 +7,7 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.net.Message;
 import com.kingston.net.annotation.Protocol;
 
-@Protocol(cmd=0, module=0)
+@Protocol(module=0, cmd=0)
 public final class CombineMessage extends Message {
 	
 	@Protobuf(order = 1)

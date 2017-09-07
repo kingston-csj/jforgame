@@ -15,7 +15,7 @@
   * utils包，各种工具类　　
 
   ## QuickStart  
-  1. 分别下载服务端和客户端的代码，并导入到IDE;  
+  1. 使用git下载代码（https://github.com/kingston-csj/game_server），并导入带有maven插件的IDE;  
   2. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
   3. 启动服务端，入口为ServerStartup类;  
   4. 启动客户端，入口为ClientStartup类;

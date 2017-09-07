@@ -10,7 +10,6 @@ import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;
 import com.kingston.orm.utils.StringUtils;
-import com.kingston.utils.ClassFilter;
 import com.kingston.utils.ClassScanner;
 
 public enum OrmProcessor {
@@ -21,7 +20,7 @@ public enum OrmProcessor {
 	private Map<Class<?>, OrmBridge> classOrmMapperr = new HashMap<>();
 
 	public void initOrmBridges() {
-		Set<Class<?>> entityClazzs = listEntityClazzs();
+		Set<Class<?>> entityClazzs = ClassScanner.listClassesWithAnnotation("com.kingston.game", Entity.class);
 
 		for (Class<?> clazz:entityClazzs) {
 			OrmBridge bridge = createBridge(clazz);
@@ -69,16 +68,6 @@ public enum OrmProcessor {
 		}
 
 		return bridge;
-	}
-
-	private Set<Class<?>> listEntityClazzs() {
-		return ClassScanner.getClasses("com.kingston.game", 
-				new ClassFilter() {
-			@Override
-			public boolean accept(Class<?> clazz) {
-				return clazz.getAnnotation(Entity.class) != null;
-			}
-		});
 	}
 
 	public OrmBridge getOrmBridge(Class<?> clazz) {
