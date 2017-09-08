@@ -13,6 +13,8 @@ public interface Modules {
 	int PLAYER = 102;
 	/** 场景 */
 	int SCENE = 103;
+	/** 活动 */
+	int ACTIVITY = 104;
 	
 	
 }

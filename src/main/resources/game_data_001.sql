@@ -39,3 +39,16 @@ CREATE TABLE `ConfigSkill` (
 
 INSERT INTO `ConfigSkill` VALUES ('1', '万剑诀', '剑芒如雨直落，攻击敌方全体');
 INSERT INTO `ConfigSkill` VALUES ('2', '天剑', '人剑合一，身化利剑，攻击敌方全体');
+
+DROP TABLE IF EXISTS `configactivity`;
+CREATE TABLE `configactivity` (
+  `id` int(11) NOT NULL,
+  `type` int(255) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of configactivity
+-- ----------------------------
+INSERT INTO `configactivity` VALUES ('1', '1', '首充送好礼');

@@ -1,6 +1,6 @@
 # jforgame
   jforgame，一个用java编写的手游服务端框架。项目只使用简单的业务功能作为演示，主要提供各种支持游戏快速开发的组件，以及对生产环境的服务进行管理的工具。
-  该项目使用Mina作为IO网关，使用maven工具管理依赖及进行打包。 
+  该项目使用maven工具管理依赖及进行打包。 
   
   ## 主要使用的第三方技术  
   *  Mina，通信NIO网关  
@@ -22,7 +22,7 @@
   * utils包，各种工具类　　
 
   ## QuickStart  
-  1. 使用git下载代码 https://github.com/kingston-csj/game_server;  
+  1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
   2. 将代码导入带有maven插件的IDE;  
   3. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
   4. 启动服务端，入口为ServerStartup类;  
