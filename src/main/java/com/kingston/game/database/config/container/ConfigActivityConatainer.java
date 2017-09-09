@@ -14,7 +14,7 @@ import com.kingston.orm.utils.DbUtils;
  * 活动配置
  * @author kingston
  */
-public class ConfigActivityConatainer  implements Reloadable {
+public class ConfigActivityConatainer implements Reloadable {
 	
 	private Map<Integer, ConfigActivity> activities = new HashMap<>();
 
