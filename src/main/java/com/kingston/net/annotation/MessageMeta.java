@@ -6,10 +6,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 消息的元信息
+ * @author kingston
+ */
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Protocol {
+public @interface MessageMeta {
 	
 	/** 消息所属模块号 */
 	short module();

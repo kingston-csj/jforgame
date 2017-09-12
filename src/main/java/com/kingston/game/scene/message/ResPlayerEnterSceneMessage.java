@@ -4,9 +4,9 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.scene.SceneDataPool;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
-@Protocol(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
+@MessageMeta(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
 public class ResPlayerEnterSceneMessage extends Message {
 	
 	/** 地图id */

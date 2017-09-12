@@ -4,9 +4,9 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.login.LoginDataPool;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
-@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.RES_LOGIN)
+@MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.RES_LOGIN)
 public class ResLoginMessage extends Message {
 
 	@Protobuf(order = 1)

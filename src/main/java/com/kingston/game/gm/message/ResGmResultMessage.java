@@ -4,13 +4,13 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.gm.GmConstant;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
 /**
  * gm执行结果
  * @author kingston
  */
-@Protocol(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
+@MessageMeta(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
 public class ResGmResultMessage extends Message {
 	
 	/** 执行失败 */

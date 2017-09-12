@@ -12,11 +12,10 @@ import com.kingston.net.Message;
 import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
 import com.kingston.net.annotation.Controller;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 import com.kingston.net.annotation.RequestMapping;
 import com.kingston.net.context.MessageTask;
 import com.kingston.net.context.TaskHandlerContext;
-import com.kingston.utils.ClassFilter;
 import com.kingston.utils.ClassScanner;
 
 public class MessageDispatcher {
@@ -52,14 +51,14 @@ public class MessageDispatcher {
                 for (Method method:methods) {  
                     RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);  
                     if (mapperAnnotation != null) {  
-                        MessageMeta meta = getMessageMeta(method);  
+                        short[] meta = getMessageMeta(method);  
                         if (meta == null) {  
                             throw new RuntimeException(String.format("controller[%s]方法[%s]缺少RequestMapping注解",   
                                     controller.getName(), method.getName()));  
                         }  
-                        short module = meta.module;  
-                        short cmd    = meta.cmd;  
-                        String key = buildKey(meta.module, meta.cmd);  
+                        short module = meta[0];  
+                        short cmd    = meta[1];  
+                        String key = buildKey(module, cmd);  
                         CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(key);  
                         if (cmdExecutor != null) {  
                             throw new RuntimeException(String.format("module[%d] cmd[%d]重复", module, cmd));  
@@ -75,12 +74,18 @@ public class MessageDispatcher {
         }  
     }  
   
-    private MessageMeta getMessageMeta(Method method) {  
+    /**
+     * 返回方法所带Message参数的元信息
+     * @param method
+     * @return
+     */
+    private short[] getMessageMeta(Method method) {  
         for (Class<?> paramClazz: method.getParameterTypes()) {  
             if (Message.class.isAssignableFrom(paramClazz)) {  
-                Protocol protocol = paramClazz.getAnnotation(Protocol.class);  
-                if (protocol != null) {  
-                    return MessageMeta.valueOf(protocol.module(), protocol.cmd());  
+                MessageMeta protocol = paramClazz.getAnnotation(MessageMeta.class);  
+                if (protocol != null) { 
+                	short[] meta = {protocol.module(), protocol.cmd()};
+                	return meta;
                 }  
             }  
         }  
@@ -149,3 +154,4 @@ public class MessageDispatcher {
     }  
 	
 }
+

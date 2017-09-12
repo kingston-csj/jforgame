@@ -4,9 +4,9 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.gm.GmConstant;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
-@Protocol(module=Modules.GM, cmd=GmConstant.REQ_GM_EXEC)
+@MessageMeta(module=Modules.GM, cmd=GmConstant.REQ_GM_EXEC)
 public class ReqGmExecMessage extends Message {
 	
 	@Protobuf(order = 1)

@@ -4,9 +4,9 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.login.LoginDataPool;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
-@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.REQ_SELECT_PLAYER)
+@MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_SELECT_PLAYER)
 public class ReqSelectPlayerMessage extends Message {
 	
 	@Protobuf(order = 1)

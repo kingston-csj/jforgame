@@ -4,13 +4,13 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.game.Modules;
 import com.kingston.game.login.LoginDataPool;
 import com.kingston.net.Message;
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
 /**
  * 请求－账号登录
  * @author kingston
  */
-@Protocol(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
+@MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
 public class ReqLoginMessage extends Message {
 	
 	/** 账号流水号 */

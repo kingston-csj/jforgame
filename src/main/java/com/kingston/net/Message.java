@@ -1,6 +1,6 @@
 package com.kingston.net;
 
-import com.kingston.net.annotation.Protocol;
+import com.kingston.net.annotation.MessageMeta;
 
 /**
  * 通信消息体定义
@@ -8,7 +8,7 @@ import com.kingston.net.annotation.Protocol;
 public abstract class Message {
 	
 	public short getModule() {
-		Protocol annotation = getClass().getAnnotation(Protocol.class);
+		MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
 		if (annotation != null) {
 			return annotation.module();
 		}
@@ -16,7 +16,7 @@ public abstract class Message {
 	}
 	
 	public short getCmd() {
-		Protocol annotation = getClass().getAnnotation(Protocol.class);
+		MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
 		if (annotation != null) {
 			return annotation.cmd();
 		}
