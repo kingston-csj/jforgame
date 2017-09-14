@@ -6,6 +6,8 @@
   *  Mina，通信NIO网关  
   *  jprotobuf, 通信消息编解码方式  
   *  Guava，实现缓存机制  
+  *  quartz, job调度任务  
+  *  groovy脚本，动态执行代码块，类热替换  　　  
   *  proxool，mysql数据库连接源  
   *  slf4j+log4j，日志系统  
 
