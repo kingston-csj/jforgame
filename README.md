@@ -1,10 +1,11 @@
 # jforgame
-  jforgame，一个用java编写的手游服务端框架。项目只使用简单的业务功能作为演示，主要提供各种支持游戏快速开发的组件，以及对生产环境的服务进行管理的工具。
+  jforgame，一个用java编写的轻量级手游服务端框架。项目只使用简单的业务功能作为演示，主要提供各种支持游戏快速开发的组件，以及对生产环境的服务进行管理的工具。
   该项目使用maven工具管理依赖及进行打包。 
   
   ## 主要使用的第三方技术  
   *  Mina，通信NIO网关  
   *  jprotobuf, 通信消息编解码方式  
+  *  Guava，实现缓存机制  
   *  proxool，mysql数据库连接源  
   *  slf4j+log4j，日志系统  
 
@@ -17,6 +18,7 @@
   * monitor包，系统监控模块，包括使用jmx对程序进行监控 　　
   * net包，包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型　
   * listener包，事件驱动模型  
+  * doctor包，采用基于类替换的方式实现热更新（类级热更新而非方法级）  
   * game/gm包，游戏内部金手指命令  
   * game/http包，游戏运营/运维后台命令
   * utils包，各种工具类　　
@@ -29,7 +31,7 @@
   5. 启动客户端，入口为ClientStartup类;
 
 
-  各模块快速入门 --> [jforgame](https://github.com/kingston-csj/jforgame/wiki)  
+  各模块快速入门 --> [wiki](https://github.com/kingston-csj/jforgame/wiki)  
 
   本栏目详细教程 --> [csdn博客](http://blog.csdn.net/column/details/16043.html)
 
