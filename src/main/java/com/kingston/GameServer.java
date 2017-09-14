@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.db.DbService;
+import com.kingston.game.core.SchedulerHelper;
 import com.kingston.game.database.config.ConfigDatasPool;
 import com.kingston.game.http.HttpServer;
-import com.kingston.logs.LoggerUtils;
 import com.kingston.monitor.jmx.Controller;
 import com.kingston.monitor.jmx.ControllerMBean;
 import com.kingston.net.MessageFactory;
@@ -28,38 +28,34 @@ public class GameServer {
 	private static GameServer gameServer = new GameServer();
 
 	private SocketServer socketServer;
-	
+
 	private HttpServer httpServer;
 
 	public static GameServer getInstance() {
 		return gameServer;
 	}
 
-	public void start() {
+	public void start() throws Exception {
 
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		//游戏框架服务启动
-		frameworkStart();
+
+		//游戏基础框架服务启动
+		frameworkInit();
 		//游戏业务初始化
-		gameLogicStart();
+		gameLogicInit();
 
 		stopWatch.stop();
 		logger.error("游戏服务启动，耗时[{}]毫秒", stopWatch.getTime());
 
 		//mbean监控
-		try{
-			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();  
-			ControllerMBean controller = new Controller();    
-			//将MBean注册到MBeanServer中    
-			mbs.registerMBean(controller, new ObjectName("GameMBean:name=controller")); 
-		}catch(Exception e){
-			LoggerUtils.error("register mbean failed ", e);
-		}
+		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+		ControllerMBean controller = new Controller();
+		mbs.registerMBean(controller, new ObjectName("GameMBean:name=controller"));
 
 	}
 
-	private void frameworkStart() {
+	private void frameworkInit() throws Exception {
 		//初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool();
 		//读取服务器配置
@@ -70,30 +66,24 @@ public class GameServer {
 		TaskHandlerContext.INSTANCE.initialize();
 		//初始化数据库连接池
 		DbUtils.init();
+		//初始化job定时任务
+		SchedulerHelper.initAndStart();
 		//读取所有策划配置
 		ConfigDatasPool.getInstance().loadAllConfigs();
 		//异步持久化服务
 		DbService.getInstance().init();
 
 		//启动socket服务
-		try{
-			socketServer = new SocketServer();
-			socketServer.start();
-		}catch(Exception e) {
-			LoggerUtils.error("ServerStarter failed ", e);
-		}
+		socketServer = new SocketServer();
+		socketServer.start();
 		//启动http服务
-		try{
-			httpServer = new HttpServer();
-			httpServer.start();
-		}catch(Exception e) {
-			LoggerUtils.error("HttpServer failed ", e);
-		}
+		httpServer = new HttpServer();
+		httpServer.start();
 	}
 
 
-	private void gameLogicStart() {
-
+	private void gameLogicInit() {
+		//游戏启动时，各种业务初始化写在这里吧
 	}
 
 
@@ -104,7 +94,7 @@ public class GameServer {
 		//各种业务逻辑的关闭写在这里。。。
 		socketServer.shutdown();
 		httpServer.shutdown();
-		
+
 		stopWatch.stop();
 		logger.error("游戏服务正常关闭，耗时[{}]毫秒", stopWatch.getTime());
 	}

@@ -112,6 +112,23 @@
 			<version>18.0</version>
 		</dependency>
 
+		<!-- quartz job调度器 -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+		</dependency>
+
 		<!-- groovy脚本 -->
 		<!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
 		<dependency>
@@ -141,10 +158,10 @@
 	<build>
 		<plugins>
 			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId> 
-				<version>1.2.1</version> <configuration> <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound> 
-				<filterClassPackage>com.baidu</filterClassPackage> </configuration> <executions> 
-				<execution> <phase>compile</phase> <goals> <goal>precompile</goal> </goals> 
+			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId>
+				<version>1.2.1</version> <configuration> <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+				<filterClassPackage>com.baidu</filterClassPackage> </configuration> <executions>
+				<execution> <phase>compile</phase> <goals> <goal>precompile</goal> </goals>
 				</execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.felix</groupId>
