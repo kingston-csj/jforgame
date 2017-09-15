@@ -75,6 +75,14 @@ public enum TaskHandlerContext {
 					task.markStartMillis();
 					task.action();
 					task.markEndMillis();
+					
+					//如果是timer任务，检查是否需要重新丢入队列
+					if (task instanceof TimerTask) {
+						TimerTask timerTask = (TimerTask)task;
+						if (timerTask.canRunAgain()) {
+							addTask(task);
+						}
+					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
