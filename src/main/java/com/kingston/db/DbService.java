@@ -13,9 +13,9 @@ import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
  * @author kingston
  */
 public class DbService {
-	
+
 	private static volatile DbService instance;
-	
+
 	public static DbService getInstance() {
 		if (instance ==  null) {
 			synchronized (DbService.class) {
@@ -26,30 +26,30 @@ public class DbService {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * 启动消费者线程
 	 */
 	public void init() {
 		new NameableThreadFactory("db-save-service").newThread(new Worker()).start();
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	private BlockingQueue<BaseEntity> queue = new BlockingUniqueQueue<>();
-	
+
 	private final AtomicBoolean run = new AtomicBoolean(true);
-	
-	public void add2Queue(BaseEntity<?> entity) {
+
+	public void add2Queue(BaseEntity entity) {
 		this.queue.add(entity);
 	}
-	
-	
+
+
 	private class Worker implements Runnable {
 		@Override
 		public void run() {
 			while(run.get()) {
 				try {
-					BaseEntity<?> entity = queue.take();
+					BaseEntity entity = queue.take();
 					saveToDb(entity);
 				} catch (InterruptedException e) {
 					LoggerUtils.error("", e);
@@ -57,12 +57,12 @@ public class DbService {
 			}
 		}
 	}
-	
+
 	/**
 	 * 数据真正持久化
 	 * @param entity
 	 */
-	private void saveToDb(BaseEntity<?> entity) {
+	private void saveToDb(BaseEntity entity) {
 		entity.save();
 	}
 

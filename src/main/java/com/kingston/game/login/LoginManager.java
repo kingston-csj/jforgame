@@ -9,39 +9,40 @@ import com.kingston.game.player.PlayerManager;
 import com.kingston.game.scene.message.ResPlayerEnterSceneMessage;
 import com.kingston.net.Message;
 import com.kingston.net.MessagePusher;
+import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
 import com.kingston.net.combine.CombineMessage;
 
 public class LoginManager {
-	
+
 	private static LoginManager instance = new LoginManager();
-	
+
 	private LoginManager() {}
-	
+
 	public static LoginManager getInstance() {
 		return instance;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param accoundId 账号流水号
 	 * @param password  账号密码
 	 */
 	public void handleAccountLogin(IoSession session, long accoundId, String password) {
 		if ("kingston".equals(password)) {
 			Message response  = new ResLoginMessage(LoginDataPool.LOGIN_SUCC, "登录成功");
-			
+
 			CombineMessage combineMessage = new CombineMessage();
 			combineMessage.addMessage(response);
 			combineMessage.addMessage(new ResPlayerEnterSceneMessage());
 			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
 		} else {
-			MessagePusher.pushMessage(session, 
+			MessagePusher.pushMessage(session,
 					new ResLoginMessage(LoginDataPool.LOGIN_FAIL, "登录失败"));
 		}
 	}
-	
+
 	/**
 	 * 选角登录
 	 * @param session
@@ -52,12 +53,15 @@ public class LoginManager {
 		if (player != null) {
 			//绑定session与玩家id
 			session.setAttribute(SessionProperties.PLAYER_ID, playerId);
+			//加入在线列表
+			PlayerManager.getInstance().add2Online(player);
+			SessionManager.INSTANCE.registerNewPlayer(playerId, session);
 			//推送进入场景
 			ResPlayerEnterSceneMessage response = new ResPlayerEnterSceneMessage();
 			response.setMapId(1001);
 			MessagePusher.pushMessage(session, response);
 		}
 	}
-	
+
 
 }
