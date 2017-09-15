@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kingston.db.DbService;
 import com.kingston.game.core.SchedulerHelper;
+import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.config.ConfigDatasPool;
 import com.kingston.game.http.HttpServer;
 import com.kingston.monitor.jmx.Controller;
@@ -20,6 +21,7 @@ import com.kingston.net.SocketServer;
 import com.kingston.net.context.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
 import com.kingston.orm.utils.DbUtils;
+import com.kingston.utils.TimeUtil;
 
 public class GameServer {
 
@@ -72,6 +74,8 @@ public class GameServer {
 		ConfigDatasPool.getInstance().loadAllConfigs();
 		//异步持久化服务
 		DbService.getInstance().init();
+		//读取系统参数
+		loadSystemRecords();
 
 		//启动socket服务
 		socketServer = new SocketServer();
@@ -79,6 +83,16 @@ public class GameServer {
 		//启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();
+	}
+
+	private void loadSystemRecords() throws Exception {
+		SystemParameters.load();
+		// 启动时检查每日重置
+		long now = System.currentTimeMillis();
+		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtil.HOUR) {
+			logger.info("启动时每日重置");
+			SystemParameters.update("dailyResetTimestamp", now);
+		}
 	}
 
 
