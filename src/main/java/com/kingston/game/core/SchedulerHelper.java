@@ -52,8 +52,7 @@ public class SchedulerHelper {
 	 */
 	public static synchronized void init(String path) throws SchedulerException {
 		Objects.requireNonNull(path);
-		SchedulerFactory schedulerFactory;
-		schedulerFactory = new StdSchedulerFactory(path);
+		SchedulerFactory schedulerFactory = new StdSchedulerFactory(path);
 		scheduler = schedulerFactory.getScheduler();
 	}
 

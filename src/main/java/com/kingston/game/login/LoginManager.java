@@ -2,6 +2,7 @@ package com.kingston.game.login;
 
 import org.apache.mina.core.session.IoSession;
 
+import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.user.player.Player;
 import com.kingston.game.gm.message.ResGmResultMessage;
 import com.kingston.game.login.message.ResLoginMessage;
@@ -60,7 +61,26 @@ public class LoginManager {
 			ResPlayerEnterSceneMessage response = new ResPlayerEnterSceneMessage();
 			response.setMapId(1001);
 			MessagePusher.pushMessage(session, response);
+			//检查日重置
+			checkDailyReset(player);
+
 		}
+	}
+
+	private void checkDailyReset(Player player) {
+		long resetTimestamp = SystemParameters.dailyResetTimestamp;
+		if (player.getLastDailyReset() < resetTimestamp) {
+			player.setLastDailyReset(SystemParameters.dailyResetTimestamp);
+			onDailyReset(player);
+		}
+	}
+
+	/**
+	 * 各个模块的业务日重置
+	 * @param player
+	 */
+	private void onDailyReset(Player player) {
+
 	}
 
 

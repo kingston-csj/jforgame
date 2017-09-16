@@ -38,6 +38,13 @@ public class Player extends BaseEntity implements IDistributable {
 
 	@Column
 	private long exp;
+	/**
+	 * 上一次每日重置的时间戳
+	 */
+	@Column
+	private long lastDailyReset;
+
+
 
 	public Player() {
 		this.id = IdGenerator.getNextId();
@@ -84,6 +91,14 @@ public class Player extends BaseEntity implements IDistributable {
 		this.exp = exp;
 	}
 
+	public long getLastDailyReset() {
+		return lastDailyReset;
+	}
+
+	public void setLastDailyReset(long lastDailyReset) {
+		this.lastDailyReset = lastDailyReset;
+	}
+
 	@Override
 	public int distributeKey() {
 		IoSession session = SessionManager.INSTANCE.getSessionBy(id);
@@ -92,8 +107,8 @@ public class Player extends BaseEntity implements IDistributable {
 
 	@Override
 	public String toString() {
-		return "Player [id=" + id + ", name=" + name + ", job=" + job
-				+ ", level=" + level + ", exp=" + exp + "]";
+		return "Player [id=" + id + ", name=" + name + ", job=" + job + ", level=" + level + ", exp=" + exp
+				+ ", lastDailyReset=" + lastDailyReset + "]";
 	}
 
 }
