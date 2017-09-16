@@ -58,6 +58,8 @@ public class GameServer {
 	}
 
 	private void frameworkInit() throws Exception {
+		//加载服务版本号
+		ServerVersion.load();
 		//初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool();
 		//读取服务器配置
