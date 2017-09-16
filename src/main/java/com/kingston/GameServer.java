@@ -21,7 +21,7 @@ import com.kingston.net.SocketServer;
 import com.kingston.net.context.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
 import com.kingston.orm.utils.DbUtils;
-import com.kingston.utils.TimeUtil;
+import com.kingston.utils.TimeUtils;
 
 public class GameServer {
 
@@ -89,7 +89,7 @@ public class GameServer {
 		SystemParameters.load();
 		// 启动时检查每日重置
 		long now = System.currentTimeMillis();
-		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtil.HOUR) {
+		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtils.ONE_HOUR) {
 			logger.info("启动时每日重置");
 			SystemParameters.update("dailyResetTimestamp", now);
 		}

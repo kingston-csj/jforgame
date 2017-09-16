@@ -5,13 +5,18 @@ import org.apache.mina.core.session.IoSession;
 import com.kingston.db.BaseEntity;
 import com.kingston.net.SessionManager;
 import com.kingston.net.SessionProperties;
+import com.kingston.net.context.IDistributable;
 import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;
 import com.kingston.utils.IdGenerator;
 
+/**
+ * 玩家实体
+ * @author kingston
+ */
 @Entity
-public class Player extends BaseEntity {
+public class Player extends BaseEntity implements IDistributable {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 
@@ -79,6 +84,7 @@ public class Player extends BaseEntity {
 		this.exp = exp;
 	}
 
+	@Override
 	public int distributeKey() {
 		IoSession session = SessionManager.INSTANCE.getSessionBy(id);
 		return (int)session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
