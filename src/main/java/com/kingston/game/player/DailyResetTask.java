@@ -15,6 +15,7 @@ public class DailyResetTask extends TimerTask {
 	@Override
 	public void action() {
 		System.err.println("玩家"+player.getName()+"进行每日重置");
+		PlayerManager.getInstance().checkDailyReset(player);
 	}
 
 }

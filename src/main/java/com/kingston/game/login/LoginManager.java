@@ -61,27 +61,12 @@ public class LoginManager {
 			ResPlayerEnterSceneMessage response = new ResPlayerEnterSceneMessage();
 			response.setMapId(1001);
 			MessagePusher.pushMessage(session, response);
+
+
 			//检查日重置
-			checkDailyReset(player);
+			PlayerManager.getInstance().checkDailyReset(player);
 
 		}
 	}
-
-	private void checkDailyReset(Player player) {
-		long resetTimestamp = SystemParameters.dailyResetTimestamp;
-		if (player.getLastDailyReset() < resetTimestamp) {
-			player.setLastDailyReset(SystemParameters.dailyResetTimestamp);
-			onDailyReset(player);
-		}
-	}
-
-	/**
-	 * 各个模块的业务日重置
-	 * @param player
-	 */
-	private void onDailyReset(Player player) {
-
-	}
-
 
 }

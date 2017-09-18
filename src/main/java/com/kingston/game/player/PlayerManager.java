@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.kingston.cache.CacheService;
+import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.user.player.Player;
 import com.kingston.orm.utils.DbUtils;
 
@@ -68,6 +69,22 @@ public class PlayerManager extends CacheService<Long, Player> {
 		if (player != null) {
 			this.onlines.remove(player.getId());
 		}
+	}
+
+	public void checkDailyReset(Player player) {
+		long resetTimestamp = SystemParameters.dailyResetTimestamp;
+		if (player.getLastDailyReset() < resetTimestamp) {
+			player.setLastDailyReset(SystemParameters.dailyResetTimestamp);
+			onDailyReset(player);
+		}
+	}
+
+	/**
+	 * 各个模块的业务日重置
+	 * @param player
+	 */
+	private void onDailyReset(Player player) {
+
 	}
 
 }
