@@ -5,14 +5,16 @@
   (jforgame，一个用java编写的轻量级手游服务端框架。项目只使用简单的业务功能作为演示，主要提供各种支持游戏快速开发的组件，以及对生产环境的服务进行管理的工具。
   该项目使用maven工具管理依赖及进行打包。) 
   
-  ## main 3rd party   
-  *  Mina，nio socket framework  
-  *  jprotobuf, message codec   
-  *  Guava，memory cache  
-  *  quartz, job task sche  
-  *  groovy, execute script code and class hotswap　　  
-  *  proxool，mysql data pool  
-  *  slf4j+log4j，for logging  
+  ## 第三方技术栈  
+  技术 | 说明 | 官网     
+  Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
+  jprotobuf | message codec | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
+  Guava | memory cache | [https://github.com/google/guava](https://github.com/google/guava)  
+  quartz | job task scheduler | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
+  groovy | class hotswap | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
+  proxool | mysql data pool | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/) 
+  slf4j+log4j | logging system | [https://www.slf4j.org/](https://www.slf4j.org/)  
+  maven | dependency manager, project build | [http://maven.apache.org/](http://maven.apache.org/)  
 
   ## 模块目录
   game包是游戏的业务模块, 其余包则是各种辅助模块。允许game包调用其他模块的接口，尽量避免其他模块对game包的调用。各个模块包括:
