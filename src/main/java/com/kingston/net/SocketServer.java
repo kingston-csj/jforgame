@@ -22,43 +22,41 @@ import com.kingston.ServerConfig;
 import com.kingston.net.codec.MessageCodecFactory;
 
 public class SocketServer {
-	
+
 	private Logger logger = LoggerFactory.getLogger(SocketServer.class);
 
 	private static final int CPU_CORE_SIZE = Runtime.getRuntime().availableProcessors();
-	
+
 	private static final Executor executor = Executors.newCachedThreadPool();
-	
-	private static final SimpleIoProcessorPool<NioSession> pool = 
+
+	private static final SimpleIoProcessorPool<NioSession> pool =
 			new SimpleIoProcessorPool<NioSession>(NioProcessor.class, executor, CPU_CORE_SIZE);
 
 	private SocketAcceptor acceptor;
-	
+
 	private int serverPort = ServerConfig.getInstance().getServerPort();
-	
+
 	/**
-	 * 开始启动mina serversocket
+	 * start Mina serversocket
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
-		
 		IoBuffer.setUseDirectBuffer(false);
 		IoBuffer.setAllocator(new SimpleBufferAllocator());
-		
+
 		acceptor = new NioSocketAcceptor(pool);
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
-		
-		//接受客户端连接的服务器端口
+
 		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
-		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance())); 
-		acceptor.setHandler( new ServerSocketIoHandler() );//指定业务逻辑处理器 
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号 
-		acceptor.bind();//启动监听 
-		
+		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance()));
+		acceptor.setHandler( new ServerSocketIoHandler() );//指定业务逻辑处理器
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号
+		acceptor.bind();//启动监听
+
 	}
-	
+
 	private SocketSessionConfig getSessionConfig() {
 		SocketSessionConfig config = new DefaultSocketSessionConfig();
 		config.setKeepAlive(true);
@@ -66,7 +64,7 @@ public class SocketServer {
 
 		return config;
 	}
-	
+
 	public void shutdown() {
 		if (acceptor != null) {
 			acceptor.unbind();
@@ -74,5 +72,5 @@ public class SocketServer {
 		}
 		logger.error("---------> socket server stop at port:{}", serverPort);
 	}
-	
+
 }

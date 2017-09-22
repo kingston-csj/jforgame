@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.kingston.orm.cache.AbstractCacheable;
 
 /**
- * db实体基类
+ * abstract base class for db entity
  * @author kingston
  */
 public abstract class BaseEntity extends AbstractCacheable

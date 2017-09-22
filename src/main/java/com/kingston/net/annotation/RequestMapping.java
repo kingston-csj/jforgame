@@ -7,7 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 处理请求地址映射的注解
+ * A method whose type is meta-annotated with this
+ * is used to be a logic handler
  * @author kingston
  */
 @Documented

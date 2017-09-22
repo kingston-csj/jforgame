@@ -9,23 +9,23 @@ import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 
 public enum SessionManager {
-	
+
 	INSTANCE;
-	
-	/** 分发器索引生成器 */
+
+	/** distributeKey auto generator  */
 	private AtomicInteger distributeKeyGenerator = new AtomicInteger();
-	/** playerid与session的对应关系 */
+	/** key=playerId, value=session */
 	private ConcurrentMap<Long, IoSession> player_sessions = new ConcurrentHashMap<>();
-	
-	
+
+
 	public void registerNewPlayer(long playerId, IoSession session) {
-		//绑定session与玩家id
+		//biding playeId to session
 		session.setAttribute(SessionProperties.PLAYER_ID, playerId);
 		this.player_sessions.put(playerId, session);
 	}
-	
+
 	/**
-	 * 获取session对应的角色id
+	 * get session's playerId
 	 * @param session
 	 * @return
 	 */
@@ -36,13 +36,13 @@ public enum SessionManager {
 		}
 		return result;
 	}
-	
+
 	public IoSession getSessionBy(long playerId) {
 		return player_sessions.get(playerId);
 	}
-	
+
 	/**
-	 * 获取session指定属性类型的值
+	 * get appointed sessionAttr
 	 * @param session
 	 * @param attrKey
 	 * @param attrType
@@ -52,11 +52,11 @@ public enum SessionManager {
 	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, Class<T> attrType) {
 		return (T)session.getAttribute(attrKey);
 	}
-	
+
 	public int getNextDistributeKey() {
 		return this.distributeKeyGenerator.getAndIncrement();
 	}
-	
+
 	public String getRemoteIp(IoSession session) {
 		return ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress();
 	}

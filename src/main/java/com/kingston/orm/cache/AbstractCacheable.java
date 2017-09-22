@@ -8,12 +8,12 @@ import com.kingston.orm.utils.DbUtils;
 import com.kingston.orm.utils.SqlUtils;
 
 /**
- * Cacheable骨架实现
+ * This class provides a skeletal implementation of the <tt>Cacheable</tt> interface
  * @author kingston
  */
 public abstract class AbstractCacheable extends Cacheable {
-	
-	private static Logger logger = LoggerFactory.getLogger(AbstractCacheable.class); 
+
+	private static Logger logger = LoggerFactory.getLogger(AbstractCacheable.class);
 
 	@Override
 	public DbStatus getStatus() {
@@ -53,7 +53,7 @@ public abstract class AbstractCacheable extends Cacheable {
 			this.status = DbStatus.DELETE;
 		}
 	}
-	
+
 	public final void save() {
 		String saveSql = SqlUtils.getSaveSql(this);
 		if (StringUtils.isBlank(saveSql)) {

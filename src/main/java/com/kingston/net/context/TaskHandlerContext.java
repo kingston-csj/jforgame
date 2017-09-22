@@ -5,27 +5,29 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.kingston.logs.LoggerUtils;
 import com.kingston.utils.NameableThreadFactory;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 消息任务处理器
+ * task dispatch context
+ * when a message is wrapped into a task, context will add it to appointed task queue
+ * according distributing strategy
  * @author kingston
  */
 public enum TaskHandlerContext {
 
-	/** 单例 */
 	INSTANCE;
 
 	private final int CORE_SIZE = Runtime.getRuntime().availableProcessors();
-	/** 工作者线程池 */
+	/** task worker pool */
 	private final List<TaskWorker> workerPool = new ArrayList<>();
 
 	private final AtomicBoolean run = new AtomicBoolean(true);
 
 	public void initialize() {
-		for (int i=0; i<CORE_SIZE+1; i++) {
+		for (int i=1; i<=CORE_SIZE; i++) {
 			TaskWorker worker = new TaskWorker(i);
 			workerPool.add(worker);
 			new NameableThreadFactory("message-task-handler").newThread(worker).start();
@@ -33,7 +35,6 @@ public enum TaskHandlerContext {
 	}
 
 	/**
-	 * 接受消息
 	 * @param task
 	 */
 	public void acceptTask(AbstractDistributeTask task) {
@@ -45,7 +46,7 @@ public enum TaskHandlerContext {
 	}
 
 	/**
-	 * 关闭消息入口
+	 * shut context
 	 */
 	public void shutDown() {
 		run.set(false);
@@ -53,9 +54,9 @@ public enum TaskHandlerContext {
 
 	private class TaskWorker implements Runnable {
 
-		/** 工作者唯一号 */
+		/** worker id */
 		private int workerIndex;
-		/** 生产者队列 */
+		/** task consumer queue */
 		private BlockingQueue<AbstractDistributeTask> taskQueue = new LinkedBlockingQueue<>();
 
 		TaskWorker(int index) {
@@ -68,7 +69,7 @@ public enum TaskHandlerContext {
 
 		@Override
 		public void run() {
-			//死循环读消息
+			//accept task all the time
 			while(run.get()) {
 				try {
 					AbstractDistributeTask task = taskQueue.take();
@@ -76,15 +77,15 @@ public enum TaskHandlerContext {
 					task.action();
 					task.markEndMillis();
 
-					//如果是timer任务，检查是否需要重新丢入队列
+					//if it is TimerTask and should run again, add it to queue
 					if (task instanceof TimerTask) {
 						TimerTask timerTask = (TimerTask)task;
 						if (timerTask.canRunAgain()) {
 							addTask(task);
 						}
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					LoggerUtils.error("", e);
 				}
 			}
 		}

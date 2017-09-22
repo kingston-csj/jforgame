@@ -10,6 +10,10 @@ import com.kingston.logs.LoggerUtils;
 import com.kingston.net.Message;
 import com.kingston.net.MessageFactory;
 
+/**
+ * message min unit
+ * @author kingston
+ */
 public class Packet {
 
 	@Protobuf(order = 10)
@@ -17,9 +21,10 @@ public class Packet {
 	@Protobuf(order = 11)
 	private int cmd;
 	@Protobuf(order = 12,fieldType = FieldType.BYTES)
-	/** 序列化的消息体 */
+	/** body of each message */
 	private byte[] body ;
 
+	//just for protobuf
 	public Packet(){
 
 	}
@@ -32,13 +37,12 @@ public class Packet {
 			Codec codec = ProtobufProxy.create(message.getClass());
 			packet.body = codec.encode(message);
 		}catch (Exception e){
-			LoggerUtils.error("生成Packet出错", e);
 			throw new IllegalArgumentException("parse packet attachment failed",e);
 		}
-		
+
 		return packet;
 	}
-	
+
 	public static Message asMessage(Packet packet) {
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage((short)packet.module,  (short)packet.cmd);
 		try {
@@ -50,8 +54,5 @@ public class Packet {
 		}
 		return null;
 	}
-	
-
-	
 
 }

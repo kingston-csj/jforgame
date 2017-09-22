@@ -7,9 +7,13 @@ import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.net.Message;
 import com.kingston.net.annotation.MessageMeta;
 
+/**
+ * special message used to combine lots of messages together
+ * @author kingston
+ */
 @MessageMeta(module=0, cmd=0)
 public final class CombineMessage extends Message {
-	
+
 	@Protobuf(order = 1)
 	private final List<Packet> packets = new ArrayList<>();
 
@@ -18,7 +22,7 @@ public final class CombineMessage extends Message {
 	}
 
 	/**
-	 * 添加新的消息对象
+	 * add new message to combine queue
 	 * @param message
 	 */
 	public void addMessage(Message message){

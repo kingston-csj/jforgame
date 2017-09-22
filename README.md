@@ -6,13 +6,15 @@
   该项目使用maven工具管理依赖及进行打包。) 
   
   ## 第三方技术栈  
-  技术 | 说明 | 官网     
+  技术 | 说明 | 官网  
+  ----|------|----     
   Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
   jprotobuf | message codec | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
   Guava | memory cache | [https://github.com/google/guava](https://github.com/google/guava)  
   quartz | job task scheduler | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
   groovy | class hotswap | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  proxool | mysql data pool | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/) 
+  proxool | mysql data pool | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)  
+  orm | lightweight orm | [https://github.com/kingston-csj/orm](https://github.com/kingston-csj/orm) 
   slf4j+log4j | logging system | [https://www.slf4j.org/](https://www.slf4j.org/)  
   maven | dependency manager, project build | [http://maven.apache.org/](http://maven.apache.org/)  
 

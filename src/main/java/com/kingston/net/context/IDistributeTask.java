@@ -1,21 +1,18 @@
 package com.kingston.net.context;
 
 /**
- * 可分发的任务接口
  * @author kingston
  */
 public interface IDistributeTask extends IDistributable {
-	
+
 	/**
-	 * 获取名字
-	 * @return
+	 * name of the task
 	 */
 	String getName();
-	
+
 	/**
-	 * 执行业务
+	 * execute logic
 	 */
 	void action();
-	
-	
+
 }

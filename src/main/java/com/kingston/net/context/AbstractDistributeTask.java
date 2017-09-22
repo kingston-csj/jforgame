@@ -1,22 +1,23 @@
 package com.kingston.net.context;
 
-
+/**
+ * provides a skeletal implementation of the <tt>IDistributeTask</tt>
+ * interface, and provides an api to measure cost time
+ * @author kingston
+ */
 public abstract class AbstractDistributeTask implements IDistributeTask{
 
-	/** 消息分发器的索引 */
+	/** thread distribute key  */
 	protected int distributeKey;
-	
-	/** 业务开始执行的毫秒数 */
+	/** startTime when task begin */
 	private long startMillis;
-	
-	/** 业务结束执行的毫秒数 */
+	/** end time when task finish */
 	private long endMillis;
-	
-	
+
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-	
+
 	public int distributeKey() {
 		return distributeKey;
 	}
@@ -36,5 +37,5 @@ public abstract class AbstractDistributeTask implements IDistributeTask{
 	public void markEndMillis() {
 		this.endMillis = System.currentTimeMillis();
 	}
-	
+
 }

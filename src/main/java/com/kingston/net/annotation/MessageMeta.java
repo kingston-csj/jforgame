@@ -7,17 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 消息的元信息
+ * The annotation type is used in {@link Message com.kingston.net.Message}
+ * to specify module and cmd of the given message.
  * @author kingston
  */
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MessageMeta {
-	
-	/** 消息所属模块号 */
+
 	short module();
-	/** 消息所属子类型 */
+
 	short cmd();
 
 }

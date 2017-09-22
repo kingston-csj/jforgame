@@ -2,6 +2,10 @@ package com.kingston.net;
 
 import org.apache.mina.core.session.AttributeKey;
 
+/**
+ * session property enum
+ * @author kingston
+ */
 public interface SessionProperties {
 
 	/** 编码上下文 */
@@ -10,5 +14,5 @@ public interface SessionProperties {
 	AttributeKey DISTRIBUTE_KEY = new AttributeKey(SessionProperties.class, "DISTRIBUTE_KEY");
 	/** 玩家id */
 	AttributeKey PLAYER_ID = new AttributeKey(SessionProperties.class, "PLAYER_ID");
-	
+
 }

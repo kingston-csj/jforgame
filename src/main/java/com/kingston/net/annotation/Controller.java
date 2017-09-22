@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 控制器Controller 
- * 负责处理由MessageDispatcher分发的请求
+ * Indicates that an annotation type is used to
+ * be an executor of MessageTask
  */
 @Documented
 @Target(ElementType.TYPE)

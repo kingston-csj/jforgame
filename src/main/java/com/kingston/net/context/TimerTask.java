@@ -1,15 +1,15 @@
 package com.kingston.net.context;
 
 /**
- * timer任务
+ * timer task, for thread safe
  * @author kingston
  */
 public abstract class TimerTask extends AbstractDistributeTask {
-	
+
 	private int currLoop;
-	/** 小于0表示无限任务 */
+	/** indicate loop task when it is smaller than 0*/
 	private int maxLoop;
-	
+
 	public TimerTask(int distributeKey) {
 		this(distributeKey, 1);
 	}
@@ -18,11 +18,11 @@ public abstract class TimerTask extends AbstractDistributeTask {
 		this.distributeKey = distributeKey;
 		this.maxLoop = maxLoop;
 	}
-	
+
 	public void updateLoopTimes() {
 		this.currLoop += 1;
 	}
-	
+
 	public boolean canRunAgain() {
 		if (this.maxLoop <= 0) {
 			return true;

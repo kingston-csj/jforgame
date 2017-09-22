@@ -2,20 +2,27 @@ package com.kingston.net.context;
 
 import java.lang.reflect.Method;
 
+import com.kingston.logs.LoggerUtils;
 import com.kingston.net.Message;
 
+/**
+ * when server receives a message, wrapped it into a MessageTask,
+ * and put it to target message consumer task
+ * @author kingston
+ */
 public class MessageTask extends AbstractDistributeTask {
-	
+
+	/** owner playerId */
 	private long playerId;
-	/** 消息实体 */
+	/** io message content */
 	private Message message;
-	/** 消息处理器 */
+	/** message controller */
 	private Object handler;
-	
+	/** target method of the controller */
 	private Method method;
-	/** 处理器方法的参数 */
+	/**arguments passed to the method */
 	private Object[] params;
-	
+
 	public static MessageTask valueOf(int distributeKey, Object handler,
 			Method method, Object[] params) {
 		MessageTask msgTask = new MessageTask();
@@ -23,7 +30,7 @@ public class MessageTask extends AbstractDistributeTask {
 		msgTask.handler = handler;
 		msgTask.method  = method;
 		msgTask.params  = params;
-		
+
 		return msgTask;
 	}
 
@@ -32,9 +39,9 @@ public class MessageTask extends AbstractDistributeTask {
 		try{
 			method.invoke(handler, params);
 		}catch(Exception e){
-			
+			LoggerUtils.error("message task execute failed ", e);
 		}
-		
+
 	}
 
 	public long getPlayerId() {
@@ -56,10 +63,10 @@ public class MessageTask extends AbstractDistributeTask {
 	public Object[] getParams() {
 		return params;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getName() + "[" + handler.getClass().getName() + "@" + method.getName() + "]";
 	}
-	
+
 }
