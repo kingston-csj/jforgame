@@ -8,28 +8,32 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author kingston
  */
 public class NameableThreadFactory implements ThreadFactory {
-	
+
 	private ThreadGroup threadGroup;
-	
+
 	private String groupName;
-	
+
+	private final boolean daemo;
+
 	private AtomicInteger idGenerator = new AtomicInteger(1);
-	
+
 	public NameableThreadFactory(String group) {
+		this(group, false);
+	}
+
+	public NameableThreadFactory(String group, boolean daemo) {
 		this.groupName = group;
+		this.daemo = daemo;
 	}
 
 	@Override
 	public Thread newThread(Runnable r) {
-		return new Thread(threadGroup, r, getNextThreadName());
+		String name = getNextThreadName();
+		Thread ret = new Thread(threadGroup, r, name, 0);
+		ret.setDaemon(daemo);
+		return ret;
 	}
-	
-	public Thread newDaemonThread(Runnable r) {
-		Thread t =  new Thread(threadGroup, r, getNextThreadName());
-		t.setDaemon(true);
-		return t;
-	}
-	
+
 	private String getNextThreadName() {
 		return this.groupName + "-thread-" + this.idGenerator.getAndIncrement();
 	}
