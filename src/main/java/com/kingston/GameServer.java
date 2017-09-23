@@ -14,8 +14,8 @@ import com.kingston.game.core.SchedulerHelper;
 import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.config.ConfigDatasPool;
 import com.kingston.game.http.HttpServer;
-import com.kingston.monitor.jmx.Controller;
-import com.kingston.monitor.jmx.ControllerMBean;
+import com.kingston.monitor.jmx.GameMonitor;
+import com.kingston.monitor.jmx.GameMonitorMXBean;
 import com.kingston.net.MessageFactory;
 import com.kingston.net.SocketServer;
 import com.kingston.net.context.TaskHandlerContext;
@@ -52,8 +52,8 @@ public class GameServer {
 
 		//mbean监控
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-		ControllerMBean controller = new Controller();
-		mbs.registerMBean(controller, new ObjectName("GameMBean:name=controller"));
+		GameMonitorMXBean controller = new GameMonitor();
+		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
 
 	}
 

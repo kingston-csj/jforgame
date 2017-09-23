@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 
 public enum LoggerSystem {
 
-	/** 异常日志 */
+	/** system exception */
 	EXCEPTION,
-	/** 后台日志 */
+	/** http admin */
 	HTTP_COMMAND,
-	/** job定时任务 */
-	CRON_JOB;
+	/** job scheduler */
+	CRON_JOB,
+	/** server monitor */
+	MONITOR,
 
 	;
 
