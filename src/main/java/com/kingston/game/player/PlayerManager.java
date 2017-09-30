@@ -4,9 +4,14 @@ import java.text.MessageFormat;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.mina.core.session.IoSession;
+
 import com.kingston.cache.CacheService;
 import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.user.player.Player;
+import com.kingston.game.player.message.ResKickPlayerMessage;
+import com.kingston.net.MessagePusher;
+import com.kingston.net.SessionManager;
 import com.kingston.orm.utils.DbUtils;
 
 /**
@@ -43,6 +48,13 @@ public class PlayerManager extends CacheService<Long, Player> {
 		sql = MessageFormat.format(sql, String.valueOf(playerId));
 		Player player = DbUtils.queryOne(DbUtils.DB_USER, sql, Player.class);
 		return player;
+	}
+
+	public Player getOnlinePlayer(long playerId) {
+		if (!onlines.containsKey(playerId)) {
+			return null;
+		}
+		return get(playerId);
 	}
 
 	/**
@@ -85,6 +97,17 @@ public class PlayerManager extends CacheService<Long, Player> {
 	 */
 	private void onDailyReset(Player player) {
 
+	}
+
+	public void kickPlayer(long playerId) {
+		Player player = PlayerManager.getInstance().getOnlinePlayer(playerId);
+		if (player == null) {
+			return;
+		}
+		removeFromOnline(player);
+		IoSession session = SessionManager.INSTANCE.getSessionBy(playerId);
+		MessagePusher.pushMessage(session, new ResKickPlayerMessage());
+		session.close(false);
 	}
 
 }
