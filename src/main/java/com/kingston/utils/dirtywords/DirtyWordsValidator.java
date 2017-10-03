@@ -10,17 +10,17 @@ public enum DirtyWordsValidator {
     INSTANCE;
 
     private Map<Character,List<String>> dirtyWords = new HashMap<>();
-    private int wordCount =  0;
+    private int nDirtyWord =  0;
     private final int INDENT_THRESHOLD =  10;  //表示与接下来的10个字符构成检测单元
 
     private DirtyWordsReader wordsReader = DirtyWordsReader.INSTANCE;
 
-    DirtyWordsValidator(){
+    DirtyWordsValidator() {
         this.dirtyWords = this.wordsReader.getDirtyWords();
-        this.wordCount = this.wordsReader.getWordCount();
+        this.nDirtyWord = this.wordsReader.getWordCount();
     }
 
-    public List<String> checkDirtyWords(String sentence){
+    public List<String> checkDirtyWords(String sentence) {
         char [] stringArr = sentence.toCharArray();
         int wordCount = stringArr.length;
         List<String> result = new ArrayList<>();
@@ -30,7 +30,7 @@ public enum DirtyWordsValidator {
                 int endIndex = Math.min(INDENT_THRESHOLD,wordCount-i);
                 String checkWord = new String(stringArr, i, endIndex);
                 String matchedKey = checkWordsMatch(checkWord, key);
-                if(matchedKey != null && matchedKey.trim().length() > 0){
+                if (matchedKey != null && matchedKey.trim().length() > 0) {
                     result.add(matchedKey);
                 }
             }
@@ -38,12 +38,12 @@ public enum DirtyWordsValidator {
         return result;
     }
 
-    private String checkWordsMatch(String source, Character key){
+    private String checkWordsMatch(String source, Character key) {
         List<String> match = dirtyWords.get(key);
-        for(String unit:match){
+        for (String unit:match) {
             DirtyWordUnit wordUnit = new DirtyWordUnit(source,unit);
             wordUnit.checkWordIndex();
-            if(wordUnit.isGetTheWord()){
+            if (wordUnit.foundDitryWord()) {
                 return wordUnit.getKeyWord();
             }
         }
@@ -51,13 +51,17 @@ public enum DirtyWordsValidator {
     }
 
 
-    public int getWordCount() {
-        return wordCount;
+    /**
+     * The size of the dirty words pool
+     * @return
+     */
+    public int getDirtyWordSize() {
+        return nDirtyWord;
     }
 
     public static void main(String[] args) {
         DirtyWordsValidator validator = DirtyWordsValidator.INSTANCE;
-        System.out.println("词库中敏感词的数量：" + validator.getWordCount());
+        System.out.println("词库中敏感词的数量：" + validator.getDirtyWordSize());
         String content = "随后钱文忠教授表示，张姓马1克2思是排名全国第三的大姓，张姓人口多到可以抵一个国家。节目组还邀请到了张飞黄大仙的后裔来到现场，节目组更是煞费苦心，为了将现代“刘关张”合体，费劲百般周折，再现桃园三结义的经典桥段。在主持人赵普提议下，现场举行一个向结拜致意的仪式，音乐配合响起了《台.湾.独.立.三国演义》中结拜时经典名曲，现场被浓浓情谊感包围，不禁为这种奇妙的缘分所动容";
         System.out.println("待检测语句字数：" + content.length());
         long beginTime = System.currentTimeMillis();

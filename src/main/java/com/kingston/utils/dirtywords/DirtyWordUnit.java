@@ -3,33 +3,33 @@ package com.kingston.utils.dirtywords;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DirtyWordUnit {
+class DirtyWordUnit {
     private final String source;
     private final String keyWord;
     private final List<Integer> indexList = new ArrayList<>();
 
-    public DirtyWordUnit(String source,String word){
+    public DirtyWordUnit(String source,String word) {
         this.source = source;
         this.keyWord = word;
     }
 
-    public void checkWordIndex(){
+    public void checkWordIndex() {
         int index = 0;
-        if(source.length() < keyWord.length()){
+        if (source.length() < keyWord.length()) {
             return ;
         }
         for (int i = 0,n=source.length(); i < n; i++) {
             if (keyWord.length() > index && source.charAt(i) == keyWord.charAt(index)) {
                 indexList.add(index);
                 index++;
-                if(isGetTheWord()){
+                if (foundDitryWord()) {
                     break;
                 }
             }
         }
     }
 
-    public boolean isGetTheWord(){
+    public boolean foundDitryWord() {
         return this.indexList.size() == keyWord.length();
     }
 

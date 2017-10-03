@@ -14,69 +14,67 @@ import java.util.Set;
 
 public enum DirtyWordsReader {
 
-    INSTANCE;
+	INSTANCE;
 
-    private String ENCODING = "UTF-8";
-    private final Map<Character,List<String>> dirtyWords = new HashMap<>();
-    private int wordCount =  0;
+	private String ENCODING = "UTF-8";
+	private final Map<Character,List<String>> dirtyWords = new HashMap<>();
+	private int wordCount =  0;
+	private final String FILE_PATH = "configs/SensitiveWord.txt";
 
-    private DirtyWordsReader(){
-        Set<String> words = readSensitiveWordFile();
-        this.initWordsStore(words);
-    }
+	private DirtyWordsReader(){
+		Set<String> words = readSensitiveWordPool();
+		this.initWordsStore(words);
+	}
 
-    private Set<String> readSensitiveWordFile() {
-        Set<String> words = new HashSet<>();
-        final String fileName = "SensitiveWord.txt";
-        String filePath = DirtyWordsValidator.class.getResource("/").getPath() + fileName;;
-        File file = new File(filePath);
-        try (InputStreamReader read = new InputStreamReader(new FileInputStream(file),ENCODING)){
-            if(file.isFile() && file.exists()){
-                BufferedReader bufferedReader = new BufferedReader(read);
-                String word;
-                while((word = bufferedReader.readLine()) != null){
-                    if(isEmpty(word)){
-                        continue;
-                    }
-                    wordCount++;
-                    words.add(word.trim());
-                }
-            }else{
-                throw new FileNotFoundException("dirty words file is empty");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return words;
-    }
+	private Set<String> readSensitiveWordPool() {
+		Set<String> words = new HashSet<>();
+		File file = new File(FILE_PATH);
+		try (InputStreamReader read = new InputStreamReader(new FileInputStream(file),ENCODING)) {
+			if (file.isFile() && file.exists()) {
+				BufferedReader bufferedReader = new BufferedReader(read);
+				String word;
+				while ((word = bufferedReader.readLine()) != null) {
+					if(isEmpty(word)){
+						continue;
+					}
+					wordCount++;
+					words.add(word.trim());
+				}
+			}else{
+				throw new FileNotFoundException("dirty words file is empty");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return words;
+	}
 
-    private void initWordsStore(Set<String> words ){
-        for(String word:words){
-            if(isEmpty(word)){
-                continue;
-            }
-            char first = word.charAt(0);
-            List<String> sameFirst = dirtyWords.get(first);
-            if(sameFirst == null){
-                sameFirst = new ArrayList<>();
-                dirtyWords.put(first,sameFirst);
-            }
-            sameFirst.add(word);
-        }
-    }
+	private void initWordsStore(Set<String> words) {
+		for (String word:words) {
+			if (isEmpty(word)) {
+				continue;
+			}
+			char first = word.charAt(0);
+			List<String> sameFirst = dirtyWords.get(first);
+			if (sameFirst == null) {
+				sameFirst = new ArrayList<>();
+				dirtyWords.put(first,sameFirst);
+			}
+			sameFirst.add(word);
+		}
+	}
 
-    private boolean isEmpty(String word){
-        return word == null || word.trim().length() <= 0;
+	private boolean isEmpty(String word){
+		return word == null || word.trim().length() <= 0;
 
-    }
+	}
 
-    public Map<Character, List<String>> getDirtyWords() {
-        return dirtyWords;
-    }
+	public Map<Character, List<String>> getDirtyWords() {
+		return dirtyWords;
+	}
 
-    public int getWordCount(){
-        return wordCount;
-    }
-
+	public int getWordCount(){
+		return wordCount;
+	}
 
 }
