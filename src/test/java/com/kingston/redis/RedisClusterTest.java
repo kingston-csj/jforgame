@@ -5,12 +5,13 @@ import org.junit.Test;
 public class RedisClusterTest {
 	
 	@Test
-	public void teset() {
-		RedisCluster.loadAll();
+	public void test() {
 		
-		RedisCluster cluster = RedisCluster.getRedisCluster("redis_master1");
+		RedisCluster cluster = RedisCluster.INSTANCE;
 		
-		System.err.print(cluster.zrangeby("rank", 0, 100).size());
+		cluster.init();
+		
+		System.err.print(cluster.zrangeWithScores("rank", 0, 100).size());
 	}
 
 }

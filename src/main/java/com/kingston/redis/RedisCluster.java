@@ -1,37 +1,29 @@
 package com.kingston.redis;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+
+import com.kingston.logs.LoggerUtils;
 
 import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Tuple;
+import redis.clients.jedis.exceptions.JedisException;
 
-public final class RedisCluster {
+public  enum RedisCluster {
 
-	private static final Map<String, RedisCluster> clusters = new HashMap<>();
+	INSTANCE;
 
 	private JedisCluster cluster;
 
-	private RedisCluster(JedisCluster cluster) {
-		this.cluster = cluster;
-	}
-
-	public static void loadAll() {
-		//TODO read config from database
-		Map<String, String> config = new HashMap<>();
-		config.put("redis_master1", "127.0.0.1:8001");
-		config.put("redis_master2", "127.0.0.1:8002");
-		config.put("redis_master3", "127.0.0.1:8003");
-
-		config.forEach(RedisCluster::init);
-	}
-
-	private static void init(String name, String url) {
+	public  void init() {
+		String url = "127.0.0.1:8001";
 		HashSet<HostAndPort> hostAndPorts = new HashSet<>();
 		String[] hostPort = url.split(":");
 		HostAndPort hostAndPort = new HostAndPort(hostPort[0], Integer.parseInt(hostPort[1]));
@@ -40,30 +32,105 @@ public final class RedisCluster {
 		poolConfig.setMaxTotal(50);
 		poolConfig.setMinIdle(1);
 		poolConfig.setMaxIdle(10);
-		JedisCluster cluster = new JedisCluster(hostAndPorts, 2000, poolConfig);
-		clusters.put(name, new RedisCluster(cluster));
+		this.cluster = new JedisCluster(hostAndPorts, 2000, poolConfig);
 	}
 
-
-	public static RedisCluster getRedisCluster(String name) {
-		return clusters.get(name);
-	}
-
-	public static void destory() {
-		clusters.forEach((k, v) -> v.close());
-	}
-
-	private void close() {
+	public  void destory() {
 		try {
 			cluster.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public  Set<Tuple> zrangeby(String key, int start, int end) {
-		return cluster.zrangeByScoreWithScores(key, start, end);
+
+	private  TreeSet<String> keys(String pattern){  
+		TreeSet<String> keys = new TreeSet<>();  
+		//获取所有的节点
+		Map<String, JedisPool> clusterNodes = cluster.getClusterNodes();  
+		//遍历节点 获取所有符合条件的KEY 
+		for (String k : clusterNodes.keySet()) {  
+			JedisPool jp = clusterNodes.get(k);  
+			Jedis connection = jp.getResource();  
+			try {  
+				keys.addAll(connection.keys(pattern));  
+			} catch(Exception e) {  
+			} finally{  
+				connection.close();//用完一定要close这个链接！！！  
+			}  
+		}  
+		return keys;  
+	}  
+
+	public  void clearAllData() {
+		TreeSet<String> keys=keys("*");
+		//遍历key  进行删除  可以用多线程
+		for(String key:keys){
+			cluster.del(key);
+		}
 	}
 
+	public Double zscore(String key, String member) {
+		try {
+			return cluster.zscore(key, member);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			throw new JedisException(e);
+		}
+	}
+
+	public Set<Tuple> zrangeWithScores(String key, long start, long end) {
+		try {
+			return cluster.zrangeWithScores(key, start, end);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			throw new JedisException(e);
+		}
+	}
+
+	public Set<Tuple> zrevrangeWithScores(String key, long start, long end) {
+		try {
+			return cluster.zrevrangeWithScores(key, start, end);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			return new HashSet<>(0);
+		}
+	}
+
+	public Double zincrby(String key, double score, String member) {
+		try {
+			return cluster.zincrby(key, score, member);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			return null;
+		}
+	}
+
+	public Long zrank(String key, String member) {
+		try {
+			return cluster.zrank(key, member);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			return -1L;
+		}
+	}
+
+
+	public long hset(String key, String field, String value) {
+		try {
+			return cluster.hset(key, field, value);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+		}
+		return -1L;
+	}
+
+	public String hget(String key, String field) {
+		try {
+			return cluster.hget(key, field);
+		} catch (JedisException e) {
+			LoggerUtils.error("", e);
+			return null;
+		}
+	}
 
 }

@@ -26,6 +26,7 @@
   Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
   jprotobuf | message codec | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
   Guava | pojo memory cache | [https://github.com/google/guava](https://github.com/google/guava)  
+  Jedis | redis memory cache | [https://redis.io](https://redis.io/)  
   quartz | job task scheduler | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
   groovy | class hotswap | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
   proxool | mysql data pool | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)  
