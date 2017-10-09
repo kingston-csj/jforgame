@@ -5,7 +5,7 @@
   (jforgame，一个用java编写的轻量级手游服务端框架。项目只使用简单的业务功能作为演示，主要提供各种支持游戏快速开发的组件，以及对生产环境的服务进行管理的工具。
   该项目使用maven工具管理依赖及进行打包。) 
 
-  ## 模块目录
+  ## Module Directory
   game包是游戏的业务模块, 其余包则是各种辅助模块。允许game包调用其他模块的接口，尽量避免其他模块对game包的调用。各个模块包括:
   * cache包，使用guava cache库，用于支持系统的缓存框架　　
   * orm包，使用自定义的orm框架，用于数据库表记录与程序pojo对象的相互转换　　　
@@ -16,12 +16,13 @@
   * doctor包，采用基于类替换的方式实现热更新（类级热更新而非方法级）  
   * game/gm包，游戏内部金手指命令  
   * game/http包，游戏运营/运维后台命令  
+  * redis包，跨服排行榜  
   * logs, 日志系统  
   * tools包，简化项目开发的辅助小工具
   * utils包，各种工具类　
   
-  ## 第三方技术栈  
-  技术 | 说明 | 官网  
+  ## Third Party 
+  Name | Purpose | Official website  
   ----|------|----     
   Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
   jprotobuf | message codec | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
