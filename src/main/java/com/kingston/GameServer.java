@@ -21,6 +21,7 @@ import com.kingston.net.SocketServer;
 import com.kingston.net.context.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
 import com.kingston.orm.utils.DbUtils;
+import com.kingston.redis.RedisCluster;
 import com.kingston.utils.TimeUtils;
 
 public class GameServer {
@@ -78,6 +79,8 @@ public class GameServer {
 		DbService.getInstance().init();
 		//读取系统参数
 		loadSystemRecords();
+		//Redis cache
+		RedisCluster.INSTANCE.init();
 
 		//启动socket服务
 		socketServer = new SocketServer();

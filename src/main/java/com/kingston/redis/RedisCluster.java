@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.kingston.ServerConfig;
 import com.kingston.logs.LoggerUtils;
 
 import redis.clients.jedis.HostAndPort;
@@ -16,14 +19,18 @@ import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Tuple;
 import redis.clients.jedis.exceptions.JedisException;
 
-public  enum RedisCluster {
+public enum RedisCluster {
 
 	INSTANCE;
 
 	private JedisCluster cluster;
 
-	public  void init() {
-		String url = "127.0.0.1:8001";
+	public void init() {
+		String url = ServerConfig.getInstance().getRedisUrl();
+		//local environment, close it!!
+		if (StringUtils.isEmpty(url)) {
+			return;
+		}
 		HashSet<HostAndPort> hostAndPorts = new HashSet<>();
 		String[] hostPort = url.split(":");
 		HostAndPort hostAndPort = new HostAndPort(hostPort[0], Integer.parseInt(hostPort[1]));
@@ -35,7 +42,7 @@ public  enum RedisCluster {
 		this.cluster = new JedisCluster(hostAndPorts, 2000, poolConfig);
 	}
 
-	public  void destory() {
+	public void destory() {
 		try {
 			cluster.close();
 		} catch (IOException e) {
@@ -43,25 +50,25 @@ public  enum RedisCluster {
 		}
 	}
 
-	private  TreeSet<String> keys(String pattern){  
-		TreeSet<String> keys = new TreeSet<>();  
+	private TreeSet<String> keys(String pattern){
+		TreeSet<String> keys = new TreeSet<>();
 		//获取所有的节点
-		Map<String, JedisPool> clusterNodes = cluster.getClusterNodes();  
-		//遍历节点 获取所有符合条件的KEY 
-		for (String k : clusterNodes.keySet()) {  
-			JedisPool jp = clusterNodes.get(k);  
-			Jedis connection = jp.getResource();  
-			try {  
-				keys.addAll(connection.keys(pattern));  
-			} catch(Exception e) {  
-			} finally{  
-				connection.close();//用完一定要close这个链接！！！  
-			}  
-		}  
-		return keys;  
-	}  
+		Map<String, JedisPool> clusterNodes = cluster.getClusterNodes();
+		//遍历节点 获取所有符合条件的KEY
+		for (String k : clusterNodes.keySet()) {
+			JedisPool jp = clusterNodes.get(k);
+			Jedis connection = jp.getResource();
+			try {
+				keys.addAll(connection.keys(pattern));
+			} catch(Exception e) {
+			} finally{
+				connection.close();//用完一定要close这个链接！！！
+			}
+		}
+		return keys;
+	}
 
-	public  void clearAllData() {
+	public void clearAllData() {
 		TreeSet<String> keys=keys("*");
 		//遍历key  进行删除  可以用多线程
 		for(String key:keys){
@@ -113,7 +120,6 @@ public  enum RedisCluster {
 			return -1L;
 		}
 	}
-
 
 	public long hset(String key, String field, String value) {
 		try {

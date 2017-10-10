@@ -11,7 +11,7 @@ import com.kingston.utils.XmlUtils;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class ServerConfig {
-	
+
 	private Logger logger = LoggerFactory.getLogger(ServerConfig.class.getSimpleName());
 
 	private static ServerConfig instance = new ServerConfig();
@@ -23,7 +23,8 @@ public class ServerConfig {
 	private int httpPort;
 	/** 后台白名单模式 */
 	private String[] whiteIpPattern;
-	
+	/** redis server url {http:port} */
+	private String redisUrl;
 
 	private ServerConfig() {}
 
@@ -35,7 +36,7 @@ public class ServerConfig {
 		String configFile = "server.xml";
 		Element rootElement = XmlUtils.loadConfigRootElement(configFile);
 		NodeList nodes = rootElement.getChildNodes();
-		
+
 		for (int i=0;i<nodes.getLength();i++) {
 			Node node = nodes.item(i);
 			if ("game-server".equals(node.getNodeName())) {
@@ -57,24 +58,32 @@ public class ServerConfig {
 						this.whiteIpPattern = ips;
 					}
 				}
+			} else if ("redis-server".equals(node.getNodeName())) {
+				NodeList subNodes = node.getChildNodes();
+				for (int j=0;j<subNodes.getLength();j++) {
+					if ("url".equals(subNodes.item(j).getNodeName())) {
+						this.redisUrl = subNodes.item(j).getTextContent();
+					}
+				}
+
 			}
 		}
-		
+
 		logger.info("本服serverId为{},后台端口为{}", serverId, httpPort);
 	}
 
 	public int getServerId() {
 		return serverId;
 	}
-	
+
 	public int getServerPort() {
 		return serverPort;
 	}
-	
+
 	public int getHttpPort() {
 		return httpPort;
 	}
-	
+
 	public boolean isInWhiteIps(String ip) {
 		for (String pattern:this.whiteIpPattern) {
 			if (ip.matches(pattern)) {
@@ -82,6 +91,10 @@ public class ServerConfig {
 			}
 		}
 		return false;
+	}
+
+	public String getRedisUrl() {
+		return redisUrl;
 	}
 
 }
