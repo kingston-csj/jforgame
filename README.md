@@ -1,23 +1,21 @@
-  ## Project introduction　　
-  jforgame, is a lightweight online game framework for java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then.  
-  The framework uses maven tool to manager dependencies and project's build.  
-
-
+  ## jforgame　　
+  A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then.  
+  
   ## Module Directory
   game package is game logic module, other packages belong to engine framework.  
-  Each package has its purpose:
-  * cache package，use guava cache to support player cache system　　
+  Each package has its own purpose:
+  * cache package，use guava cache to support players cache system　　
   * orm package, use a lightweight tool for conversion between pojo and database relation　　　
-  * db package，使用独立线程，异步处理玩家及公共数据的持久化　　
-  * monitor包，系统监控模块，包括使用jmx对程序进行监控 　　
-  * net包，包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型　
-  * listener包，事件驱动模型  
-  * doctor包，采用基于类替换的方式实现代码热更新  
-  * game/gm包，游戏内部金手指命令  
-  * game/http包，游戏运营/运维后台命令  
-  * redis包，跨服通信（比如跨服排行榜）   
-  * tools包，简化项目开发的辅助小工具
-  * utils包，各种工具类　
+  * db package，use a independent thread pool to save players' and common data asynchronously 　　
+  * monitor package，to monitor game service，currently, we'll use jmx to manage game server 　　
+  * net package，including io message codec, message request mapper, message thread model　
+  * listener package, event driver model   
+  * doctor package, hotswap by class replacing  
+  * game/gm pakcage, gm command for test  
+  * game/http package, http admin command for system administrator  
+  * redis package, cross-server communication, such as multiserver ranking list   
+  * tools pakcage, little tool to support project's development
+  * utils package, code utils
   
   ## Third Party 
   Name | Purpose | Official website  
