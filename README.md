@@ -1,14 +1,15 @@
   ## jforgame　　
-  A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then.  
-  
+  A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then. The project use maven to manage jar dependency and build project  
+
+
   ## Module Directory
   game package is game logic module, other packages belong to engine framework.  
   Each package has its own purpose:
-  * cache package，use guava cache to support players cache system　　
+  * cache package, use guava cache to support players cache system　　
   * orm package, use a lightweight tool for conversion between pojo and database relation　　　
-  * db package，use a independent thread pool to save players' and common data asynchronously 　　
-  * monitor package，to monitor game service，currently, we'll use jmx to manage game server 　　
-  * net package，including io message codec, message request mapper, message thread model　
+  * db package, use a independent thread pool to save players' and common data asynchronously 　　
+  * monitor package, to monitor game service，currently, we'll use jmx to manage game server 　　
+  * net package, including io message codec, message request mapper, message thread model　
   * listener package, event driver model   
   * doctor package, hotswap by class replacing  
   * game/gm pakcage, gm command for test  
@@ -35,7 +36,7 @@
   ## QuickStart  
   1. Use git to download codes, git clone https://github.com/kingston-csj/jforgame  
   2. Import maven project to your ide  
-  3. Create new database named game_data_001 and import sql from resources/game_data_001.sql file. Create new databse named game_user_001 and import sql from resources/game_user_001.sql file
+  3. Create new database named game_data_001 and import resources/game_data_001.sql into it. Similarly, create new databse named game_user_001 and import resources/game_user_001.sql into it
   4. Start game server，entrance is ServerStartup.java  
   5. Start robot client，entrance is ClientStartup.java
 
