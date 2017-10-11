@@ -17,9 +17,9 @@ if [ $1 == "start" ]; then
 elif [ $1 == "stop" ]; then 
   pid=`jps -lv|grep serverId=$serverId|awk '{print $1}'`
   if [ $pid > 0 ]; then   
-     echo "准备关闭服务器"
+     echo "get ready to close server"
      kill 15 $pid
-     echo "游戏正常关闭"
+     echo "server closed successfully"
   fi
 elif [ $1 == "update" ]; then 
   git pull 
