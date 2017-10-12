@@ -34,7 +34,7 @@ public class CrossRankService {
 	}
 
 	private void init() {
-		rank2Class.put(CrossRankKinds.FIGHTING, CrossLevelRank.class);
+		rank2Class.put(CrossRankKinds.LEVEL, CrossLevelRank.class);
 	}
 
 	public void addRank(CrossRank rank) {

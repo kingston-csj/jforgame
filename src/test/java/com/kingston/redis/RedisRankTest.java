@@ -25,7 +25,7 @@ public class RedisRankTest {
 			rankService.addRank(new CrossLevelRank(i, 100+i));
 		}
 		
-		List<CrossRank> ranks = rankService.queryRank(CrossRankKinds.FIGHTING, 1, N_RECORD);
+		List<CrossRank> ranks = rankService.queryRank(CrossRankKinds.LEVEL, 1, N_RECORD);
 		for (CrossRank rank:ranks) {
 			System.err.println(rank);
 		}

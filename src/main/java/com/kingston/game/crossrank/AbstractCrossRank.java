@@ -11,18 +11,17 @@ public abstract class AbstractCrossRank implements CrossRank {
 
 	@Protobuf
 	private int serverId;
-	/**  record creating timestamp */
+	/** record creating timestamp */
 	@Protobuf
 	private long createTime;
 	@Protobuf
 	private long playerId;
-	/**  one level rank score*/
+	/** one level rank score */
 	@Protobuf
 	private int score;
-	/**  second level rank score */
+	/** second level rank score */
 	@Protobuf
 	private int aid;
-
 	/** 32位时间戳 */
 	protected  long TIME_MAX_VALUE = 0xFFFFFFFFL; 
 
@@ -40,10 +39,6 @@ public abstract class AbstractCrossRank implements CrossRank {
 	
 	public AbstractCrossRank() {
 		
-	}
-	
-	public int getRankType() {
-		return  CrossRankKinds.FIGHTING;
 	}
 	
 	public int getServerId() {

@@ -21,13 +21,13 @@ public interface CrossRank {
 	long getPlayerId();
 
 	/** 
-	 *  first level rank score
+	 * first level rank score
 	 * @return
 	 */
 	int getScore() ;
 
 	/** 
-	 *  second level rank score
+	 * second level rank score
 	 * @return
 	 */
 	int getAid() ;

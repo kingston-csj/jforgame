@@ -3,6 +3,6 @@ package com.kingston.game.crossrank;
 
 public interface CrossRankKinds {
 	
-	int FIGHTING = 1;
+	int LEVEL = 1;
 
 }
