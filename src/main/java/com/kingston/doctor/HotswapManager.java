@@ -9,7 +9,7 @@ public enum HotswapManager {
 	INSTANCE;
 
 	/**
-	 * 
+	 * reload class by name
 	 * @param classFullName
 	 * @return
 	 */
@@ -24,11 +24,10 @@ public enum HotswapManager {
 			clazz.newInstance();
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "加载class失败," + e.getMessage();
+			return "load class failed ," + e.getMessage();
 		}
 		
-		return "加载class成功";
-
+		return "load class succ";
 	}
 
 }
