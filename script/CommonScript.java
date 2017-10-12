@@ -8,13 +8,16 @@ import com.kingston.game.player.PlayerManager;
 public class CommonScript {
 
 	public CommonScript() {
-		//演示manager对象的热替换
 		PlayerManager newMgr = new PlayerManager() {
+			//replace class, u can add private fields
 			private String newField = "newField";
+			//replace class, u can add private methods
 			private void sayHello() {
-				System.err.println("hello---world-----");
+				System.err.println("add new field succ, it's " + newField);
+				System.err.println("add new method succ");
 			}
 
+			//replace public method, in order to fix bug in product environment
 			@Override
 			public Player load(Long playerId) throws Exception {
 				sayHello();
@@ -35,7 +38,6 @@ public class CommonScript {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
