@@ -12,20 +12,19 @@ import org.slf4j.Logger;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.logs.LoggerSystem;
-import com.kingston.net.Message;
-import com.kingston.net.MessageFactory;
-import com.kingston.net.SessionManager;
-import com.kingston.net.SessionProperties;
 import com.kingston.net.combine.CombineMessage;
 import com.kingston.net.combine.Packet;
+import com.kingston.net.message.Message;
+import com.kingston.net.message.MessageFactory;
+import com.kingston.net.session.SessionManager;
+import com.kingston.net.session.SessionProperties;
 
 public class MessageDecoder implements ProtocolDecoder{
-	
+
 	private static final Logger logger = LoggerSystem.EXCEPTION.getLogger();
 
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		_decode(session, in, out);
-
 	}
 
 	private void _decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) {
@@ -59,7 +58,7 @@ public class MessageDecoder implements ProtocolDecoder{
 				byte[] body = new byte[length-4];
 				ioBuffer.get(body);
 				Message msg = readMessage(moduleId, cmd, body);
-				
+
 				if (moduleId > 0) {
 					out.write(msg);
 				} else { //属于组合包
@@ -97,12 +96,10 @@ public class MessageDecoder implements ProtocolDecoder{
 	}
 
 	public void dispose(IoSession arg0) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
 	public void finishDecode(IoSession arg0, ProtocolDecoderOutput arg1) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 

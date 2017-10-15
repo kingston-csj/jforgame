@@ -10,9 +10,9 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.Message;
-import com.kingston.net.MessageFactory;
-import com.kingston.net.SessionProperties;
+import com.kingston.net.message.Message;
+import com.kingston.net.message.MessageFactory;
+import com.kingston.net.session.SessionProperties;
 
 public class MessageEncoder implements ProtocolEncoder{
 

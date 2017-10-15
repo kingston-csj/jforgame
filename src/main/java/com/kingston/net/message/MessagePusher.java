@@ -1,6 +1,9 @@
-package com.kingston.net;
+package com.kingston.net.message;
 
 import org.apache.mina.core.session.IoSession;
+
+import com.kingston.net.session.SessionManager;
+
 
 /**
  * util used to push message to client

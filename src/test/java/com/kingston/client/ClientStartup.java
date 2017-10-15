@@ -1,7 +1,7 @@
 package com.kingston.client;
 
 import com.kingston.ServerConfig;
-import com.kingston.net.MessageFactory;
+import com.kingston.net.message.MessageFactory;
 import com.kingston.robot.SocketRobot;
 
 /**

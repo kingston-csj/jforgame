@@ -28,13 +28,12 @@ public class DbService {
 	}
 
 	/**
-	 * 启动消费者线程
+	 * start consumer thread
 	 */
 	public void init() {
 		new NameableThreadFactory("db-save-service").newThread(new Worker()).start();
 	}
 
-	@SuppressWarnings("rawtypes")
 	private BlockingQueue<BaseEntity> queue = new BlockingUniqueQueue<>();
 
 	private final AtomicBoolean run = new AtomicBoolean(true);

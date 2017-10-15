@@ -2,17 +2,16 @@ package com.kingston.game.login;
 
 import org.apache.mina.core.session.IoSession;
 
-import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.user.player.Player;
 import com.kingston.game.gm.message.ResGmResultMessage;
 import com.kingston.game.login.message.ResLoginMessage;
 import com.kingston.game.player.PlayerManager;
 import com.kingston.game.scene.message.ResPlayerEnterSceneMessage;
-import com.kingston.net.Message;
-import com.kingston.net.MessagePusher;
-import com.kingston.net.SessionManager;
-import com.kingston.net.SessionProperties;
 import com.kingston.net.combine.CombineMessage;
+import com.kingston.net.message.Message;
+import com.kingston.net.message.MessagePusher;
+import com.kingston.net.session.SessionManager;
+import com.kingston.net.session.SessionProperties;
 
 public class LoginManager {
 

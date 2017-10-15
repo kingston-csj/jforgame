@@ -14,7 +14,7 @@ public abstract class BaseEntity extends AbstractCacheable
 	private static final long serialVersionUID = 5416347850924361417L;
 
 	/**
-	 * 每个db实体必须有个long型id
+	 * entity id
 	 * @return
 	 */
 	public abstract long getId() ;
@@ -27,7 +27,6 @@ public abstract class BaseEntity extends AbstractCacheable
 		return result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -3,9 +3,9 @@ package com.kingston.game.database.user.player;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.db.BaseEntity;
-import com.kingston.net.SessionManager;
-import com.kingston.net.SessionProperties;
-import com.kingston.net.context.IDistributable;
+import com.kingston.net.session.SessionManager;
+import com.kingston.net.session.SessionProperties;
+import com.kingston.net.task.IDistributable;
 import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;

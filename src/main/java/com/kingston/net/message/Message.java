@@ -1,4 +1,4 @@
-package com.kingston.net;
+package com.kingston.net.message;
 
 import com.kingston.net.annotation.MessageMeta;
 

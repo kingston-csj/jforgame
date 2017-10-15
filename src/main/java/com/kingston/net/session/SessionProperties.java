@@ -1,4 +1,4 @@
-package com.kingston.net;
+package com.kingston.net.session;
 
 import org.apache.mina.core.session.AttributeKey;
 

@@ -13,7 +13,7 @@ import com.kingston.game.database.user.player.Player;
 import com.kingston.game.gm.command.AbstractGmCommand;
 import com.kingston.game.gm.message.ResGmResultMessage;
 import com.kingston.game.player.PlayerManager;
-import com.kingston.net.MessagePusher;
+import com.kingston.net.message.MessagePusher;
 import com.kingston.utils.ClassFilter;
 import com.kingston.utils.ClassScanner;
 

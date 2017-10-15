@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.ServerConfig;
-import com.kingston.net.SessionManager;
+import com.kingston.net.session.SessionManager;
 
-public class HttpServer {  
+public class HttpServer {
 
 	private Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
@@ -32,13 +32,13 @@ public class HttpServer {
 	//http端口
 	int port = ServerConfig.getInstance().getHttpPort();
 
-	public void start() throws Exception {  
-		acceptor = new NioSocketAcceptor();  
-		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());  
-		acceptor.setHandler(new HttpServerHandle()); 
+	public void start() throws Exception {
+		acceptor = new NioSocketAcceptor();
+		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());
+		acceptor.setHandler(new HttpServerHandle());
 
-		acceptor.bind(new InetSocketAddress(port));  
-	}  
+		acceptor.bind(new InetSocketAddress(port));
+	}
 
 	public void shutdown() {
 		if (acceptor != null) {
@@ -47,20 +47,20 @@ public class HttpServer {
 		}
 		logger.error("---------> http server stop at port:{}", port);
 	}
-}  
+}
 
-class HttpServerHandle extends IoHandlerAdapter {  
+class HttpServerHandle extends IoHandlerAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
-	@Override  
-	public void exceptionCaught(IoSession session, Throwable cause)  
-			throws Exception {  
-		cause.printStackTrace();  
-	}  
+	@Override
+	public void exceptionCaught(IoSession session, Throwable cause)
+			throws Exception {
+		cause.printStackTrace();
+	}
 
-	@Override 
-	public void sessionOpened(IoSession session) throws Exception { 
+	@Override
+	public void sessionOpened(IoSession session) throws Exception {
 		String ipAddr = SessionManager.INSTANCE.getRemoteIp(session);
 		if (!ServerConfig.getInstance().isInWhiteIps(ipAddr)) {
 			logger.error("非法后台登录,remoteIp=[{}]", ipAddr);
@@ -71,35 +71,35 @@ class HttpServerHandle extends IoHandlerAdapter {
 			session.write(out);
 			session.close(false);
 		}
-	} 
+	}
 
-	@Override  
-	public void messageReceived(IoSession session, Object message)  
-			throws Exception {  
-		if (message instanceof HttpRequest) {  
-			// 请求，解码器将请求转换成HttpRequest对象  
-			HttpRequest request = (HttpRequest) message;  
+	@Override
+	public void messageReceived(IoSession session, Object message)
+			throws Exception {
+		if (message instanceof HttpRequest) {
+			// 请求，解码器将请求转换成HttpRequest对象
+			HttpRequest request = (HttpRequest) message;
 			HttpCommandResponse commandResponse = handleCommand(request);
-			// 响应HTML  
-			String responseHtml = new Gson().toJson(commandResponse);  
-			byte[] responseBytes = responseHtml.getBytes("UTF-8");  
-			int contentLength = responseBytes.length;  
+			// 响应HTML
+			String responseHtml = new Gson().toJson(commandResponse);
+			byte[] responseBytes = responseHtml.getBytes("UTF-8");
+			int contentLength = responseBytes.length;
 
-			// 构造HttpResponse对象，HttpResponse只包含响应的status line和header部分  
-			Map<String, String> headers = new HashMap<String, String>();  
-			headers.put("Content-Type", "text/html; charset=utf-8");  
-			headers.put("Content-Length", Integer.toString(contentLength));  
-			HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SUCCESS_OK, headers);  
+			// 构造HttpResponse对象，HttpResponse只包含响应的status line和header部分
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("Content-Type", "text/html; charset=utf-8");
+			headers.put("Content-Length", Integer.toString(contentLength));
+			HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpStatus.SUCCESS_OK, headers);
 
-			// 响应BODY  
-			IoBuffer responseIoBuffer = IoBuffer.allocate(contentLength);  
-			responseIoBuffer.put(responseBytes);  
-			responseIoBuffer.flip();  
+			// 响应BODY
+			IoBuffer responseIoBuffer = IoBuffer.allocate(contentLength);
+			responseIoBuffer.put(responseBytes);
+			responseIoBuffer.flip();
 
-			session.write(response); // 响应的status line和header部分  
-			session.write(responseIoBuffer); // 响应body部分  
-		}  
-	}  
+			session.write(response); // 响应的status line和header部分
+			session.write(responseIoBuffer); // 响应body部分
+		}
+	}
 
 	private HttpCommandResponse handleCommand(HttpRequest request) {
 		HttpCommandParams httpParams = toHttpParams(request);
@@ -119,11 +119,11 @@ class HttpServerHandle extends IoHandlerAdapter {
 	}
 
 	private HttpCommandParams toHttpParams(HttpRequest httpReq) {
-		String cmd = httpReq.getParameter("cmd"); 
+		String cmd = httpReq.getParameter("cmd");
 		if (StringUtils.isEmpty(cmd)) {
 			return null;
 		}
-		String paramJson = httpReq.getParameter("params"); 
+		String paramJson = httpReq.getParameter("params");
 		if (StringUtils.isNotEmpty(paramJson)) {
 			try{
 				@SuppressWarnings("unchecked")
@@ -135,4 +135,4 @@ class HttpServerHandle extends IoHandlerAdapter {
 		return null;
 	}
 
-}  
+}

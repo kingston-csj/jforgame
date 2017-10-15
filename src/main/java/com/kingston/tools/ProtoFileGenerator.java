@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.Set;
 
 import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
-import com.kingston.net.Message;
+import com.kingston.net.message.Message;
 import com.kingston.utils.ClassScanner;
 
 /**

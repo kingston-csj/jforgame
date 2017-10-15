@@ -1,4 +1,4 @@
-package com.kingston.net.dispatch;
+package com.kingston.net.message;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -8,14 +8,13 @@ import java.util.Set;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.Message;
-import com.kingston.net.SessionManager;
-import com.kingston.net.SessionProperties;
 import com.kingston.net.annotation.Controller;
 import com.kingston.net.annotation.MessageMeta;
 import com.kingston.net.annotation.RequestMapping;
-import com.kingston.net.context.MessageTask;
-import com.kingston.net.context.TaskHandlerContext;
+import com.kingston.net.session.SessionManager;
+import com.kingston.net.session.SessionProperties;
+import com.kingston.net.task.MessageTask;
+import com.kingston.net.task.TaskHandlerContext;
 import com.kingston.utils.ClassScanner;
 
 public class MessageDispatcher {

@@ -7,8 +7,8 @@ import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.Message;
-import com.kingston.net.MessageFactory;
+import com.kingston.net.message.Message;
+import com.kingston.net.message.MessageFactory;
 
 /**
  * message min unit

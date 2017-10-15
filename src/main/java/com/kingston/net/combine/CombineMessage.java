@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
-import com.kingston.net.Message;
 import com.kingston.net.annotation.MessageMeta;
+import com.kingston.net.message.Message;
 
 /**
  * special message used to combine lots of messages together

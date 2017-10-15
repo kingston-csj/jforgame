@@ -1,4 +1,4 @@
-package com.kingston.net;
+package com.kingston.net.session;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;

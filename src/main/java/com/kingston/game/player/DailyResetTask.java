@@ -1,7 +1,7 @@
 package com.kingston.game.player;
 
 import com.kingston.game.database.user.player.Player;
-import com.kingston.net.context.TimerTask;
+import com.kingston.net.task.TimerTask;
 
 public class DailyResetTask extends TimerTask {
 

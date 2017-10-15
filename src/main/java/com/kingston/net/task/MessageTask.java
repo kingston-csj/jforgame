@@ -1,9 +1,9 @@
-package com.kingston.net.context;
+package com.kingston.net.task;
 
 import java.lang.reflect.Method;
 
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.Message;
+import com.kingston.net.message.Message;
 
 /**
  * when server receives a message, wrapped it into a MessageTask,

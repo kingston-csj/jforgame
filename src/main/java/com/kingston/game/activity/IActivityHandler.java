@@ -1,7 +1,7 @@
 package com.kingston.game.activity;
 
 import com.kingston.game.database.user.player.Player;
-import com.kingston.net.Message;
+import com.kingston.net.message.Message;
 
 public interface IActivityHandler {
 	

@@ -3,7 +3,7 @@ package com.kingston.game.activity;
 import org.apache.commons.lang3.StringUtils;
 
 import com.kingston.game.database.user.player.Player;
-import com.kingston.net.Message;
+import com.kingston.net.message.Message;
 
 public abstract class AbstractActivityHandler implements IActivityHandler {
 	

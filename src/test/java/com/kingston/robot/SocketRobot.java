@@ -12,8 +12,8 @@ import com.kingston.ServerConfig;
 import com.kingston.game.login.message.ReqLoginMessage;
 import com.kingston.game.login.message.ReqSelectPlayerMessage;
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.Message;
 import com.kingston.net.codec.MessageCodecFactory;
+import com.kingston.net.message.Message;
 
 public class SocketRobot {
 

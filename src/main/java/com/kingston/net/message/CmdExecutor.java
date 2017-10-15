@@ -1,4 +1,4 @@
-package com.kingston.net.dispatch;
+package com.kingston.net.message;
 
 import java.lang.reflect.Method;
 

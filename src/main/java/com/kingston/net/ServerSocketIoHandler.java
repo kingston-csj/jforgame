@@ -4,7 +4,10 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.logs.LoggerUtils;
-import com.kingston.net.dispatch.MessageDispatcher;
+import com.kingston.net.message.Message;
+import com.kingston.net.message.MessageDispatcher;
+import com.kingston.net.session.SessionManager;
+import com.kingston.net.session.SessionProperties;
 
 public class ServerSocketIoHandler extends IoHandlerAdapter {
 
