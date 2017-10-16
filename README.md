@@ -1,3 +1,5 @@
+  ## English | [中文](README_CN.md)  
+  
   ## jforgame　　
   A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then. The project use maven to manage jar dependency and build project  
 
