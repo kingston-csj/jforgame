@@ -1,6 +1,6 @@
 package com.kingston.cache;
 
-import com.kingston.utils.TimeUtils;
+import com.kingston.utils.TimeUtil;
 
 /**
  * 缓存相关配置
@@ -10,8 +10,8 @@ public class CacheOptions {
 
     private final static int DEFAULT_INITIAL_CAPACITY = 1024; 
     private final static int DEFAULT_MAXIMUM_SIZE = 65536;
-    private final static int DEFAULT_EXPIRE_AFTER_ACCESS_SECONDS = (int)(5*TimeUtils.ONE_HOUR/TimeUtils.ONE_MILLSECOND);
-    private final static int DEFAULT_EXPIRE_AFTER_WRITE_SECONDS = (int)(5*TimeUtils.ONE_HOUR/TimeUtils.ONE_MILLSECOND);
+    private final static int DEFAULT_EXPIRE_AFTER_ACCESS_SECONDS = (int)(5*TimeUtil.ONE_HOUR/TimeUtil.ONE_MILLSECOND);
+    private final static int DEFAULT_EXPIRE_AFTER_WRITE_SECONDS = (int)(5*TimeUtil.ONE_HOUR/TimeUtil.ONE_MILLSECOND);
 
     public final int initialCapacity;
     public final int maximumSize;

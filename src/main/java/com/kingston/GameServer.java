@@ -22,7 +22,7 @@ import com.kingston.net.task.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
 import com.kingston.orm.utils.DbUtils;
 import com.kingston.redis.RedisCluster;
-import com.kingston.utils.TimeUtils;
+import com.kingston.utils.TimeUtil;
 
 public class GameServer {
 
@@ -94,7 +94,7 @@ public class GameServer {
 		SystemParameters.load();
 		// 启动时检查每日重置
 		long now = System.currentTimeMillis();
-		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtils.ONE_HOUR) {
+		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtil.ONE_HOUR) {
 			logger.info("启动时每日重置");
 			SystemParameters.update("dailyResetTimestamp", now);
 		}
