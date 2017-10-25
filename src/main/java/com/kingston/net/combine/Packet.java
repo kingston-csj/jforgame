@@ -11,7 +11,7 @@ import com.kingston.net.message.Message;
 import com.kingston.net.message.MessageFactory;
 
 /**
- * message min unit
+ * full message unit
  * @author kingston
  */
 public class Packet {

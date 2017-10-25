@@ -11,7 +11,7 @@ import com.kingston.net.message.Message;
  * special message used to combine lots of messages together
  * @author kingston
  */
-@MessageMeta(module=0, cmd=0)
+@MessageMeta()
 public final class CombineMessage extends Message {
 
 	@Protobuf(order = 1)

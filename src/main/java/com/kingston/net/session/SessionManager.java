@@ -43,10 +43,6 @@ public enum SessionManager {
 
 	/**
 	 * get appointed sessionAttr
-	 * @param session
-	 * @param attrKey
-	 * @param attrType
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, Class<T> attrType) {

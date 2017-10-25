@@ -24,38 +24,35 @@ public class MessageDecoder implements ProtocolDecoder{
 	private static final Logger logger = LoggerSystem.EXCEPTION.getLogger();
 
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
-		_decode(session, in, out);
-	}
-
-	private void _decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
 		CodecContext context = SessionManager.INSTANCE.getSessionAttr(session, SessionProperties.CODEC_CONTEXT, CodecContext.class);
 		if (context == null) {
 			context = new CodecContext();
 			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
 		}
+		
 		IoBuffer ioBuffer = context.getBuffer();
 		ioBuffer.put(in);
 
 		//在循环里迭代，以处理数据粘包
 		for (; ;) {
 			ioBuffer.flip();
-			//常量4表示消息body前面的两个short字段，一个表示moduel，一个表示cmd,
-			//一个short字段有两个字节，总共4个字节
-			if (ioBuffer.remaining() < 4) {
+			//消息元信息常量4表示消息body前面的两个short字段，一个表示moduel，一个表示cmd,
+			final int METE_SIZE = 4;
+			if (ioBuffer.remaining() < METE_SIZE) {
 				ioBuffer.compact();
 				return;
 			}
 			//----------------消息协议格式-------------------------
 			// packetLength | moduleId | cmd   |  body
-			// int            short      short   byte[]
+			//       int       short     short    byte[]
 			int length = ioBuffer.getInt();
 			//int packLen = length + 4;
 			//大于消息body长度，说明至少有一条完整的message消息
 			if (ioBuffer.remaining() >= length) {
 				short moduleId =  ioBuffer.getShort();
 				short cmd = ioBuffer.getShort();
-				byte[] body = new byte[length-4];
+				byte[] body = new byte[length-METE_SIZE];
 				ioBuffer.get(body);
 				Message msg = readMessage(moduleId, cmd, body);
 

@@ -16,8 +16,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MessageMeta {
 
-	short module();
+	short module() default 0;
 
-	short cmd();
+	short cmd() default 0;
 
 }

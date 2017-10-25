@@ -11,7 +11,6 @@ import com.kingston.net.session.SessionManager;
  */
 public class MessagePusher {
 
-
 	public static void pushMessage(IoSession session, Message message) {
 		session.write(message);
 	}
