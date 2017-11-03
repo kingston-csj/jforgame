@@ -1,6 +1,26 @@
-/bin/
-/target/
+# maven ignore
+target/
+*.jar
+!.mvn/wrapper/*
+*.war
+*.zip
+*.tar
+*.tar.gz
+
+# eclipse ignore
+.settings/
 .project
 .classpath
-/.settings
-/logs/
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp

@@ -16,14 +16,13 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.logs.LoggerUtils;
 import com.kingston.orm.BeanProcessor;
 import com.kingston.orm.OrmBridge;
 import com.kingston.orm.OrmProcessor;
 
 public class DbUtils {
 
-	private static Logger logger = LoggerFactory.getLogger(DbUtils.class); 
+	private static Logger logger = LoggerFactory.getLogger(DbUtils.class);
 
 	private static final String PROXOOL = "proxool.";
 	//策划数据库
@@ -37,7 +36,7 @@ public class DbUtils {
 			// 读取配置文件并创建数据库连接池
 			JAXPConfigurator.configure("configs/proxool.xml", true);
 		} catch (ProxoolException e) {
-			LoggerUtils.error("读取数据库配置文件出错", e);
+			logger.error("读取数据库配置文件出错", e);
 			System.exit(-1);
 		}
 	}
@@ -60,7 +59,7 @@ public class DbUtils {
 		try{
 			connection = getConnection(alias);
 			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);	
+			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				return  (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
 			}
@@ -93,7 +92,7 @@ public class DbUtils {
 		try{
 			connection = getConnection(alias);
 			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);	
+			ResultSet resultSet = statement.executeQuery(sql);
 			Object bean = entity.newInstance();
 			while (resultSet.next()) {
 				bean = new BeanProcessor().toBean(resultSet, entity);
@@ -127,7 +126,7 @@ public class DbUtils {
 		try{
 			connection = getConnection(alias);
 			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(sql);	
+			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData rsmd = rs.getMetaData();
 
 			while (rs.next()) {
@@ -170,7 +169,7 @@ public class DbUtils {
 		try{
 			connection = getConnection(alias);
 			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(sql);	
+			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData rsmd = rs.getMetaData();
 
 			while (rs.next()) {
@@ -214,7 +213,7 @@ public class DbUtils {
 		try{
 			connection = getConnection(DB_USER);
 			statement = connection.createStatement();
-			statement.execute(sql);	
+			statement.execute(sql);
 			return true;
 		}catch (Exception e) {
 			logger.error("DbUtils executeSql failed", e);
@@ -241,7 +240,7 @@ public class DbUtils {
 		try {
 			conn = DriverManager.getConnection(alias);
 		} catch (SQLException e) {
-			LoggerUtils.error("getConn", e);
+			logger.error("getConn", e);
 		}
 		return conn;
 	}
@@ -257,7 +256,7 @@ public class DbUtils {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			LoggerUtils.error("closeCon", e);
+			logger.error("closeCon", e);
 		}
 	}
 
@@ -272,7 +271,7 @@ public class DbUtils {
 				st.close();
 			}
 		} catch (SQLException e) {
-			LoggerUtils.error("closeStatement", e);
+			logger.error("closeStatement", e);
 		}
 	}
 
@@ -287,7 +286,7 @@ public class DbUtils {
 				rst.close();
 			}
 		} catch (SQLException e) {
-			LoggerUtils.error("closeResultSet", e);
+			logger.error("closeResultSet", e);
 		}
 	}
 
