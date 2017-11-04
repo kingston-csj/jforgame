@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.kingston</groupId>
 		<artifactId>jforgame-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>jforgame-server</artifactId>
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>com.kingston</groupId>
 			<artifactId>jforgame-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- 读取配置文件 -->
@@ -130,6 +130,14 @@
 			<artifactId>groovy-all</artifactId>
 		</dependency>
 
+		<dependency>
+          <groupId>com.sun</groupId>
+          <artifactId>tools</artifactId>
+          <version>1.8.0</version>
+          <scope>system</scope>
+          <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+        </dependency>
+
 		<!-- json utils -->
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
@@ -200,7 +208,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>

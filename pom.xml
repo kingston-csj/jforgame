@@ -5,7 +5,7 @@
 
 	<groupId>com.kingston</groupId>
 	<artifactId>jforgame-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>jforgame-parent</name>
@@ -20,8 +20,9 @@
 
 	<modules>
 		<module>jforgame-server</module>
-		<!--  <module>jforgame-orm</module> -->
+		<!-- <module>jforgame-orm</module> -->
 		<module>jforgame-common</module>
+		<module>hotswap-agent</module>
 	</modules>
 
 	<dependencyManagement>
@@ -170,8 +171,28 @@
 				<artifactId>commons-lang3</artifactId>
 				<version>3.4</version>
 			</dependency>
-
-
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>true</addMavenDescriptor>
+						<index>true</index>
+						<manifest>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 </project>

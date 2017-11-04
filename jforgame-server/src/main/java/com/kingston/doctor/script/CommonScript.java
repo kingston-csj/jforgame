@@ -2,12 +2,20 @@ package com.kingston.doctor.script;
 
 import java.lang.reflect.Field;
 
+import com.kingston.doctor.HotswapManager;
 import com.kingston.game.database.user.player.Player;
 import com.kingston.game.player.PlayerManager;
 
+/**
+ * you can invoke any code here
+ * see {@link HotswapManager#loadJavaFile(String)}
+ * for example HotswapManage.INSTANCE.loadJavaFile("CommonScript")
+ * @author kingston
+ */
 public class CommonScript {
 
 	public CommonScript() {
+
 		PlayerManager newMgr = new PlayerManager() {
 			//replace class, u can add private fields
 			private String newField = "newField";

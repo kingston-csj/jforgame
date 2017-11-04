@@ -1,19 +1,22 @@
 package com.kingston.doctor;
 
-import groovy.lang.GroovyClassLoader;
+import java.lang.management.ManagementFactory;
 
 import com.kingston.utils.FileUtils;
+import com.sun.tools.attach.VirtualMachine;
+
+import groovy.lang.GroovyClassLoader;
 
 public enum HotswapManager {
 
 	INSTANCE;
 
 	/**
-	 * reload class by name
+	 * load java source file and creates a new instance of the class
 	 * @param classFullName
 	 * @return
 	 */
-	public String loadClass(String classFullName) {
+	public String loadJavaFile(String classFullName) {
 		//类的名字，
 		String simpleName = classFullName.substring(classFullName.lastIndexOf(".")+1, classFullName.length());
 		try{
@@ -26,8 +29,32 @@ public enum HotswapManager {
 			e.printStackTrace();
 			return "load class failed ," + e.getMessage();
 		}
-		
+
 		return "load class succ";
 	}
+
+	/**
+	 * use jdk instrument to hotswap a loaded class
+	 * you can only modify a class's method!!
+	 * @param className
+	 * @return
+	 */
+	public boolean reloadClass(String className){
+		try{
+			//拿到当前jvm的进程id
+			String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+			VirtualMachine vm = VirtualMachine.attach(pid);
+			String[] classStr = className.split("\\.");
+			String path = "./hotswap/"+classStr[classStr.length-1]+".class";
+			System.err.println("path=="+path);
+			vm.loadAgent("./agent/hotswap-agent.jar",path);//path参数即agentmain()方法的第一个参数
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+
 
 }

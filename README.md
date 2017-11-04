@@ -13,7 +13,7 @@
   * monitor package, to monitor game service，currently, we'll use jmx to manage game server 　　
   * net package, including io message codec, message request mapper, message thread model　
   * listener package, event driver model   
-  * doctor package, hotswap by class replacing  
+  * doctor package, there are two ways for u to hotswap class   
   * game/gm pakcage, gm command for test  
   * game/http package, http admin command for system administrator  
   * redis package, cross-server communication, such as multiserver ranking list   
