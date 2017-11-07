@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.kingston.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kingston.utils.NameableThreadFactory;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
@@ -20,6 +22,7 @@ public enum TaskHandlerContext {
 
 	INSTANCE;
 
+	private static Logger logger = LoggerFactory.getLogger(TaskHandlerContext.class);
 	private final int CORE_SIZE = Runtime.getRuntime().availableProcessors();
 	/** task worker pool */
 	private final List<TaskWorker> workerPool = new ArrayList<>();
@@ -85,7 +88,7 @@ public enum TaskHandlerContext {
 						}
 					}
 				} catch (Exception e) {
-					LoggerUtils.error("", e);
+					logger.error("", e);
 				}
 			}
 		}

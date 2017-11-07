@@ -2,14 +2,17 @@ package com.kingston.net;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.kingston.logs.LoggerUtils;
 import com.kingston.net.message.Message;
 import com.kingston.net.message.MessageDispatcher;
 import com.kingston.net.session.SessionManager;
 import com.kingston.net.session.SessionProperties;
 
 public class ServerSocketIoHandler extends IoHandlerAdapter {
+
+	private static Logger logger = LoggerFactory.getLogger(ServerSocketIoHandler.class);
 
 	@Override
 	public void sessionCreated(IoSession session) {
@@ -29,6 +32,6 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	}
 
 	 public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		 LoggerUtils.error("server exception", cause);
+		 logger.error("server exception", cause);
 	 }
 }

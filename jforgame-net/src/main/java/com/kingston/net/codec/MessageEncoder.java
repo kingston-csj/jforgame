@@ -6,15 +6,18 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import com.kingston.logs.LoggerUtils;
 import com.kingston.net.message.Message;
 import com.kingston.net.message.MessageFactory;
 import com.kingston.net.session.SessionProperties;
 
-public class MessageEncoder implements ProtocolEncoder{
+public class MessageEncoder implements ProtocolEncoder {
+
+	private static Logger logger = LoggerFactory.getLogger(MessageEncoder.class);
 
 	@Override
 	public void dispose(IoSession arg0) throws Exception {
@@ -72,7 +75,7 @@ public class MessageEncoder implements ProtocolEncoder{
 			Codec<Message> codec = ProtobufProxy.create(msgClazz);
 			body = codec.encode(message);
 		} catch (IOException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 		return body;
 	}

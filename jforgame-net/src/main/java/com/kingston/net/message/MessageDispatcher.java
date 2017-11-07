@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.mina.core.session.IoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.kingston.logs.LoggerUtils;
 import com.kingston.net.annotation.Controller;
 import com.kingston.net.annotation.MessageMeta;
 import com.kingston.net.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.kingston.net.task.TaskHandlerContext;
 import com.kingston.utils.ClassScanner;
 
 public class MessageDispatcher {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
     private volatile static MessageDispatcher instance;
 
@@ -68,7 +71,7 @@ public class MessageDispatcher {
                     }
                 }
             }catch(Exception e) {
-                LoggerUtils.error("", e);
+            	logger.error("", e);
             }
         }
     }
@@ -102,7 +105,7 @@ public class MessageDispatcher {
 
         CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(buildKey(module, cmd));
         if (cmdExecutor == null) {
-            LoggerUtils.error("message executor missed, module={},cmd={}", module, cmd);
+        	logger.error("message executor missed, module={},cmd={}", module, cmd);
             return;
         }
 

@@ -1,4 +1,4 @@
-package com.kingston.game.http;
+package com.kingston.http;
 
 /**
  * 抽象后台命令处理者

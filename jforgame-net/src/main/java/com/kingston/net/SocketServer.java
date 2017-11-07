@@ -18,7 +18,6 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.ServerConfig;
 import com.kingston.net.codec.MessageCodecFactory;
 
 public class SocketServer {
@@ -34,7 +33,7 @@ public class SocketServer {
 
 	private SocketAcceptor acceptor;
 
-	private int serverPort = ServerConfig.getInstance().getServerPort();
+//	private int serverPort = ServerConfig.getInstance().getServerPort();
 
 	/**
 	 * start Mina serversocket
@@ -48,6 +47,7 @@ public class SocketServer {
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 
+		int serverPort = GateServerConfig.serverPort;
 		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec", new ProtocolCodecFilter(MessageCodecFactory.getInstance()));
@@ -70,7 +70,7 @@ public class SocketServer {
 			acceptor.unbind();
 			acceptor.dispose();
 		}
-		logger.error("---------> socket server stop at port:{}", serverPort);
+		logger.error("---------> socket server stop at port:{}", GateServerConfig.serverPort);
 	}
 
 }

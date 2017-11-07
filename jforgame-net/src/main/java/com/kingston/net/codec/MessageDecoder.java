@@ -8,10 +8,10 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import com.kingston.logs.LoggerSystem;
 import com.kingston.net.combine.CombineMessage;
 import com.kingston.net.combine.Packet;
 import com.kingston.net.message.Message;
@@ -21,7 +21,7 @@ import com.kingston.net.session.SessionProperties;
 
 public class MessageDecoder implements ProtocolDecoder{
 
-	private static final Logger logger = LoggerSystem.EXCEPTION.getLogger();
+	private static Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
 
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
@@ -30,7 +30,7 @@ public class MessageDecoder implements ProtocolDecoder{
 			context = new CodecContext();
 			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
 		}
-		
+
 		IoBuffer ioBuffer = context.getBuffer();
 		ioBuffer.put(in);
 

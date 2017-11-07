@@ -23,6 +23,7 @@
 		<!-- <module>jforgame-orm</module> -->
 		<module>jforgame-common</module>
 		<module>hotswap-agent</module>
+		<module>jforgame-net</module>
 	</modules>
 
 	<dependencyManagement>
@@ -176,6 +177,12 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>3.2.0</version>
+				<extensions>true</extensions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

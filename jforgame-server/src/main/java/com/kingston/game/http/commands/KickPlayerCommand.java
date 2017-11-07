@@ -2,12 +2,12 @@ package com.kingston.game.http.commands;
 
 import java.util.Map;
 
-import com.kingston.game.http.CommandHandler;
-import com.kingston.game.http.HttpCommandHandler;
-import com.kingston.game.http.HttpCommandParams;
-import com.kingston.game.http.HttpCommandResponse;
-import com.kingston.game.http.HttpCommands;
 import com.kingston.game.player.PlayerManager;
+import com.kingston.http.CommandHandler;
+import com.kingston.http.HttpCommandHandler;
+import com.kingston.http.HttpCommandParams;
+import com.kingston.http.HttpCommandResponse;
+import com.kingston.http.HttpCommands;
 
 @CommandHandler(cmd=HttpCommands.KICK_PLAYER)
 public class KickPlayerCommand extends HttpCommandHandler {

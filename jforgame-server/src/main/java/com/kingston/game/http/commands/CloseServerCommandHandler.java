@@ -1,10 +1,10 @@
 package com.kingston.game.http.commands;
 
-import com.kingston.game.http.CommandHandler;
-import com.kingston.game.http.HttpCommandHandler;
-import com.kingston.game.http.HttpCommandParams;
-import com.kingston.game.http.HttpCommandResponse;
-import com.kingston.game.http.HttpCommands;
+import com.kingston.http.CommandHandler;
+import com.kingston.http.HttpCommandHandler;
+import com.kingston.http.HttpCommandParams;
+import com.kingston.http.HttpCommandResponse;
+import com.kingston.http.HttpCommands;
 import com.kingston.logs.LoggerSystem;
 import com.kingston.utils.SchedulerManager;
 

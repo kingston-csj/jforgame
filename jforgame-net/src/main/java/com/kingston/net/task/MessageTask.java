@@ -2,7 +2,9 @@ package com.kingston.net.task;
 
 import java.lang.reflect.Method;
 
-import com.kingston.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kingston.net.message.Message;
 
 /**
@@ -11,6 +13,8 @@ import com.kingston.net.message.Message;
  * @author kingston
  */
 public class MessageTask extends AbstractDistributeTask {
+
+	private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
 
 	/** owner playerId */
 	private long playerId;
@@ -39,7 +43,7 @@ public class MessageTask extends AbstractDistributeTask {
 		try{
 			method.invoke(handler, params);
 		}catch(Exception e){
-			LoggerUtils.error("message task execute failed ", e);
+			logger.error("message task execute failed ", e);
 		}
 
 	}

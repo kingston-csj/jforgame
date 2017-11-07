@@ -1,4 +1,4 @@
-package com.kingston.game.http;
+package com.kingston.http;
 
 public class HttpCommandResponse {
 	/**  执行成功 */

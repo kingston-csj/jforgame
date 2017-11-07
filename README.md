@@ -7,14 +7,15 @@
   ## Module Directory  
   ``` lua
   jforgame  
-  ├── jforgame-common  base common service  
-  ├── hotswap-agent  support hotswap without restarting server  
+  ├── jforgame-common  base common service    
+  ├── jforgame-net  
+  |    ├──  net package, including io message codec, message request mapper, message thread model  
+  ├── hotswap-agent  support hotswap without restarting server
   ├── jforgame-server   
   |    ├──  cache package, use guava cache to support players cache system  
   |    ├──  orm package, use a lightweight tool for conversion between pojo and database relation  
   |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  
-  |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server  
-  |    ├──  net package, including io message codec, message request mapper, message thread model  
+  |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server    
   |    ├──  listener package, event driver model  
   |    ├──  doctor package, there are two ways for u to hotswap class  
   |    ├──  game/gm pakcage, gm command for test  

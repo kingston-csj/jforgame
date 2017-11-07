@@ -6,23 +6,22 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kingston.net.GateServerConfig;
 import com.kingston.utils.XmlUtils;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class ServerConfig {
 
 	private Logger logger = LoggerFactory.getLogger(ServerConfig.class.getSimpleName());
 
 	private static ServerConfig instance = new ServerConfig();
-	/** 服务器id */
-	private int serverId;
-	/** 服务器端口 */
-	private int serverPort;
+//	/** 服务器id */
+//	private int serverId;
+//	/** 服务器端口 */
+//	private int serverPort;
 	/** 后台管理端口 */
-	private int httpPort;
-	/** 后台白名单模式 */
-	private String[] whiteIpPattern;
+//	private int httpPort;
+//	/** 后台白名单模式 */
+//	private String[] whiteIpPattern;
 	/** redis server url {http:port} */
 	private String redisUrl;
 
@@ -43,19 +42,19 @@ public class ServerConfig {
 				NodeList subNodes = node.getChildNodes();
 				for (int j=0;j<subNodes.getLength();j++) {
 					if ("server_id".equals(subNodes.item(j).getNodeName())) {
-						this.serverId = Integer.parseInt(subNodes.item(j).getTextContent());
+						GateServerConfig.serverId = Integer.parseInt(subNodes.item(j).getTextContent());
 					} else if ("server_port".equals(subNodes.item(j).getNodeName())) {
-						this.serverPort = Integer.parseInt(subNodes.item(j).getTextContent());
+						GateServerConfig.serverPort = Integer.parseInt(subNodes.item(j).getTextContent());
 					}
 				}
 			} else if ("http-server".equals(node.getNodeName())) {
 				NodeList subNodes = node.getChildNodes();
 				for (int j=0;j<subNodes.getLength();j++) {
 					if ("http_port".equals(subNodes.item(j).getNodeName())) {
-						this.httpPort = Integer.parseInt(subNodes.item(j).getTextContent());
+						GateServerConfig.httpPort = Integer.parseInt(subNodes.item(j).getTextContent());
 					} else if ("white_ips".equals(subNodes.item(j).getNodeName())) {
 						String[] ips = subNodes.item(j).getTextContent().split(";");
-						this.whiteIpPattern = ips;
+						GateServerConfig.whiteIpPattern = ips;
 					}
 				}
 			} else if ("redis-server".equals(node.getNodeName())) {
@@ -69,28 +68,19 @@ public class ServerConfig {
 			}
 		}
 
-		logger.info("本服serverId为{},后台端口为{}", serverId, httpPort);
+		logger.info("本服serverId为{},后台端口为{}", GateServerConfig.serverId, GateServerConfig.httpPort);
 	}
 
 	public int getServerId() {
-		return serverId;
+		return GateServerConfig.serverId;
 	}
 
 	public int getServerPort() {
-		return serverPort;
+		return GateServerConfig.serverPort;
 	}
 
 	public int getHttpPort() {
-		return httpPort;
-	}
-
-	public boolean isInWhiteIps(String ip) {
-		for (String pattern:this.whiteIpPattern) {
-			if (ip.matches(pattern)) {
-				return true;
-			}
-		}
-		return false;
+		return GateServerConfig.httpPort;
 	}
 
 	public String getRedisUrl() {

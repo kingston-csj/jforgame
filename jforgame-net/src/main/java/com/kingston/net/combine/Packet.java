@@ -2,11 +2,13 @@ package com.kingston.net.combine;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
-import com.kingston.logs.LoggerUtils;
 import com.kingston.net.message.Message;
 import com.kingston.net.message.MessageFactory;
 
@@ -15,6 +17,8 @@ import com.kingston.net.message.MessageFactory;
  * @author kingston
  */
 public class Packet {
+
+	private static Logger logger = LoggerFactory.getLogger(Packet.class);
 
 	@Protobuf(order = 10)
 	private int module;
@@ -50,7 +54,7 @@ public class Packet {
 			Message message = (Message) codec.decode(packet.body);
 			return message;
 		} catch (IOException e) {
-			LoggerUtils.error("读取消息出错,模块号{}，类型{},异常{}",  packet.module,  packet.cmd );
+			logger.error("读取消息出错,模块号{}，类型{},异常{}",  new Object[]{packet.module,  packet.cmd} );
 		}
 		return null;
 	}

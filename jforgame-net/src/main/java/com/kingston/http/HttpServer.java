@@ -1,4 +1,4 @@
-package com.kingston.game.http;
+package com.kingston.http;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.kingston.ServerConfig;
+import com.kingston.net.GateServerConfig;
 import com.kingston.net.session.SessionManager;
 
 public class HttpServer {
@@ -30,7 +30,7 @@ public class HttpServer {
 	private IoAcceptor acceptor;
 
 	//http端口
-	int port = ServerConfig.getInstance().getHttpPort();
+	int port = GateServerConfig.httpPort;
 
 	public void start() throws Exception {
 		acceptor = new NioSocketAcceptor();
@@ -62,7 +62,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 		String ipAddr = SessionManager.INSTANCE.getRemoteIp(session);
-		if (!ServerConfig.getInstance().isInWhiteIps(ipAddr)) {
+		if (!isInWhiteIps(ipAddr)) {
 			logger.error("非法后台登录,remoteIp=[{}]", ipAddr);
 			byte[] body = "too young too simple".getBytes("UTF-8");
 			IoBuffer out = IoBuffer.allocate(body.length);
@@ -71,6 +71,15 @@ class HttpServerHandle extends IoHandlerAdapter {
 			session.write(out);
 			session.close(false);
 		}
+	}
+
+	private static boolean isInWhiteIps(String ip) {
+		for (String pattern:GateServerConfig.whiteIpPattern) {
+			if (ip.matches(pattern)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -108,7 +117,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 			failed.setMessage("参数错误");
 			return failed;
 		}
-		logger.info("收到http后台命令，参数为{}", httpParams);
+		logger.info("收到http后台命令 {}", httpParams);
 		HttpCommandResponse commandResponse = HttpCommandManager.getInstance().handleCommand(httpParams);
 		if (commandResponse == null) {
 			HttpCommandResponse failed = HttpCommandResponse.valueOfFailed();
@@ -118,21 +127,21 @@ class HttpServerHandle extends IoHandlerAdapter {
 		return commandResponse;
 	}
 
+	@SuppressWarnings("unchecked")
 	private HttpCommandParams toHttpParams(HttpRequest httpReq) {
 		String cmd = httpReq.getParameter("cmd");
 		if (StringUtils.isEmpty(cmd)) {
 			return null;
 		}
 		String paramJson = httpReq.getParameter("params");
+		Map<String, String> params = new HashMap<>();
 		if (StringUtils.isNotEmpty(paramJson)) {
 			try{
-				@SuppressWarnings("unchecked")
-				Map<String, String> params = new Gson().fromJson(paramJson, HashMap.class);
-				return HttpCommandParams.valueOf(Integer.parseInt(cmd), params);
+				params = new Gson().fromJson(paramJson, HashMap.class);
 			}catch(Exception e) {
 			}
 		}
-		return null;
+		return HttpCommandParams.valueOf(Integer.parseInt(cmd), params);
 	}
 
 }

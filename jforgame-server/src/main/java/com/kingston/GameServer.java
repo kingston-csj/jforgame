@@ -13,7 +13,8 @@ import com.kingston.db.DbService;
 import com.kingston.game.core.SchedulerHelper;
 import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.config.ConfigDatasPool;
-import com.kingston.game.http.HttpServer;
+import com.kingston.http.HttpCommandManager;
+import com.kingston.http.HttpServer;
 import com.kingston.monitor.jmx.GameMonitor;
 import com.kingston.monitor.jmx.GameMonitorMXBean;
 import com.kingston.net.SocketServer;
@@ -88,6 +89,7 @@ public class GameServer {
 		//启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();
+		HttpCommandManager.getInstance().initialize("com.kingston.game.http");
 	}
 
 	private void loadSystemRecords() throws Exception {

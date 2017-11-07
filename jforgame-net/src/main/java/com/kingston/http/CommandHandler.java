@@ -1,4 +1,4 @@
-package com.kingston.game.http;
+package com.kingston.http;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
