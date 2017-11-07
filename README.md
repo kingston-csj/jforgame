@@ -5,8 +5,8 @@
 
 
   ## Module Directory  
-    ``` lua
-  jforgame
+  ``` lua
+  jforgame  
   ├── jforgame-common  base common service  
   ├── hotswap-agent  support hotswap without restarting server  
   ├── jforgame-server   
