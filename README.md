@@ -4,21 +4,25 @@
   A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then. The project use maven to manage jar dependency and build project  
 
 
-  ## Module Directory
-  game package is game logic module, other packages belong to engine framework.  
-  Each package has its own purpose:
-  * cache package, use guava cache to support players cache system　　
-  * orm package, use a lightweight tool for conversion between pojo and database relation　　　
-  * db package, use a independent thread pool to save players' and common data asynchronously 　　
-  * monitor package, to monitor game service，currently, we'll use jmx to manage game server 　　
-  * net package, including io message codec, message request mapper, message thread model　
-  * listener package, event driver model   
-  * doctor package, there are two ways for u to hotswap class   
-  * game/gm pakcage, gm command for test  
-  * game/http package, http admin command for system administrator  
-  * redis package, cross-server communication, such as multiserver ranking list   
-  * tools pakcage, little tool to support project's development
-  * utils package, code utils
+  ## Module Directory  
+    ``` lua
+  jforgame
+  ├── jforgame-common  base common service  
+  ├── hotswap-agent  support hotswap without restarting server  
+  ├── jforgame-server   
+  |    ├──  cache package, use guava cache to support players cache system  
+  |    ├──  orm package, use a lightweight tool for conversion between pojo and database relation  
+  |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  
+  |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server  
+  |    ├──  net package, including io message codec, message request mapper, message thread model  
+  |    ├──  listener package, event driver model  
+  |    ├──  doctor package, there are two ways for u to hotswap class  
+  |    ├──  game/gm pakcage, gm command for test  
+  |    ├──  game/http package, http admin command for system administrator  
+  |    ├──  redis package, cross-server communication, such as multiserver ranking list  
+  |    ├──  tools pakcage, little tool to support project's development  
+  |    └──  utils package, code utils    
+  ``` 
   
   ## Third Party 
   Name | Purpose | Official website  
