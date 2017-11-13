@@ -1,4 +1,4 @@
-package com.kingston.game.http.commands;
+package com.kingston.game.admin.commands;
 
 import com.kingston.http.CommandHandler;
 import com.kingston.http.HttpCommandHandler;

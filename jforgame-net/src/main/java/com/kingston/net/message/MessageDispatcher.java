@@ -28,7 +28,7 @@ public class MessageDispatcher {
     private static final Map<String, CmdExecutor> MODULE_CMD_HANDLERS = new HashMap<>();
 
     public static MessageDispatcher getInstance() {
-        //双重检查锁单例
+        //double check
         if (instance == null) {
             synchronized (MessageDispatcher.class) {
                 if (instance == null) {
@@ -55,7 +55,7 @@ public class MessageDispatcher {
                     if (mapperAnnotation != null) {
                         short[] meta = getMessageMeta(method);
                         if (meta == null) {
-                            throw new RuntimeException(String.format("controller[%s]方法[%s]缺少RequestMapping注解",
+                            throw new RuntimeException(String.format("controller[%s] method[%s] lack of RequestMapping annotation",
                                     controller.getName(), method.getName()));
                         }
                         short module = meta[0];
@@ -63,7 +63,7 @@ public class MessageDispatcher {
                         String key = buildKey(module, cmd);
                         CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(key);
                         if (cmdExecutor != null) {
-                            throw new RuntimeException(String.format("module[%d] cmd[%d]重复", module, cmd));
+                            throw new RuntimeException(String.format("module[%d] cmd[%d] duplicated", module, cmd));
                         }
 
                         cmdExecutor = CmdExecutor.valueOf(method, method.getParameterTypes(), handler);

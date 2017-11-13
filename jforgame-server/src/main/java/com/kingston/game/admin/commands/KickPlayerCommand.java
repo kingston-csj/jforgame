@@ -1,4 +1,4 @@
-package com.kingston.game.http.commands;
+package com.kingston.game.admin.commands;
 
 import java.util.Map;
 

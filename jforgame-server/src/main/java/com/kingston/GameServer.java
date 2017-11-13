@@ -82,14 +82,14 @@ public class GameServer {
 		loadSystemRecords();
 		//Redis cache
 		RedisCluster.INSTANCE.init();
-
+		//http admin commands
+		HttpCommandManager.getInstance().initialize("com.kingston.game.admin");
 		//启动socket服务
 		socketServer = new SocketServer();
 		socketServer.start();
 		//启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();
-		HttpCommandManager.getInstance().initialize("com.kingston.game.http");
 	}
 
 	private void loadSystemRecords() throws Exception {
