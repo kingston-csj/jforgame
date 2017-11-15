@@ -5,8 +5,8 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 
+import com.kingston.db.DbUtils;
 import com.kingston.logs.LoggerUtils;
-import com.kingston.orm.utils.DbUtils;
 
 /**
  * 保存一些系统级别的参数

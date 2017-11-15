@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.db.DbService;
+import com.kingston.db.DbUtils;
 import com.kingston.game.core.SchedulerHelper;
 import com.kingston.game.core.SystemParameters;
 import com.kingston.game.database.config.ConfigDatasPool;
@@ -21,7 +22,6 @@ import com.kingston.net.SocketServer;
 import com.kingston.net.message.MessageFactory;
 import com.kingston.net.task.TaskHandlerContext;
 import com.kingston.orm.OrmProcessor;
-import com.kingston.orm.utils.DbUtils;
 import com.kingston.redis.RedisCluster;
 import com.kingston.utils.TimeUtil;
 
@@ -67,11 +67,11 @@ public class GameServer {
 		//读取服务器配置
 		ServerConfig.getInstance().initFromConfigFile();
 		//初始化orm框架
-		OrmProcessor.INSTANCE.initOrmBridges();
-		//初始化消息工作线程池
-		TaskHandlerContext.INSTANCE.initialize();
+		OrmProcessor.INSTANCE.initOrmBridges("com.kingston.game");
 		//初始化数据库连接池
 		DbUtils.init();
+		//初始化消息工作线程池
+		TaskHandlerContext.INSTANCE.initialize();
 		//初始化job定时任务
 		SchedulerHelper.initAndStart();
 		//读取所有策划配置

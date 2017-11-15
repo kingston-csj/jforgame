@@ -1,19 +1,14 @@
 package com.kingston.orm.cache;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.orm.utils.DbUtils;
+import com.kingston.orm.utils.DbHelper;
 import com.kingston.orm.utils.SqlUtils;
 
-/**
- * This class provides a skeletal implementation of the <tt>Cacheable</tt> interface
- * @author kingston
- */
 public abstract class AbstractCacheable extends Cacheable {
-
-	private static Logger logger = LoggerFactory.getLogger(AbstractCacheable.class);
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractCacheable.class); 
 
 	@Override
 	public DbStatus getStatus() {
@@ -53,17 +48,18 @@ public abstract class AbstractCacheable extends Cacheable {
 			this.status = DbStatus.DELETE;
 		}
 	}
-
-	public final void save() {
-		String saveSql = SqlUtils.getSaveSql(this);
-		if (StringUtils.isBlank(saveSql)) {
-			return;
-		}
-		if (DbUtils.executeSql(saveSql)) {
-			this.status = DbStatus.NORMAL;
-		}
-		if (logger.isDebugEnabled()) {
-			System.err.println(saveSql);
-		}
+	
+	public final void resetDbStatus() {
+		this.status = DbStatus.NORMAL;
+	}
+	
+	public final String getSaveSql() {
+		return SqlUtils.getSaveSql(this);
+//		if (DbUtils.executeSql(saveSql)) {
+//			this.status = DbStatus.NORMAL;
+//		}
+//		if (logger.isDebugEnabled()) {
+//			System.err.println(saveSql);
+//		}
 	}
 }

@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 服务端启动程序
+ * game server start entrance
  * @author kingston
  */
 public class ServerStartup {
@@ -16,9 +16,9 @@ public class ServerStartup {
 		try{
 			GameServer.getInstance().start();
 		}catch(Exception e){
-			logger.error("服务启动报错", e);
+			logger.error("server start failed", e);
 		}finally {
-			//增加关闭钩子
+			//add shutdown task
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -26,6 +26,6 @@ public class ServerStartup {
 				}
 			}));
 		}
-	} 
+	}
 
 }

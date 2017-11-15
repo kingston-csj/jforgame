@@ -1,11 +1,9 @@
-package com.kingston.orm;
+package com.kingston.orm.exception;
 
 /**
  *  orm配置异常
  */
 public class OrmConfigExcpetion extends RuntimeException {
-
-	private static final long serialVersionUID = 1788051162447455031L;
 
 	public OrmConfigExcpetion(Exception e) {
 		super(e);

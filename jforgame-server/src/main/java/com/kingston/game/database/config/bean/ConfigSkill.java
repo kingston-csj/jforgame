@@ -4,16 +4,16 @@ import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;
 
-@Entity
+@Entity(readOnly = true)
 public class ConfigSkill {
-	
+
 	@Id
 	@Column
 	private int id;
-	
+
 	@Column
 	private String name;
-	
+
 	/**
 	 * 技能效果说明
 	 */
@@ -43,6 +43,6 @@ public class ConfigSkill {
 	public void setEffect(String effect) {
 		this.effect = effect;
 	}
-	
+
 
 }

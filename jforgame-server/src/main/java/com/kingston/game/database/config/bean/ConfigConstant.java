@@ -8,9 +8,9 @@ import com.kingston.orm.annotation.Id;
  * 常量配置表
  * @author kingston
  */
-@Entity
+@Entity(readOnly = true)
 public class ConfigConstant {
-	
+
 	@Column
 	@Id
 	private int id;
@@ -21,7 +21,7 @@ public class ConfigConstant {
 	/** 功能描述 */
 	@Column
 	private String description;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -46,6 +46,6 @@ public class ConfigConstant {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 
 }

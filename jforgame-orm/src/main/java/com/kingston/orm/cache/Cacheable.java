@@ -3,7 +3,7 @@ package com.kingston.orm.cache;
 public abstract class Cacheable {
 
 	/** 当前实体对象的db状态 */
-	protected DbStatus status;
+	protected DbStatus status = DbStatus.NORMAL;
 	
 	public abstract DbStatus getStatus();
 	
@@ -20,8 +20,8 @@ public abstract class Cacheable {
 	public abstract void setDelete();
 	
 	/**
-	 * 进行持久化
+	 * 获取持久化对应的sql语句
 	 */
-	public abstract void save();
+	public abstract String getSaveSql();
 	
 }

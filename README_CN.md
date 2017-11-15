@@ -10,7 +10,8 @@
   ├── jforgame-common  --基础公共服务  
   ├── jforgame-net     --socket网关，http后台接口  
   |    ├──  net包，包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型  
-  |    ├──  http包，游戏运营/运维后台命令      
+  |    ├──  http包，游戏运营/运维后台命令  
+  ├── jforgame-orm     --orm映射框架,增加db状态支持异步数据持久化        
   ├── hotswap-agent  支持游戏业务热更新的agent机制  
   ├── jforgame-server  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架  

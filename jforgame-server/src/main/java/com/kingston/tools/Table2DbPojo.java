@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.kingston.orm.utils.DbUtils;
+import com.kingston.db.DbUtils;
+import com.kingston.orm.utils.DbHelper;
 import com.kingston.orm.utils.StringUtils;
 
 /**
@@ -34,7 +35,7 @@ public class Table2DbPojo {
 		DbUtils.init();
 
 		String tableName = "player";
-		Connection conn = DbUtils.getConnection(DbUtils.DB_USER);
+		Connection conn = DbHelper.getConnection(DbUtils.DB_USER);
 		DatabaseMetaData meta = conn.getMetaData();
 
 		writeLine("import com.kingston.db.BaseEntity;");

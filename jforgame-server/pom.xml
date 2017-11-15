@@ -31,6 +31,11 @@
 			<artifactId>jforgame-net</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.kingston</groupId>
+			<artifactId>jforgame-orm</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
 		<!-- 日志系统 -->
 		<dependency>

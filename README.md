@@ -11,6 +11,7 @@
   ├── jforgame-net
   |    ├──  net package, including io message codec, message request mapper, message thread model  
   |    ├──  http package, http admin command for system administrator  
+  ├── jforgame-orm   --lite object relation mapping,  
   ├── hotswap-agent  --support hotswap without restarting server
   ├── jforgame-server   
   |    ├──  cache package, use guava cache to support players cache system  

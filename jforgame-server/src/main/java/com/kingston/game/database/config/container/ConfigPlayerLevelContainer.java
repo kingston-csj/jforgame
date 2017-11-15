@@ -6,16 +6,16 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.kingston.db.DbUtils;
 import com.kingston.game.database.config.Reloadable;
 import com.kingston.game.database.config.bean.ConfigPlayerLevel;
-import com.kingston.orm.utils.DbUtils;
 
 /**
  * 玩家等级配置表
  * @author kingston
  */
 public class ConfigPlayerLevelContainer implements Reloadable {
-	
+
 	private Map<Integer, ConfigPlayerLevel> levels = new HashMap<>();
 
 	@Override
@@ -26,9 +26,9 @@ public class ConfigPlayerLevelContainer implements Reloadable {
 		levels = datas.stream().collect(
 				Collectors.toMap(ConfigPlayerLevel::getLevel, Function.identity()));
 	}
-	
+
 	public ConfigPlayerLevel getConfigBy(int level) {
 		return levels.get(level);
 	}
-	
+
 }

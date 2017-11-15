@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.logicalcobwebs.proxool.ProxoolException;
-import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,44 +18,25 @@ import com.kingston.orm.BeanProcessor;
 import com.kingston.orm.OrmBridge;
 import com.kingston.orm.OrmProcessor;
 
-public class DbUtils {
+public class DbHelper {
 
-	private static Logger logger = LoggerFactory.getLogger(DbUtils.class);
-
-	private static final String PROXOOL = "proxool.";
-	//策划数据库
-	public static final String  DB_DATA = PROXOOL + "data";
-	//人物数据库
-	public static final String  DB_USER = PROXOOL + "user";
-
-	public static void init() {
-		try {
-			logger.info("初始化数据库连接池……");
-			// 读取配置文件并创建数据库连接池
-			JAXPConfigurator.configure("configs/proxool.xml", true);
-		} catch (ProxoolException e) {
-			logger.error("读取数据库配置文件出错", e);
-			System.exit(-1);
-		}
-	}
+	private static Logger logger = LoggerFactory.getLogger(DbHelper.class);
 
 	/**
 	 * 查询返回一个bean实体
-	 * @param alias 数据库别名
+	 * @param Connection 数据库链接
 	 * @param sql
 	 * @param entity
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T queryOne(String alias, String sql, Class<?> entity) {
+	public static <T> T queryOne(Connection connection, String sql, Class<?> entity) {
 		OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity);
 		if (bridge == null || entity == null || StringUtils.isEmpty(sql)) {
 			return null;
 		}
-		Connection connection = null;
 		Statement statement = null;
 		try{
-			connection = getConnection(alias);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
@@ -79,18 +58,16 @@ public class DbUtils {
 
 	/**
 	 * 查询返回bean实体列表
-	 * @param alias 数据库别名
+	 * @param Connection 数据库链接
 	 * @param sql
 	 * @param entity
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> List<T> queryMany(String alias, String sql, Class<?> entity) {
+	public static <T> List<T> queryMany(Connection connection, String sql, Class<?> entity) {
 		List<T> result = new ArrayList<>();
-		Connection connection = null;
 		Statement statement = null;
 		try{
-			connection = getConnection(alias);
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			Object bean = entity.newInstance();
@@ -114,17 +91,15 @@ public class DbUtils {
 
 	/**
 	 * 查询返回一个map
-	 * @param alias 数据库别名
+	 * @param Connection 数据库链接
 	 * @param sql
 	 * @param entity
 	 * @return
 	 */
-	public static Map<String, Object> queryMap(String alias, String sql) {
-		Connection connection = null;
+	public static Map<String, Object> queryMap(Connection connection, String sql) {
 		Statement statement = null;
 		Map<String, Object> result = new HashMap<>();
 		try{
-			connection = getConnection(alias);
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -157,17 +132,15 @@ public class DbUtils {
 
 	/**
 	 * 查询返回一个map
-	 * @param alias 数据库别名
+	 * @param Connection 数据库链接
 	 * @param sql
 	 * @param entity
 	 * @return
 	 */
-	public static List<Map<String, Object>> queryMapList(String alias, String sql) {
-		Connection connection = null;
+	public static List<Map<String, Object>> queryMapList(Connection connection, String sql) {
 		Statement statement = null;
 		List<Map<String, Object>> result = new ArrayList<>();
 		try{
-			connection = getConnection(alias);
 			statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			ResultSetMetaData rsmd = rs.getMetaData();
@@ -200,18 +173,17 @@ public class DbUtils {
 	}
 
 	/**
-	 * 执行特定的sql语句(只有db库有执行权限)
+	 * 执行特定的sql语句
+	 * @param Connection 数据库链接
 	 * @param sql
 	 * @return
 	 */
-	public static boolean executeSql(String sql) {
+	public static boolean executeSql(Connection connection, String sql) {
 		if (StringUtils.isEmpty(sql)) {
 			return true;
 		}
-		Connection connection = null;
 		Statement statement = null;
 		try{
-			connection = getConnection(DB_USER);
 			statement = connection.createStatement();
 			statement.execute(sql);
 			return true;
@@ -231,7 +203,6 @@ public class DbUtils {
 
 	/**
 	 * 获得连接
-	 *
 	 * @param alias
 	 * @return
 	 */
@@ -247,7 +218,6 @@ public class DbUtils {
 
 	/**
 	 * 关闭连接
-	 *
 	 * @param conn
 	 */
 	public static void closeConn(Connection conn) {
@@ -262,7 +232,6 @@ public class DbUtils {
 
 	/**
 	 * 关闭statement
-	 *
 	 * @param st
 	 */
 	public static void closeStatement(Statement st) {
@@ -277,7 +246,6 @@ public class DbUtils {
 
 	/**
 	 * 关闭resultSet
-	 *
 	 * @param rst
 	 */
 	public static void closeResultSet(ResultSet rst) {
@@ -291,3 +259,4 @@ public class DbUtils {
 	}
 
 }
+

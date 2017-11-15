@@ -19,7 +19,8 @@ public class ClientStartup {
 		SocketRobot robot = new SocketRobot("kingston");
 		robot.buildConnection();
 		robot.login();
-		
+		robot.selectedPlayer(10000L);
+
 	}
 
 }

@@ -5,9 +5,9 @@ import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;
 
-@Entity
+@Entity(readOnly = true)
 public class ConfigActivity {
-	
+
 	@Column
 	@Id
 	private int id;
@@ -17,7 +17,7 @@ public class ConfigActivity {
 	/** 活动名称 */
 	@Column
 	private String name;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -36,7 +36,7 @@ public class ConfigActivity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+
 
 }

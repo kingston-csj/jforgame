@@ -9,8 +9,10 @@ import java.util.Set;
 import com.kingston.orm.annotation.Column;
 import com.kingston.orm.annotation.Entity;
 import com.kingston.orm.annotation.Id;
+import com.kingston.orm.exception.OrmConfigExcpetion;
+import com.kingston.orm.utils.ClassFilter;
+import com.kingston.orm.utils.ClassScanner;
 import com.kingston.orm.utils.StringUtils;
-import com.kingston.utils.ClassScanner;
 
 public enum OrmProcessor {
 
@@ -19,8 +21,11 @@ public enum OrmProcessor {
 	/** entity与对应的ormbridge的映射关系 */
 	private Map<Class<?>, OrmBridge> classOrmMapperr = new HashMap<>();
 
-	public void initOrmBridges() {
-		Set<Class<?>> entityClazzs = ClassScanner.listClassesWithAnnotation("com.kingston.game", Entity.class);
+	/**
+	 * @param scanPath path to load orm entities
+	 */
+	public void initOrmBridges(String scanPath) {
+		Set<Class<?>> entityClazzs = listEntityClazzs(scanPath);
 
 		for (Class<?> clazz:entityClazzs) {
 			OrmBridge bridge = createBridge(clazz);
@@ -46,6 +51,7 @@ public enum OrmProcessor {
 				if (column == null) {
 					continue;
 				}
+
 				Method m = clazz.getMethod("get" + StringUtils.firstLetterToUpperCase(field.getName()));
 				bridge.addGetterMethod(fieldName, m);
 				Method m2 = clazz.getMethod("set" + StringUtils.firstLetterToUpperCase(field.getName()), field.getType());
@@ -68,6 +74,16 @@ public enum OrmProcessor {
 		}
 
 		return bridge;
+	}
+
+	private Set<Class<?>> listEntityClazzs(String scanPath) {
+		return ClassScanner.getClasses(scanPath,
+				new ClassFilter() {
+			@Override
+			public boolean accept(Class<?> clazz) {
+				return clazz.getAnnotation(Entity.class) != null;
+			}
+		});
 	}
 
 	public OrmBridge getOrmBridge(Class<?> clazz) {

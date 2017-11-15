@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.kingston.db.DbUtils;
 import com.kingston.game.database.config.Reloadable;
 import com.kingston.game.database.config.bean.ConfigItem;
-import com.kingston.orm.utils.DbUtils;
 
 public class ConfigItemContainer implements Reloadable {
 

@@ -5,25 +5,25 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.kingston.db.DbUtils;
 import com.kingston.game.database.user.player.Player;
 import com.kingston.game.player.PlayerManager;
 import com.kingston.orm.OrmProcessor;
-import com.kingston.orm.utils.DbUtils;
 
 /**
  * 测试玩家缓存系统
  * @author kingston
  */
 public class TestPlayerCache {
-	
+
 	@Before
 	public void init() {
 		//初始化orm框架
-		OrmProcessor.INSTANCE.initOrmBridges();
+		OrmProcessor.INSTANCE.initOrmBridges("com.kingston.game");
 		//初始化数据库连接池
 		DbUtils.init();
 	}
-	
+
 	@Test
 	public void testQueryPlayer() {
 		long playerId = 10000L;
