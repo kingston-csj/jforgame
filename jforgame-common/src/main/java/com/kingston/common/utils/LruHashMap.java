@@ -1,4 +1,4 @@
-package com.kingston.utils;
+package com.kingston.common.utils;
 
 import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Lock;

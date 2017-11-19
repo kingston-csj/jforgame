@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class DirtyWordUnit {
+
     private final String source;
     private final String keyWord;
     private final List<Integer> indexList = new ArrayList<>();

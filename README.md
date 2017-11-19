@@ -7,15 +7,15 @@
   ## Module Directory  
   ``` lua
   jforgame  
-  ├── jforgame-common --base common service    
+  ├── jforgame-common --base common service  
+  ├── jforgame-admin  --game admin web tool    
   ├── jforgame-net
   |    ├──  net package, including io message codec, message request mapper, message thread model  
   |    ├──  http package, http admin command for system administrator  
-  ├── jforgame-orm   --lite object relation mapping,  
+  ├── jforgame-orm   --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── hotswap-agent  --support hotswap without restarting server
   ├── jforgame-server   
-  |    ├──  cache package, use guava cache to support players cache system  
-  |    ├──  orm package, use a lightweight tool for conversion between pojo and database relation  
+  |    ├──  cache package, use guava cache to support players cache system   
   |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  
   |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server    
   |    ├──  listener package, event driver model  

@@ -9,6 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.common.utils.ClassScanner;
 import com.kingston.net.annotation.Controller;
 import com.kingston.net.annotation.MessageMeta;
 import com.kingston.net.annotation.RequestMapping;
@@ -16,7 +17,6 @@ import com.kingston.net.session.SessionManager;
 import com.kingston.net.session.SessionProperties;
 import com.kingston.net.task.MessageTask;
 import com.kingston.net.task.TaskHandlerContext;
-import com.kingston.utils.ClassScanner;
 
 public class MessageDispatcher {
 

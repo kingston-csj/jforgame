@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.kingston.common.utils.ClassScanner;
 import com.kingston.net.annotation.MessageMeta;
-import com.kingston.utils.ClassScanner;
 
 public enum MessageFactory {
 

@@ -6,7 +6,7 @@ import com.kingston.orm.annotation.Id;
 import com.kingston.orm.cache.AbstractCacheable;
 
 @Entity(table="player")
-public class Player extends AbstractCacheable{
+public class Player extends AbstractCacheable {
 
 	@Column(name="id")
 	@Id
@@ -34,5 +34,5 @@ public class Player extends AbstractCacheable{
 	public String toString() {
 		return "Player [id=" + no + ", name=" + name + "]";
 	}
-	
+
 }

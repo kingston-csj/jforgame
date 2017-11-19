@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.utils.NameableThreadFactory;
+import com.kingston.common.utils.NamedThreadFactory;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 
@@ -33,7 +33,7 @@ public enum TaskHandlerContext {
 		for (int i=1; i<=CORE_SIZE; i++) {
 			TaskWorker worker = new TaskWorker(i);
 			workerPool.add(worker);
-			new NameableThreadFactory("message-task-handler").newThread(worker).start();
+			new NamedThreadFactory("message-task-handler").newThread(worker).start();
 		}
 	}
 

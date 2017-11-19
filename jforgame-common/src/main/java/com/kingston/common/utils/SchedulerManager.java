@@ -1,4 +1,4 @@
-package com.kingston.utils;
+package com.kingston.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.kingston.utils.NameableThreadFactory;
+import com.kingston.common.utils.NamedThreadFactory;
 
 /**
  * 调度任务工具
@@ -20,7 +20,7 @@ public enum SchedulerManager {
 
 	INSTANCE;
 
-	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new NameableThreadFactory("Scheduler-service"));
+	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("Scheduler-service"));
 
 	/** 名字不能重复的tasks */
 	private ConcurrentMap<String, ScheduledFuture> uniqueTasks = new ConcurrentHashMap<>();

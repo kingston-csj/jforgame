@@ -1,4 +1,4 @@
-package com.kingston.utils;
+package com.kingston.common.utils;
 
 /** 
  * 类扫描过滤器

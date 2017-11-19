@@ -23,7 +23,8 @@
 		<module>jforgame-common</module>
 		<module>hotswap-agent</module>
 		<module>jforgame-net</module>
-    <module>jforgame-orm</module>
+		<module>jforgame-orm</module>
+		<module>jforgame-admin</module>
   </modules>
 
 	<dependencyManagement>
