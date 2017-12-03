@@ -1,16 +1,16 @@
 package com.kingston.jforgame.common.utils;
 
 public final class NumberUtil {
-	
+
 	public static byte byteValue(Object object) {
 		return byteValue(object, Byte.valueOf("0"));
 	}
-	
+
 	public static byte byteValue(Object object, byte defaultValue) {
 		if (object == null) {
 			return defaultValue;
 		}
-		if (object.getClass() == float.class || object.getClass() == Float.class) {
+		if (object.getClass() == byte.class || object.getClass() == Byte.class) {
 			return (byte)object;
 		}
 		try {
@@ -20,5 +20,76 @@ public final class NumberUtil {
 		}
 	}
 
+	public static short shortValue(Object object) {
+		return shortValue(object, (short)0);
+	}
+
+	public static short shortValue(Object object, short defaultValue) {
+		if (object == null) {
+			return defaultValue;
+		}
+		if (object.getClass() == short.class || object.getClass() == Short.class) {
+			return (short)object;
+		}
+		try {
+			return Short.valueOf(object.toString());
+		}catch(Exception e) {
+			return defaultValue;
+		}
+	}
+
+	public static int intValue(Object object) {
+		return intValue(object, 0);
+	}
+
+	public static int intValue(Object object, int defaultValue) {
+		if (object == null) {
+			return defaultValue;
+		}
+		if (object.getClass() == int.class || object.getClass() == Integer.class) {
+			return (int)object;
+		}
+		try {
+			return Integer.valueOf(object.toString());
+		}catch(Exception e) {
+			return defaultValue;
+		}
+	}
+
+	public static long longValue(Object object) {
+		return longValue(object, 0L);
+	}
+
+	public static long longValue(Object object, long defaultValue) {
+		if (object == null) {
+			return defaultValue;
+		}
+		if (object.getClass() == long.class || object.getClass() == Long.class) {
+			return (long)object;
+		}
+		try {
+			return Long.valueOf(object.toString());
+		}catch(Exception e) {
+			return defaultValue;
+		}
+	}
+
+	public static double doubleValue(Object object) {
+		return doubleValue(object, 0);
+	}
+
+	public static double doubleValue(Object object, double defaultValue) {
+		if (object == null) {
+			return defaultValue;
+		}
+		if (object.getClass() == double.class || object.getClass() == Double.class) {
+			return (long)object;
+		}
+		try {
+			return Double.valueOf(object.toString());
+		}catch(Exception e) {
+			return defaultValue;
+		}
+	}
+
 }
- 
