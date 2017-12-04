@@ -19,7 +19,7 @@
   |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  
   |    ├──  monitor包，系统监控模块，包括使用jmx对程序进行监控  
   |    ├──  listener包，事件驱动模型  
-  |    ├──  doctor包，采用Groovy类加载机制执行任意动态代码，或JDK的instrument机制修改类方法体  
+  |    ├──  doctor包，采用Groovy执行任意动态代码，或JDK的instrument机制修改类方法体  
   |    ├──  game/gm包，游戏内部金手指命令  
   |    ├──  redis包，跨服通信（比如跨服排行榜）  
   |    ├──  tools包，简化项目开发的辅助小工具  
