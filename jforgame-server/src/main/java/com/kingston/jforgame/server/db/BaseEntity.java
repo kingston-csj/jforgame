@@ -18,6 +18,16 @@ public abstract class BaseEntity extends AbstractCacheable
 	 * @return
 	 */
 	public abstract long getId() ;
+	
+	/**
+	 * init hook
+	 */
+	public void doAfterInit() {}
+	
+	/**
+	 * save hook
+	 */
+	public void doBeforeSave() {}
 
 	@Override
 	public int hashCode() {

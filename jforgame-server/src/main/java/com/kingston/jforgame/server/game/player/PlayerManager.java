@@ -9,6 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import com.kingston.jforgame.net.socket.message.MessagePusher;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.server.cache.CacheService;
+import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
@@ -47,6 +48,7 @@ public class PlayerManager extends CacheService<Long, Player> {
 		String sql = "SELECT * FROM Player where Id = {0} ";
 		sql = MessageFormat.format(sql, String.valueOf(playerId));
 		Player player = DbUtils.queryOne(DbUtils.DB_USER, sql, Player.class);
+		player.doAfterInit();
 		return player;
 	}
 

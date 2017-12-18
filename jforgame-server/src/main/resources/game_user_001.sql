@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2017-09-16 00:10:09
+Date: 2017-12-18 23:20:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,17 +21,19 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
   `job` tinyint(4) DEFAULT NULL,
   `level` int(11) DEFAULT '1' COMMENT '等级',
   `exp` bigint(20) DEFAULT NULL,
+  `lastDailyReset` bigint(255) DEFAULT NULL COMMENT '上一次重置的时间戳',
+  `vipRightJson` blob,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player
 -- ----------------------------
-INSERT INTO `player` VALUES ('10000', 'kingston', '1', '0', '0');
+INSERT INTO `player` VALUES ('10000', 'kingston', '1', '0', '0', '0', 0x323334);
 
 -- ----------------------------
 -- Table structure for systemrecord
@@ -46,4 +48,4 @@ CREATE TABLE `systemrecord` (
 -- ----------------------------
 -- Records of systemrecord
 -- ----------------------------
-INSERT INTO `systemrecord` VALUES ('dailyResetTimestamp', '1505491785589');
+INSERT INTO `systemrecord` VALUES ('dailyResetTimestamp', '1513609812893');

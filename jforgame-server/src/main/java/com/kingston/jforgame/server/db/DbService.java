@@ -61,10 +61,11 @@ public class DbService {
 	 * @param entity
 	 */
 	private void saveToDb(BaseEntity entity) {
+		entity.doBeforeSave();
 		String saveSql = entity.getSaveSql();
 		if (DbUtils.executeSql(saveSql)) {
 			entity.resetDbStatus();
 		}
 	}
-
+	
 }
