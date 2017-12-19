@@ -1,18 +1,20 @@
 package com.kingston.jforgame.server.game.database.config.bean;
 
-import com.kingston.orm.annotation.Column;
-import com.kingston.orm.annotation.Entity;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * 玩家等级配置表
  * @author kingston
  */
-@Entity(readOnly = true)
+@Entity()
 public class ConfigPlayerLevel {
 
 	/**
 	 * 等级
 	 */
+	@Id
 	@Column
 	private int level;
 	

@@ -1,14 +1,14 @@
 package com.kingston.jforgame.server.game.database.config.bean;
 
-import com.kingston.orm.annotation.Column;
-import com.kingston.orm.annotation.Entity;
-import com.kingston.orm.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * 常量配置表
  * @author kingston
  */
-@Entity(readOnly = true)
+@Entity()
 public class ConfigConstant {
 
 	@Column

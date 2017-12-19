@@ -1,5 +1,9 @@
 package com.kingston.jforgame.server.game.database.user.player;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.net.socket.session.SessionManager;
@@ -9,9 +13,6 @@ import com.kingston.jforgame.server.db.BaseEntity;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.IdGenerator;
-import com.kingston.orm.annotation.Column;
-import com.kingston.orm.annotation.Entity;
-import com.kingston.orm.annotation.Id;
 
 /**
  * 玩家实体

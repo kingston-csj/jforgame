@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.kingston.orm.annotation.Column;
-import com.kingston.orm.annotation.Entity;
-import com.kingston.orm.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import com.kingston.orm.exception.OrmConfigExcpetion;
 import com.kingston.orm.utils.ClassFilter;
 import com.kingston.orm.utils.ClassScanner;
@@ -37,10 +38,10 @@ public enum OrmProcessor {
 		OrmBridge bridge = new OrmBridge();
 		Entity entity = (Entity) clazz.getAnnotation(Entity.class);
 		//没有设置tablename,则用entity名首字母小写
-		if (entity.table().length() <= 0) {
+		if (entity.name().length() <= 0) {
 			bridge.setTableName(StringUtils.firstLetterToLowerCase(clazz.getSimpleName()));
 		}else {
-			bridge.setTableName(entity.table());
+			bridge.setTableName(entity.name());
 		}
 
 		Field[] fields = clazz.getDeclaredFields();
@@ -67,8 +68,7 @@ public enum OrmProcessor {
 				throw new OrmConfigExcpetion(e);
 			}
 			//如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
-			//但readOnly的表只做查询，没这种限制
-			if (!entity.readOnly() && bridge.getQueryProperties().size() <= 0) {
+			if (bridge.getQueryProperties().size() <= 0) {
 				throw new OrmConfigExcpetion(clazz.getSimpleName() + " entity 没有查询索引主键字段");
 			}
 		}

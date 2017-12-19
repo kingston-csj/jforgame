@@ -1,11 +1,12 @@
 package com.kingston.orm.entity;
 
-import com.kingston.orm.annotation.Column;
-import com.kingston.orm.annotation.Entity;
-import com.kingston.orm.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import com.kingston.orm.cache.AbstractCacheable;
 
-@Entity(table="player")
+@Entity(name="player")
 public class Player extends AbstractCacheable {
 
 	@Column(name="id")
