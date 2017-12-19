@@ -13,7 +13,7 @@ public class VipPropSerializer implements IPlayerPropSerializer {
 	public void serialize(Player player) {
 		VipRight vipRight = player.getVipRight();
 		if (vipRight != null) {
-			player.setVipRightJson(JsonUtils.objectToString(vipRight));
+			player.setVipRightJson(JsonUtils.object2String(vipRight));
 		}
 	}
 
@@ -21,7 +21,7 @@ public class VipPropSerializer implements IPlayerPropSerializer {
 	public void deserialize(Player player) {
 		String json = player.getVipRightJson();
 		if (!StringUtils.isEmpty(json)) {
-			player.setVipRight(JsonUtils.stringToObject(json, VipRight.class));
+			player.setVipRight(JsonUtils.string2Object(json, VipRight.class));
 		} else {
 			player.setVipRight(new VipRight());
 		}

@@ -26,7 +26,7 @@ CREATE TABLE `player` (
   `level` int(11) DEFAULT '1' COMMENT '等级',
   `exp` bigint(20) DEFAULT NULL,
   `lastDailyReset` bigint(255) DEFAULT NULL COMMENT '上一次重置的时间戳',
-  `vipRightJson` blob,
+  `vipRightJson` longtext,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
