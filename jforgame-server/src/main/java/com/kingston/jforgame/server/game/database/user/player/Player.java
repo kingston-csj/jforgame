@@ -10,6 +10,7 @@ import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 import com.kingston.jforgame.net.socket.task.IDistributable;
 import com.kingston.jforgame.server.db.BaseEntity;
+import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.IdGenerator;
@@ -41,7 +42,7 @@ public class Player extends BaseEntity implements IDistributable {
 
 	@Column
 	private long exp;
-	
+
 	/**
 	 * 上一次每日重置的时间戳
 	 */
@@ -49,9 +50,12 @@ public class Player extends BaseEntity implements IDistributable {
 	private long lastDailyReset;
 
 	private VipRight vipRight;
-	
+
 	@Column
 	private String vipRightJson;
+
+	@Column
+	private Platform platform;
 
 	public Player() {
 		this.id = IdGenerator.getNextId();
@@ -105,7 +109,7 @@ public class Player extends BaseEntity implements IDistributable {
 	public void setLastDailyReset(long lastDailyReset) {
 		this.lastDailyReset = lastDailyReset;
 	}
-	
+
 
 	public VipRight getVipRight() {
 		return vipRight;
@@ -122,11 +126,19 @@ public class Player extends BaseEntity implements IDistributable {
 	public void setVipRightJson(String vipRightJson) {
 		this.vipRightJson = vipRightJson;
 	}
-	
+
+	public Platform getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(Platform platform) {
+		this.platform = platform;
+	}
+
 	public void doAfterInit() {
 		PlayerSerializerUtil.deserialize(this);
 	}
-	
+
 	public void doBeforeSave() {
 		PlayerSerializerUtil.serialize(this);
 	}
@@ -140,7 +152,7 @@ public class Player extends BaseEntity implements IDistributable {
 	@Override
 	public String toString() {
 		return "Player [id=" + id + ", name=" + name + ", job=" + job + ", level=" + level + ", exp=" + exp
-				+ ", lastDailyReset=" + lastDailyReset + "]";
+				+ ", lastDailyReset=" + lastDailyReset + ", vipRight=" + vipRight + ", platform=" + platform + "]";
 	}
 
 }
