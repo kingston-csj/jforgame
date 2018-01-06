@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.game.activity.message.ReqOpenActivityPanelMe
 import com.kingston.jforgame.server.game.database.user.player.Player;
 
 @Controller
-public class ActivityController {
+public class ActivityFacade {
 
 	@RequestMapping
 	public void reqOpenPanel(Player player, ReqOpenActivityPanelMessage request) {

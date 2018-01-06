@@ -8,16 +8,16 @@ import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 import com.kingston.jforgame.server.game.login.message.ReqSelectPlayerMessage;
 
 @Controller
-public class LoginController {
+public class LoginFacade {
 
 	@RequestMapping
 	public void reqAccountLogin(IoSession session, ReqLoginMessage request) {
 		LoginManager.getInstance().handleAccountLogin(session, request.getAccountId(), request.getPassword());
 	}
-	
+
 	@RequestMapping
 	public void reqSelectPlayer(IoSession session, ReqSelectPlayerMessage requst) {
 		LoginManager.getInstance().handleSelectPlayer(session, requst.getPlayerId());
 	}
-	
+
 }

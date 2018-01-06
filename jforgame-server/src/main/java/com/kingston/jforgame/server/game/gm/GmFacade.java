@@ -5,7 +5,7 @@ import com.kingston.jforgame.net.socket.annotation.RequestMapping;
 import com.kingston.jforgame.server.game.gm.message.ReqGmExecMessage;
 
 @Controller
-public class GmController {
+public class GmFacade {
 
 	@RequestMapping
 	public void reqExecGm(long playerId, ReqGmExecMessage msg) {
