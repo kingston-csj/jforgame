@@ -57,5 +57,5 @@
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
 
   ## Communication
-  QQ：641711541
+  如果您发现bug，或者有任何疑问，请提交issue!!
   
