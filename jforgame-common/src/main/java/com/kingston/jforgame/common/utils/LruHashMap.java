@@ -4,15 +4,18 @@ import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.kingston.jforgame.common.thread.ThreadSafe;
+
 /**
- * LruHashMap is an extension of Java's HashMap, which has a bounded size(); 
+ * LruHashMap is an extension of Java's HashMap, which has a bounded size();
  * When it reaches that size, each time a new element is added, the least recently used (LRU) entry is removed.
  * Java makes it very easy to implement LruHashMap - all its functionality is already available from LinkedHashMap,
  * and we just need to configure that properly.
  * Note that LruHashMap is thread safe
- * 
+ *
  * @author kingston
  */
+@ThreadSafe
 public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
     private static final long serialVersionUID = -5167631809472116969L;
@@ -104,5 +107,5 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
-    
+
 }
