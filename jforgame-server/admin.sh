@@ -1,6 +1,11 @@
  #!/bin/sh
 serverId="001"
+
 JVM_ARGS='-Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution' 
+JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.port=10086"
+JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.authenticate=false"
+JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.ssl=false"
+
 if [ $1 == "start" ]; then
   cd target/
   serverName='GameServer'
