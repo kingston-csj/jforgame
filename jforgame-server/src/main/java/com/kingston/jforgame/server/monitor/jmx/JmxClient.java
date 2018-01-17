@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.monitor.jmx;
+﻿package com.kingston.jforgame.server.monitor.jmx;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,7 +48,7 @@ public class JmxClient {
         final GameMonitorMXBean mBean = JMX.newMBeanProxy(mBeanConnection, objectName,  
         		GameMonitorMXBean.class); 
         
-        String script = readScript("script.txt");
+        String script = readScript("script.js");
         System.err.println(script);
         
         System.err.println(mBean.execJavascript(script));

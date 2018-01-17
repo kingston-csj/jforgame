@@ -1,3 +1,0 @@
-com.kingston.jforgame.server.logs.LoggerUtils.error("执行测试脚本1");
-
-com.kingston.jforgame.server.logs.LoggerUtils.error("执行测试脚本2");
