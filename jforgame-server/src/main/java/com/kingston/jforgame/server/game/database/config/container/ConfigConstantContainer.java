@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.kingston.jforgame.server.db.DbUtils;
-import com.kingston.jforgame.server.game.CommonConfigs;
+import com.kingston.jforgame.server.game.database.config.CommonConfigs;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
 

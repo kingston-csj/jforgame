@@ -2,12 +2,13 @@ package com.kingston.jforgame.server.game.player.serializer;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.JsonUtils;
 
 public class VipPropSerializer implements IPlayerPropSerializer {
+
+	private static final long serialVersionUID = 6643920051145140924L;
 
 	@Override
 	public void serialize(Player player) {

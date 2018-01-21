@@ -14,14 +14,7 @@ public class ServerConfig {
 	private Logger logger = LoggerFactory.getLogger(ServerConfig.class.getSimpleName());
 
 	private static ServerConfig instance = new ServerConfig();
-//	/** 服务器id */
-//	private int serverId;
-//	/** 服务器端口 */
-//	private int serverPort;
-	/** 后台管理端口 */
-//	private int httpPort;
-//	/** 后台白名单模式 */
-//	private String[] whiteIpPattern;
+
 	/** redis server url {http:port} */
 	private String redisUrl;
 

@@ -58,12 +58,12 @@ public enum TaskHandlerContext {
 	private class TaskWorker implements Runnable {
 
 		/** worker id */
-		private int workerIndex;
+		private int id;
 		/** task consumer queue */
 		private BlockingQueue<AbstractDistributeTask> taskQueue = new LinkedBlockingQueue<>();
 
 		TaskWorker(int index) {
-			this.workerIndex = index;
+			this.id = index;
 		}
 
 		public void addTask(AbstractDistributeTask task) {
@@ -88,7 +88,7 @@ public enum TaskHandlerContext {
 						}
 					}
 				} catch (Exception e) {
-					logger.error("", e);
+					logger.error("task Worker" + id, e);
 				}
 			}
 		}

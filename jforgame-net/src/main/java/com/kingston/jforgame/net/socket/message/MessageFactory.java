@@ -13,13 +13,11 @@ public enum MessageFactory {
 
 	private Map<String, Class<?>> messagePool = new HashMap<>();
 
-	private final String SCAN_PATH = "com.kingston.jforgame";
-
 	/**
 	 * scan all message class and register into pool
 	 */
-	public void initMeesagePool() {
-		Set<Class<?>> messages = ClassScanner.listAllSubclasses(SCAN_PATH, Message.class);
+	public void initMeesagePool(String scanPath) {
+		Set<Class<?>> messages = ClassScanner.listAllSubclasses(scanPath, Message.class);
 		for (Class<?> clazz: messages) {
 			MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
 			if (meta == null) {

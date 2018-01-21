@@ -21,7 +21,7 @@ import java.util.Map;
 public class BeanProcessor
 {
     protected static final int PROPERTY_NOT_FOUND = -1;
-    private static final Map<Class<?>, Object> primitiveDefaults = new HashMap();
+    private static final Map<Class<?>, Object> primitiveDefaults = new HashMap<>();
     private final Map<String, String> columnToPropertyOverrides;
 
     static
@@ -38,7 +38,7 @@ public class BeanProcessor
 
     public BeanProcessor()
     {
-        this(new HashMap());
+        this(new HashMap<>());
     }
 
     public BeanProcessor(Map<String, String> columnToPropertyOverrides)
@@ -63,7 +63,7 @@ public class BeanProcessor
     public <T> List<T> toBeanList(ResultSet rs, Class<T> type)
             throws SQLException
     {
-        List<T> results = new ArrayList();
+        List<T> results = new ArrayList<>();
         if (!rs.next()) {
             return results;
         }
@@ -101,7 +101,8 @@ public class BeanProcessor
         return bean;
     }
 
-    private void callSetter(Object target, PropertyDescriptor prop, Object value)
+    @SuppressWarnings("unchecked")
+	private void callSetter(Object target, PropertyDescriptor prop, Object value)
             throws SQLException
     {
         Method setter = prop.getWriteMethod();

@@ -63,7 +63,7 @@ public class GameServer {
 		//加载服务版本号
 		ServerVersion.load();
 		//初始化协议池
-		MessageFactory.INSTANCE.initMeesagePool();
+		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
 		ServerConfig.getInstance().initFromConfigFile();
 		//初始化orm框架
@@ -83,7 +83,7 @@ public class GameServer {
 		//Redis cache
 		RedisCluster.INSTANCE.init();
 		//http admin commands
-		HttpCommandManager.getInstance().initialize("com.kingston.game.admin");
+		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 		//启动socket服务
 		socketServer = new SocketServer();
 		socketServer.start();

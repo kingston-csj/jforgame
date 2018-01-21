@@ -2,8 +2,7 @@ package com.kingston.jforgame.server.net;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
@@ -30,7 +29,6 @@ public class TestJProtobuf {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

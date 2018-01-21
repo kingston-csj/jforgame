@@ -1,13 +1,8 @@
 package com.kingston.orm.cache;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kingston.orm.utils.SqlUtils;
 
 public abstract class AbstractCacheable extends Cacheable {
-
-	private static Logger logger = LoggerFactory.getLogger(AbstractCacheable.class);
 
 	@Override
 	public DbStatus getStatus() {
@@ -54,11 +49,5 @@ public abstract class AbstractCacheable extends Cacheable {
 
 	public final String getSaveSql() {
 		return SqlUtils.getSaveSql(this);
-//		if (DbUtils.executeSql(saveSql)) {
-//			this.status = DbStatus.NORMAL;
-//		}
-//		if (logger.isDebugEnabled()) {
-//			System.err.println(saveSql);
-//		}
 	}
 }

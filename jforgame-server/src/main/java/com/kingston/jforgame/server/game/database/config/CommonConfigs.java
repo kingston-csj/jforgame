@@ -1,10 +1,8 @@
-package com.kingston.jforgame.server.game;
+package com.kingston.jforgame.server.game.database.config;
 
 import java.util.Map;
 
-import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
-import com.kingston.jforgame.server.game.database.config.container.ConfigConstantContainer;
 
 public enum CommonConfigs {
 
