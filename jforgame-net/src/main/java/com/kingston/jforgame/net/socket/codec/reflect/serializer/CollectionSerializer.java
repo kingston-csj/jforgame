@@ -1,10 +1,10 @@
-package com.kingston.jforgame.net.socket.codec.reflect;
+package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
-import java.awt.List;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.mina.core.buffer.IoBuffer;

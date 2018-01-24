@@ -1,4 +1,4 @@
-package com.kingston.jforgame.net.socket.codec.reflect;
+package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -46,7 +46,7 @@ public class MessageSerializer extends Serializer {
 				fieldCodec.encode(out, value, fieldMeta.getWrapper());
 			}
 		}catch(Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

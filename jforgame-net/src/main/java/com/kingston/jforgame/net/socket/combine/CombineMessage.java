@@ -15,7 +15,7 @@ import com.kingston.jforgame.net.socket.message.Message;
 public final class CombineMessage extends Message {
 
 	@Protobuf(order = 1)
-	private final List<Packet> packets = new ArrayList<>();
+	private List<Packet> packets = new ArrayList<>();
 
 	public CombineMessage(){
 

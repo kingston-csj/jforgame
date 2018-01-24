@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.jforgame.net.socket.codec.CodecContext;
+import com.kingston.jforgame.net.socket.codec.IMessageDecoder;
 import com.kingston.jforgame.net.socket.combine.CombineMessage;
 import com.kingston.jforgame.net.socket.combine.Packet;
 import com.kingston.jforgame.net.socket.message.Message;
@@ -20,7 +20,7 @@ import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
-public class ProtobufDecoder implements ProtocolDecoder {
+public class ProtobufDecoder implements IMessageDecoder {
 
 	private static Logger logger = LoggerFactory.getLogger(ProtobufDecoder.class);
 
@@ -81,7 +81,8 @@ public class ProtobufDecoder implements ProtocolDecoder {
 		}
 	}
 
-	private Message readMessage(short module, short cmd, byte[] body) {
+	@Override
+	public Message readMessage(short module, short cmd, byte[] body) {
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
 			Codec<?> codec = ProtobufProxy.create(msgClazz);

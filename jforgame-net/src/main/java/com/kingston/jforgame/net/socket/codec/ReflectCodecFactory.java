@@ -1,28 +1,21 @@
 package com.kingston.jforgame.net.socket.codec;
 
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 
 import com.kingston.jforgame.net.socket.codec.reflect.ReflectDecoder;
 import com.kingston.jforgame.net.socket.codec.reflect.ReflectEncoder;
 
-public class ReflectCodecFactory implements ProtocolCodecFactory {
+public class ReflectCodecFactory implements MessageCodecFactory {
 
-	private static ReflectCodecFactory instance = new ReflectCodecFactory();
+	private IMessageDecoder decoder;
 
-	private ProtocolDecoder decoder;
+	private IMessageEncoder encoder;
 
-	private ProtocolEncoder encoder;
-
-	private ReflectCodecFactory() {
+	public ReflectCodecFactory() {
 		decoder = new ReflectDecoder();
 		encoder = new ReflectEncoder();
-	}
-
-	public static ProtocolCodecFactory getInstance() {
-		return instance;
 	}
 
 	@Override
@@ -32,6 +25,16 @@ public class ReflectCodecFactory implements ProtocolCodecFactory {
 
 	@Override
 	public ProtocolEncoder getEncoder(IoSession arg0) throws Exception {
+		return encoder;
+	}
+	
+	@Override
+	public IMessageDecoder getMessageDecoder() {
+		return decoder;
+	}
+
+	@Override
+	public IMessageEncoder getMessageEncoder() {
 		return encoder;
 	}
 

@@ -18,7 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.jforgame.net.socket.codec.ProtobufCodecFactory;
+import com.kingston.jforgame.net.socket.codec.SerializerHelper;
 
 public class SocketServer {
 
@@ -50,7 +50,8 @@ public class SocketServer {
 		int serverPort = GateServerConfig.serverPort;
 		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
-		filterChain.addLast("codec", new ProtocolCodecFilter(ProtobufCodecFactory.getInstance()));
+		filterChain.addLast("codec",
+				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		acceptor.setHandler( new ServerSocketIoHandler() );//指定业务逻辑处理器
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号
 		acceptor.bind();//启动监听

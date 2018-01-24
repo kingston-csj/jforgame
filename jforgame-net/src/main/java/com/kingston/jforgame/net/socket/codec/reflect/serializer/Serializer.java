@@ -1,4 +1,4 @@
-package com.kingston.jforgame.net.socket.codec.reflect;
+package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -18,6 +18,8 @@ public abstract class Serializer {
 	static {
 		register(Boolean.TYPE, new BooleanSerializer());
 		register(Boolean.class, new BooleanSerializer());
+		register(Byte.TYPE, new ByteSerializer());
+		register(Byte.class, new ByteSerializer());
 		register(Short.TYPE, new ShortSerializer());
 		register(Short.class, new ShortSerializer());
 		register(Integer.TYPE, new IntSerializer());
@@ -31,6 +33,7 @@ public abstract class Serializer {
 		register(String.class, new StringSerializer());
 		register(List.class, new CollectionSerializer());
 		register(Set.class, new CollectionSerializer());
+		register(Object[].class, new ArraySerializer());
 	}
 
 	public static void register(Class<?> clazz, Serializer serializer) {
@@ -40,6 +43,9 @@ public abstract class Serializer {
 	public static Serializer getSerializer(Class<?> clazz) {
 		if (class2Serializers.containsKey(clazz)) {
 			return class2Serializers.get(clazz);
+		}
+		if (clazz.isArray()) {
+			return class2Serializers.get(Object[].class);
 		}
 		Field[] fields = clazz.getDeclaredFields();
 		LinkedHashMap<Field, Class<?>> sortedFields = new LinkedHashMap<>();

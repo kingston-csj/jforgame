@@ -34,12 +34,6 @@ public class LoginManager {
 			combineMessage.addMessage(new ResPlayerEnterSceneMessage());
 			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
-			
-//			Message response = new ResLoginMessage(LoginDataPool.LOGIN_SUCC, "登录成功");
-//			MessagePusher.pushMessage(session, response);
-//			MessagePusher.pushMessage(session, new ResPlayerEnterSceneMessage());
-//			MessagePusher.pushMessage(session, ResGmResultMessage.buildSuccResult("执行gm成功"));
-			
 		} else {
 			MessagePusher.pushMessage(session,
 					new ResLoginMessage(LoginDataPool.LOGIN_FAIL, "登录失败"));

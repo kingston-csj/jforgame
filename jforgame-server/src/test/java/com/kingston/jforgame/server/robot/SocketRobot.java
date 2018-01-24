@@ -8,7 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
-import com.kingston.jforgame.net.socket.codec.ProtobufCodecFactory;
+import com.kingston.jforgame.net.socket.codec.SerializerHelper;
 import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
@@ -27,7 +27,8 @@ public class SocketRobot {
 
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
-		connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(ProtobufCodecFactory.getInstance()));
+		connector.getFilterChain().addLast("codec", 
+				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		connector.setHandler(new ClientHandler());
 
 		System.out.println("开始连接socket服务端"); 

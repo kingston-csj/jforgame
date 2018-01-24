@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +11,11 @@ import org.slf4j.LoggerFactory;
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.jforgame.net.socket.codec.CodecContext;
+import com.kingston.jforgame.net.socket.codec.IMessageEncoder;
 import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
-public class ProtobufEncoder implements ProtocolEncoder {
+public class ProtobufEncoder implements IMessageEncoder {
 
 	private static Logger logger = LoggerFactory.getLogger(ProtobufEncoder.class);
 
@@ -53,7 +53,7 @@ public class ProtobufEncoder implements ProtocolEncoder {
 		buffer.putShort(cmd);
 
 		//写入具体消息的内容
-		byte[] body = wrapMessageBody(message);
+		byte[] body = writeMessageBody(message);
 		buffer.put(body);
 		//回到buff字节数组头部
 		buffer.flip();
@@ -66,7 +66,8 @@ public class ProtobufEncoder implements ProtocolEncoder {
 		return buffer;
 	}
 
-	private byte[] wrapMessageBody(Message message) {
+	@Override
+	public byte[] writeMessageBody(Message message) {
 		//写入具体消息的内容
 		byte[] body = null;
 		Class<Message> msgClazz = (Class<Message>) message.getClass();

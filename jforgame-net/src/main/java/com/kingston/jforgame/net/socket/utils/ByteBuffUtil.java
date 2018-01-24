@@ -1,11 +1,11 @@
-package com.kingston.jforgame.net.socket.codec.reflect;
+package com.kingston.jforgame.net.socket.utils;
 
 import java.io.UnsupportedEncodingException;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
-public final class ByteBuffUtils {
-	
+public final class ByteBuffUtil {
+
 	public static String readUtf8(IoBuffer buf){
 		int strSize = buf.getInt();
 		byte[] content = new byte[strSize];

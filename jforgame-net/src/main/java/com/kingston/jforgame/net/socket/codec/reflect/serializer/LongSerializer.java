@@ -1,4 +1,4 @@
-package com.kingston.jforgame.net.socket.codec.reflect;
+package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
@@ -9,11 +9,9 @@ public class LongSerializer extends Serializer {
 		return Long.valueOf(in.getLong());
 	}
 	
-
 	@Override
 	public void encode(IoBuffer out, Object value, Class wrapper) {
 		out.putLong((long)value);
 	}
-	
 
 }
