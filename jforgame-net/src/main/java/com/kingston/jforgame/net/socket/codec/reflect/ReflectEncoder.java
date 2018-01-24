@@ -1,6 +1,4 @@
-package com.kingston.jforgame.net.socket.codec;
-
-import java.io.IOException;
+package com.kingston.jforgame.net.socket.codec.reflect;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -9,15 +7,13 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.baidu.bjf.remoting.protobuf.Codec;
-import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
+import com.kingston.jforgame.net.socket.codec.CodecContext;
 import com.kingston.jforgame.net.socket.message.Message;
-import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
-public class MessageEncoder implements ProtocolEncoder {
+public class ReflectEncoder implements ProtocolEncoder {
 
-	private static Logger logger = LoggerFactory.getLogger(MessageEncoder.class);
+	private static Logger logger = LoggerFactory.getLogger(ReflectEncoder.class);
 
 	@Override
 	public void dispose(IoSession arg0) throws Exception {
@@ -53,8 +49,7 @@ public class MessageEncoder implements ProtocolEncoder {
 		buffer.putShort(cmd);
 
 		//写入具体消息的内容
-		byte[] body = wrapMessageBody(moduleId, cmd, message);
-		buffer.put(body);
+		wrapMessageBody(message, buffer);
 		//回到buff字节数组头部
 		buffer.flip();
 		//消息元信息，两个short，共4个字节
@@ -66,18 +61,15 @@ public class MessageEncoder implements ProtocolEncoder {
 		return buffer;
 	}
 
-	private byte[] wrapMessageBody(short module, short cmd, Message message) {
+	private void wrapMessageBody(Message message, IoBuffer out) {
 		//写入具体消息的内容
-		byte[] body = null;
-		@SuppressWarnings("unchecked")
-		Class<Message> msgClazz = (Class<Message>) MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
-			Codec<Message> codec = ProtobufProxy.create(msgClazz);
-			body = codec.encode(message);
-		} catch (IOException e) {
-			logger.error("", e);
+			Serializer messageCodec = Serializer.getSerializer(message.getClass());
+			messageCodec.encode(out, message, null);
+		} catch (Exception e) {
+			logger.error("读取消息出错,模块号{}，类型{},异常{}",
+					new Object[]{message.getModule(), message.getCmd() ,e});
 		}
-		return body;
 	}
 
 }

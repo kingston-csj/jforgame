@@ -1,6 +1,5 @@
-package com.kingston.jforgame.net.socket.codec;
+package com.kingston.jforgame.net.socket.codec.reflect;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.mina.core.buffer.IoBuffer;
@@ -10,8 +9,7 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.baidu.bjf.remoting.protobuf.Codec;
-import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
+import com.kingston.jforgame.net.socket.codec.CodecContext;
 import com.kingston.jforgame.net.socket.combine.CombineMessage;
 import com.kingston.jforgame.net.socket.combine.Packet;
 import com.kingston.jforgame.net.socket.message.Message;
@@ -19,9 +17,9 @@ import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
-public class MessageDecoder implements ProtocolDecoder{
+public class ReflectDecoder implements ProtocolDecoder {
 
-	private static Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
+	private static Logger logger = LoggerFactory.getLogger(ReflectDecoder.class);
 
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
@@ -52,9 +50,9 @@ public class MessageDecoder implements ProtocolDecoder{
 			if (ioBuffer.remaining() >= length) {
 				short moduleId =  ioBuffer.getShort();
 				short cmd = ioBuffer.getShort();
-				byte[] body = new byte[length-METE_SIZE];
-				ioBuffer.get(body);
-				Message msg = readMessage(moduleId, cmd, body);
+//				byte[] body = new byte[length-METE_SIZE];
+//				ioBuffer.get(body);
+				Message msg = readMessage(moduleId, cmd, ioBuffer);
 
 				if (moduleId > 0) {
 					out.write(msg);
@@ -80,18 +78,18 @@ public class MessageDecoder implements ProtocolDecoder{
 		}
 	}
 
-	private Message readMessage(short module, short cmd, byte[] body) {
+	private Message readMessage(short module, short cmd, IoBuffer in) {
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
-			Codec<?> codec = ProtobufProxy.create(msgClazz);
-			Message message = (Message) codec.decode(body);
+			Serializer messageCodec = Serializer.getSerializer(msgClazz);
+			Message message = (Message) messageCodec.decode(in, msgClazz, null);
 			return message;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("读取消息出错,模块号{}，类型{},异常{}", new Object[]{module, cmd ,e});
 		}
 		return null;
 	}
-
+	
 	public void dispose(IoSession arg0) throws Exception {
 
 	}
