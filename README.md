@@ -1,7 +1,7 @@
   ## 中文 | [English](README_EN.md)  
   
   ## 项目介绍　　
-  jforgame，是一个用java编写的轻量级高性能手游服务端框架。项目提供各种支持快速二次开发的组件，以及对生产环境的服务进行管理的工具。同时，为了使用户能够快速上手，项目提供了若干常用业务功能作为演示，
+  jforgame，是一个用java编写的轻量级高性能手游服务端框架。项目提供各种支持快速二次开发的组件，以及对生产环境的服务进行管理的工具。同时，为了使用户能够快速上手，项目提供了若干常用业务功能作为演示
 
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
@@ -13,7 +13,7 @@
 
 
   ## 模块组织结构  
-  ``` lua
+  ``` 
   jforgame
   ├── jforgame-common  --基础公共服务  
   ├── jforgame-admin   --后台管理web工具     
@@ -58,12 +58,12 @@
   5. 启动客户端，入口为ClientStartup类;
 
 
-  各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki)  
+  各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
   本栏目详细教程 --> [csdn博客](http://blog.csdn.net/column/details/16043.html)
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
 
   ## 一起交流
-  如果您发现bug，或者有任何疑问，请提交issue!!
+  如果您发现bug，或者有任何疑问，请提交issue !!
   
