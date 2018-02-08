@@ -1,11 +1,12 @@
-package com.kingston.jforgame.server.game.gm;
+package com.kingston.jforgame.server.game.gm.facade;
 
 import com.kingston.jforgame.net.socket.annotation.Controller;
 import com.kingston.jforgame.net.socket.annotation.RequestMapping;
+import com.kingston.jforgame.server.game.gm.GmManager;
 import com.kingston.jforgame.server.game.gm.message.ReqGmExecMessage;
 
 @Controller
-public class GmFacade {
+public class GmController {
 
 	@RequestMapping
 	public void reqExecGm(long playerId, ReqGmExecMessage msg) {
