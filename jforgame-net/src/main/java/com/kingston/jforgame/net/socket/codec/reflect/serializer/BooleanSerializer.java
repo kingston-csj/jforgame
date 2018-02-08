@@ -2,16 +2,18 @@ package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+import com.kingston.jforgame.net.socket.utils.ByteBuffUtil;
+
 public class BooleanSerializer extends Serializer {
 
 	@Override
 	public Boolean decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
-		return in.get() == 1;
+		return ByteBuffUtil.readBoolean(in);
 	}
 
 	@Override
 	public void encode(IoBuffer out, Object value, Class<?> wrapper) {
-		out.put((boolean) value ? (byte)1 : (byte)0);
+		ByteBuffUtil.writeBoolean(out, (boolean)value);
 	}
 
 }

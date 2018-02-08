@@ -2,16 +2,18 @@ package com.kingston.jforgame.net.socket.codec.reflect.serializer;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+import com.kingston.jforgame.net.socket.utils.ByteBuffUtil;
+
 public class IntSerializer extends Serializer {
 
 	@Override
 	public Integer decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
-		return Integer.valueOf(in.getInt());
+		return ByteBuffUtil.readInt(in);
 	}
 
 	@Override
 	public void encode(IoBuffer out, Object value, Class<?> wrapper) {
-		out.putInt((int)value);
+		ByteBuffUtil.writeInt(out, (int)value);
 	}
 
 }
