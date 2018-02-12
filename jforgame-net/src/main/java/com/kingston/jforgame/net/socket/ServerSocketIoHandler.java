@@ -22,7 +22,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	}
 
 	@Override
-	public void messageReceived(IoSession session, Object data ) throws Exception
+	public void messageReceived(IoSession session, Object data) throws Exception
 	{
 		Message message = (Message)data;
 		System.err.println("received message -->" + message);

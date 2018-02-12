@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.net.socket.message.MessagePusher;
 
 /**
  * when server receives a message, wrapped it into a MessageTask,
@@ -41,7 +42,10 @@ public class MessageTask extends AbstractDistributeTask {
 	@Override
 	public void action() {
 		try{
-			method.invoke(handler, params);
+			Object response = method.invoke(handler, params);
+			if (response != null) {
+				MessagePusher.pushMessage(playerId, (Message)response);
+			}
 		}catch(Exception e){
 			logger.error("message task execute failed ", e);
 		}
