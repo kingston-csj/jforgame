@@ -15,15 +15,12 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import org.slf4j.Logger;
-
 import com.kingston.jforgame.server.game.player.PlayerManager;
-import com.kingston.jforgame.server.logs.LoggerSystem;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public class GameMonitor implements GameMonitorMXBean{
 
-	private Logger logger = LoggerSystem.MONITOR.getLogger();
+//	private Logger logger = LoggerSystem.MONITOR.getLogger();
 
 	@Override
 	public int getOnlinePlayerSum() {

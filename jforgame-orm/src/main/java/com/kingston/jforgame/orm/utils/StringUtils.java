@@ -1,4 +1,4 @@
-package com.kingston.orm.utils;
+package com.kingston.jforgame.orm.utils;
 
 public class StringUtils {
 

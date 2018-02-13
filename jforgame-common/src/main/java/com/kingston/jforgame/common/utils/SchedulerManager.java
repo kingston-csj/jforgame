@@ -9,7 +9,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import com.kingston.jforgame.common.utils.NamedThreadFactory;
+import com.kingston.jforgame.common.thread.NamedThreadFactory;
+
 
 /**
  * 调度任务工具

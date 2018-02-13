@@ -9,7 +9,7 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.orm.utils.DbHelper;
+import com.kingston.jforgame.orm.utils.DbHelper;
 
 /**
  * 使用proxool数据源对orm-DbUtils的进一步封装

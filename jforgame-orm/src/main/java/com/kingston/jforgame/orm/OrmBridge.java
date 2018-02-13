@@ -1,4 +1,4 @@
-package com.kingston.orm;
+package com.kingston.jforgame.orm;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

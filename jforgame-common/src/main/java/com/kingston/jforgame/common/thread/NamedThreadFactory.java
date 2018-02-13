@@ -1,4 +1,4 @@
-package com.kingston.jforgame.common.utils;
+package com.kingston.jforgame.common.thread;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

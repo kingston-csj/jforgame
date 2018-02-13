@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.kingston.orm.cache.AbstractCacheable;
+import com.kingston.jforgame.orm.cache.AbstractCacheable;
 
 @Entity(name="player")
 public class Player extends AbstractCacheable {

@@ -1,4 +1,4 @@
-package com.kingston.orm.utils;
+package com.kingston.jforgame.orm.utils;
 
 import java.lang.reflect.Method;
 
@@ -10,4 +10,5 @@ public class ReflectUtils {
 		Method method = obj.getClass().getMethod(methodName);
 		return method.invoke(obj);
 	}
+
 }

@@ -3,8 +3,8 @@ package com.kingston.jforgame.server.db;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.common.utils.BlockingUniqueQueue;
-import com.kingston.jforgame.common.utils.NamedThreadFactory;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
@@ -67,5 +67,5 @@ public class DbService {
 			entity.resetDbStatus();
 		}
 	}
-	
+
 }

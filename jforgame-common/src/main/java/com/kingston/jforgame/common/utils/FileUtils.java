@@ -25,9 +25,9 @@ public class FileUtils {
 		// 指定读取文件时以UTF-8的格式读取 
 		try(BufferedReader br = new BufferedReader(
 				new InputStreamReader(in, "UTF-8"))) {
-			String str; 
-			while ((str = br.readLine()) != null) {
-				result.append(str).append("\n");
+			String line; 
+			while ((line = br.readLine()) != null) {
+				result.append(line).append("\n");
 			}
 		}
 		return result.toString();

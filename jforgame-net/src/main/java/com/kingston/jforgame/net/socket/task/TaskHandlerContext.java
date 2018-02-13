@@ -8,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.jforgame.common.utils.NamedThreadFactory;
+import com.kingston.jforgame.common.thread.NamedThreadFactory;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 

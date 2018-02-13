@@ -1,9 +1,9 @@
-package com.kingston.orm.utils;
+package com.kingston.jforgame.orm.utils;
 
-import com.kingston.orm.OrmBridge;
-import com.kingston.orm.OrmProcessor;
-import com.kingston.orm.SqlFactory;
-import com.kingston.orm.cache.AbstractCacheable;
+import com.kingston.jforgame.orm.OrmBridge;
+import com.kingston.jforgame.orm.OrmProcessor;
+import com.kingston.jforgame.orm.SqlFactory;
+import com.kingston.jforgame.orm.cache.AbstractCacheable;
 
 public class SqlUtils {
 

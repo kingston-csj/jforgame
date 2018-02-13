@@ -2,7 +2,7 @@ package com.kingston.jforgame.server.db;
 
 import java.io.Serializable;
 
-import com.kingston.orm.cache.AbstractCacheable;
+import com.kingston.jforgame.orm.cache.AbstractCacheable;
 
 /**
  * abstract base class for db entity

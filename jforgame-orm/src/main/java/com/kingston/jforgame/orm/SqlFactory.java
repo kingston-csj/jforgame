@@ -1,4 +1,4 @@
-package com.kingston.orm;
+package com.kingston.jforgame.orm;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.orm.utils.ReflectUtils;
+import com.kingston.jforgame.orm.utils.ReflectUtils;
 
 public class SqlFactory {
 

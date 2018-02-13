@@ -1,4 +1,4 @@
-package com.kingston.orm;
+package com.kingston.jforgame.orm;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,10 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.kingston.orm.exception.OrmConfigExcpetion;
-import com.kingston.orm.utils.ClassFilter;
-import com.kingston.orm.utils.ClassScanner;
-import com.kingston.orm.utils.StringUtils;
+import com.kingston.jforgame.common.utils.ClassScanner;
+import com.kingston.jforgame.orm.exception.OrmConfigExcpetion;
+import com.kingston.jforgame.orm.utils.StringUtils;
 
 public enum OrmProcessor {
 
@@ -77,13 +76,7 @@ public enum OrmProcessor {
 	}
 
 	private Set<Class<?>> listEntityClazzs(String scanPath) {
-		return ClassScanner.getClasses(scanPath,
-				new ClassFilter() {
-			@Override
-			public boolean accept(Class<?> clazz) {
-				return clazz.getAnnotation(Entity.class) != null;
-			}
-		});
+		return ClassScanner.listClassesWithAnnotation(scanPath, Entity.class);
 	}
 
 	public OrmBridge getOrmBridge(Class<?> clazz) {

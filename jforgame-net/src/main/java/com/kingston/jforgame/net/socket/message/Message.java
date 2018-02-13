@@ -20,7 +20,7 @@ public abstract class Message {
 	}
 
 	/**
-	 * messageMeta, subType of message
+	 * messageMeta, subType of module
 	 * @return
 	 */
 	public short getCmd() {

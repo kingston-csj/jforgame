@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.kingston.jforgame.orm.utils.DbHelper;
+import com.kingston.jforgame.orm.utils.StringUtils;
 import com.kingston.jforgame.server.db.DbUtils;
-import com.kingston.orm.utils.DbHelper;
-import com.kingston.orm.utils.StringUtils;
 
 /**
  * generate db pojo class from jdbc table automatically

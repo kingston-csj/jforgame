@@ -1,4 +1,4 @@
-package com.kingston.orm.utils;
+package com.kingston.jforgame.orm.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,9 +14,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.orm.BeanProcessor;
-import com.kingston.orm.OrmBridge;
-import com.kingston.orm.OrmProcessor;
+import com.kingston.jforgame.orm.BeanProcessor;
+import com.kingston.jforgame.orm.OrmBridge;
+import com.kingston.jforgame.orm.OrmProcessor;
 
 public class DbHelper {
 

@@ -15,6 +15,7 @@ import com.kingston.jforgame.net.http.HttpServer;
 import com.kingston.jforgame.net.socket.SocketServer;
 import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.net.socket.task.TaskHandlerContext;
+import com.kingston.jforgame.orm.OrmProcessor;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SchedulerHelper;
@@ -23,7 +24,6 @@ import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMXBean;
 import com.kingston.jforgame.server.redis.RedisCluster;
-import com.kingston.orm.OrmProcessor;
 
 public class GameServer {
 

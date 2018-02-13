@@ -1,6 +1,6 @@
-package com.kingston.orm.cache;
+package com.kingston.jforgame.orm.cache;
 
-import com.kingston.orm.utils.SqlUtils;
+import com.kingston.jforgame.orm.utils.SqlUtils;
 
 public abstract class AbstractCacheable extends Cacheable {
 

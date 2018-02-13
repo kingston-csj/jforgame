@@ -1,4 +1,4 @@
-package com.kingston.orm;
+package com.kingston.jforgame.orm;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

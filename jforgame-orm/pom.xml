@@ -19,6 +19,13 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.kingston</groupId>
+			<artifactId>jforgame-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
 		<dependency>
 			<groupId>javax.persistence</groupId>

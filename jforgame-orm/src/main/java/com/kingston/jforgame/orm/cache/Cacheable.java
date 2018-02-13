@@ -1,4 +1,4 @@
-package com.kingston.orm.cache;
+package com.kingston.jforgame.orm.cache;
 
 public abstract class Cacheable {
 

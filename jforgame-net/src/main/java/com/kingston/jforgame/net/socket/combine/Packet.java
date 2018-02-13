@@ -1,8 +1,5 @@
 package com.kingston.jforgame.net.socket.combine;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.jforgame.net.socket.codec.IMessageDecoder;
@@ -33,16 +30,16 @@ public class Packet {
 		Packet packet  = new Packet();
 		packet.module  = message.getModule();
 		packet.cmd     = message.getCmd();
-		
+
 		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getCodecFactory().getMessageEncoder();
 		packet.body = msgEncoder.writeMessageBody(message);
-		
+
 		return packet;
 	}
 
 	public static Message asMessage(Packet packet) {
 		IMessageDecoder msgEncoder = SerializerHelper.getInstance().getCodecFactory().getMessageDecoder();
-		
+
 		return msgEncoder.readMessage((short)packet.module, (short)packet.cmd, packet.body);
 	}
 

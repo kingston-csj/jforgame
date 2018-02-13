@@ -33,8 +33,6 @@ public class SocketServer {
 
 	private SocketAcceptor acceptor;
 
-//	private int serverPort = ServerConfig.getInstance().getServerPort();
-
 	/**
 	 * start Mina serversocket
 	 * @throws Exception
