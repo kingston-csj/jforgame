@@ -52,7 +52,7 @@
 
   ## 快速开始  
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
-  2. 将代码导入带有maven插件的IDE;  
+  2. 将代码导入带有maven插件的IDE(选择主目录下的pom.xml文件);  
   3. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
   4. 启动服务端，入口为ServerStartup类;  
   5. 启动客户端，入口为ClientStartup类;
