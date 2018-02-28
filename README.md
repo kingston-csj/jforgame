@@ -50,6 +50,13 @@
   maven | 依赖管理及项目构建 | [http://maven.apache.org/](http://maven.apache.org/)  
 
 
+  ## ToDoList  
+  * 后台管理工具web工程  
+  * 跨服玩法基础  
+  * 跨服匹配服工程  
+  * 更多基础设施与业务演示  
+  
+
   ## 快速开始  
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
   2. 将代码导入带有maven插件的IDE(选择主目录下的pom.xml文件);  
