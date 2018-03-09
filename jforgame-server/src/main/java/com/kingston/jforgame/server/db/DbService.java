@@ -46,11 +46,14 @@ public class DbService {
 		@Override
 		public void run() {
 			while(run.get()) {
+				BaseEntity entity = null;
 				try {
-					BaseEntity entity = queue.take();
+					entity = queue.take();
 					saveToDb(entity);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					LoggerUtils.error("", e);
+					// 有可能是并发抛错，重新放入队列
+					add2Queue(entity);
 				}
 			}
 		}

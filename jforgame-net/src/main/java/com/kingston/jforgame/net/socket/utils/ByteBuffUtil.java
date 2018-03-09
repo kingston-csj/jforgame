@@ -43,6 +43,7 @@ public final class ByteBuffUtil {
 	}
 
 	public static int readInt(IoBuffer buf) {
+		// TODO int变长压缩？？！！
 		return buf.getInt();
 	}
 
