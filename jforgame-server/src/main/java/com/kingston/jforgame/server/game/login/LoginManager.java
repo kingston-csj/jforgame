@@ -14,7 +14,7 @@ import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterSceneMessag
 
 public class LoginManager {
 
-	private static LoginManager instance = new LoginManager();
+	private static volatile LoginManager instance = new LoginManager();
 
 	private LoginManager() {}
 

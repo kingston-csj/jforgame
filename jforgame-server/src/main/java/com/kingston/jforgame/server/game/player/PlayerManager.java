@@ -20,7 +20,7 @@ import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
  */
 public class PlayerManager extends CacheService<Long, Player> {
 
-	private static PlayerManager instance = new PlayerManager();
+	private static volatile PlayerManager instance = new PlayerManager();
 
 	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
 

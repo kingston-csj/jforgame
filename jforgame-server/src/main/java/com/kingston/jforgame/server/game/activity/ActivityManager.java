@@ -9,7 +9,7 @@ import com.kingston.jforgame.server.game.database.user.player.Player;
 
 public class ActivityManager {
 
-	private static ActivityManager instance = new ActivityManager();
+	private static volatile ActivityManager instance = new ActivityManager();
 
 	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
 													new NamedThreadFactory("activity-scheduler"));

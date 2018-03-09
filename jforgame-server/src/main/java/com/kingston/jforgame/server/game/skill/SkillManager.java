@@ -8,7 +8,7 @@ import com.kingston.jforgame.server.listener.GameEvent;
 
 public class SkillManager {
 
-	private static SkillManager instance = new SkillManager();
+	private static volatile SkillManager instance = new SkillManager();
 
 	public static SkillManager getInstance() {
 		return instance;
