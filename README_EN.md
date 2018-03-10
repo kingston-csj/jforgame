@@ -8,7 +8,8 @@
   ``` lua
   jforgame  
   ├── jforgame-common --base common service  
-  ├── jforgame-admin  --game admin web tool    
+  ├── jforgame-admin  --game admin web tool  
+  ├── jforgame-match  --cross matching service  
   ├── jforgame-net
   |    ├──  net package, including io message codec, message request mapper, message thread model  
   |    ├──  http package, http admin command for system administrator  

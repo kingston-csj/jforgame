@@ -1,6 +1,7 @@
 package com.kingston.jforgame.common.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -33,7 +34,7 @@ public class HttpUtil {
 		return result.toString();
 	}
 
-	public static String get(String urlAddr) throws Exception {
+	public static String get(String urlAddr) throws IOException {
 		HttpURLConnection uc = null;
 		try {
 			URL url = new URL(urlAddr);
@@ -55,9 +56,10 @@ public class HttpUtil {
 				}
 			}
 			return result.toString();
-		}catch(Exception e) {
-
-			return "";
+		} catch(IOException e1) {
+			throw e1;
+		} catch(Exception e) {
+			throw new IOException(e);
 		}finally {
 			if (uc != null && uc.getInputStream() != null) {
 				uc.getInputStream().close();
