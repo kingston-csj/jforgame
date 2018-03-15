@@ -28,9 +28,10 @@ public class MatchServer {
 	private IoAcceptor acceptor;
 
 	//http端口
-	int port = 8899;
+	int port;
 
-	public void start() throws Exception {
+	public void start(int port) throws Exception {
+		this.port = port;
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());
 		acceptor.setHandler(new HttpServerHandle());

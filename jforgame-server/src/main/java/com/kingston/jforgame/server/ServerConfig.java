@@ -15,6 +15,9 @@ public class ServerConfig {
 
 	private static ServerConfig instance = new ServerConfig();
 
+	/** 匹配服http地址 */
+	private String matchUrl;
+
 	/** redis server url {http:port} */
 	private String redisUrl;
 
@@ -50,6 +53,13 @@ public class ServerConfig {
 						GateServerConfig.whiteIpPattern = ips;
 					}
 				}
+			} else if ("match-server".equals(node.getNodeName())) {
+				NodeList subNodes = node.getChildNodes();
+				for (int j=0;j<subNodes.getLength();j++) {
+					if ("url".equals(subNodes.item(j).getNodeName())) {
+						this.matchUrl = subNodes.item(j).getTextContent();
+					}
+				}
 			} else if ("redis-server".equals(node.getNodeName())) {
 				NodeList subNodes = node.getChildNodes();
 				for (int j=0;j<subNodes.getLength();j++) {
@@ -78,6 +88,10 @@ public class ServerConfig {
 
 	public String getRedisUrl() {
 		return redisUrl;
+	}
+
+	public String getMatchUrl() {
+		return matchUrl;
 	}
 
 }
