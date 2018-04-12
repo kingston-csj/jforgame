@@ -11,6 +11,12 @@ import org.apache.mina.core.buffer.IoBuffer;
 
 import com.kingston.jforgame.net.socket.utils.ByteBuffUtil;
 
+/**
+* 
+* 集合属性序列化
+* 注：由于集合元素bean没有像Message一样注册id，
+* 因此集合的元素不能是父类或抽象类
+*/
 public class CollectionSerializer extends Serializer {
 
 	@Override

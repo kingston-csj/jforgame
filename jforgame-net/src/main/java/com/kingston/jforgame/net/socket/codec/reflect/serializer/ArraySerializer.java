@@ -7,6 +7,12 @@ import org.apache.mina.core.buffer.IoBuffer;
 import com.kingston.jforgame.net.socket.utils.ByteBuffUtil;
 import com.kingston.jforgame.net.socket.utils.ReflectUtil;
 
+/**
+* 
+* 数组属性序列化
+* 注：由于数组元素bean没有像Message一样注册id，
+* 因此数组的元素不能是父类或抽象类
+*/
 public class ArraySerializer extends Serializer {
 
 	@Override
