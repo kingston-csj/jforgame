@@ -1,8 +1,8 @@
 package com.kingston.jforgame.server.match.ladder.message;
 
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.server.match.MatchMessage;
 
-public class MReqLadderApplyMessage extends Message {
+public class MReqLadderApplyMessage extends MatchMessage {
 
 	private long playerId;
 

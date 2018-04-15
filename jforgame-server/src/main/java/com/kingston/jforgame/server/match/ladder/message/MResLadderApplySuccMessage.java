@@ -1,9 +1,9 @@
 package com.kingston.jforgame.server.match.ladder.message;
 
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.server.match.MatchMessage;
 
 
-public class MResLadderApplySuccMessage extends Message {
+public class MResLadderApplySuccMessage extends MatchMessage {
 
 	private byte code;
 

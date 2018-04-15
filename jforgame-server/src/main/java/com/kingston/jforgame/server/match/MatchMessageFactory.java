@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.net.socket.message.Message;
 
 public class MatchMessageFactory {
 
@@ -27,7 +26,7 @@ public class MatchMessageFactory {
 	}
 
 	public void initialize() {
-		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.match", Message.class);
+		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.match", MatchMessage.class);
 
 		for (Class<?> controller: messages) {
 			try {
