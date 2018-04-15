@@ -31,14 +31,14 @@ public class Packet {
 		packet.module  = message.getModule();
 		packet.cmd     = message.getCmd();
 
-		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getCodecFactory().getMessageEncoder();
+		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		packet.body = msgEncoder.writeMessageBody(message);
 
 		return packet;
 	}
 
 	public static Message asMessage(Packet packet) {
-		IMessageDecoder msgEncoder = SerializerHelper.getInstance().getCodecFactory().getMessageDecoder();
+		IMessageDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
 
 		return msgEncoder.readMessage((short)packet.module, (short)packet.cmd, packet.body);
 	}
