@@ -15,6 +15,11 @@ public class ServerConfig {
 
 	private static ServerConfig instance = new ServerConfig();
 
+	/** 服务器id */
+	public int serverId;
+	/** 服务器端口 */
+	public int serverPort;
+
 	/** 匹配服http地址 */
 	private String matchUrl;
 
@@ -38,9 +43,9 @@ public class ServerConfig {
 				NodeList subNodes = node.getChildNodes();
 				for (int j=0;j<subNodes.getLength();j++) {
 					if ("server_id".equals(subNodes.item(j).getNodeName())) {
-						GateServerConfig.serverId = Integer.parseInt(subNodes.item(j).getTextContent());
+						serverId = Integer.parseInt(subNodes.item(j).getTextContent());
 					} else if ("server_port".equals(subNodes.item(j).getNodeName())) {
-						GateServerConfig.serverPort = Integer.parseInt(subNodes.item(j).getTextContent());
+						serverPort = Integer.parseInt(subNodes.item(j).getTextContent());
 					}
 				}
 			} else if ("http-server".equals(node.getNodeName())) {
@@ -71,15 +76,15 @@ public class ServerConfig {
 			}
 		}
 
-		logger.info("本服serverId为{},后台端口为{}", GateServerConfig.serverId, GateServerConfig.httpPort);
+		logger.info("本服serverId为{},后台端口为{}", this.serverId, GateServerConfig.httpPort);
 	}
 
 	public int getServerId() {
-		return GateServerConfig.serverId;
+		return this.serverId;
 	}
 
 	public int getServerPort() {
-		return GateServerConfig.serverPort;
+		return this.serverPort;
 	}
 
 	public int getHttpPort() {

@@ -1,4 +1,4 @@
-package com.kingston.jforgame.net.socket;
+package com.kingston.jforgame.server.net;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
@@ -18,6 +18,8 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//import com.kingston.jforgame.net.socket.GateServerConfig;
+import com.kingston.jforgame.net.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.net.socket.codec.SerializerHelper;
 
 public class SocketServer {
@@ -37,7 +39,7 @@ public class SocketServer {
 	 * start Mina serversocket
 	 * @throws Exception
 	 */
-	public void start() throws Exception {
+	public void start(final int serverPort) throws Exception {
 		IoBuffer.setUseDirectBuffer(false);
 		IoBuffer.setAllocator(new SimpleBufferAllocator());
 
@@ -45,12 +47,11 @@ public class SocketServer {
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 
-		int serverPort = GateServerConfig.serverPort;
 		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
-		acceptor.setHandler( new ServerSocketIoHandler() );//指定业务逻辑处理器
+		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()) );//指定业务逻辑处理器
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号
 		acceptor.bind();//启动监听
 
@@ -69,7 +70,7 @@ public class SocketServer {
 			acceptor.unbind();
 			acceptor.dispose();
 		}
-		logger.error("---------> socket server stop at port:{}", GateServerConfig.serverPort);
+		logger.error("---------> socket server stop successfully");
 	}
 
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2018-04-21 22:41:54
+Date: 2018-04-21 23:43:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,7 +47,7 @@ CREATE TABLE `confignotice` (
 -- ----------------------------
 -- Records of confignotice
 -- ----------------------------
-INSERT INTO `confignotice` VALUES ('1', '基础', '0', '功能暂未开放');
+INSERT INTO `confignotice` VALUES ('1001', '基础', '0', '功能暂未开放');
 
 -- ----------------------------
 -- Table structure for configplayerlevel

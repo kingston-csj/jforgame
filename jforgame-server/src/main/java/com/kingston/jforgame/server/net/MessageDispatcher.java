@@ -1,4 +1,4 @@
-package com.kingston.jforgame.net.socket.message;
+package com.kingston.jforgame.server.net;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -13,37 +13,26 @@ import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.net.socket.annotation.Controller;
 import com.kingston.jforgame.net.socket.annotation.MessageMeta;
 import com.kingston.jforgame.net.socket.annotation.RequestMapping;
+import com.kingston.jforgame.net.socket.message.CmdExecutor;
+import com.kingston.jforgame.net.socket.message.IMessageDispatcher;
+import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 import com.kingston.jforgame.net.socket.task.MessageTask;
 import com.kingston.jforgame.net.socket.task.TaskHandlerContext;
 
-public class MessageDispatcher {
+public class MessageDispatcher implements IMessageDispatcher {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private volatile static MessageDispatcher instance;
 
     /** [module_cmd, CmdExecutor] */
     private static final Map<String, CmdExecutor> MODULE_CMD_HANDLERS = new HashMap<>();
 
-    public static MessageDispatcher getInstance() {
-        //double check
-        if (instance == null) {
-            synchronized (MessageDispatcher.class) {
-                if (instance == null) {
-                    instance = new MessageDispatcher();
-                }
-            }
-        }
-        return instance;
-    }
-
-    private MessageDispatcher() {
+    public MessageDispatcher() {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation("com.kingston.jforgame.server.game", Controller.class);
 
         for (Class<?> controller: controllers) {
@@ -94,11 +83,7 @@ public class MessageDispatcher {
         return null;
     }
 
-    /**
-     * message entrance, in which io thread dispatch messages
-     * @param session
-     * @param message
-     */
+    @Override
     public void dispatch(IoSession session, Message message) {
         short module = message.getModule();
         short cmd    = message.getCmd();
@@ -122,7 +107,6 @@ public class MessageDispatcher {
 //            cmdExecutor.getMethod().invoke(controller, params);
 //        }catch(Exception e) {
 //        }
-
     }
 
     /**
@@ -156,4 +140,3 @@ public class MessageDispatcher {
     }
 
 }
-

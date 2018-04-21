@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.net.http.HttpCommandManager;
 import com.kingston.jforgame.net.http.HttpServer;
-import com.kingston.jforgame.net.socket.SocketServer;
 import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.net.socket.task.TaskHandlerContext;
 import com.kingston.jforgame.orm.OrmProcessor;
@@ -23,6 +22,7 @@ import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMXBean;
+import com.kingston.jforgame.server.net.SocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 
 public class GameServer {
@@ -86,7 +86,7 @@ public class GameServer {
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 		//启动socket服务
 		socketServer = new SocketServer();
-		socketServer.start();
+		socketServer.start(ServerConfig.getInstance().getServerPort());
 		//启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();
