@@ -3,6 +3,7 @@ package com.kingston.jforgame.server.game.database.config;
 import java.lang.reflect.Field;
 
 import com.kingston.jforgame.server.game.database.config.container.ConfigConstantContainer;
+import com.kingston.jforgame.server.game.database.config.container.ConfigNoticeContainer;
 import com.kingston.jforgame.server.game.database.config.container.ConfigPlayerLevelContainer;
 import com.kingston.jforgame.server.game.database.config.container.ConfigSkillContainer;
 import com.kingston.jforgame.server.logs.LoggerUtils;
@@ -12,21 +13,23 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * @author kingston
  */
 public class ConfigDatasPool {
-	
-	private static ConfigDatasPool instance = new ConfigDatasPool(); 
-	
+
+	private static ConfigDatasPool instance = new ConfigDatasPool();
+
 	private ConfigDatasPool() {}
-	
+
 	public static ConfigDatasPool getInstance() {
 		return instance;
 	}
-	
+
 	public ConfigPlayerLevelContainer configPlayerLevelContainer = new ConfigPlayerLevelContainer();
 
 	public ConfigSkillContainer configSkillContainer = new ConfigSkillContainer();
-	
+
 	public ConfigConstantContainer configConstantContainer = new ConfigConstantContainer();
-	
+
+	public ConfigNoticeContainer configNoticeContainer = new ConfigNoticeContainer();
+
 	/**
 	 * 起服读取所有的配置数据
 	 */
@@ -45,8 +48,8 @@ public class ConfigDatasPool {
 				System.exit(0);
 			}
 		}
-		
+
 	}
-	
-	
+
+
 }

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 import com.kingston.jforgame.server.game.activity.ActivityTypes;
 
-@Entity()
+@Entity
 public class ConfigActivity {
 
 	@Column

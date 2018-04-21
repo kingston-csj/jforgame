@@ -3,6 +3,9 @@ package com.kingston.jforgame.server.game;
 public interface Modules {
 
 	//------------------底层功能支持模块（从0到100）-----------------
+
+	int BASE = 0;
+
 	int GM = 1;
 
 	//------------------业务功能模块（101开始）---------------------
