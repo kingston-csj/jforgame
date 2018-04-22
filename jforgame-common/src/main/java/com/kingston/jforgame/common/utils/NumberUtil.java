@@ -2,6 +2,24 @@ package com.kingston.jforgame.common.utils;
 
 public final class NumberUtil {
 
+	public static boolean booleanValue(Object object) {
+		return booleaneValue(object, Boolean.FALSE);
+	}
+
+	public static boolean booleaneValue(Object object, boolean defaultValue) {
+		if (object == null) {
+			return defaultValue;
+		}
+		if (object.getClass() == boolean.class || object.getClass() == Boolean.class) {
+			return (boolean)object;
+		}
+		try {
+			return Boolean.valueOf(object.toString());
+		}catch(Exception e) {
+			return defaultValue;
+		}
+	}
+
 	public static byte byteValue(Object object) {
 		return byteValue(object, Byte.valueOf("0"));
 	}

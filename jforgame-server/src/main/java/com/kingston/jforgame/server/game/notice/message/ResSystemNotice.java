@@ -55,5 +55,9 @@ public class ResSystemNotice extends Message {
 		this.numberParams = numberParams;
 	}
 
+	@Override
+	public String toString() {
+		return "ResSystemNotice [noticeId=" + noticeId + "]";
+	}
 
 }

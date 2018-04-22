@@ -30,6 +30,7 @@ public enum MessageFactory {
 				throw new RuntimeException("message meta ["+key+"] duplicate！！");
 			}
 			id2Clazz.put(key,clazz);
+			clazz2Id.put(clazz, key);
 		}
 	}
 
