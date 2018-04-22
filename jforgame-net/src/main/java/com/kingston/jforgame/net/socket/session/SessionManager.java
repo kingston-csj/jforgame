@@ -30,11 +30,12 @@ public enum SessionManager {
 	 * @return
 	 */
 	public long getPlayerIdBy(IoSession session) {
-		long result = 0;
 		if (session != null) {
-			result = getSessionAttr(session, SessionProperties.PLAYER_ID, Long.class);
+			if (session.containsAttribute(SessionProperties.PLAYER_ID)) {
+				return getSessionAttr(session, SessionProperties.PLAYER_ID, Long.class);
+			}
 		}
-		return result;
+		return 0;
 	}
 
 	public IoSession getSessionBy(long playerId) {

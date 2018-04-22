@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 //import com.kingston.jforgame.net.socket.GateServerConfig;
 import com.kingston.jforgame.net.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.net.socket.codec.SerializerHelper;
+import com.kingston.jforgame.server.net.filter.MessageTraceFilter;
 import com.kingston.jforgame.server.net.filter.ModuleEntranceFilter;
 
 public class SocketServer {
@@ -53,6 +54,7 @@ public class SocketServer {
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		filterChain.addLast("moduleEntrance", new ModuleEntranceFilter());
+		filterChain.addLast("msgTrace", new MessageTraceFilter());
 		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()) );//指定业务逻辑处理器
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号
 		acceptor.bind();//启动监听
