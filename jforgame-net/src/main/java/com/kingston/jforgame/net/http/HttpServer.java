@@ -29,7 +29,7 @@ public class HttpServer {
 
 	private IoAcceptor acceptor;
 
-	//http端口
+	/** http端口 */
 	int port = GateServerConfig.httpPort;
 
 	public void start() throws Exception {
@@ -104,9 +104,10 @@ class HttpServerHandle extends IoHandlerAdapter {
 			IoBuffer responseIoBuffer = IoBuffer.allocate(contentLength);
 			responseIoBuffer.put(responseBytes);
 			responseIoBuffer.flip();
-
-			session.write(response); // 响应的status line和header部分
-			session.write(responseIoBuffer); // 响应body部分
+			// 响应的status line和header部分
+			session.write(response);
+			// 响应body部分
+			session.write(responseIoBuffer);
 		}
 	}
 

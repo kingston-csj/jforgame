@@ -15,6 +15,7 @@ import com.kingston.jforgame.net.socket.session.SessionProperties;
 
 public class MinaDecoder implements ProtocolDecoder {
 
+	@Override
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
 		CodecContext context = SessionManager.INSTANCE.getSessionAttr(session, SessionProperties.CODEC_CONTEXT, CodecContext.class);
@@ -74,10 +75,12 @@ public class MinaDecoder implements ProtocolDecoder {
 		}
 	}
 
+	@Override
 	public void dispose(IoSession arg0) throws Exception {
 
 	}
 
+	@Override
 	public void finishDecode(IoSession arg0, ProtocolDecoderOutput arg1) throws Exception {
 
 	}

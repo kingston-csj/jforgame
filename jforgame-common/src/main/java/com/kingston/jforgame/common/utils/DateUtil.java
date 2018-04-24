@@ -11,6 +11,7 @@ import java.util.Date;
 public class DateUtil {
 
 	private static ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>() {
+		@Override
 		public SimpleDateFormat initialValue() {
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		}

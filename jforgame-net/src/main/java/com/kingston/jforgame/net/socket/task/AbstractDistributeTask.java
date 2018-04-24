@@ -14,10 +14,12 @@ public abstract class AbstractDistributeTask implements IDistributeTask{
 	/** end time when task finish */
 	private long endMillis;
 
+	@Override
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
 
+	@Override
 	public int distributeKey() {
 		return distributeKey;
 	}

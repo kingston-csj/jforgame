@@ -11,7 +11,9 @@ public enum DirtyWordsValidator {
 
     private Map<Character,List<String>> dirtyWords = new HashMap<>();
     private int nDirtyWord =  0;
-    private final int INDENT_THRESHOLD =  10;  //表示与接下来的10个字符构成检测单元
+
+    /** 表示与接下来的10个字符构成检测单元 */
+    private final int INDENT_THRESHOLD =  10;
 
     private DirtyWordsReader wordsReader = DirtyWordsReader.INSTANCE;
 

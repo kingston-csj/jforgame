@@ -8,7 +8,7 @@ import com.kingston.game.player.PlayerManager;
 public class CommonScript {
 
 	public CommonScript() {
-		PlayerManager newMgr = new PlayerManager() {
+		nager newMgr = new nager() {
 			//replace class, u can add private fields
 			private String newField = "newField";
 			//replace class, u can add private methods

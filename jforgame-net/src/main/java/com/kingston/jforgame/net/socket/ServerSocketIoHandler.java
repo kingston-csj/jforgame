@@ -36,6 +36,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 		messageDispatcher.dispatch(session, message);
 	}
 
+	@Override
 	 public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		 logger.error("server exception", cause);
 	 }

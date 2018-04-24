@@ -45,9 +45,10 @@ public class HttpMessagePusher {
 		IoBuffer responseIoBuffer = IoBuffer.allocate(contentLength);
 		responseIoBuffer.put(responseBytes);
 		responseIoBuffer.flip();
-
-		session.write(response); // 响应的status line和header部分
-		session.write(responseIoBuffer); // 响应body部分
+		// 响应的status line和header部分
+		session.write(response);
+		// 响应body部分
+		session.write(responseIoBuffer);
 	}
 
 }

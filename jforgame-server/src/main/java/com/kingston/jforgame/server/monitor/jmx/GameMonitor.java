@@ -18,7 +18,7 @@ import javax.script.ScriptEngineManager;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class GameMonitor implements GameMonitorMXBean{
+public class GameMonitor implements GameMonitorMxBean{
 
 //	private Logger logger = LoggerSystem.MONITOR.getLogger();
 
@@ -34,9 +34,12 @@ public class GameMonitor implements GameMonitorMXBean{
 		StringBuilder result = new StringBuilder();
 
 		try {
-			long freeMemory = Runtime.getRuntime().freeMemory() / ONE_MB;   // 空闲内存
-			long totalMemory = Runtime.getRuntime().totalMemory() / ONE_MB; // 当前内存
-			long maxMemory = Runtime.getRuntime().maxMemory() / ONE_MB; // 最大可使用内存
+			// 空闲内存
+			long freeMemory = Runtime.getRuntime().freeMemory() / ONE_MB;
+			// 当前内存
+			long totalMemory = Runtime.getRuntime().totalMemory() / ONE_MB;
+			// 最大可使用内存
+			long maxMemory = Runtime.getRuntime().maxMemory() / ONE_MB;
 			result.append(String.format("freeMemory: %s mb", freeMemory)).append(newLine);
 			result.append(String.format(String.format("usedMemory: %s mb", (totalMemory - freeMemory)))).append(newLine);
 			result.append(String.format("totalMemory: %s mb", totalMemory)).append(newLine);

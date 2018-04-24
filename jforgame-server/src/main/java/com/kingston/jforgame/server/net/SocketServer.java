@@ -18,7 +18,6 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import com.kingston.jforgame.net.socket.GateServerConfig;
 import com.kingston.jforgame.net.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.net.socket.codec.SerializerHelper;
 import com.kingston.jforgame.server.net.filter.MessageTraceFilter;

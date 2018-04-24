@@ -23,11 +23,13 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static ConcurrentMap<String, String> accounts;
 
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String accountParam = request.getParameter("account");

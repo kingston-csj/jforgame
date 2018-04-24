@@ -66,7 +66,8 @@ public class EventDispatcher {
 				try{
 					ListenerManager.INSTANCE.fireEvent(listener, event);
 				}catch(Exception e){
-					LoggerUtils.error("triggerEvent failed", e);;  //防止其中一个listener报异常而中断其他逻辑
+					//防止其中一个listener报异常而中断其他逻辑
+					LoggerUtils.error("triggerEvent failed", e);
 				}
 			});
 		}

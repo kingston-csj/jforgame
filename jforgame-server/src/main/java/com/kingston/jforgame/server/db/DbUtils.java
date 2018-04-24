@@ -20,9 +20,9 @@ public class DbUtils {
 	private static Logger logger = LoggerFactory.getLogger(DbUtils.class);
 
 	private static final String PROXOOL = "proxool.";
-	//策划数据库
+	/** 策划数据库*/
 	public static final String  DB_DATA = PROXOOL + "data";
-	//玩家数据库
+	/** 玩家数据库 */
 	public static final String  DB_USER = PROXOOL + "user";
 
 	public static void init() {

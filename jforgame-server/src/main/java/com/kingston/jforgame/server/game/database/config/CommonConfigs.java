@@ -7,6 +7,7 @@ import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
 public enum CommonConfigs {
 
 	PLAYER_MAX_LEVEL(1){
+		@Override
 		public void parseConfig() {
 		}
 	},

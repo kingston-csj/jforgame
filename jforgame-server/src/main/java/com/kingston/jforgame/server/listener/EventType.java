@@ -1,5 +1,6 @@
 package com.kingston.jforgame.server.listener;
 
+
 public enum EventType {
 
 	/** 登录事件  */

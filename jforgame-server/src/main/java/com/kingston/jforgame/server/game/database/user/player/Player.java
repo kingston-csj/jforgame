@@ -135,10 +135,12 @@ public class Player extends BaseEntity implements IDistributable {
 		this.platform = platform;
 	}
 
+	@Override
 	public void doAfterInit() {
 		PlayerSerializerUtil.deserialize(this);
 	}
 
+	@Override
 	public void doBeforeSave() {
 		PlayerSerializerUtil.serialize(this);
 	}

@@ -23,7 +23,7 @@ public abstract class AbstractCrossRank implements CrossRank {
 	@Protobuf
 	private int aid;
 	/** 32位时间戳 */
-	protected  long TIME_MAX_VALUE = 0xFFFFFFFFL; 
+	protected long TIME_MAX_VALUE = 0xFFFFFFFFL;
 
 	public AbstractCrossRank(long playerId, int score, int aid) {
 		this.playerId = playerId;
@@ -40,23 +40,28 @@ public abstract class AbstractCrossRank implements CrossRank {
 	public AbstractCrossRank() {
 		
 	}
-	
+
+	@Override
 	public int getServerId() {
 		return serverId;
 	}
-	
+
+	@Override
 	public long getPlayerId() {
 		return this.playerId;
 	}
 
+	@Override
 	public long getCreateTime() {
 		return createTime;
 	}
 
+	@Override
 	public int getScore() {
 		return score;
 	}
 
+	@Override
 	public int getAid() {
 		return aid;
 	}

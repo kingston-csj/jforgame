@@ -8,8 +8,9 @@ import java.lang.instrument.Instrumentation;
 
 public class MyAgent {
 
-	//该方法支持在JVM 启动后再启动代理，对应清单的Agent-Class:属性
-	public static void agentmain(String args,Instrumentation inst){
+
+	public static void agentmain(String args,Instrumentation inst) {
+		//该方法支持在JVM 启动后再启动代理，对应清单的Agent-Class:属性
 		try{
 			System.err.println("传进来的参数为"+args);
 			File f = new File(args);

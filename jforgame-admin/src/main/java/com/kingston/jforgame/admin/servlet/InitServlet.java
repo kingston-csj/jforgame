@@ -15,6 +15,7 @@ public class InitServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public void init() throws ServletException {
 		//TODO 这里读取配置有点恶心，应该有优雅的方法
 		String webInfoPath = getServletContext().getRealPath("/") + "WEB-INF";

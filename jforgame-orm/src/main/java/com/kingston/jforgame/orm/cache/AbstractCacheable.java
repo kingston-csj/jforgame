@@ -24,10 +24,12 @@ public abstract class AbstractCacheable extends Cacheable {
 		return this.status == DbStatus.DELETE;
 	}
 
+	@Override
 	public void setInsert() {
 		this.status = DbStatus.INSERT;
 	}
 
+	@Override
 	public final void setUpdate(){
 		//只有该状态才可以变更为update
 		if (this.status == DbStatus.NORMAL) {
@@ -35,6 +37,7 @@ public abstract class AbstractCacheable extends Cacheable {
 		}
 	}
 
+	@Override
 	public final void setDelete(){
 		if (this.status == DbStatus.INSERT) {
 			this.status = DbStatus.NORMAL;
@@ -47,6 +50,7 @@ public abstract class AbstractCacheable extends Cacheable {
 		this.status = DbStatus.NORMAL;
 	}
 
+	@Override
 	public final String getSaveSql() {
 		return SqlUtils.getSaveSql(this);
 	}

@@ -47,7 +47,8 @@ public enum HotswapManager {
 			String[] classStr = className.split("\\.");
 			String path = "./hotswap/"+classStr[classStr.length-1]+".class";
 			System.err.println("path=="+path);
-			vm.loadAgent("./agent/hotswap-agent.jar",path);//path参数即agentmain()方法的第一个参数
+			//path参数即agentmain()方法的第一个参数
+			vm.loadAgent("./agent/hotswap-agent.jar",path);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

@@ -27,7 +27,7 @@ public class MatchServer {
 
 	private IoAcceptor acceptor;
 
-	//http端口
+	/** http端口 */
 	int port;
 
 	public void start(int port) throws Exception {

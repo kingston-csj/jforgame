@@ -21,6 +21,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 
 	private boolean debug = true;
 
+	@Override
 	public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
 		if (debug && traceRequest(message)) {
 			logger.info("<<<<<<<<<<[{}]{}={}",
@@ -36,6 +37,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		return ! ignores.contains(message.getClass());
 	}
 
+	@Override
 	public void messageSent(NextFilter nextFilter, IoSession session, WriteRequest writeRequest) throws Exception {
 		Object message = writeRequest.getMessage();
 		if (debug && traceResponse(message)) {

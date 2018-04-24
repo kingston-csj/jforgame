@@ -1,14 +1,5 @@
 package com.kingston.jforgame.server;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-
-import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.net.http.HttpCommandManager;
 import com.kingston.jforgame.net.http.HttpServer;
@@ -21,9 +12,16 @@ import com.kingston.jforgame.server.game.core.SchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
-import com.kingston.jforgame.server.monitor.jmx.GameMonitorMXBean;
+import com.kingston.jforgame.server.monitor.jmx.GameMonitorMxBean;
 import com.kingston.jforgame.server.net.SocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 public class GameServer {
 
@@ -54,7 +52,7 @@ public class GameServer {
 
 		//mbean监控
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-		GameMonitorMXBean controller = new GameMonitor();
+		GameMonitorMxBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
 
 	}

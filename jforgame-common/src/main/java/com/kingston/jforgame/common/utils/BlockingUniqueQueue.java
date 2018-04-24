@@ -53,9 +53,11 @@ public class BlockingUniqueQueue<E> extends LinkedBlockingQueue<E> {
 	@Override
 	public synchronized boolean addAll(Collection<? extends E> c) {
 		boolean modified = false;
-		for (E e : c)
-			if (add(e))
+		for (E e : c) {
+			if (add(e)) {
 				modified = true;
+			}
+		}
 		return modified;
 	}
 

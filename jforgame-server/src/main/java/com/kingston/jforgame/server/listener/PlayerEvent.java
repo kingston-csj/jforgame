@@ -2,6 +2,7 @@ package com.kingston.jforgame.server.listener;
 
 /**
  * 玩家事件抽象类
+ * @author kingston
  */
 public abstract class PlayerEvent extends GameEvent {
 

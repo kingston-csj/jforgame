@@ -16,6 +16,7 @@ import com.kingston.jforgame.server.net.NetGateKeeper;
  */
 public class ModuleEntranceFilter extends IoFilterAdapter {
 
+	@Override
 	public void messageReceived(NextFilter nextFilter, IoSession session, Object packet) throws Exception {
 		Message message = (Message)packet;
 		int messageId = MessageFactory.INSTANCE.getMessageId(message.getClass());

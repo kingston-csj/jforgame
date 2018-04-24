@@ -10,15 +10,16 @@ import com.kingston.jforgame.server.game.crossrank.CrossRankKinds;
  */
 public class CrossLevelRank extends AbstractCrossRank {
 	
-	// just for jprotobuf
+
 	public CrossLevelRank() {
-		
+		// just for jprotobuf
 	}
 
 	public CrossLevelRank(long playerId, int score) {
 		super(playerId, score);
 	}
-	
+
+	@Override
 	public int getRankType() {
 		return  CrossRankKinds.LEVEL;
 	}
