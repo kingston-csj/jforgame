@@ -23,7 +23,7 @@ public abstract class AbstractCrossRank implements CrossRank {
 	@Protobuf
 	private int aid;
 	/** 32位时间戳 */
-	protected long TIME_MAX_VALUE = 0xFFFFFFFFL;
+	protected final long TIME_MAX_VALUE = 0xFFFFFFFFL;
 
 	public AbstractCrossRank(long playerId, int score, int aid) {
 		this.playerId = playerId;
@@ -80,10 +80,9 @@ public abstract class AbstractCrossRank implements CrossRank {
 	public double buildRankScore() {
 		//default rank score 
 		// score      |     createtime
-		//  20bits            32bits  
+		//  20bits            32bits
 		long timePart = (TIME_MAX_VALUE - getCreateTime()/1000) & TIME_MAX_VALUE;
 		long result  = (long)score << 32 | timePart;
-//		System.err.println(( (long)score << 32)+"|"+timePart+"|"+result);
 		return  result;
 	}
 

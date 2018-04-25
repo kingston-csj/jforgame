@@ -21,9 +21,9 @@ public class Packet {
 	/** body of each message */
 	private byte[] body ;
 
-	//just for protobuf
-	public Packet(){
 
+	public Packet(){
+		//just for protobuf
 	}
 
 	public static Packet valueOf(Message message) {

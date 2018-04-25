@@ -14,7 +14,7 @@ public class SchedulerHelper {
 
 	private static Scheduler scheduler;
 
-	private final static String configPath = "configs/jobs/quartz.properties";
+	private final static String CONFIG_PATH = "configs/jobs/quartz.properties";
 
 	public static synchronized void setScheduler(Scheduler scheduler) {
 		Objects.requireNonNull(scheduler);
@@ -40,7 +40,7 @@ public class SchedulerHelper {
 
 	public static synchronized void initAndStart() throws SchedulerException {
 		SchedulerFactory schedulerFactory;
-		schedulerFactory = new StdSchedulerFactory(configPath);
+		schedulerFactory = new StdSchedulerFactory(CONFIG_PATH);
 		scheduler = schedulerFactory.getScheduler();
 		scheduler.start();
 	}

@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 该工具类拷贝自Apache的DbUtil工具库。
+ * 这里增加了一个拓展，支持数据库字符串到java的Enum类的转化
+ */
 public class BeanProcessor
 {
     protected static final int PROPERTY_NOT_FOUND = -1;
@@ -115,15 +119,15 @@ public class BeanProcessor
             if ((value instanceof java.util.Date))
             {
                 String targetType = params[0].getName();
-                if ("java.sql.Date".equals(targetType))
+                if (java.sql.Date.class.getName().equals(targetType))
                 {
                     value = new java.sql.Date(((java.util.Date)value).getTime());
                 }
-                else if ("java.sql.Time".equals(targetType))
+                else if (java.sql.Time.class.getName().equals(targetType))
                 {
                     value = new Time(((java.util.Date)value).getTime());
                 }
-                else if ("java.sql.Timestamp".equals(targetType))
+                else if (java.sql.Timestamp.class.getName().equals(targetType))
                 {
                     Timestamp tsValue = (Timestamp)value;
                     int nanos = tsValue.getNanos();

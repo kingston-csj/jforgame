@@ -16,5 +16,7 @@ public class TimeUtil {
 	public static final long ONE_HOUR = ONE_MINUTE*60;
 	/** 一天的毫秒数 */
 	public static final long ONE_DAY = ONE_HOUR*24;
+	/**  一天总共有{@value}小时*/
+	public static final int HOURS_OF_DAY = 24;
 
 }

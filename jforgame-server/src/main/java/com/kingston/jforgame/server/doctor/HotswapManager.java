@@ -7,6 +7,11 @@ import com.sun.tools.attach.VirtualMachine;
 
 import groovy.lang.GroovyClassLoader;
 
+/**
+ * 以javaAgent的方式热更文件
+ * 只能修改java文件的方法体
+ * @author kingston
+ */
 public enum HotswapManager {
 
 	INSTANCE;

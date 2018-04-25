@@ -22,12 +22,7 @@ public class ClassScanner {
     /** 
      * 默认过滤器（无实现） 
      */  
-    private final static ClassFilter defaultFilter = new ClassFilter() {  
-        @Override  
-        public boolean accept(Class<?> clazz) {  
-            return true;  
-        }  
-    };  
+    private final static ClassFilter DEFAULT_FILTER = clazz -> true;
   
     /** 
      * 扫描目录下的所有class文件 
@@ -35,7 +30,7 @@ public class ClassScanner {
      * @return 
      */  
     public static Set<Class<?>> getClasses(String scanPackage) {  
-        return getClasses(scanPackage,defaultFilter);  
+        return getClasses(scanPackage, DEFAULT_FILTER);
     }  
   
     /**

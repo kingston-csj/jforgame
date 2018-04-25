@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.orm.exception.OrmConfigExcpetion;
+import com.kingston.jforgame.orm.exception.OrmConfigException;
 import com.kingston.jforgame.orm.utils.StringUtils;
 
 public enum OrmProcessor {
@@ -64,11 +64,11 @@ public enum OrmProcessor {
 				}
 				bridge.addProperty(fieldName);
 			}catch(Exception e) {
-				throw new OrmConfigExcpetion(e);
+				throw new OrmConfigException(e);
 			}
 			//如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
 			if (bridge.getQueryProperties().size() <= 0) {
-				throw new OrmConfigExcpetion(clazz.getSimpleName() + " entity 没有查询索引主键字段");
+				throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
 			}
 		}
 

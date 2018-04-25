@@ -94,7 +94,7 @@ public class GameServer {
 		SystemParameters.load();
 		// 启动时检查每日重置
 		long now = System.currentTimeMillis();
-		if (now - SystemParameters.dailyResetTimestamp > 24 * TimeUtil.ONE_HOUR) {
+		if (now - SystemParameters.dailyResetTimestamp > TimeUtil.ONE_DAY) {
 			logger.info("启动时每日重置");
 			SystemParameters.update("dailyResetTimestamp", now);
 		}

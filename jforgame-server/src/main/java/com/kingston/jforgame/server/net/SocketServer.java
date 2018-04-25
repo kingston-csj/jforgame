@@ -54,9 +54,12 @@ public class SocketServer {
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		filterChain.addLast("moduleEntrance", new ModuleEntranceFilter());
 		filterChain.addLast("msgTrace", new MessageTraceFilter());
-		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()) );//指定业务逻辑处理器
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );//设置端口号
-		acceptor.bind();//启动监听
+		//指定业务逻辑处理器
+		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()));
+		//设置端口号
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );
+		//启动监听
+		acceptor.bind();
 
 	}
 

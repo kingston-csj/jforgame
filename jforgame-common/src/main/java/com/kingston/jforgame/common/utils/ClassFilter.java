@@ -2,7 +2,9 @@ package com.kingston.jforgame.common.utils;
 
 /**
  * 类扫描过滤器
+ * @author kingston
  */
+@FunctionalInterface
 public interface ClassFilter {
 
     /**

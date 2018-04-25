@@ -6,6 +6,7 @@ import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
 
 public enum CommonConfigs {
 
+	/** 角色解封的最大等级 */
 	PLAYER_MAX_LEVEL(1){
 		@Override
 		public void parseConfig() {

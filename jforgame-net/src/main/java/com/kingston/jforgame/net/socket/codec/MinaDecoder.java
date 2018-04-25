@@ -33,8 +33,8 @@ public class MinaDecoder implements ProtocolDecoder {
 		for (; ;) {
 			ioBuffer.flip();
 			//消息元信息常量4表示消息body前面的两个short字段，一个表示moduel，一个表示cmd,
-			final int METE_SIZE = 4;
-			if (ioBuffer.remaining() < METE_SIZE) {
+			final int META_SIZE = 4;
+			if (ioBuffer.remaining() < META_SIZE) {
 				ioBuffer.compact();
 				return;
 			}
@@ -47,7 +47,7 @@ public class MinaDecoder implements ProtocolDecoder {
 			if (ioBuffer.remaining() >= length) {
 				short moduleId =  ioBuffer.getShort();
 				short cmd = ioBuffer.getShort();
-				byte[] body = new byte[length-METE_SIZE];
+				byte[] body = new byte[length-META_SIZE];
 				ioBuffer.get(body);
 				Message msg = msgDecoder.readMessage(moduleId, cmd, body);
 

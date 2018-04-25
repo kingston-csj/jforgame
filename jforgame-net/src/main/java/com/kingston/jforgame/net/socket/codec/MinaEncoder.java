@@ -50,9 +50,9 @@ public class MinaEncoder implements ProtocolEncoder {
 		//回到buff字节数组头部
 		buffer.flip();
 		//消息元信息，两个short，共4个字节
-		final int METE_SIZE = 4;
+		final int META_SIZE = 4;
 		//重新写入包体长度
-		buffer.putInt(buffer.limit() - METE_SIZE);
+		buffer.putInt(buffer.limit() - META_SIZE);
 		buffer.rewind();
 
 		return buffer;

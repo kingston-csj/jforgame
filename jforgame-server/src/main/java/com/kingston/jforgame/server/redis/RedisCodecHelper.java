@@ -5,10 +5,13 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author kingston
+ */
 public class RedisCodecHelper {
 
 	private static final Charset CHARSET = Charset.forName("ISO-8859-1");
-	private static final IRedisSerializer serializer = new ProtobufRedisSerializer();
+	private static IRedisSerializer serializer = new ProtobufRedisSerializer();
 
 	/***
 	 * @param o 必须有字段加上protobuf注解

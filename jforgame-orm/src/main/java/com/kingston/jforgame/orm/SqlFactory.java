@@ -97,7 +97,8 @@ public class SqlFactory {
 	
 	private static String createWhereClauseSql(Object entity, OrmBridge bridge) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(" WHERE 1=1");  //占位申明，避免拼接sql需要考虑and
+		//占位申明，避免拼接sql需要考虑and
+		sb.append(" WHERE 1=1");
 		List<String> properties = bridge.getQueryProperties();
 		for (int i=0;i<properties.size();i++) {
 			String property = properties.get(i);
