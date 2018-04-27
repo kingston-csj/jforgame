@@ -2,6 +2,9 @@ package com.kingston.jforgame.admin.utils;
 
 import com.kingston.jforgame.common.Constants;
 
+/**
+ * @author kingston
+ */
 public class HttpResult {
 	
 	/** status {@link Constants#SUCC} */

@@ -15,6 +15,11 @@ import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 import com.kingston.jforgame.server.game.login.message.ReqSelectPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
+/**
+ * 使用socket构建的机器人
+ * @author kingston
+ *
+ */
 public class SocketRobot {
 
 	private String name;
@@ -65,10 +70,13 @@ public class SocketRobot {
 	}
 
 	private class ClientHandler extends IoHandlerAdapter {
+		
+		@Override
 		public void messageReceived(IoSession session, Object message) {
 			System.out.println("收到响应-->" + message); 
 		}
 
+		@Override
 		public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 			LoggerUtils.error("client exception", cause);
 		}

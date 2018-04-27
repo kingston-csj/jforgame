@@ -9,7 +9,7 @@ import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 
-public class TestJProtobuf {
+public class JProtobufTest {
 
 
 	@Test

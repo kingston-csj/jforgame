@@ -16,11 +16,11 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * 缓存容器
  * @author kingston
  */
-public abstract class CacheContainer<K, V> {
+public abstract class AbstractCacheContainer<K, V> {
 
     private LoadingCache<K, V> cache;
 
-    public CacheContainer(CacheOptions p) {
+    public AbstractCacheContainer(CacheOptions p) {
         cache = CacheBuilder.newBuilder()
                 .initialCapacity(p.initialCapacity)
                 .maximumSize(p.maximumSize)

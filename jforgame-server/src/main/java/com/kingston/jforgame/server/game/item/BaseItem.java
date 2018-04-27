@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.game.item;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigItem;
 import com.kingston.jforgame.server.utils.IdGenerator;
 
-public abstract class Item {
+public abstract class BaseItem {
 
 	private long id;
 	/** {@link ConfigItem#getModelId()} */
@@ -13,7 +13,7 @@ public abstract class Item {
 	/** Returns <tt>true</tt> if it's binding item　*/
 	private boolean bind;
 
-	public Item() {
+	public BaseItem() {
 		this.id = IdGenerator.getNextId();
 	}
 

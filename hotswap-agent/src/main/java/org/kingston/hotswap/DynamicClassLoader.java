@@ -1,5 +1,8 @@
 package org.kingston.hotswap;
 
+/**
+ * @author kingston
+ */
 public class DynamicClassLoader extends ClassLoader{
 
 	public Class<?> findClass(byte[] b) throws ClassNotFoundException {

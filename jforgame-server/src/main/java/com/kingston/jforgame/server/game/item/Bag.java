@@ -9,6 +9,6 @@ public class Bag {
 	/** used size*/
 	private short size;
 	/** item container */
-	private List<Item> items;
+	private List<BaseItem> items;
 
 }

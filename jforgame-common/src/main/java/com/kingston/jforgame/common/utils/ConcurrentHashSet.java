@@ -8,6 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.kingston.jforgame.common.thread.ThreadSafe;
 
+/**
+ * @author kingston
+ */
 @ThreadSafe
 public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E>, java.io.Serializable {
 

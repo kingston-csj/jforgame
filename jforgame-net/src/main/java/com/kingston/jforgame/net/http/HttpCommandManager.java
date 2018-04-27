@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
 
+/**
+ * @author kingston
+ */
 public class HttpCommandManager {
 
 	private Logger logger = LoggerFactory.getLogger(HttpCommandManager.class);

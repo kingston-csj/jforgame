@@ -10,6 +10,7 @@ import com.kingston.jforgame.common.thread.ThreadSafe;
 
 /**
  * LinkedBlockingQueue的增强版（队伍内未消费的元素保证是不重复的）
+ * @author kingston
  */
 @ThreadSafe
 public class BlockingUniqueQueue<E> extends LinkedBlockingQueue<E> {

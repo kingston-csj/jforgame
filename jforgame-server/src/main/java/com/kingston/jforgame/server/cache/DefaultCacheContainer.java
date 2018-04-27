@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.cache;
 
-public class DefaultCacheContainer<K, V> extends CacheContainer<K, V> {
+public class DefaultCacheContainer<K, V> extends AbstractCacheContainer<K, V> {
 
     private Persistable<K, V> persistable;
 

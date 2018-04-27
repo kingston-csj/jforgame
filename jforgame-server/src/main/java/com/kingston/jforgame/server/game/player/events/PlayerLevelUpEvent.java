@@ -1,9 +1,9 @@
 package com.kingston.jforgame.server.game.player.events;
 
 import com.kingston.jforgame.server.listener.EventType;
-import com.kingston.jforgame.server.listener.PlayerEvent;
+import com.kingston.jforgame.server.listener.BasePlayerEvent;
 
-public class PlayerLevelUpEvent extends PlayerEvent {
+public class PlayerLevelUpEvent extends BasePlayerEvent {
 
 	/** 新的等级 */
 	private int upLevel;

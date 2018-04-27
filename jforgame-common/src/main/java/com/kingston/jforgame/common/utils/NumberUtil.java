@@ -1,5 +1,8 @@
 package com.kingston.jforgame.common.utils;
 
+/**
+ * @author kingston
+ */
 public final class NumberUtil {
 
 	public static boolean booleanValue(Object object) {

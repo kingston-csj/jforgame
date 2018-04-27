@@ -8,6 +8,9 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
+/**
+ * @author kingston
+ */
 public class MinaEncoder implements ProtocolEncoder {
 
 	@Override
@@ -50,9 +53,9 @@ public class MinaEncoder implements ProtocolEncoder {
 		//回到buff字节数组头部
 		buffer.flip();
 		//消息元信息，两个short，共4个字节
-		final int META_SIZE = 4;
+		final int metaSize = 4;
 		//重新写入包体长度
-		buffer.putInt(buffer.limit() - META_SIZE);
+		buffer.putInt(buffer.limit() - metaSize);
 		buffer.rewind();
 
 		return buffer;

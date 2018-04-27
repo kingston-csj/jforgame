@@ -1,10 +1,13 @@
 package com.kingston.jforgame.server.monitor.jmx;
 
+import javax.management.MXBean;
+
 /**
  * JMX游戏管理
  * @author kingston_csj
  */
-public interface GameMonitorMxBean {
+@MXBean
+public interface GameMonitorMXBean {
 
 	/**
 	 * total online players count

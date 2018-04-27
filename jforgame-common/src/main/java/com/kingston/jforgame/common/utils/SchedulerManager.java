@@ -19,6 +19,7 @@ import com.kingston.jforgame.common.thread.NamedThreadFactory;
 @SuppressWarnings("rawtypes")
 public enum SchedulerManager {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("Scheduler-service"));

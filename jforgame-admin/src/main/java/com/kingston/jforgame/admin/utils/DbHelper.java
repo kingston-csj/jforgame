@@ -16,7 +16,9 @@ import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * @author kingston
+ */
 public class DbHelper {
 
 	private static Logger logger = LoggerFactory.getLogger(DbHelper.class);
@@ -61,12 +63,15 @@ public class DbHelper {
 			logger.error(e.getMessage(),e);
 		} finally {
 			try {
-				if (rst != null)
+				if (rst != null) {
 					rst.close();
-				if (stmt != null)
+				}
+				if (stmt != null) {
 					stmt.close();
-				if (con != null)
+				}
+				if (con != null) {
 					con.close();
+				}
 			} catch (Exception e) {
 				logger.error(e.getMessage(),e);
 			}
@@ -87,12 +92,15 @@ public class DbHelper {
 			logger.error(e.getMessage(),e);
 		} finally {
 			try {
-				if (rst != null)
+				if (rst != null) {
 					rst.close();
-				if (stmt != null)
+				}
+				if (stmt != null) {
 					stmt.close();
-				if (con != null)
+				}
+				if (con != null) {
 					con.close();
+				}
 			} catch (Exception e) {
 				logger.error(e.getMessage(),e);
 			}

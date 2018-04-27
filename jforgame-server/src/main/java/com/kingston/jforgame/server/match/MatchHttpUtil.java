@@ -9,7 +9,7 @@ import com.kingston.jforgame.server.ServerConfig;
 
 public class MatchHttpUtil {
 
-	public static Message submit(MatchMessage request) throws IOException {
+	public static Message submit(AbstractMatchMessage request) throws IOException {
 		String signature = request.getClass().getSimpleName();
 		String data = new Gson().toJson(request);
 		String param = HttpUtil.buildUrlParam("service", signature,

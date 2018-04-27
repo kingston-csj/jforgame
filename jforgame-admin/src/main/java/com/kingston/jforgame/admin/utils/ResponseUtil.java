@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+/**
+ * @author kingston
+ */
 public class ResponseUtil {
 	
 	public static void responseJson(Map<String, Object> message, HttpServletResponse response) {

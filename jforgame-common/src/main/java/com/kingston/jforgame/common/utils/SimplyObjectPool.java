@@ -2,6 +2,9 @@ package com.kingston.jforgame.common.utils;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * @author kingston
+ */
 public class SimplyObjectPool <E extends MemoryObject> {
 	
 	private int capacity;

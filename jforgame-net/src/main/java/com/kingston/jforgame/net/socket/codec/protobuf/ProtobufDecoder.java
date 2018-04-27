@@ -11,6 +11,9 @@ import com.kingston.jforgame.net.socket.codec.IMessageDecoder;
 import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.message.MessageFactory;
 
+/**
+ * @author kingston
+ */
 public class ProtobufDecoder implements IMessageDecoder {
 
 	private static Logger logger = LoggerFactory.getLogger(ProtobufDecoder.class);

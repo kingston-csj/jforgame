@@ -67,8 +67,22 @@ public abstract class Serializer {
 		return messageCodec;
 	}
 
+	/**
+	 * 消息解码
+	 * @param in
+	 * @param type
+	 * @param wrapper 集合元素包装类
+	 * @return
+	 */
 	public abstract Object decode(IoBuffer in, Class<?> type, Class<?> wrapper);
 
+	
+	/**
+	 * 消息编码
+	 * @param in
+	 * @param type
+	 * @param wrapper 集合元素包装类
+	 */
 	public abstract void encode(IoBuffer out, Object value, Class<?> wrapper);
 
 }

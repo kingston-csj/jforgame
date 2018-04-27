@@ -13,6 +13,9 @@ import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
+/**
+ * @author kingston
+ */
 public class MinaDecoder implements ProtocolDecoder {
 
 	@Override
@@ -33,8 +36,8 @@ public class MinaDecoder implements ProtocolDecoder {
 		for (; ;) {
 			ioBuffer.flip();
 			//消息元信息常量4表示消息body前面的两个short字段，一个表示moduel，一个表示cmd,
-			final int META_SIZE = 4;
-			if (ioBuffer.remaining() < META_SIZE) {
+			final int metaSize = 4;
+			if (ioBuffer.remaining() < metaSize) {
 				ioBuffer.compact();
 				return;
 			}
@@ -47,7 +50,7 @@ public class MinaDecoder implements ProtocolDecoder {
 			if (ioBuffer.remaining() >= length) {
 				short moduleId =  ioBuffer.getShort();
 				short cmd = ioBuffer.getShort();
-				byte[] body = new byte[length-META_SIZE];
+				byte[] body = new byte[length-metaSize];
 				ioBuffer.get(body);
 				Message msg = msgDecoder.readMessage(moduleId, cmd, body);
 

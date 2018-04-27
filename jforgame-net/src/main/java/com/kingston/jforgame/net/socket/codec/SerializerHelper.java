@@ -1,10 +1,11 @@
 package com.kingston.jforgame.net.socket.codec;
 
-import com.kingston.jforgame.net.socket.codec.protobuf.ProtobufDecoder;
-import com.kingston.jforgame.net.socket.codec.protobuf.ProtobufEncoder;
 import com.kingston.jforgame.net.socket.codec.reflect.ReflectDecoder;
 import com.kingston.jforgame.net.socket.codec.reflect.ReflectEncoder;
 
+/**
+ * @author kingston
+ */
 public class SerializerHelper {
 
 	public static volatile SerializerHelper instance;

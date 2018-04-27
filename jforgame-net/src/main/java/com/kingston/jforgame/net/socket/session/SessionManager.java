@@ -10,6 +10,7 @@ import org.apache.mina.core.session.IoSession;
 
 public enum SessionManager {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	/** distributeKey auto generator  */

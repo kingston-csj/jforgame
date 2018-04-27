@@ -6,6 +6,10 @@ import java.io.FileInputStream;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 
+/**
+ * agent代理
+ * @author kingston
+ */
 public class MyAgent {
 
 

@@ -2,6 +2,9 @@ package com.kingston.jforgame.net.http;
 
 import java.util.Map;
 
+/**
+ * @author kingston
+ */
 public class HttpCommandParams {
 	/**  命令类型 {@link HttpCommands} */
 	private int cmd;

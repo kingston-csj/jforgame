@@ -4,15 +4,15 @@ package com.kingston.jforgame.server.cache;
  * 抽象缓存服务
  * @author kingston
  */
-public abstract class CacheService<K, V> implements Persistable<K, V> {
+public abstract class BaseCacheService<K, V> implements Persistable<K, V> {
 
-    private final CacheContainer<K, V> container;
+    private final AbstractCacheContainer<K, V> container;
 
-    public CacheService() {
+    public BaseCacheService() {
         this(CacheOptions.defaultCacheOptions());
     }
 
-    public CacheService(CacheOptions p) {
+    public BaseCacheService(CacheOptions p) {
         container = new DefaultCacheContainer<>(this, p);
     }
 

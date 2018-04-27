@@ -16,6 +16,7 @@ import java.util.jar.JarFile;
   
 /** 
  * 类扫描器 
+ * @author kingston
  */  
 public class ClassScanner {  
   

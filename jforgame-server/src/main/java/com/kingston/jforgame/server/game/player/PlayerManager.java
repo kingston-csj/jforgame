@@ -8,7 +8,7 @@ import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.net.socket.message.MessagePusher;
 import com.kingston.jforgame.net.socket.session.SessionManager;
-import com.kingston.jforgame.server.cache.CacheService;
+import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
@@ -18,7 +18,7 @@ import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
  * 玩家业务管理器
  * @author kingston
  */
-public class PlayerManager extends CacheService<Long, Player> {
+public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	private static volatile PlayerManager instance = new PlayerManager();
 

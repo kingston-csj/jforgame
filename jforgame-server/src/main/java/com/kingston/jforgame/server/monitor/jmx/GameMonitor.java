@@ -18,7 +18,7 @@ import javax.script.ScriptEngineManager;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class GameMonitor implements GameMonitorMxBean{
+public class GameMonitor implements GameMonitorMXBean{
 
 //	private Logger logger = LoggerSystem.MONITOR.getLogger();
 

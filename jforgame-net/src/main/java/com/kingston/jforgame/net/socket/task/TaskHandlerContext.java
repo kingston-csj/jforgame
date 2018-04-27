@@ -20,6 +20,7 @@ import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
  */
 public enum TaskHandlerContext {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private static Logger logger = LoggerFactory.getLogger(TaskHandlerContext.class);

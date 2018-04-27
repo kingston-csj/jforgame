@@ -50,8 +50,8 @@ public class JmxClient {
 //            System.out.println("object.getObjectName="+mxBean.getObjectName());
 //        }
 
-		final GameMonitorMxBean mBean = JMX.newMBeanProxy(mBeanConnection, objectName,
-				GameMonitorMxBean.class);
+		final GameMonitorMXBean mBean = JMX.newMBeanProxy(mBeanConnection, objectName,
+				GameMonitorMXBean.class);
 
 		String script = readScript("script.js");
 		System.err.println(script);

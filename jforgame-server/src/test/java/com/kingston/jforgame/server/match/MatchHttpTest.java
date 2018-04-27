@@ -10,7 +10,7 @@ import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.match.ladder.message.MReqLadderApplyMessage;
 
 
-public class TestMatchHttp {
+public class MatchHttpTest {
 
 	@Before
 	public void init() {

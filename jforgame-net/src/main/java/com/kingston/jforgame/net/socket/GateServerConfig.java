@@ -1,5 +1,8 @@
 package com.kingston.jforgame.net.socket;
 
+/**
+ * @author kingston
+ */
 public class GateServerConfig {
 
 //	/** 服务器id */

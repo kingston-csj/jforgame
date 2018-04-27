@@ -16,6 +16,7 @@ import com.kingston.jforgame.orm.utils.StringUtils;
 
 public enum OrmProcessor {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	/** entity与对应的ormbridge的映射关系 */

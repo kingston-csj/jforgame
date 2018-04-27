@@ -1,5 +1,9 @@
 package com.kingston.jforgame.net.http;
 
+
+/**
+ * @author kingston
+ */
 public class HttpCommandResponse {
 	/**  执行成功 */
 	public static final byte SUCC = 1;

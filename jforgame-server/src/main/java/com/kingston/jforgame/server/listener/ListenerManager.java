@@ -13,6 +13,7 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public enum ListenerManager {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private Map<String, Method> map = new HashMap<>();
@@ -52,7 +53,7 @@ public enum ListenerManager {
 	 * @param handler
 	 * @param event
 	 */
-	public void fireEvent(Object handler,GameEvent event) {
+	public void fireEvent(Object handler,BaseGameEvent event) {
 		try {
 			Method method = map.get(getKey(handler, event.getEventType()));
 			method.invoke(handler, event);

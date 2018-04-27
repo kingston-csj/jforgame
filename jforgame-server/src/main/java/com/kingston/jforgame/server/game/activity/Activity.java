@@ -41,6 +41,5 @@ public abstract class Activity {
 	public boolean isOpened() {
 		return this.opened;
 	}
-	
 
 }

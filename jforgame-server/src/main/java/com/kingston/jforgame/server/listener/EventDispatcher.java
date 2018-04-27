@@ -24,7 +24,7 @@ public class EventDispatcher {
 	/** 事件类型与事件监听器列表的映射关系 */
 	private final Map<EventType, Set<Object>> observers = new HashMap<>();
 	/** 异步执行的事件队列 */
-	private LinkedBlockingQueue<GameEvent> eventQueue = new LinkedBlockingQueue<>();
+	private LinkedBlockingQueue<BaseGameEvent> eventQueue = new LinkedBlockingQueue<>();
 
 	/**
 	 * 注册事件监听器
@@ -44,7 +44,7 @@ public class EventDispatcher {
 	 * 分发事件
 	 * @param event
 	 */
-	public void fireEvent(GameEvent event) {
+	public void fireEvent(BaseGameEvent event) {
 		if(event == null){
 			throw new NullPointerException("event cannot be null");
 		}
@@ -58,7 +58,7 @@ public class EventDispatcher {
 
 	}
 
-	private void triggerEvent(GameEvent event) {
+	private void triggerEvent(BaseGameEvent event) {
 		EventType evtType = event.getEventType();
 		Set<Object> listeners = observers.get(evtType);
 		if(listeners != null){
@@ -78,7 +78,7 @@ public class EventDispatcher {
 		public void run() {
 			while(true) {
 				try {
-					GameEvent event = eventQueue.take();
+					BaseGameEvent event = eventQueue.take();
 					triggerEvent(event);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

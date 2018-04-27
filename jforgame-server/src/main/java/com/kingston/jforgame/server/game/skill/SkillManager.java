@@ -4,7 +4,7 @@ import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigSkill;
 import com.kingston.jforgame.server.game.database.config.container.ConfigSkillContainer;
 import com.kingston.jforgame.server.game.database.user.player.Player;
-import com.kingston.jforgame.server.listener.GameEvent;
+import com.kingston.jforgame.server.listener.BaseGameEvent;
 
 public class SkillManager {
 
@@ -14,7 +14,7 @@ public class SkillManager {
 		return instance;
 	}
 
-	public void studyNewSkill(Player player, GameEvent event) {
+	public void studyNewSkill(Player player, BaseGameEvent event) {
 		int skillId = 1;
 		ConfigSkill configSkill = getSkillBy(skillId);
 

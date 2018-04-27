@@ -2,6 +2,9 @@ package com.kingston.jforgame.net.socket.codec;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
+/**
+ * @author kingston
+ */
 public class CodecContext {
 
 	public static final int READ_CAPACITY = 1024;

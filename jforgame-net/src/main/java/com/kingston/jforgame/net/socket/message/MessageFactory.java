@@ -9,6 +9,7 @@ import com.kingston.jforgame.net.socket.annotation.MessageMeta;
 
 public enum MessageFactory {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private Map<Integer, Class<?>> id2Clazz = new HashMap<>();

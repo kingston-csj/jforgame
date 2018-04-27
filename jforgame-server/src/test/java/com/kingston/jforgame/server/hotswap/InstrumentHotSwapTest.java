@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.kingston.jforgame.server.doctor.HotswapManager;
 import com.kingston.jforgame.server.doctor.Person;
 
-public class TestInstrumentHotswap {
+public class InstrumentHotSwapTest {
 
 	@Test
 	public void testHotswap() throws Exception {
@@ -25,9 +25,9 @@ public class TestInstrumentHotswap {
 				}
 				).start();
 
-		Thread.sleep(3000); //wait
+		Thread.sleep(3000);
 		HotswapManager.INSTANCE.reloadClass("Person");
-		Thread.sleep(3000); //wait
+		Thread.sleep(3000);
 
 	}
 

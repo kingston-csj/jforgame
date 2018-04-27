@@ -21,6 +21,7 @@ import redis.clients.jedis.exceptions.JedisException;
 
 public enum RedisCluster {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private JedisCluster cluster;

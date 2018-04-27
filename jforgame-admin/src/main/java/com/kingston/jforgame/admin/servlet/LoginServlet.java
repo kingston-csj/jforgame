@@ -17,6 +17,10 @@ import com.kingston.jforgame.admin.utils.DbHelper;
 import com.kingston.jforgame.admin.utils.HttpResult;
 import com.kingston.jforgame.admin.utils.ResponseUtil;
 
+/**
+ * gm登录
+ * @author kingston
+ */
 @WebServlet(name = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 

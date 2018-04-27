@@ -10,6 +10,9 @@ import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
 
+/**
+ * @author kingston
+ */
 public class ServerSocketIoHandler extends IoHandlerAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(ServerSocketIoHandler.class);

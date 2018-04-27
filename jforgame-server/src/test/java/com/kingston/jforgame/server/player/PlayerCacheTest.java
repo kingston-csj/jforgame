@@ -15,7 +15,7 @@ import com.kingston.jforgame.server.game.player.PlayerManager;
  * 测试玩家缓存系统
  * @author kingston
  */
-public class TestPlayerCache {
+public class PlayerCacheTest {
 
 	@Before
 	public void init() {

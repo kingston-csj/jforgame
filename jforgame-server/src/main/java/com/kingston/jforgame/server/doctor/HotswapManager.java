@@ -14,6 +14,7 @@ import groovy.lang.GroovyClassLoader;
  */
 public enum HotswapManager {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	/**

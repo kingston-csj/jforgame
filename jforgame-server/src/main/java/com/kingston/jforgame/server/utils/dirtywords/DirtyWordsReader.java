@@ -14,6 +14,7 @@ import java.util.Set;
 
 public enum DirtyWordsReader {
 
+	/** 枚举单例 */
 	INSTANCE;
 
 	private String ENCODING = "UTF-8";

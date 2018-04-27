@@ -23,6 +23,9 @@ import com.google.gson.Gson;
 import com.kingston.jforgame.net.socket.GateServerConfig;
 import com.kingston.jforgame.net.socket.session.SessionManager;
 
+/**
+ * @author kingston
+ */
 public class HttpServer {
 
 	private Logger logger = LoggerFactory.getLogger(HttpServer.class);
