@@ -5,7 +5,7 @@ package com.kingston.jforgame.net.socket.task;
  * interface, and provides an api to measure cost time
  * @author kingston
  */
-public abstract class AbstractDistributeTask implements IDistributeTask{
+public abstract class AbstractDistributeTask implements DistributeTask {
 
 	/** thread distribute key  */
 	protected int distributeKey;

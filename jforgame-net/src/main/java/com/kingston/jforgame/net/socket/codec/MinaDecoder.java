@@ -35,7 +35,7 @@ public class MinaDecoder implements ProtocolDecoder {
 		//在循环里迭代，以处理数据粘包
 		for (; ;) {
 			ioBuffer.flip();
-			//消息元信息常量4表示消息body前面的两个short字段，一个表示moduel，一个表示cmd,
+			//消息元信息常量4表示消息body前面的两个short字段，一个表示module，一个表示cmd,
 			final int metaSize = 4;
 			if (ioBuffer.remaining() < metaSize) {
 				ioBuffer.compact();

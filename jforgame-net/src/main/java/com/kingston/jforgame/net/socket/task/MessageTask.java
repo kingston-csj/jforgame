@@ -10,7 +10,7 @@ import com.kingston.jforgame.net.socket.message.MessagePusher;
 
 /**
  * when server receives a message, wrapped it into a MessageTask,
- * and put it to target message consumer task
+ * and add it to target message consumer task queue
  * @author kingston
  */
 public class MessageTask extends AbstractDistributeTask {
@@ -49,7 +49,6 @@ public class MessageTask extends AbstractDistributeTask {
 		}catch(Exception e){
 			logger.error("message task execute failed ", e);
 		}
-
 	}
 
 	public long getPlayerId() {

@@ -137,7 +137,8 @@ public class BeanProcessor
             }
             else if (((value instanceof String)) && (params[0].isEnum()))
             {
-            	Class c = params[0].asSubclass(Enum.class);
+            	@SuppressWarnings("rawtypes")
+				Class c = params[0].asSubclass(Enum.class);
                 value = Enum.valueOf(c, (String)value);
             }
             if (isCompatibleType(value, params[0])) {
@@ -251,7 +252,8 @@ public class BeanProcessor
         return columnToProperty;
     }
 
-    protected Object processColumn(ResultSet rs, int index, Class<?> propType)
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	protected Object processColumn(ResultSet rs, int index, Class<?> propType)
             throws SQLException
     {
         if ((!propType.isPrimitive()) && (rs.getObject(index) == null)) {

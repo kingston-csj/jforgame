@@ -25,5 +25,4 @@ public class CodecContext {
 	public IoBuffer getBuffer() {
 		return this.buffer;
 	}
-
 }

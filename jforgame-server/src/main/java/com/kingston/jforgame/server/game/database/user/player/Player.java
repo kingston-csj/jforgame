@@ -8,7 +8,7 @@ import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.net.socket.session.SessionProperties;
-import com.kingston.jforgame.net.socket.task.IDistributable;
+import com.kingston.jforgame.net.socket.task.Distributable;
 import com.kingston.jforgame.server.db.BaseEntity;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
@@ -20,7 +20,7 @@ import com.kingston.jforgame.server.utils.IdGenerator;
  * @author kingston
  */
 @Entity
-public class Player extends BaseEntity implements IDistributable {
+public class Player extends BaseEntity implements Distributable {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 

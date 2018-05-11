@@ -60,7 +60,6 @@ public class SocketServer {
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );
 		//启动监听
 		acceptor.bind();
-
 	}
 
 	private SocketSessionConfig getSessionConfig() {

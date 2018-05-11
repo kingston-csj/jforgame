@@ -1,13 +1,14 @@
 package com.kingston.jforgame.orm.utils;
 
-public class StringUtils {
+public final class StringUtils {
 
-	
+	private StringUtils() {}
+
 	public static boolean isEmpty(String word) {
 		return word == null || word.length() <= 0;
 	}
-	
-	/** 
+
+	/**
 	 * 将单词的第一个字母大写
 	 * @param word
 	 * @return
@@ -17,8 +18,8 @@ public class StringUtils {
 		sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
 		return sb.toString();
 	}
-	
-	/** 
+
+	/**
 	 * 将单词的第一个字母小写
 	 * @param word
 	 * @return
@@ -28,5 +29,5 @@ public class StringUtils {
 		sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
 		return sb.toString();
 	}
-	
+
 }

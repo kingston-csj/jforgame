@@ -40,7 +40,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	}
 
 	@Override
-	 public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-		 logger.error("server exception", cause);
-	 }
+	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+		logger.error("server exception", cause);
+	}
 }
