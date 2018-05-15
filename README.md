@@ -18,9 +18,7 @@
   ├── jforgame-common  --基础公共服务  
   ├── jforgame-admin   --后台管理web工具  
   ├── jforgame-match   --跨服匹配服       
-  ├── jforgame-net     --socket网关，http后台接口  
-  |    ├──  net包，包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型  
-  |    ├──  http包，游戏运营/运维后台命令  
+  ├── jforgame-net     --包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型      
   ├── jforgame-orm     --使用自定义的orm框架，用于数据库表记录与程序pojo对象的相互转换        
   ├── hotswap-agent  支持游戏业务热更新的agent机制  
   ├── jforgame-server  --游戏基础组件以及业务逻辑模块  
@@ -29,7 +27,8 @@
   |    ├──  monitor包，系统监控模块，包括使用jmx对程序进行监控  
   |    ├──  listener包，事件驱动模型  
   |    ├──  doctor包，采用Groovy执行任意动态代码，或JDK的instrument机制修改类方法体  
-  |    ├──  game/gm包，游戏内部金手指命令  
+  |    ├──  game/gm包，游戏内部金手指命令
+  |    ├──  game/admin包，游戏运营/运维后台命令  
   |    ├──  redis包，跨服通信（比如跨服排行榜）  
   |    ├──  tools包，简化项目开发的辅助小工具  
   |    └──  utils包，各种工具类    

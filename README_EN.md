@@ -10,9 +10,7 @@
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  
   ├── jforgame-match  --cross matching service  
-  ├── jforgame-net
-  |    ├──  net package, including io message codec, message request mapper, message thread model  
-  |    ├──  http package, http admin command for system administrator  
+  ├── jforgame-net    --including io message codec, message request mapper, message thread model    
   ├── jforgame-orm   --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── hotswap-agent  --support hotswap without restarting server
   ├── jforgame-server   
@@ -21,7 +19,8 @@
   |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server    
   |    ├──  listener package, event driver model  
   |    ├──  doctor package, there are two ways for u to hotswap class  
-  |    ├──  game/gm pakcage, gm command for test    
+  |    ├──  game/gm pakcage, gm command for test  
+  |    ├──  game/admin package, http admin command for system  
   |    ├──  redis package, cross-server communication, such as multiserver ranking list  
   |    ├──  tools pakcage, little tool to support project's development  
   |    └──  utils package, code utils    
