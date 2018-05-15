@@ -1,9 +1,9 @@
 package com.kingston.jforgame.server.client;
 
-import com.kingston.jforgame.net.socket.message.MessageFactory;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.ServerScanPaths;
 import com.kingston.jforgame.server.robot.SocketRobot;
+import com.kingston.jforgame.socket.message.MessageFactory;
 
 /**
  * 客户端模拟器启动程序

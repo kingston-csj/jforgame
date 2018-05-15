@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.common.utils.HttpUtil;
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.ServerConfig;
+import com.kingston.jforgame.socket.message.Message;
 
 public class MatchHttpUtil {
 

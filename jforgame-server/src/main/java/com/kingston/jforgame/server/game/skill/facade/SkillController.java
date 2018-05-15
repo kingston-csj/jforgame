@@ -1,8 +1,8 @@
 package com.kingston.jforgame.server.game.skill.facade;
 
-import com.kingston.jforgame.net.socket.annotation.Controller;
-import com.kingston.jforgame.net.socket.annotation.RequestMapping;
 import com.kingston.jforgame.server.game.skill.message.ReqUseSkillMessage;
+import com.kingston.jforgame.socket.annotation.Controller;
+import com.kingston.jforgame.socket.annotation.RequestMapping;
 
 @Controller
 public class SkillController {

@@ -1,12 +1,11 @@
 package com.kingston.jforgame.server.game.admin.commands;
-
 import java.util.Map;
 
-import com.kingston.jforgame.net.http.CommandHandler;
-import com.kingston.jforgame.net.http.HttpCommandHandler;
-import com.kingston.jforgame.net.http.HttpCommandParams;
-import com.kingston.jforgame.net.http.HttpCommandResponse;
-import com.kingston.jforgame.net.http.HttpCommands;
+import com.kingston.jforgame.server.game.admin.http.CommandHandler;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandHandler;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandParams;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandResponse;
+import com.kingston.jforgame.server.game.admin.http.HttpCommands;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 
 @CommandHandler(cmd=HttpCommands.KICK_PLAYER)

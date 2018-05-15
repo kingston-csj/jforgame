@@ -1,11 +1,11 @@
 package com.kingston.jforgame.server.game.admin.commands;
 
 import com.kingston.jforgame.common.utils.NumberUtil;
-import com.kingston.jforgame.net.http.CommandHandler;
-import com.kingston.jforgame.net.http.HttpCommandHandler;
-import com.kingston.jforgame.net.http.HttpCommandParams;
-import com.kingston.jforgame.net.http.HttpCommandResponse;
-import com.kingston.jforgame.net.http.HttpCommands;
+import com.kingston.jforgame.server.game.admin.http.CommandHandler;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandHandler;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandParams;
+import com.kingston.jforgame.server.game.admin.http.HttpCommandResponse;
+import com.kingston.jforgame.server.game.admin.http.HttpCommands;
 import com.kingston.jforgame.server.logs.LoggerSystem;
 import com.kingston.jforgame.server.net.NetGateKeeper;
 

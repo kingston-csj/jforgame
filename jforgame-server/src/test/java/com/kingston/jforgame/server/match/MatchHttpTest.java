@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.match.ladder.message.MReqLadderApplyMessage;
+import com.kingston.jforgame.socket.message.Message;
 
 
 public class MatchHttpTest {

@@ -19,5 +19,5 @@ public class ServerScanPaths {
 	/**
 	 * 后台http命令
 	 */
-	public static final String HTTP_ADMIN_PATH = "com.kingston.game.admin";
+	public static final String HTTP_ADMIN_PATH = "com.kingston.jforgame.server.game.admin.commands";
 }

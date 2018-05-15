@@ -2,8 +2,8 @@ package com.kingston.jforgame.server.game.activity;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.socket.message.Message;
 
 public abstract class AbstractActivityHandler implements IActivityHandler {
 	

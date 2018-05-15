@@ -10,10 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.kingston.jforgame.net.socket.session.SessionManager;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.socket.session.SessionManager;
 
 public class MessageTraceFilter extends IoFilterAdapter {
 

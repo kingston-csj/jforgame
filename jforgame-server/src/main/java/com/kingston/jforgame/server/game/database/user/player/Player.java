@@ -6,14 +6,14 @@ import javax.persistence.Id;
 
 import org.apache.mina.core.session.IoSession;
 
-import com.kingston.jforgame.net.socket.session.SessionManager;
-import com.kingston.jforgame.net.socket.session.SessionProperties;
-import com.kingston.jforgame.net.socket.task.Distributable;
 import com.kingston.jforgame.server.db.BaseEntity;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.IdGenerator;
+import com.kingston.jforgame.socket.session.SessionManager;
+import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.task.Distributable;
 
 /**
  * 玩家实体

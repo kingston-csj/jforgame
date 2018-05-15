@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.game.activity;
 
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.socket.message.Message;
 
 public interface IActivityHandler {
 	

@@ -1,10 +1,10 @@
 package com.kingston.jforgame.server.game.skill.message;
 
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
-import com.kingston.jforgame.net.socket.annotation.MessageMeta;
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.game.skill.SkillDataPool;
+import com.kingston.jforgame.socket.annotation.MessageMeta;
+import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.SKILL, cmd=SkillDataPool.REQ_USE_SKILL)
 public class ReqUseSkillMessage extends Message {

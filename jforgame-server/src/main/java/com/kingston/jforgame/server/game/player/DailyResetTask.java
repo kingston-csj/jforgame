@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.game.player;
 
-import com.kingston.jforgame.net.socket.task.TimerTask;
 import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.socket.task.TimerTask;
 
 public class DailyResetTask extends TimerTask {
 

@@ -3,9 +3,9 @@ package com.kingston.jforgame.server.game.notice.message;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kingston.jforgame.net.socket.annotation.MessageMeta;
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.game.Modules;
+import com.kingston.jforgame.socket.annotation.MessageMeta;
+import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.BASE)
 public class ResSystemNotice extends Message {

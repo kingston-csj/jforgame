@@ -10,16 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.net.socket.annotation.Controller;
-import com.kingston.jforgame.net.socket.annotation.MessageMeta;
-import com.kingston.jforgame.net.socket.annotation.RequestMapping;
-import com.kingston.jforgame.net.socket.message.CmdExecutor;
-import com.kingston.jforgame.net.socket.message.IMessageDispatcher;
-import com.kingston.jforgame.net.socket.message.Message;
-import com.kingston.jforgame.net.socket.session.SessionManager;
-import com.kingston.jforgame.net.socket.session.SessionProperties;
-import com.kingston.jforgame.net.socket.task.MessageTask;
-import com.kingston.jforgame.net.socket.task.TaskHandlerContext;
+import com.kingston.jforgame.socket.annotation.Controller;
+import com.kingston.jforgame.socket.annotation.MessageMeta;
+import com.kingston.jforgame.socket.annotation.RequestMapping;
+import com.kingston.jforgame.socket.message.CmdExecutor;
+import com.kingston.jforgame.socket.message.IMessageDispatcher;
+import com.kingston.jforgame.socket.message.Message;
+import com.kingston.jforgame.socket.session.SessionManager;
+import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.task.MessageTask;
+import com.kingston.jforgame.socket.task.TaskHandlerContext;
 
 public class MessageDispatcher implements IMessageDispatcher {
 

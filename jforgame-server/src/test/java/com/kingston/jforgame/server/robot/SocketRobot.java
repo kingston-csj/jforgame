@@ -8,12 +8,12 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
-import com.kingston.jforgame.net.socket.codec.SerializerHelper;
-import com.kingston.jforgame.net.socket.message.Message;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 import com.kingston.jforgame.server.game.login.message.ReqSelectPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.socket.codec.SerializerHelper;
+import com.kingston.jforgame.socket.message.Message;
 
 /**
  * 使用socket构建的机器人
