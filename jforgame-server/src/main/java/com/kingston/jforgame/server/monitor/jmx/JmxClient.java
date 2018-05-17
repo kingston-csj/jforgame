@@ -1,8 +1,5 @@
 ﻿package com.kingston.jforgame.server.monitor.jmx;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +9,8 @@ import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
+
+import com.kingston.jforgame.common.utils.FileUtils;
 
 /**
  * jmx客户端
@@ -53,30 +52,12 @@ public class JmxClient {
 		final GameMonitorMXBean mBean = JMX.newMBeanProxy(mBeanConnection, objectName,
 				GameMonitorMXBean.class);
 
-		String script = readScript("script.js");
+		String script = FileUtils.readText("script.js");
 		System.err.println(script);
 
 		System.err.println(mBean.execJavascript(script));
 	}
 
-	/**
-	 * 读取js文件代码块源码
-	 * @param fileName
-	 * @return
-	 * @throws Exception
-	 */
-	private static String readScript(String fileName) throws Exception {
-		File file = new File(fileName);
-		String line;
-		StringBuffer result = new StringBuffer("");
-
-		try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
-			while ((line=reader.readLine()) != null) {
-				result.append(line).append("\n");
-			}
-		}
-
-		return result.toString();
-	}
+	
 
 }

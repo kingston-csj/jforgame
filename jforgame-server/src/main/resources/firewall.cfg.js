@@ -1,0 +1,1 @@
+config.maxPackagePerSecond=30

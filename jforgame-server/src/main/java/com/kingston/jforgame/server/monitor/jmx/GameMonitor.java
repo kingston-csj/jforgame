@@ -17,6 +17,7 @@ import javax.script.ScriptEngineManager;
 
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.utils.JsScriptEngine;
 
 public class GameMonitor implements GameMonitorMXBean{
 
@@ -90,9 +91,7 @@ public class GameMonitor implements GameMonitorMXBean{
 	public String execJavascript(String jsCode){
 		String msg = "执行成功";
 		try {
-			ScriptEngineManager engineManager= new ScriptEngineManager();
-			ScriptEngine scriptEngine = engineManager.getEngineByName("JavaScript");
-			return scriptEngine.eval(jsCode).toString();
+			return JsScriptEngine.runCode(jsCode);
 		} catch (Exception e) {
 			msg = e.getMessage();
 		}
