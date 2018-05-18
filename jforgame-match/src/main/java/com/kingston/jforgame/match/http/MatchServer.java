@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.match.core.UrlDispatcher;
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.socket.message.Message;
 
 /**
  * 匹配服http服务

@@ -5,8 +5,8 @@ import org.apache.mina.core.session.IoSession;
 import com.kingston.jforgame.match.core.HttpMessagePusher;
 import com.kingston.jforgame.match.game.ladder.message.MReqLadderApplyMessage;
 import com.kingston.jforgame.match.game.ladder.message.MResLadderApplySuccMessage;
-import com.kingston.jforgame.net.socket.annotation.Controller;
-import com.kingston.jforgame.net.socket.annotation.RequestMapping;
+import com.kingston.jforgame.socket.annotation.Controller;
+import com.kingston.jforgame.socket.annotation.RequestMapping;
 
 @Controller
 public class LadderController {

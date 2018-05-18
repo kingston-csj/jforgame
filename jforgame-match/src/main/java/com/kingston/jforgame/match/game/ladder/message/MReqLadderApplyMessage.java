@@ -1,6 +1,6 @@
 package com.kingston.jforgame.match.game.ladder.message;
 
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.socket.message.Message;
 
 /**
  * 天梯报名

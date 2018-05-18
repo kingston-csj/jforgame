@@ -10,9 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.net.socket.annotation.Controller;
-import com.kingston.jforgame.net.socket.annotation.RequestMapping;
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.socket.annotation.Controller;
+import com.kingston.jforgame.socket.annotation.RequestMapping;
+import com.kingston.jforgame.socket.message.Message;
+
 
 public class UrlDispatcher {
 

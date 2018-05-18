@@ -13,7 +13,7 @@ import org.apache.mina.http.api.HttpVersion;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.match.http.UrlResponse;
-import com.kingston.jforgame.net.socket.message.Message;
+import com.kingston.jforgame.socket.message.Message;
 
 public class HttpMessagePusher {
 
