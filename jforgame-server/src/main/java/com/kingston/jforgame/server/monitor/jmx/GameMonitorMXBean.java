@@ -27,7 +27,14 @@ public interface GameMonitorMXBean {
 	 * @param jsCode
 	 * @return
 	 */
-	String execJavascript(String jsCode);
+	String execJavaScript(String jsCode);
+
+	/**
+	 * execute groovy code
+	 * @param groovyCode
+	 * @return
+	 */
+	String execGroovyScript(String groovyCode);
 
 
 }

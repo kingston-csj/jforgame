@@ -55,9 +55,7 @@ public class JmxClient {
 		String script = FileUtils.readText("script.js");
 		System.err.println(script);
 
-		System.err.println(mBean.execJavascript(script));
+		System.err.println(mBean.execJavaScript(script));
 	}
-
-	
 
 }

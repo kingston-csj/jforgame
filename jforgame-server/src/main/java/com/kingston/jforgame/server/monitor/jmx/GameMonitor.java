@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.SimpleBindings;
 
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
@@ -88,10 +89,23 @@ public class GameMonitor implements GameMonitorMXBean{
 	}
 
 	@Override
-	public String execJavascript(String jsCode){
+	public String execJavaScript(String jsCode){
 		String msg = "执行成功";
 		try {
 			return JsScriptEngine.runCode(jsCode);
+		} catch (Exception e) {
+			msg = e.getMessage();
+		}
+		return msg;
+	}
+
+	@Override
+	public String execGroovyScript(String groovyCode) {
+		String msg = "执行成功";
+		try {
+			ScriptEngineManager engineManager= new ScriptEngineManager();
+			ScriptEngine scriptEngine = engineManager.getEngineByName("groovy");
+			return scriptEngine.eval(groovyCode).toString();
 		} catch (Exception e) {
 			msg = e.getMessage();
 		}
