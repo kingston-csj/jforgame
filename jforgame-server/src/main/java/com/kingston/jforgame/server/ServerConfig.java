@@ -32,7 +32,7 @@ public class ServerConfig {
 		return instance;
 	}
 
-	public void initFromConfigFile() {
+	public void init() {
 		String configFile = "server.xml";
 		Element rootElement = XmlUtils.loadConfigRootElement(configFile);
 		NodeList nodes = rootElement.getChildNodes();

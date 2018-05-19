@@ -18,6 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.jforgame.server.net.filter.FloodFilter;
 import com.kingston.jforgame.server.net.filter.MessageTraceFilter;
 import com.kingston.jforgame.server.net.filter.ModuleEntranceFilter;
 import com.kingston.jforgame.socket.ServerSocketIoHandler;
@@ -54,6 +55,7 @@ public class SocketServer {
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		filterChain.addLast("moduleEntrance", new ModuleEntranceFilter());
 		filterChain.addLast("msgTrace", new MessageTraceFilter());
+		filterChain.addLast("flood", new FloodFilter());
 		//指定业务逻辑处理器
 		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()));
 		//设置端口号

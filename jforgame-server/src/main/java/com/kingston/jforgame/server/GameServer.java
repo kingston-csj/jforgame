@@ -64,7 +64,7 @@ public class GameServer {
 		//初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
-		ServerConfig.getInstance().initFromConfigFile();
+		ServerConfig.getInstance().init();
 		//初始化orm框架
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
 		//初始化数据库连接池

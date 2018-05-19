@@ -14,7 +14,7 @@ public class MatchHttpTest {
 
 	@Before
 	public void init() {
-		ServerConfig.getInstance().initFromConfigFile();
+		ServerConfig.getInstance().init();
 	}
 
 	@Test
