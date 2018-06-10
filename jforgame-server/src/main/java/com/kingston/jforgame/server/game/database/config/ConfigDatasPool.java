@@ -2,7 +2,9 @@ package com.kingston.jforgame.server.game.database.config;
 
 import java.lang.reflect.Field;
 
+import com.kingston.jforgame.server.game.database.config.bean.ConfigFunction;
 import com.kingston.jforgame.server.game.database.config.container.ConfigConstantContainer;
+import com.kingston.jforgame.server.game.database.config.container.ConfigFunctionContainer;
 import com.kingston.jforgame.server.game.database.config.container.ConfigNoticeContainer;
 import com.kingston.jforgame.server.game.database.config.container.ConfigPlayerLevelContainer;
 import com.kingston.jforgame.server.game.database.config.container.ConfigSkillContainer;
@@ -29,6 +31,8 @@ public class ConfigDatasPool {
 	public ConfigConstantContainer configConstantContainer = new ConfigConstantContainer();
 
 	public ConfigNoticeContainer configNoticeContainer = new ConfigNoticeContainer();
+
+	public ConfigFunctionContainer configFunctionContainer = new ConfigFunctionContainer();
 
 	/**
 	 * 起服读取所有的配置数据

@@ -10,6 +10,6 @@ public enum EventType {
 	LOGOUT,
 
 	/** 升级事件 */
-	LEVEL_UP;
+	PLAYER_LEVEL_UP;
 
 }

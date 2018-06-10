@@ -25,7 +25,6 @@ public class ConfigActivityConatainer implements Reloadable {
 
 		activities = datas.stream().collect(
 				Collectors.toMap(ConfigActivity::getId, Function.identity()));
-
 	}
 
 	public ConfigActivity getConfigActivityBy(int id) {

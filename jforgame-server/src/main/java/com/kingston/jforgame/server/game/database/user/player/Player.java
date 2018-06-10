@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.server.db.BaseEntity;
+import com.kingston.jforgame.server.game.function.model.Function;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
@@ -56,6 +57,11 @@ public class Player extends BaseEntity implements Distributable {
 
 	@Column
 	private Platform platform;
+
+	private Function function;
+
+	@Column
+	private String functionJson;
 
 	public Player() {
 		this.id = IdGenerator.getNextId();
@@ -133,6 +139,22 @@ public class Player extends BaseEntity implements Distributable {
 
 	public void setPlatform(Platform platform) {
 		this.platform = platform;
+	}
+
+	public Function getFunction() {
+		return function;
+	}
+
+	public void setFunction(Function functions) {
+		this.function = functions;
+	}
+
+	public String getFunctionJson() {
+		return functionJson;
+	}
+
+	public void setFunctionJson(String functionJson) {
+		this.functionJson = functionJson;
 	}
 
 	@Override
