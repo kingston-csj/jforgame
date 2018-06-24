@@ -58,10 +58,8 @@ public class LoginManager {
 			response.setMapId(1001);
 			MessagePusher.pushMessage(session, response);
 
-
 			//检查日重置
 			PlayerManager.getInstance().checkDailyReset(player);
-
 		}
 	}
 

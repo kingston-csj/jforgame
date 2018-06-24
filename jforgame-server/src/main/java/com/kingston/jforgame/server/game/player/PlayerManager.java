@@ -10,7 +10,10 @@ import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.login.LoginManager;
+import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
 import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
+import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
 
@@ -28,14 +31,22 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		return instance;
 	}
 
-	public Player createNewPlayer(String name, byte job) {
+	public void createNewPlayer(IoSession session, String name) {
 		Player player = new Player();
+		player.setId(IdGenerator.getNextId());
 		player.setName(name);
-		player.setJob(job);
 		//设为插入状态
 		player.setInsert();
 
-		return player;
+		long playerId = player.getId();
+		// 手动放入缓存
+		super.put(playerId, player);
+
+		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
+		response.setPlayerId(playerId);
+		MessagePusher.pushMessage(session, response);
+
+		LoginManager.getInstance().handleSelectPlayer(session, playerId);
 	}
 
 

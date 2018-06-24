@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.robot;
+package com.kingston.jforgame.server.client;
 
 import java.net.InetSocketAddress;
 
@@ -20,23 +20,23 @@ import com.kingston.jforgame.socket.message.Message;
  * @author kingston
  *
  */
-public class SocketRobot {
+public class ClientPlayer {
 
 	private String name;
 
 	private IoSession session;
 
-	public SocketRobot(String name) {
+	public ClientPlayer(String name) {
 		this.name = name;
 	}
 
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
-		connector.getFilterChain().addLast("codec", 
+		connector.getFilterChain().addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		connector.setHandler(new ClientHandler());
 
-		System.out.println("开始连接socket服务端"); 
+		System.out.println("开始连接socket服务端");
 		int serverPort = ServerConfig.getInstance().getServerPort();
 		ConnectFuture future = connector.connect(new InetSocketAddress(serverPort));
 
@@ -44,7 +44,6 @@ public class SocketRobot {
 
 		IoSession session = future.getSession();
 		this.session = session;
-
 	}
 
 	public void login() {
@@ -53,8 +52,8 @@ public class SocketRobot {
 		request.setAccountId(123L);
 		this.sendMessage(request);
 	}
-	
-	
+
+
 	public void selectedPlayer(long playerId) {
 		ReqSelectPlayerMessage request = new ReqSelectPlayerMessage();
 		request.setPlayerId(playerId);
@@ -70,10 +69,10 @@ public class SocketRobot {
 	}
 
 	private class ClientHandler extends IoHandlerAdapter {
-		
+
 		@Override
 		public void messageReceived(IoSession session, Object message) {
-			System.out.println("收到响应-->" + message); 
+			System.out.println("收到响应-->" + message);
 		}
 
 		@Override

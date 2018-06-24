@@ -2,7 +2,6 @@ package com.kingston.jforgame.server.client;
 
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.ServerScanPaths;
-import com.kingston.jforgame.server.robot.SocketRobot;
 import com.kingston.jforgame.socket.message.MessageFactory;
 
 /**
@@ -15,13 +14,12 @@ public class ClientStartup {
 		//初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
-		ServerConfig.getInstance().initFromConfigFile();
+		ServerConfig.getInstance().init();
 
-		SocketRobot robot = new SocketRobot("kingston");
+		ClientPlayer robot = new ClientPlayer("kingston");
 		robot.buildConnection();
 		robot.login();
 		robot.selectedPlayer(10000L);
-
 	}
 
 }

@@ -55,7 +55,6 @@ public class GameServer {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		GameMonitorMXBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
-
 	}
 
 	private void frameworkInit() throws Exception {

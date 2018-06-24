@@ -18,7 +18,7 @@ public class ConfigFunctionContainer implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigActivity";
+		String sql = "SELECT * FROM ConfigFunction";
 		List<ConfigFunction> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigFunction.class);
 
 		functions = datas.stream().collect(

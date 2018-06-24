@@ -21,6 +21,7 @@ public class ServerStartup {
 			GameServer.getInstance().start();
 		}catch(Exception e){
 			logger.error("server start failed", e);
+			System.exit(-1);
 		}finally {
 			//add shutdown task
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {

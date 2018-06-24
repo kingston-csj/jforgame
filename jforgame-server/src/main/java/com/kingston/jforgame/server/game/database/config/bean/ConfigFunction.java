@@ -2,6 +2,7 @@ package com.kingston.jforgame.server.game.database.config.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 import com.kingston.jforgame.server.game.function.model.OpenType;
 
@@ -9,6 +10,7 @@ import com.kingston.jforgame.server.game.function.model.OpenType;
 public class ConfigFunction {
 
 	/** 功能id */
+	@Id
 	@Column
 	private int id;
 	@Column
