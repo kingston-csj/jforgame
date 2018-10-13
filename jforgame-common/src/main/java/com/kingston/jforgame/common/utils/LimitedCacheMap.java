@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 
  * @author kingston
  */
-public class LinkedCacheMap<K, V> {
+public class LimitedCacheMap<K, V> {
 
 	private LinkedHashMap<K, Element<V>> data;
 
@@ -34,11 +34,11 @@ public class LinkedCacheMap<K, V> {
 	private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
 	private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
 
-	public LinkedCacheMap(int capacity, long aliveTime) {
+	public LimitedCacheMap(int capacity, long aliveTime) {
 		this(capacity, aliveTime, Boolean.FALSE);
 	}
 
-	public LinkedCacheMap(int capacity, long aliveTime, boolean useLru) {
+	public LimitedCacheMap(int capacity, long aliveTime, boolean useLru) {
 		this.capacity = capacity;
 		this.aliveTime = aliveTime;
 		this.useLru = useLru;
@@ -84,6 +84,15 @@ public class LinkedCacheMap<K, V> {
 		}
 	}
 	
+	public int size() {
+		this.readLock.lock();
+		try {
+			return this.data.size();
+		} finally {
+			this.readLock.unlock();
+		}
+	}
+	
 	public void clear() {
 		this.writeLock.lock();
 		try {
@@ -114,27 +123,6 @@ public class LinkedCacheMap<K, V> {
 		public String toString() {
 			return "Element [value=" + value + "]";
 		}
-	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		LinkedCacheMap<String, String> cache = new LinkedCacheMap<>(3, 100, true);
-		
-		cache.put("a", "a");
-		cache.put("b", "b");
-		cache.put("c", "c");
-		
-		cache.get("a");
-		cache.put("d", "d");
-		
-		System.err.println(cache);
-		
-		cache.clear();
-		cache.put("e", "e");
-		cache.put("f", "f");
-		Thread.sleep(150);
-		cache.put("g", "g");
-		System.err.println(cache);
 	}
 
 }

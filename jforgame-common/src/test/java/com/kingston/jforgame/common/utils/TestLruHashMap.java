@@ -1,13 +1,10 @@
-package com.kingston.jforgame.server.utils;
+package com.kingston.jforgame.common.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.kingston.jforgame.common.utils.LruHashMap;
+public class TestLruHashMap {
 
-
-public class LruHashMapTest {
-	
 	@Test
 	public void testLru() {
 		LruHashMap<Integer, Integer> cache = new LruHashMap<>(5);
@@ -22,5 +19,5 @@ public class LruHashMapTest {
     	Assert.assertTrue(cache.containsKey(1));
     	Assert.assertFalse(cache.containsKey(2));
 	}
-
+	
 }
