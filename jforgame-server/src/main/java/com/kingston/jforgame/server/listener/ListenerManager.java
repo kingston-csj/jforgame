@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.kingston.jforgame.common.utils.ClassFilter;
 import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.listener.annotation.EventHandler;
 import com.kingston.jforgame.server.listener.annotation.Listener;
@@ -21,12 +20,7 @@ public enum ListenerManager {
 	private final String SCAN_PATH = "com.kingston.game";
 
 	public void initalize() {
-        Set<Class<?>> listeners = ClassScanner.getClasses(SCAN_PATH, new ClassFilter() {
-            @Override
-            public boolean accept(Class<?> clazz) {
-                return clazz.getAnnotation(Listener.class) != null;
-            }
-        });
+        Set<Class<?>> listeners = ClassScanner.listClassesWithAnnotation(SCAN_PATH, Listener.class);
 
         for (Class<?> listener: listeners) {
             try {
