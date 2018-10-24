@@ -10,7 +10,7 @@ import com.kingston.jforgame.server.game.core.SchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
-import com.kingston.jforgame.server.monitor.jmx.GameMonitorMXBean;
+import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
 import com.kingston.jforgame.server.net.SocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.message.MessageFactory;
@@ -53,7 +53,7 @@ public class GameServer {
 
 		//mbean监控
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-		GameMonitorMXBean controller = new GameMonitor();
+		GameMonitorMBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
 	}
 

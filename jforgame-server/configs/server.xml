@@ -11,12 +11,6 @@
 		<http_port>8080</http_port>
 		<white_ips>127.0.0.1;192.168.*;10.11.*</white_ips>
 	</http-server>
-
-	<!-- http匹配服 -->
-	<match-server>
-		<url>http://localhost:8899</url>
-	</match-server>
-
 	<redis-server>
 		<!--<url>127.0.0.1:8001</url> -->
 	</redis-server>

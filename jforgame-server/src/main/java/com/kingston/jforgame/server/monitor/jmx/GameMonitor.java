@@ -14,13 +14,12 @@ import java.util.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.SimpleBindings;
 
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsScriptEngine;
 
-public class GameMonitor implements GameMonitorMXBean{
+public class GameMonitor implements GameMonitorMBean{
 
 //	private Logger logger = LoggerSystem.MONITOR.getLogger();
 

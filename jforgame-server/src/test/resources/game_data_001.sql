@@ -2,18 +2,34 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50624
+Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : game_data_001
 
 Target Server Type    : MYSQL
-Target Server Version : 50624
+Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-04-21 23:43:02
+Date: 2018-10-24 14:08:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for configactivity
+-- ----------------------------
+DROP TABLE IF EXISTS `configactivity`;
+CREATE TABLE `configactivity` (
+  `id` int(11) NOT NULL,
+  `type` int(255) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of configactivity
+-- ----------------------------
+INSERT INTO `configactivity` VALUES ('1', '1', '首充送好礼');
 
 -- ----------------------------
 -- Table structure for configconstant
@@ -31,6 +47,22 @@ CREATE TABLE `configconstant` (
 -- Records of configconstant
 -- ----------------------------
 INSERT INTO `configconstant` VALUES ('1', '500', '11;22', '玩家最高等级');
+
+-- ----------------------------
+-- Table structure for configfunction
+-- ----------------------------
+DROP TABLE IF EXISTS `configfunction`;
+CREATE TABLE `configfunction` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) DEFAULT NULL,
+  `openType` varchar(32) DEFAULT NULL,
+  `openTarget` int(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of configfunction
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for confignotice

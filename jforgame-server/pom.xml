@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -157,15 +158,22 @@
 	<build>
 		<plugins>
 			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId>
-				<version>1.2.1</version> <configuration> <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-				<filterClassPackage>com.baidu</filterClassPackage> </configuration> <executions>
-				<execution> <phase>compile</phase> <goals> <goal>precompile</goal> </goals>
+			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId> 
+				<version>1.2.1</version> <configuration> <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound> 
+				<filterClassPackage>com.baidu</filterClassPackage> </configuration> <executions> 
+				<execution> <phase>compile</phase> <goals> <goal>precompile</goal> </goals> 
 				</execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -174,7 +182,7 @@
 					<execution>
 						<!-- 配置文件要跟jar包在同一个目录 -->
 						<id>copy-config</id>
-						<phase>validate</phase>
+						<phase>package</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
@@ -183,7 +191,11 @@
 							<resources>
 								<resource>
 									<directory>src/main/resources</directory>
-									<filtering>true</filtering>
+									 <excludes>  
+                                        <exclude>jobs/**</exclude>
+										<exclude>log4j.xml</exclude>
+                                    </excludes>
+									<filtering>false</filtering>
 								</resource>
 							</resources>
 						</configuration>
@@ -209,18 +221,36 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				 <version>2.1</version>
+				<version>3.1.0</version>
 				<configuration>
+					<resources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<excludes>
+            <!--注意这玩意从编译结果目录开始算目录结构-->
+            <exclude>**/*.properties</exclude>
+            <exclude>**/*.xml</exclude>
+        </excludes>
+
+						
+						</resource>
+					</resources>
 					<archive>
+						<manifestEntries>
+							<Class-Path>configs/</Class-Path>
+						</manifestEntries>
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>libs/</classpathPrefix>
-							<mainClass>com.kingston.ServerStartup</mainClass>
+							<mainClass>com.kingston.jforgame.server.ServerStartup</mainClass>
 						</manifest>
 					</archive>
-					<jarName>GameServer</jarName>
+					
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>
+			GameServer
+		</finalName>
 	</build>
 </project>

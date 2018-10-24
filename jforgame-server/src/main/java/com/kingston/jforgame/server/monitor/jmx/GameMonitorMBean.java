@@ -7,7 +7,7 @@ import javax.management.MXBean;
  * @author kingston_csj
  */
 @MXBean
-public interface GameMonitorMXBean {
+public interface GameMonitorMBean {
 
 	/**
 	 * total online players count
