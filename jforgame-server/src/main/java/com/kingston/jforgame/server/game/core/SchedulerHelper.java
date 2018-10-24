@@ -14,7 +14,7 @@ public class SchedulerHelper {
 
 	private static Scheduler scheduler;
 
-	private final static String CONFIG_PATH = "configs/jobs/quartz.properties";
+	private final static String CONFIG_PATH = "jobs/quartz.properties";
 
 	public static synchronized void setScheduler(Scheduler scheduler) {
 		Objects.requireNonNull(scheduler);

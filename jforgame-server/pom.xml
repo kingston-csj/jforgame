@@ -1,5 +1,4 @@
-﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -191,10 +190,10 @@
 							<resources>
 								<resource>
 									<directory>src/main/resources</directory>
-									 <excludes>  
-                                        <exclude>jobs/**</exclude>
+									<excludes>
+										<exclude>jobs/**</exclude>
 										<exclude>log4j.xml</exclude>
-                                    </excludes>
+									</excludes>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
@@ -223,18 +222,15 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.1.0</version>
 				<configuration>
-					<resources>
-						<resource>
-							<directory>src/main/resources</directory>
-							<excludes>
-            <!--注意这玩意从编译结果目录开始算目录结构-->
-            <exclude>**/*.properties</exclude>
-            <exclude>**/*.xml</exclude>
-        </excludes>
-
-						
-						</resource>
-					</resources>
+					<excludes>
+						<!--跟运维关系密切的配置放到外部configs目录下 -->
+						<exclude>firewall.cfg.js</exclude>
+						<exclude>proxool.dtd</exclude>
+						<exclude>proxool.xml</exclude>
+						<exclude>server.xml</exclude>
+						<exclude>version.properties</exclude>
+						<exclude>SensitiveWord.txt</exclude>
+					</excludes>
 					<archive>
 						<manifestEntries>
 							<Class-Path>configs/</Class-Path>
@@ -245,12 +241,9 @@
 							<mainClass>com.kingston.jforgame.server.ServerStartup</mainClass>
 						</manifest>
 					</archive>
-					
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>
-			GameServer
-		</finalName>
+		<finalName>GameServer</finalName>
 	</build>
-</project>
+</project> 
