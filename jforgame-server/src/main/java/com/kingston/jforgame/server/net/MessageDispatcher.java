@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
+import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import com.kingston.jforgame.socket.session.SessionManager;
 import com.kingston.jforgame.socket.session.SessionProperties;
 import com.kingston.jforgame.socket.task.MessageTask;
 import com.kingston.jforgame.socket.task.TaskHandlerContext;
+import com.kingston.jforgame.socket.task.TimerTask;
 
 public class MessageDispatcher implements IMessageDispatcher {
 
@@ -137,6 +139,23 @@ public class MessageDispatcher implements IMessageDispatcher {
 
     private String buildKey(short module, short cmd) {
         return module + "_" + cmd;
+    }
+    
+    @Override
+    public void onSessionClosed(IoSession session) {
+    	long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
+    	if (playerId > 0) {
+    		logger.info("角色[{}]close session", playerId);
+    		int distributeKey = (int)session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+    		
+    		TimerTask closeTask = new TimerTask(distributeKey) {
+				@Override
+				public void action() {
+					PlayerManager.getInstance().playerLogout(playerId);
+				}
+			};
+    		TaskHandlerContext.INSTANCE.acceptTask(closeTask);
+    	}
     }
 
 }

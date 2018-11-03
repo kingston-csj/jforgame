@@ -114,3 +114,16 @@ CREATE TABLE `configskill` (
 INSERT INTO `configskill` VALUES ('1', '飞龙探云手', '偷取敌人东西或金钱');
 INSERT INTO `configskill` VALUES ('2', '逍遥神剑', '李逍遥自创的绝招 敌方全体');
 INSERT INTO `configskill` VALUES ('3', '泰山压顶', '土系高级法术');
+
+
+-- ----------------------------
+-- Table structure for configfunction
+-- ----------------------------
+DROP TABLE IF EXISTS `configfunction`;
+CREATE TABLE `configfunction` (
+  `id` int(11) NOT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  `openType` varchar(16) DEFAULT NULL,
+  `openTarget` int(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

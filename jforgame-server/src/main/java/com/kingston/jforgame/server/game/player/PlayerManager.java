@@ -5,14 +5,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.login.LoginManager;
+import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
 import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
 import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
+import com.kingston.jforgame.server.listener.EventDispatcher;
+import com.kingston.jforgame.server.listener.EventType;
 import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
@@ -22,6 +27,8 @@ import com.kingston.jforgame.socket.session.SessionManager;
  * @author kingston
  */
 public class PlayerManager extends BaseCacheService<Long, Player> {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static volatile PlayerManager instance = new PlayerManager();
 
@@ -109,6 +116,16 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 */
 	private void onDailyReset(Player player) {
 
+	}
+	
+	public void playerLogout(long playerId) {
+		Player player = PlayerManager.getInstance().get(playerId);
+		if (player == null) {
+			return;
+		}
+		logger.info("角色[{}]退出游戏", playerId);
+		
+		EventDispatcher.getInstance().fireEvent(new PlayerLogoutEvent(EventType.LOGOUT, playerId));
 	}
 
 	public void kickPlayer(long playerId) {

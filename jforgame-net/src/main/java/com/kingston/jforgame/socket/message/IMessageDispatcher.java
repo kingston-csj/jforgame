@@ -14,4 +14,10 @@ public interface IMessageDispatcher {
      * @param message
      */
 	void dispatch(IoSession session, Message message);
+	
+	/**
+	 * 分发session关闭事件
+	 * @param session
+	 */
+	void onSessionClosed(IoSession session);
 }

@@ -38,6 +38,11 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 		//交由消息分发器处理
 		messageDispatcher.dispatch(session, message);
 	}
+	
+	@Override
+	public void sessionClosed(IoSession session) throws Exception {
+		
+	}
 
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
