@@ -9,6 +9,8 @@ import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionManager;
 import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.task.TaskHandlerContext;
+import com.kingston.jforgame.socket.task.TimerTask;
 
 /**
  * @author kingston
@@ -41,7 +43,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		
+		messageDispatcher.onSessionClosed(session);
 	}
 
 	@Override

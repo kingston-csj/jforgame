@@ -84,6 +84,7 @@ public enum TaskHandlerContext {
 					//if it is TimerTask and should run again, add it to queue
 					if (task instanceof TimerTask) {
 						TimerTask timerTask = (TimerTask)task;
+						timerTask.updateLoopTimes();
 						if (timerTask.canRunAgain()) {
 							addTask(task);
 						}
