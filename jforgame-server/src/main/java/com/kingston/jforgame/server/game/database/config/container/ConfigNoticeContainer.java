@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigNotice;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public class ConfigNoticeContainer implements Reloadable {
 
@@ -17,10 +18,14 @@ public class ConfigNoticeContainer implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigNotice";
-		List<ConfigNotice> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigNotice.class);
 
-		messages = datas.stream().collect(
-				Collectors.toMap(ConfigNotice::getId, Function.identity()));
+		try {
+			List<ConfigNotice> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigNotice.class);
+
+			messages = datas.stream().collect(Collectors.toMap(ConfigNotice::getId, Function.identity()));
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
 
 	public ConfigNotice getNoticeBy(int id) {

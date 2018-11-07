@@ -1,5 +1,6 @@
 package com.kingston.jforgame.server.game.database.config.container;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +10,11 @@ import java.util.stream.Collectors;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigActivity;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
  * 活动配置
+ * 
  * @author kingston
  */
 public class ConfigActivityConatainer implements Reloadable {
@@ -21,10 +24,15 @@ public class ConfigActivityConatainer implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigActivity";
-		List<ConfigActivity> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigActivity.class);
+		List<ConfigActivity> datas;
+		try {
+			datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigActivity.class);
 
-		activities = datas.stream().collect(
-				Collectors.toMap(ConfigActivity::getId, Function.identity()));
+			activities = datas.stream().collect(Collectors.toMap(ConfigActivity::getId, Function.identity()));
+		} catch (SQLException e) {
+			LoggerUtils.error("", e);
+		}
+
 	}
 
 	public ConfigActivity getConfigActivityBy(int id) {

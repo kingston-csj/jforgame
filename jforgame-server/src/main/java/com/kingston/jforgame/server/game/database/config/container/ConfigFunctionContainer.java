@@ -11,6 +11,7 @@ import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigFunction;
 import com.kingston.jforgame.server.game.function.model.OpenType;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public class ConfigFunctionContainer implements Reloadable {
 
@@ -19,10 +20,13 @@ public class ConfigFunctionContainer implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigFunction";
-		List<ConfigFunction> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigFunction.class);
+		try {
+			List<ConfigFunction> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigFunction.class);
 
-		functions = datas.stream().collect(
-				Collectors.toMap(ConfigFunction::getId, Function.identity()));
+			functions = datas.stream().collect(Collectors.toMap(ConfigFunction::getId, Function.identity()));
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
 
 	public ConfigFunction getFunctionBy(int id) {
@@ -31,7 +35,7 @@ public class ConfigFunctionContainer implements Reloadable {
 
 	public List<ConfigFunction> getFunctionBy(OpenType openType) {
 		List<ConfigFunction> result = new ArrayList<>();
-		for (Map.Entry<Integer, ConfigFunction> entry: functions.entrySet()) {
+		for (Map.Entry<Integer, ConfigFunction> entry : functions.entrySet()) {
 			ConfigFunction function = entry.getValue();
 			if (function.getOpenType() == openType) {
 				result.add(function);

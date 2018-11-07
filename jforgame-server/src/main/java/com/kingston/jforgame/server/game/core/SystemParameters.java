@@ -10,6 +10,7 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
  * 保存一些系统级别的参数
+ * 
  * @author kingston
  */
 public class SystemParameters {
@@ -21,10 +22,10 @@ public class SystemParameters {
 		String sql = "SELECT * FROM `systemrecord`";
 		List<Map<String, Object>> datas = DbUtils.queryMapList(DbUtils.DB_USER, sql);
 
-		//给所有field填值
-		for (Map<String, Object> data:datas) {
+		// 给所有field填值
+		for (Map<String, Object> data : datas) {
 			String key = (String) data.get("key");
-			String value = (String)data.get("value");
+			String value = (String) data.get("value");
 
 			callSetter(key, value);
 		}
@@ -71,9 +72,12 @@ public class SystemParameters {
 	private static synchronized void saveToDb(String key, String value) {
 		// 入库
 		String sql = "UPDATE `systemrecord` SET `value`='" + value + "' WHERE `key`='" + key + "'";
-		DbUtils.executeSql(sql);
+		try {
+			DbUtils.executeSql(sql);
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
-
 
 	public static synchronized void update(String key, byte value) {
 		setFieldValue(key, value);

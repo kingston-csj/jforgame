@@ -9,6 +9,7 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
  * 用户数据异步持久化的服务
+ * 
  * @author kingston
  */
 public class DbService {
@@ -16,9 +17,9 @@ public class DbService {
 	private static volatile DbService instance;
 
 	public static DbService getInstance() {
-		if (instance ==  null) {
+		if (instance == null) {
 			synchronized (DbService.class) {
-				if (instance ==  null) {
+				if (instance == null) {
 					instance = new DbService();
 				}
 			}
@@ -41,11 +42,10 @@ public class DbService {
 		this.queue.add(entity);
 	}
 
-
 	private class Worker implements Runnable {
 		@Override
 		public void run() {
-			while(run.get()) {
+			while (run.get()) {
 				BaseEntity entity = null;
 				try {
 					entity = queue.take();
@@ -61,13 +61,18 @@ public class DbService {
 
 	/**
 	 * 数据真正持久化
+	 * 
 	 * @param entity
 	 */
 	private void saveToDb(BaseEntity entity) {
 		entity.doBeforeSave();
 		String saveSql = entity.getSaveSql();
-		if (DbUtils.executeSql(saveSql)) {
-			entity.resetDbStatus();
+		try {
+			if (DbUtils.executeSql(saveSql)) {
+				entity.resetDbStatus();
+			}
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
 		}
 	}
 

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigItem;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public class ConfigItemContainer implements Reloadable {
 
@@ -17,10 +18,13 @@ public class ConfigItemContainer implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigItem";
-		List<ConfigItem> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigItem.class);
+		try {
+			List<ConfigItem> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigItem.class);
 
-		items = datas.stream().collect(
-				Collectors.toMap(ConfigItem::getModelId, Function.identity()));
+			items = datas.stream().collect(Collectors.toMap(ConfigItem::getModelId, Function.identity()));
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
 
 	public ConfigItem getItemBy(int modelId) {

@@ -9,18 +9,21 @@ import java.util.stream.Collectors;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigSkill;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class ConfigSkillContainer implements Reloadable{
+public class ConfigSkillContainer implements Reloadable {
 
 	private Map<Integer, ConfigSkill> skills = new HashMap<>();
 
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigSkill";
-		List<ConfigSkill> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigSkill.class);
-		skills = datas.stream().collect(
-				Collectors.toMap(ConfigSkill::getId, Function.identity()));
-
+		try {
+			List<ConfigSkill> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigSkill.class);
+			skills = datas.stream().collect(Collectors.toMap(ConfigSkill::getId, Function.identity()));
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
 
 	public ConfigSkill getSkillBy(int id) {

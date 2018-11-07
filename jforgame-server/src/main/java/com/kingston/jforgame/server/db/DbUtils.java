@@ -1,6 +1,7 @@
 package com.kingston.jforgame.server.db;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class DbUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static <T> T queryOne(String alias, String sql, Class<?> entity) {
+	public static <T> T queryOne(String alias, String sql, Class<?> entity) throws SQLException{
 		Connection connection = DbHelper.getConnection(alias);
 		return DbHelper.queryOne(connection, sql, entity);
 	}
@@ -54,7 +55,7 @@ public class DbUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static <T> List<T> queryMany(String alias, String sql, Class<?> entity) {
+	public static <T> List<T> queryMany(String alias, String sql, Class<?> entity)throws SQLException {
 		Connection connection = DbHelper.getConnection(alias);
 		return DbHelper.queryMany(connection, sql, entity);
 	}
@@ -66,7 +67,7 @@ public class DbUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static Map<String, Object> queryMap(String alias, String sql) {
+	public static Map<String, Object> queryMap(String alias, String sql) throws SQLException{
 		Connection connection = DbHelper.getConnection(alias);
 		return DbHelper.queryMap(connection, sql);
 	}
@@ -78,7 +79,7 @@ public class DbUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static List<Map<String, Object>> queryMapList(String alias, String sql) {
+	public static List<Map<String, Object>> queryMapList(String alias, String sql) throws SQLException{
 		Connection connection = DbHelper.getConnection(alias);
 		return DbHelper.queryMapList(connection, sql);
 	}
@@ -88,7 +89,7 @@ public class DbUtils {
 	 * @param sql
 	 * @return
 	 */
-	public static boolean executeSql(String sql) {
+	public static boolean executeSql(String sql) throws SQLException{
 		Connection connection = DbHelper.getConnection(DB_USER);
 		return DbHelper.executeSql(connection, sql);
 	}

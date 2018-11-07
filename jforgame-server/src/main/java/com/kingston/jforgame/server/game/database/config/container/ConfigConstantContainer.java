@@ -9,6 +9,7 @@ import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.database.config.CommonConfigs;
 import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 public class ConfigConstantContainer implements Reloadable {
 
@@ -17,14 +18,14 @@ public class ConfigConstantContainer implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigConstant";
-		List<ConfigConstant> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigConstant.class);
-		configs = datas.stream().collect(
-				Collectors.toMap(ConfigConstant::getId, Function.identity()));
-
-		//把数据转为到枚举对象里
-		CommonConfigs.initialize(configs);
-
+		try {
+			List<ConfigConstant> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigConstant.class);
+			configs = datas.stream().collect(Collectors.toMap(ConfigConstant::getId, Function.identity()));
+			// 把数据转为到枚举对象里
+			CommonConfigs.initialize(configs);
+		} catch (Exception e) {
+			LoggerUtils.error("", e);
+		}
 	}
-
 
 }
