@@ -44,14 +44,13 @@
   Jedis | 跨服数据内存数据库 | [https://redis.io](https://redis.io/)  
   quartz | job调度任务 | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
   groovy | 基于类替换的热更新 | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  proxool | mysql数据链接池 | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)  
-  orm | 自定义轻量级orm工具 | [https://github.com/kingston-csj/orm](https://github.com/kingston-csj/orm) 
+  proxool | mysql数据链接池 | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)   
   slf4j+log4j | 日志系统 | [https://www.slf4j.org/](https://www.slf4j.org/)  
   maven | 依赖管理及项目构建 | [http://maven.apache.org/](http://maven.apache.org/)  
 
 
   ## ToDoList  
-  * 后台管理工具web工程  
+  * 完善后台管理工具web工程 --> [gamekeeper](https://github.com/kingston-csj/gamekeeper.git/)   
   * 跨服玩法基础  
   * 登录服工程  
   * 更多基础设施与业务演示  
