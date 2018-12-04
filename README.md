@@ -6,10 +6,10 @@
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
   * 支持socket/websocket接入，兼容手游/页游服务端架构  
-  * 通信协议支持protobuf或java反射，为客户端提供多种选择  
-  * 有独立http后台网站，为游戏运维/运营提供支持  
+  * 通信协议支持protobuf或java反射，为客户端提供多种选择   
   * 框架提供多种组件，可以直接二次开发业务逻辑  
-  * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护    
+  * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护   
+  * 有独立http后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
 
 
   ## 模块组织结构  
@@ -49,8 +49,7 @@
   maven | 依赖管理及项目构建 | [http://maven.apache.org/](http://maven.apache.org/)  
 
 
-  ## ToDoList  
-  * 完善后台管理工具web工程 --> [gamekeeper](https://github.com/kingston-csj/gamekeeper.git/)   
+  ## ToDoList    
   * 跨服玩法基础  
   * 登录服工程  
   * 更多基础设施与业务演示  

@@ -23,7 +23,6 @@
 		<module>hotswap-agent</module>
 		<module>jforgame-net</module>
 		<module>jforgame-orm</module>
-		<module>jforgame-admin</module>
     	<module>jforgame-match</module>
   </modules>
 
