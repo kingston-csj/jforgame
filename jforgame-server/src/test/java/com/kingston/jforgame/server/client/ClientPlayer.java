@@ -11,6 +11,7 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 import com.kingston.jforgame.server.game.login.message.ReqSelectPlayerMessage;
+import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
@@ -45,6 +46,12 @@ public class ClientPlayer {
 		IoSession session = future.getSession();
 		this.session = session;
 	}
+	
+	public void createNew() {
+		ReqCreateNewPlayerMessage req = new ReqCreateNewPlayerMessage();
+		req.setName("Happy");
+		this.sendMessage(req);
+	}
 
 	public void login() {
 		ReqLoginMessage request = new ReqLoginMessage();
@@ -65,6 +72,7 @@ public class ClientPlayer {
 	 * @param message
 	 */
 	public void sendMessage(Message message) {
+		System.err.println("发送请求-->" + message);
 		this.session.write(message);
 	}
 
@@ -72,7 +80,7 @@ public class ClientPlayer {
 
 		@Override
 		public void messageReceived(IoSession session, Object message) {
-			System.out.println("收到响应-->" + message);
+			System.out.println("收到响应<--" + message);
 		}
 
 		@Override

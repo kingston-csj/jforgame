@@ -58,10 +58,10 @@ public class Player extends BaseEntity implements Distributable {
 	@Column
 	private Platform platform;
 
-	private Function function;
-
-	@Column
+//	@Column
 	private String functionJson;
+	
+	private Function function;
 
 	public Player() {
 		this.id = IdGenerator.getNextId();

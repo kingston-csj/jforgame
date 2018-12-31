@@ -33,7 +33,6 @@ public class GmPlayerLevelCommand extends AbstractGmCommand {
 			return ResGmResultMessage.buildFailResult("目标等级参数无效");
 		}
 		player.setLevel(newLevel);
-		player.setUpdate();
 		
 		DbService.getInstance().add2Queue(player);
 		return ResGmResultMessage.buildSuccResult("修改玩家等级成功");

@@ -1,6 +1,8 @@
 package com.kingston.jforgame.server.cache;
 
-public class DefaultCacheContainer<K, V> extends AbstractCacheContainer<K, V> {
+import com.kingston.jforgame.server.db.BaseEntity;
+
+public class DefaultCacheContainer<K, V extends BaseEntity> extends AbstractCacheContainer<K, V> {
 
     private Persistable<K, V> persistable;
 
@@ -11,7 +13,9 @@ public class DefaultCacheContainer<K, V> extends AbstractCacheContainer<K, V> {
 
     @Override
     public V loadOnce(K k) throws Exception {
-        return persistable.load(k);
+    	V entity = persistable.load(k);
+    	entity.markPersistent();
+        return entity;
     }
 
 }

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.server.cache.BaseCacheService;
+import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
@@ -42,12 +43,12 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		Player player = new Player();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
-		//设为插入状态
-		player.setInsert();
 
 		long playerId = player.getId();
 		// 手动放入缓存
 		super.put(playerId, player);
+		
+		DbService.getInstance().add2Queue(player);
 
 		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
 		response.setPlayerId(playerId);
