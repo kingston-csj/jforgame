@@ -18,8 +18,9 @@ public class ClientStartup {
 
 		ClientPlayer robot = new ClientPlayer("kingston");
 		robot.buildConnection();
-		robot.login();
-		robot.selectedPlayer(10000L);
+//		robot.login();
+//		robot.selectedPlayer(10000L);
+		robot.createNew();
 	}
 
 }

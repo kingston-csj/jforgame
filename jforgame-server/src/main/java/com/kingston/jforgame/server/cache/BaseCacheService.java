@@ -1,10 +1,13 @@
 package com.kingston.jforgame.server.cache;
 
+import com.kingston.jforgame.server.db.BaseEntity;
+
 /**
  * 抽象缓存服务
  * @author kingston
  */
-public abstract class BaseCacheService<K, V> implements Persistable<K, V> {
+public abstract class BaseCacheService<K, V extends BaseEntity>
+	implements Persistable<K, V> {
 
     private final AbstractCacheContainer<K, V> container;
 

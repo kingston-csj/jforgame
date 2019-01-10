@@ -25,9 +25,9 @@ public class SqlUtils {
 	public static String getSaveSql(AbstractCacheable entity) {
 		if (entity.isInsert()) {
 			return getInsertSql(entity);
-		}else if (entity.isUpdate()) {
+		} else if (entity.isUpdate()) {
 			return getUpdateSql(entity);
-		}else if (entity.isDelete()) {
+		} else if (entity.isDelete()) {
 			return getDeleteSql(entity);
 		}
 		return "";
