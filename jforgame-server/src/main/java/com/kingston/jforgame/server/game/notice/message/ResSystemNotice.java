@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kingston.jforgame.server.game.Modules;
+import com.kingston.jforgame.server.game.notice.NoticeDataPool;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = Modules.BASE)
+@MessageMeta(module = Modules.NOTICE, cmd = NoticeDataPool.RES_NOTICE)
 public class ResSystemNotice extends Message {
 
 	private int noticeId;

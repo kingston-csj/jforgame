@@ -7,6 +7,8 @@ public interface Modules {
 	int BASE = 1;
 
 	int GM = 2;
+	
+	int NOTICE = 3;
 
 	//------------------业务功能模块（101开始）---------------------
 
@@ -20,6 +22,8 @@ public interface Modules {
 	int ACTIVITY = 104;
 	/** 技能 */
 	int SKILL = 105;
+	/** 聊天 */
+	int CHAT = 106;
 
 
 }

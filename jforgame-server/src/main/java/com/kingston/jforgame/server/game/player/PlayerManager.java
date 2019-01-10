@@ -30,7 +30,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private static volatile PlayerManager instance = new PlayerManager();
+	private static PlayerManager instance = new PlayerManager();
 
 	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
 
@@ -82,6 +82,10 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 */
 	public void add2Online(Player player) {
 		this.onlines.put(player.getId(), player);
+	}
+	
+	public boolean isOnline(long playerId) {
+		return this.onlines.containsKey(playerId);
 	}
 
 	/**
