@@ -9,6 +9,7 @@ import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
+import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
 import com.kingston.jforgame.server.net.SocketServer;
@@ -103,6 +104,7 @@ public class GameServer {
 
 	private void gameLogicInit() {
 		//游戏启动时，各种业务初始化写在这里吧
+		PlayerManager.getInstance().loadAllPlayerProfiles();
 	}
 
 

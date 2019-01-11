@@ -40,7 +40,7 @@ public abstract class AbstractCacheContainer<K, V> {
         }
     }
 
-    public abstract V loadOnce(K k) throws Exception;
+    public abstract V loadFromDb(K k) throws Exception;
 
     public final void put(K k, V v) {
         cache.put(k, v);
@@ -57,7 +57,7 @@ public abstract class AbstractCacheContainer<K, V> {
     class DataLoader extends CacheLoader<K, V> {
         @Override
         public V load(K key) throws Exception {
-            return loadOnce(key);
+            return loadFromDb(key);
         }
     }
 

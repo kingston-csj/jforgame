@@ -12,7 +12,7 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.chat.message.ReqPrivateChat;
 import com.kingston.jforgame.server.game.core.SchedulerManager;
-import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
+import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
 import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
+import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
 
 public class JProtobufTest {
 

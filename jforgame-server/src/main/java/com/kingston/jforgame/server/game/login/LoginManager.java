@@ -6,7 +6,6 @@ import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
-import com.kingston.jforgame.server.game.login.message.ResLoginMessage;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterSceneMessage;
 import com.kingston.jforgame.socket.combine.CombineMessage;
@@ -30,18 +29,16 @@ public class LoginManager {
 	 * @param password  账号密码
 	 */
 	public void handleAccountLogin(IoSession session, long accoundId, String password) {
+		Account account = AccountManager.getInstance().getOrCreate(accoundId);
+		
 		if ("kingston".equals(password)) {
 			CombineMessage combineMessage = new CombineMessage();
-			combineMessage.addMessage(new ResLoginMessage(LoginDataPool.LOGIN_SUCC, "登录成功"));
 			combineMessage.addMessage(new ResPlayerEnterSceneMessage());
 			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
-		} else {
-			Account account = AccountManager.getInstance().get(accoundId);
-			MessagePusher.pushMessage(session,
-					new ResLoginMessage(LoginDataPool.LOGIN_FAIL, "登录失败"));
-		}
+		} 
 		session.setAttribute(SessionProperties.ACCOUNT, accoundId);
+		
 	}
 
 	/**

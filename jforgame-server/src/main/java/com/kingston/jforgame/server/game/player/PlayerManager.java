@@ -1,6 +1,9 @@
 package com.kingston.jforgame.server.game.player;
 
+import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -8,6 +11,7 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
@@ -17,8 +21,11 @@ import com.kingston.jforgame.server.game.login.LoginManager;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
 import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
 import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
+import com.kingston.jforgame.server.game.player.model.AccountProfile;
+import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.listener.EventDispatcher;
 import com.kingston.jforgame.server.listener.EventType;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
@@ -26,40 +33,80 @@ import com.kingston.jforgame.socket.session.SessionProperties;
 
 /**
  * 玩家业务管理器
+ * 
  * @author kingston
  */
 public class PlayerManager extends BaseCacheService<Long, Player> {
-	
+
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static PlayerManager instance = new PlayerManager();
 
 	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
 
+	/** 全服所有角色的简况 */
+	private ConcurrentMap<Long, PlayerProfile> playerProfiles = new ConcurrentHashMap<>();
+	
+	/** 全服所有账号的简况 */
+	private ConcurrentMap<Long, AccountProfile> accountProfiles = new ConcurrentHashMap<>();
+
 	public static PlayerManager getInstance() {
 		return instance;
 	}
 
+	public void loadAllPlayerProfiles() {
+		String sql = "SELECT id, accountId,name,level,job FROM player";
+		try {
+			List<Map<String, Object>> result = DbUtils.queryMapList(DbUtils.DB_USER, sql);
+			for (Map<String, Object> record : result) {
+				PlayerProfile baseInfo = new PlayerProfile();
+				baseInfo.setAccountId(NumberUtil.longValue(record.get("accountId")));
+				baseInfo.setId(NumberUtil.longValue(record.get("id")));
+				baseInfo.setJob(NumberUtil.intValue(record.get("job")));
+				baseInfo.setName((String) record.get("name"));
+				addPlayerProfile(baseInfo);
+			}
+		} catch (SQLException e) {
+			LoggerUtils.error("", e);
+		}
+	}
+
+	private void addPlayerProfile(PlayerProfile baseInfo) {
+		playerProfiles.put(baseInfo.getId(), baseInfo);
+		
+		long accountId = baseInfo.getAccountId();
+		accountProfiles.putIfAbsent(accountId, new AccountProfile());
+		AccountProfile accountProfile = accountProfiles.get(accountId);
+		accountProfile.addPlayerProfile(baseInfo);
+	}
+	
+	public List<PlayerProfile> getPlayersBy(long accountId) {
+		AccountProfile account = accountProfiles.get(accountId);
+		if (account == null) {
+			return null;
+		}
+		return account.getPlayers();
+	}
+
 	public void createNewPlayer(IoSession session, String name) {
-//		long accountId = (long)session.getAttribute(SessionProperties.ACCOUNT);
+		long accountId = (long)session.getAttribute(SessionProperties.ACCOUNT);
 		Player player = new Player();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
-//		player.setAccountId(accountId);
+		player.setAccountId(accountId);
 
 		long playerId = player.getId();
 		// 手动放入缓存
 		super.put(playerId, player);
-		
+
 		DbService.getInstance().add2Queue(player);
-		
+
 		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
 		response.setPlayerId(playerId);
 		MessagePusher.pushMessage(session, response);
 
 		LoginManager.getInstance().handleSelectPlayer(session, playerId);
 	}
-
 
 	/**
 	 * 从用户表里读取玩家数据
@@ -69,7 +116,9 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		String sql = "SELECT * FROM Player where Id = {0} ";
 		sql = MessageFormat.format(sql, String.valueOf(playerId));
 		Player player = DbUtils.queryOne(DbUtils.DB_USER, sql, Player.class);
-		player.doAfterInit();
+		if (player != null) {
+			player.doAfterInit();
+		}
 		return player;
 	}
 
@@ -82,18 +131,20 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	/**
 	 * 添加进在线列表
+	 * 
 	 * @param player
 	 */
 	public void add2Online(Player player) {
 		this.onlines.put(player.getId(), player);
 	}
-	
+
 	public boolean isOnline(long playerId) {
 		return this.onlines.containsKey(playerId);
 	}
 
 	/**
 	 * 返回在线玩家列表的拷贝
+	 * 
 	 * @return
 	 */
 	public ConcurrentMap<Long, Player> getOnlinePlayers() {
@@ -102,6 +153,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	/**
 	 * 从在线列表中移除
+	 * 
 	 * @param player
 	 */
 	public void removeFromOnline(Player player) {
@@ -120,19 +172,20 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	/**
 	 * 各个模块的业务日重置
+	 * 
 	 * @param player
 	 */
 	private void onDailyReset(Player player) {
 
 	}
-	
+
 	public void playerLogout(long playerId) {
 		Player player = PlayerManager.getInstance().get(playerId);
 		if (player == null) {
 			return;
 		}
 		logger.info("角色[{}]退出游戏", playerId);
-		
+
 		EventDispatcher.getInstance().fireEvent(new PlayerLogoutEvent(EventType.LOGOUT, playerId));
 	}
 

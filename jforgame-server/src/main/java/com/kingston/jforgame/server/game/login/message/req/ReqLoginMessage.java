@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.login.message;
+package com.kingston.jforgame.server.game.login.message.req;
 
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.jforgame.server.game.Modules;
