@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
-import com.kingston.jforgame.server.game.core.SchedulerHelper;
+import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
@@ -71,7 +71,7 @@ public class GameServer {
 		//初始化消息工作线程池
 		TaskHandlerContext.INSTANCE.initialize();
 		//初始化job定时任务
-		SchedulerHelper.initAndStart();
+		CronSchedulerHelper.initAndStart();
 		//读取所有策划配置
 		ConfigDatasPool.getInstance().loadAllConfigs();
 		//异步持久化服务

@@ -34,7 +34,6 @@
 		<dependency>
 			<groupId>com.kingston</groupId>
 			<artifactId>jforgame-orm</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 
 		<!-- 日志系统 -->
@@ -129,8 +128,6 @@
 			<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
 
-		<!-- json utils -->
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

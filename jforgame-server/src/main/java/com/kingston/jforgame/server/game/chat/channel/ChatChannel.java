@@ -9,11 +9,11 @@ public abstract class ChatChannel {
 	
 	private static Map<ChannelType, ChatChannel> channels = new HashMap<>();
 	
+	public abstract ChannelType getChannelType();
+	
 	static {
 		channels.put(ChannelType.PRIVATE, new PrivatChatChannel());
 	}
-
-	public abstract ChannelType getChannelType();
 	
 	public static ChatChannel getChannel(ChannelType type) {
 		return channels.get(type);
@@ -27,8 +27,6 @@ public abstract class ChatChannel {
 		}
 	}
 
-	public void doSend(BaseChatMessage message) {
-
-	}
+	public abstract void doSend(BaseChatMessage message);
 
 }

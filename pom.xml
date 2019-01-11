@@ -158,8 +158,6 @@
 				<version>2.4.11</version>
 			</dependency>
 
-			<!-- json utils -->
-			<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>

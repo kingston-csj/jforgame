@@ -2,6 +2,8 @@ package com.kingston.jforgame.server.game.login;
 
 import org.apache.mina.core.session.IoSession;
 
+import com.kingston.jforgame.server.game.accout.entity.Account;
+import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
 import com.kingston.jforgame.server.game.login.message.ResLoginMessage;
@@ -35,9 +37,11 @@ public class LoginManager {
 			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
 		} else {
+			Account account = AccountManager.getInstance().get(accoundId);
 			MessagePusher.pushMessage(session,
 					new ResLoginMessage(LoginDataPool.LOGIN_FAIL, "登录失败"));
 		}
+		session.setAttribute(SessionProperties.ACCOUNT, accoundId);
 	}
 
 	/**

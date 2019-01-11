@@ -8,11 +8,10 @@ import com.kingston.jforgame.orm.cache.AbstractCacheable;
  * abstract base class for db entity
  * @author kingston
  */
+@SuppressWarnings("serial")
 public abstract class BaseEntity extends AbstractCacheable
 			implements Serializable {
 
-	private static final long serialVersionUID = 5416347850924361417L;
-	
 	/**
 	 * entity id
 	 * @return

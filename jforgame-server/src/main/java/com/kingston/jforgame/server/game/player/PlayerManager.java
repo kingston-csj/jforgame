@@ -22,6 +22,7 @@ import com.kingston.jforgame.server.listener.EventType;
 import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
+import com.kingston.jforgame.socket.session.SessionProperties;
 
 /**
  * 玩家业务管理器
@@ -40,16 +41,18 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	}
 
 	public void createNewPlayer(IoSession session, String name) {
+//		long accountId = (long)session.getAttribute(SessionProperties.ACCOUNT);
 		Player player = new Player();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
+//		player.setAccountId(accountId);
 
 		long playerId = player.getId();
 		// 手动放入缓存
 		super.put(playerId, player);
 		
 		DbService.getInstance().add2Queue(player);
-
+		
 		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
 		response.setPlayerId(playerId);
 		MessagePusher.pushMessage(session, response);

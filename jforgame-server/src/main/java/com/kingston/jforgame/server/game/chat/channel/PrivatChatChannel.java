@@ -27,7 +27,7 @@ public class PrivatChatChannel extends ChatChannel {
 		
 		ResPrivateChat targetNotify = new ResPrivateChat();
 		targetNotify.setSenderId(message.getSenderId());
-		targetNotify.setContent(textMessage.getText());
+		targetNotify.setContent("我很好");
 		MessagePusher.pushMessage(receiverId, targetNotify);
 	}
 

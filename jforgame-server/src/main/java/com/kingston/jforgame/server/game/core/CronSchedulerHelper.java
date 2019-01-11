@@ -10,7 +10,7 @@ import org.quartz.impl.StdSchedulerFactory;
 /**
  * job定时器挂点
  */
-public class SchedulerHelper {
+public class CronSchedulerHelper {
 
 	private static Scheduler scheduler;
 
@@ -18,7 +18,7 @@ public class SchedulerHelper {
 
 	public static synchronized void setScheduler(Scheduler scheduler) {
 		Objects.requireNonNull(scheduler);
-		SchedulerHelper.scheduler = scheduler;
+		CronSchedulerHelper.scheduler = scheduler;
 	}
 
 	public static synchronized Scheduler getScheduler() {

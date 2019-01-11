@@ -17,4 +17,6 @@ public interface SessionProperties {
 	AttributeKey PLAYER_ID = new AttributeKey(SessionProperties.class, "PLAYER_ID");
 	/** 洪水检查记录 */
 	AttributeKey FLOOD = new AttributeKey(SessionProperties.class, "FLOOD");
+	/** 账号索引 */
+	AttributeKey ACCOUNT = new AttributeKey(SessionProperties.class, "ACCOUNT");
 }

@@ -8,6 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
+import com.google.gson.Gson;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.login.message.ReqLoginMessage;
 import com.kingston.jforgame.server.game.login.message.ReqSelectPlayerMessage;
@@ -80,7 +81,7 @@ public class ClientPlayer {
 
 		@Override
 		public void messageReceived(IoSession session, Object message) {
-			System.out.println("收到响应<--" + message);
+			System.out.println("收到响应<--" + new Gson().toJson(message));
 		}
 
 		@Override

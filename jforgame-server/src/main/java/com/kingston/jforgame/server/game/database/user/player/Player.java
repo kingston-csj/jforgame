@@ -28,6 +28,9 @@ public class Player extends BaseEntity implements Distributable {
 	@Id
 	@Column
 	private long id;
+	
+	@Column
+	private long accountId;
 
 	@Column
 	private String name;
@@ -155,6 +158,14 @@ public class Player extends BaseEntity implements Distributable {
 
 	public void setFunctionJson(String functionJson) {
 		this.functionJson = functionJson;
+	}
+	
+	public long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(long accountId) {
+		this.accountId = accountId;
 	}
 
 	@Override

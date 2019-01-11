@@ -5,12 +5,11 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
 import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionManager;
 import com.kingston.jforgame.socket.session.SessionProperties;
-import com.kingston.jforgame.socket.task.TaskHandlerContext;
-import com.kingston.jforgame.socket.task.TimerTask;
 
 /**
  * @author kingston
@@ -36,7 +35,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object data) throws Exception {
 		Message message = (Message)data;
-		System.err.println("received message -->" + message);
+		System.err.println("received message -->" + new Gson().toJson(message));
 		//交由消息分发器处理
 		messageDispatcher.dispatch(session, message);
 	}

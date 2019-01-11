@@ -32,6 +32,8 @@ public class ChatManager {
 		}
 		TextChatMessage textMsg = new TextChatMessage();
 		textMsg.setChannelType(ChannelType.PRIVATE.getType());
+		textMsg.setReceiverId(receiverId);
+		textMsg.setText(content);
 		ChatChannel.getChannel(ChannelType.PRIVATE).send(textMsg);
 	}
 	

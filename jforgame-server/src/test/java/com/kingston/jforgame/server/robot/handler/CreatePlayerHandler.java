@@ -10,7 +10,7 @@ public class CreatePlayerHandler implements MessageHandler {
 	@Override
 	public void onMessageReceive(RobotSession session, Message message) {
 		ResCreateNewPlayerMessage createdNotify = (ResCreateNewPlayerMessage)message;
-
+		session.getPlayer().runAi();
 	}
 
 }
