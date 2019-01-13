@@ -49,10 +49,6 @@ CREATE TABLE `player` (
 -- Records of player
 -- ----------------------------
 INSERT INTO `player` VALUES ('10000', null, '99', 'kingston', '1', '12345', null, null, null);
-INSERT INTO `player` VALUES ('2815132638074568705', null, '0', 'robot_1000', '0', '0', '1547125647521', 'null', 'null');
-INSERT INTO `player` VALUES ('2815132638084726786', null, '0', 'robot_1000', '0', '0', '1547125647521', 'null', 'null');
-INSERT INTO `player` VALUES ('2815132639352520706', '0', '0', 'robot_1000', '0', '0', '0', 'null', 'null');
-INSERT INTO `player` VALUES ('2815132639356715010', '0', '0', 'robot_1000', '0', '0', '0', 'null', 'null');
 
 -- ----------------------------
 -- Table structure for systemrecord

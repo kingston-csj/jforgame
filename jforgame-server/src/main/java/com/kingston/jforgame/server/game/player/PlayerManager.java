@@ -15,9 +15,12 @@ import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
+import com.kingston.jforgame.server.game.accout.entity.Account;
+import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.login.LoginManager;
+import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
 import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
 import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
@@ -46,7 +49,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	/** 全服所有角色的简况 */
 	private ConcurrentMap<Long, PlayerProfile> playerProfiles = new ConcurrentHashMap<>();
-	
+
 	/** 全服所有账号的简况 */
 	private ConcurrentMap<Long, AccountProfile> accountProfiles = new ConcurrentHashMap<>();
 
@@ -73,13 +76,39 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	private void addPlayerProfile(PlayerProfile baseInfo) {
 		playerProfiles.put(baseInfo.getId(), baseInfo);
-		
+
 		long accountId = baseInfo.getAccountId();
+		// 必须将account加载并缓存
+		Account account = AccountManager.getInstance().get(accountId);
 		accountProfiles.putIfAbsent(accountId, new AccountProfile());
 		AccountProfile accountProfile = accountProfiles.get(accountId);
 		accountProfile.addPlayerProfile(baseInfo);
 	}
-	
+
+	public AccountProfile getAccountProfiles(long accountId) {
+		AccountProfile accountProfile = accountProfiles.get(accountId);
+		if (accountProfile != null) {
+			return accountProfile;
+		}
+		Account account = AccountManager.getInstance().get(accountId);
+		if (account != null) {
+			accountProfile = new AccountProfile();
+			accountProfile.setAccountId(accountId);
+			accountProfiles.putIfAbsent(accountId, accountProfile);
+		}
+		return accountProfile;
+	}
+
+	public void addAccountProfile(Account account) {
+		long accountId = account.getId();
+		if (accountProfiles.containsKey(accountId)) {
+			throw new RuntimeException("账号重复-->" + accountId);
+		}
+		AccountProfile accountProfile = new AccountProfile();
+		accountProfile.setAccountId(accountId);
+		accountProfiles.put(accountId, accountProfile);
+	}
+
 	public List<PlayerProfile> getPlayersBy(long accountId) {
 		AccountProfile account = accountProfiles.get(accountId);
 		if (account == null) {
@@ -89,17 +118,25 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	}
 
 	public void createNewPlayer(IoSession session, String name) {
-		long accountId = (long)session.getAttribute(SessionProperties.ACCOUNT);
+		long accountId = (long) session.getAttribute(SessionProperties.ACCOUNT);
 		Player player = new Player();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
 		player.setAccountId(accountId);
+		player.setPlatform(Platform.ANDROID);
 
 		long playerId = player.getId();
 		// 手动放入缓存
 		super.put(playerId, player);
 
 		DbService.getInstance().add2Queue(player);
+
+		PlayerProfile baseInfo = new PlayerProfile();
+		baseInfo.setAccountId(accountId);
+		baseInfo.setId(playerId);
+		baseInfo.setLevel(player.getLevel());
+		baseInfo.setJob(player.getJob());
+		baseInfo.setName(player.getName());
 
 		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
 		response.setPlayerId(playerId);

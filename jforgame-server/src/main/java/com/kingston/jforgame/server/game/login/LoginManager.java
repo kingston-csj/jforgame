@@ -1,17 +1,27 @@
 package com.kingston.jforgame.server.game.login;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
+import com.kingston.jforgame.server.game.login.message.res.ResLoginMessage;
+import com.kingston.jforgame.server.game.login.message.vo.PlayerLoginVo;
 import com.kingston.jforgame.server.game.player.PlayerManager;
+import com.kingston.jforgame.server.game.player.model.AccountProfile;
+import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterSceneMessage;
 import com.kingston.jforgame.socket.combine.CombineMessage;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
 import com.kingston.jforgame.socket.session.SessionProperties;
+
+import jodd.util.ArraysUtil;
 
 public class LoginManager {
 
@@ -28,8 +38,23 @@ public class LoginManager {
 	 * @param accoundId 账号流水号
 	 * @param password  账号密码
 	 */
-	public void handleAccountLogin(IoSession session, long accoundId, String password) {
-		Account account = AccountManager.getInstance().getOrCreate(accoundId);
+	public void handleAccountLogin(IoSession session, long accountId, String password) {
+		Account account = AccountManager.getInstance().getOrCreate(accountId);
+		session.setAttribute(SessionProperties.ACCOUNT, accountId);
+		
+		ResLoginMessage loginMessage = new ResLoginMessage();
+		List<PlayerLoginVo> players = new ArrayList<>();
+		AccountProfile accountProfile = PlayerManager.getInstance().getAccountProfiles(accountId);
+		List<PlayerProfile> playerProfiles = accountProfile.getPlayers();
+		
+		if (CollectionUtils.isNotEmpty(playerProfiles)) {
+			for (PlayerProfile playerProfile : playerProfiles) {
+				PlayerLoginVo vo = new PlayerLoginVo();
+				vo.setId(playerProfile.getId());
+				vo.setName(playerProfile.getName());
+			}
+		}
+		MessagePusher.pushMessage(session, loginMessage);
 		
 		if ("kingston".equals(password)) {
 			CombineMessage combineMessage = new CombineMessage();
@@ -37,8 +62,6 @@ public class LoginManager {
 			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
 		} 
-		session.setAttribute(SessionProperties.ACCOUNT, accoundId);
-		
 	}
 
 	/**

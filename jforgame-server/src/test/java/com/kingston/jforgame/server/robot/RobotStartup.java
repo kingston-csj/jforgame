@@ -19,7 +19,7 @@ public class RobotStartup {
 		firstPlayer.selectedPlayer(10000L);
 
 		for (long start = 1000; start <= 1000; start++) {
-			Robot robot = new Robot("robot_"+start);
+			Robot robot = new Robot(start);
 			robot.doConnection();
 		}
 	}

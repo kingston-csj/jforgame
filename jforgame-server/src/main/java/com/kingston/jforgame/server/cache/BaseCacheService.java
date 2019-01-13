@@ -1,49 +1,59 @@
 package com.kingston.jforgame.server.cache;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+
 import com.kingston.jforgame.server.db.BaseEntity;
 
 /**
  * 抽象缓存服务
+ * 
  * @author kingston
  */
-public abstract class BaseCacheService<K, V extends BaseEntity>
-	implements Persistable<K, V> {
+public abstract class BaseCacheService<K, V extends BaseEntity> implements Persistable<K, V> {
 
-    private final AbstractCacheContainer<K, V> container;
+	private final AbstractCacheContainer<K, V> container;
 
-    public BaseCacheService() {
-        this(CacheOptions.defaultCacheOptions());
-    }
+	public BaseCacheService() {
+		this(CacheOptions.defaultCacheOptions());
+	}
 
-    public BaseCacheService(CacheOptions p) {
-        container = new DefaultCacheContainer<>(this, p);
-    }
+	public BaseCacheService(CacheOptions p) {
+		container = new DefaultCacheContainer<>(this, p);
+	}
 
-    /**
-     * 通过key获取对象
-     * @param key
-     * @return
-     */
-    public V get(K key) {
-        return container.get(key);
-    }
+	/**
+	 * 通过key获取对象
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public V get(K key) {
+		return container.get(key);
+	}
 
-    /**
-     * 手动移除缓存
-     * @param key
-     * @return
-     */
-    public void remove(K key) {
-        container.remove(key);
-    }
+	public final V getOrCreate(K k, Callable<V> callable) {
+		return container.getOrCreate(k, callable);
+	}
 
-    /**
-     * 手动加入缓存
-     * @param key
-     * @return
-     */
-    public void put(K key, V v)  {
-        this.container.put(key, v);
-    }
-    
+	/**
+	 * 手动移除缓存
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public void remove(K key) {
+		container.remove(key);
+	}
+
+	/**
+	 * 手动加入缓存
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public void put(K key, V v) {
+		this.container.put(key, v);
+	}
+
 }

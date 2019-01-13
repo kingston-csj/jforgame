@@ -1,4 +1,5 @@
-﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -126,6 +127,7 @@
 			<version>1.8.0</version>
 			<scope>system</scope>
 			<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+			<!--<systemPath>/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/lib/tools.jar</systemPath>-->
 		</dependency>
 
 		<dependency>
@@ -143,11 +145,14 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 		</dependency>
 
-
 		<!-- 其他 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
 		</dependency>
 
 	</dependencies>

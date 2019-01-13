@@ -15,6 +15,7 @@ import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
 import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
 
@@ -24,8 +25,10 @@ public class Robot {
 
 	private String name;
 
-	public Robot(String name) {
-		this.name = name;
+	private long accountId;
+
+	public Robot(long accountId) {
+		this.accountId = accountId;
 	}
 
 	public void doConnection() {
@@ -49,16 +52,16 @@ public class Robot {
 	}
 
 	public void login() {
-//		ReqLoginMessage request = new ReqLoginMessage();
-//		request.setPassword("kingston");
-//		request.setAccountId(123L);
-//		this.session.sendMessage(request);
-		
-		ReqCreateNewPlayerMessage req = new ReqCreateNewPlayerMessage();
-		req.setName(name);
-		this.session.sendMessage(req);
+		ReqLoginMessage request = new ReqLoginMessage();
+		request.setPassword("kingston");
+		request.setAccountId(accountId);
+		this.session.sendMessage(request);
+
+//		ReqCreateNewPlayerMessage req = new ReqCreateNewPlayerMessage();
+//		req.setName(name);
+//		this.session.sendMessage(req);
 	}
-	
+
 	public void runAi() {
 		Runnable task = () -> {
 			ReqPrivateChat reqChat = new ReqPrivateChat();
@@ -73,6 +76,18 @@ public class Robot {
 		return this.name;
 	}
 
+	public long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(long accountId) {
+		this.accountId = accountId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private class ClientHandler extends IoHandlerAdapter {
 
 		@Override
@@ -82,8 +97,8 @@ public class Robot {
 
 		@Override
 		public void messageReceived(IoSession session, Object data) {
-			Message message = (Message)data;
-			System.out.println("收到响应-->" + data);
+			Message message = (Message) data;
+			System.out.println("收到响应-->" + data.getClass().getSimpleName() + " " + JsonUtils.object2String(data));
 			Robot.this.session.receiveMessage(message);
 		}
 
