@@ -38,12 +38,11 @@ public class ClientPlayer {
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		connector.setHandler(new ClientHandler());
 
-		System.out.println("开始连接socket服务端");
 		int serverPort = ServerConfig.getInstance().getServerPort();
+		System.out.println("开始连接游戏服务器端口" + serverPort);
 		ConnectFuture future = connector.connect(new InetSocketAddress(serverPort));
-
+		
 		future.awaitUninterruptibly();
-
 		IoSession session = future.getSession();
 		this.session = session;
 	}

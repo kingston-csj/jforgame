@@ -13,7 +13,6 @@ import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.chat.message.ReqPrivateChat;
 import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
-import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayerMessage;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
@@ -56,10 +55,6 @@ public class Robot {
 		request.setPassword("kingston");
 		request.setAccountId(accountId);
 		this.session.sendMessage(request);
-
-//		ReqCreateNewPlayerMessage req = new ReqCreateNewPlayerMessage();
-//		req.setName(name);
-//		this.session.sendMessage(req);
 	}
 
 	public void runAi() {

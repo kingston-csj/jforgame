@@ -42,7 +42,7 @@ public class LoginManager {
 		Account account = AccountManager.getInstance().getOrCreate(accountId);
 		session.setAttribute(SessionProperties.ACCOUNT, accountId);
 		
-		ResLoginMessage loginMessage = new ResLoginMessage();
+		
 		List<PlayerLoginVo> players = new ArrayList<>();
 		AccountProfile accountProfile = PlayerManager.getInstance().getAccountProfiles(accountId);
 		List<PlayerProfile> playerProfiles = accountProfile.getPlayers();
@@ -52,8 +52,12 @@ public class LoginManager {
 				PlayerLoginVo vo = new PlayerLoginVo();
 				vo.setId(playerProfile.getId());
 				vo.setName(playerProfile.getName());
+				players.add(vo);
 			}
 		}
+		
+		ResLoginMessage loginMessage = new ResLoginMessage();
+		loginMessage.setPlayers(players);
 		MessagePusher.pushMessage(session, loginMessage);
 		
 		if ("kingston".equals(password)) {

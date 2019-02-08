@@ -59,7 +59,7 @@ public class SocketServer {
 		//指定业务逻辑处理器
 		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()));
 		//设置端口号
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort) );
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
 		//启动监听
 		acceptor.bind();
 	}

@@ -24,7 +24,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 	@Override
 	public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
 		if (debug && traceRequest(message)) {
-			logger.info("<<<<<<<<<<[{}]{}={}",
+			logger.error("<<<<<<<<<<[{}]{}={}",
 					getMessageSignure(session),
 					message.getClass().getSimpleName(), new Gson().toJson(message));
 		}
