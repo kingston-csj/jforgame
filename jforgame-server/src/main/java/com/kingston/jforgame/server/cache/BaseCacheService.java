@@ -1,7 +1,6 @@
 package com.kingston.jforgame.server.cache;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import com.kingston.jforgame.server.db.BaseEntity;
 

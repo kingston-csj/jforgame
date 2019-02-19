@@ -21,8 +21,6 @@ import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
 import com.kingston.jforgame.socket.session.SessionProperties;
 
-import jodd.util.ArraysUtil;
-
 public class LoginManager {
 
 	private static volatile LoginManager instance = new LoginManager();

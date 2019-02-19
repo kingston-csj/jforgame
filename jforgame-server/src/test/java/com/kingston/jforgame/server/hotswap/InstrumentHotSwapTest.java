@@ -26,7 +26,7 @@ public class InstrumentHotSwapTest {
 				).start();
 
 		Thread.sleep(3000);
-		HotswapManager.INSTANCE.reloadClass("Person");
+		HotswapManager.INSTANCE.reloadClass("target");
 		Thread.sleep(3000);
 
 	}

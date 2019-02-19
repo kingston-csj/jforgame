@@ -10,8 +10,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
-import com.google.common.util.concurrent.UncheckedExecutionException;
-import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
  * 缓存容器
