@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.config.container;
+package com.kingston.jforgame.server.game.database.config.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import com.kingston.jforgame.server.game.database.config.bean.ConfigFunction;
 import com.kingston.jforgame.server.game.function.model.OpenType;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class ConfigFunctionContainer implements Reloadable {
+public class ConfigFunctionStorage implements Reloadable {
 
 	private Map<Integer, ConfigFunction> functions = new HashMap<>();
 

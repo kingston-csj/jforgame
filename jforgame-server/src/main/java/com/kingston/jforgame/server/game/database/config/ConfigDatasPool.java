@@ -1,58 +1,74 @@
 package com.kingston.jforgame.server.game.database.config;
 
-import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-import com.kingston.jforgame.server.game.database.config.container.ConfigConstantContainer;
-import com.kingston.jforgame.server.game.database.config.container.ConfigFunctionContainer;
-import com.kingston.jforgame.server.game.database.config.container.ConfigNoticeContainer;
-import com.kingston.jforgame.server.game.database.config.container.ConfigPlayerLevelContainer;
-import com.kingston.jforgame.server.game.database.config.container.ConfigSkillContainer;
+import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
  * 所有策划配置的数据池
+ * 
  * @author kingston
  */
 public class ConfigDatasPool {
 
 	private static ConfigDatasPool instance = new ConfigDatasPool();
 
-	private ConfigDatasPool() {}
+	private ConfigDatasPool() {
+	}
 
 	public static ConfigDatasPool getInstance() {
 		return instance;
 	}
 
-	public ConfigPlayerLevelContainer configPlayerLevelContainer = new ConfigPlayerLevelContainer();
-
-	public ConfigSkillContainer configSkillContainer = new ConfigSkillContainer();
-
-	public ConfigConstantContainer configConstantContainer = new ConfigConstantContainer();
-
-	public ConfigNoticeContainer configNoticeContainer = new ConfigNoticeContainer();
-
-	public ConfigFunctionContainer configFunctionContainer = new ConfigFunctionContainer();
+	private ConcurrentMap<Class<?>, Reloadable> datas = new ConcurrentHashMap<>();
 
 	/**
 	 * 起服读取所有的配置数据
 	 */
 	public void loadAllConfigs() {
-		Field[] fields = ConfigDatasPool.class.getDeclaredFields();
-		ConfigDatasPool instance = getInstance();
-		for (Field f:fields) {
+		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.game.database.config",
+				Reloadable.class);
+
+		clazzs.forEach(c -> {
 			try {
-			if (Reloadable.class.isAssignableFrom(f.getType())) {
-				Reloadable container = (Reloadable) f.getType().newInstance();
+				Reloadable container = (Reloadable) c.newInstance();
 				container.reload();
-				f.set(instance, container);
-			}
-			}catch (Exception e) {
-				LoggerUtils.error("策划配置数据有误，请检查", e);
+				datas.put(c, container);
+			} catch (Exception e) {
+				LoggerUtils.error(c.getName() + "策划配置数据有误，请检查", e);
 				System.exit(0);
 			}
-		}
-
+		});
 	}
-
+	
+	public <V> V getStorage(Class<?> config) {
+		return (V) datas.get(config);
+	}
+	
+	/**
+	 * 单表重载
+	 * @param configTableName 配置表名称
+	 */
+	public boolean reload(String configTableName) {
+		for (Map.Entry<Class<?>, Reloadable> entry : datas.entrySet()) {
+			Class<?> c = entry.getKey();
+			if (c.getSimpleName().toLowerCase().indexOf(configTableName.toLowerCase()) >= 0) {
+				try {
+					Reloadable storage = (Reloadable) c.newInstance();
+					storage.reload();
+					datas.put(c, storage);
+					return true;
+				} catch (Exception e) {
+					LoggerUtils.error(c.getName() + "配置数据重载异常", e);
+				} 
+				break;
+			}
+		}
+		return false;
+	}
 
 }

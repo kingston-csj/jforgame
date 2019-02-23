@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.config.container;
+package com.kingston.jforgame.server.game.database.config.storage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * 
  * @author kingston
  */
-public class ConfigPlayerLevelContainer implements Reloadable {
+public class ConfigPlayerLevelStorage implements Reloadable {
 
 	private Map<Integer, ConfigPlayerLevel> levels = new HashMap<>();
 

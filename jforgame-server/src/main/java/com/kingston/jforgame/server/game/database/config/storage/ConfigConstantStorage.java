@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.config.container;
+package com.kingston.jforgame.server.game.database.config.storage;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigConstant;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class ConfigConstantContainer implements Reloadable {
+public class ConfigConstantStorage implements Reloadable {
 
 	private Map<Integer, ConfigConstant> configs;
 

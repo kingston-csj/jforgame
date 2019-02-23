@@ -72,7 +72,7 @@ public class ClientPlayer {
 	 * @param message
 	 */
 	public void sendMessage(Message message) {
-		System.err.println("发送请求-->" + message);
+		System.err.println(String.format("发送请求-->  %s %s", message.getClass().getSimpleName(), new Gson().toJson(message)));
 		this.session.write(message);
 	}
 
@@ -80,7 +80,7 @@ public class ClientPlayer {
 
 		@Override
 		public void messageReceived(IoSession session, Object message) {
-			System.out.println("收到响应<--" + new Gson().toJson(message));
+			System.err.println(String.format("收到响应<--  %s %s", message.getClass().getSimpleName(), new Gson().toJson(message)));
 		}
 
 		@Override

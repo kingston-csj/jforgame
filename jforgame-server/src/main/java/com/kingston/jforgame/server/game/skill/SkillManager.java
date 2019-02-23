@@ -2,7 +2,7 @@ package com.kingston.jforgame.server.game.skill;
 
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigSkill;
-import com.kingston.jforgame.server.game.database.config.container.ConfigSkillContainer;
+import com.kingston.jforgame.server.game.database.config.storage.ConfigSkillStorage;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.listener.BaseGameEvent;
 
@@ -22,8 +22,8 @@ public class SkillManager {
 	}
 
 	public ConfigSkill getSkillBy(int id) {
-		ConfigSkillContainer container = ConfigDatasPool.getInstance().configSkillContainer;
-		return container.getSkillBy(id);
+		ConfigSkillStorage storage = ConfigDatasPool.getInstance().getStorage(ConfigSkillStorage.class);
+		return storage.getSkillBy(id);
 	}
 
 }

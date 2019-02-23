@@ -20,6 +20,10 @@ public class ClientStartup {
 		robot.buildConnection();
 		robot.login();
 		robot.selectedPlayer(10000L);
+		
+//		ReqGmExecMessage req = new ReqGmExecMessage();
+//		req.setCommand("reloadConfig configactivity");
+//		robot.sendMessage(req);
 //		robot.createNew();
 	}
 

@@ -24,7 +24,7 @@ public class GmManager {
 	/** 缓存ｇｍ指令的模式与对应的逻辑处理者 */
 	private Map<Pattern, AbstractGmCommand> commands = new HashMap<>();
 	
-	private final String SCAN_PATH = "com.kingston.game.gm.command";
+	private final String SCAN_PATH = "com.kingston.jforgame.server.game.gm.command";
 
 	public static GmManager getInstance() {
 		if (instance == null) {

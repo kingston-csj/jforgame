@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.config.container;
+package com.kingston.jforgame.server.game.database.config.storage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.kingston.jforgame.server.game.database.config.Reloadable;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigNotice;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
-public class ConfigNoticeContainer implements Reloadable {
+public class ConfigNoticeStorage implements Reloadable {
 
 	private Map<Integer, ConfigNotice> messages = new HashMap<>();
 

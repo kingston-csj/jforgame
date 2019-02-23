@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.config.container;
+package com.kingston.jforgame.server.game.database.config.storage;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * 
  * @author kingston
  */
-public class ConfigActivityConatainer implements Reloadable {
+public class ConfigActivityStorage implements Reloadable {
 
 	private Map<Integer, ConfigActivity> activities = new HashMap<>();
 

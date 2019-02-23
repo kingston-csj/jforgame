@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigFunction;
-import com.kingston.jforgame.server.game.database.config.container.ConfigFunctionContainer;
+import com.kingston.jforgame.server.game.database.config.storage.ConfigFunctionStorage;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.function.model.OpenType;
 import com.kingston.jforgame.server.game.player.PlayerManager;
@@ -23,8 +23,8 @@ public class FunctionListener {
 		Player player = PlayerManager.getInstance().get(playerId);
 		Set<Integer> openFuncs = player.getFunction().getFuncs();
 
-		ConfigFunctionContainer functionContainer = ConfigDatasPool.getInstance().configFunctionContainer;
-		List<ConfigFunction> openByLevelFuncs = functionContainer.getFunctionBy(OpenType.LEVEL);
+		ConfigFunctionStorage functionStorage = ConfigDatasPool.getInstance().getStorage(ConfigFunctionStorage.class);
+		List<ConfigFunction> openByLevelFuncs = functionStorage.getFunctionBy(OpenType.LEVEL);
 
 		int level = player.getLevel();
 		for (ConfigFunction configFunc : openByLevelFuncs) {
