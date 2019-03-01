@@ -16,7 +16,7 @@ import com.kingston.jforgame.socket.session.SessionProperties;
 /**
  * @author kingston
  */
-public class MinaDecoder implements ProtocolDecoder {
+public class MinaProtocolDecoder implements ProtocolDecoder {
 
 	@Override
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {

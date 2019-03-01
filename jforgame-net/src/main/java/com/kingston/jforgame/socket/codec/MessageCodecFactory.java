@@ -10,9 +10,9 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
  */
 public class MessageCodecFactory implements ProtocolCodecFactory {
 
-	private MinaDecoder decoder = new MinaDecoder();
+	private MinaProtocolDecoder decoder = new MinaProtocolDecoder();
 
-	private MinaEncoder encoder = new MinaEncoder();
+	private MinaProtocolEncoder encoder = new MinaProtocolEncoder();
 
 	@Override
 	public ProtocolEncoder getEncoder(IoSession session) throws Exception {

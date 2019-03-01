@@ -1,8 +1,5 @@
 package com.kingston.jforgame.socket.codec;
 
-import com.kingston.jforgame.socket.codec.reflect.ReflectDecoder;
-import com.kingston.jforgame.socket.codec.reflect.ReflectEncoder;
-
 /**
  * @author kingston
  */
@@ -10,11 +7,15 @@ public class SerializerHelper {
 
 	public static volatile SerializerHelper instance;
 
+	/**
+	 * 消息私有协议栈编解码
+	 */
 	private MessageCodecFactory codecFactory;
 
-	private IMessageDecoder decoder;
-
-	private IMessageEncoder encoder;
+	/**
+	 * 消息序列化栈编解码
+	 */
+	private static SerializerFactory serializerFactory = new ReflectSerializerFactory();
 
 	public static SerializerHelper getInstance() {
 		if (instance != null) {
@@ -22,18 +23,15 @@ public class SerializerHelper {
 		}
 		synchronized (SerializerHelper.class) {
 			if (instance == null) {
-				instance =  new SerializerHelper();
-				instance.initialize();
+				SerializerHelper self =  new SerializerHelper();
+				self.initialize();
+				instance = self;
 			}
 		}
 		return instance;
 	}
 
 	private void initialize() {
-//		decoder = new ProtobufDecoder();
-//		encoder = new ProtobufEncoder();
-		decoder = new ReflectDecoder();
-		encoder = new ReflectEncoder();
 		codecFactory = new MessageCodecFactory();
 	}
 
@@ -42,11 +40,11 @@ public class SerializerHelper {
 	}
 
 	public IMessageDecoder getDecoder() {
-		return decoder;
+		return serializerFactory.getDecoder();
 	}
 
 	public IMessageEncoder getEncoder() {
-		return encoder;
+		return serializerFactory.getEncoder();
 	}
 
 }
