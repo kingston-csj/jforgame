@@ -187,12 +187,7 @@
 							<outputDirectory>${project.build.directory}/configs</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/resources</directory>
-									<excludes>
-										<exclude>jobs/**</exclude>
-										<exclude>log4j.xml</exclude>
-									</excludes>
-									<filtering>false</filtering>
+									<directory>configs/</directory>
 								</resource>
 							</resources>
 						</configuration>

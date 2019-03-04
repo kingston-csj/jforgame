@@ -1,4 +1,4 @@
-  ## 中文 | [English](README_EN.md)  
+﻿  ## 中文 | [English](README_EN.md)  
   
   ## 项目介绍　　
   jforgame，是一个用java编写的轻量级高性能手游服务端框架。项目提供各种支持快速二次开发的组件，以及对生产环境的服务进行管理的工具。同时，为了使用户能够快速上手，项目提供了若干常用业务功能作为演示。
@@ -59,7 +59,7 @@
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
   2. 将代码导入带有maven插件的IDE(选择主目录下的pom.xml文件);  
   3. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
-  4. 启动服务端，入口为ServerStartup类;  
+  4. 启动服务端，入口为ServerStartup类（开发工具需要将src同目录的configs视为代码目录！）;  
   5. 启动客户端，入口为ClientStartup类;
 
 
