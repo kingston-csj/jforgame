@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.server.utils.XmlUtils;
 import com.kingston.jforgame.socket.GateServerConfig;
 
@@ -22,6 +23,8 @@ public class ServerConfig {
 
 	/** 匹配服http地址 */
 	private String matchUrl;
+	/** 本服是否為跨服 */
+	private boolean fight;
 
 	/** redis server url {http:port} */
 	private String redisUrl;
@@ -58,11 +61,13 @@ public class ServerConfig {
 						GateServerConfig.whiteIpPattern = ips;
 					}
 				}
-			} else if ("match-server".equals(node.getNodeName())) {
+			} else if ("cross-serve".equals(node.getNodeName())) {
 				NodeList subNodes = node.getChildNodes();
 				for (int j=0;j<subNodes.getLength();j++) {
-					if ("url".equals(subNodes.item(j).getNodeName())) {
+					if ("match_url".equals(subNodes.item(j).getNodeName())) {
 						this.matchUrl = subNodes.item(j).getTextContent();
+					} else if ("fight".equals(subNodes.item(j).getNodeName())) {
+						this.fight = NumberUtil.booleanValue(subNodes.item(j).getTextContent());
 					}
 				}
 			} else if ("redis-server".equals(node.getNodeName())) {

@@ -11,6 +11,12 @@
 		<http_port>8080</http_port>
 		<white_ips>127.0.0.1;192.168.*;10.11.*</white_ips>
 	</http-server>
+	<cross-server>
+		<!--匹配服http地址 -->
+		<match_url></match_url>
+		<!--本服是否为战斗服-->
+		<fight>false</fight>
+	</cross-server>
 	<redis-server>
 		<!--<url>127.0.0.1:8001</url> -->
 	</redis-server>
