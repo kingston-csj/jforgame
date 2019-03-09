@@ -1,6 +1,5 @@
 package com.kingston.jforgame.server.cross.core.server;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
+import com.kingston.jforgame.server.cross.core.CrossCmdExecutor;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
-import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
 import com.kingston.jforgame.socket.message.CmdExecutor;
@@ -115,11 +114,14 @@ public class BaseCMessageDispatcher implements CMessageDispatcher {
 		Object[] params = new Object[2];
 		params[0] = session;
 		params[1] = message;
-		try {
-			cmdHandler.getMethod().invoke(cmdHandler.getHandler(), params);
-		} catch (Exception e) {
-			logger.error("", e);
-		}
+		
+		CrossCmdExecutor.getInstance().addTask(session, () -> {
+			try {
+				cmdHandler.getMethod().invoke(cmdHandler.getHandler(), params);
+			} catch (Exception e) {
+				logger.error("", e);
+			}
+		});
 	}
 
 	@Override
@@ -132,12 +134,14 @@ public class BaseCMessageDispatcher implements CMessageDispatcher {
 		Object[] params = new Object[2];
 		params[0] = session;
 		params[1] = message;
-		try {
-			cmdHandler.getMethod().invoke(cmdHandler.getHandler(), params);
-		} catch (Exception e) {
-			logger.error("", e);
-		}
-
+		
+		CrossCmdExecutor.getInstance().addTask(session, () -> {
+			try {
+				cmdHandler.getMethod().invoke(cmdHandler.getHandler(), params);
+			} catch (Exception e) {
+				logger.error("", e);
+			}
+		});
 	}
 
 }

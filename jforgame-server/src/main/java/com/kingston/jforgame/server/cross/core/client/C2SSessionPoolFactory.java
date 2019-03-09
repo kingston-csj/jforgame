@@ -11,6 +11,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.kingston.jforgame.server.cross.core.server.BaseCMessageDispatcher;
 import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 
 
 public class C2SSessionPoolFactory {
@@ -48,7 +49,7 @@ public class C2SSessionPoolFactory {
 			pools.putIfAbsent(key, pool);
 			return (CCSession) pool.borrowObject();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LoggerUtils.error("", e);
 			return null;
 		}
 	}

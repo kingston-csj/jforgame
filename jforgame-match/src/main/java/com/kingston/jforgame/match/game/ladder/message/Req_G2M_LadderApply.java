@@ -6,7 +6,7 @@ import com.kingston.jforgame.socket.message.Message;
  * 天梯报名
  * @author kingston
  */
-public class Req_G2M_LadderApplyMessage extends Message {
+public class Req_G2M_LadderApply extends Message {
 
 	private long playerId;
 	/** 积分 */

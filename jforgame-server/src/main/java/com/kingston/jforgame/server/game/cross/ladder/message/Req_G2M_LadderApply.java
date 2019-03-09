@@ -1,11 +1,10 @@
-package com.kingston.jforgame.server.cross.core.match.ladder.message;
+package com.kingston.jforgame.server.game.cross.ladder.message;
 
 import com.kingston.jforgame.server.cross.core.match.AbstractMatchMessage;
 
-public class MReqLadderApplyMessage extends AbstractMatchMessage {
+public class Req_G2M_LadderApply extends AbstractMatchMessage {
 
 	private long playerId;
-
 	/** 积分 */
 	private int score;
 	/** 战力　*/
@@ -35,6 +34,5 @@ public class MReqLadderApplyMessage extends AbstractMatchMessage {
 		return "MReqLadderApplyMessage [playerId=" + playerId +
 				", score=" + score + ", power=" + power + "]";
 	}
-
 
 }

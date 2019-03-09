@@ -8,7 +8,7 @@ import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.cross.ladder.LadderFightManager;
+import com.kingston.jforgame.server.game.cross.ladder.service.LadderClientManager;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
@@ -85,7 +85,7 @@ public class GameServer {
 		//http admin commands
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 		// 跨服天梯
-		LadderFightManager.getInstance().init();
+		LadderClientManager.getInstance().init();
 		//启动socket服务
 		socketServer = new SocketServer();
 		socketServer.start(ServerConfig.getInstance().getServerPort());

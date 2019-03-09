@@ -26,12 +26,13 @@ public class MatchMessageFactory {
 	}
 
 	public void initialize() {
-		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.match", AbstractMatchMessage.class);
+		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.match",
+				AbstractMatchMessage.class);
 
-		for (Class<?> controller: messages) {
+		for (Class<?> controller : messages) {
 			try {
 				signature2Clazz.put(controller.getSimpleName(), controller);
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

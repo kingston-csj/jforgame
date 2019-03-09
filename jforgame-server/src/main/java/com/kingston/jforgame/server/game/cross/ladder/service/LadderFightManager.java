@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.cross.ladder;
+package com.kingston.jforgame.server.game.cross.ladder.service;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import com.kingston.jforgame.server.game.cross.ladder.message.Req_F2M_HeatBeat;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
- * 天梯战斗服务
+ * 天梯战斗服业务处理
  *
  */
 public class LadderFightManager {
@@ -39,4 +39,5 @@ public class LadderFightManager {
 		};
 		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 5000);
 	}
+	
 }

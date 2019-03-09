@@ -7,18 +7,18 @@ import com.kingston.jforgame.socket.message.Message;
  * 天梯报名成功
  * @author kingston
  */
-public class Res_M2GLadderApplySuccMessage extends Message {
+public class Res_M2GLadderApplySucc extends Message {
 
 	private byte code;
 
-	public static Res_M2GLadderApplySuccMessage valueOfSucc() {
-		Res_M2GLadderApplySuccMessage response = new Res_M2GLadderApplySuccMessage();
+	public static Res_M2GLadderApplySucc valueOfSucc() {
+		Res_M2GLadderApplySucc response = new Res_M2GLadderApplySucc();
 		response.code = Constants.SUCC;
 		return response;
 	}
 
-	public static Res_M2GLadderApplySuccMessage valueOfFailed() {
-		Res_M2GLadderApplySuccMessage response = new Res_M2GLadderApplySuccMessage();
+	public static Res_M2GLadderApplySucc valueOfFailed() {
+		Res_M2GLadderApplySucc response = new Res_M2GLadderApplySucc();
 		response.code = Constants.FAILED;;
 		return response;
 	}

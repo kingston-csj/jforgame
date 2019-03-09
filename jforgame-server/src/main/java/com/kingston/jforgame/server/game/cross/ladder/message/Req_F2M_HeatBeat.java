@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.game.cross.ladder.message;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.cross.core.match.AbstractMatchMessage;
 
-public class Req_F2M_HeatBeat extends AbstractMatchMessage  {
+public class Req_F2M_HeatBeat extends AbstractMatchMessage {
 	
 	private String inetIp;
 	

@@ -13,7 +13,13 @@ import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
 
+import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
+
 public class CCSession {
+	
+	private int id;
+	
+	private static AtomicInteger idFactory = new AtomicInteger();
 	
 	private String ipAddr;
 	
@@ -25,6 +31,9 @@ public class CCSession {
 	
 	public static CCSession valueOf(String ip, int port, CMessageDispatcher dispatcher) {
 		CCSession cSession = new CCSession();
+		cSession.ipAddr = ip;
+		cSession.port = port;
+		cSession.id = idFactory.getAndIncrement();
 		
 		return cSession;
 	}
@@ -57,26 +66,18 @@ public class CCSession {
 		return ipAddr;
 	}
 
-	public void setIpAddr(String ipAddr) {
-		this.ipAddr = ipAddr;
-	}
-
 	public int getPort() {
 		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
 	}
 
 	public IoSession getWrapper() {
 		return wrapper;
 	}
-
-	public void setWrapper(IoSession wrapper) {
-		this.wrapper = wrapper;
-	}
 	
+	public int getId() {
+		return id;
+	}
+
 	public void sendMessage(Message message) {
 		this.wrapper.write(message);
 	}

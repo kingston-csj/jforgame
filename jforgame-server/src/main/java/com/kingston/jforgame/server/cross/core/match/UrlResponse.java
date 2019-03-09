@@ -5,7 +5,7 @@ public class UrlResponse {
 	private byte code;
 	/** 消息 */
 	private String message;
-	/**额外消息 */
+	/** 额外参数 */
 	private String attachemt;
 
 	public byte getCode() {
