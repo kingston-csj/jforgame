@@ -1,3 +1,4 @@
+
 package com.kingston.jforgame.server.game;
 
 public interface Modules {
@@ -24,6 +25,11 @@ public interface Modules {
 	int SKILL = 105;
 	/** 聊天 */
 	int CHAT = 106;
+	
+	
+	//------------------跨服业务功能模块（501开始）---------------------
+	/** 跨服天梯 */
+	int LADDER = 501;
 
 
 }

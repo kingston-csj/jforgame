@@ -12,9 +12,12 @@ public class SCSession {
 	
 	private IoSession wrapper;
 	
+	private String clientIp;
+	
 	public static SCSession valueOf(IoSession wrapper) {
 		SCSession cSession = new SCSession();
 		cSession.wrapper = wrapper;
+		cSession.clientIp = wrapper.getRemoteAddress().toString();
 		return cSession;
 	}
 	
@@ -30,4 +33,8 @@ public class SCSession {
 		this.wrapper.write(message);
 	}
 
+	public String getClientIp() {
+		return clientIp;
+	}
+	
 }

@@ -6,7 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kingston.jforgame.server.ServerConfig;
-import com.kingston.jforgame.server.match.ladder.message.MReqLadderApplyMessage;
+import com.kingston.jforgame.server.cross.core.match.MatchHttpUtil;
+import com.kingston.jforgame.server.cross.core.match.ladder.message.MReqLadderApplyMessage;
 import com.kingston.jforgame.socket.message.Message;
 
 

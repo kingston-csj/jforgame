@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.match;
+package com.kingston.jforgame.server.cross.core.match;
 
 public class UrlResponse {
 	/** 执行结果状态码 */

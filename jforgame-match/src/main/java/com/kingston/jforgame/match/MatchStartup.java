@@ -4,6 +4,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.kingston.jforgame.match.game.ladder.service.LadderCenterManager;
 import com.kingston.jforgame.match.http.MatchServer;
 import com.kingston.jforgame.match.util.XmlUtils;
 
@@ -15,6 +16,8 @@ public class MatchStartup {
 			throw new IllegalArgumentException("端口错误");
 		}
 		new MatchServer().start(port);
+		
+		LadderCenterManager.getInstance().init();
 	}
 
 	private static int readPortFromXml() {

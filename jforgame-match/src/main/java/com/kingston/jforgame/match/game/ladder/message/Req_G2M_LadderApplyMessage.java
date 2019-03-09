@@ -6,10 +6,9 @@ import com.kingston.jforgame.socket.message.Message;
  * 天梯报名
  * @author kingston
  */
-public class MReqLadderApplyMessage extends Message {
+public class Req_G2M_LadderApplyMessage extends Message {
 
 	private long playerId;
-
 	/** 积分 */
 	private int score;
 	/** 战力　*/
@@ -39,6 +38,5 @@ public class MReqLadderApplyMessage extends Message {
 		return "MReqLadderApplyMessage [playerId=" + playerId +
 				", score=" + score + ", power=" + power + "]";
 	}
-
 
 }

@@ -31,14 +31,19 @@ public class SchedulerManager {
 	
 	private void init() {
 		service = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors(),
-				new NamedThreadFactory(""));
+				new NamedThreadFactory("common-scheduler"));
 	}
 	
+	/**
+	 * 
+	 * @param command
+	 * @param initialDelay 毫秒数
+	 * @param period 毫秒数
+	 * @return
+	 */
     public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,
-            long initialDelay,
-            long period,
-            TimeUnit unit) {
-    	return service.scheduleAtFixedRate(command, initialDelay, period, unit);
+            long initialDelay, long period) {
+    	return service.scheduleAtFixedRate(command, initialDelay, period, TimeUnit.MILLISECONDS);
     }
 	
 

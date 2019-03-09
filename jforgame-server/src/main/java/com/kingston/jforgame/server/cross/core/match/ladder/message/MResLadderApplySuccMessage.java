@@ -1,6 +1,6 @@
-package com.kingston.jforgame.server.match.ladder.message;
+package com.kingston.jforgame.server.cross.core.match.ladder.message;
 
-import com.kingston.jforgame.server.match.AbstractMatchMessage;
+import com.kingston.jforgame.server.cross.core.match.AbstractMatchMessage;
 
 
 public class MResLadderApplySuccMessage extends AbstractMatchMessage {

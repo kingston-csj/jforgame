@@ -3,8 +3,10 @@ package com.kingston.jforgame.match.game.ladder.facade;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.match.core.HttpMessagePusher;
-import com.kingston.jforgame.match.game.ladder.message.MReqLadderApplyMessage;
-import com.kingston.jforgame.match.game.ladder.message.MResLadderApplySuccMessage;
+import com.kingston.jforgame.match.game.ladder.message.Req_G2M_LadderApplyMessage;
+import com.kingston.jforgame.match.game.ladder.message.Res_M2GLadderApplySuccMessage;
+import com.kingston.jforgame.match.game.ladder.message.Req_F2M_HeatBeat;
+import com.kingston.jforgame.match.game.ladder.service.LadderCenterManager;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
 
@@ -12,8 +14,14 @@ import com.kingston.jforgame.socket.annotation.RequestMapping;
 public class LadderController {
 
 	@RequestMapping
-	public void apply(IoSession session, MReqLadderApplyMessage request) {
-		HttpMessagePusher.push(session, new MResLadderApplySuccMessage());
+	public void heatBeat(IoSession session, Req_F2M_HeatBeat req) {
+		System.out.println("收到心跳包-->" + req);
+		LadderCenterManager.getInstance().updateFightServer(req.getServerId(), req.getInetIp(), req.getPort());
+	}
+	
+	@RequestMapping
+	public void apply(IoSession session, Req_G2M_LadderApplyMessage request) {
+		HttpMessagePusher.push(session, new Res_M2GLadderApplySuccMessage());
 	}
 
 }

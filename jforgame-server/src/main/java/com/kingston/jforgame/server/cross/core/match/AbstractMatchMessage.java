@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.match;
+package com.kingston.jforgame.server.cross.core.match;
 
 /**
  * 跨服专用消息基类

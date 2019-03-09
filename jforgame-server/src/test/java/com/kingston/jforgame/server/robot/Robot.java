@@ -64,7 +64,7 @@ public class Robot {
 			reqChat.setReceiverId(10000L);
 			this.session.sendMessage(reqChat);
 		};
-		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
+		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 1000);
 	}
 
 	public String getName() {

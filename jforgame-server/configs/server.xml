@@ -13,9 +13,11 @@
 	</http-server>
 	<cross-server>
 		<!--匹配服http地址 -->
-		<match_url></match_url>
+		<match_url>http://localhost:8899/</match_url>
 		<!--本服是否为战斗服-->
-		<fight>false</fight>
+		<fight>true</fight>
+		<!--对外跨服端口-->
+		<cross_port>9627</cross_port>
 	</cross-server>
 	<redis-server>
 		<!--<url>127.0.0.1:8001</url> -->
