@@ -26,7 +26,7 @@ public class MatchMessageFactory {
 	}
 
 	public void initialize() {
-		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.match",
+		Set<Class<?>> messages = ClassScanner.listAllSubclasses("com.kingston.jforgame.server",
 				AbstractMatchMessage.class);
 
 		for (Class<?> controller : messages) {

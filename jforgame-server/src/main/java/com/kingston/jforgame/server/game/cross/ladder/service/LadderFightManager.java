@@ -1,8 +1,7 @@
 package com.kingston.jforgame.server.game.cross.ladder.service;
 
-import java.io.IOException;
-
 import com.kingston.jforgame.server.ServerConfig;
+import com.kingston.jforgame.server.cross.core.match.AbstractMatchMessage;
 import com.kingston.jforgame.server.cross.core.match.MatchHttpUtil;
 import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.game.cross.ladder.message.Req_F2M_HeatBeat;
@@ -32,12 +31,12 @@ public class LadderFightManager {
 		Runnable task = () -> {
 			Req_F2M_HeatBeat heatBeat = new Req_F2M_HeatBeat();
 			try {
-				MatchHttpUtil.submit(heatBeat);
-			} catch (IOException e) {
+				AbstractMatchMessage response = MatchHttpUtil.submit(heatBeat);
+			} catch (Exception e) {
 				LoggerUtils.error("发送心跳失败", e);
 			}
 		};
-		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 5000);
+		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 10000);
 	}
 	
 }

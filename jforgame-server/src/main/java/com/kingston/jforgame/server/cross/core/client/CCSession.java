@@ -22,7 +22,9 @@ public class CCSession {
 	private static AtomicInteger idFactory = new AtomicInteger();
 	
 	private String ipAddr;
-	
+	/**
+	 * remote 端口
+	 */
 	private int port;
 	
 	private CMessageDispatcher dispatcher;
@@ -53,9 +55,8 @@ public class CCSession {
 			}
 		});
 
-		int serverPort = ServerConfig.getInstance().getServerPort();
-		System.out.println("开始连接跨服服务器端口" + serverPort);
-		ConnectFuture future = connector.connect(new InetSocketAddress(serverPort));
+		System.out.println("开始连接跨服服务器端口" + port);
+		ConnectFuture future = connector.connect(new InetSocketAddress(port));
 		
 		future.awaitUninterruptibly();
 		IoSession session = future.getSession();

@@ -27,7 +27,7 @@
   |    ├──  monitor包，系统监控模块，包括使用jmx对程序进行监控  
   |    ├──  listener包，事件驱动模型  
   |    ├──  doctor包，采用Groovy执行任意动态代码，或JDK的instrument机制修改类方法体 
-  |    ├──  cross包，跨服天梯等赛事的通信基础 
+  |    ├──  cross包，天梯等跨服赛事的通信基础 
   |    ├──  game/gm包，游戏内部金手指命令
   |    ├──  game/admin包，游戏运营/运维后台命令  
   |    ├──  redis包，跨服通信（比如跨服排行榜）  

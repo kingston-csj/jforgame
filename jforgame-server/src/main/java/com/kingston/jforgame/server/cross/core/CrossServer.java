@@ -18,11 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.jforgame.server.net.MessageDispatcher;
-import com.kingston.jforgame.server.net.filter.FloodFilter;
-import com.kingston.jforgame.server.net.filter.MessageTraceFilter;
-import com.kingston.jforgame.server.net.filter.ModuleEntranceFilter;
-import com.kingston.jforgame.socket.ServerSocketIoHandler;
+import com.kingston.jforgame.server.cross.core.server.BaseCMessageDispatcher;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 
 public class CrossServer {
@@ -50,12 +46,12 @@ public class CrossServer {
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 
-		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
+		logger.info("cross server start at port:{},正在监听服务器点对点的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		//指定业务逻辑处理器
-		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher()));
+		acceptor.setHandler(new Game2GameIoHandler(BaseCMessageDispatcher.getInstance()));
 		//设置端口号
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
 		//启动监听
@@ -75,7 +71,7 @@ public class CrossServer {
 			acceptor.unbind();
 			acceptor.dispose();
 		}
-		logger.error("---------> socket server stop successfully");
+		logger.error("---------> cross server stop successfully");
 	}
 
 }
