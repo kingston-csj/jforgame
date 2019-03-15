@@ -29,7 +29,7 @@ public class DbUtils {
 	public static void init() {
 		try {
 			logger.info("init database connection pool……");
-			JAXPConfigurator.configure("configs/proxool.xml", true);
+			JAXPConfigurator.configure("configs/proxool.xml", false);
 		} catch (ProxoolException e) {
 			logger.error("read config failed ", e);
 			System.exit(-1);
