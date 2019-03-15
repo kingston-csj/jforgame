@@ -20,7 +20,7 @@ public class BaseCMessageDispatcher implements CMessageDispatcher {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private static volatile BaseCMessageDispatcher self = new BaseCMessageDispatcher();
+	private static volatile BaseCMessageDispatcher self;
 
 	/** [message.class, CmdExecutor] */
 	private static final Map<Class<?>, CmdExecutor> HANDLERS = new HashMap<>();

@@ -12,7 +12,7 @@ import com.kingston.jforgame.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionProperties;
 
-public class Game2GameIoHandler  extends IoHandlerAdapter {
+public class Game2GameIoHandler extends IoHandlerAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(ServerSocketIoHandler.class);
 

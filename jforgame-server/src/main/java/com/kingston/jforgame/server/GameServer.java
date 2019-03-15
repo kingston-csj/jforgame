@@ -1,14 +1,27 @@
 package com.kingston.jforgame.server;
 
+import java.lang.management.ManagementFactory;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.orm.OrmProcessor;
+import com.kingston.jforgame.server.cross.core.CrossServer;
+import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
+import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.cross.ladder.service.LadderClientManager;
+import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
+import com.kingston.jforgame.server.game.cross.ladder.service.LadderFightManager;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
@@ -17,14 +30,6 @@ import com.kingston.jforgame.server.net.SocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.message.MessageFactory;
 import com.kingston.jforgame.socket.task.TaskHandlerContext;
-
-import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import java.lang.management.ManagementFactory;
 
 public class GameServer {
 
@@ -35,6 +40,8 @@ public class GameServer {
 	private SocketServer socketServer;
 
 	private HttpServer httpServer;
+	
+	private CrossServer crossServer;
 
 	public static GameServer getInstance() {
 		return gameServer;
@@ -65,7 +72,8 @@ public class GameServer {
 		//初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
-		ServerConfig.getInstance().init();
+		ServerConfig config = ServerConfig.getInstance();
+		config.init();
 		//初始化orm框架
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
 		//初始化数据库连接池
@@ -84,8 +92,11 @@ public class GameServer {
 		RedisCluster.INSTANCE.init();
 		//http admin commands
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
-		// 跨服天梯
-		LadderClientManager.getInstance().init();
+		if (config.getCrossPort() > 0) {
+			// 	启动跨服服务
+			crossServer = new CrossServer();
+			crossServer.start(config.getCrossPort());
+		}
 		//启动socket服务
 		socketServer = new SocketServer();
 		socketServer.start(ServerConfig.getInstance().getServerPort());
@@ -108,9 +119,11 @@ public class GameServer {
 	private void gameLogicInit() {
 		//游戏启动时，各种业务初始化写在这里吧
 		PlayerManager.getInstance().loadAllPlayerProfiles();
+		// 跨服天梯
+//		LadderFightManager.getInstance().init();
+		
 	}
-
-
+	
 	public void shutdown() {
 		logger.error("游戏进程准备关闭");
 		StopWatch stopWatch = new StopWatch();

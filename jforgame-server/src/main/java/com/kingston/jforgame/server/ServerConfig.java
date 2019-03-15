@@ -136,4 +136,20 @@ public class ServerConfig {
 		return crossPort;
 	}
 
+	public void setServerId(int serverId) {
+		this.serverId = serverId;
+	}
+
+	public void setServerPort(int serverPort) {
+		this.serverPort = serverPort;
+	}
+
+	public void setFight(boolean fight) {
+		this.fight = fight;
+	}
+
+	public void setCrossPort(int crossPort) {
+		this.crossPort = crossPort;
+	}
+
 }

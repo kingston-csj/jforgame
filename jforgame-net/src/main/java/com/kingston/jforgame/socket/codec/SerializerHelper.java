@@ -13,9 +13,9 @@ public class SerializerHelper {
 	private MessageCodecFactory codecFactory;
 
 	/**
-	 * 消息序列化栈编解码
+	 * 消息序列化编解码
 	 */
-	private static SerializerFactory serializerFactory = new ReflectSerializerFactory();
+	private static SerializerFactory serializerFactory = new ProtobufserializerFactory();
 
 	public static SerializerHelper getInstance() {
 		if (instance != null) {
