@@ -44,7 +44,7 @@
   Guava | 玩家数据缓存系统 | [https://github.com/google/guava](https://github.com/google/guava)  
   Jedis | 跨服数据内存数据库 | [https://redis.io](https://redis.io/)  
   quartz | job调度任务 | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
-  groovy | 基于类替换的热更新 | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
+  groovy | 热更新维护相关 | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
   proxool | mysql数据链接池 | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)   
   slf4j+log4j | 日志系统 | [https://www.slf4j.org/](https://www.slf4j.org/)  
   maven | 依赖管理及项目构建 | [http://maven.apache.org/](http://maven.apache.org/)  
@@ -57,8 +57,8 @@
 
   ## 快速开始  
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
-  2. 将代码导入带有maven插件的IDE(选择主目录下的pom.xml文件);  
-  3. 新建数据库game_data_001和game_user_001，并分别导入config下的同名sql文件;  
+  2. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
+  3. 新建数据库game_data_001和game_user_001，并分别导入test/resources下的同名sql文件;  
   4. 启动服务端，入口为ServerStartup类（开发工具需要将src同目录的configs视为代码目录！）;  
   5. 启动客户端，入口为ClientStartup类;
 
@@ -71,5 +71,5 @@
 
   ## 一起交流
   如果您发现bug，或者有任何疑问，请提交issue !!  
-  或者加入交流QQ群：780465774
+  或者加入QQ交流群：780465774
 

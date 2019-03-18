@@ -159,6 +159,14 @@
 
 	</dependencies>
 	<build>
+	    <resources>  
+	       <resource>  
+	          <directory>src/main/resources</directory>  
+	       </resource>  
+	       <resource>  
+	          <directory>configs</directory>  
+	       </resource>  
+   		</resources>
 		<plugins>
 			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
 			<!-- <plugin> <groupId>com.baidu</groupId> <artifactId>jprotobuf-precompile-plugin</artifactId> 
