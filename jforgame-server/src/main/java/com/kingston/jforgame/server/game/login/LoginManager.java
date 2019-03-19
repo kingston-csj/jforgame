@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.accout.entity.AccountManager;
@@ -16,10 +15,11 @@ import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.game.player.model.AccountProfile;
 import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterSceneMessage;
+import com.kingston.jforgame.server.net.SessionProperties;
+import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.combine.CombineMessage;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.SessionProperties;
 
 public class LoginManager {
 
@@ -36,10 +36,9 @@ public class LoginManager {
 	 * @param accoundId 账号流水号
 	 * @param password  账号密码
 	 */
-	public void handleAccountLogin(IoSession session, long accountId, String password) {
+	public void handleAccountLogin(IdSession session, long accountId, String password) {
 		Account account = AccountManager.getInstance().getOrCreate(accountId);
 		session.setAttribute(SessionProperties.ACCOUNT, accountId);
-		
 		
 		List<PlayerLoginVo> players = new ArrayList<>();
 		AccountProfile accountProfile = PlayerManager.getInstance().getAccountProfiles(accountId);
@@ -71,11 +70,11 @@ public class LoginManager {
 	 * @param session
 	 * @param playerId
 	 */
-	public void handleSelectPlayer(IoSession session, long playerId) {
+	public void handleSelectPlayer(IdSession session, long playerId) {
 		Player player = PlayerManager.getInstance().get(playerId);
 		if (player != null) {
 			//绑定session与玩家id
-			session.setAttribute(SessionProperties.PLAYER_ID, playerId);
+			session.setAttribute(IdSession.ID, playerId);
 			//加入在线列表
 			PlayerManager.getInstance().add2Online(player);
 			SessionManager.INSTANCE.registerNewPlayer(playerId, session);

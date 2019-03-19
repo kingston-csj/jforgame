@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.net.filter;
+package com.kingston.jforgame.server.net.mina.filter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,9 @@ import com.google.gson.Gson;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.session.SessionManager;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 public class MessageTraceFilter extends IoFilterAdapter {
 
@@ -56,12 +58,13 @@ public class MessageTraceFilter extends IoFilterAdapter {
 	}
 
 	private String getMessageSignure(IoSession session) {
-		long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
+		IdSession userSession = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.UserSession, IdSession.class);
+		long playerId = SessionManager.INSTANCE.getPlayerIdBy(userSession);
 		if (playerId > 0) {
 			Player player = PlayerManager.getInstance().getOnlinePlayer(playerId);
 			return player.getName();
 		}
-		return String.valueOf(session.getId());
+		return String.valueOf(session);
 	}
 
 }

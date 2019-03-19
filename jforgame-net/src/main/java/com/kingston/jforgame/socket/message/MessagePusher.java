@@ -2,8 +2,7 @@ package com.kingston.jforgame.socket.message;
 
 import java.util.Collection;
 
-import org.apache.mina.core.session.IoSession;
-
+import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.session.SessionManager;
 
 
@@ -14,8 +13,8 @@ import com.kingston.jforgame.socket.session.SessionManager;
 public class MessagePusher {
 
 	public static void pushMessage(long playerId, Message message) {
-		IoSession session = SessionManager.INSTANCE.getSessionBy(playerId);
-		pushMessage(session, message);
+		IdSession userSession = SessionManager.INSTANCE.getSessionBy(playerId);
+		pushMessage(userSession, message);
 	}
 
 	public static void pushMessage(Collection<Long> playerIds, Message message) {
@@ -24,12 +23,11 @@ public class MessagePusher {
 		}
 	}
 
-	public static void pushMessage(IoSession session, Message message) {
+	public static void pushMessage(IdSession session, Message message) {
 		if (session == null || message == null) {
 			return;
 		}
-		session.write(message);
+		session.sendPacket(message);
 	}
-
 
 }

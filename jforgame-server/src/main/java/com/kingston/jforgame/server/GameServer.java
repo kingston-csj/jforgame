@@ -26,7 +26,7 @@ import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
-import com.kingston.jforgame.server.net.SocketServer;
+import com.kingston.jforgame.server.net.mina.SocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.message.MessageFactory;
 import com.kingston.jforgame.socket.task.TaskHandlerContext;

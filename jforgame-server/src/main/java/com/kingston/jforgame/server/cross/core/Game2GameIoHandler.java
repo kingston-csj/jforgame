@@ -10,7 +10,7 @@ import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
 import com.kingston.jforgame.server.cross.core.server.SCSession;
 import com.kingston.jforgame.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 public class Game2GameIoHandler extends IoHandlerAdapter {
 
@@ -19,7 +19,7 @@ public class Game2GameIoHandler extends IoHandlerAdapter {
 	/** 消息分发器 */
 	private CMessageDispatcher messageDispatcher;
 	
-	private AttributeKey attrKey = new AttributeKey(SessionProperties.class, "SESSION_CONTAINER");
+	private AttributeKey attrKey = new AttributeKey(MinaSessionProperties.class, "SESSION_CONTAINER");
 
 	public Game2GameIoHandler(CMessageDispatcher messageDispatcher) {
 		this.messageDispatcher = messageDispatcher;

@@ -13,7 +13,7 @@ import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 import com.kingston.jforgame.socket.task.Distributable;
 
 /**
@@ -180,8 +180,9 @@ public class Player extends BaseEntity implements Distributable {
 
 	@Override
 	public int distributeKey() {
-		IoSession session = SessionManager.INSTANCE.getSessionBy(id);
-		return (int)session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+//		IoSession session = SessionManager.INSTANCE.getSessionBy(id);
+//		return (int)session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+		return 0;
 	}
 
 	@Override

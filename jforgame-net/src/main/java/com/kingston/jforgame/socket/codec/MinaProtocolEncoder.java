@@ -6,7 +6,7 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 /**
  * @author kingston
@@ -20,10 +20,10 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		CodecContext context = (CodecContext) session.getAttribute(SessionProperties.CODEC_CONTEXT);
+		CodecContext context = (CodecContext) session.getAttribute(MinaSessionProperties.CODEC_CONTEXT);
 		if (context == null) {
 			context = new CodecContext();
-			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
+			session.setAttribute(MinaSessionProperties.CODEC_CONTEXT, context);
 		}
 		IoBuffer buffer = writeMessage((Message) message);
 		out.write(buffer);

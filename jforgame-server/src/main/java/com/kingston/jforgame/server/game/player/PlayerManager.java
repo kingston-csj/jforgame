@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +28,11 @@ import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.listener.EventDispatcher;
 import com.kingston.jforgame.server.listener.EventType;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.net.SessionProperties;
 import com.kingston.jforgame.server.utils.IdGenerator;
+import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.SessionProperties;
 
 /**
  * 玩家业务管理器
@@ -117,7 +117,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		return account.getPlayers();
 	}
 
-	public void createNewPlayer(IoSession session, String name) {
+	public void createNewPlayer(IdSession session, String name) {
 		long accountId = (long) session.getAttribute(SessionProperties.ACCOUNT);
 		Player player = new Player();
 		player.setId(IdGenerator.getNextId());
@@ -232,9 +232,9 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 			return;
 		}
 		removeFromOnline(player);
-		IoSession session = SessionManager.INSTANCE.getSessionBy(playerId);
+		IdSession session = SessionManager.INSTANCE.getSessionBy(playerId);
 		MessagePusher.pushMessage(session, new ResKickPlayerMessage());
-		session.close(false);
+//		session.close(false);
 	}
 
 }

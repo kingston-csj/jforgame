@@ -11,7 +11,7 @@ import com.kingston.jforgame.socket.combine.CombineMessage;
 import com.kingston.jforgame.socket.combine.Packet;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 /**
  * @author kingston
@@ -21,10 +21,10 @@ public class MinaProtocolDecoder implements ProtocolDecoder {
 	@Override
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		//必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了
-		CodecContext context = SessionManager.INSTANCE.getSessionAttr(session, SessionProperties.CODEC_CONTEXT, CodecContext.class);
+		CodecContext context = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.CODEC_CONTEXT, CodecContext.class);
 		if (context == null) {
 			context = new CodecContext();
-			session.setAttribute(SessionProperties.CODEC_CONTEXT, context);
+			session.setAttribute(MinaSessionProperties.CODEC_CONTEXT, context);
 		}
 
 		IoBuffer ioBuffer = context.getBuffer();

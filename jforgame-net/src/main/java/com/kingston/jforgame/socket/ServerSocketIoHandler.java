@@ -7,8 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.SessionProperties;
+import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 /**
  * @author kingston
@@ -26,21 +25,25 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionCreated(IoSession session) {
+		IdSession userSession = new MinaSession(session);
 		System.out.println(session.getRemoteAddress().toString());
-		session.setAttributeIfAbsent(SessionProperties.DISTRIBUTE_KEY,
-				SessionManager.INSTANCE.getNextDistributeKey());
+		session.setAttribute(MinaSessionProperties.UserSession,
+				userSession);
+		messageDispatcher.onSessionCreated(userSession);
 	}
 
 	@Override
 	public void messageReceived(IoSession session, Object data) throws Exception {
 		Message message = (Message)data;
+		IdSession userSession = (IdSession) session.getAttribute(MinaSessionProperties.UserSession);
 		//交由消息分发器处理
-		messageDispatcher.dispatch(session, message);
+		messageDispatcher.dispatch(userSession, message);
 	}
 	
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		messageDispatcher.onSessionClosed(session);
+		IdSession userSession = (IdSession) session.getAttribute(MinaSessionProperties.UserSession);
+		messageDispatcher.onSessionClosed(userSession);
 	}
 
 	@Override

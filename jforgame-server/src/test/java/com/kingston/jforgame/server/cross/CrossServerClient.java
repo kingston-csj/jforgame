@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.cross.core.CrossServer;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
-import com.kingston.jforgame.server.net.SocketServer;
+import com.kingston.jforgame.server.net.mina.SocketServer;
 import com.kingston.jforgame.socket.message.MessageFactory;
 
 public class CrossServerClient {

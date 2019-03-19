@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.net;
+package com.kingston.jforgame.server.net.mina;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
@@ -18,9 +18,10 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.jforgame.server.net.filter.FloodFilter;
-import com.kingston.jforgame.server.net.filter.MessageTraceFilter;
-import com.kingston.jforgame.server.net.filter.ModuleEntranceFilter;
+import com.kingston.jforgame.server.net.MessageDispatcher;
+import com.kingston.jforgame.server.net.mina.filter.FloodFilter;
+import com.kingston.jforgame.server.net.mina.filter.MessageTraceFilter;
+import com.kingston.jforgame.server.net.mina.filter.ModuleEntranceFilter;
 import com.kingston.jforgame.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 

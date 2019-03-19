@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 
+import com.kingston.jforgame.socket.IdSession;
+
 public enum SessionManager {
 
 	/** 枚举单例 */
@@ -16,12 +18,12 @@ public enum SessionManager {
 	/** distributeKey auto generator  */
 	private AtomicInteger distributeKeyGenerator = new AtomicInteger();
 	/** key=playerId, value=session */
-	private ConcurrentMap<Long, IoSession> player2sessions = new ConcurrentHashMap<>();
+	private ConcurrentMap<Long, IdSession> player2sessions = new ConcurrentHashMap<>();
 
 
-	public void registerNewPlayer(long playerId, IoSession session) {
+	public void registerNewPlayer(long playerId, IdSession session) {
 		//biding playeId to session
-		session.setAttribute(SessionProperties.PLAYER_ID, playerId);
+		session.setAttribute(IdSession.ID, playerId);
 		this.player2sessions.put(playerId, session);
 	}
 
@@ -30,16 +32,14 @@ public enum SessionManager {
 	 * @param session
 	 * @return
 	 */
-	public long getPlayerIdBy(IoSession session) {
+	public long getPlayerIdBy(IdSession session) {
 		if (session != null) {
-			if (session.containsAttribute(SessionProperties.PLAYER_ID)) {
-				return getSessionAttr(session, SessionProperties.PLAYER_ID, Long.class);
-			}
+			return session.getOwnerId();
 		}
 		return 0;
 	}
 
-	public IoSession getSessionBy(long playerId) {
+	public IdSession getSessionBy(long playerId) {
 		return player2sessions.get(playerId);
 	}
 
