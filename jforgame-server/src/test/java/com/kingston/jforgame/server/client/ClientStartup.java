@@ -1,3 +1,4 @@
+
 package com.kingston.jforgame.server.client;
 
 import com.kingston.jforgame.server.ServerConfig;

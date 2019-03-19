@@ -6,12 +6,12 @@ import com.kingston.jforgame.server.cross.core.CrossServer;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
-import com.kingston.jforgame.server.net.mina.SocketServer;
+import com.kingston.jforgame.server.net.mina.MinaSocketServer;
 import com.kingston.jforgame.socket.message.MessageFactory;
 
 public class CrossServerClient {
 
-	private SocketServer socketServer;
+	private MinaSocketServer socketServer;
 
 	private CrossServer crossServer;
 
@@ -25,7 +25,7 @@ public class CrossServerClient {
 		config.setServerId(config.getServerId() + 1);
 		config.setServerPort(config.getServerPort() + 1);
 
-		socketServer = new SocketServer();
+		socketServer = new MinaSocketServer();
 		socketServer.start(config.getServerPort());
 
 		crossServer = new CrossServer();

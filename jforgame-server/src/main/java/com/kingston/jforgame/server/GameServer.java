@@ -26,7 +26,7 @@ import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
-import com.kingston.jforgame.server.net.mina.SocketServer;
+import com.kingston.jforgame.server.net.mina.MinaSocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.message.MessageFactory;
 import com.kingston.jforgame.socket.task.TaskHandlerContext;
@@ -37,7 +37,7 @@ public class GameServer {
 
 	private static GameServer gameServer = new GameServer();
 
-	private SocketServer socketServer;
+	private MinaSocketServer socketServer;
 
 	private HttpServer httpServer;
 	
@@ -98,7 +98,7 @@ public class GameServer {
 			crossServer.start(config.getCrossPort());
 		}
 		//启动socket服务
-		socketServer = new SocketServer();
+		socketServer = new MinaSocketServer();
 		socketServer.start(ServerConfig.getInstance().getServerPort());
 		//启动http服务
 		httpServer = new HttpServer();

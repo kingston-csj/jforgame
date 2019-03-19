@@ -7,6 +7,7 @@ import org.apache.mina.core.buffer.IoBuffer;
 
 /**
  * 消息或vo的解析器
+ * 
  * @author kingston
  */
 public class MessageSerializer extends Serializer {
@@ -23,14 +24,14 @@ public class MessageSerializer extends Serializer {
 	public Object decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
 		try {
 			Object bean = type.newInstance();
-			for (FieldCodecMeta fieldMeta:fieldsMeta) {
+			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();
 				Serializer fieldCodec = fieldMeta.getSerializer();
 				Object value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
 				field.set(bean, value);
 			}
 			return bean;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -39,13 +40,13 @@ public class MessageSerializer extends Serializer {
 	@Override
 	public void encode(IoBuffer out, Object message, Class<?> wrapper) {
 		try {
-			for (FieldCodecMeta fieldMeta:fieldsMeta) {
+			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();
 				Serializer fieldCodec = Serializer.getSerializer(fieldMeta.getType());
-				Object value = field.get(message) ;
+				Object value = field.get(message);
 				fieldCodec.encode(out, value, fieldMeta.getWrapper());
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

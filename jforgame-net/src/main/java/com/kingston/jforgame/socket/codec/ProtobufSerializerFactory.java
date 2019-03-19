@@ -3,7 +3,7 @@ package com.kingston.jforgame.socket.codec;
 import com.kingston.jforgame.socket.codec.protobuf.ProtobufDecoder;
 import com.kingston.jforgame.socket.codec.protobuf.ProtobufEncoder;
 
-public class ProtobufserializerFactory implements SerializerFactory {
+public class ProtobufSerializerFactory implements SerializerFactory {
 	
 	private IMessageDecoder decoder = new ProtobufDecoder();
 	

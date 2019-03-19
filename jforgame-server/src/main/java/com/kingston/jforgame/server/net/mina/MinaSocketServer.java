@@ -22,12 +22,12 @@ import com.kingston.jforgame.server.net.MessageDispatcher;
 import com.kingston.jforgame.server.net.mina.filter.FloodFilter;
 import com.kingston.jforgame.server.net.mina.filter.MessageTraceFilter;
 import com.kingston.jforgame.server.net.mina.filter.ModuleEntranceFilter;
-import com.kingston.jforgame.socket.ServerSocketIoHandler;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
+import com.kingston.jforgame.socket.mina.ServerSocketIoHandler;
 
-public class SocketServer {
+public class MinaSocketServer {
 
-	private Logger logger = LoggerFactory.getLogger(SocketServer.class);
+	private Logger logger = LoggerFactory.getLogger(MinaSocketServer.class);
 
 	private static final int CPU_CORE_SIZE = Runtime.getRuntime().availableProcessors();
 

@@ -15,6 +15,7 @@ public class ReflectDecoder implements IMessageDecoder {
 
 	@Override
 	public Message readMessage(short module, short cmd, byte[] body) {
+		// 消息序列化这里的buff已经是一个完整的包体
 		IoBuffer in = IoBuffer.allocate(body.length);
 		in.put(body);
 		in.flip();

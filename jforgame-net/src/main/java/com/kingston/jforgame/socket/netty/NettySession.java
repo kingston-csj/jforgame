@@ -1,26 +1,29 @@
-package com.kingston.jforgame.socket;
+package com.kingston.jforgame.socket.netty;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.mina.core.session.IoSession;
-
+import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.message.Message;
 
-public class MinaSession implements IdSession {
+import io.netty.channel.Channel;
+
+public class NettySession implements IdSession {
 	
-	private IoSession session;
+	/** 网络连接channel */
+	private Channel channel;
 	
 	/** 拓展用，保存一些个人数据  */
 	private Map<String, Object> attrs = new HashMap<>();
-	
-	public MinaSession(IoSession session) {
-		this.session = session;
+
+	public NettySession(Channel channel) {
+		super();
+		this.channel = channel;
 	}
 
 	@Override
 	public void sendPacket(Message packet) {
-		session.write(packet);
+		channel.writeAndFlush(packet);
 	}
 
 	@Override
@@ -31,15 +34,15 @@ public class MinaSession implements IdSession {
 		return 0;
 	}
 
-	
-	@Override
-	public Object getAttribute(String key) {
-		return attrs.get(key.toString());
-	}
-	
 	@Override
 	public Object setAttribute(String key, Object value) {
 		attrs.put(key.toString(), value);
 		return value;
 	}
+
+	@Override
+	public Object getAttribute(String key) {
+		return attrs.get(key.toString());
+	}
+
 }
