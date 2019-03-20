@@ -1,9 +1,8 @@
 package com.kingston.jforgame.socket.codec.reflect.serializer;
 
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 import java.util.List;
-
-import org.apache.mina.core.buffer.IoBuffer;
 
 /**
  * 消息或vo的解析器
@@ -21,7 +20,7 @@ public class MessageSerializer extends Serializer {
 	}
 
 	@Override
-	public Object decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
+	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
 		try {
 			Object bean = type.newInstance();
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
@@ -38,7 +37,7 @@ public class MessageSerializer extends Serializer {
 	}
 
 	@Override
-	public void encode(IoBuffer out, Object message, Class<?> wrapper) {
+	public void encode(ByteBuffer out, Object message, Class<?> wrapper) {
 		try {
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();

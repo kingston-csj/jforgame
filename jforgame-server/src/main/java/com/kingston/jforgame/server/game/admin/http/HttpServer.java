@@ -21,12 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.socket.GateServerConfig;
+import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.session.SessionManager;
 
 /**
  * @author kingston
  */
-public class HttpServer {
+public class HttpServer implements ServerNode {
 
 	private Logger logger = LoggerFactory.getLogger(HttpServer.class);
 

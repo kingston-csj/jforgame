@@ -18,14 +18,16 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.net.MessageDispatcher;
 import com.kingston.jforgame.server.net.mina.filter.FloodFilter;
 import com.kingston.jforgame.server.net.mina.filter.MessageTraceFilter;
 import com.kingston.jforgame.server.net.mina.filter.ModuleEntranceFilter;
+import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.mina.ServerSocketIoHandler;
 
-public class MinaSocketServer {
+public class MinaSocketServer implements ServerNode {
 
 	private Logger logger = LoggerFactory.getLogger(MinaSocketServer.class);
 
@@ -42,7 +44,9 @@ public class MinaSocketServer {
 	 * start Mina serversocket
 	 * @throws Exception
 	 */
-	public void start(final int serverPort) throws Exception {
+	@Override
+	public void start() throws Exception {
+		int serverPort = ServerConfig.getInstance().getServerPort();
 		IoBuffer.setUseDirectBuffer(false);
 		IoBuffer.setAllocator(new SimpleBufferAllocator());
 
@@ -50,7 +54,7 @@ public class MinaSocketServer {
 		acceptor.setReuseAddress(true);
 		acceptor.getSessionConfig().setAll(getSessionConfig());
 
-		logger.info("socket server start at port:{},正在监听客户端的连接...", serverPort);
+		logger.info("mina socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
@@ -73,6 +77,7 @@ public class MinaSocketServer {
 		return config;
 	}
 
+	@Override
 	public void shutdown() {
 		if (acceptor != null) {
 			acceptor.unbind();

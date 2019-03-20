@@ -26,7 +26,7 @@ public class CrossServerClient {
 		config.setServerPort(config.getServerPort() + 1);
 
 		socketServer = new MinaSocketServer();
-		socketServer.start(config.getServerPort());
+		socketServer.start();
 
 		crossServer = new CrossServer();
 		crossServer.start(config.getCrossPort());

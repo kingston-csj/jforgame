@@ -1,10 +1,13 @@
-package com.kingston.jforgame.socket.codec;
+package com.kingston.jforgame.socket.codec.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 
+import com.kingston.jforgame.socket.codec.CodecContext;
+import com.kingston.jforgame.socket.codec.IMessageEncoder;
+import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
@@ -30,33 +33,30 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 	}
 
 	private IoBuffer writeMessage(Message message) {
-		//----------------消息协议格式-------------------------
-		// packetLength | moduleId | cmd   |  body
-		//       int       short     short    byte[]
+		// ----------------消息协议格式-------------------------
+		// packetLength | moduleId | cmd  | body
+		// int             short     short  byte[]
 
 		IoBuffer buffer = IoBuffer.allocate(CodecContext.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 
-		//消息内容长度，先占个坑
-		buffer.putInt(0);
-		short moduleId = message.getModule();
-		short cmd = message.getCmd();
-		//写入module类型
-		buffer.putShort(moduleId);
-		//写入cmd类型
-		buffer.putShort(cmd);
-
-		//写入具体消息的内容
+		// 写入具体消息的内容
 		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		byte[] body = msgEncoder.writeMessageBody(message);
-		buffer.put(body);
-		//回到buff字节数组头部
-		buffer.flip();
-		//消息元信息，两个short，共4个字节
+		// 消息元信息，两个short，共4个字节
 		final int metaSize = 4;
-		//重新写入包体长度
-		buffer.putInt(buffer.limit() - metaSize);
-		buffer.rewind();
+		// 消息内容长度
+		buffer.putInt(body.length + metaSize);
+		short moduleId = message.getModule();
+		short cmd = message.getCmd();
+		// 写入module类型
+		buffer.putShort(moduleId);
+		// 写入cmd类型
+		buffer.putShort(cmd);
+	
+		buffer.put(body);
+//		// 回到buff字节数组头部
+		buffer.flip();
 
 		return buffer;
 	}

@@ -1,13 +1,12 @@
 package com.kingston.jforgame.socket.codec.reflect.serializer;
 
 import java.lang.reflect.Modifier;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.mina.core.buffer.IoBuffer;
 
 import com.kingston.jforgame.socket.utils.ByteBuffUtil;
 
@@ -20,7 +19,7 @@ import com.kingston.jforgame.socket.utils.ByteBuffUtil;
 public class CollectionSerializer extends Serializer {
 
 	@Override
-	public Object decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
+	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
 		int size = ByteBuffUtil.readShort(in);
 		int modifier = type.getModifiers();
 		Collection<Object> result = null;
@@ -50,7 +49,7 @@ public class CollectionSerializer extends Serializer {
 	}
 
 	@Override
-	public void encode(IoBuffer out, Object value, Class<?> wrapper) {
+	public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
 		if (value == null) {
 			ByteBuffUtil.writeShort(out, (short)0);
 			return;

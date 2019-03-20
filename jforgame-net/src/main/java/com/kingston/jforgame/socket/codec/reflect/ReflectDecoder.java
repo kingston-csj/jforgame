@@ -1,6 +1,7 @@
 package com.kingston.jforgame.socket.codec.reflect;
 
-import org.apache.mina.core.buffer.IoBuffer;
+import java.nio.ByteBuffer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +17,10 @@ public class ReflectDecoder implements IMessageDecoder {
 	@Override
 	public Message readMessage(short module, short cmd, byte[] body) {
 		// 消息序列化这里的buff已经是一个完整的包体
-		IoBuffer in = IoBuffer.allocate(body.length);
+		ByteBuffer in = ByteBuffer.allocate(body.length);
 		in.put(body);
 		in.flip();
+		
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
 			Serializer messageCodec = Serializer.getSerializer(msgClazz);

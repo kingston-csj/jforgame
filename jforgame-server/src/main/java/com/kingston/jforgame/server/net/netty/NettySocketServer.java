@@ -5,7 +5,11 @@ import java.net.InetSocketAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.net.MessageDispatcher;
+import com.kingston.jforgame.socket.ServerNode;
+import com.kingston.jforgame.socket.codec.netty.NettyProtocolDecoder;
+import com.kingston.jforgame.socket.codec.netty.NettyProtocolEncoder;
 import com.kingston.jforgame.socket.netty.IoEventHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -18,7 +22,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
-public class NettySocketServer {
+public class NettySocketServer implements ServerNode {
 
 	private Logger logger = LoggerFactory.getLogger(NettySocketServer.class);
 
@@ -26,8 +30,10 @@ public class NettySocketServer {
 	private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 	private EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
 
-	public void start(final int serverPort) throws Exception {
-		logger.info("socket服务已启动，正在监听用户的请求@port:" + serverPort + "......");
+	@Override
+	public void start() throws Exception {
+		int serverPort = ServerConfig.getInstance().getServerPort();
+		logger.info("netty socket服务已启动，正在监听用户的请求@port:" + serverPort + "......");
 		try {
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
@@ -44,6 +50,7 @@ public class NettySocketServer {
 		}
 	}
 
+	@Override
 	public void shutdown() {
 
 	}
@@ -52,8 +59,8 @@ public class NettySocketServer {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {
 			ChannelPipeline pipeline = arg0.pipeline();
-//			pipeline.addLast(new PacketDecoder(1024 * 10, 0, 2, 0, 2));
-//			pipeline.addLast(new PacketEncoder());
+			pipeline.addLast(new NettyProtocolDecoder());
+			pipeline.addLast(new NettyProtocolEncoder());
 			// 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
 			pipeline.addLast(new IdleStateHandler(0, 0, 300));
 			pipeline.addLast(new IoEventHandler(new MessageDispatcher()));

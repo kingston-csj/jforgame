@@ -12,22 +12,19 @@ import org.slf4j.LoggerFactory;
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.orm.OrmProcessor;
 import com.kingston.jforgame.server.cross.core.CrossServer;
-import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
-import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
-import com.kingston.jforgame.server.game.cross.ladder.service.LadderFightManager;
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
-import com.kingston.jforgame.server.net.mina.MinaSocketServer;
+import com.kingston.jforgame.server.net.netty.NettySocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
+import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.message.MessageFactory;
 import com.kingston.jforgame.socket.task.TaskHandlerContext;
 
@@ -37,9 +34,9 @@ public class GameServer {
 
 	private static GameServer gameServer = new GameServer();
 
-	private MinaSocketServer socketServer;
+	private ServerNode socketServer;
 
-	private HttpServer httpServer;
+	private ServerNode httpServer;
 	
 	private CrossServer crossServer;
 
@@ -98,8 +95,8 @@ public class GameServer {
 			crossServer.start(config.getCrossPort());
 		}
 		//启动socket服务
-		socketServer = new MinaSocketServer();
-		socketServer.start(ServerConfig.getInstance().getServerPort());
+		socketServer = new NettySocketServer();
+		socketServer.start();
 		//启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();

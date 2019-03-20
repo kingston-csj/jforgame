@@ -1,6 +1,7 @@
 package com.kingston.jforgame.socket.codec.reflect.serializer;
 
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 
 import org.apache.mina.core.buffer.IoBuffer;
 
@@ -16,7 +17,7 @@ import com.kingston.jforgame.socket.utils.ReflectUtil;
 public class ArraySerializer extends Serializer {
 
 	@Override
-	public Object decode(IoBuffer in, Class<?> type, Class<?> wrapper) {
+	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
 		int size = ByteBuffUtil.readShort(in);
 
 		Object array = ReflectUtil.newArray(type, wrapper, size);
@@ -31,7 +32,7 @@ public class ArraySerializer extends Serializer {
 	}
 
 	@Override
-	public void encode(IoBuffer out, Object value, Class<?> wrapper) {
+	public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
 		if (value == null) {
 			ByteBuffUtil.writeShort(out, (short)0);
 			return;

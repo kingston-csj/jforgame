@@ -5,6 +5,9 @@ import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 
+import com.kingston.jforgame.socket.codec.mina.MinaProtocolDecoder;
+import com.kingston.jforgame.socket.codec.mina.MinaProtocolEncoder;
+
 /**
  * @author kingston
  */
