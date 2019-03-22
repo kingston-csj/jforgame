@@ -2,94 +2,74 @@ package com.kingston.jforgame.server;
 
 import java.net.SocketException;
 
-import javax.management.RuntimeErrorException;
-
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.kingston.jforgame.common.utils.IpAddrUtil;
-import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.server.utils.XmlUtils;
-import com.kingston.jforgame.socket.GateServerConfig;
 
+@Root(name = "server")
 public class ServerConfig {
 
 	private Logger logger = LoggerFactory.getLogger(ServerConfig.class.getSimpleName());
 
-	private static ServerConfig instance = new ServerConfig();
+	private static volatile ServerConfig instance;
 
-	/** 服务器id */
-	public int serverId;
 	/** 内網ip地址 */
 	private String inetAddr;
+	/** 服务器id */
+	@Element(required = true)
+	private int serverId;
 	/** 服务器端口 */
-	public int serverPort;
+	@Element(required = true)
+	private int serverPort;
+
+	/** 后台管理端口 */
+	@Element(required = true)
+	private int adminPort;
+	/** 后台白名单模式 */
+	@Element(required = true)
+	private String whiteIps;
+
+	private String[] whiteIpPattern;
+
 	/** 匹配服http地址 */
+	@Element(required = true)
 	private String matchUrl;
 	/** 本服是否為跨服 */
+	@Element(required = true)
 	private boolean fight;
 	/** 对外跨服端口 */
+	@Element(required = true)
 	private int crossPort;
 
 	/** redis server url {http:port} */
+	@Element(required = true)
 	private String redisUrl;
 
 	private ServerConfig() {
 	}
 
 	public static ServerConfig getInstance() {
+		if (instance != null) {
+			return instance;
+		}
+		synchronized (ServerConfig.class) {
+			if (instance == null) {
+				instance = XmlUtils.createConfigXml("server.xml", ServerConfig.class);
+				instance.init();
+			}
+		}
 		return instance;
 	}
 
-	public void init() {
-		String configFile = "server.xml";
-		Element rootElement = XmlUtils.loadConfigRootElement(configFile);
-		NodeList nodes = rootElement.getChildNodes();
-
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node node = nodes.item(i);
-			if ("game-server".equals(node.getNodeName())) {
-				NodeList subNodes = node.getChildNodes();
-				for (int j = 0; j < subNodes.getLength(); j++) {
-					if ("server_id".equals(subNodes.item(j).getNodeName())) {
-						serverId = Integer.parseInt(subNodes.item(j).getTextContent());
-					} else if ("server_port".equals(subNodes.item(j).getNodeName())) {
-						serverPort = Integer.parseInt(subNodes.item(j).getTextContent());
-					}
-				}
-			} else if ("http-server".equals(node.getNodeName())) {
-				NodeList subNodes = node.getChildNodes();
-				for (int j = 0; j < subNodes.getLength(); j++) {
-					if ("http_port".equals(subNodes.item(j).getNodeName())) {
-						GateServerConfig.httpPort = Integer.parseInt(subNodes.item(j).getTextContent());
-					} else if ("white_ips".equals(subNodes.item(j).getNodeName())) {
-						String[] ips = subNodes.item(j).getTextContent().split(";");
-						GateServerConfig.whiteIpPattern = ips;
-					}
-				}
-			} else if ("cross-server".equals(node.getNodeName())) {
-				NodeList subNodes = node.getChildNodes();
-				for (int j = 0; j < subNodes.getLength(); j++) {
-					if ("match_url".equals(subNodes.item(j).getNodeName())) {
-						this.matchUrl = subNodes.item(j).getTextContent();
-					} else if ("fight".equals(subNodes.item(j).getNodeName())) {
-						this.fight = NumberUtil.booleanValue(subNodes.item(j).getTextContent());
-					} else if ("cross_port".equals(subNodes.item(j).getNodeName())) {
-						this.crossPort = NumberUtil.intValue(subNodes.item(j).getTextContent());
-					}
-				}
-			} else if ("redis-server".equals(node.getNodeName())) {
-				NodeList subNodes = node.getChildNodes();
-				for (int j = 0; j < subNodes.getLength(); j++) {
-					if ("url".equals(subNodes.item(j).getNodeName())) {
-						this.redisUrl = subNodes.item(j).getTextContent();
-					}
-				}
-
-			}
+	private void init() {
+		String[] ips = whiteIps.split(";");
+		this.whiteIpPattern = new String[ips.length];
+		for (int i = 0; i < ips.length; i++) {
+			this.whiteIpPattern[i] = ips[i];
 		}
 
 		try {
@@ -97,7 +77,7 @@ public class ServerConfig {
 		} catch (SocketException e) {
 			throw new RuntimeException(e);
 		}
-		logger.info("本服serverId为{},后台端口为{}", this.serverId, GateServerConfig.httpPort);
+		logger.info("本服serverId为{},后台端口为{}", this.serverId, this.adminPort);
 	}
 
 	public String getInetAddr() {
@@ -117,7 +97,15 @@ public class ServerConfig {
 	}
 
 	public int getHttpPort() {
-		return GateServerConfig.httpPort;
+		return adminPort;
+	}
+	
+	public String[] getWhiteIpPattern() {
+		return whiteIpPattern;
+	}
+
+	public void setWhiteIpPattern(String[] whiteIpPattern) {
+		this.whiteIpPattern = whiteIpPattern;
 	}
 
 	public String getRedisUrl() {

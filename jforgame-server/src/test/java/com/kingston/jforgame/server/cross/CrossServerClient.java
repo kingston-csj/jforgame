@@ -20,7 +20,6 @@ public class CrossServerClient {
 		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
 		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
-		config.init();
 		config.setCrossPort(config.getCrossPort() + 1);
 		config.setServerId(config.getServerId() + 1);
 		config.setServerPort(config.getServerPort() + 1);

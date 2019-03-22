@@ -40,6 +40,7 @@
   名称 | 用途 | 官网  
   ----|------|----     
   Mina | nio socket 框架 | [http://mina.apache.org/](http://mina.apache.org/)  
+  Netty | nio socket 框架 | [http://netty.io/](http://netty.io/)   
   jprotobuf | 通信双方消息编解码 | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
   Guava | 玩家数据缓存系统 | [https://github.com/google/guava](https://github.com/google/guava)  
   Jedis | 跨服数据内存数据库 | [https://redis.io](https://redis.io/)  

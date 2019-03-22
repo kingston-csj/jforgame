@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.kingston.jforgame.socket.GateServerConfig;
+import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.session.SessionManager;
 
@@ -33,14 +33,15 @@ public class HttpServer implements ServerNode {
 
 	private IoAcceptor acceptor;
 
-	/** http端口 */
-	int port = GateServerConfig.httpPort;
+	private int port;
 
 	public void start() throws Exception {
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());
 		acceptor.setHandler(new HttpServerHandle());
 
+		ServerConfig serverConfig = ServerConfig.getInstance();
+		this.port = serverConfig.getHttpPort();
 		acceptor.bind(new InetSocketAddress(port));
 	}
 
@@ -58,8 +59,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 	private static Logger logger = LoggerFactory.getLogger(HttpServer.class);
 
 	@Override
-	public void exceptionCaught(IoSession session, Throwable cause)
-			throws Exception {
+	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		cause.printStackTrace();
 	}
 
@@ -78,7 +78,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 	}
 
 	private static boolean isInWhiteIps(String ip) {
-		for (String pattern:GateServerConfig.whiteIpPattern) {
+		for (String pattern : ServerConfig.getInstance().getWhiteIpPattern()) {
 			if (ip.matches(pattern)) {
 				return true;
 			}
@@ -87,8 +87,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 	}
 
 	@Override
-	public void messageReceived(IoSession session, Object message)
-			throws Exception {
+	public void messageReceived(IoSession session, Object message) throws Exception {
 		if (message instanceof HttpRequest) {
 			// 请求，解码器将请求转换成HttpRequest对象
 			HttpRequest request = (HttpRequest) message;
@@ -141,9 +140,9 @@ class HttpServerHandle extends IoHandlerAdapter {
 		String paramJson = httpReq.getParameter("params");
 		Map<String, String> params = new HashMap<>();
 		if (StringUtils.isNotEmpty(paramJson)) {
-			try{
+			try {
 				params = new Gson().fromJson(paramJson, HashMap.class);
-			}catch(Exception e) {
+			} catch (Exception e) {
 			}
 		}
 		return HttpCommandParams.valueOf(Integer.parseInt(cmd), params);

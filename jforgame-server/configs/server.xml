@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server>
-	<game-server>
-		<platform>0</platform>
-		<server_id>10001</server_id>
-		<server_port>9527</server_port>
-		<server_name>我为游戏狂</server_name>
-	</game-server>
+
+	<serverId>10001</serverId>
+	<serverPort>9527</serverPort>
+
 	<!-- http后台管理 -->
-	<http-server>
-		<http_port>8080</http_port>
-		<white_ips>127.0.0.1;192.168.*;10.11.*</white_ips>
-	</http-server>
-	<cross-server>
-		<!--匹配服http地址 -->
-		<match_url>http://localhost:8899/</match_url>
-		<!--本服是否为战斗服-->
-		<fight>true</fight>
-		<!--对外跨服端口-->
-		<cross_port>9627</cross_port>
-	</cross-server>
-	<redis-server>
-		<!--<url>127.0.0.1:8001</url> -->
-	</redis-server>
+	<adminPort>8080</adminPort>
+	<whiteIps>127.0.0.1;192.168.*;10.11.*</whiteIps>
+
+
+	<!--匹配服http地址 -->
+	<matchUrl>http://localhost:8899/</matchUrl>
+	<!--本服是否为战斗服 -->
+	<fight>true</fight>
+	<!--对外跨服端口 -->
+	<crossPort>9627</crossPort>
+
+	<redisUrl>127.0.0.1:8001</redisUrl>
 </server>
