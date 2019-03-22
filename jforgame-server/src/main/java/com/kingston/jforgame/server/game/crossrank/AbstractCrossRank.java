@@ -1,6 +1,5 @@
 package com.kingston.jforgame.server.game.crossrank;
 
-import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.jforgame.server.ServerConfig;
 
 /**
@@ -9,18 +8,13 @@ import com.kingston.jforgame.server.ServerConfig;
  */
 public abstract class AbstractCrossRank implements CrossRank {
 
-	@Protobuf
 	private int serverId;
 	/** record creating timestamp */
-	@Protobuf
 	private long createTime;
-	@Protobuf
 	private long playerId;
 	/** one level rank score */
-	@Protobuf
 	private int score;
 	/** second level rank score */
-	@Protobuf
 	private int aid;
 	/** 32位时间戳 */
 	protected final long TIME_MAX_VALUE = 0xFFFFFFFFL;
