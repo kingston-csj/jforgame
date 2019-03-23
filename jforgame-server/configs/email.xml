@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+	<senderEmailAddr>definemyself@163.com</senderEmailAddr>
+	<senderEmailPwd>19890905CHEN</senderEmailPwd>
+
+	<senderEmailSMTPHost>smtp.163.com</senderEmailSMTPHost>
+	<receiverEmailAdds>641711541@qq.com</receiverEmailAdds>
+
+</server>
