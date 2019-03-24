@@ -28,7 +28,7 @@ public class CrossServerClient {
 		socketServer.start();
 
 		crossServer = new CrossServer();
-		crossServer.start(config.getCrossPort());
+		crossServer.start();
 	}
 
 	public void request() {

@@ -9,7 +9,7 @@ import com.kingston.jforgame.socket.codec.CodecContext;
 import com.kingston.jforgame.socket.codec.IMessageEncoder;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 
 /**
  * @author kingston

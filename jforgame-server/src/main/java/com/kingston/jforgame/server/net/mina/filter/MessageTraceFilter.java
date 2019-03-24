@@ -14,8 +14,8 @@ import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.IdSession;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 public class MessageTraceFilter extends IoFilterAdapter {
 

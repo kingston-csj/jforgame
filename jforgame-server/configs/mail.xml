@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+	<senderEmailAddr>xxyy@163.com</senderEmailAddr>
+	<senderEmailPwd>88888</senderEmailPwd>
+
+	<senderEmailSMTPHost>smtp.163.com</senderEmailSMTPHost>
+	<receiverEmailAdds>12345678@qq.com</receiverEmailAdds>
+
+</server>

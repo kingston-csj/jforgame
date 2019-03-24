@@ -38,7 +38,7 @@ public class GameServer {
 
 	private ServerNode httpServer;
 	
-	private CrossServer crossServer;
+	private ServerNode crossServer;
 
 	public static GameServer getInstance() {
 		return gameServer;
@@ -91,7 +91,7 @@ public class GameServer {
 		if (config.getCrossPort() > 0) {
 			// 	启动跨服服务
 			crossServer = new CrossServer();
-			crossServer.start(config.getCrossPort());
+			crossServer.start();
 		}
 		//启动socket服务
 		socketServer = new NettySocketServer();
@@ -127,6 +127,9 @@ public class GameServer {
 		//各种业务逻辑的关闭写在这里。。。
 		socketServer.shutdown();
 		httpServer.shutdown();
+		if (crossServer != null) {
+			crossServer.shutdown();
+		}
 
 		stopWatch.stop();
 		logger.error("游戏服务正常关闭，耗时[{}]毫秒", stopWatch.getTime());

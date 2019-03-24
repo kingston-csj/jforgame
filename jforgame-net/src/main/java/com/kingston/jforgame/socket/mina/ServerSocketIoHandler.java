@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 /**
  * @author kingston

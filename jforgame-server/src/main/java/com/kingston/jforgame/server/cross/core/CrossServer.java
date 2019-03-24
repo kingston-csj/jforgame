@@ -18,10 +18,12 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.cross.core.server.BaseCMessageDispatcher;
+import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 
-public class CrossServer {
+public class CrossServer implements ServerNode {
 	
 	private Logger logger = LoggerFactory.getLogger(CrossServer.class);
 
@@ -38,7 +40,9 @@ public class CrossServer {
 	 * start Mina serversocket
 	 * @throws Exception
 	 */
-	public void start(final int serverPort) throws Exception {
+	@Override
+	public void start() throws Exception {
+		final int serverPort = ServerConfig.getInstance().getCrossPort();
 		IoBuffer.setUseDirectBuffer(false);
 		IoBuffer.setAllocator(new SimpleBufferAllocator());
 
@@ -66,6 +70,7 @@ public class CrossServer {
 		return config;
 	}
 
+	@Override
 	public void shutdown() {
 		if (acceptor != null) {
 			acceptor.unbind();

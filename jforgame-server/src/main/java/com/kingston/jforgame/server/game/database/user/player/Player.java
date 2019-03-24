@@ -12,8 +12,8 @@ import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.utils.IdGenerator;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
 import com.kingston.jforgame.socket.task.Distributable;
 
 /**

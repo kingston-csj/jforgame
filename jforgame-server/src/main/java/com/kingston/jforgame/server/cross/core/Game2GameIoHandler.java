@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
 import com.kingston.jforgame.server.cross.core.server.SCSession;
 import com.kingston.jforgame.socket.message.Message;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 import com.kingston.jforgame.socket.mina.ServerSocketIoHandler;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 public class Game2GameIoHandler extends IoHandlerAdapter {
 

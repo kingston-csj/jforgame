@@ -13,8 +13,8 @@ import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.combine.CombineMessage;
 import com.kingston.jforgame.socket.combine.Packet;
 import com.kingston.jforgame.socket.message.Message;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
 
 /**
  * @author kingston

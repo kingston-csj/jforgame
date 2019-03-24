@@ -9,7 +9,7 @@ import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.server.FireWallConfig;
 import com.kingston.jforgame.server.net.model.FloodRecord;
-import com.kingston.jforgame.socket.session.MinaSessionProperties;
+import com.kingston.jforgame.socket.mina.MinaSessionProperties;
 import com.kingston.jforgame.socket.session.SessionManager;
 
 /**

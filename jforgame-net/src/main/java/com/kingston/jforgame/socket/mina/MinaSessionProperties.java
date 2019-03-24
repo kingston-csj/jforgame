@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.session;
+package com.kingston.jforgame.socket.mina;
 
 import org.apache.mina.core.session.AttributeKey;
 
