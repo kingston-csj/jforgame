@@ -58,7 +58,7 @@ public class ServerConfig {
 		}
 		synchronized (ServerConfig.class) {
 			if (instance == null) {
-				instance = XmlUtils.createConfigXml("server.xml", ServerConfig.class);
+				instance = XmlUtils.loadXmlConfig("server.xml", ServerConfig.class);
 				instance.init();
 			}
 		}
@@ -99,7 +99,7 @@ public class ServerConfig {
 	public int getHttpPort() {
 		return adminPort;
 	}
-	
+
 	public String[] getWhiteIpPattern() {
 		return whiteIpPattern;
 	}

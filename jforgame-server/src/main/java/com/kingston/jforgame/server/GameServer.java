@@ -22,6 +22,7 @@ import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
+import com.kingston.jforgame.server.net.mina.MinaSocketServer;
 import com.kingston.jforgame.server.net.netty.NettySocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.ServerNode;
@@ -37,7 +38,7 @@ public class GameServer {
 	private ServerNode socketServer;
 
 	private ServerNode httpServer;
-	
+
 	private ServerNode crossServer;
 
 	public static GameServer getInstance() {
@@ -45,58 +46,58 @@ public class GameServer {
 	}
 
 	public void start() throws Exception {
-
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
-		//游戏基础框架服务启动
+		// 游戏基础框架服务启动
 		frameworkInit();
-		//游戏业务初始化
+		// 游戏业务初始化
 		gameLogicInit();
 
 		stopWatch.stop();
 		logger.error("游戏服务启动，耗时[{}]毫秒", stopWatch.getTime());
 
-		//mbean监控
+		// mbean监控
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		GameMonitorMBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
 	}
 
 	private void frameworkInit() throws Exception {
-		//加载服务版本号
+		// 加载服务版本号
 		ServerVersion.load();
-		//初始化协议池
+		// 初始化协议池
 		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
-		//读取服务器配置
+		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
-		//初始化orm框架
+		// 初始化orm框架
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
-		//初始化数据库连接池
+		// 初始化数据库连接池
 		DbUtils.init();
-		//初始化消息工作线程池
+		// 初始化消息工作线程池
 		TaskHandlerContext.INSTANCE.initialize();
-		//初始化job定时任务
+		// 初始化job定时任务
 		CronSchedulerHelper.initAndStart();
-		//读取所有策划配置
+		// 读取所有策划配置
 		ConfigDatasPool.getInstance().loadAllConfigs();
-		//异步持久化服务
+		// 异步持久化服务
 		DbService.getInstance().init();
-		//读取系统参数
+		// 读取系统参数
 		loadSystemRecords();
-		//Redis cache
+		// Redis cache
 		RedisCluster.INSTANCE.init();
-		//http admin commands
+		// http admin commands
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 		if (config.getCrossPort() > 0) {
-			// 	启动跨服服务
+			// 启动跨服服务
 			crossServer = new CrossServer();
 			crossServer.start();
 		}
-		//启动socket服务
-		socketServer = new NettySocketServer();
+		// 启动socket服务
+		socketServer = new MinaSocketServer();
+//		socketServer = new NettySocketServer();
 		socketServer.start();
-		//启动http服务
+		// 启动http服务
 		httpServer = new HttpServer();
 		httpServer.start();
 	}
@@ -111,20 +112,19 @@ public class GameServer {
 		}
 	}
 
-
 	private void gameLogicInit() {
-		//游戏启动时，各种业务初始化写在这里吧
+		// 游戏启动时，各种业务初始化写在这里吧
 		PlayerManager.getInstance().loadAllPlayerProfiles();
 		// 跨服天梯
 //		LadderFightManager.getInstance().init();
-		
+
 	}
-	
+
 	public void shutdown() {
 		logger.error("游戏进程准备关闭");
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		//各种业务逻辑的关闭写在这里。。。
+		// 各种业务逻辑的关闭写在这里。。。
 		socketServer.shutdown();
 		httpServer.shutdown();
 		if (crossServer != null) {

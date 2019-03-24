@@ -26,7 +26,7 @@ public class EMailManager {
 		if (instance == null) {
 			EMailManager self = new EMailManager();
 			self.service = Executors.newSingleThreadExecutor(new NamedThreadFactory("monitor-mail"));
-			self.emailConfig = XmlUtils.createConfigXml("mail.xml", EMailConfig.class);
+			self.emailConfig = XmlUtils.loadXmlConfig("mail.xml", EMailConfig.class);
 			self.emailConfig.init();
 			instance = self;
 		}

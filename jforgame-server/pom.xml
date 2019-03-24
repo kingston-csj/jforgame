@@ -187,7 +187,7 @@
 		</resources>
 		<plugins>
 			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-			<!-- eclipse下该插件可能无法找到，可以选择忽略，但maven命令行下打包是没问题的 -->
+			<!-- 部分eclipse下该插件可能无法找到，可以选择忽略，但maven命令行下打包是没问题的 -->
 			<plugin>
 				<groupId>com.baidu</groupId>
 				<artifactId>jprotobuf-precompile-plugin</artifactId>

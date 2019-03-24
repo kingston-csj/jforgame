@@ -10,12 +10,17 @@ import org.codehaus.jackson.map.type.ArrayType;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.codehaus.jackson.type.JavaType;
 
+/**
+ * json序列号工具（使用jackson）
+ * 
+ * @author kingston
+ *
+ */
 public final class JsonUtils {
 
 	private static TypeFactory typeFactory = TypeFactory.defaultInstance();
 
-	private static final ObjectMapper MAPPER
-			= new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	public static String object2String(Object object) {
 		StringWriter writer = new StringWriter();

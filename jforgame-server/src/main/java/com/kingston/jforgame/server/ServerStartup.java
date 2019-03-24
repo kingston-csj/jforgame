@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * game server start entrance
+ * 
  * @author kingston
  */
 public class ServerStartup {
@@ -13,17 +14,21 @@ public class ServerStartup {
 
 	public static void main(String args[]) {
 		// vm arguments:
-		// -Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2
-		// -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution
-		// -Dcom.sun.management.jmxremote.port=10086 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+		// -Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseParNewGC
+		// -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2
+		// -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime
+		// -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution
+		// -Dcom.sun.management.jmxremote.port=10086
+		// -Dcom.sun.management.jmxremote.authenticate=false
+		// -Dcom.sun.management.jmxremote.ssl=false
 
-		try{
+		try {
 			GameServer.getInstance().start();
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error("server start failed", e);
 			System.exit(-1);
-		}finally {
-			//add shutdown task
+		} finally {
+			// add shutdown task
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				@Override
 				public void run() {

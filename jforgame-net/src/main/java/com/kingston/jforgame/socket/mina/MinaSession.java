@@ -31,7 +31,6 @@ public class MinaSession implements IdSession {
 		}
 		return 0;
 	}
-
 	
 	@Override
 	public Object getAttribute(String key) {

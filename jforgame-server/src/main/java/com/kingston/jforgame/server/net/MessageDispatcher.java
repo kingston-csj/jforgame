@@ -107,16 +107,10 @@ public class MessageDispatcher implements IMessageDispatcher {
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();
 
+		// 丢到任务消息队列，不在io线程进行业务处理
 		int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
 		TaskHandlerContext.INSTANCE
 				.acceptTask(MessageTask.valueOf(distributeKey, controller, cmdExecutor.getMethod(), params));
-
-//        不在io线程进行业务处理
-//        try {
-//            //通过反射，
-//            cmdExecutor.getMethod().invoke(controller, params);
-//        }catch(Exception e) {
-//        }
 	}
 
 	/**

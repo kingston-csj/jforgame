@@ -2,6 +2,7 @@ package com.kingston.jforgame.server;
 
 /**
  * 各种配置记取路径申明
+ * 
  * @author kingston
  */
 public class ServerScanPaths {

@@ -8,7 +8,6 @@
 	<adminPort>8080</adminPort>
 	<whiteIps>127.0.0.1;192.168.*;10.11.*</whiteIps>
 
-
 	<!--匹配服http地址 -->
 	<matchUrl>http://localhost:8899/</matchUrl>
 	<!--本服是否为战斗服 -->
