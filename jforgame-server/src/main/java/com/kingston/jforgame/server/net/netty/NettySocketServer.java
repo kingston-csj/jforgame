@@ -27,8 +27,8 @@ public class NettySocketServer implements ServerNode {
 	private Logger logger = LoggerFactory.getLogger(NettySocketServer.class);
 
 	// 避免使用默认线程数参数
-	private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-	private EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
+	private EventLoopGroup bossGroup = new NioEventLoopGroup(4);
+	private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 	@Override
 	public void start() throws Exception {
