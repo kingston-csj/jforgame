@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
 
-import com.kingston.jforgame.server.game.login.message.res.ResLoginMessage;
-import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
+import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
+import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayer;
 import com.kingston.jforgame.server.robot.handler.CreatePlayerHandler;
 import com.kingston.jforgame.server.robot.handler.LoginSuccHandler;
 import com.kingston.jforgame.socket.message.Message;
@@ -25,10 +25,10 @@ public class RobotSession {
 	}
 
 	public void registerMessageHandler() {
-		this.handlers.put(ResLoginMessage.class,
+		this.handlers.put(ResAccountLogin.class,
 				new LoginSuccHandler());
 
-		this.handlers.put(ResCreateNewPlayerMessage.class,
+		this.handlers.put(ResCreateNewPlayer.class,
 				new CreatePlayerHandler());
 	}
 

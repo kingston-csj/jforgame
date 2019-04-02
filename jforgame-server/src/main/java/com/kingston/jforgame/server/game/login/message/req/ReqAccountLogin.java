@@ -11,7 +11,7 @@ import com.kingston.jforgame.socket.message.Message;
  * @author kingston
  */
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
-public class ReqLoginMessage extends Message {
+public class ReqAccountLogin extends Message {
 	
 	/** 账号流水号 */
 	@Protobuf(order = 1)

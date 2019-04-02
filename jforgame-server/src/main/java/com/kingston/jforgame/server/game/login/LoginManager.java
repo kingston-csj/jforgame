@@ -8,13 +8,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.database.user.player.Player;
-import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
-import com.kingston.jforgame.server.game.login.message.res.ResLoginMessage;
+import com.kingston.jforgame.server.game.gm.message.ResGmResult;
+import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
 import com.kingston.jforgame.server.game.login.message.vo.PlayerLoginVo;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.game.player.model.AccountProfile;
 import com.kingston.jforgame.server.game.player.model.PlayerProfile;
-import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterSceneMessage;
+import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterScene;
 import com.kingston.jforgame.server.net.SessionProperties;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.combine.CombineMessage;
@@ -53,14 +53,14 @@ public class LoginManager {
 			}
 		}
 		
-		ResLoginMessage loginMessage = new ResLoginMessage();
+		ResAccountLogin loginMessage = new ResAccountLogin();
 		loginMessage.setPlayers(players);
 		MessagePusher.pushMessage(session, loginMessage);
 		
 		if ("kingston".equals(password)) {
 			CombineMessage combineMessage = new CombineMessage();
-			combineMessage.addMessage(new ResPlayerEnterSceneMessage());
-			combineMessage.addMessage(ResGmResultMessage.buildSuccResult("执行gm成功"));
+			combineMessage.addMessage(new ResPlayerEnterScene());
+			combineMessage.addMessage(ResGmResult.buildSuccResult("执行gm成功"));
 			MessagePusher.pushMessage(session, combineMessage);
 		} 
 	}
@@ -79,7 +79,7 @@ public class LoginManager {
 			PlayerManager.getInstance().add2Online(player);
 			SessionManager.INSTANCE.registerNewPlayer(playerId, session);
 			//推送进入场景
-			ResPlayerEnterSceneMessage response = new ResPlayerEnterSceneMessage();
+			ResPlayerEnterScene response = new ResPlayerEnterScene();
 			response.setMapId(1001);
 			MessagePusher.pushMessage(session, response);
 

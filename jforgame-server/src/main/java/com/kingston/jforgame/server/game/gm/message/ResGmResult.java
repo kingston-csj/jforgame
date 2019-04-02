@@ -11,7 +11,7 @@ import com.kingston.jforgame.socket.message.Message;
  * @author kingston
  */
 @MessageMeta(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
-public class ResGmResultMessage extends Message {
+public class ResGmResult extends Message {
 	
 	/** 执行失败 */
 	public static final byte FAIL = 0;
@@ -23,21 +23,21 @@ public class ResGmResultMessage extends Message {
 	@Protobuf(order = 2)
 	private String message;
 	
-	public ResGmResultMessage() {
+	public ResGmResult() {
 		super();
 	}
 
-	private ResGmResultMessage(byte result, String message) {
+	private ResGmResult(byte result, String message) {
 		this.result  = result;
 		this.message = message;
 	}
 	
-	public static ResGmResultMessage buildSuccResult(String msg) {
-		return new ResGmResultMessage(SUCC, msg);
+	public static ResGmResult buildSuccResult(String msg) {
+		return new ResGmResult(SUCC, msg);
 	}
 	
-	public static ResGmResultMessage buildFailResult(String msg) {
-		return new ResGmResultMessage(FAIL, msg);
+	public static ResGmResult buildFailResult(String msg) {
+		return new ResGmResult(FAIL, msg);
 	}
 
 	public int getResult() {

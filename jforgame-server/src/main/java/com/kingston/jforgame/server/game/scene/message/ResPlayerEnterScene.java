@@ -7,7 +7,7 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
-public class ResPlayerEnterSceneMessage extends Message {
+public class ResPlayerEnterScene extends Message {
 	
 	/** 地图id */
 	@Protobuf(order = 1)

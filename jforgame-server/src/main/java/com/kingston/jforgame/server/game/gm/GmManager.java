@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.gm.command.AbstractGmCommand;
-import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
+import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.socket.message.MessagePusher;
 
@@ -72,13 +72,13 @@ public class GmManager {
 			Matcher matcher = pattern.matcher(content);
 			if (command.isMatch(pattern, matcher, content)) {
 				List<String> params = command.params(matcher, content);
-				ResGmResultMessage result =  command.execute(player, params);
+				ResGmResult result =  command.execute(player, params);
 				MessagePusher.pushMessage(playerId, result);
 				return;
 			}
 		}
 
-		ResGmResultMessage failedMessage = ResGmResultMessage.buildFailResult("找不到对应的gm命令");
+		ResGmResult failedMessage = ResGmResult.buildFailResult("找不到对应的gm命令");
 		MessagePusher.pushMessage(playerId, failedMessage);
 	}
 	

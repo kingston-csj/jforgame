@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.game.activity.facade;
 
-import com.kingston.jforgame.server.game.activity.message.ReqOpenActivityPanelMessage;
+import com.kingston.jforgame.server.game.activity.message.ReqOpenActivityPanel;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
 
@@ -8,7 +8,7 @@ import com.kingston.jforgame.socket.annotation.RequestMapping;
 public class ActivityController {
 
 	@RequestMapping
-	public void reqOpenPanel(long playerId, ReqOpenActivityPanelMessage request) {
+	public void reqOpenPanel(long playerId, ReqOpenActivityPanel request) {
 
 	}
 

@@ -10,9 +10,9 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.server.ServerConfig;
-import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
-import com.kingston.jforgame.server.game.login.message.req.ReqSelectPlayerMessage;
-import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayerMessage;
+import com.kingston.jforgame.server.game.login.message.req.ReqAccountLogin;
+import com.kingston.jforgame.server.game.login.message.req.ReqSelectPlayer;
+import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayer;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
@@ -48,13 +48,13 @@ public class ClientPlayer {
 	}
 	
 	public void createNew() {
-		ReqCreateNewPlayerMessage req = new ReqCreateNewPlayerMessage();
+		ReqCreateNewPlayer req = new ReqCreateNewPlayer();
 		req.setName("Happy");
 		this.sendMessage(req);
 	}
 
 	public void login() {
-		ReqLoginMessage request = new ReqLoginMessage();
+		ReqAccountLogin request = new ReqAccountLogin();
 		request.setPassword("kingston");
 		request.setAccountId(123L);
 		this.sendMessage(request);
@@ -62,7 +62,7 @@ public class ClientPlayer {
 
 
 	public void selectedPlayer(long playerId) {
-		ReqSelectPlayerMessage request = new ReqSelectPlayerMessage();
+		ReqSelectPlayer request = new ReqSelectPlayer();
 		request.setPlayerId(playerId);
 		this.sendMessage(request);
 	}

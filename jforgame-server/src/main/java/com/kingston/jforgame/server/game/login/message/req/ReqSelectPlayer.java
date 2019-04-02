@@ -7,7 +7,7 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_SELECT_PLAYER)
-public class ReqSelectPlayerMessage extends Message {
+public class ReqSelectPlayer extends Message {
 	
 	@Protobuf(order = 1)
 	private long playerId;

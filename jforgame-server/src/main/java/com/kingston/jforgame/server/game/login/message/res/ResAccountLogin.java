@@ -12,12 +12,12 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.LOGIN, cmd = LoginDataPool.RES_LOGIN)
-public class ResLoginMessage extends Message {
+public class ResAccountLogin extends Message {
 
 	@Protobuf(fieldType = FieldType.OBJECT)
 	private List<PlayerLoginVo> players = new ArrayList<>();
 
-	public ResLoginMessage() {
+	public ResAccountLogin() {
 
 	}
 

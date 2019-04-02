@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
 import com.kingston.jforgame.server.game.database.user.player.Player;
-import com.kingston.jforgame.server.game.gm.message.ResGmResultMessage;
+import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**
  * 修改配置表的gm
@@ -24,12 +24,12 @@ public class GmReloadConfigCommand extends AbstractGmCommand {
 	}
 
 	@Override
-	public ResGmResultMessage execute(Player player, List<String> params) {
+	public ResGmResult execute(Player player, List<String> params) {
 		String tableName = params.get(0);
 		if (ConfigDatasPool.getInstance().reload(tableName)) {
-			return ResGmResultMessage.buildSuccResult("重载" + tableName + "表成功");
+			return ResGmResult.buildSuccResult("重载" + tableName + "表成功");
 		}
-		return ResGmResultMessage.buildFailResult("找不到目标配置表");
+		return ResGmResult.buildFailResult("找不到目标配置表");
 	}
 
 }

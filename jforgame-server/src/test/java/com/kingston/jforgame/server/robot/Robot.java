@@ -11,7 +11,7 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.chat.message.ReqPrivateChat;
 import com.kingston.jforgame.server.game.core.SchedulerManager;
-import com.kingston.jforgame.server.game.login.message.req.ReqLoginMessage;
+import com.kingston.jforgame.server.game.login.message.req.ReqAccountLogin;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
@@ -50,7 +50,7 @@ public class Robot {
 	}
 
 	public void login() {
-		ReqLoginMessage request = new ReqLoginMessage();
+		ReqAccountLogin request = new ReqAccountLogin();
 		request.setPassword("kingston");
 		request.setAccountId(accountId);
 		this.session.sendMessage(request);

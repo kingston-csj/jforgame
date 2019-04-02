@@ -7,7 +7,7 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.ACTIVITY, cmd=ActivityDataPool.REQ_OPEN_PANEL)
-public class ReqOpenActivityPanelMessage extends Message {
+public class ReqOpenActivityPanel extends Message {
 	
 	@Protobuf
 	private int activityId;

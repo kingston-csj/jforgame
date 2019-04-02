@@ -7,7 +7,7 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.SKILL, cmd=SkillDataPool.REQ_USE_SKILL)
-public class ReqUseSkillMessage extends Message {
+public class ReqUseSkill extends Message {
 
 	@Protobuf
 	private int skillId;

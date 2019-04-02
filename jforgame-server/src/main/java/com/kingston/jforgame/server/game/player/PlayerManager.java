@@ -21,8 +21,8 @@ import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.login.LoginManager;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
-import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayerMessage;
-import com.kingston.jforgame.server.game.player.message.ResKickPlayerMessage;
+import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayer;
+import com.kingston.jforgame.server.game.player.message.ResKickPlayer;
 import com.kingston.jforgame.server.game.player.model.AccountProfile;
 import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.listener.EventDispatcher;
@@ -138,7 +138,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		baseInfo.setJob(player.getJob());
 		baseInfo.setName(player.getName());
 
-		ResCreateNewPlayerMessage response = new ResCreateNewPlayerMessage();
+		ResCreateNewPlayer response = new ResCreateNewPlayer();
 		response.setPlayerId(playerId);
 		MessagePusher.pushMessage(session, response);
 
@@ -233,7 +233,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		}
 		removeFromOnline(player);
 		IdSession session = SessionManager.INSTANCE.getSessionBy(playerId);
-		MessagePusher.pushMessage(session, new ResKickPlayerMessage());
+		MessagePusher.pushMessage(session, new ResKickPlayer());
 //		session.close(false);
 	}
 
