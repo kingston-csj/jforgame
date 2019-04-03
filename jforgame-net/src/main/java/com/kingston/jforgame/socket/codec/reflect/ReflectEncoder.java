@@ -5,8 +5,8 @@ import java.nio.ByteBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kingston.jforgame.socket.codec.CodecContext;
 import com.kingston.jforgame.socket.codec.IMessageEncoder;
+import com.kingston.jforgame.socket.codec.mina.CodecContext;
 import com.kingston.jforgame.socket.codec.reflect.serializer.Serializer;
 import com.kingston.jforgame.socket.message.Message;
 

@@ -7,7 +7,6 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
-import com.kingston.jforgame.socket.codec.CodecContext;
 import com.kingston.jforgame.socket.codec.IMessageDecoder;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.combine.CombineMessage;

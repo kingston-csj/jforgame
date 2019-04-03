@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.codec;
+package com.kingston.jforgame.socket.codec.mina;
 
 import org.apache.mina.core.buffer.IoBuffer;
 

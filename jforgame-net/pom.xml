@@ -50,6 +50,7 @@
 		<dependency>
 			<groupId>org.apache.mina</groupId>
 			<artifactId>mina-core</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.mina/mina-http -->
 		<dependency>
@@ -60,6 +61,7 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
