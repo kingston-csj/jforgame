@@ -2,6 +2,7 @@ package com.kingston.jforgame.orm.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -46,6 +47,36 @@ public class DbHelper {
 		try {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
+			}
+		} catch (Exception e) {
+			logger.error("DbUtils queryOne failed", e);
+			throw new SQLException(e);
+		} finally {
+			if (connection != null) {
+				closeConn(connection);
+			}
+		}
+		return null;
+	}
+
+	public static <T> T queryOne(Connection connection, String sql, Class<?> entity, String id) throws SQLException {
+		if (StringUtils.isEmpty(sql)) {
+			throw new SQLException("sql argument is null");
+		}
+		if (entity == null) {
+			throw new SQLException("entity argument is null");
+		}
+		OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity);
+		if (bridge == null) {
+			throw new SQLException(entity.getName() + " bridge is null");
+		}
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setObject(1, id);
+			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
 			}

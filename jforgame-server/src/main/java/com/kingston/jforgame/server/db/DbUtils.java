@@ -47,6 +47,12 @@ public class DbUtils {
 		Connection connection = DbHelper.getConnection(alias);
 		return DbHelper.queryOne(connection, sql, entity);
 	}
+	
+	public static <T> T queryOneById(String alias, String sql, Class<?> entity, String id) throws SQLException{
+		Connection connection = DbHelper.getConnection(alias);
+		return DbHelper.queryOne(connection, sql, entity, id);
+	}
+
 
 	/**
 	 * 查询返回bean实体列表

@@ -150,9 +150,9 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 */
 	@Override
 	public Player load(Long playerId) throws Exception {
-		String sql = "SELECT * FROM Player where Id = {0} ";
-		sql = MessageFormat.format(sql, String.valueOf(playerId));
-		Player player = DbUtils.queryOne(DbUtils.DB_USER, sql, Player.class);
+		String sql = "SELECT * FROM Player where Id = ? ";
+//		sql = MessageFormat.format(sql, String.valueOf(playerId));
+		Player player = DbUtils.queryOneById(DbUtils.DB_USER, sql, Player.class, String.valueOf(playerId));
 		if (player != null) {
 			player.doAfterInit();
 		}
