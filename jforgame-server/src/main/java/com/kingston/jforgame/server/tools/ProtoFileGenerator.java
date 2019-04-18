@@ -17,7 +17,7 @@ import com.kingston.jforgame.socket.message.Message;
 public class ProtoFileGenerator {
 
 	public static void main(String[] args) {
-		String rootPath = "com.kingston.game.login.message";
+		String rootPath = "com.kingston.jforgame.server.game.login.message";
 		Set<Class<?>> messages = ClassScanner.listAllSubclasses(rootPath, Message.class);
 		writeProtoFile(messages);
 	}
