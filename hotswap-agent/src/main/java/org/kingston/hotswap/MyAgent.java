@@ -43,7 +43,7 @@ public class MyAgent {
 		dis.close();
 
 		DynamicClassLoader myLoader = new DynamicClassLoader();
-		Class targetClazz = myLoader.findClass(targetClassFile);
+		Class<?> targetClazz = myLoader.findClass(targetClassFile);
 		System.err.println("目标class类全路径为" + targetClazz.getName());
 		ClassDefinition clazzDef = new ClassDefinition(Class.forName(targetClazz.getName()), targetClassFile);
 		inst.redefineClasses(clazzDef);

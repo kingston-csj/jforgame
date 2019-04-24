@@ -1,5 +1,9 @@
 package com.kingston.jforgame.server.doctor;
 
+import java.io.File;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.kingston.hotswap.HotSwapUtil;
 
 import com.kingston.jforgame.common.utils.FileUtils;
@@ -15,7 +19,13 @@ public enum HotswapManager {
 
 	/** 枚举单例 */
 	INSTANCE;
-
+	
+	/**
+	 * 热更拓展参数
+	 */
+	private Map<String, Object> extendParams;
+	
+	
 	/**
 	 * load java source file and creates a new instance of the class
 	 * 
@@ -26,7 +36,7 @@ public enum HotswapManager {
 		// 类的名字，
 		String simpleName = classFullName.substring(classFullName.lastIndexOf(".") + 1, classFullName.length());
 		try {
-			String filePath = "script/" + simpleName + ".java";
+			String filePath = getFilePath("groovy" + File.separator + simpleName + ".java");
 			String clazzFile = FileUtils.readText(filePath);
 			@SuppressWarnings("resource")
 			Class<?> clazz = new GroovyClassLoader().parseClass(clazzFile, classFullName);
@@ -47,7 +57,24 @@ public enum HotswapManager {
 	 * @return
 	 */
 	public String reloadClass(String path) {
-		return HotSwapUtil.reloadClass(path);
+		return HotSwapUtil.reloadClass(getFilePath(path));
+	}
+	
+	private String getFilePath(String dir) {
+		String defaultDir = System.getProperty("scriptDir");
+		String fullPath = dir;
+		if (StringUtils.isNoneBlank(defaultDir)) {
+			fullPath = dir + File.separator + dir;
+		}
+		return fullPath;
+	}
+	
+	public Object getParamValue(String key) {
+		return extendParams.get(key);
+	}
+	
+	public void updateParamValue(String key, Object value) {
+		this.extendParams.put(key, value);
 	}
 
 }
