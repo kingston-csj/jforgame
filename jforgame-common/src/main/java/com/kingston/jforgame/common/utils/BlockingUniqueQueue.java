@@ -48,6 +48,7 @@ public class BlockingUniqueQueue<E> extends LinkedBlockingQueue<E> {
 		if (contains(e)) {
 			return false;
 		}
+		datas.add(e);
 		return super.add(e);
 	}
 
