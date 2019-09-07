@@ -17,6 +17,7 @@ import javax.script.ScriptEngineManager;
 
 import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.net.MessageStatistics;
 import com.kingston.jforgame.server.utils.JsScriptEngine;
 
 public class GameMonitor implements GameMonitorMBean{
@@ -86,6 +87,16 @@ public class GameMonitor implements GameMonitorMBean{
 
 		return result.toString();
 	}
+	
+	 /**
+	  * 网关消息统计
+     * @return
+     */
+    @Override
+    public String getMessageStatistics() {
+        return MessageStatistics.getInstance().toString();
+    }
+
 
 	@Override
 	public String execJavaScript(String jsCode){

@@ -4,6 +4,7 @@ import java.lang.management.ManagementFactory;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import javax.swing.*;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
@@ -130,7 +131,7 @@ public class GameServer {
 		if (crossServer != null) {
 			crossServer.shutdown();
 		}
-
+		DbService.getInstance().shutDown();
 		stopWatch.stop();
 		logger.error("游戏服务正常关闭，耗时[{}]毫秒", stopWatch.getTime());
 	}

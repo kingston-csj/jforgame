@@ -1,5 +1,6 @@
 package com.kingston.jforgame.server.db;
 
+import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -73,6 +74,29 @@ public class DbService {
 			}
 		} catch (Exception e) {
 			LoggerUtils.error("", e);
+		}
+	}
+
+	public void shutDown() {
+		run.getAndSet(false);
+		for (; ;) {
+			if (! queue.isEmpty()) {
+				saveAllBeforeShutDown();
+			} else {
+				break;
+			}
+		}
+		LoggerUtils.error("[Db4Common] 执行全部命令后关闭");
+	}
+
+	private void saveAllBeforeShutDown() {
+		while (!queue.isEmpty()) {
+			Iterator<BaseEntity> it = queue.iterator();
+			while (it.hasNext()) {
+				BaseEntity next = it.next();
+				it.remove();
+				saveToDb(next);
+			}
 		}
 	}
 

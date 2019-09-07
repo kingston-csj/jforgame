@@ -21,6 +21,12 @@ public interface GameMonitorMBean {
 	 * @return
 	 */
 	String printServerState();
+	
+	 /**
+	  * 网关消息统计
+     * @return
+     */
+    String getMessageStatistics();
 
 	/**
 	 * execute JavaScript code
