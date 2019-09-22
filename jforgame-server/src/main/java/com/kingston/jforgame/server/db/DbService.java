@@ -39,7 +39,20 @@ public class DbService {
 
 	private final AtomicBoolean run = new AtomicBoolean(true);
 
-	public void add2Queue(BaseEntity entity) {
+	/**
+	 * 自动插入或者更新数据
+	 * @param entity
+	 */
+	public void insertOrUpdate(BaseEntity entity) {
+		this.queue.add(entity);
+	}
+
+	/**
+	 * 删除数据
+	 * @param entity
+	 */
+	public void delete(BaseEntity entity) {
+		entity.setDelete();
 		this.queue.add(entity);
 	}
 
@@ -54,7 +67,7 @@ public class DbService {
 				} catch (Exception e) {
 					LoggerUtils.error("", e);
 					// 有可能是并发抛错，重新放入队列
-					add2Queue(entity);
+					insertOrUpdate(entity);
 				}
 			}
 		}

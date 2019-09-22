@@ -1,7 +1,5 @@
 package com.kingston.jforgame.server.game.accout.entity;
 
-import java.text.MessageFormat;
-
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
@@ -30,7 +28,7 @@ public class AccountManager extends BaseCacheService<Long, Account> {
 		
 		Account newAccount = new Account();
 		newAccount.setId(accountId);
-		DbService.getInstance().add2Queue(newAccount);
+		DbService.getInstance().insertOrUpdate(newAccount);
 		PlayerManager.getInstance().addAccountProfile(newAccount);
 		return newAccount;
 	}

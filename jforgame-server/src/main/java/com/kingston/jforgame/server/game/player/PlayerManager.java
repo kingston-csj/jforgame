@@ -1,7 +1,6 @@
 package com.kingston.jforgame.server.game.player;
 
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -129,7 +128,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		// 手动放入缓存
 		super.put(playerId, player);
 
-		DbService.getInstance().add2Queue(player);
+		DbService.getInstance().insertOrUpdate(player);
 
 		PlayerProfile baseInfo = new PlayerProfile();
 		baseInfo.setAccountId(accountId);
