@@ -9,7 +9,7 @@
 	</appender>
 
 	<appender name="info" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="logs/backup_info/info" />
+		<param name="File" value="log/console" />
 		<param name="DatePattern" value="'_'yyyy-MM-dd-HH'.log'" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -30,7 +30,7 @@
 	<appender name="exception" class="org.apache.log4j.rolling.RollingFileAppender">
 		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
 			<param name="FileNamePattern"
-				value="logs/backup_exception/exception.log.%d{yyyy-MM-dd}" />
+				value="log/exception/exception.log.%d{yyyy-MM-dd}" />
 		</rollingPolicy>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{MM-dd HH:mm:ss} %p %F:%L - %m%n" />
