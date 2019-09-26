@@ -23,7 +23,7 @@ public abstract class Message {
 	 * messageMeta, subType of module
 	 * @return
 	 */
-	public short getCmd() {
+	public byte getCmd() {
 		MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
 		if (annotation != null) {
 			return annotation.cmd();

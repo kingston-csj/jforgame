@@ -15,7 +15,7 @@ public class ReflectDecoder implements IMessageDecoder {
 	private static Logger logger = LoggerFactory.getLogger(ReflectDecoder.class);
 
 	@Override
-	public Message readMessage(short module, short cmd, byte[] body) {
+	public Message readMessage(short module, byte cmd, byte[] body) {
 		// 消息序列化这里的buff已经是一个完整的包体
 		ByteBuffer in = ByteBuffer.allocate(body.length);
 		in.put(body);

@@ -38,21 +38,21 @@ public class MinaProtocolDecoder implements ProtocolDecoder {
 		// 在循环里迭代，以处理数据粘包
 		for (;;) {
 			ioBuffer.flip();
-			// 消息元信息常量4表示消息body前面的两个short字段，一个表示module，一个表示cmd,
-			final int metaSize = 4;
+			// 消息元信息常量3表示消息body前面的两个字段，一个short表示module，一个byte表示cmd,
+			final int metaSize = 3;
 			if (ioBuffer.remaining() < metaSize) {
 				ioBuffer.compact();
 				return;
 			}
 			// ----------------消息协议格式-------------------------
 			// packetLength | moduleId | cmd  | body
-			// int            short      short byte[]
+			// int            short      byte byte[]
 			int length = ioBuffer.getInt();
-			// int packLen = length + 4;
+			// int packLen = length + metaSize;
 			// 大于消息body长度，说明至少有一条完整的message消息
 			if (ioBuffer.remaining() >= length) {
 				short moduleId = ioBuffer.getShort();
-				short cmd = ioBuffer.getShort();
+				byte cmd = ioBuffer.get();
 				int msgbodyLen = length - metaSize;
 				byte[] body = new byte[msgbodyLen];
 				ioBuffer.get(body);

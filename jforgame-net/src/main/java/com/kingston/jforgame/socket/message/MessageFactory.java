@@ -36,13 +36,13 @@ public enum MessageFactory {
 	}
 
 
-	public Class<?> getMessage(short module, short cmd) {
+	public Class<?> getMessage(short module, byte cmd) {
 		return id2Clazz.get(buildKey(module, cmd));
 	}
 
 	public Class<?> getMessage(int id) {
 		short module = (short)(id / 1000);
-		short cmd = (short)(id % 1000);
+		byte cmd = (byte)(id % 1000);
 		return id2Clazz.get(buildKey(module, cmd));
 	}
 
@@ -50,7 +50,7 @@ public enum MessageFactory {
 		return clazz2Id.get(clazz);
 	}
 
-	private int buildKey(short module, short cmd) {
+	private int buildKey(short module, byte cmd) {
 		return module * 1000 +  + cmd;
 	}
 

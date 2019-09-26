@@ -40,7 +40,7 @@ public class Packet {
 	public static Message asMessage(Packet packet) {
 		IMessageDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
 
-		return msgEncoder.readMessage((short)packet.module, (short)packet.cmd, packet.body);
+		return msgEncoder.readMessage((short)packet.module, (byte)packet.cmd, packet.body);
 	}
 
 }

@@ -30,10 +30,10 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
 		// int short short byte[]
 		int length = in.readInt();
 		if (in.readableBytes() >= length) {
-			// 消息元信息常量4表示消息body前面的两个short字段，一个表示module，一个表示cmd,
-			final int metaSize = 4;
+			// 消息元信息常量3表示消息body前面的两个字段，一个short表示module，一个byte表示cmd,
+			final int metaSize = 3;
 			short moduleId = in.readShort();
-			short cmd = in.readShort();
+			byte cmd = in.readByte();
 			byte[] body = new byte[length - metaSize];
 			in.readBytes(body);
 			Message msg = msgDecoder.readMessage(moduleId, cmd, body);

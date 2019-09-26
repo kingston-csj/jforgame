@@ -19,7 +19,7 @@ public class ProtobufDecoder implements IMessageDecoder {
 	private static Logger logger = LoggerFactory.getLogger(ProtobufDecoder.class);
 
 	@Override
-	public Message readMessage(short module, short cmd, byte[] body) {
+	public Message readMessage(short module, byte cmd, byte[] body) {
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
 			Codec<?> codec = ProtobufProxy.create(msgClazz);

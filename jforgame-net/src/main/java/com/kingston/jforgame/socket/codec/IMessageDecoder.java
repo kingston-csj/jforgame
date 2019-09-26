@@ -19,6 +19,6 @@ public interface IMessageDecoder {
 	 * @param body   完整的消息包体字节流
 	 * @return
 	 */
-	Message readMessage(short module, short cmd, byte[] body);
+	Message readMessage(short module, byte cmd, byte[] body);
 
 }
