@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.common.utils.BlockingUniqueQueue;
+import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**
@@ -28,35 +29,55 @@ public class DbService {
 		return instance;
 	}
 
+	private Worker playerWorker = new Worker();
+
+	private Worker commonWorker = new Worker();
+
 	/**
 	 * start consumer thread
 	 */
 	public void init() {
-		new NamedThreadFactory("db-save-service").newThread(new Worker()).start();
+		new NamedThreadFactory("db-player-service").newThread(playerWorker).start();
+		new NamedThreadFactory("db-common-service").newThread(commonWorker).start();
 	}
-
-	private BlockingQueue<BaseEntity> queue = new BlockingUniqueQueue<>();
 
 	private final AtomicBoolean run = new AtomicBoolean(true);
 
 	/**
 	 * 自动插入或者更新数据
+	 * 
 	 * @param entity
 	 */
 	public void insertOrUpdate(BaseEntity entity) {
-		this.queue.add(entity);
+		if (entity instanceof Player) {
+			playerWorker.addToQueue(entity);
+		} else {
+			commonWorker.addToQueue(entity);
+		}
 	}
 
 	/**
 	 * 删除数据
+	 * 
 	 * @param entity
 	 */
 	public void delete(BaseEntity entity) {
 		entity.setDelete();
-		this.queue.add(entity);
+		if (entity instanceof Player) {
+			playerWorker.addToQueue(entity);
+		} else {
+			commonWorker.addToQueue(entity);
+		}
 	}
 
 	private class Worker implements Runnable {
+
+		private BlockingQueue<BaseEntity> queue = new BlockingUniqueQueue<>();
+
+		void addToQueue(BaseEntity ent) {
+			this.queue.add(ent);
+		}
+
 		@Override
 		public void run() {
 			while (run.get()) {
@@ -68,6 +89,27 @@ public class DbService {
 					LoggerUtils.error("", e);
 					// 有可能是并发抛错，重新放入队列
 					insertOrUpdate(entity);
+				}
+			}
+		}
+
+		void shutDown() {
+			for (;;) {
+				if (!queue.isEmpty()) {
+					saveAllBeforeShutDown();
+				} else {
+					break;
+				}
+			}
+		}
+
+		void saveAllBeforeShutDown() {
+			while (!queue.isEmpty()) {
+				Iterator<BaseEntity> it = queue.iterator();
+				while (it.hasNext()) {
+					BaseEntity next = it.next();
+					it.remove();
+					saveToDb(next);
 				}
 			}
 		}
@@ -92,25 +134,10 @@ public class DbService {
 
 	public void shutDown() {
 		run.getAndSet(false);
-		for (; ;) {
-			if (! queue.isEmpty()) {
-				saveAllBeforeShutDown();
-			} else {
-				break;
-			}
-		}
-		LoggerUtils.error("[Db4Common] 执行全部命令后关闭");
-	}
+		playerWorker.shutDown();
+		commonWorker.shutDown();
 
-	private void saveAllBeforeShutDown() {
-		while (!queue.isEmpty()) {
-			Iterator<BaseEntity> it = queue.iterator();
-			while (it.hasNext()) {
-				BaseEntity next = it.next();
-				it.remove();
-				saveToDb(next);
-			}
-		}
+		LoggerUtils.error("[Db4Common] 执行全部命令后关闭");
 	}
 
 }

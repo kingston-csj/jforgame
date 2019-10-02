@@ -4,7 +4,6 @@ import java.lang.management.ManagementFactory;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-import javax.swing.*;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
 import com.kingston.jforgame.server.net.mina.MinaSocketServer;
-import com.kingston.jforgame.server.net.netty.NettySocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.message.MessageFactory;
