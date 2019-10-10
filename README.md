@@ -67,7 +67,7 @@
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
-  本栏目详细教程 --> [csdn博客](http://blog.csdn.net/column/details/16043.html)
+  本栏目详细教程 --> [csdn博客](https://blog.csdn.net/littleschemer/article/category/9269220)
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
 
