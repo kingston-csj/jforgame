@@ -2,7 +2,10 @@ package com.kingston.jforgame.socket.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.Logger;
@@ -29,13 +32,21 @@ public enum TaskHandlerContext {
 	private final List<TaskWorker> workerPool = new ArrayList<>();
 
 	private final AtomicBoolean run = new AtomicBoolean(true);
+	
+	private ConcurrentMap<Thread, AbstractDistributeTask> currentTasks = new ConcurrentHashMap<>();
 
+	private final long MONITOR_INTERVAL = 5000L;
+	
+	private final long MAX_EXEC_TIME = 30000L;
+	
 	public void initialize() {
 		for (int i=1; i<=CORE_SIZE; i++) {
 			TaskWorker worker = new TaskWorker(i);
 			workerPool.add(worker);
 			new NamedThreadFactory("message-task-handler").newThread(worker).start();
 		}
+		
+		new NamedThreadFactory("message-task-monitor").newThread(new TaskMoniter()).start();
 	}
 
 	/**
@@ -78,7 +89,10 @@ public enum TaskHandlerContext {
 				try {
 					AbstractDistributeTask task = taskQueue.take();
 					task.markStartMillis();
+					Thread t = Thread.currentThread();
+					currentTasks.put(t, task);
 					task.action();
+					currentTasks.remove(t);
 					task.markEndMillis();
 
 					//if it is TimerTask and should run again, add it to queue
@@ -95,4 +109,31 @@ public enum TaskHandlerContext {
 			}
 		}
 	}
+	
+	class TaskMoniter implements Runnable {
+
+		@Override
+		public void run() {
+			for (; ;) {
+				try {
+					Thread.sleep(MONITOR_INTERVAL);
+				} catch (InterruptedException e) {
+				}
+				
+				for (Map.Entry<Thread, AbstractDistributeTask> entry: currentTasks.entrySet()) {
+					Thread t = entry.getKey();
+					AbstractDistributeTask task = entry.getValue();
+					if (task != null) {
+						long now = System.currentTimeMillis();
+						if (now - task.getStartMillis() > MAX_EXEC_TIME) {
+							System.out.println("执行任务超时");
+						}
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
 }
