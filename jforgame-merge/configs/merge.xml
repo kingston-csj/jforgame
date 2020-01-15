@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+    <clear>
+        <!-- 最小等级 -->
+        <minLevel>200</minLevel>
+        <!-- 最小离线时间 -->
+        <offlineDays>7</offlineDays>
+    </clear>
+
+    <parentServer>
+        <serverId>1</serverId>
+        <url></url>
+        <user></user>
+        <password></password>
+    </parentServer>
+
+    <childServers>
+        <serverId>2</serverId>
+        <url></url>
+        <user></user>
+        <password></password>
+
+        <serverId>3</serverId>
+        <url></url>
+        <user></user>
+        <password></password>
+
+    </childServers>
+
+</config>

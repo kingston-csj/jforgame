@@ -17,7 +17,8 @@
   jforgame
   ├── jforgame-common  --基础公共服务  
   ├── jforgame-admin   --后台管理web工具  
-  ├── jforgame-match   --跨服匹配服       
+  ├── jforgame-match   --跨服匹配服  
+  ├── jforgame-merge   --合服工具        
   ├── jforgame-net     --包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型      
   ├── jforgame-orm     --使用自定义的orm框架，用于数据库表记录与程序pojo对象的相互转换        
   ├── hotswap-agent  支持游戏业务热更新的agent机制  

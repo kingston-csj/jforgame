@@ -26,7 +26,8 @@
 		<module>jforgame-net</module>
 		<module>jforgame-orm</module>
 		<module>jforgame-match</module>
-	</modules>
+        <module>jforgame-merge</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>
