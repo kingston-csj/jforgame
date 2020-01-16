@@ -10,21 +10,24 @@
 
     <parentServer>
         <serverId>1</serverId>
-        <url></url>
-        <user></user>
-        <password></password>
+        <url>111</url>
+        <user>111</user>
+        <password>111</password>
     </parentServer>
 
     <childServers>
-        <serverId>2</serverId>
-        <url></url>
-        <user></user>
-        <password></password>
-
-        <serverId>3</serverId>
-        <url></url>
-        <user></user>
-        <password></password>
+        <server>
+            <serverId>2</serverId>
+            <url>222</url>
+            <user>222</user>
+            <password>222</password>
+        </server>
+        <server>
+            <serverId>3</serverId>
+            <url>333</url>
+            <user>333</user>
+            <password>333</password>
+        </server>
 
     </childServers>
 
