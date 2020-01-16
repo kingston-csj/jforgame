@@ -1,4 +1,4 @@
-package com.kingston.jforgame.merge.config.utils;
+package com.kingston.jforgame.merge.utils;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;

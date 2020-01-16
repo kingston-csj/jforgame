@@ -1,7 +1,7 @@
 package com.kingston.jforgame.merge.config;
 
 
-import com.kingston.jforgame.merge.config.utils.XmlUtils;
+import com.kingston.jforgame.merge.utils.XmlUtils;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
