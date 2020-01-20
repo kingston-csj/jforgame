@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <config>
+
+    <!-- 是否执行备份数据库操作 -->
+    <backup>false</backup>
+
     <clear>
         <!-- 最小等级 -->
         <minLevel>200</minLevel>
@@ -10,23 +14,19 @@
 
     <parentServer>
         <serverId>1</serverId>
-        <url>111</url>
-        <user>111</user>
-        <password>111</password>
+        <dbName>gameserver</dbName>
+        <url>jdbc:mysql://localhost:3306/{0}?characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useSSL=false</url>
+        <user>root</user>
+        <password>123456</password>
     </parentServer>
 
     <childServers>
         <server>
             <serverId>2</serverId>
+            <dbName>gameserver1</dbName>
             <url>222</url>
-            <user>222</user>
-            <password>222</password>
-        </server>
-        <server>
-            <serverId>3</serverId>
-            <url>333</url>
-            <user>333</user>
-            <password>333</password>
+            <user>root</user>
+            <password>123456</password>
         </server>
 
     </childServers>

@@ -12,17 +12,47 @@ import java.util.List;
 public class MergeConfig {
 
     @Element(required = true)
+    private boolean backup;
+    @Element(required = true)
     private ClearConfig clear;
     @Element(required = true)
     private MergeServer parentServer;
     @ElementList(required = true)
     private List<MergeServer> childServers;
 
-    public static void main(String[] args) {
+    private static MergeConfig self;
 
-        MergeConfig config = XmlUtils.loadXmlConfig("merge.xml", MergeConfig.class);
-        System.out.println(config);
+    public static MergeConfig getInstance() {
+        if (self != null) {
+            return self;
+        }
+        synchronized (MergeConfig.class) {
+            if (self == null) {
+                self = new MergeConfig();
+                self.init();
+            }
+        }
 
+        return self;
     }
 
+    private void init() {
+        self = XmlUtils.loadXmlConfig("merge.xml", MergeConfig.class);
+    }
+
+    public boolean isBackup() {
+        return backup;
+    }
+
+    public ClearConfig getClear() {
+        return clear;
+    }
+
+    public MergeServer getParentServer() {
+        return parentServer;
+    }
+
+    public List<MergeServer> getChildServers() {
+        return childServers;
+    }
 }

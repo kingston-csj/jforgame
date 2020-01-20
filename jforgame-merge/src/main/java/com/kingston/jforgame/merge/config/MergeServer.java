@@ -7,6 +7,8 @@ public class MergeServer {
     @Element(required = true)
     private int serverId;
     @Element(required = true)
+    private String dbName;
+    @Element(required = true)
     private String url;
     @Element(required = true)
     private String user;
@@ -17,33 +19,22 @@ public class MergeServer {
         return serverId;
     }
 
-    public void setServerId(int serverId) {
-        this.serverId = serverId;
-    }
-
     public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+        return url.replace("{0}", dbName);
     }
 
     public String getUser() {
         return user;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getDbName() {
+        return dbName;
     }
+
 
     @Override
     public String toString() {

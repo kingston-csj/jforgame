@@ -1,6 +1,8 @@
 package com.kingston.jforgame.merge.service;
 
+import com.kingston.jforgame.merge.config.MergeConfig;
 import com.kingston.jforgame.merge.config.MergeServer;
+import com.kingston.jforgame.merge.utils.SqlFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +29,9 @@ public class CleanService {
 
     private void clear(MergeServer server) {
         logger.error("开始对服务[{}]执行清档逻辑", server.getServerId());
+        MergeConfig config = MergeConfig.getInstance();
+        String sql = SqlFactory.createClearPlayerSql(config.getClear().getMinLevel(), config.getClear().getOfflineDays());
+        logger.info("清档sql为 {}", sql);
     }
 
 }
