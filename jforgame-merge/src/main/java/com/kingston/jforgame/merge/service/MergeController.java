@@ -2,7 +2,6 @@ package com.kingston.jforgame.merge.service;
 
 import com.kingston.jforgame.merge.config.MergeConfig;
 import com.kingston.jforgame.merge.config.MergeServer;
-import com.kingston.jforgame.merge.utils.XmlUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +17,7 @@ public class MergeController {
             BackUpService.getInstance().dbBackUp(parent, "D://", backName);
         }
         // 角色清档
-//        CleanService.getInstance().clearRubbish(mergeConfig.getParentServer(), mergeConfig.getChildServers());
+        CleanService.getInstance().clearRubbish(mergeConfig.getParentServer(), mergeConfig.getChildServers());
         // 真正合服
     }
 

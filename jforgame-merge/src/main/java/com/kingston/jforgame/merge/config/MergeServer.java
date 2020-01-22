@@ -20,7 +20,7 @@ public class MergeServer {
     }
 
     public String getUrl() {
-        return url.replace("{0}", dbName);
+        return url.replace("{0}", dbName) + getMySqlParams();
     }
 
     public String getUser() {
@@ -33,6 +33,10 @@ public class MergeServer {
 
     public String getDbName() {
         return dbName;
+    }
+
+    private String getMySqlParams() {
+        return "?characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useSSL=false";
     }
 
 
