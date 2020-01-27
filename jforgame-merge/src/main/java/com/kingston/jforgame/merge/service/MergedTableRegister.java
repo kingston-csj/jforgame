@@ -59,4 +59,14 @@ public class MergedTableRegister {
         return tables;
     }
 
+    public List<String> listToMergeDirectlyTables() {
+        List<String> tables = new ArrayList<>();
+        for (Map.Entry<String, Byte> entry : tablesStrategys.entrySet()) {
+            if (entry.getValue() == STRATEGY_MERGE) {
+                tables.add(entry.getKey());
+            }
+        }
+        return tables;
+    }
+
 }
