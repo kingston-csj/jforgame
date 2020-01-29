@@ -1,8 +1,11 @@
 package com.kingston.jforgame.merge.service;
 
 import com.kingston.jforgame.merge.config.MergeServer;
+import com.kingston.jforgame.merge.model.MergeTable;
 import com.kingston.jforgame.merge.utils.JdbcUtils;
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,16 +30,21 @@ public class MergeService {
         for (String table : tables) {
             mergeTableDirectly(parentServer, childServer, table);
         }
+        // 交叉合并到的表
+        List<String> crossTables = MergedTableRegister.getInstance().listToMergeCrossTables();
+        for (String table : crossTables) {
+            mergeTableCross(parentServer, childServer, table);
+        }
     }
 
     private void mergeTableDirectly(MergeServer parentServer, MergeServer childServer, String tableName) throws SQLException {
-       logger.info("开始合并[{}]服{}表到{}服", childServer.getServerId(), tableName, parentServer.getServerId());
+        logger.info("开始合并[{}]服{}表到{}服", childServer.getServerId(), tableName, parentServer.getServerId());
         Connection targetConn = JdbcUtils.getConnection(parentServer);
         Map<String, Integer> tableMeta = tableFileMeta(targetConn, tableName);
         String insertSql = createInsertSql(tableMeta, tableName);
         PreparedStatement parentPStat = targetConn.prepareStatement(insertSql);
         Connection childConn = JdbcUtils.getConnection(childServer);
-        ResultSet childRs = childConn.createStatement().executeQuery("select * from " + tableName);
+        ResultSet childRs = childConn.createStatement().executeQuery("SELECT * FROM " + tableName);
         targetConn.setAutoCommit(false);
         try {
             while (childRs.next()) {
@@ -61,7 +69,18 @@ public class MergeService {
                     } else if (type == Types.FLOAT) {
                         parentPStat.setFloat(index, childRs.getFloat(fieldName));
                     } else if (type == Types.VARCHAR) {
-                        parentPStat.setString(index, childRs.getString(fieldName));
+                        String fileValue = childRs.getString(fieldName);
+                        // 处理角色重名
+                        if ("t_role".equalsIgnoreCase(tableName)) {
+                            fileValue += RenameService.getInstance().getNextNameSuff();
+                            RenameService.getInstance().addPlayerName(fileValue);
+                        }
+                        // 处理战盟重名
+                        if ("t_party".equalsIgnoreCase(tableName)) {
+                            fileValue += RenameService.getInstance().getNextNameSuff();
+                            RenameService.getInstance().addGuildName(fileValue);
+                        }
+                        parentPStat.setString(index, fileValue);
                     } else if (type == Types.TIMESTAMP) {
                         parentPStat.setTimestamp(index, childRs.getTimestamp(fieldName));
                     } else {
@@ -70,8 +89,9 @@ public class MergeService {
                     }
                     index++;
                 }
-                parentPStat.executeUpdate();
 
+
+                parentPStat.executeUpdate();
             }
 
             targetConn.commit();
@@ -103,7 +123,7 @@ public class MergeService {
 
     private static String createInsertSql(Map<String, Integer> tableMeta, String tableName) throws SQLException {
         StringBuffer sql = new StringBuffer();
-        sql.append("insert into " + tableName).append("(");
+        sql.append("INSERT INTO " + tableName).append("(");
         // "INSERT INTO member(mid,name,birthday,age,note) VALUES " + " (myseq.nextval,?,?,?,?)";
         for (Map.Entry<String, Integer> entry : tableMeta.entrySet()) {
             sql.append(entry.getKey()).append(",");
@@ -111,14 +131,27 @@ public class MergeService {
         sql.deleteCharAt(sql.length() - 1);
         sql.append(") VALUES (");
         for (Map.Entry<String, Integer> entry : tableMeta.entrySet()) {
-            int type = entry.getValue();
-            String fieldName = entry.getKey();
-
             sql.append("?,");
         }
         sql.deleteCharAt(sql.length() - 1);
         sql.append(")");
         return sql.toString();
+    }
+
+    private void mergeTableCross(MergeServer parentServer, MergeServer childServer, String tableName) throws SQLException {
+        logger.info("开始合并[{}]服{}表到{}服", childServer.getServerId(), tableName, parentServer.getServerId());
+        Connection parentConn = JdbcUtils.getConnection(parentServer);
+        Connection childConn = JdbcUtils.getConnection(childServer);
+        MergeTable mergeTable = MergedTableRegister.getInstance().getTableMergeBehavior(tableName);
+        List<Map<String, Object>> map1 = new QueryRunner().query(parentConn, "SELECT * FROM " + tableName, new MapListHandler());
+        List<Map<String, Object>> map2 = new QueryRunner().query(childConn, "SELECT * FROM " + tableName, new MapListHandler());
+
+        List<String> sqls = mergeTable.merge(map1, map2);
+        parentConn.setAutoCommit(false);
+        for (String sql : sqls) {
+            parentConn.createStatement().executeUpdate(sql);
+        }
+        parentConn.commit();
     }
 
 }

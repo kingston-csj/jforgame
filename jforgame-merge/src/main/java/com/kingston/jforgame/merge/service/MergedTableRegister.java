@@ -1,5 +1,8 @@
 package com.kingston.jforgame.merge.service;
 
+import com.kingston.jforgame.merge.model.AccountEntMergeTable;
+import com.kingston.jforgame.merge.model.MergeTable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +29,8 @@ public class MergedTableRegister {
 
     private Map<String, Byte> tablesStrategys = new HashMap<>();
 
+    private Map<String, MergeTable> tableMerge = new HashMap<>();
+
     public static MergedTableRegister getInstance() {
         if (self != null) {
             return self;
@@ -46,6 +51,9 @@ public class MergedTableRegister {
     private void init() {
         addTableStrategy("t_role", STRATEGY_MERGE);
         addTableStrategy("t_rank", STRATEGY_CLEAR);
+        addTableStrategy("t_account", STRATEGY_CROSS);
+
+        tableMerge.put("t_account", new AccountEntMergeTable());
     }
 
     public List<String> listToDeleteTables() {
@@ -67,6 +75,20 @@ public class MergedTableRegister {
             }
         }
         return tables;
+    }
+
+    public List<String> listToMergeCrossTables() {
+        List<String> tables = new ArrayList<>();
+        for (Map.Entry<String, Byte> entry : tablesStrategys.entrySet()) {
+            if (entry.getValue() == STRATEGY_CROSS) {
+                tables.add(entry.getKey());
+            }
+        }
+        return tables;
+    }
+
+    public MergeTable getTableMergeBehavior(String table) {
+        return tableMerge.get(table);
     }
 
 }
