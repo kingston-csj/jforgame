@@ -107,4 +107,5 @@ public class MergedTableRegistry {
     public List<String> getParentAfterSqls() {
         return parentAfterSqls;
     }
+
 }

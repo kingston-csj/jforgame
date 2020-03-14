@@ -1,6 +1,5 @@
 package com.kingston.jforgame.merge.model;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -27,17 +26,15 @@ public interface MergeTable {
         return sql.toString();
     }
 
-    default void save(Connection conn, List<String> sqls) {
-        try {
-            conn.setAutoCommit(false);
-            for (String sql : sqls) {
-                conn.createStatement().executeQuery(sql);
-            }
-           conn.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("持久化失败");
+    default String toUpdateSql(String tableName, Map<String, Object> data) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("UPDATE " + tableName);
+        sql.append(" SET ");
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
+            sql.append(entry.getKey() + "='" + entry.getValue()).append("',");
         }
+        sql.deleteCharAt(sql.length() - 1);
+        return sql.toString();
     }
 
 }

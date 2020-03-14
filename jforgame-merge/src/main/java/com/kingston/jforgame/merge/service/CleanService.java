@@ -43,7 +43,7 @@ public class CleanService {
 //        JdbcUtils.execUpdate(targetConn, sql);
         int afterCount = JdbcUtils.queryRecordSum(targetConn, "SELECT COUNT(1) FROM t_role;");
         logger.info("清档前[{}]角色数量为{}", server.getServerId(), afterCount);
-        List<String> clearTables = MergedTableRegister.getInstance().listToDeleteTables();
+        List<String> clearTables = MergedTableRegistry.getInstance().listToDeleteTables();
 
         for (String table : clearTables) {
             logger.info("清空[{}]服【{}】表数据", server.getServerId(), table);
@@ -57,6 +57,5 @@ public class CleanService {
             throw new RuntimeException("");
         }
     }
-
 
 }

@@ -46,7 +46,7 @@ public class RenameService {
             DbUtils.closeQuietly(rs);
         }
         try {
-            rs = conn.createStatement().executeQuery("SELECT partyName as name FROM t_party");
+            rs = conn.createStatement().executeQuery("SELECT name as name FROM t_party");
             Set<String> names = new HashSet<>();
             while (rs.next()) {
                 names.add(rs.getString("name"));
@@ -65,6 +65,14 @@ public class RenameService {
 
     public void addGuildName(String name) {
         usedGuildNames.add(name);
+    }
+
+    public Set<String> getUsedPlayerNames() {
+        return usedPlayerNames;
+    }
+
+    public Set<String> getUsedGuildNames() {
+        return usedGuildNames;
     }
 
     public String getNextNameSuff() {

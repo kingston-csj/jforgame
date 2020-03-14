@@ -4,7 +4,6 @@ import com.kingston.jforgame.merge.service.MergeController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class MergeStartup {
 
     private static Logger logger = LoggerFactory.getLogger("MergeStartup");

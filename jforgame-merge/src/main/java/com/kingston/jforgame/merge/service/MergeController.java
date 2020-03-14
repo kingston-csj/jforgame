@@ -24,8 +24,6 @@ public class MergeController {
         for (MergeServer childServer : mergeConfig.getChildServers()) {
             MergeService.getInstance().doMerge(mergeConfig.getParentServer(), childServer);
         }
-
     }
-
 
 }

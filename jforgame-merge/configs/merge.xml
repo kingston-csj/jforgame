@@ -14,7 +14,7 @@
 
     <parentServer>
         <serverId>1</serverId>
-        <dbName>gameserver</dbName>
+        <dbName>gameserver1</dbName>
         <url>jdbc:mysql://localhost:3306/{0}</url>
         <user>root</user>
         <password>123456</password>
@@ -28,7 +28,6 @@
             <user>root</user>
             <password>123456</password>
         </server>
-
     </childServers>
 
 </config>

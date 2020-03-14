@@ -36,7 +36,6 @@ public class JdbcUtils {
             DbUtils.closeQuietly(resultSet);
             DbUtils.closeQuietly(stmt);
         }
-
         return result;
     }
 
@@ -51,7 +50,7 @@ public class JdbcUtils {
         } finally {
             DbUtils.closeQuietly(stmt);
         }
-
         return result;
     }
+
 }

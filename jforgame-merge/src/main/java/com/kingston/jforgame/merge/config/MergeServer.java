@@ -39,7 +39,6 @@ public class MergeServer {
         return "?characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&useSSL=false";
     }
 
-
     @Override
     public String toString() {
         return "MergeServer{" +
@@ -49,4 +48,5 @@ public class MergeServer {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }

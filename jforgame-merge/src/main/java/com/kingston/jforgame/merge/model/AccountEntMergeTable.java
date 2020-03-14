@@ -28,24 +28,13 @@ public class AccountEntMergeTable implements MergeTable {
                 // 把child的金币加到parent
                 Map<String, Object> parentEntity = parentMap.get(key);
                 parentEntity.put("gold", Integer.parseInt(parentEntity.get("gold").toString()) + Integer.parseInt(entry.getValue().get("gold").toString()));
-                String where = " id='" + parentEntity.get("id").toString() + "'";
+                String where = " WHERE id='" + parentEntity.get("id").toString() + "'";
                 String sql = toUpdateSql(getTable(), entry.getValue()) + where;
                 sqls.add(sql);
             }
         }
 
         return sqls;
-    }
-
-    String toUpdateSql(String tableName, Map<String, Object> data) {
-        StringBuffer sql = new StringBuffer();
-        sql.append("UPDATE " + tableName);
-        sql.append(" SET ");
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            sql.append(entry.getKey() + "='" + entry.getValue()).append("',");
-        }
-        sql.deleteCharAt(sql.length() - 1);
-        return sql.toString();
     }
 
     @Override
