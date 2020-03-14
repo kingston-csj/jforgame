@@ -1,330 +1,334 @@
 ﻿<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.kingston</groupId>
-		<artifactId>jforgame-parent</artifactId>
-		<version>1.0.0</version>
-	</parent>
+    <parent>
+        <groupId>com.kingston</groupId>
+        <artifactId>jforgame-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
 
-	<artifactId>jforgame-server</artifactId>
-	<name>jforgame-server</name>
-	<packaging>jar</packaging>
+    <artifactId>jforgame-server</artifactId>
+    <name>jforgame-server</name>
+    <packaging>jar</packaging>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    </properties>
 
-	<dependencies>
-		<!-- 该项目其他模块 -->
-		<dependency>
-			<groupId>com.kingston</groupId>
-			<artifactId>jforgame-common</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.kingston</groupId>
-			<artifactId>jforgame-net</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.kingston</groupId>
-			<artifactId>jforgame-orm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kingston</groupId>
-			<artifactId>hotswap-agent</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
+    <dependencies>
+        <!-- 该项目其他模块 -->
+        <dependency>
+            <groupId>com.kingston</groupId>
+            <artifactId>jforgame-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kingston</groupId>
+            <artifactId>jforgame-net</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kingston</groupId>
+            <artifactId>jforgame-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kingston</groupId>
+            <artifactId>hotswap-util</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
-		<!-- 网关相关 -->
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.mina/mina-http -->
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-http</artifactId>
-		</dependency>
+        <!-- 网关相关 -->
+        <dependency>
+            <groupId>org.apache.mina</groupId>
+            <artifactId>mina-core</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.mina/mina-http -->
+        <dependency>
+            <groupId>org.apache.mina</groupId>
+            <artifactId>mina-http</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
 
-		<!-- 日志系统 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>apache-log4j-extras</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-		</dependency>
+        <!-- 日志系统 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>apache-log4j-extras</artifactId>
+        </dependency>
 
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
 
-		<!-- 读取配置文件 -->
-		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-		</dependency>
-		<!-- 数据库相关 -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-		</dependency>
+        <!-- https://mvnrepository.com/artifact/junit/junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>com.cloudhopper.proxool</groupId>
-			<artifactId>proxool-cglib</artifactId>
-		</dependency>
+        <!-- 读取配置文件 -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
+        <!-- 数据库相关 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.cloudhopper.proxool</groupId>
-			<artifactId>proxool</artifactId>
-			<exclusions>
-			<exclusion>
-			<groupId>geronimo-spec</groupId>
-			<artifactId>geronimo-spec-jms</artifactId>
-			</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>com.cloudhopper.proxool</groupId>
+            <artifactId>proxool-cglib</artifactId>
+        </dependency>
 
-		<!-- 缓存 -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.cloudhopper.proxool</groupId>
+            <artifactId>proxool</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>geronimo-spec</groupId>
+                    <artifactId>geronimo-spec-jms</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>avalon-framework</groupId>
+                    <artifactId>avalon-framework-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<!-- quartz job调度器 -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz-jobs</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-		</dependency>
+        <!-- 缓存 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.simpleframework</groupId>
-			<artifactId>simple-xml</artifactId>
-			<version>2.7.1</version>
-		</dependency>
+        <!-- quartz job调度器 -->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+        </dependency>
 
-		<!-- redis cache -->
-		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.simpleframework</groupId>
+            <artifactId>simple-xml</artifactId>
+            <version>2.7.1</version>
+        </dependency>
 
-		<!-- groovy脚本 -->
-		<!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-		</dependency>
+        <!-- redis cache -->
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
+        <!-- groovy脚本 -->
+        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-pool2</artifactId>
-			<version>2.3</version>
-		</dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
 
-		<!-- 其他 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.3</version>
+        </dependency>
 
-	</dependencies>
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>configs</directory>
-			</resource>
-		</resources>
-		<plugins>
-			<!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-			<!-- 部分eclipse下该插件可能无法找到，可以选择忽略，但maven命令行下打包是没问题的 -->
-			<plugin>
-				<groupId>com.baidu</groupId>
-				<artifactId>jprotobuf-precompile-plugin</artifactId>
-				<version>1.2.8</version>
-				<configuration>
-					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-					<filterClassPackage>com.kingston.jforgame.server.game</filterClassPackage>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>precompile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<!-- 配置文件要跟jar包在同一个目录 -->
-						<id>copy-config</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/configs</outputDirectory>
-							<resources>
-								<resource>
-									<directory>configs/</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-jars</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/libs</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<excludes>
-						<!--跟运维关系密切的配置放到外部configs目录下 -->
-						<exclude>firewall.cfg.js</exclude>
-						<exclude>proxool.dtd</exclude>
-						<exclude>proxool.xml</exclude>
-						<exclude>server.xml</exclude>
-						<exclude>version.properties</exclude>
-						<exclude>SensitiveWord.txt</exclude>
-					</excludes>
-					<archive>
-						<manifestEntries>
-							<Class-Path>configs/</Class-Path>
-						</manifestEntries>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>libs/</classpathPrefix>
-							<mainClass>com.kingston.jforgame.server.ServerStartup</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-		<finalName>GameServer</finalName>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>com.baidu</groupId>
-										<artifactId>
-											jprotobuf-precompile-plugin
-										</artifactId>
-										<versionRange>
-											[1.2.8,)
-										</versionRange>
-										<goals>
-											<goal>precompile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+        <!-- 其他 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>configs</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
+            <!-- 部分eclipse下该插件可能无法找到，可以选择忽略，但maven命令行下打包是没问题的 -->
+            <!--			<plugin>-->
+            <!--				<groupId>com.baidu</groupId>-->
+            <!--				<artifactId>jprotobuf-precompile-plugin</artifactId>-->
+            <!--				<version>1.2.8</version>-->
+            <!--				<configuration>-->
+            <!--					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>-->
+            <!--					<filterClassPackage>com.kingston.jforgame.server.game</filterClassPackage>-->
+            <!--				</configuration>-->
+            <!--				<executions>-->
+            <!--					<execution>-->
+            <!--						<phase>compile</phase>-->
+            <!--						<goals>-->
+            <!--							<goal>precompile</goal>-->
+            <!--						</goals>-->
+            <!--					</execution>-->
+            <!--				</executions>-->
+            <!--			</plugin>-->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <!-- 配置文件要跟jar包在同一个目录 -->
+                        <id>copy-config</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/configs</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>configs/</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-jars</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludes>
+                        <!--跟运维关系密切的配置放到外部configs目录下 -->
+                        <exclude>firewall.cfg.js</exclude>
+                        <exclude>proxool.dtd</exclude>
+                        <exclude>proxool.xml</exclude>
+                        <exclude>server.xml</exclude>
+                        <exclude>version.properties</exclude>
+                        <exclude>SensitiveWord.txt</exclude>
+                    </excludes>
+                    <archive>
+                        <manifestEntries>
+                            <Class-Path>configs/</Class-Path>
+                        </manifestEntries>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>com.kingston.jforgame.server.ServerStartup</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>GameServer</finalName>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                    only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.baidu</groupId>
+                                        <artifactId>
+                                            jprotobuf-precompile-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.2.8,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>precompile</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project> 

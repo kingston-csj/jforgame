@@ -8,9 +8,10 @@
 		<groupId>com.kingston</groupId>
 		<artifactId>jforgame-parent</artifactId>
 		<version>1.0.0</version>
+<!--		<relativePath>../../../jforgame-parent</relativePath>-->
 	</parent>
-	<artifactId>hotswap-agent</artifactId>
-	<name>hotswap-agent</name>
+	<artifactId>hotswap-util</artifactId>
+	<name>hotswap-util</name>
 
 	<dependencies>
 		<dependency>
@@ -24,31 +25,7 @@
 			<scope>system</scope>
 			<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
+
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<addMavenDescriptor>false</addMavenDescriptor>
-
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-							<Agent-Class>org.kingston.hotswap.MyAgent</Agent-Class>
-							<Can-Redefine-Classes>true</Can-Redefine-Classes>
-						</manifestEntries>
-					</archive>
-
-					<jarName>hotswap-agent</jarName>
-				</configuration>
-
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

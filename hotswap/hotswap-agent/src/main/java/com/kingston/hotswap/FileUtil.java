@@ -1,4 +1,4 @@
-package org.kingston.hotswap;
+package com.kingston.hotswap;
 
 import java.io.File;
 import java.util.ArrayList;

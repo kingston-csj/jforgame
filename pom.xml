@@ -22,7 +22,7 @@
 	<modules>
 		<module>jforgame-server</module>
 		<module>jforgame-common</module>
-		<module>hotswap-agent</module>
+		<module>hotswap</module>
 		<module>jforgame-net</module>
 		<module>jforgame-orm</module>
 		<module>jforgame-match</module>

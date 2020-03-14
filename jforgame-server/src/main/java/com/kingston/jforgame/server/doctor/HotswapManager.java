@@ -1,14 +1,12 @@
 package com.kingston.jforgame.server.doctor;
 
+import com.kingston.hotswap.HotSwapUtil;
+import com.kingston.jforgame.common.utils.FileUtils;
+import groovy.lang.GroovyClassLoader;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.kingston.hotswap.HotSwapUtil;
-
-import com.kingston.jforgame.common.utils.FileUtils;
-
-import groovy.lang.GroovyClassLoader;
 
 /**
  * 以javaAgent的方式热更文件 只能修改java文件的方法体
