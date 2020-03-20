@@ -18,7 +18,6 @@ public class ConfigNoticeStorage implements Reloadable {
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigNotice";
-
 		try {
 			List<ConfigNotice> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigNotice.class);
 

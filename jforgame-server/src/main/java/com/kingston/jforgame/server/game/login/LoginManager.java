@@ -3,6 +3,7 @@ package com.kingston.jforgame.server.game.login;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kingston.jforgame.server.game.core.MessagePusher;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.kingston.jforgame.server.game.accout.entity.Account;
@@ -18,7 +19,6 @@ import com.kingston.jforgame.server.game.scene.message.ResPlayerEnterScene;
 import com.kingston.jforgame.server.net.SessionProperties;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.combine.CombineMessage;
-import com.kingston.jforgame.socket.message.MessagePusher;
 import com.kingston.jforgame.socket.session.SessionManager;
 
 public class LoginManager {
@@ -33,7 +33,7 @@ public class LoginManager {
 
 	/**
 	 *
-	 * @param accoundId 账号流水号
+	 * @param accountId 账号流水号
 	 * @param password  账号密码
 	 */
 	public void handleAccountLogin(IdSession session, long accountId, String password) {

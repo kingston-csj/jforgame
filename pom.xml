@@ -29,6 +29,18 @@
         <module>jforgame-merge</module>
     </modules>
 
+	<!-- 阿里云maven仓库 -->
+	<repositories>
+		<repository>
+			<id>public</id>
+			<name>aliyun nexus</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -220,4 +232,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

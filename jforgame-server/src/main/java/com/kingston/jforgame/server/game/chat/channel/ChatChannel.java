@@ -12,7 +12,7 @@ public abstract class ChatChannel {
 	public abstract ChannelType getChannelType();
 	
 	static {
-		channels.put(ChannelType.PRIVATE, new PrivatChatChannel());
+		channels.put(ChannelType.PRIVATE, new PrivateChatChannel());
 	}
 	
 	public static ChatChannel getChannel(ChannelType type) {

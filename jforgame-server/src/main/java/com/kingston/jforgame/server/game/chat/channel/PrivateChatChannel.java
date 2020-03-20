@@ -3,11 +3,11 @@ package com.kingston.jforgame.server.game.chat.channel;
 import com.kingston.jforgame.server.game.chat.message.ResPrivateChat;
 import com.kingston.jforgame.server.game.chat.model.BaseChatMessage;
 import com.kingston.jforgame.server.game.chat.model.TextChatMessage;
+import com.kingston.jforgame.server.game.core.MessagePusher;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.player.PlayerManager;
-import com.kingston.jforgame.socket.message.MessagePusher;
 
-public class PrivatChatChannel extends ChatChannel {
+public class PrivateChatChannel extends ChatChannel {
 
 	@Override
 	public ChannelType getChannelType() {
