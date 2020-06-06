@@ -17,9 +17,9 @@ public enum ListenerManager {
 
 	private Map<String, Method> map = new HashMap<>();
 
-	private final String SCAN_PATH = "com.kingston.game";
+	private final String SCAN_PATH = "com.kingston.jforgame.server";
 
-	public void initalize() {
+	public void init() {
         Set<Class<?>> listeners = ClassScanner.listClassesWithAnnotation(SCAN_PATH, Listener.class);
 
         for (Class<?> listener: listeners) {
@@ -59,4 +59,5 @@ public enum ListenerManager {
 	private String getKey(Object handler, EventType eventType) {
 		return handler.getClass().getName() + "-" + eventType.toString();
 	}
+
 }

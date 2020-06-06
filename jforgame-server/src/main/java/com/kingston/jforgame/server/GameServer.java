@@ -5,6 +5,7 @@ import java.lang.management.ManagementFactory;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import com.kingston.jforgame.server.listener.ListenerManager;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +74,8 @@ public class GameServer {
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
 		// 初始化数据库连接池
 		DbUtils.init();
+		// 事件驱动
+		ListenerManager.INSTANCE.init();
 		// 初始化消息工作线程池
 		TaskHandlerContext.INSTANCE.initialize();
 		// 初始化job定时任务

@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.login.facade;
+package com.kingston.jforgame.server.game.login.controller;
 
 import com.kingston.jforgame.server.game.login.LoginManager;
 import com.kingston.jforgame.server.game.login.message.req.ReqAccountLogin;

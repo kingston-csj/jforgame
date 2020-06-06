@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.login.message.req.ReqAccountLogin;
 import com.kingston.jforgame.server.game.login.message.req.ReqSelectPlayer;
-import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayer;
+import com.kingston.jforgame.server.game.player.message.req.ReqCreateNewPlayer;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;

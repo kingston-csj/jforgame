@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.activity.facade;
+package com.kingston.jforgame.server.game.activity.controller;
 
 import com.kingston.jforgame.server.game.activity.message.ReqOpenActivityPanel;
 import com.kingston.jforgame.socket.annotation.Controller;

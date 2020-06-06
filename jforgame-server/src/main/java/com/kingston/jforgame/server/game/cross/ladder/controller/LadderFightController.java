@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.cross.ladder.facade;
+package com.kingston.jforgame.server.game.cross.ladder.controller;
 
 import com.kingston.jforgame.socket.annotation.Controller;
 

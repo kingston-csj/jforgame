@@ -55,7 +55,6 @@ public class EventDispatcher {
 		//否则，就丢到事件线程异步执行
 			eventQueue.add(event);
 		}
-
 	}
 
 	private void triggerEvent(BaseGameEvent event) {

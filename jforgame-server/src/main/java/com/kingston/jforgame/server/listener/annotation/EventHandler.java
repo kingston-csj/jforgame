@@ -18,6 +18,6 @@ import com.kingston.jforgame.server.listener.EventType;
 public @interface EventHandler {
 	
 	/** 绑定的事件类型列表 */
-	public EventType[] value();
+	EventType[] value();
 	
 }

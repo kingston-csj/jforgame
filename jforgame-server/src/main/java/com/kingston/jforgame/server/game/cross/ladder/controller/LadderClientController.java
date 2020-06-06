@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.cross.ladder.facade;
+package com.kingston.jforgame.server.game.cross.ladder.controller;
 
 import com.kingston.jforgame.server.game.cross.ladder.message.ReqLadderApply;
 import com.kingston.jforgame.server.game.cross.ladder.service.LadderClientManager;

@@ -16,16 +16,9 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  */
 public class DbService {
 
-	private static volatile DbService instance;
+	private static volatile DbService instance = new DbService();
 
 	public static DbService getInstance() {
-		if (instance == null) {
-			synchronized (DbService.class) {
-				if (instance == null) {
-					instance = new DbService();
-				}
-			}
-		}
 		return instance;
 	}
 

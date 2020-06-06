@@ -28,7 +28,7 @@ public class MergeService {
     public void doMerge(MergeServer parentServer, MergeServer childServer) throws Exception {
         // 母服合服前需要执行的sql
         List<String> beforeSqls = MergedTableRegistry.getInstance().getParentBeforeSqls();
-        Connection parentConn = JdbcUtils.getConnection(childServer);
+        Connection parentConn = JdbcUtils.getConnection(parentServer);
         for (String sql : beforeSqls) {
             JdbcUtils.execUpdate(parentConn, sql);
         }

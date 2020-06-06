@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.gm.facade;
+package com.kingston.jforgame.server.game.gm.controller;
 
 import com.kingston.jforgame.server.game.gm.GmManager;
 import com.kingston.jforgame.server.game.gm.message.ReqGmExec;

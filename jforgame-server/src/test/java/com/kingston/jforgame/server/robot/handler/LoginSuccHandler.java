@@ -7,7 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import com.kingston.jforgame.server.game.login.message.req.ReqSelectPlayer;
 import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
 import com.kingston.jforgame.server.game.login.message.vo.PlayerLoginVo;
-import com.kingston.jforgame.server.game.player.message.ReqCreateNewPlayer;
+import com.kingston.jforgame.server.game.player.message.req.ReqCreateNewPlayer;
 import com.kingston.jforgame.server.robot.MessageHandler;
 import com.kingston.jforgame.server.robot.RobotSession;
 import com.kingston.jforgame.socket.message.Message;

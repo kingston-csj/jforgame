@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.chat.facade;
+package com.kingston.jforgame.server.game.chat.controller;
 
 import com.kingston.jforgame.server.game.chat.ChatManager;
 import com.kingston.jforgame.server.game.chat.message.ReqPrivateChat;

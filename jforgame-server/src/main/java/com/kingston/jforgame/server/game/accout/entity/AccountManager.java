@@ -15,7 +15,7 @@ public class AccountManager extends BaseCacheService<Long, Account> {
 
 	@Override
 	public Account load(Long accountId) throws Exception {
-		String sql = "SELECT * FROM account where id = ? ";
+		String sql = "SELECT * FROM account WHERE id = ? ";
 		Account account = DbUtils.queryOneById(DbUtils.DB_USER, sql, Account.class, String.valueOf(accountId));
 		return account;
 	}
