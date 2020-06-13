@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.game.core;
 
-import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
+import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigNotice;
 import com.kingston.jforgame.server.game.database.config.storage.ConfigNoticeStorage;
 import com.kingston.jforgame.socket.IdSession;
@@ -31,7 +31,7 @@ public class MessagePusher {
     }
 
     public static void notify2Player(IoSession session, int i18nId) {
-        ConfigNoticeStorage noticeStorage = ConfigDatasPool.getInstance().getStorage(ConfigNoticeStorage.class);
+        ConfigNoticeStorage noticeStorage = ConfigDataPool.getInstance().getStorage(ConfigNoticeStorage.class);
         ConfigNotice idResource = noticeStorage.getNoticeBy(i18nId);
         if (idResource != null) {
 //            MessagePusher.pushMessage(session, new RespMsg(idResource.getContent()));
@@ -39,7 +39,7 @@ public class MessagePusher {
     }
 
     public static void notify2Player(IoSession session, int i18nId, Object... args) {
-        ConfigNoticeStorage noticeStorage = ConfigDatasPool.getInstance().getStorage(ConfigNoticeStorage.class);
+        ConfigNoticeStorage noticeStorage = ConfigDataPool.getInstance().getStorage(ConfigNoticeStorage.class);
         ConfigNotice idResource = noticeStorage.getNoticeBy(i18nId);
         if (idResource != null) {
             String content = String.format(idResource.getContent(), args);

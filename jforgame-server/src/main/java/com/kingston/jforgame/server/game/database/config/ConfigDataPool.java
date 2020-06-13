@@ -13,14 +13,14 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * 
  * @author kingston
  */
-public class ConfigDatasPool {
+public class ConfigDataPool {
 
-	private static ConfigDatasPool instance = new ConfigDatasPool();
+	private static ConfigDataPool instance = new ConfigDataPool();
 
-	private ConfigDatasPool() {
+	private ConfigDataPool() {
 	}
 
-	public static ConfigDatasPool getInstance() {
+	public static ConfigDataPool getInstance() {
 		return instance;
 	}
 
@@ -30,7 +30,8 @@ public class ConfigDatasPool {
 	 * 起服读取所有的配置数据
 	 */
 	public void loadAllConfigs() {
-		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.game.database.config",
+		String packName = ConfigDataPool.class.getPackage().getName();
+		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses(packName,
 				Reloadable.class);
 
 		clazzs.forEach(c -> {

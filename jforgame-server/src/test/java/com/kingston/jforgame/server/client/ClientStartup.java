@@ -13,7 +13,7 @@ public class ClientStartup {
 
 	public static void main(String[] args) throws Exception {
 		//初始化协议池
-		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
+		MessageFactory.INSTANCE.initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
 		ServerConfig.getInstance();
 

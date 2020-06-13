@@ -3,15 +3,9 @@ package com.kingston.jforgame.server.game.accout.entity;
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
-import com.kingston.jforgame.server.game.player.PlayerManager;
+import com.kingston.jforgame.server.game.GameContext;
 
 public class AccountManager extends BaseCacheService<Long, Account> {
-
-	private static AccountManager instance = new AccountManager();
-
-	public static AccountManager getInstance() {
-		return instance;
-	}
 
 	@Override
 	public Account load(Long accountId) throws Exception {
@@ -29,7 +23,7 @@ public class AccountManager extends BaseCacheService<Long, Account> {
 		Account newAccount = new Account();
 		newAccount.setId(accountId);
 		DbService.getInstance().insertOrUpdate(newAccount);
-		PlayerManager.getInstance().addAccountProfile(newAccount);
+		GameContext.getPlayerManager().addAccountProfile(newAccount);
 		return newAccount;
 	}
 	

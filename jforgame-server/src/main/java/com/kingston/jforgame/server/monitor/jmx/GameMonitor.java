@@ -15,7 +15,7 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import com.kingston.jforgame.server.game.player.PlayerManager;
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.net.MessageStatistics;
 import com.kingston.jforgame.server.utils.JsScriptEngine;
@@ -26,7 +26,7 @@ public class GameMonitor implements GameMonitorMBean{
 
 	@Override
 	public int getOnlinePlayerSum() {
-		return PlayerManager.getInstance().getOnlinePlayers().size();
+		return GameContext.getPlayerManager().getOnlinePlayers().size();
 	}
 
 	@Override

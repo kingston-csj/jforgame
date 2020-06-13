@@ -4,12 +4,11 @@ import com.kingston.jforgame.common.utils.NumberUtil;
 import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.accout.entity.Account;
-import com.kingston.jforgame.server.game.accout.entity.AccountManager;
 import com.kingston.jforgame.server.game.core.MessagePusher;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.user.player.Player;
-import com.kingston.jforgame.server.game.login.LoginManager;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
 import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayer;
@@ -51,10 +50,6 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	/** 全服所有账号的简况 */
 	private ConcurrentMap<Long, AccountProfile> accountProfiles = new ConcurrentHashMap<>();
 
-	public static PlayerManager getInstance() {
-		return instance;
-	}
-
 	public void loadAllPlayerProfiles() {
 		String sql = "SELECT id, accountId,name,level,job FROM player";
 		try {
@@ -77,7 +72,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 		long accountId = baseInfo.getAccountId();
 		// 必须将account加载并缓存
-		Account account = AccountManager.getInstance().get(accountId);
+        Account account = GameContext.getAccountManager().get(accountId);
 		accountProfiles.putIfAbsent(accountId, new AccountProfile());
 		AccountProfile accountProfile = accountProfiles.get(accountId);
 		accountProfile.addPlayerProfile(baseInfo);
@@ -88,7 +83,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		if (accountProfile != null) {
 			return accountProfile;
 		}
-		Account account = AccountManager.getInstance().get(accountId);
+        Account account = GameContext.getAccountManager().get(accountId);
 		if (account != null) {
 			accountProfile = new AccountProfile();
 			accountProfile.setAccountId(accountId);
@@ -140,7 +135,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 		response.setPlayerId(playerId);
 		MessagePusher.pushMessage(session, response);
 
-		LoginManager.getInstance().handleSelectPlayer(session, playerId);
+		GameContext.getLoginManager().handleSelectPlayer(session, playerId);
 	}
 
 	/**
@@ -215,7 +210,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	}
 
 	public void playerLogout(long playerId) {
-		Player player = PlayerManager.getInstance().get(playerId);
+		Player player = GameContext.getPlayerManager().get(playerId);
 		if (player == null) {
 			return;
 		}
@@ -225,7 +220,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	}
 
 	public void kickPlayer(long playerId) {
-		Player player = PlayerManager.getInstance().getOnlinePlayer(playerId);
+		Player player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
 		if (player == null) {
 			return;
 		}

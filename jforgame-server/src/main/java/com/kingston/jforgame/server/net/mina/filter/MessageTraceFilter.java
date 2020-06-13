@@ -3,6 +3,7 @@ package com.kingston.jforgame.server.net.mina.filter;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.kingston.jforgame.server.game.GameContext;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.core.write.WriteRequest;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.kingston.jforgame.server.game.database.user.player.Player;
-import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.mina.MinaSessionProperties;
@@ -61,7 +61,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		IdSession userSession = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.UserSession, IdSession.class);
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(userSession);
 		if (playerId > 0) {
-			Player player = PlayerManager.getInstance().getOnlinePlayer(playerId);
+            Player player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
 			return player.getName();
 		}
 		return String.valueOf(session);

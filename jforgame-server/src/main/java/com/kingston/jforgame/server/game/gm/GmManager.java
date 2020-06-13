@@ -1,45 +1,24 @@
 package com.kingston.jforgame.server.game.gm;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.kingston.jforgame.common.utils.ClassScanner;
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.core.MessagePusher;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.game.gm.command.AbstractGmCommand;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
-import com.kingston.jforgame.server.game.player.PlayerManager;
+
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GmManager {
-
-	private static volatile GmManager instance;
-
-	private GmManager() {}
 
 	/** 缓存ｇｍ指令的模式与对应的逻辑处理者 */
 	private Map<Pattern, AbstractGmCommand> commands = new HashMap<>();
 	
-	private final String SCAN_PATH = "com.kingston.jforgame.server.game.gm.command";
-
-	public static GmManager getInstance() {
-		if (instance == null) {
-			synchronized(GmManager.class) {
-				if (instance == null) {
-					instance = new GmManager();
-					instance.init();
-				}
-			}
-		}
-		return instance;
-	}
-
-	private void init() {
-		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses(SCAN_PATH, AbstractGmCommand.class);
+	public void init() {
+		String packName = GmManager.class.getPackage().getName();
+		Set<Class<?>> clazzs = ClassScanner.listAllSubclasses(packName, AbstractGmCommand.class);
 
 		for (Class<?> clazz:clazzs) {
 			try{
@@ -60,7 +39,7 @@ public class GmManager {
 	 * @return
 	 */
 	public void receiveCommand(long playerId, String content) {
-		Player player = PlayerManager.getInstance().get(playerId);
+		Player player = GameContext.getPlayerManager().get(playerId);
 		//判断权限
 		if (!hasExecPower(player)) {
 			return;

@@ -19,7 +19,7 @@ public enum MessageFactory {
 	/**
 	 * scan all message class and register into pool
 	 */
-	public void initMeesagePool(String scanPath) {
+	public void initMessagePool(String scanPath) {
 		Set<Class<?>> messages = ClassScanner.listAllSubclasses(scanPath, Message.class);
 		for (Class<?> clazz: messages) {
 			MessageMeta meta = clazz.getAnnotation(MessageMeta.class);

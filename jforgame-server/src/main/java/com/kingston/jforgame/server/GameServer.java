@@ -5,6 +5,7 @@ import java.lang.management.ManagementFactory;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.listener.ListenerManager;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
@@ -19,8 +20,7 @@ import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.database.config.ConfigDatasPool;
-import com.kingston.jforgame.server.game.player.PlayerManager;
+import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
 import com.kingston.jforgame.server.net.mina.MinaSocketServer;
@@ -67,7 +67,7 @@ public class GameServer {
 		// 加载服务版本号
 		ServerVersion.load();
 		// 初始化协议池
-		MessageFactory.INSTANCE.initMeesagePool(ServerScanPaths.MESSAGE_PATH);
+		MessageFactory.INSTANCE.initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
 		// 初始化orm框架
@@ -81,7 +81,7 @@ public class GameServer {
 		// 初始化job定时任务
 		CronSchedulerHelper.initAndStart();
 		// 读取所有策划配置
-		ConfigDatasPool.getInstance().loadAllConfigs();
+		ConfigDataPool.getInstance().loadAllConfigs();
 		// 异步持久化服务
 		DbService.getInstance().init();
 		// 读取系统参数
@@ -90,6 +90,9 @@ public class GameServer {
 		RedisCluster.INSTANCE.init();
 		// http admin commands
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
+
+		GameContext.getGmManager().init();
+
 		if (config.getCrossPort() > 0) {
 			// 启动跨服服务
 			crossServer = new CrossServer();
@@ -116,7 +119,7 @@ public class GameServer {
 
 	private void gameLogicInit() {
 		// 游戏启动时，各种业务初始化写在这里吧
-		PlayerManager.getInstance().loadAllPlayerProfiles();
+		GameContext.getPlayerManager().loadAllPlayerProfiles();
 		// 跨服天梯
 //		LadderFightManager.getInstance().init();
 

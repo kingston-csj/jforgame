@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.kingston.jforgame.server.game.GameContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.server.game.player.PlayerManager;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
@@ -154,7 +154,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 			TimerTask closeTask = new TimerTask(distributeKey) {
 				@Override
 				public void action() {
-					PlayerManager.getInstance().playerLogout(playerId);
+                    GameContext.getPlayerManager().playerLogout(playerId);
 				}
 			};
 			TaskHandlerContext.INSTANCE.acceptTask(closeTask);
