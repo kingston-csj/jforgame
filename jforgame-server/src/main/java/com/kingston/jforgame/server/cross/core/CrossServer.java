@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.server.ServerConfig;
-import com.kingston.jforgame.server.cross.core.server.BaseCMessageDispatcher;
+import com.kingston.jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
 import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 
@@ -55,7 +55,7 @@ public class CrossServer implements ServerNode {
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
 		//指定业务逻辑处理器
-		acceptor.setHandler(new Game2GameIoHandler(BaseCMessageDispatcher.getInstance()));
+		acceptor.setHandler(new Game2GameIoHandler(BaseCrossMessageDispatcher.getInstance()));
 		//设置端口号
 		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
 		//启动监听

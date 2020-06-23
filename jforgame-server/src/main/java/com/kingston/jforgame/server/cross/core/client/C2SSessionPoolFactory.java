@@ -3,13 +3,17 @@ package com.kingston.jforgame.server.cross.core.client;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.kingston.jforgame.server.ServerConfig;
+import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
+import com.kingston.jforgame.server.game.database.config.bean.ConfigCross;
+import com.kingston.jforgame.server.game.database.config.storage.ConfigCrossStorage;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import com.kingston.jforgame.server.cross.core.server.BaseCMessageDispatcher;
+import com.kingston.jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
 import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
@@ -54,6 +58,20 @@ public class C2SSessionPoolFactory {
 		}
 	}
 
+
+	public CCSession borrowCrossSession() {
+		ConfigCrossStorage storage = ConfigDataPool.getInstance().getStorage(ConfigCrossStorage.class);
+		ServerConfig serverConfig = ServerConfig.getInstance();
+		// 先拿到本服对应的跨服服务器id
+		ConfigCross selfServerCross = storage.getConfigCrossBy(serverConfig.getServerId());
+		int crossSeverId = selfServerCross.getCrossServer();
+		// 再拿到跨服服务器的ip和端口
+		ConfigCross targetServerCross = storage.getConfigCrossBy(serverConfig.getServerId());
+		String ip = targetServerCross.getIp();
+		int port = targetServerCross.getRpcPort();
+		return borrowSession(ip, port);
+	}
+
 	public void returnSession(CCSession session) {
 		String key = buildKey(session.getIpAddr(), session.getPort());
 		GenericObjectPool<CCSession> pool = pools.get(key);
@@ -79,7 +97,7 @@ class C2SSessionFactory extends BasePooledObjectFactory<CCSession> {
 		super();
 		this.ip = ip;
 		this.port = port;
-		this.dispatcher = BaseCMessageDispatcher.getInstance();
+		this.dispatcher = BaseCrossMessageDispatcher.getInstance();
 	}
 
 	public String getIp() {

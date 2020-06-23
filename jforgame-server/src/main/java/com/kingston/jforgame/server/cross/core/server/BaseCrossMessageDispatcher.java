@@ -16,22 +16,22 @@ import com.kingston.jforgame.socket.annotation.RequestMapping;
 import com.kingston.jforgame.socket.message.CmdExecutor;
 import com.kingston.jforgame.socket.message.Message;
 
-public class BaseCMessageDispatcher implements CMessageDispatcher {
+public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private static volatile BaseCMessageDispatcher self;
+	private static volatile BaseCrossMessageDispatcher self;
 
 	/** [message.class, CmdExecutor] */
 	private static final Map<Class<?>, CmdExecutor> HANDLERS = new HashMap<>();
 
-	public static BaseCMessageDispatcher getInstance() {
+	public static BaseCrossMessageDispatcher getInstance() {
 		if (self != null) {
 			return self;
 		}
-		synchronized (BaseCMessageDispatcher.class) {
+		synchronized (BaseCrossMessageDispatcher.class) {
 			if (self == null) {
-				BaseCMessageDispatcher instance = new BaseCMessageDispatcher();
+				BaseCrossMessageDispatcher instance = new BaseCrossMessageDispatcher();
 				instance.initialize();
 				self = instance;
 			}
@@ -40,7 +40,7 @@ public class BaseCMessageDispatcher implements CMessageDispatcher {
 	}
 
 	private void initialize() {
-		Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation("com.kingston.jforgame.server.game",
+		Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation("com.kingston.jforgame.server",
 				CrossController.class);
 
 		for (Class<?> controller : controllers) {

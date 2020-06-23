@@ -1,8 +1,10 @@
 package com.kingston.jforgame.server.cross.core;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.kingston.jforgame.server.cross.core.callback.CallbackTask;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
@@ -17,6 +19,9 @@ public class CrossTransportManager {
 	private int defaultCoreSum = Runtime.getRuntime().availableProcessors();
 
 	private ExecutorService[] services;
+
+	private ExecutorService asynService;
+
 
 	private C2SSessionPoolFactory sessionFactory;
 	
@@ -45,6 +50,8 @@ public class CrossTransportManager {
 		config.setMaxTotal(5);
 		config.setMaxWaitMillis(5000);
 		sessionFactory = new C2SSessionPoolFactory(config);
+
+		asynService = Executors.newFixedThreadPool(defaultCoreSum);
 	}
 
 	/**
@@ -75,5 +82,11 @@ public class CrossTransportManager {
 		CCSession session = sessionFactory.borrowSession(ip, port);
 		session.sendMessage(message);
 	}
+
+	public Message callBack(CCSession session, Message message) throws ExecutionException, InterruptedException {
+		CallbackTask task = CallbackTask.valueOf(session, message);
+		return asynService.submit(task).get();
+	}
+
 
 }
