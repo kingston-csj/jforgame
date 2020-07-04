@@ -30,6 +30,12 @@ public class NettySocketServer implements ServerNode {
 	private EventLoopGroup bossGroup = new NioEventLoopGroup(4);
 	private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+	private int maxReceiveBytes;
+
+	public NettySocketServer(int maxReceiveBytes) {
+		this.maxReceiveBytes = maxReceiveBytes;
+	}
+
 	@Override
 	public void start() throws Exception {
 		int serverPort = ServerConfig.getInstance().getServerPort();
@@ -59,7 +65,7 @@ public class NettySocketServer implements ServerNode {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {
 			ChannelPipeline pipeline = arg0.pipeline();
-			pipeline.addLast(new NettyProtocolDecoder());
+			pipeline.addLast(new NettyProtocolDecoder(maxReceiveBytes));
 			pipeline.addLast(new NettyProtocolEncoder());
 			// 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
 			pipeline.addLast(new IdleStateHandler(0, 0, 300));

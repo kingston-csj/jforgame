@@ -25,6 +25,9 @@ public class ServerConfig {
 	/** 服务器端口 */
 	@Element(required = true)
 	private int serverPort;
+	/** 客户端封包最大字节数 */
+	@Element(required = true)
+	private int maxReceiveBytes;
 
 	/** 后台管理端口 */
 	@Element(required = true)
@@ -140,4 +143,11 @@ public class ServerConfig {
 		this.crossPort = crossPort;
 	}
 
+	public int getMaxReceiveBytes() {
+		return maxReceiveBytes;
+	}
+
+	public void setMaxReceiveBytes(int maxReceiveBytes) {
+		this.maxReceiveBytes = maxReceiveBytes;
+	}
 }

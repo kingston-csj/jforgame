@@ -15,7 +15,7 @@ public abstract class CrossTransfer {
     public abstract void afterLoginCross(Role player);
 
     public int getCrossType() {
-        return CrossType.SHI_DAO.getType();
+        return CrossType.PK.getType();
     }
 
     public static CrossTransfer queryTransfer(int type) {

@@ -3,6 +3,9 @@
 
 	<serverId>10001</serverId>
 	<serverPort>9527</serverPort>
+	<!-- 客户端封包最大字节数 -->
+	<maxReceiveBytes>4096</maxReceiveBytes>
+
 
 	<!-- http后台管理 -->
 	<adminPort>8080</adminPort>

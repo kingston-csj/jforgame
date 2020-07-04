@@ -14,7 +14,7 @@ public class Req_F2M_HeatBeat extends AbstractMatchMessage {
 	private int port;
 	
 	public Req_F2M_HeatBeat() {
-		ServerConfig  config = ServerConfig.getInstance();
+		ServerConfig config = ServerConfig.getInstance();
 		this.serverId = config.getServerId();
 		this.inetIp = config.getInetAddr();
 		this.port = config.getCrossPort();

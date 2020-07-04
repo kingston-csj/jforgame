@@ -20,6 +20,7 @@ import com.kingston.jforgame.socket.session.SessionManager;
  */
 public class MinaProtocolDecoder implements ProtocolDecoder {
 
+
 	@Override
 	public void decode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		// 必须保证每一个数据包的字节缓存都和session绑定在一起，不然就读取不了上一次剩余的数据了

@@ -7,6 +7,7 @@ import javax.management.ObjectName;
 
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.listener.ListenerManager;
+import com.kingston.jforgame.server.net.netty.NettySocketServer;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,8 +100,8 @@ public class GameServer {
 			crossServer.start();
 		}
 		// 启动socket服务
-		socketServer = new MinaSocketServer();
-//		socketServer = new NettySocketServer();
+//		socketServer = new MinaSocketServer(config.getMaxReceiveBytes());
+		socketServer = new NettySocketServer(config.getMaxReceiveBytes());
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();
