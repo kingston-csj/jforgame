@@ -34,6 +34,7 @@ public class C2SSessionPoolFactory {
 			if (self == null) {
 				GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 				config.setMaxTotal(Runtime.getRuntime().availableProcessors());
+				config.setTestOnBorrow(true);
 				C2SSessionPoolFactory instance = new C2SSessionPoolFactory(config);
 				self = instance;
 			}
@@ -121,6 +122,11 @@ class C2SSessionFactory extends BasePooledObjectFactory<CCSession> {
 		CCSession session = CCSession.valueOf(ip, port, dispatcher);
 		session.buildConnection();
 		return session;
+	}
+
+	@Override
+	public boolean validateObject(PooledObject<CCSession> p) {
+		return !p.getObject().isExpired();
 	}
 
 	@Override

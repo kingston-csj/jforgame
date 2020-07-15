@@ -1,8 +1,11 @@
 package com.kingston.jforgame.server.cross.core.client;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import com.kingston.jforgame.common.utils.TimeUtil;
 import org.apache.mina.core.future.ConnectFuture;
+import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
@@ -13,33 +16,38 @@ import com.kingston.jforgame.server.cross.core.server.CMessageDispatcher;
 import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.message.Message;
 
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CCSession {
-	
+
+	private static Logger logger = LoggerFactory.getLogger(CCSession.class);
+
 	private int id;
-	
-	private static AtomicInteger idFactory = new AtomicInteger();
-	
+
+	private static java.util.concurrent.atomic.AtomicInteger idFactory = new AtomicInteger();
+
 	private String ipAddr;
 	/**
 	 * remote 端口
 	 */
 	private int port;
-	
+
 	private CMessageDispatcher dispatcher;
-	
+
 	private IoSession wrapper;
-	
+
+	private long lastWriteTime;
+
 	public static CCSession valueOf(String ip, int port, CMessageDispatcher dispatcher) {
 		CCSession cSession = new CCSession();
 		cSession.ipAddr = ip;
 		cSession.port = port;
 		cSession.id = idFactory.getAndIncrement();
-		
+		cSession.dispatcher = dispatcher;
 		return cSession;
 	}
-	
+
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
 		connector.getFilterChain().addLast("codec",
@@ -55,12 +63,13 @@ public class CCSession {
 			}
 		});
 
-		System.out.println("开始连接跨服服务器端口" + port);
+		logger.info("开始连接跨服服务器端口" + port);
 		ConnectFuture future = connector.connect(new InetSocketAddress(port));
-		
+
 		future.awaitUninterruptibly();
 		IoSession session = future.getSession();
 		this.wrapper = session;
+		this.lastWriteTime = System.currentTimeMillis();
 	}
 
 	public String getIpAddr() {
@@ -74,13 +83,23 @@ public class CCSession {
 	public IoSession getWrapper() {
 		return wrapper;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
 
 	public void sendMessage(Message message) {
-		this.wrapper.write(message);
+		WriteFuture future = this.wrapper.write(message);
+		if (future.isWritten()) {
+			this.lastWriteTime = System.currentTimeMillis();
+		}
+	}
+
+
+	public boolean isExpired() {
+		long now = System.currentTimeMillis();
+		long diff = now - lastWriteTime;
+		return diff > 30 * TimeUtil.ONE_SECOND;
 	}
 
 }
