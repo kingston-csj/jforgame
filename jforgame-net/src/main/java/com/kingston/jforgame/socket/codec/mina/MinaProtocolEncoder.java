@@ -22,11 +22,6 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		CodecContext context = (CodecContext) session.getAttribute(MinaSessionProperties.CODEC_CONTEXT);
-		if (context == null) {
-			context = new CodecContext();
-			session.setAttribute(MinaSessionProperties.CODEC_CONTEXT, context);
-		}
 		IoBuffer buffer = writeMessage((Message) message);
 		out.write(buffer);
 	}

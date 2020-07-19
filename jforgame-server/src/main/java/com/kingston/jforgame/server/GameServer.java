@@ -100,8 +100,8 @@ public class GameServer {
 			crossServer.start();
 		}
 		// 启动socket服务
-//		socketServer = new MinaSocketServer(config.getMaxReceiveBytes());
-		socketServer = new NettySocketServer(config.getMaxReceiveBytes());
+		socketServer = new MinaSocketServer();
+//		socketServer = new NettySocketServer(config.getMaxReceiveBytes());
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();
