@@ -16,7 +16,7 @@ import io.netty.channel.Channel;
  */
 public interface IdSession {
 
-	static final String ID = "ID";
+	String ID = "ID";
 
 	void sendPacket(Message packet);
 

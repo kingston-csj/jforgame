@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.net.MessageDispatcher;
 import com.kingston.jforgame.socket.ServerNode;
-import com.kingston.jforgame.socket.codec.netty.NettyProtocolDecoder;
-import com.kingston.jforgame.socket.codec.netty.NettyProtocolEncoder;
+import com.kingston.jforgame.socket.netty.NettyProtocolDecoder;
+import com.kingston.jforgame.socket.netty.NettyProtocolEncoder;
 import com.kingston.jforgame.socket.netty.IoEventHandler;
 
 import io.netty.bootstrap.ServerBootstrap;

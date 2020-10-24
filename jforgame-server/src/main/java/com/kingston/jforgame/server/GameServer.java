@@ -123,7 +123,6 @@ public class GameServer {
 		GameContext.getPlayerManager().loadAllPlayerProfiles();
 		// 跨服天梯
 //		LadderFightManager.getInstance().init();
-
 	}
 
 	public void shutdown() {

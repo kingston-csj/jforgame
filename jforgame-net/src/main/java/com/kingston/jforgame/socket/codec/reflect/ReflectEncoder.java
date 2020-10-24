@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.socket.codec.IMessageEncoder;
-import com.kingston.jforgame.socket.codec.mina.CodecContext;
-import com.kingston.jforgame.socket.codec.reflect.serializer.Serializer;
+import com.kingston.jforgame.socket.mina.CodecContext;
 import com.kingston.jforgame.socket.message.Message;
 
 public class ReflectEncoder implements IMessageEncoder {
@@ -19,7 +18,7 @@ public class ReflectEncoder implements IMessageEncoder {
 		ByteBuffer out = ByteBuffer.allocate(CodecContext.WRITE_CAPACITY);
 		//写入具体消息的内容
 		try {
-			Serializer messageCodec = Serializer.getSerializer(message.getClass());
+			Codec messageCodec = Codec.getSerializer(message.getClass());
 			messageCodec.encode(out, message, null);
 		} catch (Exception e) {
 			logger.error("读取消息出错,模块号{}，类型{},异常{}",

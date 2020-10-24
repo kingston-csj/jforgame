@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.codec.reflect.serializer;
+package com.kingston.jforgame.socket.codec.reflect;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
@@ -9,12 +9,12 @@ import java.util.List;
  * 
  * @author kingston
  */
-public class MessageSerializer extends Serializer {
+public class MessageCodec extends Codec {
 
 	private List<FieldCodecMeta> fieldsMeta;
 
-	public static MessageSerializer valueOf(List<FieldCodecMeta> fieldsMeta) {
-		MessageSerializer serializer = new MessageSerializer();
+	public static MessageCodec valueOf(List<FieldCodecMeta> fieldsMeta) {
+		MessageCodec serializer = new MessageCodec();
 		serializer.fieldsMeta = fieldsMeta;
 		return serializer;
 	}
@@ -25,7 +25,7 @@ public class MessageSerializer extends Serializer {
 			Object bean = type.newInstance();
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();
-				Serializer fieldCodec = fieldMeta.getSerializer();
+				Codec fieldCodec = fieldMeta.getCodec();
 				Object value = fieldCodec.decode(in, fieldMeta.getType(), fieldMeta.getWrapper());
 				field.set(bean, value);
 			}
@@ -41,7 +41,7 @@ public class MessageSerializer extends Serializer {
 		try {
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();
-				Serializer fieldCodec = Serializer.getSerializer(fieldMeta.getType());
+				Codec fieldCodec = Codec.getSerializer(fieldMeta.getType());
 				Object value = field.get(message);
 				fieldCodec.encode(out, value, fieldMeta.getWrapper());
 			}

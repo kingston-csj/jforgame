@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.codec.netty;
+package com.kingston.jforgame.socket.netty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

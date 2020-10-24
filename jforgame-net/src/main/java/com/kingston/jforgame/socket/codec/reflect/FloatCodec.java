@@ -1,10 +1,10 @@
-package com.kingston.jforgame.socket.codec.reflect.serializer;
+package com.kingston.jforgame.socket.codec.reflect;
 
 import java.nio.ByteBuffer;
 
 import com.kingston.jforgame.socket.utils.ByteBuffUtil;
 
-public class FloatSerializer extends Serializer {
+public class FloatCodec extends Codec {
 
 	@Override
 	public Float decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {

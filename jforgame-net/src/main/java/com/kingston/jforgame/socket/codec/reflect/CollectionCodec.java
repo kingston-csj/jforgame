@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.codec.reflect.serializer;
+package com.kingston.jforgame.socket.codec.reflect;
 
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
@@ -16,7 +16,7 @@ import com.kingston.jforgame.socket.utils.ByteBuffUtil;
 * 注：由于集合元素bean没有像Message一样注册id，
 * 因此集合的元素不能是父类或抽象类
 */
-public class CollectionSerializer extends Serializer {
+public class CollectionCodec extends Codec {
 
 	@Override
 	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
@@ -40,7 +40,7 @@ public class CollectionSerializer extends Serializer {
 		}
 
 		for (int i=0; i<size; i++) {
-			Serializer fieldCodec = Serializer.getSerializer(wrapper);
+			Codec fieldCodec = Codec.getSerializer(wrapper);
 			Object eleValue = fieldCodec.decode(in, wrapper, null);
 			result.add(eleValue);
 		}
@@ -60,7 +60,7 @@ public class CollectionSerializer extends Serializer {
 
 		for (Object elem:collection) {
 			Class<?> clazz = elem.getClass();
-			Serializer fieldCodec = Serializer.getSerializer(clazz);
+			Codec fieldCodec = Codec.getSerializer(clazz);
 			fieldCodec.encode(out, elem, wrapper);
 		}
 	}

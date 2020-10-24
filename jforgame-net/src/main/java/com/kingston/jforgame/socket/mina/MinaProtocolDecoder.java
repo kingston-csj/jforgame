@@ -1,12 +1,10 @@
-package com.kingston.jforgame.socket.codec.mina;
+package com.kingston.jforgame.socket.mina;
 
 import java.util.List;
 
-import com.kingston.jforgame.socket.codec.netty.NettyProtocolDecoder;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
-import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 
 import com.kingston.jforgame.socket.codec.IMessageDecoder;
@@ -14,8 +12,6 @@ import com.kingston.jforgame.socket.codec.SerializerHelper;
 import com.kingston.jforgame.socket.combine.CombineMessage;
 import com.kingston.jforgame.socket.combine.Packet;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.mina.MinaSessionProperties;
-import com.kingston.jforgame.socket.session.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

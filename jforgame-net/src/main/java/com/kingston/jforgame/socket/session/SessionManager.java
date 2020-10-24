@@ -22,7 +22,7 @@ public enum SessionManager {
 
 
 	public void registerNewPlayer(long playerId, IdSession session) {
-		//biding playeId to session
+		//biding playerId to session
 		session.setAttribute(IdSession.ID, playerId);
 		this.player2sessions.put(playerId, session);
 	}

@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.socket.codec.IMessageDecoder;
-import com.kingston.jforgame.socket.codec.reflect.serializer.Serializer;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.message.MessageFactory;
 
@@ -23,7 +22,7 @@ public class ReflectDecoder implements IMessageDecoder {
 		
 		Class<?> msgClazz = MessageFactory.INSTANCE.getMessage(module, cmd);
 		try {
-			Serializer messageCodec = Serializer.getSerializer(msgClazz);
+			Codec messageCodec = Codec.getSerializer(msgClazz);
 			Message message = (Message) messageCodec.decode(in, msgClazz, null);
 			return message;
 		} catch (Exception e) {

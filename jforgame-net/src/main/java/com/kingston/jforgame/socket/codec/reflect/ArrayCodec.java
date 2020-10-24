@@ -1,9 +1,7 @@
-package com.kingston.jforgame.socket.codec.reflect.serializer;
+package com.kingston.jforgame.socket.codec.reflect;
 
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
-
-import org.apache.mina.core.buffer.IoBuffer;
 
 import com.kingston.jforgame.socket.utils.ByteBuffUtil;
 import com.kingston.jforgame.socket.utils.ReflectUtil;
@@ -14,7 +12,7 @@ import com.kingston.jforgame.socket.utils.ReflectUtil;
 * 注：由于数组元素bean没有像Message一样注册id，
 * 因此数组的元素不能是父类或抽象类
 */
-public class ArraySerializer extends Serializer {
+public class ArrayCodec extends Codec {
 
 	@Override
 	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
@@ -23,7 +21,7 @@ public class ArraySerializer extends Serializer {
 		Object array = ReflectUtil.newArray(type, wrapper, size);
 
 		for (int i=0;i<size; i++) {
-			Serializer fieldCodec = Serializer.getSerializer(wrapper);
+			Codec fieldCodec = Codec.getSerializer(wrapper);
 			Object eleValue = fieldCodec.decode(in, wrapper, null);
 			Array.set(array, i, eleValue);
 		}
@@ -42,7 +40,7 @@ public class ArraySerializer extends Serializer {
 		for (int i=0; i<size; i++) {
 			Object elem = Array.get(value, i);
 			Class<?> clazz = elem.getClass();
-			Serializer fieldCodec = Serializer.getSerializer(clazz);
+			Codec fieldCodec = Codec.getSerializer(clazz);
 			fieldCodec.encode(out, elem, wrapper);
 		}
 	}

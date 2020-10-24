@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.codec.netty;
+package com.kingston.jforgame.socket.netty;
 
 import java.util.List;
 
