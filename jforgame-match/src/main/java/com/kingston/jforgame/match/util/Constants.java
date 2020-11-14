@@ -1,4 +1,4 @@
-package com.kingston.jforgame.common;
+package com.kingston.jforgame.match.util;
 
 /**
  * 全局常量枚举

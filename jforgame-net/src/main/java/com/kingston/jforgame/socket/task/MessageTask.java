@@ -18,10 +18,9 @@ public class MessageTask extends AbstractDistributeTask {
 
 	private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
 
-	/** owner playerId */
-	private long playerId;
-	/** io message content */
-	private Message message;
+
+	private IdSession session;
+
 	/** message controller */
 	private Object handler;
 	/** target method of the controller */
@@ -29,9 +28,10 @@ public class MessageTask extends AbstractDistributeTask {
 	/**arguments passed to the method */
 	private Object[] params;
 
-	public static MessageTask valueOf(int distributeKey, Object handler,
+	public static MessageTask valueOf(IdSession session, int distributeKey, Object handler,
 			Method method, Object[] params) {
 		MessageTask msgTask = new MessageTask();
+		msgTask.session = session;
 		msgTask.distributeKey = distributeKey;
 		msgTask.handler = handler;
 		msgTask.method  = method;
@@ -45,20 +45,11 @@ public class MessageTask extends AbstractDistributeTask {
 		try{
 			Object response = method.invoke(handler, params);
 			if (response != null) {
-				IdSession session = SessionManager.INSTANCE.getSessionBy(playerId);
-				session.sendPacket(message);
+				session.sendPacket((Message) response);
 			}
 		}catch(Exception e){
 			logger.error("message task execute failed ", e);
 		}
-	}
-
-	public long getPlayerId() {
-		return playerId;
-	}
-
-	public Message getMessage() {
-		return message;
 	}
 
 	public Object getHandler() {

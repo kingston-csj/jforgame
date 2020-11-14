@@ -1,6 +1,6 @@
 package com.kingston.jforgame.match.http;
 
-import com.kingston.jforgame.common.Constants;
+import com.kingston.jforgame.match.util.Constants;
 
 public class UrlResponse {
 	/** 执行结果状态码 */

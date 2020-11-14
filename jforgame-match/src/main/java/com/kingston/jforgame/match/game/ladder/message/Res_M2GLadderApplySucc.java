@@ -1,6 +1,6 @@
 package com.kingston.jforgame.match.game.ladder.message;
 
-import com.kingston.jforgame.common.Constants;
+import com.kingston.jforgame.match.util.Constants;
 import com.kingston.jforgame.socket.message.Message;
 
 /**

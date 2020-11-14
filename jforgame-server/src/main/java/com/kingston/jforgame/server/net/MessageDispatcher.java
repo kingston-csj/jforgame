@@ -110,7 +110,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 		// 丢到任务消息队列，不在io线程进行业务处理
 		int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
 		TaskHandlerContext.INSTANCE
-				.acceptTask(MessageTask.valueOf(distributeKey, controller, cmdExecutor.getMethod(), params));
+				.acceptTask(MessageTask.valueOf(session, distributeKey, controller, cmdExecutor.getMethod(), params));
 	}
 
 	/**

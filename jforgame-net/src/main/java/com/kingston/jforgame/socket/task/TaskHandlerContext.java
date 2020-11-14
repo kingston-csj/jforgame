@@ -46,7 +46,7 @@ public enum TaskHandlerContext {
 			new NamedThreadFactory("message-task-handler").newThread(worker).start();
 		}
 		
-		new NamedThreadFactory("message-task-monitor").newThread(new TaskMoniter()).start();
+		new NamedThreadFactory("message-task-monitor").newThread(new TaskMonitor()).start();
 	}
 
 	/**
@@ -110,7 +110,7 @@ public enum TaskHandlerContext {
 		}
 	}
 	
-	class TaskMoniter implements Runnable {
+	class TaskMonitor implements Runnable {
 
 		@Override
 		public void run() {
