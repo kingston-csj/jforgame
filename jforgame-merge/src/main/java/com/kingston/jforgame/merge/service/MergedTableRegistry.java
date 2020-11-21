@@ -13,7 +13,7 @@ public class MergedTableRegistry {
     private static MergedTableRegistry self ;
 
     /**
-     * 表格--删除
+     * 表格--删除从服
      */
     public static final byte STRATEGY_CLEAR = 1;
     /**

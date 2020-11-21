@@ -54,9 +54,9 @@ public class MergeService {
         logger.info("开始合并[{}]服{}表到{}服", childServer.getServerId(), tableName, parentServer.getServerId());
         Connection childConn = JdbcUtils.getConnection(childServer);
         int childRecordSum = JdbcUtils.queryRecordSum(childConn, String.format("SELECT COUNT(1) FROM %s", tableName));
-        int countThreshold = 400; //超过改阈值需要多线程执行
+        int countThreshold = 400; //超过该阈值需要多线程执行
 
-        final int MAX_THREAD_SUM = 6;
+        final int MAX_THREAD_SUM = 6;//合并的最大线程数量
         int threadSum = 1;
         if (childRecordSum > countThreshold) {
             threadSum = Math.min(MAX_THREAD_SUM, Runtime.getRuntime().availableProcessors());

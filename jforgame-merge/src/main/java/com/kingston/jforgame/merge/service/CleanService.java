@@ -40,7 +40,6 @@ public class CleanService {
         Connection targetConn = JdbcUtils.getConnection(server);
         int beforeCount = JdbcUtils.queryRecordSum(targetConn, "SELECT COUNT(1) FROM t_role;");
         logger.info("清档前[{}]服角色数量为{}", server.getServerId(), beforeCount);
-//        JdbcUtils.execUpdate(targetConn, sql);
         int afterCount = JdbcUtils.queryRecordSum(targetConn, "SELECT COUNT(1) FROM t_role;");
         logger.info("清档前[{}]角色数量为{}", server.getServerId(), afterCount);
         List<String> clearTables = MergedTableRegistry.getInstance().listToDeleteTables();
