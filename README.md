@@ -5,7 +5,7 @@
 
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
-  * 支持socket/websocket接入，兼容手游/页游服务端架构  
+  * 支持socket/webSocket接入，兼容手游/页游服务端架构  
   * 通信协议支持protobuf或java反射，为客户端提供多种选择   
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护   
@@ -42,9 +42,9 @@
   ----|------|----     
   Mina | nio socket 框架 | [http://mina.apache.org/](http://mina.apache.org/)  
   Netty | nio socket 框架 | [http://netty.io/](http://netty.io/)   
-  jprotobuf | 通信双方消息编解码 | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
+  jprotobuf | protobuff协议层注解 | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
   Guava | 玩家数据缓存系统 | [https://github.com/google/guava](https://github.com/google/guava)  
-  Jedis | 跨服数据内存数据库 | [https://redis.io](https://redis.io/)  
+  Jedis | 跨服数据缓存 | [https://redis.io](https://redis.io/)  
   quartz | job调度任务 | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
   groovy | 热更新维护相关 | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
   proxool | mysql数据链接池 | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)   
@@ -74,7 +74,7 @@
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
   
   ## 请作者喝杯咖啡
-  如果你觉的有所帮助，可以请作者喝咖啡。大家的支持，促使不断改进优化，谢谢！  
+  如果您觉得有所收获，可以请作者喝杯咖啡。大家的支持，促使我不断改进优化，谢谢！  
    ![](/screenshots/zfb.jpg "支付宝收款码")
 
   ## 一起交流
