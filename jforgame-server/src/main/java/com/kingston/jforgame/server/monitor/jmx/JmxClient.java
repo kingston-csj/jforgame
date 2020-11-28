@@ -51,7 +51,7 @@ public class JmxClient {
 
 		GameMonitorMBean mBean = JMX.newMBeanProxy(mBeanConnection, objectName, GameMonitorMBean.class);
 
-		String script = FileUtils.readText("script.js");
+		String script = FileUtils.readLines("script.js");
 		System.err.println(script);
 
 		System.err.println(mBean.execJavaScript(script));

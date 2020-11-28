@@ -16,8 +16,8 @@ public class KickPlayerCommand extends HttpCommandHandler {
 		Map<String, String> params = httpParams.getParams();
 		String key = "player";
 		if (params.containsKey(key)) {
-			long playeId = Long.parseLong(params.get(key));
-            GameContext.getPlayerManager().kickPlayer(playeId);
+			long playerId = Long.parseLong(params.get(key));
+            GameContext.getPlayerManager().kickPlayer(playerId);
 			return HttpCommandResponse.valueOfSucc();
 		}
 		return HttpCommandResponse.valueOfSucc();

@@ -90,7 +90,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 	@Override
 	public void onSessionCreated(IdSession session) {
 		session.setAttribute(SessionProperties.DISTRIBUTE_KEY,
-				SessionManager.INSTANCE.getNextDistributeKey());
+				SessionManager.INSTANCE.getNextSessionId());
 	}
 
 	@Override

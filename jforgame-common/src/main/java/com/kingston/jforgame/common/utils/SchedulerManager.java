@@ -76,7 +76,7 @@ public enum SchedulerManager {
 	 * 注销任务
 	 * @param taskName
 	 */
-	public void cancleTask(String taskName) {
+	public void cancelTask(String taskName) {
 		ScheduledFuture oldTask = uniqueTasks.get(taskName);
 		if (oldTask != null) {
 			oldTask.cancel(false);

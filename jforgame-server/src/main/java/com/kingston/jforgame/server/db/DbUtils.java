@@ -70,7 +70,6 @@ public class DbUtils {
 	 * 查询返回一个map
 	 * @param alias 数据库别名
 	 * @param sql
-	 * @param entity
 	 * @return
 	 */
 	public static Map<String, Object> queryMap(String alias, String sql) throws SQLException{

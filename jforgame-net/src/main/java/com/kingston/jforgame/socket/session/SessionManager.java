@@ -48,10 +48,10 @@ public enum SessionManager {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, Class<T> attrType) {
-		return (T)session.getAttribute(attrKey);
+		return (T)session.getAttribute(attrKey, attrType);
 	}
 
-	public int getNextDistributeKey() {
+	public int getNextSessionId() {
 		return this.distributeKeyGenerator.getAndIncrement();
 	}
 

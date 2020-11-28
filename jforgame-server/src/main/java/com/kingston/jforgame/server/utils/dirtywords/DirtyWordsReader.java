@@ -22,7 +22,7 @@ public enum DirtyWordsReader {
 	private int wordCount =  0;
 	private final String FILE_PATH = "configs/SensitiveWord.txt";
 
-	private DirtyWordsReader(){
+	DirtyWordsReader(){
 		Set<String> words = readSensitiveWordPool();
 		this.initWordsStore(words);
 	}

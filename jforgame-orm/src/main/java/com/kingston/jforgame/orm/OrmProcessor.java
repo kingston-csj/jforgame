@@ -20,7 +20,7 @@ public enum OrmProcessor {
 	INSTANCE;
 
 	/** entity与对应的ormbridge的映射关系 */
-	private Map<Class<?>, OrmBridge> classOrmMapperr = new HashMap<>();
+	private Map<Class<?>, OrmBridge> classOrmMapper = new HashMap<>();
 
 	/**
 	 * @param scanPath path to load orm entities
@@ -30,7 +30,7 @@ public enum OrmProcessor {
 
 		for (Class<?> clazz:entityClazzs) {
 			OrmBridge bridge = createBridge(clazz);
-			this.classOrmMapperr.put(clazz, bridge);
+			this.classOrmMapper.put(clazz, bridge);
 		}
 	}
 
@@ -52,7 +52,6 @@ public enum OrmProcessor {
 				if (column == null) {
 					continue;
 				}
-
 				Method m = clazz.getMethod("get" + StringUtils.firstLetterToUpperCase(field.getName()));
 				bridge.addGetterMethod(fieldName, m);
 				Method m2 = clazz.getMethod("set" + StringUtils.firstLetterToUpperCase(field.getName()), field.getType());
@@ -81,6 +80,6 @@ public enum OrmProcessor {
 	}
 
 	public OrmBridge getOrmBridge(Class<?> clazz) {
-		return this.classOrmMapperr.get(clazz);
+		return this.classOrmMapper.get(clazz);
 	}
 }

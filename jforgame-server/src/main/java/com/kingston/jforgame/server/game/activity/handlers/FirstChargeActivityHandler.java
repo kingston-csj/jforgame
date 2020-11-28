@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.game.activity.ActivityTypes;
 public class FirstChargeActivityHandler extends AbstractActivityHandler {
 
 	@Override
-	public ActivityTypes getActvityType() {
+	public ActivityTypes getActivityType() {
 		return ActivityTypes.FIRST_CHARGE;
 	}
 

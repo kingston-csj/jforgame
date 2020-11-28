@@ -26,7 +26,7 @@ public class DbHelper {
 	/**
 	 * 查询返回一个bean实体
 	 * 
-	 * @param Connection 数据库链接
+	 * @param connection 数据库链接
 	 * @param sql
 	 * @param entity
 	 * @return

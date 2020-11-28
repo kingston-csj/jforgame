@@ -11,7 +11,7 @@ public interface IActivityHandler {
 	
 	void receiveRewards(Player player);
 	
-	ActivityTypes getActvityType();
+	ActivityTypes getActivityType();
 	
 	Activity getActivity();
 	

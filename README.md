@@ -72,6 +72,10 @@
   本栏目详细教程 --> [csdn博客](https://blog.csdn.net/littleschemer/article/category/9269220)
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
+  
+  ## 请作者喝杯咖啡
+  如果你觉的有所帮助，可以请作者喝咖啡。大家的支持，促使不断改进优化，谢谢！  
+   ![](/screenshots/zfb.jpg "支付宝收款码")
 
   ## 一起交流
   如果您发现bug，或者有任何疑问，请提交issue !!  

@@ -10,32 +10,32 @@ public abstract class AbstractCacheable extends Cacheable {
 	private AtomicBoolean persistent = new AtomicBoolean(false);
 	
 	@Override
-	public DbStatus getStatus() {
+	public synchronized  final DbStatus getStatus() {
 		return this.status;
 	}
 
 	@Override
-	public final boolean isInsert() {
+	public synchronized final boolean isInsert() {
 		return this.status == DbStatus.INSERT;
 	}
 
 	@Override
-	public final boolean isUpdate() {
+	public synchronized final boolean isUpdate() {
 		return this.status == DbStatus.UPDATE;
 	}
 
 	@Override
-	public final boolean isDelete() {
+	public synchronized final boolean isDelete() {
 		return this.status == DbStatus.DELETE;
 	}
 
 	@Override
-	public void setInsert() {
+	public synchronized void setInsert() {
 		this.status = DbStatus.INSERT;
 	}
 
 	@Override
-	public final void setUpdate(){
+	public synchronized final void setUpdate(){
 		//只有该状态才可以变更为update
 		if (this.status == DbStatus.NORMAL) {
 			this.status = DbStatus.UPDATE;
@@ -43,7 +43,7 @@ public abstract class AbstractCacheable extends Cacheable {
 	}
 
 	@Override
-	public final void setDelete(){
+	public synchronized final void setDelete(){
 		if (this.status == DbStatus.INSERT) {
 			this.status = DbStatus.NORMAL;
 		} else{
@@ -51,7 +51,7 @@ public abstract class AbstractCacheable extends Cacheable {
 		}
 	}
 	
-	public final void resetDbStatus() {
+	public synchronized final void resetDbStatus() {
 		this.status = DbStatus.NORMAL;
 	}
 	
