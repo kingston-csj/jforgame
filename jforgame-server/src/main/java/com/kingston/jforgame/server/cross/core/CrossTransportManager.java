@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.kingston.jforgame.server.cross.core.callback.CallbackTask;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
@@ -61,7 +62,7 @@ public class CrossTransportManager {
 	 * @param port
 	 * @param message
 	 */
-	public void sendMessageSync(String ip, int port, Message message) {
+	public void sendMessage(String ip, int port, Message message) {
 		CCSession session = sessionFactory.borrowSession(ip, port);
 		session.sendMessage(message);
 	}
@@ -77,16 +78,25 @@ public class CrossTransportManager {
 		String key = (ip + port).toString();
 		int index = key.hashCode() % defaultCoreSum;
 		services[index].submit(() -> {
-			sendMessageSync(ip, port, message);
+			sendMessage(ip, port, message);
 		});
-		CCSession session = sessionFactory.borrowSession(ip, port);
-		session.sendMessage(message);
 	}
 
-	public Message callBack(CCSession session, Message message) throws ExecutionException, InterruptedException {
-		CallbackTask task = CallbackTask.valueOf(session, message);
-		return asynService.submit(task).get();
+	/**
+	 * 发送跨服并返回执行结果
+	 * 会阻塞当前线程！！
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	public Message sendAndReturn(CCSession session, Message request) {
+		CallbackTask task = CallbackTask.valueOf(session, request);
+		try {
+			return asynService.submit(task).get();
+		} catch (ExecutionException | InterruptedException e) {
+			LoggerUtils.error("跨服消息发送失败", e);
+			return null;
+		}
 	}
-
 
 }

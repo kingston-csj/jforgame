@@ -57,6 +57,6 @@ public class CallbackTask implements Callable<Message> {
             C2SSessionPoolFactory.getInstance().returnSession(session);
         }
         // 超时返回
-        return null;
+        throw new CallTimeoutException("跨服回调超时 " + session);
     }
 }

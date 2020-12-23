@@ -15,7 +15,7 @@ public class CrossDemoGameService {
         req.setType(CallBackCommands.HELLO);
         CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();
         try {
-            Message callBack = CrossTransportManager.getInstance().callBack(session, req);
+            Message callBack = CrossTransportManager.getInstance().sendAndReturn(session, req);
             System.out.println(callBack);
         } catch (Exception e) {
             e.printStackTrace();

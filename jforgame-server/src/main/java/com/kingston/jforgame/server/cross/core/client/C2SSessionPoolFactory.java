@@ -52,7 +52,7 @@ public class C2SSessionPoolFactory {
 			C2SSessionFactory factory = new C2SSessionFactory(ip, port);
 			GenericObjectPool<CCSession> pool = pools.getOrDefault(key, new GenericObjectPool(factory, config));
 			pools.putIfAbsent(key, pool);
-			return (CCSession) pool.borrowObject();
+			return pool.borrowObject();
 		} catch (Exception e) {
 			LoggerUtils.error("", e);
 			return null;

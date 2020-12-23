@@ -48,6 +48,9 @@ public class CCSession {
 		return cSession;
 	}
 
+	/**
+	 * 建立与跨服端口的连接
+	 */
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
 		connector.getFilterChain().addLast("codec",
@@ -102,4 +105,8 @@ public class CCSession {
 		return diff > 30 * TimeUtil.ONE_SECOND;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("session[ip='%s',port='%s']", ipAddr, port);
+	}
 }
