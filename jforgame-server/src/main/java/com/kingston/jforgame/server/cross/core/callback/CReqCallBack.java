@@ -14,11 +14,20 @@ public class CReqCallBack extends Message {
 
     private int index;
 
-    private int type;
+    private int command;
 
     private transient Map<String, String> params = new HashMap<>();
 
     private String data;
+    /**
+     * 响应类型：0,rpc返回值 1,回调
+     */
+    private byte rpc;
+
+    public CReqCallBack() {
+        int index = RpcResponse.nextMsgId();
+        setIndex(index);
+    }
 
     public void addParam(String key, String value) {
         this.params.put(key, value);
@@ -32,12 +41,12 @@ public class CReqCallBack extends Message {
         this.index = index;
     }
 
-    public int getType() {
-        return type;
+    public int getCommand() {
+        return command;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCommand(int command) {
+        this.command = command;
     }
 
     public String getData() {
@@ -58,8 +67,15 @@ public class CReqCallBack extends Message {
         this.params = JsonUtils.string2Map(new String(json), String.class, String.class);
     }
 
-
     public Map<String, String> getParams() {
         return params;
+    }
+
+    public byte getRpc() {
+        return rpc;
+    }
+
+    public void setRpc(byte rpc) {
+        this.rpc = rpc;
     }
 }

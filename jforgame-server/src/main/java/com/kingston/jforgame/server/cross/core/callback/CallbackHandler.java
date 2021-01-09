@@ -22,6 +22,7 @@ public abstract class CallbackHandler {
     public void sendBack(SCSession session, CReqCallBack req, Message response) {
         CRespCallBack callBack = CRespCallBack.valueOf(response);
         callBack.setIndex(req.getIndex());
+        callBack.setRpc(req.getRpc());
         session.sendMessage(callBack);
     }
 

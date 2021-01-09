@@ -27,7 +27,7 @@ public class CallbackTask implements Callable<Message> {
     public Message call() throws Exception {
         try {
             CReqCallBack reqCallBack = (CReqCallBack) request;
-            int index = CallBack.nextMsgId();
+            int index = RpcResponse.nextMsgId();
             reqCallBack.setIndex(index);
             reqCallBack.serialize();
 
@@ -39,7 +39,7 @@ public class CallbackTask implements Callable<Message> {
             long startTime = System.currentTimeMillis();
             CallBackService callBackService = CallBackService.getInstance();
             while (System.currentTimeMillis() - startTime <= maxTimeOut) {
-                CallBack c = callBackService.removeCallBack(index);
+                RpcResponse c = callBackService.removeRpcResponse(index);
                 if (c != null) {
                     return c.getData();
                 }
@@ -47,7 +47,7 @@ public class CallbackTask implements Callable<Message> {
                 try {
                     lock.lockInterruptibly();
                     condition.await(10, TimeUnit.MILLISECONDS);
-                } catch (Exception e) {
+                } catch (Exception ignore) {
 
                 } finally {
                     lock.unlock();

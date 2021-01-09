@@ -3,8 +3,12 @@ package com.kingston.jforgame.server.cross.core;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-import com.kingston.jforgame.server.cross.core.callback.CallbackTask;
+import com.kingston.jforgame.common.utils.SchedulerManager;
+import com.kingston.jforgame.common.utils.TimeUtil;
+import com.kingston.jforgame.server.cross.core.callback.*;
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -12,6 +16,8 @@ import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.socket.message.Message;
+
+import javax.swing.*;
 
 public class CrossTransportManager {
 
@@ -22,7 +28,6 @@ public class CrossTransportManager {
 	private ExecutorService[] services;
 
 	private ExecutorService asynService;
-
 
 	private C2SSessionPoolFactory sessionFactory;
 	
@@ -83,13 +88,12 @@ public class CrossTransportManager {
 	}
 
 	/**
-	 * 发送跨服并返回执行结果
-	 * 会阻塞当前线程！！
+	 * 发送消息并返回执行结果(类似rpc消息返回值)
 	 * @param session
 	 * @param request
 	 * @return
 	 */
-	public Message sendAndReturn(CCSession session, Message request) {
+	public Message sendWithReturn(CCSession session, CReqCallBack request) {
 		CallbackTask task = CallbackTask.valueOf(session, request);
 		try {
 			return asynService.submit(task).get();
@@ -97,6 +101,25 @@ public class CrossTransportManager {
 			LoggerUtils.error("跨服消息发送失败", e);
 			return null;
 		}
+	}
+
+	/**
+	 * 发送消息并注册回调任务
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	public void callback(CCSession session, CReqCallBack request, CallbackAction callBack) {
+		request.setRpc((byte) 1);
+		request.serialize();
+
+		CallBackService.getInstance().registerCallback(request.getIndex(), callBack);
+		session.sendMessage(request);
+		SchedulerManager.INSTANCE.registerTimeoutTask("", () -> {
+			LoggerUtils.error("跨服消息回调超时", request.getClass().getSimpleName());
+			callBack.onError();
+			CallBackService.getInstance().removeCallback(request.getIndex());
+		}, TimeUtil.ONE_SECOND * 5);
 	}
 
 }

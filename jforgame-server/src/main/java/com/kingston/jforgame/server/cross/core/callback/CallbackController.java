@@ -3,7 +3,6 @@ package com.kingston.jforgame.server.cross.core.callback;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.server.cross.core.server.CrossController;
 import com.kingston.jforgame.server.cross.core.server.SCSession;
-import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
 import com.kingston.jforgame.socket.message.Message;
 
@@ -21,12 +20,11 @@ public class CallbackController {
     }
 
     @RequestMapping
-    public void onRespCallBack(CCSession session, CRespCallBack respCallBack) {
-        String json = respCallBack.getData();
+    public void onRespCallBack(CCSession session, CRespCallBack response) {
         try {
-            Message message = (Message) JsonUtils.string2Object(json, Class.forName(respCallBack.getMsgClass()));
-            CallBackService.getInstance().fillCallBack(respCallBack.getIndex(), message);
-        } catch (ClassNotFoundException e) {
+            Message callback = response.getMessage();
+            CallBackService.getInstance().fillCallBack(response.getIndex(), response.getRpc(), callback);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

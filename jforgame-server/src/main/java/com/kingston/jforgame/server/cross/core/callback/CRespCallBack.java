@@ -1,6 +1,7 @@
 package com.kingston.jforgame.server.cross.core.callback;
 
 import com.kingston.jforgame.server.cross.core.CrossCommands;
+import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
@@ -9,6 +10,8 @@ import com.kingston.jforgame.socket.message.Message;
 public class CRespCallBack extends Message {
 
     private int index;
+
+    private byte rpc;
 
     private String data;
 
@@ -44,5 +47,22 @@ public class CRespCallBack extends Message {
 
     public void setMsgClass(String msgClass) {
         this.msgClass = msgClass;
+    }
+
+    public byte getRpc() {
+        return rpc;
+    }
+
+    public void setRpc(byte rpc) {
+        this.rpc = rpc;
+    }
+
+    public Message getMessage() {
+        try {
+            return (Message) JsonUtils.string2Object(data, Class.forName(msgClass));
+        } catch (Exception e) {
+            LoggerUtils.error("", e);
+            return null;
+        }
     }
 }

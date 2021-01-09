@@ -6,7 +6,7 @@ import com.kingston.jforgame.socket.message.Message;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CallBack {
+public class RpcResponse {
 
     private int index;
 
