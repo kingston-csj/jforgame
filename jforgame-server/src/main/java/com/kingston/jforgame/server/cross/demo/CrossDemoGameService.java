@@ -29,13 +29,13 @@ public class CrossDemoGameService {
         req.setCommand(CallBackCommands.HELLO);
         CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();
         try {
-           CrossTransportManager.getInstance().callback(session, req, new CallbackAction() {
-               @Override
-               public void onMessageReceive(Message callBack) {
-                   System.out.println(callBack);
-               }
+            CrossTransportManager.getInstance().callback(session, req, new CallbackAction() {
+                @Override
+                public void onMessageReceive(Message callBack) {
+                    System.out.println(callBack);
+                }
 
-               @Override
+                @Override
                 public void onError() {
 
                 }

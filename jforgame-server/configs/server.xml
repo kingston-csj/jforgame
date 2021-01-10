@@ -14,7 +14,7 @@
 	<!--匹配服http地址 -->
 	<matchUrl>http://localhost:8899/</matchUrl>
 	<!--本服是否为战斗服 -->
-	<fight>true</fight>
+	<fight>false</fight>
 	<!--对外跨服端口 -->
 	<crossPort>9627</crossPort>
 

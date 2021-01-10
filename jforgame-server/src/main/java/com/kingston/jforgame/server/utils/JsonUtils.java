@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kingston.jforgame.server.logs.LoggerUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.ArrayType;
 import org.codehaus.jackson.map.type.TypeFactory;
@@ -38,6 +39,7 @@ public final class JsonUtils {
 		try {
 			return (T) MAPPER.readValue(json, type);
 		} catch(Exception e) {
+			LoggerUtils.error("", e);
 			return null;
 		}
 	}

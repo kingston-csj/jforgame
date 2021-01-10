@@ -1,17 +1,18 @@
 package com.kingston.jforgame.server.cross.core.callback;
 
 import com.kingston.jforgame.server.cross.core.CrossCommands;
+import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = CrossCommands.C2G_CALL_BACK)
+@MessageMeta(module = Modules.LADDER, cmd = CrossCommands.C2G_CALL_BACK)
 public class CRespCallBack extends Message {
 
     private int index;
 
-    private byte rpc;
+    private int rpc;
 
     private String data;
 
@@ -49,11 +50,11 @@ public class CRespCallBack extends Message {
         this.msgClass = msgClass;
     }
 
-    public byte getRpc() {
+    public int getRpc() {
         return rpc;
     }
 
-    public void setRpc(byte rpc) {
+    public void setRpc(int rpc) {
         this.rpc = rpc;
     }
 

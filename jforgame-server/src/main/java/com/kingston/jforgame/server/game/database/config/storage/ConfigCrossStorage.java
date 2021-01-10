@@ -18,7 +18,7 @@ public class ConfigCrossStorage implements Reloadable {
 
     @Override
     public void reload() {
-        String sql = "SELECT * FROM ConfigConstant";
+        String sql = "SELECT * FROM ConfigCross";
         try {
             List<ConfigCross> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigCross.class);
             configs = datas.stream().collect(Collectors.toMap(ConfigCross::getId, Function.identity()));

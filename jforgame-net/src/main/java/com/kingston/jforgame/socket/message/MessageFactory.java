@@ -51,7 +51,8 @@ public enum MessageFactory {
 	}
 
 	private int buildKey(short module, byte cmd) {
-		return module * 1000 +  + cmd;
+		int result = Math.abs(module) * 1000 + Math.abs(cmd);
+		return cmd < 0 ? -result : result;
 	}
 
 }

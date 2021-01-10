@@ -17,7 +17,7 @@ public class CallBackService {
         return self;
     }
 
-    public void fillCallBack(int index, byte rpc, Message message) {
+    public void fillCallBack(int index, int rpc, Message message) {
         if (rpc == 0) {
             RpcResponse callBack = new RpcResponse();
             callBack.setIndex(index);

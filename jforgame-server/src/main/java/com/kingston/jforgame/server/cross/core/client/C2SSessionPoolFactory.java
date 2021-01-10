@@ -67,7 +67,7 @@ public class C2SSessionPoolFactory {
 		ConfigCross selfServerCross = storage.getConfigCrossBy(serverConfig.getServerId());
 		int crossSeverId = selfServerCross.getCrossServer();
 		// 再拿到跨服服务器的ip和端口
-		ConfigCross targetServerCross = storage.getConfigCrossBy(serverConfig.getServerId());
+		ConfigCross targetServerCross = storage.getConfigCrossBy(crossSeverId);
 		String ip = targetServerCross.getIp();
 		int port = targetServerCross.getRpcPort();
 		return borrowSession(ip, port);

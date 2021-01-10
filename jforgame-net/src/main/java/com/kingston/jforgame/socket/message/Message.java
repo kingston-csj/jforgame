@@ -5,6 +5,9 @@ import com.kingston.jforgame.socket.annotation.MessageMeta;
 /**
  * base class of IO message
  */
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties (ignoreUnknown =  true )
 public abstract class Message {
 
 	/**

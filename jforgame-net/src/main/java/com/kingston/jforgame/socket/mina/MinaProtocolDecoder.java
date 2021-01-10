@@ -51,7 +51,7 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 		in.get(body);
 		Message msg = msgDecoder.readMessage(moduleId, cmd, body);
 
-		if (moduleId > 0) {
+		if (moduleId != 0) {
 			out.write(msg);
 		} else { // 属于组合包
 			CombineMessage combineMessage = (CombineMessage) msg;

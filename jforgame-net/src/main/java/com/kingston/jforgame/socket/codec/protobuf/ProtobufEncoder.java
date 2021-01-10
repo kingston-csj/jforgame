@@ -22,7 +22,7 @@ public class ProtobufEncoder implements IMessageEncoder {
 		try {
 			Codec<Message> codec = ProtobufProxy.create(msgClazz);
 			body = codec.encode(message);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("", e);
 		}
 		return body;

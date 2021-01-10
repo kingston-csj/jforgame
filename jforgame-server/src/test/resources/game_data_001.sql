@@ -127,3 +127,26 @@ CREATE TABLE `configfunction` (
   `openTarget` int(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Table structure for configcross
+-- ----------------------------
+DROP TABLE IF EXISTS `configcross`;
+CREATE TABLE `configcross` (
+  `id` int(11) NOT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `gamePort` int(255) DEFAULT NULL,
+  `rpcPort` int(255) DEFAULT NULL,
+  `crossServer` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of configcross
+-- ----------------------------
+BEGIN;
+INSERT INTO `configcross` VALUES (10001, '127.0.0.1', 'Game1', 9527, 9627, 80001);
+INSERT INTO `configcross` VALUES (80001, '127.0.0.1', 'Center1', 9528, 9628, 0);
+COMMIT;

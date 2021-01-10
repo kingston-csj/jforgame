@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.doctor;
 
-import com.kingston.hotswap.HotSwapUtil;
+//import com.kingston.hotswap.HotSwapUtil;
 import com.kingston.jforgame.common.utils.FileUtils;
 import groovy.lang.GroovyClassLoader;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +55,8 @@ public enum HotswapManager {
 	 * @return
 	 */
 	public String reloadClass(String path) {
-		return HotSwapUtil.reloadClass(getFilePath(path));
+//		return HotSwapUtil.reloadClass(getFilePath(path));
+		return null;
 	}
 	
 	private String getFilePath(String dir) {
