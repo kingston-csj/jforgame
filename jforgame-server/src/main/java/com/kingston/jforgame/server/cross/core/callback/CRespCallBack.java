@@ -7,7 +7,10 @@ import com.kingston.jforgame.server.utils.JsonUtils;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = Modules.LADDER, cmd = CrossCommands.C2G_CALL_BACK)
+/**
+ * 跨服回调响应方
+ */
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.C2G_CALL_BACK)
 public class CRespCallBack extends Message {
 
     private int index;

@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.game.cross.ladder.service.LadderDataPool;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = Modules.LADDER, cmd = LadderDataPool.REQ_G2F_TRANSFER)
+@MessageMeta(module = Modules.CROSS, cmd = LadderDataPool.REQ_G2F_TRANSFER)
 public class Req_G2F_LadderTransfer extends Message {
 	
 	@Protobuf

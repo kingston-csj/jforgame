@@ -1,5 +1,7 @@
 package com.kingston.jforgame.server.game.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -45,6 +47,15 @@ public class SchedulerManager {
             long initialDelay, long period) {
     	return service.scheduleAtFixedRate(command, initialDelay, period, TimeUnit.MILLISECONDS);
     }
-	
+
+	/**
+	 * 注册timeout任务
+	 * @param task
+	 * @param delay
+	 */
+	public ScheduledFuture registerTimeoutTask(Runnable task, long delay) {
+		ScheduledFuture taskFuture = service.schedule(task, delay, TimeUnit.MILLISECONDS);
+		return taskFuture;
+	}
 
 }

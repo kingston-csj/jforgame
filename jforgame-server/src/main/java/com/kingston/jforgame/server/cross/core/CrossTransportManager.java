@@ -1,14 +1,11 @@
 package com.kingston.jforgame.server.cross.core;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-import com.kingston.jforgame.common.utils.SchedulerManager;
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.server.cross.core.callback.*;
 import com.kingston.jforgame.server.game.GameContext;
+import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -115,11 +112,12 @@ public class CrossTransportManager {
 
 		CallBackService.getInstance().registerCallback(request.getIndex(), callBack);
 		session.sendMessage(request);
-		SchedulerManager.INSTANCE.registerTimeoutTask("", () -> {
+		ScheduledFuture future = SchedulerManager.getInstance().registerTimeoutTask( () -> {
 			LoggerUtils.error("跨服消息回调超时", request.getClass().getSimpleName());
 			callBack.onError();
 			CallBackService.getInstance().removeCallback(request.getIndex());
 		}, TimeUtil.ONE_SECOND * 5);
+		callBack.setFuture(future);
 	}
 
 }

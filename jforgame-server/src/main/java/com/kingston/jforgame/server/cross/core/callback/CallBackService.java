@@ -26,6 +26,9 @@ public class CallBackService {
         } else {
             CallbackAction callback = callbacks.remove(index);
             if (callback != null) {
+                if (!callback.getFuture().isDone()) {
+                    callback.getFuture().cancel(false);
+                }
                 callback.onMessageReceive(message);
             }
         }

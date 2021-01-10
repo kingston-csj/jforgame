@@ -48,7 +48,6 @@ public class CallbackTask implements Callable<Message> {
                     lock.lockInterruptibly();
                     condition.await(10, TimeUnit.MILLISECONDS);
                 } catch (Exception ignore) {
-
                 } finally {
                     lock.unlock();
                 }

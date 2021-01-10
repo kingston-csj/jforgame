@@ -10,7 +10,7 @@ import com.kingston.jforgame.socket.message.Message;
 import java.util.HashMap;
 import java.util.Map;
 
-@MessageMeta(module = Modules.LADDER, cmd = CrossCommands.G2C_CALL_BACK)
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2C_CALL_BACK)
 public abstract class CallbackHandler {
 
     private static Map<Integer, CallbackHandler> handlers = new HashMap<>();

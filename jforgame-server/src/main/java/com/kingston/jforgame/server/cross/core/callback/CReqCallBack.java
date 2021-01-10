@@ -1,6 +1,5 @@
 package com.kingston.jforgame.server.cross.core.callback;
 
-import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import com.kingston.jforgame.server.cross.core.CrossCommands;
 import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.utils.JsonUtils;
@@ -11,11 +10,17 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-@MessageMeta(module = Modules.LADDER, cmd = CrossCommands.G2C_CALL_BACK)
+/**
+ * 跨服回调请求方
+ */
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2C_CALL_BACK)
 public class CReqCallBack extends Message {
 
     private int index;
 
+    /**
+     * 子类型 {@link com.kingston.jforgame.server.cross.demo.CrossDemoGameService}
+     */
     private int command;
 
     private transient Map<String, String> params = new HashMap<>();
