@@ -15,9 +15,8 @@ public abstract class CallbackHandler {
 
     private static Map<Integer, CallbackHandler> handlers = new HashMap<>();
 
-    static  {
-        // todo
-        handlers.put(1, new HelloCallbackHandler());
+    public static void register(CallbackHandler handler) {
+        handlers.put(handler.cmdType(), handler);
     }
 
     public abstract void onRequest(SCSession session, CReqCallBack req);

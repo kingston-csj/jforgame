@@ -1,7 +1,6 @@
 package com.kingston.jforgame.server.cross.core.callback;
 
 
-import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.message.Message;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,10 +15,6 @@ public class RpcResponse {
 
     public static int nextMsgId() {
         return idFactory.getAndIncrement();
-    }
-
-    protected void doTimeOut() {
-        LoggerUtils.error("回调方法已过期");
     }
 
     public int getIndex() {

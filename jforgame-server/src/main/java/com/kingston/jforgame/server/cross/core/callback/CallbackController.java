@@ -5,10 +5,8 @@ import com.kingston.jforgame.server.cross.core.server.CrossController;
 import com.kingston.jforgame.server.cross.core.server.SCSession;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
 import com.kingston.jforgame.socket.message.Message;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @CrossController
-@JsonIgnoreProperties(ignoreUnknown =  true )
 public class CallbackController {
 
     @RequestMapping

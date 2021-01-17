@@ -27,7 +27,7 @@ public class CReqCallBack extends Message {
 
     private String data;
     /**
-     * 响应类型：0,rpc返回值 1,回调
+     * 响应类型：0,同步 1,异步
      */
     private int rpc;
 

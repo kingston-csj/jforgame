@@ -13,6 +13,11 @@ public class ServerScanPaths {
 	public static final String ORM_PATH = "com.kingston.jforgame.server.game";
 
 	/**
+	 * rpc回调处理器
+	 */
+	public static final String RPC_CALL_BACK_PATH = "com.kingston.jforgame.serve";
+
+	/**
 	 * io通信消息
 	 */
 	public static final String MESSAGE_PATH = "com.kingston.jforgame";
