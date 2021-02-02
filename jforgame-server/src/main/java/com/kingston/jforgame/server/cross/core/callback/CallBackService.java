@@ -41,10 +41,11 @@ public class CallBackService {
 
     public void fillCallBack(int index, int rpc, Message message) {
         if (rpc == 0) {
-            RpcResponse callBack = new RpcResponse();
-            callBack.setIndex(index);
-            callBack.setData(message);
-            rpcResponse.put(index, callBack);
+            RpcResponse callBack = rpcResponse.remove(index);
+            if (callBack != null) {
+                callBack.setData(message);
+                callBack.getLatch().countDown();
+            }
         } else {
             CallbackAction callback = callbacks.remove(index);
             if (callback != null) {
@@ -56,12 +57,12 @@ public class CallBackService {
         }
     }
 
-    public void registerCallback(int index, CallbackAction callback) {
-        callbacks.put(index, callback);
+    public void registerCallback(int index, RpcResponse callback) {
+        rpcResponse.put(index, callback);
     }
 
-    public RpcResponse removeRpcResponse(int index) {
-        return rpcResponse.remove(index);
+    public void registerCallback(int index, CallbackAction callback) {
+        callbacks.put(index, callback);
     }
 
     public CallbackAction removeCallback(int index) {
