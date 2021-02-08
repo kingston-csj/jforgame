@@ -3,6 +3,7 @@ package com.kingston.jforgame.server.cross.core.callback;
 
 import com.kingston.jforgame.socket.message.Message;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RpcResponse {
@@ -10,6 +11,8 @@ public class RpcResponse {
     private int index;
 
     private Message data;
+
+    private CountDownLatch latch;
 
     private final static AtomicInteger idFactory = new AtomicInteger();
 
@@ -35,5 +38,13 @@ public class RpcResponse {
 
     public boolean isDone() {
         return data != null;
+    }
+
+    public CountDownLatch getLatch() {
+        return latch;
+    }
+
+    public void setLatch(CountDownLatch latch) {
+        this.latch = latch;
     }
 }

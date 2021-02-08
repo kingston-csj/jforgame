@@ -1,14 +1,12 @@
 package com.kingston.jforgame.server.cross.core.callback;
 
-import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.socket.message.Message;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class CallbackTask implements Callable<Message> {
 
@@ -28,29 +26,19 @@ public class CallbackTask implements Callable<Message> {
         try {
             CReqCallBack reqCallBack = (CReqCallBack) request;
             int index = RpcResponse.nextMsgId();
+            RpcResponse callBack = new RpcResponse();
+            callBack.setIndex(index);
+            CountDownLatch latch = new CountDownLatch(1);
+            callBack.setLatch(latch);
             reqCallBack.setIndex(index);
             reqCallBack.serialize();
 
             session.sendMessage(reqCallBack);
 
-            ReentrantLock lock = new ReentrantLock();
-            Condition condition = lock.newCondition();
-            long maxTimeOut = 5 * TimeUtil.ONE_SECOND;
-            long startTime = System.currentTimeMillis();
-            CallBackService callBackService = CallBackService.getInstance();
-            while (System.currentTimeMillis() - startTime <= maxTimeOut) {
-                RpcResponse c = callBackService.removeRpcResponse(index);
-                if (c != null) {
-                    return c.getData();
-                }
-
-                try {
-                    lock.lockInterruptibly();
-                    condition.await(10, TimeUnit.MILLISECONDS);
-                } catch (Exception ignore) {
-                } finally {
-                    lock.unlock();
-                }
+            CallBackService.getInstance().registerCallback(index, callBack);
+            latch.await(5, TimeUnit.SECONDS);
+            if (callBack.getData() != null) {
+                return callBack.getData();
             }
         } finally {
             C2SSessionPoolFactory.getInstance().returnSession(session);
