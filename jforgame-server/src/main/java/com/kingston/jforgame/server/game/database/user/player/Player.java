@@ -1,20 +1,16 @@
 package com.kingston.jforgame.server.game.database.user.player;
 
+import com.kingston.jforgame.orm.converter.Convert;
+import com.kingston.jforgame.server.db.BaseEntity;
+import com.kingston.jforgame.server.db.JsonAttributeConverter;
+import com.kingston.jforgame.server.game.login.model.Platform;
+import com.kingston.jforgame.server.game.vip.model.VipRight;
+import com.kingston.jforgame.server.utils.IdGenerator;
+import com.kingston.jforgame.socket.task.Distributable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import org.apache.mina.core.session.IoSession;
-
-import com.kingston.jforgame.server.db.BaseEntity;
-import com.kingston.jforgame.server.game.function.model.Function;
-import com.kingston.jforgame.server.game.login.model.Platform;
-import com.kingston.jforgame.server.game.player.PlayerSerializerUtil;
-import com.kingston.jforgame.server.game.vip.model.VipRight;
-import com.kingston.jforgame.server.utils.IdGenerator;
-import com.kingston.jforgame.socket.mina.MinaSessionProperties;
-import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.task.Distributable;
 
 /**
  * 玩家实体
@@ -53,18 +49,12 @@ public class Player extends BaseEntity implements Distributable {
 	@Column
 	private long lastDailyReset;
 
+	@Column
+	@Convert(converter = JsonAttributeConverter.class)
 	private VipRight vipRight;
 
 	@Column
-	private String vipRightJson;
-
-	@Column
 	private Platform platform;
-
-//	@Column
-	private String functionJson;
-	
-	private Function function;
 
 	public Player() {
 		this.id = IdGenerator.getNextId();
@@ -119,6 +109,21 @@ public class Player extends BaseEntity implements Distributable {
 		this.lastDailyReset = lastDailyReset;
 	}
 
+	public Platform getPlatform() {
+		return platform;
+	}
+
+	public void setPlatform(Platform platform) {
+		this.platform = platform;
+	}
+
+	public long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(long accountId) {
+		this.accountId = accountId;
+	}
 
 	public VipRight getVipRight() {
 		return vipRight;
@@ -128,54 +133,12 @@ public class Player extends BaseEntity implements Distributable {
 		this.vipRight = vipRight;
 	}
 
-	public String getVipRightJson() {
-		return vipRightJson;
-	}
-
-	public void setVipRightJson(String vipRightJson) {
-		this.vipRightJson = vipRightJson;
-	}
-
-	public Platform getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(Platform platform) {
-		this.platform = platform;
-	}
-
-	public Function getFunction() {
-		return function;
-	}
-
-	public void setFunction(Function functions) {
-		this.function = functions;
-	}
-
-	public String getFunctionJson() {
-		return functionJson;
-	}
-
-	public void setFunctionJson(String functionJson) {
-		this.functionJson = functionJson;
-	}
-	
-	public long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(long accountId) {
-		this.accountId = accountId;
-	}
-
 	@Override
 	public void doAfterInit() {
-		PlayerSerializerUtil.deserialize(this);
 	}
 
 	@Override
 	public void doBeforeSave() {
-		PlayerSerializerUtil.serialize(this);
 	}
 
 	@Override
@@ -185,10 +148,5 @@ public class Player extends BaseEntity implements Distributable {
 		return 0;
 	}
 
-	@Override
-	public String toString() {
-		return "Player [id=" + id + ", name=" + name + ", job=" + job + ", level=" + level + ", exp=" + exp
-				+ ", lastDailyReset=" + lastDailyReset + ", vipRight=" + vipRight + ", platform=" + platform + "]";
-	}
 
 }

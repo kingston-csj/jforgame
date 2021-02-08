@@ -1,20 +1,12 @@
 package com.kingston.jforgame.orm;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class OrmBridge {
 	/** 对应的数据库表名称 */
 	private String tableName;
-	/** 缓存所有表字段及其对应的getter method */
-	private Map<String, Method> getterMap = new HashMap<>();
-	/** 缓存所有表字段及其对应的setter method */
-	private Map<String, Method> setterMap = new HashMap<>();
+	/** 缓存所有表字段及其对应的converter {@link com.kingston.jforgame.orm.converter.AttributeConverter} */
+	private Map<String, FieldMetadata> fieldMetadataMap = new HashMap<>();
 	/** 被覆写的property与表column的映射 */
 	private Map<String, String> propertyToColumnOverride = new HashMap<>();
 	/** 被覆写的表column与property的映射 */
@@ -32,23 +24,15 @@ public class OrmBridge {
 		this.tableName = tableName;
 	}
 
-	public Map<String, Method> getGetterMap() {
-		return getterMap;
+	public void addFieldMetadata(String field, FieldMetadata metadata) {
+		fieldMetadataMap.put(field, metadata);
 	}
 
-	public void addGetterMethod(String field, Method method) {
-		this.getterMap.put(field, method);
+	public Map<String, FieldMetadata> getFieldMetadataMap() {
+		return fieldMetadataMap;
 	}
 
-	public Map<String, Method> getSetterMap() {
-		return setterMap;
-	}
-
-	public void addSetterMethod(String field, Method method) {
-		this.setterMap.put(field, method);
-	}
-
-	/** 
+	/**
 	 * 返回查询实体的id组合
 	 * @return
 	 */
@@ -56,10 +40,6 @@ public class OrmBridge {
 		return new ArrayList<>(this.uniqueProperties);
 	}
 
-	public Method getGetterMethod(String field) {
-		return this.getterMap.get(field);
-	}
-	
 	public void addUniqueKey(String id) {
 		this.uniqueProperties.add(id);
 	}

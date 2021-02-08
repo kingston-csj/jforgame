@@ -1,10 +1,10 @@
 package com.kingston.orm.entity;
 
+import com.kingston.jforgame.orm.cache.AbstractCacheable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import com.kingston.jforgame.orm.cache.AbstractCacheable;
 
 @Entity(name="player")
 public class Player extends AbstractCacheable {
