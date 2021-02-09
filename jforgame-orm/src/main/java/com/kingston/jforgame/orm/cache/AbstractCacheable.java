@@ -1,5 +1,7 @@
 package com.kingston.jforgame.orm.cache;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.kingston.jforgame.orm.utils.SqlUtils;
@@ -8,6 +10,25 @@ public abstract class AbstractCacheable extends Cacheable {
 	
 	/** 是否已经持久化 */
 	private AtomicBoolean persistent = new AtomicBoolean(false);
+
+	/**
+	 * 当次需要持久化的字段列表
+	 */
+	protected Set<String> columns = new HashSet<>();
+
+	protected AtomicBoolean saveAll = new AtomicBoolean();
+
+	public Set<String> savingColumns() {
+		return columns;
+	}
+
+	public void forceSaveAll() {
+		saveAll.compareAndSet(false, true);
+	}
+
+	public boolean isSaveAll() {
+		return saveAll.get();
+	}
 	
 	@Override
 	public synchronized  final DbStatus getStatus() {
@@ -53,6 +74,8 @@ public abstract class AbstractCacheable extends Cacheable {
 	
 	public synchronized final void resetDbStatus() {
 		this.status = DbStatus.NORMAL;
+		this.columns.clear();
+		this.saveAll.compareAndSet(true, false);
 	}
 	
 	/**

@@ -1,6 +1,9 @@
 package com.kingston.jforgame.server.db;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.kingston.jforgame.orm.cache.AbstractCacheable;
 
@@ -17,7 +20,7 @@ public abstract class BaseEntity extends AbstractCacheable
 	 * @return
 	 */
 	public abstract long getId() ;
-	
+
 	/**
 	 * init hook
 	 */

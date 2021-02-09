@@ -1,11 +1,12 @@
 package com.kingston.jforgame.orm;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrmBridge {
 	/** 对应的数据库表名称 */
 	private String tableName;
-	/** 缓存所有表字段及其对应的converter {@link com.kingston.jforgame.orm.converter.AttributeConverter} */
+	/** 缓存所有表字段及其对应的元数据 */
 	private Map<String, FieldMetadata> fieldMetadataMap = new HashMap<>();
 	/** 被覆写的property与表column的映射 */
 	private Map<String, String> propertyToColumnOverride = new HashMap<>();
@@ -13,9 +14,7 @@ public class OrmBridge {
 	private Map<String, String> columnToPropertyOverride = new HashMap<>();
 	/** 实体所有的主键字段 */
 	private Set<String> uniqueProperties = new HashSet<>();
-	/** 需要持久化的字段 */
-	private Set<String> properties = new HashSet<>();
-	
+
 	public String getTableName() {
 		return tableName;
 	}
@@ -44,10 +43,6 @@ public class OrmBridge {
 		this.uniqueProperties.add(id);
 	}
 	
-	public void addProperty(String property) {
-		this.properties.add(property);
-	}
-	
 	public void addPropertyColumnOverride(String property, String column) {
 		this.propertyToColumnOverride.put(property, column);
 		this.columnToPropertyOverride.put(column, property);
@@ -74,7 +69,7 @@ public class OrmBridge {
 	}
 
 	public List<String> listProperties() {
-		return new ArrayList<>(this.properties);
+		return this.fieldMetadataMap.keySet().stream().collect(Collectors.toList());
 	}
 
 }

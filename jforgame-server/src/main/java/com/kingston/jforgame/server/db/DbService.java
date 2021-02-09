@@ -1,13 +1,18 @@
 package com.kingston.jforgame.server.db;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.common.utils.BlockingUniqueQueue;
+import com.kingston.jforgame.orm.SqlFactory;
 import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 用户数据异步持久化的服务
@@ -15,6 +20,8 @@ import com.kingston.jforgame.server.logs.LoggerUtils;
  * @author kingston
  */
 public class DbService {
+
+	private static Logger logger = LoggerFactory.getLogger(SqlFactory.class);
 
 	private static volatile DbService instance = new DbService();
 
@@ -47,6 +54,16 @@ public class DbService {
 		} else {
 			commonWorker.addToQueue(entity);
 		}
+	}
+
+	/**
+	 * 仅更新部分字段
+	 * @param entity
+	 * @param columns
+	 */
+	public void saveColumns(BaseEntity entity, String... columns) {
+		entity.savingColumns().add(Arrays.stream(columns).collect(Collectors.joining()));
+		insertOrUpdate(entity);
 	}
 
 	/**
@@ -116,6 +133,9 @@ public class DbService {
 	private void saveToDb(BaseEntity entity) {
 		entity.doBeforeSave();
 		String saveSql = entity.getSaveSql();
+		if (logger.isDebugEnabled()) {
+			logger.debug("sql={}", saveSql);
+		}
 		try {
 			if (DbUtils.executeSql(saveSql)) {
 				entity.resetDbStatus();

@@ -1,18 +1,21 @@
 package com.kingston.jforgame.orm;
 
+import com.kingston.jforgame.orm.cache.AbstractCacheable;
 import com.kingston.jforgame.orm.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SqlFactory {
 
     private static Logger logger = LoggerFactory.getLogger(SqlFactory.class);
 
-    public static String createInsertSql(Object entity, OrmBridge bridge) {
+    public static String createInsertSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(" INSERT INTO ")
@@ -53,7 +56,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createUpdateSql(Object entity, OrmBridge bridge) {
+    public static String createUpdateSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE ").append(bridge.getTableName())
                 .append(" SET ");
@@ -63,15 +66,19 @@ public class SqlFactory {
         return sb.toString();
     }
 
-
-    private static String object2SetterSql(Object entity, OrmBridge bridge) {
+    private static String object2SetterSql(AbstractCacheable entity, OrmBridge bridge) {
+        Set<String> columns = entity.savingColumns();
         StringBuilder sb = new StringBuilder();
+        boolean saveAll = entity.isSaveAll() || columns == null || columns.size() <= 0;
         for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
             String property = entry.getKey();
+            // 仅持久化部分字段
+            if (!saveAll && !columns.contains(property)) {
+                continue;
+            }
             FieldMetadata metadata = entry.getValue();
-            Object value;
             try {
-                value = metadata.getField().get(entity);
+                Object value = metadata.getField().get(entity);
                 if (metadata.getConverter() != null) {
                     // 进行转换
                     value = metadata.getConverter().convertToDatabaseColumn(value);
@@ -92,7 +99,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createDeleteSql(Object entity, OrmBridge bridge) {
+    public static String createDeleteSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         sb.append(" DELETE FROM ")
                 .append(bridge.getTableName())
@@ -101,7 +108,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    private static String createWhereClauseSql(Object entity, OrmBridge bridge) {
+    private static String createWhereClauseSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         //占位申明，避免拼接sql需要考虑and
         sb.append(" WHERE 1=1");

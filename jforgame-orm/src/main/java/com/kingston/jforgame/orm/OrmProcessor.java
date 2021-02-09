@@ -38,7 +38,7 @@ public enum OrmProcessor {
 
     private OrmBridge createBridge(Class<?> clazz) {
         OrmBridge bridge = new OrmBridge();
-        Entity entity = (Entity) clazz.getAnnotation(Entity.class);
+        Entity entity = clazz.getAnnotation(Entity.class);
         //没有设置tablename,则用entity名首字母小写
         if (entity.name().length() <= 0) {
             bridge.setTableName(StringUtils.firstLetterToLowerCase(clazz.getSimpleName()));
@@ -62,7 +62,6 @@ public enum OrmProcessor {
                 if (!StringUtils.isEmpty(column.name())) {
                     bridge.addPropertyColumnOverride(fieldName, column.name());
                 }
-                bridge.addProperty(fieldName);
             } catch (Exception e) {
                 throw new OrmConfigException(e);
             }

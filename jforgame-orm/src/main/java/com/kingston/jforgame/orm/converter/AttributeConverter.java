@@ -1,5 +1,9 @@
 package com.kingston.jforgame.orm.converter;
 
+/**
+ * @param <X>
+ * @param <Y>
+ */
 public interface AttributeConverter<X, Y> {
 
     /**

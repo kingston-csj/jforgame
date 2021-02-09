@@ -6,8 +6,6 @@ import com.kingston.jforgame.server.game.database.user.player.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-
 /**
  * game server start entrance
  * 
@@ -31,7 +29,10 @@ public class ServerStartup {
 			GameServer.getInstance().start();
 			// test
 			Player p = GameContext.getPlayerManager().get(10000L);
-			p.getVipRight().setLevel(110);
+			p.getVipRight().setLevel(222);
+			p.setExp(888);
+			DbService.getInstance().saveColumns(p, "vipRight");
+			Thread.sleep(3000);
 			DbService.getInstance().insertOrUpdate(p);
 		} catch (Exception e) {
 			logger.error("server start failed", e);
