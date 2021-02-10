@@ -19,11 +19,6 @@ public abstract class AbstractDistributeTask implements DistributeTask {
 		return this.getClass().getSimpleName();
 	}
 
-	@Override
-	public int distributeKey() {
-		return distributeKey;
-	}
-
 	public long getStartMillis() {
 		return startMillis;
 	}

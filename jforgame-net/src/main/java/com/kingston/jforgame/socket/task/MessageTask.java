@@ -14,10 +14,9 @@ import com.kingston.jforgame.socket.message.Message;
  * and add it to target message consumer task queue
  * @author kingston
  */
-public class MessageTask extends AbstractDistributeTask {
+public class MessageTask implements Runnable {
 
 	private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
-
 
 	private IdSession session;
 
@@ -28,11 +27,10 @@ public class MessageTask extends AbstractDistributeTask {
 	/**arguments passed to the method */
 	private Object[] params;
 
-	public static MessageTask valueOf(IdSession session, int distributeKey, Object handler,
+	public static MessageTask valueOf(IdSession session,Object handler,
 			Method method, Object[] params) {
 		MessageTask msgTask = new MessageTask();
 		msgTask.session = session;
-		msgTask.distributeKey = distributeKey;
 		msgTask.handler = handler;
 		msgTask.method  = method;
 		msgTask.params  = params;
@@ -41,7 +39,7 @@ public class MessageTask extends AbstractDistributeTask {
 	}
 
 	@Override
-	public void action() {
+	public void run() {
 		try{
 			Object response = method.invoke(handler, params);
 			if (response != null) {
@@ -66,7 +64,7 @@ public class MessageTask extends AbstractDistributeTask {
 
 	@Override
 	public String toString() {
-		return this.getName() + "[" + handler.getClass().getName() + "@" + method.getName() + "]";
+		return  "[" + handler.getClass().getName() + "@" + method.getName() + "]";
 	}
 
 }

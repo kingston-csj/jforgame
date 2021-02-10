@@ -4,17 +4,14 @@ import java.util.concurrent.*;
 
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.server.cross.core.callback.*;
-import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.thread.SchedulerManager;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
 import com.kingston.jforgame.socket.message.Message;
-
-import javax.swing.*;
 
 public class CrossTransportManager {
 
@@ -112,7 +109,7 @@ public class CrossTransportManager {
 
 		CallBackService.getInstance().registerCallback(request.getIndex(), callBack);
 		session.sendMessage(request);
-		ScheduledFuture future = SchedulerManager.getInstance().registerTimeoutTask( () -> {
+		ScheduledFuture future = SchedulerManager.schedule(() -> {
 			LoggerUtils.error("跨服消息回调超时", request.getClass().getSimpleName());
 			callBack.onError();
 			CallBackService.getInstance().removeCallback(request.getIndex());

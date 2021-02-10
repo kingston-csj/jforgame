@@ -97,8 +97,12 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

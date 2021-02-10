@@ -17,7 +17,7 @@ public class ClientStartup {
 		//读取服务器配置
 		ServerConfig.getInstance();
 
-		ClientPlayer robot = new ClientPlayer("kingston");
+		ClientPlayer robot = new ClientPlayer("MrBug");
 		robot.buildConnection();
 		robot.login();
 		robot.selectedPlayer(10000L);

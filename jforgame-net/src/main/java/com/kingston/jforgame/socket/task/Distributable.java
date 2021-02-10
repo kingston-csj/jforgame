@@ -6,8 +6,9 @@ package com.kingston.jforgame.socket.task;
 public interface Distributable {
 
 	/**
-	 * distribute key of logic thread pool
+	 * 绑定的邮箱
+	 * @return
 	 */
-	int distributeKey();
+	 MailBox mailQueue();
 
 }

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="player")
-public class Player extends AbstractCacheable {
+public class User extends AbstractCacheable {
 
 	@Column(name="id")
 	@Id

@@ -1,34 +1,30 @@
 package com.kingston.jforgame.server;
 
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-
-import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.listener.ListenerManager;
-import com.kingston.jforgame.server.net.netty.NettySocketServer;
-import org.apache.commons.lang3.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.orm.OrmProcessor;
 import com.kingston.jforgame.server.cross.core.CrossServer;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
+import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.admin.http.HttpCommandManager;
 import com.kingston.jforgame.server.game.admin.http.HttpServer;
 import com.kingston.jforgame.server.game.core.CronSchedulerHelper;
 import com.kingston.jforgame.server.game.core.SystemParameters;
 import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
+import com.kingston.jforgame.server.listener.ListenerManager;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitor;
 import com.kingston.jforgame.server.monitor.jmx.GameMonitorMBean;
 import com.kingston.jforgame.server.net.mina.MinaSocketServer;
 import com.kingston.jforgame.server.redis.RedisCluster;
 import com.kingston.jforgame.socket.ServerNode;
 import com.kingston.jforgame.socket.message.MessageFactory;
-import com.kingston.jforgame.socket.task.TaskHandlerContext;
+import org.apache.commons.lang3.time.StopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 public class GameServer {
 
@@ -77,8 +73,6 @@ public class GameServer {
 		DbUtils.init();
 		// 事件驱动
 		ListenerManager.INSTANCE.init();
-		// 初始化消息工作线程池
-		TaskHandlerContext.INSTANCE.initialize();
 		// 初始化job定时任务
 		CronSchedulerHelper.initAndStart();
 		// 读取所有策划配置

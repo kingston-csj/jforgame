@@ -1,15 +1,9 @@
 package com.kingston.jforgame.server.net;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import com.kingston.jforgame.server.game.GameContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kingston.jforgame.common.utils.ClassScanner;
+import com.kingston.jforgame.server.thread.ThreadCenter;
+import com.kingston.jforgame.server.game.GameContext;
+import com.kingston.jforgame.server.game.database.user.player.Player;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
@@ -18,9 +12,15 @@ import com.kingston.jforgame.socket.message.CmdExecutor;
 import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionManager;
+import com.kingston.jforgame.socket.task.MailBox;
 import com.kingston.jforgame.socket.task.MessageTask;
-import com.kingston.jforgame.socket.task.TaskHandlerContext;
-import com.kingston.jforgame.socket.task.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class MessageDispatcher implements IMessageDispatcher {
 
@@ -107,10 +107,26 @@ public class MessageDispatcher implements IMessageDispatcher {
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();
 
+		MessageTask task = MessageTask.valueOf(session, controller, cmdExecutor.getMethod(), params);
 		// 丢到任务消息队列，不在io线程进行业务处理
-		int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-		TaskHandlerContext.INSTANCE
-				.acceptTask(MessageTask.valueOf(session, distributeKey, controller, cmdExecutor.getMethod(), params));
+//		int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+//		TaskHandlerContext.INSTANCE
+//				.acceptTask(MessageTask.valueOf(session, distributeKey, controller, cmdExecutor.getMethod(), params));
+		selectMailQueue(session, message).onMessageReceive(task);
+	}
+
+	private MailBox selectMailQueue(IdSession session, Message message) {
+		MailBox mailBox = message.mailQueue();
+		if (mailBox != null) {
+			return mailBox;
+		}
+		long playerId = session.getOwnerId();
+		if (playerId > 0) {
+			Player player = GameContext.getPlayerManager().get(playerId);
+			return player.mailQueue();
+		}
+		// TODO why here??
+		return ThreadCenter.getLoginQueue().getSharedMailQueue(session.hashCode());
 	}
 
 	/**
@@ -149,15 +165,15 @@ public class MessageDispatcher implements IMessageDispatcher {
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
 		if (playerId > 0) {
 			logger.info("角色[{}]close session", playerId);
-			int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-
-			TimerTask closeTask = new TimerTask(distributeKey) {
-				@Override
-				public void action() {
-                    GameContext.getPlayerManager().playerLogout(playerId);
-				}
-			};
-			TaskHandlerContext.INSTANCE.acceptTask(closeTask);
+//			int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+//
+//			TimerTask closeTask = new TimerTask(distributeKey) {
+//				@Override
+//				public void action() {
+//                    GameContext.getPlayerManager().playerLogout(playerId);
+//				}
+//			};
+//			TaskHandlerContext.INSTANCE.acceptTask(closeTask);
 		}
 	}
 

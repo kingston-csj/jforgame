@@ -5,8 +5,10 @@ import com.kingston.jforgame.server.db.BaseEntity;
 import com.kingston.jforgame.server.db.JsonAttributeConverter;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
+import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.server.utils.IdGenerator;
 import com.kingston.jforgame.socket.task.Distributable;
+import com.kingston.jforgame.socket.task.MailBox;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -142,11 +144,8 @@ public class Player extends BaseEntity implements Distributable {
 	}
 
 	@Override
-	public int distributeKey() {
-//		IoSession session = SessionManager.INSTANCE.getSessionBy(id);
-//		return (int)session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-		return 0;
+	public MailBox mailQueue() {
+		return ThreadCenter.createBusinessMailBox("player");
 	}
-
 
 }

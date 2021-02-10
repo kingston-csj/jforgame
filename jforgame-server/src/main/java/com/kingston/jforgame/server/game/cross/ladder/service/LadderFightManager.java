@@ -3,9 +3,9 @@ package com.kingston.jforgame.server.game.cross.ladder.service;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.cross.core.match.AbstractMatchMessage;
 import com.kingston.jforgame.server.cross.core.match.MatchHttpUtil;
-import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.game.cross.ladder.message.Req_F2M_HeatBeat;
 import com.kingston.jforgame.server.logs.LoggerUtils;
+import com.kingston.jforgame.server.thread.SchedulerManager;
 
 /**
  * 天梯战斗服业务处理
@@ -36,7 +36,7 @@ public class LadderFightManager {
 				LoggerUtils.error("发送心跳失败", e);
 			}
 		};
-		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 10000);
+		SchedulerManager.scheduleAtFixedRate(task, 0, 10000);
 	}
 	
 }

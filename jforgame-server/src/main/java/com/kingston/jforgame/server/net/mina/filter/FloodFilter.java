@@ -57,14 +57,14 @@ public class FloodFilter extends IoFilterAdapter {
 	
 	private static FloodRecord getFloodRecordBy(IoSession session) {
 		SessionManager sessionMgr = SessionManager.INSTANCE;
-		FloodRecord record = sessionMgr.getSessionAttr(session, 
-				MinaSessionProperties.FLOOD, FloodRecord.class);
+		Object record =  session.getAttribute(
+				MinaSessionProperties.FLOOD);
 		if (record == null) {
 			record = new FloodRecord();
 			session.setAttribute(MinaSessionProperties.FLOOD, record);
 		}
 		
-		return record;
+		return (FloodRecord) record;
 	}
 	
 	private static void tryToResetFloodTimes(long now, FloodRecord record) {

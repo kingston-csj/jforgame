@@ -7,13 +7,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
 
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * task dispatch context
@@ -32,20 +32,20 @@ public enum TaskHandlerContext {
 	private final List<TaskWorker> workerPool = new ArrayList<>();
 
 	private final AtomicBoolean run = new AtomicBoolean(true);
-	
+
 	private ConcurrentMap<Thread, AbstractDistributeTask> currentTasks = new ConcurrentHashMap<>();
 
 	private final long MONITOR_INTERVAL = 5000L;
-	
+
 	private final long MAX_EXEC_TIME = 30000L;
-	
+
 	public void initialize() {
 		for (int i=1; i<=CORE_SIZE; i++) {
 			TaskWorker worker = new TaskWorker(i);
 			workerPool.add(worker);
 			new NamedThreadFactory("message-task-handler").newThread(worker).start();
 		}
-		
+
 		new NamedThreadFactory("message-task-monitor").newThread(new TaskMonitor()).start();
 	}
 
@@ -56,8 +56,8 @@ public enum TaskHandlerContext {
 		if (task == null) {
 			throw new NullPointerException("task is null");
 		}
-		int distributeKey = task.distributeKey() % workerPool.size();
-		workerPool.get(distributeKey).addTask(task);
+//		int distributeKey = task.distributeKey() % workerPool.size();
+//		workerPool.get(distributeKey).addTask(task);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public enum TaskHandlerContext {
 			}
 		}
 	}
-	
+
 	class TaskMonitor implements Runnable {
 
 		@Override
@@ -119,7 +119,7 @@ public enum TaskHandlerContext {
 					Thread.sleep(MONITOR_INTERVAL);
 				} catch (InterruptedException e) {
 				}
-				
+
 				for (Map.Entry<Thread, AbstractDistributeTask> entry: currentTasks.entrySet()) {
 					Thread t = entry.getKey();
 					AbstractDistributeTask task = entry.getValue();
@@ -130,10 +130,8 @@ public enum TaskHandlerContext {
 						}
 					}
 				}
-				
 			}
 		}
-		
 	}
-	
+
 }

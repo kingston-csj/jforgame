@@ -2,6 +2,7 @@ package com.kingston.jforgame.server.robot;
 
 import java.net.InetSocketAddress;
 
+import com.kingston.jforgame.server.thread.SchedulerManager;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -10,7 +11,6 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.game.chat.message.ReqPrivateChat;
-import com.kingston.jforgame.server.game.core.SchedulerManager;
 import com.kingston.jforgame.server.game.login.message.req.ReqAccountLogin;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.server.utils.JsonUtils;
@@ -63,7 +63,7 @@ public class Robot {
 			reqChat.setReceiverId(10000L);
 			this.session.sendMessage(reqChat);
 		};
-		SchedulerManager.getInstance().scheduleAtFixedRate(task, 0, 1000);
+		SchedulerManager.scheduleAtFixedRate(task, 0, 1000);
 	}
 
 	public String getName() {
