@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.game.login;
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.core.MessagePusher;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
 import com.kingston.jforgame.server.game.login.message.vo.PlayerLoginVo;
@@ -62,7 +62,7 @@ public class LoginManager {
 	 * @param playerId
 	 */
 	public void handleSelectPlayer(IdSession session, long playerId) {
-		Player player = GameContext.getPlayerManager().get(playerId);
+		PlayerEnt player = GameContext.getPlayerManager().get(playerId);
 		if (player != null) {
 			//绑定session与玩家id
 			session.setAttribute(IdSession.ID, playerId);

@@ -1,13 +1,13 @@
 package com.kingston.jforgame.server.game.player;
 
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 
 public class DailyResetTask implements Runnable {
 
-	private Player player;
+	private PlayerEnt player;
 
-	public DailyResetTask(Player player) {
+	public DailyResetTask(PlayerEnt player) {
 		this.player = player;
 	}
 

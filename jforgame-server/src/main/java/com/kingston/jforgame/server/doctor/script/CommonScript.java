@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import com.kingston.jforgame.server.doctor.HotswapManager;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 
 /**
@@ -29,9 +29,9 @@ public class CommonScript {
 
 			// replace public method, in order to fix bug in product environment
 			@Override
-			public Player load(Long playerId) throws Exception {
+			public PlayerEnt load(Long playerId) throws Exception {
 				sayHello();
-				Player newPlayer = new Player();
+				PlayerEnt newPlayer = new PlayerEnt();
 				newPlayer.setId(playerId);
 				newPlayer.setName("robot");
 				return newPlayer;
@@ -43,7 +43,7 @@ public class CommonScript {
 
             field.set(GameContext.getPlayerManager(), newMgr);
 
-            Player player = GameContext.getPlayerManager().load(12345L);
+            PlayerEnt player = GameContext.getPlayerManager().load(12345L);
 			System.err.println(player.getName());
 		} catch (Exception e) {
 			e.printStackTrace();

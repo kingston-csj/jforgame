@@ -4,12 +4,12 @@ import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.chat.channel.ChannelType;
 import com.kingston.jforgame.server.game.chat.channel.ChatChannel;
 import com.kingston.jforgame.server.game.chat.model.TextChatMessage;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 
 public class ChatManager {
 	
 	public void privateChat(long receiverId, String content) {
-		Player receiver = GameContext.getPlayerManager().get(receiverId);
+		PlayerEnt receiver = GameContext.getPlayerManager().get(receiverId);
 		if (receiver == null) {
 			return;
 		}

@@ -2,7 +2,7 @@ package com.kingston.jforgame.server.game.cronjob;
 
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.player.DailyResetTask;
 import com.kingston.jforgame.server.logs.LoggerSystem;
 import org.quartz.DisallowConcurrentExecution;
@@ -29,9 +29,9 @@ public class DailyResetJob implements Job {
 		long now = System.currentTimeMillis();
 
 		SystemParameters.update("dailyResetTimestamp", now);
-        Collection<Player> onlines = GameContext.getPlayerManager().getOnlinePlayers().values();
-		for (Player player:onlines) {
-			//将事件封装成timer任务，丢回业务线程处理
+        Collection<PlayerEnt> onlines = GameContext.getPlayerManager().getOnlinePlayers().values();
+		for (PlayerEnt player:onlines) {
+			//将事件封装成任务，丢回业务线程处理
 			player.mailQueue().onMessageReceive(new DailyResetTask(player));
 		}
 

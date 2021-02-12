@@ -19,7 +19,7 @@ import javax.persistence.Id;
  * @author kingston
  */
 @Entity
-public class Player extends BaseEntity implements Distributable {
+public class PlayerEnt extends BaseEntity implements Distributable {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 
@@ -58,7 +58,7 @@ public class Player extends BaseEntity implements Distributable {
 	@Column
 	private Platform platform;
 
-	public Player() {
+	public PlayerEnt() {
 		this.id = IdGenerator.getNextId();
 	}
 

@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.game.player.serializer;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ public class PlayerSerializerUtil {
 		}
 	}
 	
-	public static void serialize(Player player) {
+	public static void serialize(PlayerEnt player) {
 		for (IPlayerPropSerializer handler:propSerializers) {
 			handler.serialize(player);
 		}
 	}
 	
-	public static void deserialize(Player player) {
+	public static void deserialize(PlayerEnt player) {
 		for (IPlayerPropSerializer handler:propSerializers) {
 			handler.deserialize(player);
 		}

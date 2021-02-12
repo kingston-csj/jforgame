@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 
 
 public class ActivityManager {
@@ -18,7 +18,7 @@ public class ActivityManager {
 		return instance;
 	}
 
-	public void openMainPanel(Player player, int activityId) {
+	public void openMainPanel(PlayerEnt player, int activityId) {
 
 	}
 

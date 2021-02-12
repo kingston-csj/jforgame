@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.mina.core.session.IoSession;
 
 import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
-import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayer;
+import com.kingston.jforgame.server.game.player.message.res.ResCreateNewPlayer;
 import com.kingston.jforgame.server.robot.handler.CreatePlayerHandler;
 import com.kingston.jforgame.server.robot.handler.LoginSuccHandler;
 import com.kingston.jforgame.socket.message.Message;

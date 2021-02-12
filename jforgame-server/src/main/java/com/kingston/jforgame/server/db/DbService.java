@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
 import com.kingston.jforgame.common.utils.BlockingUniqueQueue;
 import com.kingston.jforgame.orm.SqlFactory;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +49,7 @@ public class DbService {
 	 * @param entity
 	 */
 	public void insertOrUpdate(BaseEntity entity) {
-		if (entity instanceof Player) {
+		if (entity instanceof PlayerEnt) {
 			playerWorker.addToQueue(entity);
 		} else {
 			commonWorker.addToQueue(entity);
@@ -73,7 +73,7 @@ public class DbService {
 	 */
 	public void delete(BaseEntity entity) {
 		entity.setDelete();
-		if (entity instanceof Player) {
+		if (entity instanceof PlayerEnt) {
 			playerWorker.addToQueue(entity);
 		} else {
 			commonWorker.addToQueue(entity);

@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigPlayerLevel;
 import com.kingston.jforgame.server.game.database.config.storage.ConfigPlayerLevelStorage;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**
@@ -26,7 +26,7 @@ public class GmPlayerLevelCommand extends AbstractGmCommand {
 	}
 
 	@Override
-	public ResGmResult execute(Player player, List<String> params) {
+	public ResGmResult execute(PlayerEnt player, List<String> params) {
 		int newLevel = Integer.parseInt(params.get(0));
 		ConfigPlayerLevelStorage configStorage = ConfigDataPool.getInstance().getStorage(ConfigPlayerLevelStorage.class);
 		ConfigPlayerLevel configLevel = configStorage.getConfigBy(newLevel);

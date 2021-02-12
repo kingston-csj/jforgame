@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.player.message;
+package com.kingston.jforgame.server.game.player.message.res;
 
 import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.game.player.PlayerDataPool;

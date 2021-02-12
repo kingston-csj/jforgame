@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**
@@ -56,7 +56,7 @@ public abstract class AbstractGmCommand {
 	 * @param params
 	 * @return
 	 */
-	public abstract ResGmResult execute(Player player, List<String> params);
+	public abstract ResGmResult execute(PlayerEnt player, List<String> params);
 	
 	
 

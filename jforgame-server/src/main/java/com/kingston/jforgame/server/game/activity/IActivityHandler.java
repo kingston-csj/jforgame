@@ -1,15 +1,15 @@
 package com.kingston.jforgame.server.game.activity;
 
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.socket.message.Message;
 
 public interface IActivityHandler {
 	
 	void load();
 	
-	Message openPanel(Player player);
+	Message openPanel(PlayerEnt player);
 	
-	void receiveRewards(Player player);
+	void receiveRewards(PlayerEnt player);
 	
 	ActivityTypes getActivityType();
 	

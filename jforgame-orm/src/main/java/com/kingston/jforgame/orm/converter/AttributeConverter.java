@@ -30,4 +30,5 @@ public interface AttributeConverter<X, Y> {
      * attribute
      */
     X convertToEntityAttribute(Class<X> clazz, Y dbData);
+
 }

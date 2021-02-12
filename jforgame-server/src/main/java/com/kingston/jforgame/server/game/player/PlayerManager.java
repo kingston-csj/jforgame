@@ -8,11 +8,11 @@ import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.accout.entity.Account;
 import com.kingston.jforgame.server.game.core.MessagePusher;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
-import com.kingston.jforgame.server.game.player.message.ResCreateNewPlayer;
-import com.kingston.jforgame.server.game.player.message.ResKickPlayer;
+import com.kingston.jforgame.server.game.player.message.res.ResCreateNewPlayer;
+import com.kingston.jforgame.server.game.player.message.res.ResKickPlayer;
 import com.kingston.jforgame.server.game.player.model.AccountProfile;
 import com.kingston.jforgame.server.game.player.model.PlayerProfile;
 import com.kingston.jforgame.server.listener.EventDispatcher;
@@ -36,13 +36,13 @@ import java.util.concurrent.ConcurrentMap;
  * 
  * @author kingston
  */
-public class PlayerManager extends BaseCacheService<Long, Player> {
+public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static PlayerManager instance = new PlayerManager();
 
-	private ConcurrentMap<Long, Player> onlines = new ConcurrentHashMap<>();
+	private ConcurrentMap<Long, PlayerEnt> onlines = new ConcurrentHashMap<>();
 
 	/** 全服所有角色的简况 */
 	private ConcurrentMap<Long, PlayerProfile> playerProfiles = new ConcurrentHashMap<>();
@@ -112,7 +112,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 
 	public void createNewPlayer(IdSession session, String name) {
 		long accountId = (long) session.getAttribute(SessionProperties.ACCOUNT);
-		Player player = new Player();
+		PlayerEnt player = new PlayerEnt();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
 		player.setAccountId(accountId);
@@ -142,17 +142,17 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 * 从用户表里读取玩家数据
 	 */
 	@Override
-	public Player load(Long playerId) throws Exception {
+	public PlayerEnt load(Long playerId) throws Exception {
 		String sql = "SELECT * FROM Player where Id = ? ";
 //		sql = MessageFormat.format(sql, String.valueOf(playerId));
-		Player player = DbUtils.queryOneById(DbUtils.DB_USER, sql, Player.class, String.valueOf(playerId));
+		PlayerEnt player = DbUtils.queryOneById(DbUtils.DB_USER, sql, PlayerEnt.class, String.valueOf(playerId));
 		if (player != null) {
 			player.doAfterInit();
 		}
 		return player;
 	}
 
-	public Player getOnlinePlayer(long playerId) {
+	public PlayerEnt getOnlinePlayer(long playerId) {
 		if (!onlines.containsKey(playerId)) {
 			return null;
 		}
@@ -164,7 +164,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 * 
 	 * @param player
 	 */
-	public void add2Online(Player player) {
+	public void add2Online(PlayerEnt player) {
 		this.onlines.put(player.getId(), player);
 	}
 
@@ -177,7 +177,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 * 
 	 * @return
 	 */
-	public ConcurrentMap<Long, Player> getOnlinePlayers() {
+	public ConcurrentMap<Long, PlayerEnt> getOnlinePlayers() {
 		return new ConcurrentHashMap<>(this.onlines);
 	}
 
@@ -186,13 +186,13 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 * 
 	 * @param player
 	 */
-	public void removeFromOnline(Player player) {
+	public void removeFromOnline(PlayerEnt player) {
 		if (player != null) {
 			this.onlines.remove(player.getId());
 		}
 	}
 
-	public void checkDailyReset(Player player) {
+	public void checkDailyReset(PlayerEnt player) {
 		long resetTimestamp = SystemParameters.dailyResetTimestamp;
 		if (player.getLastDailyReset() < resetTimestamp) {
 			player.setLastDailyReset(SystemParameters.dailyResetTimestamp);
@@ -205,12 +205,12 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	 * 
 	 * @param player
 	 */
-	private void onDailyReset(Player player) {
+	private void onDailyReset(PlayerEnt player) {
 
 	}
 
 	public void playerLogout(long playerId) {
-		Player player = GameContext.getPlayerManager().get(playerId);
+		PlayerEnt player = GameContext.getPlayerManager().get(playerId);
 		if (player == null) {
 			return;
 		}
@@ -220,7 +220,7 @@ public class PlayerManager extends BaseCacheService<Long, Player> {
 	}
 
 	public void kickPlayer(long playerId) {
-		Player player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
+		PlayerEnt player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
 		if (player == null) {
 			return;
 		}

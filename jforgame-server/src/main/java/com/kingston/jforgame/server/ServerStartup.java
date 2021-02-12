@@ -2,7 +2,7 @@ package com.kingston.jforgame.server;
 
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class ServerStartup {
 		try {
 			GameServer.getInstance().start();
 			// test
-			Player p = GameContext.getPlayerManager().get(10000L);
+			PlayerEnt p = GameContext.getPlayerManager().get(10000L);
 			p.getVipRight().setLevel(222);
 			p.setExp(888);
 			DbService.getInstance().saveColumns(p, "vipRight");

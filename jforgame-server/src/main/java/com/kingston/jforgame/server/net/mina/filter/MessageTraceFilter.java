@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.mina.MinaSessionProperties;
@@ -61,7 +61,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		IdSession userSession = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.UserSession, IdSession.class);
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(userSession);
 		if (playerId > 0) {
-            Player player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
+            PlayerEnt player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
 			return player.getName();
 		}
 		return String.valueOf(session);

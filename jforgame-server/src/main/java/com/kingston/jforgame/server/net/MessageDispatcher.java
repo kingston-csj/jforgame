@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.net;
 import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
@@ -122,7 +122,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 		}
 		long playerId = session.getOwnerId();
 		if (playerId > 0) {
-			Player player = GameContext.getPlayerManager().get(playerId);
+			PlayerEnt player = GameContext.getPlayerManager().get(playerId);
 			return player.mailQueue();
 		}
 		// TODO why here??

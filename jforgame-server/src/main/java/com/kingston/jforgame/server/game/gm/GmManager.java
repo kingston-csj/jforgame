@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.game.gm;
 import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.core.MessagePusher;
-import com.kingston.jforgame.server.game.database.user.player.Player;
+import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.command.AbstractGmCommand;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
@@ -39,7 +39,7 @@ public class GmManager {
 	 * @return
 	 */
 	public void receiveCommand(long playerId, String content) {
-		Player player = GameContext.getPlayerManager().get(playerId);
+		PlayerEnt player = GameContext.getPlayerManager().get(playerId);
 		//判断权限
 		if (!hasExecPower(player)) {
 			return;
@@ -66,7 +66,7 @@ public class GmManager {
 	 * @param player
 	 * @return
 	 */
-	private boolean hasExecPower(Player player) {
+	private boolean hasExecPower(PlayerEnt player) {
 		//这里根据具体业务进行拦截
 		return true;
 	}
