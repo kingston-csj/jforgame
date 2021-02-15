@@ -13,8 +13,8 @@ public class IpAddrUtil {
 		Enumeration<NetworkInterface> netInterfaces;
 		netInterfaces = NetworkInterface.getNetworkInterfaces();
 		InetAddress ip = null;
-		boolean finded = false;// 是否找到外网IP
-		while (netInterfaces.hasMoreElements() && !finded) {
+		boolean found = false;// 是否找到外网IP
+		while (netInterfaces.hasMoreElements() && !found) {
 			NetworkInterface ni = netInterfaces.nextElement();
 			Enumeration<InetAddress> address = ni.getInetAddresses();
 			while (address.hasMoreElements()) {
@@ -23,7 +23,7 @@ public class IpAddrUtil {
 						&& !ip.isLoopbackAddress()
 						&& ip.getHostAddress().indexOf(":") == -1) {// 外网IP
 					netip = ip.getHostAddress();
-					finded = true;
+					found = true;
 					break;
 				} else if (ip.isSiteLocalAddress()
 						&& !ip.isLoopbackAddress()&& ip.getHostAddress().indexOf(":") == -1) {// 内网IP

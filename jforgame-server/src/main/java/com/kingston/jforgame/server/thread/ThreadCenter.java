@@ -5,7 +5,8 @@ import com.kingston.jforgame.socket.task.MailBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class ThreadCenter {
 
@@ -20,12 +21,12 @@ public class ThreadCenter {
      * 公共业务线程池
      */
     private static CommonBusinessExecutor COMMON_BUSINESS_CONTAINER = new CommonBusinessExecutor(
-            "common-business", CORE_SIZE);
+            "common-business", CORE_SIZE * 2);
 
     /**
      * 登录登出匿名任务队列
      */
-    private static CommonMailGroup LOGIN_QUEUE = new CommonMailGroup("login-io", 4);
+    private static CommonMailGroup LOGIN_QUEUE = COMMON_BUSINESS_CONTAINER.createMailGroup("login-io", 4);
 
     /**
      * 调度任务线程池

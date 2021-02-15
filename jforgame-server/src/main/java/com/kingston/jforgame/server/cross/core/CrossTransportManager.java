@@ -88,6 +88,7 @@ public class CrossTransportManager {
 	 * @return
 	 */
 	public Message sendWithReturn(CCSession session, CReqCallBack request) {
+		request.setRpc(CallbackKinds.RPC_SYNC);
 		CallbackTask task = CallbackTask.valueOf(session, request);
 		try {
 			return asynService.submit(task).get();
@@ -104,7 +105,7 @@ public class CrossTransportManager {
 	 * @return
 	 */
 	public void callback(CCSession session, CReqCallBack request, CallbackAction callBack) {
-		request.setRpc((byte) 1);
+		request.setRpc(CallbackKinds.RPC_ASYNC);
 		request.serialize();
 
 		CallBackService.getInstance().registerCallback(request.getIndex(), callBack);

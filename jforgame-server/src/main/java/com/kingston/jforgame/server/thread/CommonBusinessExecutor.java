@@ -21,9 +21,13 @@ public class CommonBusinessExecutor {
     private final AtomicBoolean run = new AtomicBoolean(true);
 
     /**
-     * 任务队列总线
+     * 任务队列总线(这里不要用public修饰，限制业务逻辑直接访问！！)
      */
-    public LinkedBlockingQueue<Runnable> ROOT_QUEUE = new LinkedBlockingQueue<>();
+    LinkedBlockingQueue<Runnable> ROOT_QUEUE = new LinkedBlockingQueue<>();
+
+    public CommonMailGroup createMailGroup(String name, int workerSize) {
+        return new CommonMailGroup(name, workerSize);
+    }
 
     public CommonBusinessExecutor(String name, int size) {
         for (int i = 1; i <= size; i++) {

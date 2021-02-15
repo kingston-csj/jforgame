@@ -27,7 +27,7 @@ public class CReqCallBack extends Message {
 
     private String data;
     /**
-     * 响应类型：0,同步 1,异步
+     * 响应类型：{@link CallbackKinds#RPC_ASYNC}
      */
     private int rpc;
 
