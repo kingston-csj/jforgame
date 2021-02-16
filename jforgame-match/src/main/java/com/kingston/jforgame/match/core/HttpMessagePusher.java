@@ -24,7 +24,7 @@ public class HttpMessagePusher {
 		String msgJson = new Gson().toJson(message);
 		UrlResponse urlResponse = UrlResponse.valueOfSucc();
 		urlResponse.setMessage(msgJson);
-		urlResponse.setAttachemt(message.getClass().getSimpleName());
+		urlResponse.setAttachment(message.getClass().getSimpleName());
 
 		String responseHtml = new Gson().toJson(urlResponse);
 		byte[] responseBytes= new byte[0];

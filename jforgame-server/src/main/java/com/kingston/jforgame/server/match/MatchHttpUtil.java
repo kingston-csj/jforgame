@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.cross.core.match;
+package com.kingston.jforgame.server.match;
 
 import java.io.IOException;
 
@@ -13,7 +13,6 @@ public class MatchHttpUtil {
 		String data = new Gson().toJson(request);
 		String param = HttpUtil.buildUrlParam("service", signature,
 				"param", data);
-
 
 		String url = ServerConfig.getInstance().getMatchUrl() + "?" + param;
 		System.err.println("发送url>>>>>>" + url);

@@ -5,7 +5,7 @@ import com.kingston.jforgame.server.ServerScanPaths;
 import com.kingston.jforgame.server.cross.core.CrossServer;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
-import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
+import com.kingston.jforgame.server.game.cross.ladder.message.G2F_LadderTransfer;
 import com.kingston.jforgame.server.net.mina.MinaSocketServer;
 import com.kingston.jforgame.socket.message.MessageFactory;
 
@@ -32,7 +32,7 @@ public class CrossServerClient {
 	}
 
 	public void request() {
-		Req_G2F_LadderTransfer req = new Req_G2F_LadderTransfer();
+		G2F_LadderTransfer req = new G2F_LadderTransfer();
 		CCSession cSession = C2SSessionPoolFactory.getInstance().borrowSession("127.0.0.1", 9627);
 		cSession.sendMessage(req);
 	}

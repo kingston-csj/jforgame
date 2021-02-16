@@ -5,10 +5,10 @@ import java.io.IOException;
 import com.kingston.jforgame.server.ServerConfig;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import com.kingston.jforgame.server.cross.core.client.CCSession;
-import com.kingston.jforgame.server.cross.core.match.MatchHttpUtil;
+import com.kingston.jforgame.server.match.MatchHttpUtil;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2F_LadderTransfer;
-import com.kingston.jforgame.server.game.cross.ladder.message.Req_G2M_LadderApply;
+import com.kingston.jforgame.server.game.cross.ladder.message.G2F_LadderTransfer;
+import com.kingston.jforgame.server.game.cross.ladder.message.G2M_LadderApply;
 import com.kingston.jforgame.server.game.cross.ladder.message.vo.LadderMatchVo;
 import com.kingston.jforgame.server.game.cross.ladder.utils.CrossJsonUtil;
 import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
@@ -37,7 +37,7 @@ public class LadderClientManager {
 	public void apply(long playerId) {
         PlayerEnt player = GameContext.getPlayerManager().get(playerId);
 		// 一堆业务判断
-		Req_G2M_LadderApply apply = new Req_G2M_LadderApply();
+		G2M_LadderApply apply = new G2M_LadderApply();
 		apply.setPlayerId(playerId);
 		apply.setPower(100);
 		apply.setScore(100);
@@ -72,7 +72,7 @@ public class LadderClientManager {
 		CCSession session = C2SSessionPoolFactory.getInstance().borrowSession(fightIp, fightPort);
 		if (session != null) {
 			// 将玩家数据打包后发到战斗服
-			Req_G2F_LadderTransfer rpcTransfer = new Req_G2F_LadderTransfer();
+			G2F_LadderTransfer rpcTransfer = new G2F_LadderTransfer();
 			String playerJson = CrossJsonUtil.object2String(player);
 			session.sendMessage(rpcTransfer);
 			// 通知客户端切换socket到战斗服

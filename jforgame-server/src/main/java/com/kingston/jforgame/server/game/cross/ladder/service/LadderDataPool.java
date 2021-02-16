@@ -10,6 +10,6 @@ public class LadderDataPool {
 	/** 战斗服--请求玩家登录 */
 	public static final byte RES_LADDER_LOGIN = 3;
 	/** 战斗服--请求玩家登录 */
-	public static final byte REQ_G2F_TRANSFER = 4;
+	public static final byte G2F_TRANSFER = 4;
 
 }

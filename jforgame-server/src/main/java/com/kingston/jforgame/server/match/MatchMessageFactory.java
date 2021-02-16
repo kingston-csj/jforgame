@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.cross.core.match;
+package com.kingston.jforgame.server.match;
 
 import java.util.HashMap;
 import java.util.Map;
