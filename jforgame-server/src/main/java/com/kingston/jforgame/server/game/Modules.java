@@ -5,29 +5,29 @@ public interface Modules {
 
 	// ------------------底层功能支持模块（从0到100）-----------------
 
-	int BASE = 1;
+	short BASE = 1;
 
-	int GM = 2;
+	short GM = 2;
 
-	int NOTICE = 3;
+	short NOTICE = 3;
 
 	// ------------------业务功能模块（101开始）---------------------
 
 	/** 登录 */
-	int LOGIN = 101;
+	short LOGIN = 101;
 	/** 玩家 */
-	int PLAYER = 102;
+	short PLAYER = 102;
 	/** 场景 */
-	int SCENE = 103;
+	short SCENE = 103;
 	/** 活动 */
-	int ACTIVITY = 104;
+	short ACTIVITY = 104;
 	/** 技能 */
-	int SKILL = 105;
+	short SKILL = 105;
 	/** 聊天 */
-	int CHAT = 106;
+	short CHAT = 106;
 
 	// ------------------跨服业务功能模块（501开始）---------------------
 	/** 跨服基础 */
-	int CROSS = 501;
+	short CROSS = 501;
 
 }

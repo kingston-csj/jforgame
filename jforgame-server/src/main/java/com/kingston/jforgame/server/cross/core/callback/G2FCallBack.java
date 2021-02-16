@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * 跨服回调请求方
  */
-@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2C_CALL_BACK)
-public class CReqCallBack extends Message {
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_CALL_BACK)
+public class G2FCallBack extends Message {
 
     private int index;
 
@@ -31,13 +31,23 @@ public class CReqCallBack extends Message {
      */
     private int rpc;
 
-    public CReqCallBack() {
+    public G2FCallBack() {
         int index = RpcResponse.nextMsgId();
         setIndex(index);
     }
 
     public void addParam(String key, String value) {
         this.params.put(key, value);
+    }
+
+    public void serialize() {
+        String json = JsonUtils.object2String(params);
+        this.data = Base64.getEncoder().encodeToString(json.getBytes());
+    }
+
+    public void deserialize() {
+        byte[] json = Base64.getDecoder().decode(this.data);
+        this.params = JsonUtils.string2Map(new String(json), String.class, String.class);
     }
 
     public int getIndex() {
@@ -62,16 +72,6 @@ public class CReqCallBack extends Message {
 
     public void setData(String data) {
         this.data = data;
-    }
-
-    public void serialize() {
-        String json = JsonUtils.object2String(params);
-        this.data = Base64.getEncoder().encodeToString(json.getBytes());
-    }
-
-    public void deserialize() {
-        byte[] json = Base64.getDecoder().decode(this.data);
-        this.params = JsonUtils.string2Map(new String(json), String.class, String.class);
     }
 
     public Map<String, String> getParams() {

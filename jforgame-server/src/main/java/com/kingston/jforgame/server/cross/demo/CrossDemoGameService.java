@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.cross.demo;
 
 import com.kingston.jforgame.server.cross.core.CrossTransportManager;
-import com.kingston.jforgame.server.cross.core.callback.CReqCallBack;
+import com.kingston.jforgame.server.cross.core.callback.G2FCallBack;
 import com.kingston.jforgame.server.cross.core.callback.CallBackCommands;
 import com.kingston.jforgame.server.cross.core.callback.CallbackAction;
 import com.kingston.jforgame.server.cross.core.client.C2SSessionPoolFactory;
@@ -11,7 +11,7 @@ import com.kingston.jforgame.socket.message.Message;
 public class CrossDemoGameService {
 
     public static void sayHello() {
-        CReqCallBack req = new CReqCallBack();
+        G2FCallBack req = new G2FCallBack();
         req.addParam("name", "Lily");
         req.setCommand(CallBackCommands.HELLO);
         CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();
@@ -24,7 +24,7 @@ public class CrossDemoGameService {
     }
 
     public static void sayHello2() {
-        CReqCallBack req = new CReqCallBack();
+        G2FCallBack req = new G2FCallBack();
         req.addParam("name", "Lily");
         req.setCommand(CallBackCommands.HELLO);
         CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();

@@ -5,8 +5,8 @@ import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = Modules.CROSS, cmd  = CrossCommands.C2G_HEART_BEAT)
-public class CRespCrossHeartBeat extends Message {
+@MessageMeta(module = Modules.CROSS, cmd  = CrossCommands.G2F_HEART_BEAT)
+public class G2FHeartBeat extends Message {
 
     private long time = System.currentTimeMillis();
 

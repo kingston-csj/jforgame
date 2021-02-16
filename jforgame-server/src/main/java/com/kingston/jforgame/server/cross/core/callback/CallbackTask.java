@@ -24,7 +24,7 @@ public class CallbackTask implements Callable<Message> {
     @Override
     public Message call() throws Exception {
         try {
-            CReqCallBack reqCallBack = (CReqCallBack) request;
+            G2FCallBack reqCallBack = (G2FCallBack) request;
             int index = RpcResponse.nextMsgId();
             RpcResponse callBack = new RpcResponse();
             callBack.setIndex(index);

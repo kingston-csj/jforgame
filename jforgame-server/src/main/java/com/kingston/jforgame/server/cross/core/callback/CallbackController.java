@@ -10,7 +10,7 @@ import com.kingston.jforgame.socket.message.Message;
 public class CallbackController {
 
     @RequestMapping
-    public void onReqCallBack(SCSession session, CReqCallBack req) {
+    public void onReqCallBack(SCSession session, G2FCallBack req) {
         int cmdType = req.getCommand();
         CallbackHandler handler = CallbackHandler.queryHandler(cmdType);
         if (handler != null) {
@@ -20,7 +20,7 @@ public class CallbackController {
     }
 
     @RequestMapping
-    public void onRespCallBack(CCSession session, CRespCallBack response) {
+    public void onRespCallBack(CCSession session, F2GCallBack response) {
         try {
             Message callback = response.getMessage();
             CallBackService.getInstance().fillCallBack(response.getIndex(), response.getRpc(), callback);

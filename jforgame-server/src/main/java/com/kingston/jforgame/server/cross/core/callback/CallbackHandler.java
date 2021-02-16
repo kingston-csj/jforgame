@@ -2,7 +2,6 @@ package com.kingston.jforgame.server.cross.core.callback;
 
 import com.kingston.jforgame.server.cross.core.CrossCommands;
 import com.kingston.jforgame.server.cross.core.server.SCSession;
-import com.kingston.jforgame.server.cross.demo.HelloCallbackHandler;
 import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
@@ -10,7 +9,7 @@ import com.kingston.jforgame.socket.message.Message;
 import java.util.HashMap;
 import java.util.Map;
 
-@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2C_CALL_BACK)
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_CALL_BACK)
 public abstract class CallbackHandler {
 
     private static Map<Integer, CallbackHandler> handlers = new HashMap<>();
@@ -19,10 +18,10 @@ public abstract class CallbackHandler {
         handlers.put(handler.cmdType(), handler);
     }
 
-    public abstract void onRequest(SCSession session, CReqCallBack req);
+    public abstract void onRequest(SCSession session, G2FCallBack req);
 
-    public void sendBack(SCSession session, CReqCallBack req, Message response) {
-        CRespCallBack callBack = CRespCallBack.valueOf(response);
+    public void sendBack(SCSession session, G2FCallBack req, Message response) {
+        F2GCallBack callBack = F2GCallBack.valueOf(response);
         callBack.setIndex(req.getIndex());
         callBack.setRpc(req.getRpc());
         session.sendMessage(callBack);

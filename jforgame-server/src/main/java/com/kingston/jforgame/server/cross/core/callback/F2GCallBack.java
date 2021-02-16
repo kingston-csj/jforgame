@@ -10,8 +10,8 @@ import com.kingston.jforgame.socket.message.Message;
 /**
  * 跨服回调响应方
  */
-@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.C2G_CALL_BACK)
-public class CRespCallBack extends Message {
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.F2G_CALL_BACK)
+public class F2GCallBack extends Message {
 
     private int index;
 
@@ -21,8 +21,8 @@ public class CRespCallBack extends Message {
 
     private String msgClass;
 
-    public static CRespCallBack valueOf(Message message) {
-        CRespCallBack response = new CRespCallBack();
+    public static F2GCallBack valueOf(Message message) {
+        F2GCallBack response = new F2GCallBack();
         response.data = JsonUtils.object2String(message);
         response.msgClass = message.getClass().getName();
 

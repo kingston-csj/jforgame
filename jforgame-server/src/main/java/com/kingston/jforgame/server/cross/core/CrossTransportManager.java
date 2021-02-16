@@ -87,7 +87,7 @@ public class CrossTransportManager {
 	 * @param request
 	 * @return
 	 */
-	public Message sendWithReturn(CCSession session, CReqCallBack request) {
+	public Message sendWithReturn(CCSession session, G2FCallBack request) {
 		request.setRpc(CallbackKinds.RPC_SYNC);
 		CallbackTask task = CallbackTask.valueOf(session, request);
 		try {
@@ -104,7 +104,7 @@ public class CrossTransportManager {
 	 * @param request
 	 * @return
 	 */
-	public void callback(CCSession session, CReqCallBack request, CallbackAction callBack) {
+	public void callback(CCSession session, G2FCallBack request, CallbackAction callBack) {
 		request.setRpc(CallbackKinds.RPC_ASYNC);
 		request.serialize();
 
