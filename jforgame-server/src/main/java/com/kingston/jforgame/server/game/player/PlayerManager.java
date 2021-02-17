@@ -206,7 +206,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 	 * @param player
 	 */
 	private void onDailyReset(PlayerEnt player) {
-
+		save(player);
 	}
 
 	public void playerLogout(long playerId) {

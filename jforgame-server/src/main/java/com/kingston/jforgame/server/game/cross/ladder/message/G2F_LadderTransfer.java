@@ -1,12 +1,13 @@
 package com.kingston.jforgame.server.game.cross.ladder.message;
 
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
+import com.kingston.jforgame.server.cross.core.CrossCommands;
 import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.game.cross.ladder.service.LadderDataPool;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
 
-@MessageMeta(module = Modules.CROSS, cmd = LadderDataPool.G2F_TRANSFER)
+@MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_LOGIN_TO_SERVER)
 public class G2F_LadderTransfer extends Message {
 
     @Protobuf

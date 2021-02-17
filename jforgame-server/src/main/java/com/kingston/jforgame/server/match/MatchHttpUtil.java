@@ -19,7 +19,7 @@ public class MatchHttpUtil {
 		String resultJson = HttpUtil.get(url);
 		UrlResponse urlResponse = new Gson().fromJson(resultJson, UrlResponse.class);
 
-		String respClazz = urlResponse.getAttachemt();
+		String respClazz = urlResponse.getAttachment();
 		Class<?> msgClazz = MatchMessageFactory.getInstance().getMessageBy(respClazz);
 		AbstractMatchMessage msgResponse = (AbstractMatchMessage)new Gson().fromJson(urlResponse.getMessage(), msgClazz);
 		return msgResponse;

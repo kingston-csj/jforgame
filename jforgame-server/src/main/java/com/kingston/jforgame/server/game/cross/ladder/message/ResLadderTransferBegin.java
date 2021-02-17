@@ -9,7 +9,7 @@ import com.kingston.jforgame.socket.message.Message;
  * 通知客户端切换socket到战斗服
  *
  */
-@MessageMeta(module = Modules.CROSS, cmd = LadderDataPool.RES_LADDER_TRANSFER_BEGIN)
+@MessageMeta(module = Modules.CROSS_BUSINESS, cmd = LadderDataPool.RES_LADDER_TRANSFER_BEGIN)
 public class ResLadderTransferBegin extends Message {
 	
 	/**

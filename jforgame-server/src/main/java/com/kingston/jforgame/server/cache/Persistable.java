@@ -14,12 +14,10 @@ public interface Persistable<K, V> {
 	 */
     V load(K k) throws Exception;
     
-//    /**
-//     * 将对象序列号到数据库
-//     * @param k
-//     * @param v
-//     * @throws PersistenceException
-//     */
-//    void save(K k, V v) throws Exception;
+    /**
+     * 异步将对象持久化到数据库
+     * @param v
+     */
+     void save(V v);
     
 }

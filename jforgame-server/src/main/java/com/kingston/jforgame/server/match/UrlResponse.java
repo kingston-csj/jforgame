@@ -6,7 +6,7 @@ public class UrlResponse {
 	/** 消息 */
 	private String message;
 	/** 额外参数 */
-	private String attachemt;
+	private String attachment;
 
 	public byte getCode() {
 		return code;
@@ -24,16 +24,16 @@ public class UrlResponse {
 		this.message = message;
 	}
 
-	public String getAttachemt() {
-		return attachemt;
+	public String getAttachment() {
+		return attachment;
 	}
 
-	public void setAttachemt(String attachemt) {
-		this.attachemt = attachemt;
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
 	}
 
 	@Override
 	public String toString() {
-		return "UrlResponse [code=" + code + ", message=" + message + ", attachemt=" + attachemt + "]";
+		return "UrlResponse [code=" + code + ", message=" + message + ", attachemt=" + attachment + "]";
 	}
 }

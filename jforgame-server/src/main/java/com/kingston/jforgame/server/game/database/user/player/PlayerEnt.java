@@ -18,14 +18,14 @@ import javax.persistence.Id;
  * 玩家实体
  * @author kingston
  */
-@Entity
+@Entity(name = "player")
 public class PlayerEnt extends BaseEntity implements Distributable {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 
 	@Id
 	@Column
-	private long id;
+	private Long id;
 	
 	@Column
 	private long accountId;
@@ -63,11 +63,11 @@ public class PlayerEnt extends BaseEntity implements Distributable {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

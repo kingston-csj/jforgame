@@ -3,6 +3,7 @@ package com.kingston.jforgame.server.cache;
 import java.util.concurrent.Callable;
 
 import com.kingston.jforgame.server.db.BaseEntity;
+import com.kingston.jforgame.server.db.DbService;
 
 /**
  * 抽象缓存服务
@@ -53,6 +54,10 @@ public abstract class BaseCacheService<K, V extends BaseEntity> implements Persi
 	 */
 	public void put(K key, V v) {
 		this.container.put(key, v);
+	}
+
+	public void save(V v) {
+		DbService.getInstance().insertOrUpdate(v);
 	}
 
 }

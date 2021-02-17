@@ -9,11 +9,11 @@ import com.kingston.jforgame.server.utils.IdGenerator;
 
 
 @Entity
-public class Account extends BaseEntity  {
+public class Account extends BaseEntity<Long>  {
 	
 	@Id
 	@Column
-	private long id;
+	private Long id;
 	
 	@Column
 	private String name;
@@ -23,7 +23,7 @@ public class Account extends BaseEntity  {
 	}
 
 	@Override
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -35,7 +35,7 @@ public class Account extends BaseEntity  {
 		this.name = name;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
