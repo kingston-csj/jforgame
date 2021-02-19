@@ -6,9 +6,8 @@ import com.kingston.jforgame.server.db.JsonAttributeConverter;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.thread.ThreadCenter;
-import com.kingston.jforgame.server.utils.IdGenerator;
-import com.kingston.jforgame.socket.task.Distributable;
-import com.kingston.jforgame.socket.task.MailBox;
+import com.kingston.jforgame.socket.actor.Actor;
+import com.kingston.jforgame.socket.actor.MailBox;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ import javax.persistence.Id;
  * @author kingston
  */
 @Entity(name = "player")
-public class PlayerEnt extends BaseEntity implements Distributable {
+public class PlayerEnt extends BaseEntity implements Actor {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 

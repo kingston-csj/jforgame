@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.thread;
 
-import com.kingston.jforgame.socket.task.MailBox;
+import com.kingston.jforgame.socket.actor.MailBox;
 
 public class CommonMailGroup {
 

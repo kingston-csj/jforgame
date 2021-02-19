@@ -1,7 +1,7 @@
 package com.kingston.jforgame.socket.message;
 
 import com.kingston.jforgame.socket.annotation.MessageMeta;
-import com.kingston.jforgame.socket.task.MailBox;
+import com.kingston.jforgame.socket.actor.MailBox;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

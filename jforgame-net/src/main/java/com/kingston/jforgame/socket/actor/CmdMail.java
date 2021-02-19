@@ -1,22 +1,19 @@
-package com.kingston.jforgame.socket.task;
+package com.kingston.jforgame.socket.actor;
 
 import java.lang.reflect.Method;
 
 import com.kingston.jforgame.socket.IdSession;
-import com.kingston.jforgame.socket.session.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.socket.message.Message;
 
 /**
- * when server receives a message, wrapped it into a MessageTask,
- * and add it to target message consumer task queue
- * @author kingston
+ * 将客户端消息封装成一个邮件，放到Actor的邮箱里
  */
-public class MessageTask implements Runnable {
+public class CmdMail implements Runnable {
 
-	private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
+	private static Logger logger = LoggerFactory.getLogger(CmdMail.class);
 
 	private IdSession session;
 
@@ -27,9 +24,9 @@ public class MessageTask implements Runnable {
 	/**arguments passed to the method */
 	private Object[] params;
 
-	public static MessageTask valueOf(IdSession session,Object handler,
-			Method method, Object[] params) {
-		MessageTask msgTask = new MessageTask();
+	public static CmdMail valueOf(IdSession session, Object handler,
+								  Method method, Object[] params) {
+		CmdMail msgTask = new CmdMail();
 		msgTask.session = session;
 		msgTask.handler = handler;
 		msgTask.method  = method;

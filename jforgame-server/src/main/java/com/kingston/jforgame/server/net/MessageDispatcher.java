@@ -1,10 +1,12 @@
 package com.kingston.jforgame.server.net;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
-import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.socket.IdSession;
+import com.kingston.jforgame.socket.actor.CmdMail;
+import com.kingston.jforgame.socket.actor.MailBox;
 import com.kingston.jforgame.socket.annotation.Controller;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.annotation.RequestMapping;
@@ -12,8 +14,6 @@ import com.kingston.jforgame.socket.message.CmdExecutor;
 import com.kingston.jforgame.socket.message.IMessageDispatcher;
 import com.kingston.jforgame.socket.message.Message;
 import com.kingston.jforgame.socket.session.SessionManager;
-import com.kingston.jforgame.socket.task.MailBox;
-import com.kingston.jforgame.socket.task.MessageTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,11 +107,8 @@ public class MessageDispatcher implements IMessageDispatcher {
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();
 
-		MessageTask task = MessageTask.valueOf(session, controller, cmdExecutor.getMethod(), params);
+		CmdMail task = CmdMail.valueOf(session, controller, cmdExecutor.getMethod(), params);
 		// 丢到任务消息队列，不在io线程进行业务处理
-//		int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-//		TaskHandlerContext.INSTANCE
-//				.acceptTask(MessageTask.valueOf(session, distributeKey, controller, cmdExecutor.getMethod(), params));
 		selectMailQueue(session, message).onMessageReceive(task);
 	}
 
@@ -165,15 +162,10 @@ public class MessageDispatcher implements IMessageDispatcher {
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
 		if (playerId > 0) {
 			logger.info("角色[{}]close session", playerId);
-//			int distributeKey = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-//
-//			TimerTask closeTask = new TimerTask(distributeKey) {
-//				@Override
-//				public void action() {
-//                    GameContext.getPlayerManager().playerLogout(playerId);
-//				}
-//			};
-//			TaskHandlerContext.INSTANCE.acceptTask(closeTask);
+			PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+			player.mailQueue().onMessageReceive(() -> {
+				GameContext.getPlayerManager().playerLogout(playerId);
+			});
 		}
 	}
 

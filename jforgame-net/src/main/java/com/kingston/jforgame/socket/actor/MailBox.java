@@ -1,4 +1,4 @@
-package com.kingston.jforgame.socket.task;
+package com.kingston.jforgame.socket.actor;
 
 import com.google.common.util.concurrent.AtomicLongMap;
 import org.slf4j.Logger;

@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.game.Modules;
 import com.kingston.jforgame.server.game.login.LoginDataPool;
 import com.kingston.jforgame.socket.annotation.MessageMeta;
 import com.kingston.jforgame.socket.message.Message;
-import com.kingston.jforgame.socket.task.MailBox;
+import com.kingston.jforgame.socket.actor.MailBox;
 
 /**
  * 请求－账号登录

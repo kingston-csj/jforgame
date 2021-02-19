@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.thread;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
-import com.kingston.jforgame.socket.task.MailBox;
+import com.kingston.jforgame.socket.actor.MailBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

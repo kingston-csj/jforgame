@@ -28,13 +28,13 @@ public class ServerStartup {
 		try {
 			GameServer.getInstance().start();
 			// test
-			PlayerEnt p = GameContext.getPlayerManager().get(10000L);
-			p.getVipRight().setLevel(111);
-			p.setExp(222);
-			p.setName("robot");
-			DbService.getInstance().saveColumns(p, "vipRight");
-			Thread.sleep(3000);
-			DbService.getInstance().insertOrUpdate(p);
+//			PlayerEnt p = GameContext.getPlayerManager().get(10000L);
+//			p.getVipRight().setLevel(111);
+//			p.setExp(222);
+//			p.setName("robot");
+//			DbService.getInstance().saveColumns(p, "vipRight");
+//			Thread.sleep(3000);
+//			DbService.getInstance().insertOrUpdate(p);
 		} catch (Exception e) {
 			logger.error("server start failed", e);
 			System.exit(-1);
