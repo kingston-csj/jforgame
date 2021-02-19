@@ -73,7 +73,7 @@ public class SystemParameters {
 		// 入库
 		String sql = "UPDATE `systemrecord` SET `value`='" + value + "' WHERE `key`='" + key + "'";
 		try {
-			DbUtils.executeSql(sql);
+			DbUtils.executeUpdate(sql);
 		} catch (Exception e) {
 			LoggerUtils.error("", e);
 		}

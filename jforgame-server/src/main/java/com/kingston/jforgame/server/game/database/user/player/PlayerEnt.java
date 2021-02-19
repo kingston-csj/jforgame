@@ -59,7 +59,6 @@ public class PlayerEnt extends BaseEntity implements Distributable {
 	private Platform platform;
 
 	public PlayerEnt() {
-		this.id = IdGenerator.getNextId();
 	}
 
 	@Override

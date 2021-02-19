@@ -137,7 +137,7 @@ public class DbService {
 			logger.debug("sql={}", saveSql);
 		}
 		try {
-			if (DbUtils.executeSql(saveSql)) {
+			if (DbUtils.executeUpdate(saveSql) > 0) {
 				entity.resetDbStatus();
 			}
 		} catch (Exception e) {

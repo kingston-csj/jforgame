@@ -125,9 +125,8 @@ public class DbHelper {
 	/**
 	 * 查询返回一个map
 	 * 
-	 * @param Connection 数据库链接
+	 * @param connection 数据库链接
 	 * @param sql
-	 * @param entity
 	 * @return
 	 */
 	public static Map<String, Object> queryMap(Connection connection, String sql) throws SQLException {
@@ -163,9 +162,8 @@ public class DbHelper {
 	/**
 	 * 查询返回一个map
 	 * 
-	 * @param Connection 数据库链接
+	 * @param connection 数据库链接
 	 * @param sql
-	 * @param entity
 	 * @return
 	 */
 	public static List<Map<String, Object>> queryMapList(Connection connection, String sql) throws SQLException {
@@ -201,8 +199,8 @@ public class DbHelper {
 
 	/**
 	 * 执行特定的sql语句
-	 * 
-	 * @param Connection 数据库链接
+	 * @see Statement#execute(String)
+	 * @param connection 数据库链接
 	 * @param sql
 	 * @return
 	 */
@@ -215,6 +213,32 @@ public class DbHelper {
 			statement = connection.createStatement();
 			statement.execute(sql);
 			return true;
+		} catch (Exception e) {
+			logger.error("DbUtils executeSql failed", e);
+			throw new SQLException(e);
+		} finally {
+			if (connection != null) {
+				closeConn(connection);
+			}
+		}
+	}
+
+	/**
+	 * 执行update语句
+	 * @see Statement#executeUpdate(String)
+	 *
+	 * @param connection 数据库链接
+	 * @param sql
+	 * @return
+	 */
+	public static int executeUpdate(Connection connection, String sql) throws SQLException {
+		if (StringUtils.isEmpty(sql)) {
+			return 0;
+		}
+		Statement statement = null;
+		try {
+			statement = connection.createStatement();
+			return statement.executeUpdate(sql);
 		} catch (Exception e) {
 			logger.error("DbUtils executeSql failed", e);
 			throw new SQLException(e);

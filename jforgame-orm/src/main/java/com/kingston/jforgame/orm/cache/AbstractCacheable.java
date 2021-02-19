@@ -76,6 +76,7 @@ public abstract class AbstractCacheable extends Cacheable {
 		this.status = DbStatus.NORMAL;
 		this.columns.clear();
 		this.saveAll.compareAndSet(true, false);
+		markPersistent();
 	}
 	
 	/**

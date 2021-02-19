@@ -93,9 +93,9 @@ public class DbUtils {
 	 * @param sql
 	 * @return
 	 */
-	public static boolean executeSql(String sql) throws SQLException{
+	public static int executeUpdate(String sql) throws SQLException{
 		Connection connection = DbHelper.getConnection(DB_USER);
-		return DbHelper.executeSql(connection, sql);
+		return DbHelper.executeUpdate(connection, sql);
 	}
 
 }
