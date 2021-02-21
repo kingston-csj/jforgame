@@ -1,14 +1,11 @@
 package com.kingston.jforgame.socket.codec.protobuf;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 import com.kingston.jforgame.socket.codec.IMessageEncoder;
 import com.kingston.jforgame.socket.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProtobufEncoder implements IMessageEncoder {
 

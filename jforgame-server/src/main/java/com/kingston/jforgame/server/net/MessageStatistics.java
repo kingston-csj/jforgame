@@ -32,6 +32,11 @@ public class MessageStatistics {
         counter.incrementAndGet();
     }
 
+    public void reset() {
+        sentCounter.clear();
+        receivedCounter.clear();
+    }
+
     @Override
     public String toString() {
         List<CmdRecord> received = new ArrayList<>();

@@ -18,9 +18,9 @@ public class FuncSwitchCommandHandler extends HttpCommandHandler {
 		int messageId = NumberUtil.intValue(httpParams.getInt("messageId"));
 		boolean open = NumberUtil.booleanValue(httpParams.getString("switch"));
 		if (open) {
-			NetGateKeeper.getInstance().openProcotol(messageId);
+			NetGateKeeper.getInstance().openProtocol(messageId);
 		} else {
-			NetGateKeeper.getInstance().closeProcotol(messageId);
+			NetGateKeeper.getInstance().closeProtocol(messageId);
 		}
 
 		LoggerSystem.HTTP_COMMAND.getLogger().info("收到后台命令，切换功能{}开关为{}", messageId, open);

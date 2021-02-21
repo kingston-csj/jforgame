@@ -36,13 +36,13 @@ public class NettySession implements IdSession {
 
 	@Override
 	public Object setAttribute(String key, Object value) {
-		attrs.put(key.toString(), value);
+		attrs.put(key, value);
 		return value;
 	}
 
 	@Override
 	public Object getAttribute(String key) {
-		return attrs.get(key.toString());
+		return attrs.get(key);
 	}
 
 }

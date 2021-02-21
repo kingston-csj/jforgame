@@ -2,11 +2,11 @@ package com.kingston.jforgame.socket.codec.reflect;
 
 import java.nio.ByteBuffer;
 
+import com.kingston.jforgame.socket.mina.CodecProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kingston.jforgame.socket.codec.IMessageEncoder;
-import com.kingston.jforgame.socket.mina.CodecContext;
 import com.kingston.jforgame.socket.message.Message;
 
 public class ReflectEncoder implements IMessageEncoder {
@@ -15,7 +15,7 @@ public class ReflectEncoder implements IMessageEncoder {
 
 	@Override
 	public byte[] writeMessageBody(Message message) {
-		ByteBuffer out = ByteBuffer.allocate(CodecContext.WRITE_CAPACITY);
+		ByteBuffer out = ByteBuffer.allocate(CodecProperties.WRITE_CAPACITY);
 		//写入具体消息的内容
 		try {
 			Codec messageCodec = Codec.getSerializer(message.getClass());

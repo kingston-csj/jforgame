@@ -30,14 +30,14 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 		// packetLength | moduleId | cmd  | body
 		// int             short     byte  byte[]
 
-		IoBuffer buffer = IoBuffer.allocate(CodecContext.WRITE_CAPACITY);
+		IoBuffer buffer = IoBuffer.allocate(CodecProperties.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 
-		// 写入具体消息的内容
 		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+		// 具体消息编码
 		byte[] body = msgEncoder.writeMessageBody(message);
 		// 消息元信息常量3表示消息body前面的两个字段，一个short表示module，一个byte表示cmd,
-		final int metaSize = 3;
+		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
 		// 消息内容长度
 		buffer.putInt(body.length + metaSize);
 		short moduleId = message.getModule();
@@ -46,9 +46,9 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 		buffer.putShort(moduleId);
 		// 写入cmd类型
 		buffer.put(cmd);
-	
+		// 写入消息体
 		buffer.put(body);
-//		// 回到buff字节数组头部
+		// 回到buff字节数组头部
 		buffer.flip();
 
 		return buffer;
