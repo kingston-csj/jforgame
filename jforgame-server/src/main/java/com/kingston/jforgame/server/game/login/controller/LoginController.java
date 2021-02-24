@@ -12,12 +12,12 @@ public class LoginController {
 
 	@RequestMapping
 	public void reqAccountLogin(IdSession session, ReqAccountLogin request) {
-        GameContext.getLoginManager().handleAccountLogin(session, request.getAccountId(), request.getPassword());
+        GameContext.loginManager.handleAccountLogin(session, request.getAccountId(), request.getPassword());
 	}
 
 	@RequestMapping
 	public void reqSelectPlayer(IdSession session, ReqSelectPlayer requst) {
-        GameContext.getLoginManager().handleSelectPlayer(session, requst.getPlayerId());
+        GameContext.loginManager.handleSelectPlayer(session, requst.getPlayerId());
 	}
 
 }

@@ -23,7 +23,7 @@ public class PrivateChatChannel extends ChatChannel {
 	public void doSend(BaseChatMessage message) {
 		TextChatMessage textMessage = (TextChatMessage)message;
 		long receiverId = message.getReceiverId();
-        PlayerEnt receiver = GameContext.getPlayerManager().get(receiverId);
+        PlayerEnt receiver = GameContext.playerManager.get(receiverId);
 		
 		ResPrivateChat targetNotify = new ResPrivateChat();
 		targetNotify.setSenderId(message.getSenderId());

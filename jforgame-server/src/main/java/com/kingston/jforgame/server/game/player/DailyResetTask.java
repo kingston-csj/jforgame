@@ -14,7 +14,7 @@ public class DailyResetTask implements Runnable {
 	@Override
 	public void run() {
 		System.err.println("玩家"+player.getName()+"进行每日重置");
-        GameContext.getPlayerManager().checkDailyReset(player);
+        GameContext.playerManager.checkDailyReset(player);
 	}
 
 }

@@ -26,7 +26,7 @@ public class GameMonitor implements GameMonitorMBean{
 
 	@Override
 	public int getOnlinePlayerSum() {
-		return GameContext.getPlayerManager().getOnlinePlayers().size();
+        return GameContext.playerManager.getOnlinePlayers().size();
 	}
 
 	@Override

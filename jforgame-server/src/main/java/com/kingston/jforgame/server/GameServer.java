@@ -61,6 +61,8 @@ public class GameServer {
 	}
 
 	private void frameworkInit() throws Exception {
+
+		GameContext.init();
 		// 加载服务版本号
 		ServerVersion.load();
 		// 初始化协议池
@@ -86,7 +88,7 @@ public class GameServer {
 		// http admin commands
 		HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 
-		GameContext.getGmManager().init();
+		GameContext.gmManager.init();
 
 		if (config.getCrossPort() > 0) {
 			// 启动跨服服务
@@ -114,7 +116,7 @@ public class GameServer {
 
 	private void gameLogicInit() {
 		// 游戏启动时，各种业务初始化写在这里吧
-		GameContext.getPlayerManager().loadAllPlayerProfiles();
+		GameContext.playerManager.loadAllPlayerProfiles();
 		// 跨服天梯
 //		LadderFightManager.getInstance().init();
 	}

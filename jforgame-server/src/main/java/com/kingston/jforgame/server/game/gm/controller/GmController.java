@@ -10,7 +10,7 @@ public class GmController {
 
 	@RequestMapping
 	public void reqExecGm(long playerId, ReqGmExec msg) {
-        GameContext.getGmManager().receiveCommand(playerId, msg.command);
+        GameContext.gmManager.receiveCommand(playerId, msg.command);
 	}
 	
 }

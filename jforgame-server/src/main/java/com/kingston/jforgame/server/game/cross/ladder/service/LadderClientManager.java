@@ -35,7 +35,7 @@ public class LadderClientManager {
 	
 	
 	public void apply(long playerId) {
-        PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+        PlayerEnt player = GameContext.playerManager.get(playerId);
 		// 一堆业务判断
 		G2M_LadderApply apply = new G2M_LadderApply();
 		apply.setPlayerId(playerId);
@@ -52,11 +52,11 @@ public class LadderClientManager {
 	private void handleFight(LadderMatchVo matchVo) {
 		int selfServerId = ServerConfig.getInstance().getServerId();
 		if (matchVo.getBlueServerId() == selfServerId) {
-            PlayerEnt player = GameContext.getPlayerManager().get(matchVo.getBluePlayerId());
+            PlayerEnt player = GameContext.playerManager.get(matchVo.getBluePlayerId());
 			transferToFight(player, matchVo);
 		}
 		if (matchVo.getRedServerId() == selfServerId) {
-            PlayerEnt player = GameContext.getPlayerManager().get(matchVo.getRedPlayerId());
+            PlayerEnt player = GameContext.playerManager.get(matchVo.getRedPlayerId());
 			transferToFight(player, matchVo);
 		}
 	}

@@ -9,11 +9,11 @@ import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 public class ChatManager {
 	
 	public void privateChat(long receiverId, String content) {
-		PlayerEnt receiver = GameContext.getPlayerManager().get(receiverId);
+        PlayerEnt receiver = GameContext.playerManager.get(receiverId);
 		if (receiver == null) {
 			return;
 		}
-		if (!GameContext.getPlayerManager().isOnline(receiverId)) {
+        if (!GameContext.playerManager.isOnline(receiverId)) {
 			return;
 		}
 		TextChatMessage textMsg = new TextChatMessage();

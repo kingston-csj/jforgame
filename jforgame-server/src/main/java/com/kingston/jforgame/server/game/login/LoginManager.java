@@ -28,11 +28,11 @@ public class LoginManager {
 	 * @param password  账号密码
 	 */
 	public void handleAccountLogin(IdSession session, long accountId, String password) {
-		Account account = GameContext.getAccountManager().getOrCreate(accountId);
+        Account account = GameContext.accountManager.getOrCreate(accountId);
 		session.setAttribute(SessionProperties.ACCOUNT, accountId);
 		
 		List<PlayerLoginVo> players = new ArrayList<>();
-		AccountProfile accountProfile = GameContext.getPlayerManager().getAccountProfiles(accountId);
+		AccountProfile accountProfile = GameContext.playerManager.getAccountProfiles(accountId);
 		List<PlayerProfile> playerProfiles = accountProfile.getPlayers();
 		
 		if (CollectionUtils.isNotEmpty(playerProfiles)) {
@@ -62,12 +62,12 @@ public class LoginManager {
 	 * @param playerId
 	 */
 	public void handleSelectPlayer(IdSession session, long playerId) {
-		PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+		PlayerEnt player = GameContext.playerManager.get(playerId);
 		if (player != null) {
 			//绑定session与玩家id
 			session.setAttribute(IdSession.ID, playerId);
 			//加入在线列表
-			GameContext.getPlayerManager().add2Online(player);
+			GameContext.playerManager.add2Online(player);
 			SessionManager.INSTANCE.registerNewPlayer(playerId, session);
 			//推送进入场景
 			ResPlayerEnterScene response = new ResPlayerEnterScene();
@@ -75,7 +75,7 @@ public class LoginManager {
 			MessagePusher.pushMessage(session, response);
 
 			//检查日重置
-			GameContext.getPlayerManager().checkDailyReset(player);
+			GameContext.playerManager.checkDailyReset(player);
 		}
 	}
 

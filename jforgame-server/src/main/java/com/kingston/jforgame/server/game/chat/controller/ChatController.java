@@ -10,7 +10,7 @@ public class ChatController {
 	
 	@RequestMapping
 	public void reqExecGm(long playerId, ReqPrivateChat req) {
-		GameContext.getChatManager().privateChat(req.getReceiverId(), req.getContent());
+        GameContext.chatManager.privateChat(req.getReceiverId(), req.getContent());
 	}
 	
 

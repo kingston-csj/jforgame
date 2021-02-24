@@ -61,7 +61,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		IdSession userSession = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.UserSession, IdSession.class);
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(userSession);
 		if (playerId > 0) {
-            PlayerEnt player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
+            PlayerEnt player = GameContext.playerManager.getOnlinePlayer(playerId);
 			return player.getName();
 		}
 		return String.valueOf(session);

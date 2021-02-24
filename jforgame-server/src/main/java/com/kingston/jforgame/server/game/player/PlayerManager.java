@@ -40,8 +40,6 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private static PlayerManager instance = new PlayerManager();
-
 	private ConcurrentMap<Long, PlayerEnt> onlines = new ConcurrentHashMap<>();
 
 	/** 全服所有角色的简况 */
@@ -72,7 +70,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 
 		long accountId = baseInfo.getAccountId();
 		// 必须将account加载并缓存
-        Account account = GameContext.getAccountManager().get(accountId);
+		Account account = GameContext.accountManager.get(accountId);
 		accountProfiles.putIfAbsent(accountId, new AccountProfile());
 		AccountProfile accountProfile = accountProfiles.get(accountId);
 		accountProfile.addPlayerProfile(baseInfo);
@@ -83,7 +81,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 		if (accountProfile != null) {
 			return accountProfile;
 		}
-        Account account = GameContext.getAccountManager().get(accountId);
+		Account account = GameContext.accountManager.get(accountId);
 		if (account != null) {
 			accountProfile = new AccountProfile();
 			accountProfile.setAccountId(accountId);
@@ -135,7 +133,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 		response.setPlayerId(playerId);
 		MessagePusher.pushMessage(session, response);
 
-		GameContext.getLoginManager().handleSelectPlayer(session, playerId);
+		GameContext.loginManager.handleSelectPlayer(session, playerId);
 	}
 
 	/**
@@ -210,7 +208,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 	}
 
 	public void playerLogout(long playerId) {
-		PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+		PlayerEnt player = GameContext.playerManager.get(playerId);
 		if (player == null) {
 			return;
 		}
@@ -220,7 +218,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 	}
 
 	public void kickPlayer(long playerId) {
-		PlayerEnt player = GameContext.getPlayerManager().getOnlinePlayer(playerId);
+		PlayerEnt player = GameContext.playerManager.getOnlinePlayer(playerId);
 		if (player == null) {
 			return;
 		}

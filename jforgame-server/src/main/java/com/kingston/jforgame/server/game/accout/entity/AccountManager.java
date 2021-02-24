@@ -23,7 +23,7 @@ public class AccountManager extends BaseCacheService<Long, Account> {
 		Account newAccount = new Account();
 		newAccount.setId(accountId);
 		DbService.getInstance().insertOrUpdate(newAccount);
-		GameContext.getPlayerManager().addAccountProfile(newAccount);
+		GameContext.playerManager.addAccountProfile(newAccount);
 		return newAccount;
 	}
 	

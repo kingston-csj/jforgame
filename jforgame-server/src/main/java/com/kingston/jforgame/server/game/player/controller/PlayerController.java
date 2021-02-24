@@ -11,7 +11,7 @@ public class PlayerController {
 
 	@RequestMapping
 	public void reqCreateNewPlayer(IdSession session, ReqCreateNewPlayer req) {
-        GameContext.getPlayerManager().createNewPlayer(session, req.getName());
+        GameContext.playerManager.createNewPlayer(session, req.getName());
 	}
 
 }

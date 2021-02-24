@@ -29,7 +29,7 @@ public class DailyResetJob implements Job {
 		long now = System.currentTimeMillis();
 
 		SystemParameters.update("dailyResetTimestamp", now);
-        Collection<PlayerEnt> onlines = GameContext.getPlayerManager().getOnlinePlayers().values();
+        Collection<PlayerEnt> onlines = GameContext.playerManager.getOnlinePlayers().values();
 		for (PlayerEnt player:onlines) {
 			//将事件封装成任务，丢回业务线程处理
 			player.mailQueue().onMessageReceive(new DailyResetTask(player));

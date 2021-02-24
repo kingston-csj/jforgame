@@ -119,7 +119,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 		}
 		long playerId = session.getOwnerId();
 		if (playerId > 0) {
-			PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+			PlayerEnt player = GameContext.playerManager.get(playerId);
 			return player.mailQueue();
 		}
 		// TODO why here??
@@ -162,9 +162,9 @@ public class MessageDispatcher implements IMessageDispatcher {
 		long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
 		if (playerId > 0) {
 			logger.info("角色[{}]close session", playerId);
-			PlayerEnt player = GameContext.getPlayerManager().get(playerId);
+			PlayerEnt player = GameContext.playerManager.get(playerId);
 			player.mailQueue().onMessageReceive(() -> {
-				GameContext.getPlayerManager().playerLogout(playerId);
+				GameContext.playerManager.playerLogout(playerId);
 			});
 		}
 	}

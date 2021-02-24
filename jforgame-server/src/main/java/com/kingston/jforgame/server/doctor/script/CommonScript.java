@@ -41,9 +41,9 @@ public class CommonScript {
 			Field field = PlayerManager.class.getDeclaredField("instance");
 			field.setAccessible(true);
 
-            field.set(GameContext.getPlayerManager(), newMgr);
+            field.set(GameContext.playerManager, newMgr);
 
-            PlayerEnt player = GameContext.getPlayerManager().load(12345L);
+            PlayerEnt player = GameContext.playerManager.load(12345L);
 			System.err.println(player.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
