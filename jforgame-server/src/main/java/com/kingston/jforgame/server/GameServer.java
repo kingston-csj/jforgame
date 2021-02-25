@@ -52,7 +52,7 @@ public class GameServer {
 		gameLogicInit();
 
 		stopWatch.stop();
-		logger.error("游戏服务启动，耗时[{}]毫秒", stopWatch.getTime());
+		logger.error("游戏服启动成功，耗时[{}]毫秒", stopWatch.getTime());
 
 		// mbean监控
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
@@ -133,7 +133,7 @@ public class GameServer {
 		}
 		DbService.getInstance().shutDown();
 		stopWatch.stop();
-		logger.error("游戏服务正常关闭，耗时[{}]毫秒", stopWatch.getTime());
+		logger.error("游戏服关闭成功，耗时[{}]毫秒", stopWatch.getTime());
 	}
 
 }

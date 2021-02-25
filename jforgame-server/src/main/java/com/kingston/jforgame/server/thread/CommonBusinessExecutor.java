@@ -46,7 +46,6 @@ public class CommonBusinessExecutor {
                 try {
                     Runnable task = ROOT_QUEUE.take();
                     task.run();
-                    Thread t = Thread.currentThread();
                 } catch (Exception e) {
                     logger.error("task execute failed ", e);
                 }

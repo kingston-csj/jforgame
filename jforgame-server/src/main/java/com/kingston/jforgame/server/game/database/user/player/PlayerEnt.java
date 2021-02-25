@@ -18,7 +18,7 @@ import javax.persistence.Id;
  * @author kingston
  */
 @Entity(name = "player")
-public class PlayerEnt extends BaseEntity implements Actor {
+public class PlayerEnt extends BaseEntity {
 
 	private static final long serialVersionUID = 8913056963732639062L;
 
@@ -142,7 +142,7 @@ public class PlayerEnt extends BaseEntity implements Actor {
 	}
 
 	@Override
-	public MailBox mailQueue() {
+	public MailBox mailBox() {
 		return ThreadCenter.createBusinessMailBox("player");
 	}
 

@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.kingston.jforgame.server.db.BaseEntity;
+import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.server.utils.IdGenerator;
+import com.kingston.jforgame.socket.actor.MailBox;
 
 
 @Entity
@@ -38,6 +40,9 @@ public class Account extends BaseEntity<Long>  {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 
+	@Override
+	public MailBox mailBox() {
+		return ThreadCenter.getLoginQueue().getSharedMailQueue(id);
+	}
 }

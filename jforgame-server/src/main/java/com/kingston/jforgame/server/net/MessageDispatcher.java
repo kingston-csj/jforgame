@@ -109,7 +109,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 
 		CmdMail task = CmdMail.valueOf(session, controller, cmdExecutor.getMethod(), params);
 		// 丢到任务消息队列，不在io线程进行业务处理
-		selectMailQueue(session, message).onMessageReceive(task);
+		selectMailQueue(session, message).receive(task);
 	}
 
 	private MailBox selectMailQueue(IdSession session, Message message) {
@@ -120,7 +120,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 		long playerId = session.getOwnerId();
 		if (playerId > 0) {
 			PlayerEnt player = GameContext.playerManager.get(playerId);
-			return player.mailQueue();
+			return player.mailBox();
 		}
 		// TODO why here??
 		return ThreadCenter.getLoginQueue().getSharedMailQueue(session.hashCode());
@@ -163,7 +163,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 		if (playerId > 0) {
 			logger.info("角色[{}]close session", playerId);
 			PlayerEnt player = GameContext.playerManager.get(playerId);
-			player.mailQueue().onMessageReceive(() -> {
+			player.tell(() -> {
 				GameContext.playerManager.playerLogout(playerId);
 			});
 		}

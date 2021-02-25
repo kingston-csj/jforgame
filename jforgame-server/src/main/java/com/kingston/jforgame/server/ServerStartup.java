@@ -28,9 +28,9 @@ public class ServerStartup {
 		try {
 			GameServer.getInstance().start();
 			// test
-//			PlayerEnt p = GameContext.getPlayerManager().get(10000L);
-//			p.getVipRight().setLevel(111);
-//			p.setExp(222);
+//			PlayerEnt p = GameContext.playerManager.get(10000L);
+//			p.getVipRight().setLevel(123);
+//			p.setExp(234);
 //			p.setName("robot");
 //			DbService.getInstance().saveColumns(p, "vipRight");
 //			Thread.sleep(3000);

@@ -21,7 +21,7 @@ public class MailBox implements Runnable {
      */
     static int THRESHOLD = 100;
 
-    private AtomicBoolean running = new AtomicBoolean();
+    private AtomicBoolean running = new AtomicBoolean(true);
 
     private long id;
 
@@ -35,7 +35,7 @@ public class MailBox implements Runnable {
     /**
      * 当前任务是否在parent里
      */
-    private AtomicBoolean queued = new AtomicBoolean();
+    private AtomicBoolean queued = new AtomicBoolean(false);
 
     public MailBox(LinkedBlockingQueue<Runnable> parent, String module) {
         this.parent = parent;
@@ -43,31 +43,32 @@ public class MailBox implements Runnable {
         this.name = module + "-" + id;
     }
 
-    public void onMessageReceive(Runnable mail) {
+    public void receive(Runnable mail) {
+        if (!running.get()) {
+            return;
+        }
         this.mails.add(mail);
-        if (!queued.compareAndSet(false, true)) {
+        if (queued.compareAndSet(false, true)) {
             parent.add(this);
         }
     }
 
     @Override
     public void run() {
-        while (running.get()) {
-            // 防止任务一直占线
-            int size = mails.size();
-            if (size > THRESHOLD) {
-                logger.warn("[{}]任务堆积严重，任务数量[{}]", name, size);
+        // 防止任务一直占线
+        int size = mails.size();
+        if (size > THRESHOLD) {
+            logger.warn("[{}]任务堆积严重，任务数量[{}]", name, size);
+        }
+        try {
+            while (!mails.isEmpty() && size-- >= 0) {
+                Runnable task = mails.poll();
+                task.run();
             }
-            try {
-                while (!mails.isEmpty() && size-- >= 0) {
-                    Runnable task = mails.poll();
-                    task.run();
-                }
-            } catch (Exception e) {
-                logger.error("", e);
-            } finally {
-                queued.compareAndSet(true, false);
-            }
+        } catch (Exception e) {
+            logger.error("", e);
+        } finally {
+            queued.compareAndSet(true, false);
         }
     }
 

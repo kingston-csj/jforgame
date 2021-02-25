@@ -16,7 +16,6 @@ public class ThreadCenter {
 
     private static int SCHEDULER_CORE = 1;
 
-
     /**
      * 公共业务线程池
      */

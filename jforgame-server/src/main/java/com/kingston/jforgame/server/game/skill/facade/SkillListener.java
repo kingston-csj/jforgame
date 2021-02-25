@@ -9,7 +9,7 @@ import com.kingston.jforgame.server.listener.annotation.Listener;
 public class SkillListener {
 
 	@EventHandler(value=EventType.PLAYER_LEVEL_UP)
-	public void onPlayerLevelup(PlayerLevelUpEvent levelUpEvent) {
+	public void onPlayerLevelUp(PlayerLevelUpEvent levelUpEvent) {
 		System.err.println(getClass().getSimpleName()+"捕捉到事件"+levelUpEvent);
 	}
 

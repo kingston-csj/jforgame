@@ -40,7 +40,7 @@ public class CallBackService {
     }
 
     public void fillCallBack(int index, int rpc, Message message) {
-        if (rpc == 0) {
+        if (rpc == CallbackKinds.RPC_SYNC) {
             RpcResponse callBack = rpcResponse.remove(index);
             if (callBack != null) {
                 callBack.setData(message);
