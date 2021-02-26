@@ -5,10 +5,10 @@ GAME_PID=`pwd`/var/game.pid
 #echo "pid="$GAME_PID
 JMX_IP="10.XX.YY.ZZ"
 #JMX_IP=`ifconfig eth0 | grep "inet addr:" |awk '{print $2}' | cut -c 6-`
-JMX_PORT="10086"
+JMX_PORT="12306"
 
-JVM_ARGS="-Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3"
-JVM_ARGS="$JVM_ARGS="" -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=2 -XX:+PrintGCDetails -XX:-OmitStackTraceInFastThrow" 
+JVM_ARGS="-Xms1024m -Xmx1024m "
+JVM_ARGS="$JVM_ARGS="" -XX:+UseG1GC -XX:ParallelGCThreads=2 -XX:+PrintGCDetails -XX:-OmitStackTraceInFastThrow"
 JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.port="$JMX_PORT
 JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.authenticate=false"
 JVM_ARGS="$JVM_ARGS="" -Dcom.sun.management.jmxremote.ssl=false"

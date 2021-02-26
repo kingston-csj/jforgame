@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/sh
 ./admin.sh stop
 sleep 2
 echo "update code"
