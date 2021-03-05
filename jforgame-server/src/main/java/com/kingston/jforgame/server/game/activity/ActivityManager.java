@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.kingston.jforgame.common.thread.NamedThreadFactory;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 
 public class ActivityManager {

@@ -1,7 +1,7 @@
 package com.kingston.jforgame.server.game.player;
 
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 public class DailyResetTask implements Runnable {
 

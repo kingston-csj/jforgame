@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**

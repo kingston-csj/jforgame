@@ -5,10 +5,10 @@ import com.kingston.jforgame.server.cache.BaseCacheService;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.accout.entity.Account;
+import com.kingston.jforgame.server.game.accout.entity.AccountEnt;
 import com.kingston.jforgame.server.game.core.MessagePusher;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.player.events.PlayerLogoutEvent;
 import com.kingston.jforgame.server.game.player.message.res.ResCreateNewPlayer;
@@ -49,7 +49,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 	private ConcurrentMap<Long, AccountProfile> accountProfiles = new ConcurrentHashMap<>();
 
 	public void loadAllPlayerProfiles() {
-		String sql = "SELECT id, accountId,name,level,job FROM player";
+		String sql = "SELECT id, accountId,name,level,job FROM playerent";
 		try {
 			List<Map<String, Object>> result = DbUtils.queryMapList(DbUtils.DB_USER, sql);
 			for (Map<String, Object> record : result) {
@@ -70,7 +70,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 
 		long accountId = baseInfo.getAccountId();
 		// 必须将account加载并缓存
-		Account account = GameContext.accountManager.get(accountId);
+		AccountEnt account = GameContext.accountManager.get(accountId);
 		accountProfiles.putIfAbsent(accountId, new AccountProfile());
 		AccountProfile accountProfile = accountProfiles.get(accountId);
 		accountProfile.addPlayerProfile(baseInfo);
@@ -81,7 +81,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 		if (accountProfile != null) {
 			return accountProfile;
 		}
-		Account account = GameContext.accountManager.get(accountId);
+		AccountEnt account = GameContext.accountManager.get(accountId);
 		if (account != null) {
 			accountProfile = new AccountProfile();
 			accountProfile.setAccountId(accountId);
@@ -90,8 +90,8 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 		return accountProfile;
 	}
 
-	public void addAccountProfile(Account account) {
-		long accountId = account.getId();
+	public void addAccountProfile(AccountEnt accountEnt) {
+		long accountId = accountEnt.getId();
 		if (accountProfiles.containsKey(accountId)) {
 			throw new RuntimeException("账号重复-->" + accountId);
 		}

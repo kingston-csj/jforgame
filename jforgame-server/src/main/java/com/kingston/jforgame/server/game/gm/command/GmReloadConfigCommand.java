@@ -3,7 +3,7 @@ package com.kingston.jforgame.server.game.gm.command;
 import java.util.List;
 
 import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**

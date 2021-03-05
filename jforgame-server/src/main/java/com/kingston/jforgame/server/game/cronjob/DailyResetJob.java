@@ -2,7 +2,7 @@ package com.kingston.jforgame.server.game.cronjob;
 
 import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.core.SystemParameters;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.player.DailyResetTask;
 import com.kingston.jforgame.server.logs.LoggerSystem;
 import org.quartz.DisallowConcurrentExecution;

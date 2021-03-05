@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.kingston.jforgame.orm.OrmProcessor;
 import com.kingston.jforgame.server.ServerScanPaths;
 import com.kingston.jforgame.server.db.DbUtils;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 /**
  * 测试玩家缓存系统

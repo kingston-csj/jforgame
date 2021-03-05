@@ -5,7 +5,7 @@ import com.kingston.jforgame.server.game.chat.message.ResPrivateChat;
 import com.kingston.jforgame.server.game.chat.model.BaseChatMessage;
 import com.kingston.jforgame.server.game.chat.model.TextChatMessage;
 import com.kingston.jforgame.server.game.core.MessagePusher;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 public class PrivateChatChannel extends ChatChannel {
 

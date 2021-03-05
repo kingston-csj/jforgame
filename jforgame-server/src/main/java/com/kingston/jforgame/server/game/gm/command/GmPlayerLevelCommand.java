@@ -6,7 +6,7 @@ import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.game.database.config.ConfigDataPool;
 import com.kingston.jforgame.server.game.database.config.bean.ConfigPlayerLevel;
 import com.kingston.jforgame.server.game.database.config.storage.ConfigPlayerLevelStorage;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 
 /**

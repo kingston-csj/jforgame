@@ -1,6 +1,6 @@
 package com.kingston.jforgame.server.game.player.serializer;
 
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 import java.io.Serializable;
 

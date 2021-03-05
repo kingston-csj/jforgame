@@ -1,8 +1,12 @@
 package com.kingston.jforgame.server;
 
+import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.common.utils.TimeUtil;
 import com.kingston.jforgame.orm.OrmProcessor;
+import com.kingston.jforgame.orm.ddl.SchemaUpdate;
+import com.kingston.jforgame.orm.utils.DbHelper;
 import com.kingston.jforgame.server.cross.core.CrossServer;
+import com.kingston.jforgame.server.db.BaseEntity;
 import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.GameContext;
@@ -25,6 +29,8 @@ import org.slf4j.LoggerFactory;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
+import java.util.List;
+import java.util.Set;
 
 public class GameServer {
 
@@ -73,6 +79,11 @@ public class GameServer {
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
 		// 初始化数据库连接池
 		DbUtils.init();
+
+		// 数据库自动更新schema
+		Set<Class<?>> codeTables = ClassScanner.listAllSubclasses("com.kingston.jforgame.server.game.database.user", BaseEntity.class);
+		new SchemaUpdate().execute(DbHelper.getConnection(DbUtils.DB_USER), codeTables);
+
 		// 事件驱动
 		ListenerManager.INSTANCE.init();
 		// 初始化job定时任务

@@ -11,7 +11,7 @@ import com.kingston.jforgame.server.game.cross.ladder.message.G2F_LadderTransfer
 import com.kingston.jforgame.server.game.cross.ladder.message.G2M_LadderApply;
 import com.kingston.jforgame.server.game.cross.ladder.message.vo.LadderMatchVo;
 import com.kingston.jforgame.server.game.cross.ladder.utils.CrossJsonUtil;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.logs.LoggerUtils;
 
 /**

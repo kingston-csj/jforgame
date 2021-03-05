@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import com.kingston.jforgame.server.doctor.HotswapManager;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.player.PlayerManager;
 
 /**

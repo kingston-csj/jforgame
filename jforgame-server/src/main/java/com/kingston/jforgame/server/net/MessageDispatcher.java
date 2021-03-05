@@ -2,7 +2,7 @@ package com.kingston.jforgame.server.net;
 
 import com.kingston.jforgame.common.utils.ClassScanner;
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.thread.ThreadCenter;
 import com.kingston.jforgame.socket.IdSession;
 import com.kingston.jforgame.socket.actor.CmdMail;

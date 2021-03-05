@@ -1,9 +1,9 @@
 package com.kingston.jforgame.server.game.login;
 
 import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.accout.entity.Account;
+import com.kingston.jforgame.server.game.accout.entity.AccountEnt;
 import com.kingston.jforgame.server.game.core.MessagePusher;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 import com.kingston.jforgame.server.game.gm.message.ResGmResult;
 import com.kingston.jforgame.server.game.login.message.res.ResAccountLogin;
 import com.kingston.jforgame.server.game.login.message.vo.PlayerLoginVo;
@@ -28,7 +28,7 @@ public class LoginManager {
 	 * @param password  账号密码
 	 */
 	public void handleAccountLogin(IdSession session, long accountId, String password) {
-        Account account = GameContext.accountManager.getOrCreate(accountId);
+        AccountEnt account = GameContext.accountManager.getOrCreate(accountId);
 		session.setAttribute(SessionProperties.ACCOUNT, accountId);
 		
 		List<PlayerLoginVo> players = new ArrayList<>();

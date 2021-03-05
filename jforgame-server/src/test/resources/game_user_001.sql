@@ -41,14 +41,14 @@ CREATE TABLE `player` (
   `job` tinyint(4) DEFAULT '0',
   `exp` bigint(20) DEFAULT '0',
   `lastDailyReset` bigint(255) DEFAULT NULL,
-  `vipRightJson` varchar(255) DEFAULT NULL,
+  `vipRight` varchar(255) DEFAULT NULL,
   `platform` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of player
 -- ----------------------------
-INSERT INTO `player` VALUES ('10000', null, '99', 'kingston', '1', '12345', null, null, null);
+INSERT INTO `player` VALUES ('10000', null, '99', 'winner', '1', '12345', null, null, null);
 
 -- ----------------------------
 -- Table structure for systemrecord

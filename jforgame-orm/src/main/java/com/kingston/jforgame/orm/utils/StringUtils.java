@@ -8,6 +8,10 @@ public final class StringUtils {
 		return word == null || word.length() <= 0;
 	}
 
+	public static boolean isNotEmpty(String word) {
+		return !isEmpty(word);
+	}
+
 	/**
 	 * 将单词的第一个字母大写
 	 * @param word

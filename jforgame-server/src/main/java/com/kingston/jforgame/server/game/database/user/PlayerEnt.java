@@ -1,4 +1,4 @@
-package com.kingston.jforgame.server.game.database.user.player;
+package com.kingston.jforgame.server.game.database.user;
 
 import com.kingston.jforgame.orm.converter.Convert;
 import com.kingston.jforgame.server.db.BaseEntity;
@@ -6,7 +6,6 @@ import com.kingston.jforgame.server.db.JsonAttributeConverter;
 import com.kingston.jforgame.server.game.login.model.Platform;
 import com.kingston.jforgame.server.game.vip.model.VipRight;
 import com.kingston.jforgame.server.thread.ThreadCenter;
-import com.kingston.jforgame.socket.actor.Actor;
 import com.kingston.jforgame.socket.actor.MailBox;
 
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import javax.persistence.Id;
  * 玩家实体
  * @author kingston
  */
-@Entity(name = "player")
+@Entity(name = "playerent")
 public class PlayerEnt extends BaseEntity {
 
 	private static final long serialVersionUID = 8913056963732639062L;
@@ -54,7 +53,7 @@ public class PlayerEnt extends BaseEntity {
 	@Convert(converter = JsonAttributeConverter.class)
 	private VipRight vipRight;
 
-	@Column
+	@Column(columnDefinition="varchar(16)")
 	private Platform platform;
 
 	public PlayerEnt() {

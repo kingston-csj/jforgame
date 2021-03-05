@@ -1,8 +1,5 @@
 package com.kingston.jforgame.server;
 
-import com.kingston.jforgame.server.db.DbService;
-import com.kingston.jforgame.server.game.GameContext;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

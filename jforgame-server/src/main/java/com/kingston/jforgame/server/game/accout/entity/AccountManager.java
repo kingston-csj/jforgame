@@ -5,22 +5,22 @@ import com.kingston.jforgame.server.db.DbService;
 import com.kingston.jforgame.server.db.DbUtils;
 import com.kingston.jforgame.server.game.GameContext;
 
-public class AccountManager extends BaseCacheService<Long, Account> {
+public class AccountManager extends BaseCacheService<Long, AccountEnt> {
 
 	@Override
-	public Account load(Long accountId) throws Exception {
+	public AccountEnt load(Long accountId) throws Exception {
 		String sql = "SELECT * FROM account WHERE id = ? ";
-		Account account = DbUtils.queryOneById(DbUtils.DB_USER, sql, Account.class, String.valueOf(accountId));
+		AccountEnt account = DbUtils.queryOneById(DbUtils.DB_USER, sql, AccountEnt.class, String.valueOf(accountId));
 		return account;
 	}
 	
-	public Account getOrCreate(long accountId) {
-		Account account = get(accountId);
+	public AccountEnt getOrCreate(long accountId) {
+		AccountEnt account = get(accountId);
 		if (account != null) {
 			return account;
 		}
 		
-		Account newAccount = new Account();
+		AccountEnt newAccount = new AccountEnt();
 		newAccount.setId(accountId);
 		DbService.getInstance().insertOrUpdate(newAccount);
 		GameContext.playerManager.addAccountProfile(newAccount);

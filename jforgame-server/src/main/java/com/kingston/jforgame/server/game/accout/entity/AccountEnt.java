@@ -11,7 +11,7 @@ import com.kingston.jforgame.socket.actor.MailBox;
 
 
 @Entity
-public class Account extends BaseEntity<Long>  {
+public class AccountEnt extends BaseEntity<Long>  {
 	
 	@Id
 	@Column
@@ -20,7 +20,7 @@ public class Account extends BaseEntity<Long>  {
 	@Column
 	private String name;
 	
-	public Account() {
+	public AccountEnt() {
 		this.id = IdGenerator.getNextId();
 	}
 

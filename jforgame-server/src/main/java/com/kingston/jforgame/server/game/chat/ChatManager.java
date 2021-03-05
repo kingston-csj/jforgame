@@ -4,7 +4,7 @@ import com.kingston.jforgame.server.game.GameContext;
 import com.kingston.jforgame.server.game.chat.channel.ChannelType;
 import com.kingston.jforgame.server.game.chat.channel.ChatChannel;
 import com.kingston.jforgame.server.game.chat.model.TextChatMessage;
-import com.kingston.jforgame.server.game.database.user.player.PlayerEnt;
+import com.kingston.jforgame.server.game.database.user.PlayerEnt;
 
 public class ChatManager {
 	
