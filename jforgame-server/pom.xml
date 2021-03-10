@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.kingston</groupId>
+        <groupId>org.jforgame</groupId>
         <artifactId>jforgame-parent</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -23,21 +23,21 @@
     <dependencies>
         <!-- 该项目其他模块 -->
         <dependency>
-            <groupId>com.kingston</groupId>
+            <groupId>org.jforgame</groupId>
             <artifactId>jforgame-common</artifactId>
-            <version>${project.parent.version}</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.kingston</groupId>
+            <groupId>org.jforgame</groupId>
             <artifactId>jforgame-net</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.kingston</groupId>
+            <groupId>org.jforgame</groupId>
             <artifactId>jforgame-orm</artifactId>
         </dependency>
 <!--        <dependency>-->
-<!--            <groupId>com.kingston</groupId>-->
+<!--            <groupId>org.jforgame</groupId>-->
 <!--            <artifactId>hotswap-util</artifactId>-->
 <!--            <version>${project.parent.version}</version>-->
 <!--        </dependency>-->
@@ -194,6 +194,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.jforgame</groupId>
+            <artifactId>jforgame-orm</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
     <build>
@@ -214,7 +220,7 @@
             <!--				<version>1.2.8</version>-->
             <!--				<configuration>-->
             <!--					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>-->
-            <!--					<filterClassPackage>com.kingston.jforgame.server.game</filterClassPackage>-->
+            <!--					<filterClassPackage>com.kinson.jforgame.server.game</filterClassPackage>-->
             <!--				</configuration>-->
             <!--				<executions>-->
             <!--					<execution>-->
@@ -289,7 +295,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>com.kingston.jforgame.server.ServerStartup</mainClass>
+                            <mainClass>jforgame.server.ServerStartup</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

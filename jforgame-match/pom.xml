@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.kingston</groupId>
+		<groupId>org.jforgame</groupId>
 		<artifactId>jforgame-parent</artifactId>
 		<version>1.0.0</version>
 	</parent>
@@ -40,15 +40,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.kingston</groupId>
+			<groupId>com.kinson</groupId>
 			<artifactId>jforgame-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.kingston</groupId>
+			<groupId>org.jforgame</groupId>
 			<artifactId>jforgame-net</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- 网关相关 -->

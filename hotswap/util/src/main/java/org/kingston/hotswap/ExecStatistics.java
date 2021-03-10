@@ -1,4 +1,4 @@
-package org.kingston.hotswap;
+package org.kinson.hotswap;
 
 public class ExecStatistics {
 }

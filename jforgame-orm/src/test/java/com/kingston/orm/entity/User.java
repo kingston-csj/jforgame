@@ -1,6 +1,6 @@
-package com.kingston.orm.entity;
+package com.kinson.orm.entity;
 
-import com.kingston.jforgame.orm.cache.AbstractCacheable;
+import jforgame.orm.cache.AbstractCacheable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

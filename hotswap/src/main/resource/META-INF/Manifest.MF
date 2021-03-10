@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Agent-Class: org.kingston.hotswap.MyAgent
+Agent-Class: org.kinson.hotswap.MyAgent
 Can-Redefine-Classes: true

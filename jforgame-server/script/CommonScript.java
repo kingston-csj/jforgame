@@ -1,9 +1,9 @@
-package com.kingston.doctor.script;
+package com.kinson.doctor.script;
 
 import java.lang.reflect.Field;
 
-import com.kingston.game.database.user.player.Player;
-import com.kingston.game.player.PlayerManager;
+import com.kinson.game.database.user.player.Player;
+import com.kinson.game.player.PlayerManager;
 
 public class CommonScript {
 
