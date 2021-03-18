@@ -14,7 +14,7 @@ public class ServerStartup {
 
 	public static void main(String args[]) {
 		// vm arguments:
-		// -Xms1024m -Xmx1024m -Xmn512m -XX:MaxTenuringThreshold=3 -XX:+UseG1GC
+		// -Xms1024m -Xmx1024m -Xmn1024m -XX:MaxTenuringThreshold=3 -XX:+UseG1GC
 		// -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime
 		// -XX:-OmitStackTraceInFastThrow -XX:+PrintTenuringDistribution
 		// -Dcom.sun.management.jmxremote.port=10086

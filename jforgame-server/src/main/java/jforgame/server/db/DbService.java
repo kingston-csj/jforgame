@@ -54,6 +54,11 @@ public class DbService {
      * @param entity
      */
     public void insertOrUpdate(BaseEntity entity) {
+        // 防止重复添加
+        if (entity.isSaving()) {
+            return;
+        }
+        entity.setSaving();
         commonWorker.addToQueue(entity);
     }
 
