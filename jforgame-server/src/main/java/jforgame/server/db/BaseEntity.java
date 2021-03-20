@@ -1,11 +1,9 @@
 package jforgame.server.db;
 
-import com.sun.org.apache.regexp.internal.RE;
 import jforgame.orm.cache.AbstractCacheable;
 import jforgame.socket.actor.Actor;
 
 import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * abstract base class for db entity

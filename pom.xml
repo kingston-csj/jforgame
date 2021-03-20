@@ -20,13 +20,13 @@
 	</properties>
 
 	<modules>
-		<module>jforgame-server</module>
-		<module>jforgame-common</module>
 		<module>hotswap</module>
+		<module>jforgame-common</module>
 		<module>jforgame-net</module>
 		<module>jforgame-orm</module>
 		<module>jforgame-match</module>
         <module>jforgame-merge</module>
+		<module>jforgame-server</module>
     </modules>
 
 	<!-- 阿里云maven仓库 -->
@@ -43,12 +43,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>com.kinson</groupId>
-				<artifactId>jforgame-orm</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-
 			<!-- 日志系统 -->
 			<dependency>
 				<groupId>org.slf4j</groupId>

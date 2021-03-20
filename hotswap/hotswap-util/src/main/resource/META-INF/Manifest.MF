@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Agent-Class: jforgame.hotswap.MyAgent
-Can-Redefine-Classes: true

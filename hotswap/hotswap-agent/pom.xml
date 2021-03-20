@@ -6,12 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jforgame</groupId>
-		<artifactId>jforgame-parent</artifactId>
+		<artifactId>jforgame-hotswap</artifactId>
 		<version>1.0.0</version>
-		<relativePath></relativePath>
 	</parent>
 	<artifactId>hotswap-agent</artifactId>
-
 
 	<build>
 		<plugins>

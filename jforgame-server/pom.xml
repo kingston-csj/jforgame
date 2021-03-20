@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.jforgame</groupId>
             <artifactId>jforgame-common</artifactId>
-            <version>1.0.0</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jforgame</groupId>
@@ -35,6 +35,7 @@
         <dependency>
             <groupId>org.jforgame</groupId>
             <artifactId>jforgame-orm</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.jforgame</groupId>-->

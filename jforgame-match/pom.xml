@@ -40,15 +40,16 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.kinson</groupId>
+			<groupId>org.jforgame</groupId>
 			<artifactId>jforgame-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jforgame</groupId>
 			<artifactId>jforgame-net</artifactId>
 			<version>1.0.0</version>
+
 		</dependency>
 
 		<!-- 网关相关 -->

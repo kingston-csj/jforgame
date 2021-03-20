@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.jforgame</groupId>
 			<artifactId>jforgame-common</artifactId>
-			<version>1.0.0</version>
+			<version>${project.parent.version}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
