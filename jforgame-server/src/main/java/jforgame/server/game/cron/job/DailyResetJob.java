@@ -1,4 +1,4 @@
-package jforgame.server.game.cronjob;
+package jforgame.server.game.cron.job;
 
 import jforgame.server.game.GameContext;
 import jforgame.server.game.core.SystemParameters;

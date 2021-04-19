@@ -15,7 +15,7 @@
 		<job>
 			<name>DailyResetJob</name>
 			<group>DEFAULT</group>
-			<job-class>jforgame.server.game.cronjob.DailyResetJob</job-class>
+			<job-class>jforgame.server.game.cron.job.DailyResetJob</job-class>
 		</job>
 		<trigger>
 			<cron>

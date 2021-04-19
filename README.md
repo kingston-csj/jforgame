@@ -16,7 +16,6 @@
   ``` 
   jforgame
   ├── jforgame-common  --基础公共服务  
-  ├── jforgame-admin   --后台管理web工具  
   ├── jforgame-match   --跨服匹配服  
   ├── jforgame-merge   --合服工具        
   ├── jforgame-net     --包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型      
