@@ -14,10 +14,6 @@
 	<artifactId>hotswap-util</artifactId>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>com.sun</groupId>-->
 <!--			<artifactId>tools</artifactId>-->
