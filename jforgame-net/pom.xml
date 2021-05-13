@@ -48,13 +48,6 @@
             <artifactId>jprotobuf-precompile-plugin</artifactId>
         </dependency>
 
-        <!-- json utils -->
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <!--		<dependency>-->
-        <!--			<groupId>com.google.code.gson</groupId>-->
-        <!--			<artifactId>gson</artifactId>-->
-        <!--		</dependency>-->
-
         <!-- 其他 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -62,14 +55,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
             <scope>provided</scope>
         </dependency>
 

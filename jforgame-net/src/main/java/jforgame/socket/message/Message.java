@@ -1,8 +1,8 @@
 package jforgame.socket.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.actor.MailBox;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Message {

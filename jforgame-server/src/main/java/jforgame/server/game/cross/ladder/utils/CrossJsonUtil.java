@@ -1,14 +1,14 @@
 package jforgame.server.game.cross.ladder.utils;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.ArrayType;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.type.JavaType;
 
 /**
  * 跨服专用json工具
@@ -65,16 +65,6 @@ public class CrossJsonUtil {
 		JavaType type = typeFactory.constructMapType(HashMap.class, keyClazz, valueClazz);
 		try {
 			return MAPPER.readValue(json, type);
-		} catch(Exception e) {
-			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T[] string2Array(String json, Class<T> clazz) {
-		JavaType type = ArrayType.construct(typeFactory.constructType(clazz));
-		try {
-			return (T[]) MAPPER.readValue(json, type);
 		} catch(Exception e) {
 			return null;
 		}

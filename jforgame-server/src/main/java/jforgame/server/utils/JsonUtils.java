@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.ArrayType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import jforgame.server.logs.LoggerUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.ArrayType;
-import org.codehaus.jackson.map.type.TypeFactory;
-import org.codehaus.jackson.type.JavaType;
 
 /**
  * json序列号工具（使用jackson）
@@ -74,7 +74,7 @@ public final class JsonUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T[] string2Array(String json, Class<T> clazz) {
-		JavaType type = ArrayType.construct(typeFactory.constructType(clazz));
+		ArrayType type = typeFactory.constructArrayType(clazz);
 		try {
 			return (T[]) MAPPER.readValue(json, type);
 		} catch(Exception e) {
@@ -91,6 +91,5 @@ public final class JsonUtils {
 			return null;
 		}													
 	}
-
 
 }
