@@ -47,4 +47,8 @@ public class SerializerHelper {
 		return serializerFactory.getEncoder();
 	}
 
+	public SerializerFactory getSerializerFactory() {
+		return serializerFactory;
+	}
+
 }
