@@ -1,127 +1,135 @@
 package jforgame.server.cross.core;
 
+import jforgame.common.thread.NamedThreadFactory;
 import jforgame.server.cross.core.callback.CallBackService;
-import jforgame.server.cross.core.callback.CallbackAction;
-import jforgame.server.cross.core.callback.CallbackKinds;
-import jforgame.server.cross.core.callback.CallbackTask;
+import jforgame.server.cross.core.callback.CallTimeoutException;
 import jforgame.server.cross.core.callback.G2FCallBack;
+import jforgame.server.cross.core.callback.RequestCallback;
+import jforgame.server.cross.core.callback.RequestResponseFuture;
 import jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import jforgame.server.cross.core.client.CCSession;
-import jforgame.server.logs.LoggerUtils;
-import jforgame.server.thread.SchedulerManager;
-import jforgame.common.thread.NamedThreadFactory;
-import jforgame.common.utils.TimeUtil;
 import jforgame.socket.message.Message;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CrossTransportManager {
 
-	private static volatile CrossTransportManager instance;
+    private static volatile CrossTransportManager instance;
 
-	private int defaultCoreSum = Runtime.getRuntime().availableProcessors();
+    private int defaultCoreSum = Runtime.getRuntime().availableProcessors();
 
-	private ExecutorService[] services;
+    private ExecutorService[] services;
 
-	private ExecutorService asynService;
+    private C2SSessionPoolFactory sessionFactory;
 
-	private C2SSessionPoolFactory sessionFactory;
-	
-	public static CrossTransportManager getInstance() {
-		if (instance != null) {
-			return instance;
-		}
-		synchronized (CrossTransportManager.class) {
-			if (instance == null) {
-				CrossTransportManager obj = new CrossTransportManager();
-				obj.init();
-				instance = obj;
-			}
-			
-		}
-		return instance;
-	}
+    private AtomicInteger idFactory = new AtomicInteger();
 
-	private void init() {
-		services = new ExecutorService[defaultCoreSum];
-		for (int i = 0; i < defaultCoreSum; i++) {
-			services[i] = Executors.newSingleThreadExecutor(new NamedThreadFactory("cross-ladder-transport" + i));
-		}
+    public static CrossTransportManager getInstance() {
+        if (instance != null) {
+            return instance;
+        }
+        synchronized (CrossTransportManager.class) {
+            if (instance == null) {
+                CrossTransportManager obj = new CrossTransportManager();
+                obj.init();
+                instance = obj;
+            }
 
-		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-		config.setMaxTotal(5);
-		config.setMaxWaitMillis(5000);
-		sessionFactory = new C2SSessionPoolFactory(config);
+        }
+        return instance;
+    }
 
-		asynService = Executors.newFixedThreadPool(defaultCoreSum);
-	}
+    private void init() {
+        services = new ExecutorService[defaultCoreSum];
+        for (int i = 0; i < defaultCoreSum; i++) {
+            services[i] = Executors.newSingleThreadExecutor(new NamedThreadFactory("cross-ladder-transport" + i));
+        }
 
-	/**
-	 * 同步发消息
-	 * 
-	 * @param ip
-	 * @param port
-	 * @param message
-	 */
-	public void sendMessage(String ip, int port, Message message) {
-		CCSession session = sessionFactory.borrowSession(ip, port);
-		session.sendMessage(message);
-	}
+        GenericObjectPoolConfig config = new GenericObjectPoolConfig();
+        config.setMaxTotal(5);
+        config.setMaxWaitMillis(5000);
+        sessionFactory = new C2SSessionPoolFactory(config);
+    }
 
-	/**
-	 * 异步发消息
-	 * 
-	 * @param ip
-	 * @param port
-	 * @param message
-	 */
-	public void sendMessageAsync(String ip, int port, Message message) {
-		String key = (ip + port).toString();
-		int index = key.hashCode() % defaultCoreSum;
-		services[index].submit(() -> {
-			sendMessage(ip, port, message);
-		});
-	}
+    /**
+     * 同步发消息
+     *
+     * @param ip
+     * @param port
+     * @param message
+     */
+    public void sendMessage(String ip, int port, Message message) {
+        CCSession session = sessionFactory.borrowSession(ip, port);
+        session.sendMessage(message);
+    }
 
-	/**
-	 * 发送消息并返回执行结果(类似rpc消息返回值)
-	 * @param session
-	 * @param request
-	 * @return
-	 */
-	public Message sendWithReturn(CCSession session, G2FCallBack request) {
-		request.setRpc(CallbackKinds.RPC_SYNC);
-		CallbackTask task = CallbackTask.valueOf(session, request);
-		try {
-			return asynService.submit(task).get();
-		} catch (ExecutionException | InterruptedException e) {
-			LoggerUtils.error("跨服消息发送失败", e);
-			return null;
-		}
-	}
+    /**
+     * 异步发消息
+     *
+     * @param ip
+     * @param port
+     * @param message
+     */
+    public void sendMessageAsync(String ip, int port, Message message) {
+        String key = (ip + port).toString();
+        int index = key.hashCode() % defaultCoreSum;
+        services[index].submit(() -> {
+            sendMessage(ip, port, message);
+        });
+    }
 
-	/**
-	 * 发送消息并注册回调任务
-	 * @param session
-	 * @param request
-	 * @return
-	 */
-	public void callback(CCSession session, G2FCallBack request, CallbackAction callBack) {
-		request.setRpc(CallbackKinds.RPC_ASYNC);
-		request.serialize();
+    /**
+     * 发送消息并返回执行结果(类似rpc消息返回值)
+     *
+     * @param session
+     * @param request
+     * @return
+     */
+    public Message request(CCSession session, G2FCallBack request) throws InterruptedException, CallTimeoutException {
+        int timeout = 5000;
+        int index = request.getIndex();
+        request.serialize();
+        session.sendMessage(request);
 
-		CallBackService.getInstance().registerCallback(request.getIndex(), callBack);
-		session.sendMessage(request);
-		ScheduledFuture future = SchedulerManager.schedule(() -> {
-			LoggerUtils.error("跨服消息回调超时", request.getClass().getSimpleName());
-			callBack.onError();
-			CallBackService.getInstance().removeCallback(request.getIndex());
-		}, TimeUtil.ONE_SECOND * 5);
-		callBack.setFuture(future);
-	}
+        final RequestResponseFuture future = new RequestResponseFuture(index,  timeout,null);
+        try {
+            CallBackService.getInstance().register(index, future);
+            Message responseMessage = future.waitResponseMessage(timeout);
+            if (responseMessage == null) {
+                CallTimeoutException exception = new CallTimeoutException("send request message  failed");
+                future.setCause(exception);
+                throw exception;
+            } else {
+                return responseMessage;
+            }
+        } catch (InterruptedException e) {
+            future.setCause(e);
+            throw e;
+        } finally {
+            CallBackService.getInstance().remove(index);
+            C2SSessionPoolFactory.getInstance().returnSession(session);
+        }
+    }
+
+
+    /**
+     * 发送消息并注册回调任务
+     *
+     * @param session
+     * @param request
+     * @return
+     */
+    public void request(CCSession session, G2FCallBack request, RequestCallback callBack) {
+        request.serialize();
+        int timeout = 5000;
+        int index = request.getIndex();
+        final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(index, timeout, callBack);
+        CallBackService.getInstance().register(index, requestResponseFuture);
+        session.sendMessage(request);
+
+    }
 
 }

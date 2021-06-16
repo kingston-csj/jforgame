@@ -15,7 +15,7 @@ public class ServerScanPaths {
 	/**
 	 * rpc回调处理器
 	 */
-	public static final String RPC_CALL_BACK_PATH = "jforgame.serve";
+	public static final String RPC_CALL_BACK_PATH = "jforgame.server";
 
 	/**
 	 * io通信消息

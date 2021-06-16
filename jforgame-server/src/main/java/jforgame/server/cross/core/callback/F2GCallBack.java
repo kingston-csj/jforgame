@@ -15,8 +15,6 @@ public class F2GCallBack extends Message {
 
     private int index;
 
-    private int rpc;
-
     private String data;
 
     private String msgClass;
@@ -51,14 +49,6 @@ public class F2GCallBack extends Message {
 
     public void setMsgClass(String msgClass) {
         this.msgClass = msgClass;
-    }
-
-    public int getRpc() {
-        return rpc;
-    }
-
-    public void setRpc(int rpc) {
-        this.rpc = rpc;
     }
 
     public Message getMessage() {

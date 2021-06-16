@@ -1,5 +1,6 @@
 package jforgame.server;
 
+import jforgame.server.cross.demo.CrossDemoGameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +32,8 @@ public class ServerStartup {
 //			DbService.getInstance().saveColumns(p, "vipRight");
 //			Thread.sleep(3000);
 //			DbService.getInstance().insertOrUpdate(p);
+
+			CrossDemoGameService.sayHello();
 		} catch (Exception e) {
 			logger.error("server start failed", e);
 			System.exit(-1);

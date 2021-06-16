@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import jforgame.server.ServerScanPaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +41,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 	}
 
 	private void initialize() {
-		Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation("com.kinson.jforgame.server",
+		Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation(ServerScanPaths.MESSAGE_PATH,
 				CrossController.class);
 
 		for (Class<?> controller : controllers) {

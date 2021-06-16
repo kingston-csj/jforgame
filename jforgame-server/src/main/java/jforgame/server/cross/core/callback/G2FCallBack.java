@@ -3,13 +3,13 @@ package jforgame.server.cross.core.callback;
 import jforgame.server.cross.core.CrossCommands;
 import jforgame.server.game.Modules;
 import jforgame.server.utils.JsonUtils;
-import jforgame.server.cross.demo.CrossDemoGameService;
 import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 跨服回调请求方
@@ -17,23 +17,24 @@ import java.util.Map;
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_CALL_BACK)
 public class G2FCallBack extends Message {
 
+    /**
+     * 关联id {@link RequestResponseFuture#getCorrelationId()}
+     */
     private int index;
 
     /**
-     * 子类型 {@link CrossDemoGameService}
+     * 子类型 {@link CallBackCommands#HELLO}
      */
     private int command;
 
     private transient Map<String, String> params = new HashMap<>();
 
     private String data;
-    /**
-     * 响应类型：{@link CallbackKinds#RPC_ASYNC}
-     */
-    private int rpc;
+
+    private AtomicInteger idFactory = new AtomicInteger();
 
     public G2FCallBack() {
-        int index = RpcResponse.nextMsgId();
+        int index = idFactory.getAndIncrement();
         setIndex(index);
     }
 
@@ -79,11 +80,4 @@ public class G2FCallBack extends Message {
         return params;
     }
 
-    public int getRpc() {
-        return rpc;
-    }
-
-    public void setRpc(int rpc) {
-        this.rpc = rpc;
-    }
 }

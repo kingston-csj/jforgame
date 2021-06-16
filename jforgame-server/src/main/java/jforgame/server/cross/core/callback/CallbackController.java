@@ -9,6 +9,11 @@ import jforgame.socket.message.Message;
 @CrossController
 public class CallbackController {
 
+    public CallbackController() {
+        // 初始化
+        CallBackService.getInstance();
+    }
+
     @RequestMapping
     public void onReqCallBack(SCSession session, G2FCallBack req) {
         int cmdType = req.getCommand();
@@ -23,7 +28,7 @@ public class CallbackController {
     public void onRespCallBack(CCSession session, F2GCallBack response) {
         try {
             Message callback = response.getMessage();
-            CallBackService.getInstance().fillCallBack(response.getIndex(), response.getRpc(), callback);
+            CallBackService.getInstance().fillCallBack(response.getIndex(), callback);
         } catch (Exception e) {
             e.printStackTrace();
         }
