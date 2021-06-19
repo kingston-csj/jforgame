@@ -43,7 +43,7 @@ public class ServerConfig {
 	private String matchUrl;
 	/** 本服是否為跨服 */
 	@Element(required = true)
-	private boolean fight;
+	private int fight;
 	/** 对外跨服端口 */
 	@Element(required = true)
 	private int crossPort;
@@ -119,8 +119,20 @@ public class ServerConfig {
 		return matchUrl;
 	}
 
+	/**
+	 * 该服为战斗服
+	 * @return
+	 */
 	public boolean isFight() {
-		return fight;
+		return fight == 1;
+	}
+
+	/**
+	 * 该服为匹配中心服
+	 * @return
+	 */
+	public boolean isCenter() {
+		return fight == 2;
 	}
 
 	public int getCrossPort() {
@@ -135,7 +147,7 @@ public class ServerConfig {
 		this.serverPort = serverPort;
 	}
 
-	public void setFight(boolean fight) {
+	public void setFight(int fight) {
 		this.fight = fight;
 	}
 

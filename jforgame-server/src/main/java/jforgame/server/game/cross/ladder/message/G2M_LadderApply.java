@@ -1,8 +1,8 @@
 package jforgame.server.game.cross.ladder.message;
 
-import jforgame.server.match.AbstractMatchMessage;
+import jforgame.socket.message.Message;
 
-public class G2M_LadderApply extends AbstractMatchMessage {
+public class G2M_LadderApply extends Message {
 
     private long playerId;
     /**

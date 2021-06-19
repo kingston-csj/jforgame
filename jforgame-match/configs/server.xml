@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<server>
-	<!-- http匹配服 -->
-	<http-server>
-		<http_port>8899</http_port>
-		<white_ips>127.0.0.1;192.168.*;10.11.*</white_ips>
-	</http-server>
-</server>

@@ -47,7 +47,6 @@ public class CrossTransportManager {
         for (int i = 0; i < defaultCoreSum; i++) {
             services[i] = Executors.newSingleThreadExecutor(new NamedThreadFactory("cross-ladder-transport" + i));
         }
-
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
         config.setMaxTotal(5);
         config.setMaxWaitMillis(5000);
@@ -74,7 +73,7 @@ public class CrossTransportManager {
      * @param message
      */
     public void sendMessageAsync(String ip, int port, Message message) {
-        String key = (ip + port).toString();
+        String key = ip + port;
         int index = key.hashCode() % defaultCoreSum;
         services[index].submit(() -> {
             sendMessage(ip, port, message);
@@ -128,8 +127,9 @@ public class CrossTransportManager {
         int index = request.getIndex();
         final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(index, timeout, callBack);
         CallBackService.getInstance().register(index, requestResponseFuture);
-        session.sendMessage(request);
-
+        session.sendMessage(request, ()->{
+            C2SSessionPoolFactory.getInstance().returnSession(session);
+        });
     }
 
 }

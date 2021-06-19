@@ -6,15 +6,14 @@
 	<!-- 客户端封包最大字节数 -->
 	<maxReceiveBytes>4096</maxReceiveBytes>
 
-
 	<!-- http后台管理 -->
 	<adminPort>8080</adminPort>
 	<whiteIps>127.0.0.1;192.168.*;10.11.*</whiteIps>
 
-	<!--匹配服http地址 -->
-	<matchUrl>http://localhost:8899/</matchUrl>
+	<!--匹配服ip端口地址 -->
+	<matchUrl>localhost:8899/</matchUrl>
 	<!--本服是否为战斗服 -->
-	<fight>false</fight>
+	<fight>0</fight>
 	<!--对外跨服端口 -->
 	<crossPort>9627</crossPort>
 

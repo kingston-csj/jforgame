@@ -9,7 +9,6 @@
   jforgame  
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  
-  ├── jforgame-match  --cross matching service  
   ├── jforgame-net    --including io message codec, message request mapper, message thread model    
   ├── jforgame-orm   --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── hotswap-agent  --support hotswap without restarting server

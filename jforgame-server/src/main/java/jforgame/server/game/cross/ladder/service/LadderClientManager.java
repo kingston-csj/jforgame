@@ -3,9 +3,9 @@ package jforgame.server.game.cross.ladder.service;
 import java.io.IOException;
 
 import jforgame.server.ServerConfig;
+import jforgame.server.cross.core.CrossTransportManager;
 import jforgame.server.cross.core.client.C2SSessionPoolFactory;
 import jforgame.server.cross.core.client.CCSession;
-import jforgame.server.match.MatchHttpUtil;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.cross.ladder.message.G2F_LadderTransfer;
 import jforgame.server.game.cross.ladder.message.G2M_LadderApply;
@@ -13,6 +13,7 @@ import jforgame.server.game.cross.ladder.message.vo.LadderMatchVo;
 import jforgame.server.game.cross.ladder.utils.CrossJsonUtil;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.server.logs.LoggerUtils;
+import jforgame.socket.IdSession;
 
 /**
  * 天梯游戏服（客户端）业务处理
@@ -42,10 +43,13 @@ public class LadderClientManager {
 		apply.setPower(100);
 		apply.setScore(100);
 		try {
-			MatchHttpUtil.submit(apply);
-		} catch (IOException e) {
+			CCSession session = C2SSessionPoolFactory.getInstance().borrowCenterSession();
+			session.sendMessage(apply);
+		} catch (Exception e) {
 			LoggerUtils.error("天梯报错异常，玩家:" + playerId, e);
 			return;
+		} finally {
+
 		}
 	}
 	

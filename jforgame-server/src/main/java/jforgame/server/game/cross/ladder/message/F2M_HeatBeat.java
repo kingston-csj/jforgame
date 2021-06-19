@@ -1,9 +1,8 @@
 package jforgame.server.game.cross.ladder.message;
 
 import jforgame.server.ServerConfig;
-import jforgame.server.match.AbstractMatchMessage;
 
-public class F2M_HeatBeat extends AbstractMatchMessage {
+public class F2M_HeatBeat {
 
     private String inetIp;
 

@@ -3,6 +3,7 @@ package jforgame.server.cross.core.client;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import jforgame.common.utils.NumberUtil;
 import jforgame.server.ServerConfig;
 import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.game.database.config.bean.ConfigCross;
@@ -59,7 +60,10 @@ public class C2SSessionPoolFactory {
 		}
 	}
 
-
+	/**
+	 * 获取本游戏服分配的大区战斗服
+	 * @return
+	 */
 	public CCSession borrowCrossSession() {
 		ConfigCrossStorage storage = ConfigDataPool.getInstance().getStorage(ConfigCrossStorage.class);
 		ServerConfig serverConfig = ServerConfig.getInstance();
@@ -70,6 +74,17 @@ public class C2SSessionPoolFactory {
 		ConfigCross targetServerCross = storage.getConfigCrossBy(crossSeverId);
 		String ip = targetServerCross.getIp();
 		int port = targetServerCross.getRpcPort();
+		return borrowSession(ip, port);
+	}
+
+	/**
+	 * 获取匹配服链接
+	 * @return
+	 */
+	public CCSession borrowCenterSession() {
+		String matchUrl = ServerConfig.getInstance().getMatchUrl();
+		String ip = matchUrl.split(":")[0];
+		int port = NumberUtil.intValue(matchUrl.split(":")[1]);
 		return borrowSession(ip, port);
 	}
 

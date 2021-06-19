@@ -97,6 +97,14 @@ public class CCSession {
 		}
 	}
 
+	public void sendMessage(Message message, Runnable sentCallback) {
+		WriteFuture future = this.wrapper.write(message);
+		if (future.isWritten()) {
+			this.lastWriteTime = System.currentTimeMillis();
+			sentCallback.run();
+		}
+	}
+
 
 	public boolean isExpired() {
 		long now = System.currentTimeMillis();
