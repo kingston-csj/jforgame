@@ -1,4 +1,4 @@
-package jforgame.server.cross.core.transfer;
+package jforgame.server.game.cross.transfer;
 
 import javax.management.relation.Role;
 import java.util.HashMap;
@@ -12,11 +12,9 @@ public abstract class CrossTransfer {
         transfers.put(getCrossType(), this);
     }
 
-    public abstract void afterLoginCross(Role player);
+    public abstract int getCrossType();
 
-    public int getCrossType() {
-        return CrossType.PK.getType();
-    }
+    public abstract void afterLoginCross(Role player);
 
     public static CrossTransfer queryTransfer(int type) {
         return transfers.get(type);

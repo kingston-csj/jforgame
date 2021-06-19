@@ -1,11 +1,12 @@
-package jforgame.server.cross.core.transfer;
+package jforgame.server.game.cross.transfer;
 
 public enum CrossType {
 
     /**
      * 跨服竞技
      */
-    PK(1),
+    Moba(2),
+
 
     ;
 

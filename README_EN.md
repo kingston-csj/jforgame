@@ -5,7 +5,7 @@
 
 
   ## Module Directory  
-  ``` lua
+  ``` 
   jforgame  
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  

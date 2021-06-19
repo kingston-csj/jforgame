@@ -16,7 +16,7 @@ public class LadderFightManager {
 	
 	public void init() {
 		ServerConfig config = ServerConfig.getInstance();
-		if (!config.isFight()) {
+		if (!config.isCenter()) {
 			return;
 		}
 	}

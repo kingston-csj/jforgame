@@ -1,4 +1,4 @@
-package jforgame.server.game.cross.ladder.utils;
+package jforgame.server.game.cross.utils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
