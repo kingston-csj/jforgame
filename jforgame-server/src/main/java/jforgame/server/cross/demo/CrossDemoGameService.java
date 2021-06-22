@@ -1,11 +1,12 @@
 package jforgame.server.cross.demo;
 
-import jforgame.server.cross.core.CrossTransportManager;
-import jforgame.server.cross.core.callback.G2FCallBack;
+import jforgame.common.utils.NumberUtil;
+import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.callback.CallBackCommands;
+import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
-import jforgame.server.cross.core.client.C2SSessionPoolFactory;
-import jforgame.server.cross.core.client.CCSession;
+import jforgame.server.cross.core.client.CrossTransportManager;
+import jforgame.socket.HostAndPort;
 import jforgame.socket.message.Message;
 
 public class CrossDemoGameService {
@@ -15,8 +16,11 @@ public class CrossDemoGameService {
             G2FCallBack req = new G2FCallBack();
             req.addParam("name", "Lily");
             req.setCommand(CallBackCommands.HELLO);
-            CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();
-            Message callBack = CrossTransportManager.getInstance().request(session, req);
+
+            String matchUrl = ServerConfig.getInstance().getMatchUrl();
+            String ip = matchUrl.split(":")[0];
+            int port = NumberUtil.intValue(matchUrl.split(":")[1]);
+            Message callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
             System.out.println(callBack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,8 +32,10 @@ public class CrossDemoGameService {
             G2FCallBack req = new G2FCallBack();
             req.addParam("name", "Lily");
             req.setCommand(CallBackCommands.HELLO);
-            CCSession session = C2SSessionPoolFactory.getInstance().borrowCrossSession();
-            CrossTransportManager.getInstance().request(session, req, new RequestCallback() {
+            String matchUrl = ServerConfig.getInstance().getMatchUrl();
+            String ip = matchUrl.split(":")[0];
+            int port = NumberUtil.intValue(matchUrl.split(":")[1]);
+            CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req, new RequestCallback() {
                 @Override
                 public void onSuccess(Message callBack) {
                     System.out.println(callBack);

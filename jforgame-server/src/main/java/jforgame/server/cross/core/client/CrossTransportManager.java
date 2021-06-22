@@ -1,4 +1,4 @@
-package jforgame.server.cross.core;
+package jforgame.server.cross.core.client;
 
 import jforgame.common.thread.NamedThreadFactory;
 import jforgame.server.cross.core.callback.CallBackService;
@@ -6,8 +6,7 @@ import jforgame.server.cross.core.callback.CallTimeoutException;
 import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.callback.RequestResponseFuture;
-import jforgame.server.cross.core.client.C2SSessionPoolFactory;
-import jforgame.server.cross.core.client.CCSession;
+import jforgame.socket.HostAndPort;
 import jforgame.socket.message.Message;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -83,14 +82,15 @@ public class CrossTransportManager {
     /**
      * 发送消息并返回执行结果(类似rpc消息返回值)
      *
-     * @param session
+     * @param addr
      * @param request
      * @return
      */
-    public Message request(CCSession session, G2FCallBack request) throws InterruptedException, CallTimeoutException {
+    public Message request(HostAndPort addr, G2FCallBack request) throws InterruptedException, CallTimeoutException {
         int timeout = 5000;
         int index = request.getIndex();
         request.serialize();
+        CCSession session = C2SSessionPoolFactory.getInstance().borrowSession(addr.getHost(), addr.getPort());
         session.sendMessage(request);
 
         final RequestResponseFuture future = new RequestResponseFuture(index,  timeout,null);
@@ -117,11 +117,12 @@ public class CrossTransportManager {
     /**
      * 发送消息并注册回调任务
      *
-     * @param session
+     * @param addr
      * @param request
      * @return
      */
-    public void request(CCSession session, G2FCallBack request, RequestCallback callBack) {
+    public void request(HostAndPort addr, G2FCallBack request, RequestCallback callBack) {
+        CCSession session = C2SSessionPoolFactory.getInstance().borrowSession(addr.getHost(), addr.getPort());
         request.serialize();
         int timeout = 5000;
         int index = request.getIndex();
