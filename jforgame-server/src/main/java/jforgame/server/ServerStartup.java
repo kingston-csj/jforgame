@@ -33,7 +33,7 @@ public class ServerStartup {
 //			Thread.sleep(3000);
 //			DbService.getInstance().insertOrUpdate(p);
 
-			CrossDemoGameService.sayHello();
+//			CrossDemoGameService.sayHello();
 		} catch (Exception e) {
 			logger.error("server start failed", e);
 			System.exit(-1);

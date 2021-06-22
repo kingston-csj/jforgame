@@ -35,7 +35,7 @@ public class Table2DbPojo {
 		DbUtils.init();
 
 		String tableName = "player";
-		Connection conn = DbHelper.getConnection(DbUtils.DB_USER);
+		Connection conn = DbUtils.getConnection(DbUtils.DB_USER);
 		DatabaseMetaData meta = conn.getMetaData();
 
 		writeLine("import com.kinson.db.BaseEntity;");

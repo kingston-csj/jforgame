@@ -249,17 +249,6 @@ public class DbHelper {
 	}
 
 	/**
-	 * 获得连接
-	 * 
-	 * @param alias
-	 * @return
-	 */
-	public static Connection getConnection(String alias) throws SQLException {
-		Connection conn = DriverManager.getConnection(alias);
-		return conn;
-	}
-
-	/**
 	 * 关闭连接
 	 * 
 	 * @param conn

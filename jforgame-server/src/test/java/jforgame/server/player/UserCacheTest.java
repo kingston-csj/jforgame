@@ -18,7 +18,7 @@ import jforgame.server.game.database.user.PlayerEnt;
 public class UserCacheTest {
 
 	@Before
-	public void init() {
+	public void init() throws Exception {
 		//初始化orm框架
 		OrmProcessor.INSTANCE.initOrmBridges(ServerScanPaths.ORM_PATH);
 		//初始化数据库连接池

@@ -132,15 +132,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.cloudhopper.proxool</groupId>
-                <artifactId>proxool-cglib</artifactId>
-                <version>${proxool.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.cloudhopper.proxool</groupId>
-                <artifactId>proxool</artifactId>
-                <version>${proxool.version}</version>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>4.0.3</version>
             </dependency>
 
             <!-- 缓存 -->
