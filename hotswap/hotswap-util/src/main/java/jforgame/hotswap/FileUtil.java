@@ -7,7 +7,7 @@ import java.util.List;
 
 public class FileUtil {
 
-	public static List<File> listFiles(String path) {
+	 static List<File> listFiles(String path) {
 		List<File> result = new ArrayList<>();
 		try {
 			File file = new File(path);

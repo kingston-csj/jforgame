@@ -1,79 +1,64 @@
 package jforgame.hotswap;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * agent代理
- * 
- * @author kinson
  */
 public class MyAgent {
 
-	public static void agentmain(String args, Instrumentation inst)
-	{
-		Class<?> c = null;
-		try
-		{
-			c = Class.forName("jforgame.hotswap.HotSwapUtil");
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		try
-		{
-			StringBuilder sb = new StringBuilder();
-			sb.append(args).append("\n");
-			File f = new File(args);
-			byte[] targetClassFile = new byte[(int)f.length()];
-			DataInputStream dis = new DataInputStream(new FileInputStream(f));
-			dis.readFully(targetClassFile);
-			dis.close();
+    public static void agentmain(String args, Instrumentation inst) {
+        Class<?> c = null;
+        try {
+            c = Class.forName("jforgame.hotswap.JavaDoctor");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        DataInputStream dis = null;
+        try {
+            Field field = c.getDeclaredField("fixData");
+            field.setAccessible(true);
+            byte[] fixData = (byte[]) field.get(null);
+            dis = new DataInputStream(new ByteArrayInputStream(fixData));
 
-			DynamicClassLoader myLoader = new DynamicClassLoader();
-			Class targetClazz = myLoader.findClass(targetClassFile);
-//			sb.append("目标class全路径" + targetClazz.getName()).append("\n");
+            Map<String, byte[]> reloadFiles = new HashMap<>();
+            int fileSize = dis.readInt();
+            for (int i = 0; i < fileSize; i++) {
+                String fileName = dis.readUTF();
+                int bodySize = dis.readInt();
+                byte[] body = new byte[bodySize];
+                dis.read(body);
+                reloadFiles.put(fileName, body);
+            }
 
-			ClassDefinition clazzDef = new ClassDefinition(Class.forName(targetClazz.getName()), targetClassFile);
-			inst.redefineClasses(new ClassDefinition[] { clazzDef });
+            StringBuilder sb = new StringBuilder("重新定义[" );
 
-			sb.append("重新定义" + args + "完成");
+            for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
+                String fileName = entry.getKey();
+                ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName), entry.getValue());
+                inst.redefineClasses(new ClassDefinition[]{clazzDef});
+                sb.append( fileName + ";");
+            }
 
-			Field field = c.getField("log");
-			field.set(null, sb.toString());
-		}
-		catch (Exception e)
-		{
-			Field field = null;
-			try
-			{
-				field = c.getField("exception");
-				field.set(null, e);
-			}
-			catch (Exception e1)
-			{
-				e1.printStackTrace();
-			}
-		}
-	}
+            sb.append( "]完成");
+            Field field2 = c.getDeclaredField("log");
+            field2.setAccessible(true);
+            field2.set(null, sb.toString());
+        } catch (Exception e) {
+            try {
+                Field field = c.getDeclaredField("exception");
+                field.setAccessible(true);
+                field.set(null, e);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
 
-	private static void reloadClass(File f, Instrumentation inst) throws Exception {
-		byte[] targetClassFile = new byte[(int) f.length()];
-		DataInputStream dis = new DataInputStream(new FileInputStream(f));
-		dis.readFully(targetClassFile);
-		dis.close();
-
-		DynamicClassLoader myLoader = new DynamicClassLoader();
-		Class<?> targetClazz = myLoader.findClass(targetClassFile);
-		System.err.println("目标class类全路径为" + targetClazz.getName());
-		ClassDefinition clazzDef = new ClassDefinition(Class.forName(targetClazz.getName()), targetClassFile);
-		inst.redefineClasses(clazzDef);
-
-		System.err.println("重新定义" + targetClazz.getName() + "完成！！");
-	}
 }

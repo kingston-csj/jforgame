@@ -12,6 +12,8 @@ target/
 .project
 .classpath
 
+.DS_Store
+
 # idea ignore
 .idea/
 *.ipr
