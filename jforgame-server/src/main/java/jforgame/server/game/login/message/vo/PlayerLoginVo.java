@@ -1,15 +1,13 @@
 package jforgame.server.game.login.message.vo;
 
-import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 
+@ProtobufClass
 public class PlayerLoginVo {
 	
-	@Protobuf
 	private long id;
-	@Protobuf
 	private String name;
 	/** 角色战力 */
-	@Protobuf
 	private long fighting;
 	
 	public long getId() {

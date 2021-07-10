@@ -72,11 +72,6 @@
             <artifactId>c3p0</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>c3p0</groupId>-->
-<!--            <artifactId>c3p0</artifactId>-->
-<!--        </dependency>-->
-
         <!-- 缓存 -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -151,25 +146,25 @@
             </resource>
         </resources>
         <plugins>
-            <!-- Maven插件支持预编译功能配置，使用该功能后，所有的Jprotobuf注解标识的对象都会进行预编译操作，并生成相应的class文件到目标jar或war中 -->
-            <!-- 部分eclipse下该插件可能无法找到，可以选择忽略，但maven命令行下打包是没问题的 -->
-            <!--			<plugin>-->
-            <!--				<groupId>com.baidu</groupId>-->
-            <!--				<artifactId>jprotobuf-precompile-plugin</artifactId>-->
-            <!--				<version>1.2.8</version>-->
-            <!--				<configuration>-->
-            <!--					<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>-->
-            <!--					<filterClassPackage>com.kinson.jforgame.server.game</filterClassPackage>-->
-            <!--				</configuration>-->
-            <!--				<executions>-->
-            <!--					<execution>-->
-            <!--						<phase>compile</phase>-->
-            <!--						<goals>-->
-            <!--							<goal>precompile</goal>-->
-            <!--						</goals>-->
-            <!--					</execution>-->
-            <!--				</executions>-->
-            <!--			</plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>com.baidu</groupId>-->
+<!--                <artifactId>jprotobuf-precompile-plugin</artifactId>-->
+<!--                <version>1.3.4</version>-->
+<!--                <configuration>-->
+<!--                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>-->
+<!--                    <filterClassPackage>com.baidu</filterClassPackage>-->
+<!--                    <generateProtoFile>true</generateProtoFile>-->
+<!--                    <compileDependencies>true</compileDependencies>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>compile</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>precompile</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -241,39 +236,6 @@
             </plugin>
         </plugins>
         <finalName>GameServer</finalName>
-        <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                    only. It has no influence on the Maven build itself. -->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>com.baidu</groupId>
-                                        <artifactId>
-                                            jprotobuf-precompile-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.2.8,)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>precompile</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+
     </build>
 </project> 

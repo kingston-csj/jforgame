@@ -11,7 +11,6 @@ import jforgame.server.game.login.message.req.ReqAccountLogin;
 
 public class JProtobufTest {
 
-
 	@Test
 	public void testRequest() {
 		ReqAccountLogin request = new ReqAccountLogin();

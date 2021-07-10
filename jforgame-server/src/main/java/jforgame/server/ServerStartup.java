@@ -1,6 +1,8 @@
 package jforgame.server;
 
 import jforgame.server.cross.demo.CrossDemoGameService;
+import jforgame.server.doctor.HotswapManager;
+import jforgame.server.doctor.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
