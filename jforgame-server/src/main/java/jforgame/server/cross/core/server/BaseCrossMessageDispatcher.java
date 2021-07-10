@@ -57,7 +57,6 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 									String.format("controller[%s] method[%s] lack of RequestMapping annotation",
 											controller.getName(), method.getName()));
 						}
-
 						// 方法必須有兩個参数，第一个为SCSession或CCSession,第二个为Message子类
 						Class<?>[] paramTypes = method.getParameterTypes();
 						if (paramTypes.length != 2) {

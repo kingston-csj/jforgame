@@ -27,7 +27,6 @@ public class Game2GameIoHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionCreated(IoSession session) {
-		System.out.println(session.getRemoteAddress().toString());
 		SCSession sessionContainer = SCSession.valueOf(session);
 		session.setAttributeIfAbsent(attrKey, sessionContainer);
 	}

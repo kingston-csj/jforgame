@@ -27,9 +27,7 @@ public class SCSession {
 		cSession.id = idFactory.incrementAndGet();
 		return cSession;
 	}
-	
-	
-	
+
 	public int getId() {
 		return id;
 	}
