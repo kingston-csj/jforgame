@@ -1,4 +1,4 @@
-package com.kinson.orm.entity;
+package jforgame.orm.entity;
 
 import jforgame.orm.cache.AbstractCacheable;
 

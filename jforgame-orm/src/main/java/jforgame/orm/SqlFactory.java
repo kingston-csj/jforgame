@@ -54,6 +54,73 @@ public class SqlFactory {
         return sb.toString();
     }
 
+    public static String createInsertSql2(AbstractCacheable entity, OrmBridge bridge) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(" INSERT INTO ")
+                .append(bridge.getTableName()).append(" (");
+
+        List<String> properties = bridge.listProperties();
+        for (int i = 0; i < properties.size(); i++) {
+            String property = properties.get(i);
+            String column = property;
+            if (bridge.getOverrideProperty(property) != null) {
+                column = bridge.getOverrideProperty(property);
+            }
+            sb.append("`" + column + "`");
+            if (i < properties.size() - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append(") VALUES (");
+
+        for (int i = 0; i < properties.size(); i++) {
+            try {
+                sb.append("?");
+                if (i < properties.size() - 1) {
+                    sb.append(",");
+                }
+            } catch (Exception e) {
+                logger.error("createInsertSql failed", e);
+            }
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    public static String createUpdateSql2(AbstractCacheable entity, OrmBridge bridge) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" UPDATE ").append(bridge.getTableName())
+                .append(" SET ");
+        sb.append(object2SetterSql2(entity, bridge));
+        sb.append(createWhereClauseSql(entity, bridge));
+
+        return sb.toString();
+    }
+
+    private static String object2SetterSql2(AbstractCacheable entity, OrmBridge bridge) {
+        Set<String> columns = entity.savingColumns();
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
+            String property = entry.getKey();
+            FieldMetadata metadata = entry.getValue();
+            try {
+                if (sb.length() > 0) {
+                    sb.append(", ");
+                }
+                String column = entry.getKey();
+                if (bridge.getOverrideProperty(property) != null) {
+                    column = bridge.getOverrideProperty(property);
+                }
+                sb.append("`" + column + "` = ? ");
+            } catch (Exception e) {
+                logger.error("object2SetterSql failed", e);
+            }
+        }
+
+        return sb.toString();
+    }
+
     public static String createUpdateSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE ").append(bridge.getTableName())

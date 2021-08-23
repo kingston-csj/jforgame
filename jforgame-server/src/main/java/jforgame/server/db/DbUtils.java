@@ -2,6 +2,7 @@ package jforgame.server.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jforgame.orm.cache.AbstractCacheable;
 import jforgame.orm.utils.DbHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,16 @@ public class DbUtils {
     public static int executeUpdate(String sql) throws SQLException {
         Connection connection = getConnection(DB_USER);
         return DbHelper.executeUpdate(connection, sql);
+    }
+
+    public static int executeUpdate2(AbstractCacheable entity) throws SQLException {
+        Connection connection = getConnection(DB_USER);
+        return DbHelper.executeUpdate(connection, entity);
+    }
+
+    public static int executeInsert(AbstractCacheable entity) throws SQLException {
+        Connection connection = getConnection(DB_USER);
+        return DbHelper.executeInsert(connection, entity);
     }
 
     public static Connection getConnection(String alias) {

@@ -145,11 +145,16 @@ public class DbService {
         entity.tell(() -> {
             try {
 				entity.doBeforeSave();
-				String saveSql = entity.getSaveSql();
-				if (logger.isDebugEnabled()) {
-					logger.debug("sql={}", saveSql);
-				}
-                if (DbUtils.executeUpdate(saveSql) > 0) {
+				if (entity.isDelete()) {
+                    String sql = entity.getSaveSql();
+                    DbUtils.executeUpdate(sql);
+                    entity.resetDbStatus();
+                    return;
+                }
+				// 先执行更新，再执行插入
+                if (DbUtils.executeUpdate2(entity) > 0) {
+                    entity.resetDbStatus();
+                } else if(DbUtils.executeInsert(entity) > 0) {
                     entity.resetDbStatus();
                 }
             } catch (Exception e) {

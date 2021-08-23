@@ -1,8 +1,9 @@
 package jforgame.server;
 
-import jforgame.server.cross.demo.CrossDemoGameService;
-import jforgame.server.doctor.HotswapManager;
-import jforgame.server.doctor.Person;
+import jforgame.server.db.DbService;
+import jforgame.server.game.GameContext;
+import jforgame.server.game.database.user.PlayerEnt;
+import jforgame.server.game.vip.model.VipRight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +29,11 @@ public class ServerStartup {
 			GameServer.getInstance().start();
 			// test
 //			PlayerEnt p = GameContext.playerManager.get(10000L);
-//			p.getVipRight().setLevel(123);
-//			p.setExp(234);
-//			p.setName("robot");
-//			DbService.getInstance().saveColumns(p, "vipRight");
+//			p.setId(222L);
+//					p.setVipRight(new VipRight());
+//			p.setExp(1234);
+//			p.setName("robot22");
+//			DbService.getInstance().insertOrUpdate(p);
 //			Thread.sleep(3000);
 //			DbService.getInstance().insertOrUpdate(p);
 

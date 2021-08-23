@@ -54,7 +54,7 @@ public class PlayerEnt extends BaseEntity {
 	private VipRight vipRight;
 
 	@Column(columnDefinition="varchar(16)")
-	private Platform platform;
+	private Platform platform = Platform.ANDROID;
 
 	public PlayerEnt() {
 	}
