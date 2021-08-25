@@ -1,7 +1,8 @@
-package jforgame.orm;
+package jforgame.orm.utils;
 
+import jforgame.orm.FieldMetadata;
+import jforgame.orm.OrmBridge;
 import jforgame.orm.cache.AbstractCacheable;
-import jforgame.orm.utils.ReflectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createInsertSql2(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createPreparedInsertSql(AbstractCacheable entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(" INSERT INTO ")
@@ -75,47 +76,32 @@ public class SqlFactory {
         sb.append(") VALUES (");
 
         for (int i = 0; i < properties.size(); i++) {
-            try {
-                sb.append("?");
-                if (i < properties.size() - 1) {
-                    sb.append(",");
-                }
-            } catch (Exception e) {
-                logger.error("createInsertSql failed", e);
+            sb.append("?");
+            if (i < properties.size() - 1) {
+                sb.append(",");
             }
         }
         sb.append(")");
         return sb.toString();
     }
 
-    public static String createUpdateSql2(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createPreparedUpdateSql(AbstractCacheable entity, OrmBridge bridge, Object[] columns) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE ").append(bridge.getTableName())
                 .append(" SET ");
-        sb.append(object2SetterSql2(entity, bridge));
+        sb.append(columnSetterSql(columns));
         sb.append(createWhereClauseSql(entity, bridge));
 
         return sb.toString();
     }
 
-    private static String object2SetterSql2(AbstractCacheable entity, OrmBridge bridge) {
-        Set<String> columns = entity.savingColumns();
+    private static String columnSetterSql(Object[] columns) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
-            String property = entry.getKey();
-            FieldMetadata metadata = entry.getValue();
-            try {
-                if (sb.length() > 0) {
-                    sb.append(", ");
-                }
-                String column = entry.getKey();
-                if (bridge.getOverrideProperty(property) != null) {
-                    column = bridge.getOverrideProperty(property);
-                }
-                sb.append("`" + column + "` = ? ");
-            } catch (Exception e) {
-                logger.error("object2SetterSql failed", e);
+        for (Object column : columns) {
+            if (sb.length() > 0) {
+                sb.append(", ");
             }
+            sb.append("`" + column + "` = ? ");
         }
 
         return sb.toString();

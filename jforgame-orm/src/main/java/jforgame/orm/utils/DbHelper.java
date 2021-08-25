@@ -4,12 +4,12 @@ import jforgame.orm.BeanProcessor;
 import jforgame.orm.FieldMetadata;
 import jforgame.orm.OrmBridge;
 import jforgame.orm.OrmProcessor;
-import jforgame.orm.SqlFactory;
 import jforgame.orm.cache.AbstractCacheable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -17,8 +17,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DbHelper {
 
@@ -255,21 +257,30 @@ public class DbHelper {
         PreparedStatement statement = null;
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
-            String sql = SqlFactory.createInsertSql2(entity, bridge);
+            String sql = SqlFactory.createPreparedInsertSql(entity, bridge);
             statement = connection.prepareStatement(sql);
-
+            ParameterMetaData pmd = statement.getParameterMetaData();
             List<String> properties = bridge.listProperties();
             for (int i = 0; i < properties.size(); i++) {
                 String property = properties.get(i);
                 FieldMetadata fieldMetadata = bridge.getFieldMetadataMap().get(property);
+                int  parameterIndex = i+1;
                 try {
                     Object value = fieldMetadata.getField().get(entity);
                     if (fieldMetadata.getConverter() != null) {
                         // 进行转换
                         value = fieldMetadata.getConverter().convertToDatabaseColumn(value);
                     }
-                    // TODO 不要同一用 setObject
-                    statement.setObject(i + 1, value.toString());
+                    if (value != null) {
+                        if (value.getClass().isEnum()) {
+                            statement.setObject(parameterIndex, value.toString());
+                        } else {
+                            statement.setObject(parameterIndex, value);
+                        }
+                    } else {
+                        int sqlType = pmd.getParameterType(parameterIndex);
+                        statement.setNull(parameterIndex, sqlType);
+                    }
                 } catch (Exception e) {
                     logger.error("createInsertSql failed", e);
                 }
@@ -287,28 +298,28 @@ public class DbHelper {
 
     public static int executeUpdate(Connection connection, AbstractCacheable entity) throws SQLException {
         PreparedStatement statement = null;
+        ParameterMetaData pmd = null;
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
-            String sql = SqlFactory.createUpdateSql2(entity, bridge);
+            LinkedHashMap<String, Object> column2Value = changedFieldValue(entity);
+            String sql = SqlFactory.createPreparedUpdateSql(entity, bridge, column2Value.keySet().toArray());
             statement = connection.prepareStatement(sql);
+            pmd = statement.getParameterMetaData();
 
-            List<String> properties = bridge.listProperties();
-            for (int i = 0; i < properties.size(); i++) {
-                String property = properties.get(i);
-                FieldMetadata fieldMetadata = bridge.getFieldMetadataMap().get(property);
-                try {
-                    Object value = fieldMetadata.getField().get(entity);
-                    if (value != null) {
-                        if (fieldMetadata.getConverter() != null) {
-                            // 进行转换
-                            value = fieldMetadata.getConverter().convertToDatabaseColumn(value);
-                        }
-                        // TODO 不要同一用 setObject
-                        statement.setObject(i + 1, value.toString());
+            int i = 1;
+            for (Map.Entry<String, Object> entry : column2Value.entrySet()) {
+                Object value = entry.getValue();
+                if (value != null) {
+                    if (value.getClass().isEnum()) {
+                        statement.setObject(i, value.toString());
+                    } else {
+                        statement.setObject(i, value);
                     }
-                } catch (Exception e) {
-                    logger.error("createInsertSql failed", e);
+                } else {
+                    int sqlType = pmd.getParameterType(i);
+                    statement.setNull(i, sqlType);
                 }
+                i++;
             }
             return statement.executeUpdate();
         } catch (Exception e) {
@@ -319,6 +330,41 @@ public class DbHelper {
                 closeConn(connection);
             }
         }
+    }
+
+    private static LinkedHashMap<String, Object> changedFieldValue(AbstractCacheable entity) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
+        Set<String> columns = entity.savingColumns();
+        StringBuilder sb = new StringBuilder();
+        boolean saveAll = entity.isSaveAll() || columns == null || columns.size() <= 0;
+        for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
+            String property = entry.getKey();
+            // 仅持久化部分字段
+            if (!saveAll && !columns.contains(property)) {
+                continue;
+            }
+            FieldMetadata metadata = entry.getValue();
+            try {
+                Object value = metadata.getField().get(entity);
+                if (metadata.getConverter() != null) {
+                    // 进行转换
+                    value = metadata.getConverter().convertToDatabaseColumn(value);
+                }
+                if (sb.length() > 0) {
+                    sb.append(", ");
+                }
+                String column = entry.getKey();
+                if (bridge.getOverrideProperty(property) != null) {
+                    column = bridge.getOverrideProperty(property);
+                }
+                result.put(column, value);
+            } catch (Exception e) {
+                logger.error("object2SetterSql failed", e);
+            }
+        }
+
+        return result;
     }
 
     /**

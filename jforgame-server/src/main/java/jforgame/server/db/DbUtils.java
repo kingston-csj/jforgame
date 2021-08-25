@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * 使用proxool数据源对orm-DbUtils的进一步封装
+ * 使用Hikari数据源对orm-DbUtils的进一步封装
  *
  * @author kinson
  */
@@ -123,21 +123,21 @@ public class DbUtils {
         return DbHelper.executeUpdate(connection, sql);
     }
 
-    public static int executeUpdate2(AbstractCacheable entity) throws SQLException {
+    public static int executePreparedUpdate(AbstractCacheable entity) throws SQLException {
         Connection connection = getConnection(DB_USER);
         return DbHelper.executeUpdate(connection, entity);
     }
 
-    public static int executeInsert(AbstractCacheable entity) throws SQLException {
+    public static int executePreparedInsert(AbstractCacheable entity) throws SQLException {
         Connection connection = getConnection(DB_USER);
         return DbHelper.executeInsert(connection, entity);
     }
 
     public static Connection getConnection(String alias) {
         try {
-            if (DB_DATA.contains(alias)) {
+            if (DB_DATA.equals(alias)) {
                 return configDataSource.getConnection();
-            } else if (DB_USER.contains(alias)) {
+            } else if (DB_USER.equals(alias)) {
                 return userDataSource.getConnection();
             }
         } catch (Exception e) {

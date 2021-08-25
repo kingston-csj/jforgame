@@ -20,7 +20,7 @@ public enum OrmProcessor {
     INSTANCE;
 
     /**
-     * entity与对应的ormbridge的映射关系
+     * entity与对应bridge的映射关系
      */
     private Map<Class<?>, OrmBridge> classOrmMapper = new HashMap<>();
 

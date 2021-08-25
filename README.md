@@ -7,6 +7,7 @@
   * 搭配框架博客栏目教程，快速理解项目模块原理  
   * 支持socket/webSocket接入，兼容手游/页游服务端架构  
   * 通信协议支持protobuf或java反射，为客户端提供多种选择   
+  * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护   
   * 有独立http后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
@@ -18,7 +19,7 @@
   ├── jforgame-common  --基础公共服务  
   ├── jforgame-merge   --合服工具        
   ├── jforgame-net     --包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型      
-  ├── jforgame-orm     --使用自定义的orm框架，用于数据库表记录与程序pojo对象的相互转换        
+  ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── hotswap-agent  支持游戏业务热更新的agent机制  
   ├── jforgame-server  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    

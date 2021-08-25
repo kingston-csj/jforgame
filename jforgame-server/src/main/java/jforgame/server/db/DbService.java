@@ -2,7 +2,8 @@ package jforgame.server.db;
 
 import jforgame.common.thread.NamedThreadFactory;
 import jforgame.common.utils.BlockingUniqueQueue;
-import jforgame.orm.SqlFactory;
+import jforgame.orm.utils.SqlFactory;
+import jforgame.orm.utils.SqlUtils;
 import jforgame.server.logs.LoggerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,16 +146,16 @@ public class DbService {
         entity.tell(() -> {
             try {
 				entity.doBeforeSave();
+				entity.autoSetStatus();
 				if (entity.isDelete()) {
-                    String sql = entity.getSaveSql();
+                    String sql = SqlUtils.getDeleteSql(entity);
                     DbUtils.executeUpdate(sql);
                     entity.resetDbStatus();
-                    return;
-                }
-				// 先执行更新，再执行插入
-                if (DbUtils.executeUpdate2(entity) > 0) {
+                } else if (entity.isUpdate()) {
+                    DbUtils.executePreparedUpdate(entity);
                     entity.resetDbStatus();
-                } else if(DbUtils.executeInsert(entity) > 0) {
+                } else if (entity.isInsert()) {
+                    DbUtils.executePreparedInsert(entity);
                     entity.resetDbStatus();
                 }
             } catch (Exception e) {

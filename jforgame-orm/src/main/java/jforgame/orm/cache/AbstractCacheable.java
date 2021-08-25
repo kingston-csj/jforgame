@@ -118,7 +118,7 @@ public abstract class AbstractCacheable extends Cacheable {
         return SqlUtils.getSaveSql(this);
     }
 
-    private void autoSetStatus() {
+    public void autoSetStatus() {
         // 删除状态只能手动设置
         if (!isDelete()) {
             // 如果已经存在于数据库，则表示修改记录

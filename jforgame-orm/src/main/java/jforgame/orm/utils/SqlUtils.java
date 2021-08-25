@@ -2,7 +2,6 @@ package jforgame.orm.utils;
 
 import jforgame.orm.OrmBridge;
 import jforgame.orm.OrmProcessor;
-import jforgame.orm.SqlFactory;
 import jforgame.orm.cache.AbstractCacheable;
 
 public class SqlUtils {
