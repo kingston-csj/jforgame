@@ -8,7 +8,7 @@ import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_SELECT_PLAYER)
 @ProtobufClass
-public class ReqSelectPlayer extends Message {
+public class ReqSelectPlayer implements Message {
 	
 	private long playerId;
 

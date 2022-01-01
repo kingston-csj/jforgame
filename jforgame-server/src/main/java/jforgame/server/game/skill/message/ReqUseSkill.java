@@ -8,7 +8,7 @@ import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.SKILL, cmd=SkillDataPool.REQ_USE_SKILL)
 @ProtobufClass
-public class ReqUseSkill extends Message {
+public class ReqUseSkill implements Message {
 
 	private int skillId;
 

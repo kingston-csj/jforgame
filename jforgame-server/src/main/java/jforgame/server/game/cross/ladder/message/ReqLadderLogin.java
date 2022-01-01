@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CROSS_BUSINESS, cmd = LadderDataPool.RES_LADDER_LOGIN)
-public class ReqLadderLogin extends Message {
+public class ReqLadderLogin implements Message {
 	
 	private String sign;
 

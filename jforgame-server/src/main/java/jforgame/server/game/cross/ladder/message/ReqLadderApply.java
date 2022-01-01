@@ -6,6 +6,6 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CROSS_BUSINESS, cmd = LadderDataPool.REQ_LADDER_APPLY)
-public class ReqLadderApply extends Message {
+public class ReqLadderApply implements Message {
 
 }

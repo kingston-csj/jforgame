@@ -13,7 +13,7 @@ import java.util.List;
  */
 @MessageMeta()
 @ProtobufClass
-public final class CombineMessage extends Message {
+public final class CombineMessage implements Message {
 
 	private List<Packet> packets = new ArrayList<>();
 

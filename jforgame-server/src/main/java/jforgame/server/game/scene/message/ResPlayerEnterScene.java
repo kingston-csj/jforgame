@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
-public class ResPlayerEnterScene extends Message {
+public class ResPlayerEnterScene implements Message {
 	
 	/** 地图id */
 	private int mapId;

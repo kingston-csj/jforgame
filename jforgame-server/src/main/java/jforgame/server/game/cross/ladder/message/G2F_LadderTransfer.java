@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_LOGIN_TO_SERVER)
-public class G2F_LadderTransfer extends Message {
+public class G2F_LadderTransfer implements Message {
 
     private long playerId;
     /**

@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CHAT, cmd = ChatDataPool.RES_PRIVATE_CHAT)
-public class ResPrivateChat extends Message {
+public class ResPrivateChat implements Message {
 
 	private long senderId;
 

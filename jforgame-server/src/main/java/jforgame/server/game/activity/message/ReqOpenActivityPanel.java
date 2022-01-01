@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.ACTIVITY, cmd=ActivityDataPool.REQ_OPEN_PANEL)
-public class ReqOpenActivityPanel extends Message {
+public class ReqOpenActivityPanel implements Message {
 	
 	private int activityId;
 

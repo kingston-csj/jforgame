@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CROSS, cmd  = CrossCommands.G2F_HEART_BEAT)
-public class G2FHeartBeat extends Message {
+public class G2FHeartBeat implements Message {
 
     private long time = System.currentTimeMillis();
 

@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 跨服回调请求方
  */
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_CALL_BACK)
-public class G2FCallBack extends Message {
+public class G2FCallBack implements Message {
 
     /**
      * 关联id {@link RequestResponseFuture#getCorrelationId()}

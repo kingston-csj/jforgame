@@ -14,7 +14,7 @@ import jforgame.socket.message.Message;
  */
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
 @ProtobufClass
-public class ReqAccountLogin extends Message {
+public class ReqAccountLogin implements Message {
 	
 	/** 账号流水号 */
 	private long accountId;

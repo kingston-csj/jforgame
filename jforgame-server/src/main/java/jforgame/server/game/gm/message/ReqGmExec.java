@@ -7,7 +7,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.GM, cmd=GmConstant.REQ_GM_EXEC)
-public class ReqGmExec extends Message {
+public class ReqGmExec implements Message {
 	
 	@Protobuf(order = 1)
 	public String command;

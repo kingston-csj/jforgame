@@ -6,7 +6,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module=Modules.PLAYER, cmd= PlayerDataPool.REQ_CREATE_PLAYER)
-public class ReqCreateNewPlayer extends Message {
+public class ReqCreateNewPlayer implements Message {
 
 	private String name;
 

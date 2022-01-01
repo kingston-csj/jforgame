@@ -1,18 +1,18 @@
 package jforgame.socket.message;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.actor.MailBox;
+import jforgame.socket.annotation.MessageMeta;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Message {
+public interface Message {
+
+
 
     /**
      * messageMeta, module of message
      *
      * @return
      */
-    public short getModule() {
+    default short getModule() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
         if (annotation != null) {
             return annotation.module();
@@ -25,7 +25,7 @@ public abstract class Message {
      *
      * @return
      */
-    public byte getCmd() {
+    default byte getCmd() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
         if (annotation != null) {
             return annotation.cmd();
@@ -33,11 +33,11 @@ public abstract class Message {
         return 0;
     }
 
-    public MailBox mailQueue() {
+    default MailBox mailQueue() {
         return null;
     }
 
-    public String key() {
+    default String key() {
         return this.getModule() + "_" + this.getCmd();
     }
 

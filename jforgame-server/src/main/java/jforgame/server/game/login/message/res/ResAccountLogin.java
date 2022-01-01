@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @MessageMeta(module = Modules.LOGIN, cmd = LoginDataPool.RES_LOGIN)
-public class ResAccountLogin extends Message {
+public class ResAccountLogin implements Message {
 
 	private List<PlayerLoginVo> players = new ArrayList<>();
 

@@ -11,7 +11,7 @@ import jforgame.socket.message.Message;
  * 跨服回调响应方
  */
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.F2G_CALL_BACK)
-public class F2GCallBack extends Message {
+public class F2GCallBack implements Message {
 
     private int index;
 

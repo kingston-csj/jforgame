@@ -11,7 +11,7 @@ import jforgame.socket.message.Message;
  * @author kinson
  */
 @MessageMeta(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
-public class ResGmResult extends Message {
+public class ResGmResult implements Message {
 	
 	/** 执行失败 */
 	public static final byte FAIL = 0;

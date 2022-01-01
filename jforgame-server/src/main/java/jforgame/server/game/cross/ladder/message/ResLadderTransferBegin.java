@@ -10,7 +10,7 @@ import jforgame.socket.message.Message;
  *
  */
 @MessageMeta(module = Modules.CROSS_BUSINESS, cmd = LadderDataPool.RES_LADDER_TRANSFER_BEGIN)
-public class ResLadderTransferBegin extends Message {
+public class ResLadderTransferBegin implements Message {
 	
 	/**
 	 * 传输密钥（战斗服登录密码）

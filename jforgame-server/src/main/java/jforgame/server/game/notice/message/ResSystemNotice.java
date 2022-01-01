@@ -9,7 +9,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.NOTICE, cmd = NoticeDataPool.RES_NOTICE)
-public class ResSystemNotice extends Message {
+public class ResSystemNotice implements Message {
 
 	private int noticeId;
 

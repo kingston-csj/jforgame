@@ -18,6 +18,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MessageMeta {
 
+	/**
+	 * indicate the message pipeline direction,
+	 * from client to server, or from server to server
+	 */
+	byte source() default 0;
+
 	short module() default 0;
 
 	byte cmd() default 0;

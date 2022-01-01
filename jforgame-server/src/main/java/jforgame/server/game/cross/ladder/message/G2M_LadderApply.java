@@ -5,7 +5,7 @@ import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
 @MessageMeta(module = Modules.CROSS, cmd = 9)
-public class G2M_LadderApply extends Message {
+public class G2M_LadderApply implements Message {
 
     private long playerId;
     /**
