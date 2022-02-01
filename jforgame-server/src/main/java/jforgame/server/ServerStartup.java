@@ -1,9 +1,5 @@
 package jforgame.server;
 
-import jforgame.server.db.DbService;
-import jforgame.server.game.GameContext;
-import jforgame.server.game.database.user.PlayerEnt;
-import jforgame.server.game.vip.model.VipRight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

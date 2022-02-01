@@ -1,13 +1,11 @@
 package jforgame.server.game.accout.entity;
 
+import jforgame.server.db.BaseEntity;
+import jforgame.server.utils.IdGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
-import jforgame.server.db.BaseEntity;
-import jforgame.server.thread.ThreadCenter;
-import jforgame.server.utils.IdGenerator;
-import jforgame.socket.actor.MailBox;
 
 
 @Entity
@@ -41,8 +39,4 @@ public class AccountEnt extends BaseEntity<Long> {
 		this.id = id;
 	}
 
-	@Override
-	public MailBox mailBox() {
-		return ThreadCenter.getLoginQueue().getSharedMailQueue(id);
-	}
 }

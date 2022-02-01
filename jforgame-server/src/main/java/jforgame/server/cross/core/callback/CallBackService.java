@@ -2,8 +2,8 @@ package jforgame.server.cross.core.callback;
 
 import jforgame.common.utils.ClassScanner;
 import jforgame.server.ServerScanPaths;
+import jforgame.server.game.core.SchedulerManager;
 import jforgame.server.logs.LoggerUtils;
-import jforgame.server.thread.SchedulerManager;
 import jforgame.socket.message.Message;
 
 import java.util.Iterator;
@@ -49,7 +49,7 @@ public class CallBackService {
                 }
                 self = newObj;
 
-                newObj.timer = SchedulerManager.scheduleAtFixedRate(() -> {
+                newObj.timer = SchedulerManager.getInstance().scheduleAtFixedRate(() -> {
                     try {
                         newObj.scanExpiredRequest();
                     } catch (Exception e) {

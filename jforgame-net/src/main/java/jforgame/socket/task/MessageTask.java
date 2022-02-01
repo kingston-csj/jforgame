@@ -1,4 +1,4 @@
-package jforgame.socket.actor;
+package jforgame.socket.task;
 
 import java.lang.reflect.Method;
 
@@ -11,9 +11,9 @@ import jforgame.socket.message.Message;
 /**
  * 将客户端消息封装成一个邮件，放到Actor的邮箱里
  */
-public class CmdMail implements Runnable {
+public class MessageTask extends BaseGameTask {
 
-	private static Logger logger = LoggerFactory.getLogger(CmdMail.class);
+	private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
 
 	private IdSession session;
 
@@ -24,9 +24,12 @@ public class CmdMail implements Runnable {
 	/**arguments passed to the method */
 	private Object[] params;
 
-	public static CmdMail valueOf(IdSession session, Object handler,
-								  Method method, Object[] params) {
-		CmdMail msgTask = new CmdMail();
+
+
+	public static MessageTask valueOf(IdSession session, long dispatchKey, Object handler,
+									  Method method, Object[] params) {
+		MessageTask msgTask = new MessageTask();
+		msgTask.dispatchKey = dispatchKey;
 		msgTask.session = session;
 		msgTask.handler = handler;
 		msgTask.method  = method;
@@ -36,7 +39,7 @@ public class CmdMail implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public void action() {
 		try{
 			Object response = method.invoke(handler, params);
 			if (response != null) {
@@ -58,6 +61,7 @@ public class CmdMail implements Runnable {
 	public Object[] getParams() {
 		return params;
 	}
+
 
 	@Override
 	public String toString() {

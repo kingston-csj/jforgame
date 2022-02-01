@@ -1,7 +1,6 @@
 package jforgame.server.db;
 
 import jforgame.orm.cache.AbstractCacheable;
-import jforgame.socket.actor.Actor;
 
 import java.io.Serializable;
 
@@ -12,7 +11,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public abstract class BaseEntity<Id extends Comparable & Serializable> extends AbstractCacheable
-        implements Serializable, Actor {
+        implements Serializable {
 
     /**
      * 实体的主键属性最好定义为包装类型，防止属性与getter/setter方法类型不匹配

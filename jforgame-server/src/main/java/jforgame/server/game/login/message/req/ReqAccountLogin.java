@@ -3,8 +3,6 @@ package jforgame.server.game.login.message.req;
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import jforgame.server.game.Modules;
 import jforgame.server.game.login.LoginDataPool;
-import jforgame.server.thread.ThreadCenter;
-import jforgame.socket.actor.MailBox;
 import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.message.Message;
 
@@ -35,10 +33,6 @@ public class ReqAccountLogin implements Message {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public MailBox mailQueue() {
-		return ThreadCenter.getLoginQueue().getSharedMailQueue(accountId);
 	}
 
 	@Override

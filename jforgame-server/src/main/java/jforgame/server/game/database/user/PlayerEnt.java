@@ -1,12 +1,10 @@
 package jforgame.server.game.database.user;
 
-import jforgame.server.thread.ThreadCenter;
 import jforgame.orm.converter.Convert;
 import jforgame.server.db.BaseEntity;
 import jforgame.server.db.JsonAttributeConverter;
 import jforgame.server.game.login.model.Platform;
 import jforgame.server.game.vip.model.VipRight;
-import jforgame.socket.actor.MailBox;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -138,11 +136,6 @@ public class PlayerEnt extends BaseEntity {
 
 	@Override
 	public void doBeforeSave() {
-	}
-
-	@Override
-	public MailBox mailBox() {
-		return ThreadCenter.createBusinessMailBox("player");
 	}
 
 }

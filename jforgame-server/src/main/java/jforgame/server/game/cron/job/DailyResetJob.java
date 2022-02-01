@@ -3,7 +3,6 @@ package jforgame.server.game.cron.job;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.core.SystemParameters;
 import jforgame.server.game.database.user.PlayerEnt;
-import jforgame.server.game.player.DailyResetTask;
 import jforgame.server.logs.LoggerSystem;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -32,7 +31,7 @@ public class DailyResetJob implements Job {
         Collection<PlayerEnt> onlines = GameContext.playerManager.getOnlinePlayers().values();
 		for (PlayerEnt player:onlines) {
 			//将事件封装成任务，丢回业务线程处理
-			player.tell(new DailyResetTask(player));
+
 		}
 	}
 

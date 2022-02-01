@@ -1,12 +1,9 @@
 package jforgame.server.net;
 
-import jforgame.server.game.GameContext;
-import jforgame.server.thread.ThreadCenter;
 import jforgame.common.utils.ClassScanner;
+import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.socket.IdSession;
-import jforgame.socket.actor.CmdMail;
-import jforgame.socket.actor.MailBox;
 import jforgame.socket.annotation.Controller;
 import jforgame.socket.annotation.MessageMeta;
 import jforgame.socket.annotation.RequestMapping;
@@ -14,6 +11,8 @@ import jforgame.socket.message.CmdExecutor;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.message.Message;
 import jforgame.socket.session.SessionManager;
+import jforgame.socket.task.BaseGameTask;
+import jforgame.socket.task.MessageTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,23 +106,10 @@ public class MessageDispatcher implements IMessageDispatcher {
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();
 
-		CmdMail task = CmdMail.valueOf(session, controller, cmdExecutor.getMethod(), params);
+		int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+		MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
 		// 丢到任务消息队列，不在io线程进行业务处理
-		selectMailQueue(session, message).receive(task);
-	}
-
-	private MailBox selectMailQueue(IdSession session, Message message) {
-		MailBox mailBox = message.mailQueue();
-		if (mailBox != null) {
-			return mailBox;
-		}
-		long playerId = session.getOwnerId();
-		if (playerId > 0) {
-			PlayerEnt player = GameContext.playerManager.get(playerId);
-			return player.mailBox();
-		}
-		// TODO why here??
-		return ThreadCenter.getLoginQueue().getSharedMailQueue(session.hashCode());
+		GameExecutor.getInstance().acceptTask(task);
 	}
 
 	/**
@@ -163,9 +149,13 @@ public class MessageDispatcher implements IMessageDispatcher {
 		if (playerId > 0) {
 			logger.info("角色[{}]close session", playerId);
 			PlayerEnt player = GameContext.playerManager.get(playerId);
-			player.tell(() -> {
-				GameContext.playerManager.playerLogout(playerId);
-			});
+			BaseGameTask closeTask = new BaseGameTask() {
+				@Override
+				public void action() {
+                    GameContext.playerManager.playerLogout(playerId);
+				}
+			};
+			GameExecutor.getInstance().acceptTask(closeTask);
 		}
 	}
 

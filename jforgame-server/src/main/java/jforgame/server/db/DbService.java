@@ -32,13 +32,13 @@ public class DbService {
 
     private Worker commonWorker = new Worker();
 
-	/**
-	 * 正在执行的db数量，用于抑制并发持久化数量
-	 */
-	private AtomicInteger savingDbCounter = new AtomicInteger();
+    /**
+     * 正在执行的db数量，用于抑制并发持久化数量
+     */
+    private AtomicInteger savingDbCounter = new AtomicInteger();
 
 
-	private int MAX_DB_COUNTER = 15;
+    private int MAX_DB_COUNTER = 15;
 
     /**
      * start consumer thread
@@ -95,7 +95,7 @@ public class DbService {
         @Override
         public void run() {
             while (run.get()) {
-            	int size = queue.size();
+                int size = queue.size();
                 if (size <= 0) {
                     try {
                         Thread.sleep(500);
@@ -103,15 +103,15 @@ public class DbService {
 
                     }
                 }
-				for (int i = 0; i < size && savingDbCounter.getAndIncrement() < MAX_DB_COUNTER; i++) {
-					BaseEntity entity = null;
-					try {
-						entity = queue.take();
-						saveToDb(entity);
-					} catch (Exception e) {
-						LoggerUtils.error("", e);
-					}
-				}
+                for (int i = 0; i < size && savingDbCounter.getAndIncrement() < MAX_DB_COUNTER; i++) {
+                    BaseEntity entity = null;
+                    try {
+                        entity = queue.take();
+                        saveToDb(entity);
+                    } catch (Exception e) {
+                        LoggerUtils.error("", e);
+                    }
+                }
             }
         }
 
@@ -143,30 +143,29 @@ public class DbService {
      * @param entity
      */
     private void saveToDb(BaseEntity entity) {
-        entity.tell(() -> {
-            try {
-				entity.doBeforeSave();
-				entity.autoSetStatus();
-				if (entity.isDelete()) {
-                    String sql = SqlUtils.getDeleteSql(entity);
-                    DbUtils.executeUpdate(sql);
-                    entity.resetDbStatus();
-                } else if (entity.isUpdate()) {
-                    DbUtils.executePreparedUpdate(entity);
-                    entity.resetDbStatus();
-                } else if (entity.isInsert()) {
-                    DbUtils.executePreparedInsert(entity);
-                    entity.resetDbStatus();
-                }
-            } catch (Exception e) {
-                LoggerUtils.error("", e);
-				// 有可能是并发抛错，重新放入队列
-				insertOrUpdate(entity);
-            } finally {
-				savingDbCounter.decrementAndGet();
-			}
-        });
+        try {
+            entity.doBeforeSave();
+            entity.autoSetStatus();
+            if (entity.isDelete()) {
+                String sql = SqlUtils.getDeleteSql(entity);
+                DbUtils.executeUpdate(sql);
+                entity.resetDbStatus();
+            } else if (entity.isUpdate()) {
+                DbUtils.executePreparedUpdate(entity);
+                entity.resetDbStatus();
+            } else if (entity.isInsert()) {
+                DbUtils.executePreparedInsert(entity);
+                entity.resetDbStatus();
+            }
+        } catch (Exception e) {
+            LoggerUtils.error("", e);
+            // 有可能是并发抛错，重新放入队列
+            insertOrUpdate(entity);
+        } finally {
+            savingDbCounter.decrementAndGet();
+        }
     }
+
 
     public void shutDown() {
         run.getAndSet(false);

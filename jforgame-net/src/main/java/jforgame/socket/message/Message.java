@@ -1,6 +1,5 @@
 package jforgame.socket.message;
 
-import jforgame.socket.actor.MailBox;
 import jforgame.socket.annotation.MessageMeta;
 
 public interface Message {
@@ -31,10 +30,6 @@ public interface Message {
             return annotation.cmd();
         }
         return 0;
-    }
-
-    default MailBox mailQueue() {
-        return null;
     }
 
     default String key() {

@@ -1,7 +1,6 @@
 package jforgame.server.game.database.user;
 
 import jforgame.server.db.BaseEntity;
-import jforgame.socket.actor.MailBox;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,12 +18,6 @@ public class TestEnt extends BaseEntity {
 
     @Column
     private long level;
-
-
-    @Override
-    public MailBox mailBox() {
-        return null;
-    }
 
     @Override
     public Comparable getId() {
