@@ -18,7 +18,7 @@ public interface IMessageDispatcher {
 	void dispatch(IdSession session, Message message);
 	
 	/**
-	 * 分发session关闭事件
+	 * fire session close event
 	 * @param session
 	 */
 	void onSessionClosed(IdSession session);

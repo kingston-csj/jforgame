@@ -34,7 +34,7 @@ public interface IdSession {
     int getLocalPort();
 
     /**
-     * 更新属性值
+     * update session attribute
      *
      * @param key
      * @param value
@@ -43,7 +43,7 @@ public interface IdSession {
     Object setAttribute(String key, Object value);
 
     /**
-     * 修改属性值
+     * get session attribute
      *
      * @param key
      * @return

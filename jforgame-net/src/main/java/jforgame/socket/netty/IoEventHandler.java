@@ -27,7 +27,7 @@ public class IoEventHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		Channel channel = ctx.channel();
-		if (!ChannelUtils.addChannelSession(ctx.channel(), new NettySession(channel))) {
+		if (!ChannelUtils.addChannelSession(ctx.channel(), new NSession(channel))) {
 			ctx.channel().close();
 			logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(channel));
 		}

@@ -7,13 +7,13 @@ import jforgame.socket.message.Message;
  * @author kinson
  *
  */
-public interface IMessageEncoder {
+public interface PrivateProtocolEncoder {
 
 	/**
 	 * 把一个具体的消息序列化byte[]
 	 * @param message
 	 * @return
 	 */
-	byte[] writeMessageBody(Message message);
+	byte[] writeMessageBody(Object message);
 
 }

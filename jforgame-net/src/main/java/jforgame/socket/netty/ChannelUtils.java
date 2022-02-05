@@ -1,19 +1,17 @@
 package jforgame.socket.netty;
 
-import java.net.InetSocketAddress;
-
-import jforgame.socket.IdSession;
-
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import jforgame.socket.IdSession;
+
+import java.net.InetSocketAddress;
 
 public class ChannelUtils {
 	
 public static AttributeKey<IdSession> SESSION_KEY = AttributeKey.valueOf("session");
 	
 	/**
-	 * 添加新的会话
 	 * @param channel
 	 * @param session
 	 * @return

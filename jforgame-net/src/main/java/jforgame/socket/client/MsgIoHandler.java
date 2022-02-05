@@ -9,7 +9,7 @@ import jforgame.socket.codec.SerializerFactory;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.message.Message;
 import jforgame.socket.netty.ChannelUtils;
-import jforgame.socket.netty.NettySession;
+import jforgame.socket.netty.NSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class MsgIoHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         if (!ChannelUtils.addChannelSession(ctx.channel(),
-                new NettySession(ctx.channel()))) {
+                new NSession(ctx.channel()))) {
             ctx.channel().close();
             logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(ctx.channel()));
         }

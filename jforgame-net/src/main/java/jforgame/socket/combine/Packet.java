@@ -2,8 +2,8 @@ package jforgame.socket.combine;
 
 import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
-import jforgame.socket.codec.IMessageDecoder;
-import jforgame.socket.codec.IMessageEncoder;
+import jforgame.socket.codec.PrivateProtocolDecoder;
+import jforgame.socket.codec.PrivateProtocolEncoder;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
 
@@ -31,16 +31,16 @@ public class Packet {
 		packet.module  = message.getModule();
 		packet.cmd     = message.getCmd();
 
-		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+		PrivateProtocolEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		packet.body = msgEncoder.writeMessageBody(message);
 
 		return packet;
 	}
 
 	public static Message asMessage(Packet packet) {
-		IMessageDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
+		PrivateProtocolDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
 
-		return msgEncoder.readMessage((short)packet.module, (byte)packet.cmd, packet.body);
+		return msgEncoder.readMessage(packet.cmd, packet.body);
 	}
 
 }

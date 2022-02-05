@@ -5,17 +5,17 @@ import jforgame.socket.codec.reflect.ReflectEncoder;
 
 public class ReflectSerializerFactory implements SerializerFactory {
 	
-	private IMessageDecoder decoder = new ReflectDecoder();
+	private PrivateProtocolDecoder decoder = new ReflectDecoder();
 	
-	private IMessageEncoder encoder = new ReflectEncoder();
+	private PrivateProtocolEncoder encoder = new ReflectEncoder();
 	
 	@Override
-	public IMessageDecoder getDecoder() {
+	public PrivateProtocolDecoder getDecoder() {
 		return decoder;
 	}
 
 	@Override
-	public IMessageEncoder getEncoder() {
+	public PrivateProtocolEncoder getEncoder() {
 		return encoder;
 	}
 

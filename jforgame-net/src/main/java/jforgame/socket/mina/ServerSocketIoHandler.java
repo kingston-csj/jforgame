@@ -25,7 +25,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionCreated(IoSession session) {
-		IdSession userSession = new MinaSession(session);
+		IdSession userSession = new MSession(session);
 		System.out.println(session.getRemoteAddress().toString());
 		session.setAttribute(MinaSessionProperties.UserSession,
 				userSession);

@@ -9,19 +9,19 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NettySession implements IdSession {
+public class NSession implements IdSession {
 
     /**
-     * 网络连接channel
+     * socket io channel
      */
     private Channel channel;
 
     /**
-     * 拓展用，保存一些个人数据
+     * extension properties
      */
     private Map<String, Object> attrs = new HashMap<>();
 
-    public NettySession(Channel channel) {
+    public NSession(Channel channel) {
         super();
         this.channel = channel;
     }

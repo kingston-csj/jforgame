@@ -21,7 +21,7 @@ public interface Message {
 
     /**
      * messageMeta, subType of module
-     *
+     * @see
      * @return
      */
     default byte getCmd() {

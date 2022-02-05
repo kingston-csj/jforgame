@@ -5,17 +5,17 @@ import jforgame.socket.codec.protobuf.ProtobufEncoder;
 
 public class ProtobufSerializerFactory implements SerializerFactory {
 	
-	private IMessageDecoder decoder = new ProtobufDecoder();
+	private PrivateProtocolDecoder decoder = new ProtobufDecoder();
 	
-	private IMessageEncoder encoder = new ProtobufEncoder();
+	private PrivateProtocolEncoder encoder = new ProtobufEncoder();
 
 	@Override
-	public IMessageDecoder getDecoder() {
+	public PrivateProtocolDecoder getDecoder() {
 		return decoder;
 	}
 
 	@Override
-	public IMessageEncoder getEncoder() {
+	public PrivateProtocolEncoder getEncoder() {
 		return encoder;
 	}
 

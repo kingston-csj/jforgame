@@ -10,14 +10,16 @@ import org.apache.mina.core.session.IoSession;
 
 import jforgame.socket.IdSession;
 
-public class MinaSession implements IdSession {
+public class MSession implements IdSession {
 	
 	private IoSession session;
-	
-	/** 拓展用，保存一些个人数据  */
+
+	/**
+	 * extension properties
+	 */
 	private Map<String, Object> attrs = new HashMap<>();
 	
-	public MinaSession(IoSession session) {
+	public MSession(IoSession session) {
 		this.session = session;
 	}
 

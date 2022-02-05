@@ -1,13 +1,14 @@
 package jforgame.socket.mina;
 
+import jforgame.socket.CodecProperties;
+import jforgame.socket.codec.PrivateProtocolEncoder;
+import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
-
-import jforgame.socket.codec.IMessageEncoder;
-import jforgame.socket.codec.SerializerHelper;
 
 /**
  * @author kinson
@@ -26,26 +27,21 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 	}
 
 	private IoBuffer writeMessage(Message message) {
-		// ----------------消息协议格式-------------------------
-		// packetLength | moduleId | cmd  | body
-		// int             short     byte  byte[]
+		// ----------------protocol pattern-------------------------
+		// packetLength | cmd | body
+		// int int byte[]
 
 		IoBuffer buffer = IoBuffer.allocate(CodecProperties.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 
-		IMessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
-		// 具体消息编码
+		PrivateProtocolEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		byte[] body = msgEncoder.writeMessageBody(message);
-		// 消息元信息常量3表示消息body前面的两个字段，一个short表示module，一个byte表示cmd,
 		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
-		// 消息内容长度
+		// the length of message body
 		buffer.putInt(body.length + metaSize);
-		short moduleId = message.getModule();
-		byte cmd = message.getCmd();
-		// 写入module类型
-		buffer.putShort(moduleId);
+		int cmd = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
 		// 写入cmd类型
-		buffer.put(cmd);
+		buffer.putInt(cmd);
 		// 写入消息体
 		buffer.put(body);
 		// 回到buff字节数组头部

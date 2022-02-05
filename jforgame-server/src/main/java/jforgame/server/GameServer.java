@@ -19,9 +19,8 @@ import jforgame.common.utils.ClassScanner;
 import jforgame.common.utils.TimeUtil;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
-import jforgame.orm.utils.DbHelper;
 import jforgame.socket.ServerNode;
-import jforgame.socket.message.MessageFactory;
+import jforgame.socket.message.MessageFactoryImpl;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +70,7 @@ public class GameServer {
 		// 加载服务版本号
 		ServerVersion.load();
 		// 初始化协议池
-		MessageFactory.INSTANCE.initMessagePool(ServerScanPaths.MESSAGE_PATH);
+		MessageFactoryImpl.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
 		// 初始化orm框架

@@ -39,11 +39,11 @@ public class SerializerHelper {
 		return codecFactory;
 	}
 
-	public IMessageDecoder getDecoder() {
+	public PrivateProtocolDecoder getDecoder() {
 		return serializerFactory.getDecoder();
 	}
 
-	public IMessageEncoder getEncoder() {
+	public PrivateProtocolEncoder getEncoder() {
 		return serializerFactory.getEncoder();
 	}
 

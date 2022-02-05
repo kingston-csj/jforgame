@@ -11,7 +11,7 @@ import jforgame.socket.codec.SerializerFactory;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageFactory;
+import jforgame.socket.message.MessageFactoryImpl;
 
 /**
  * 客户端模拟器启动程序
@@ -20,7 +20,7 @@ public class ClientStartup {
 
 	public static void main(String[] args) throws Exception {
 		//初始化协议池
-		MessageFactory.INSTANCE.initMessagePool(ServerScanPaths.MESSAGE_PATH);
+		MessageFactoryImpl.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
 		ServerConfig.getInstance();
 

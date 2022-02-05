@@ -14,7 +14,7 @@ import jforgame.socket.codec.SerializerFactory;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.netty.NettyProtocolDecoder;
 import jforgame.socket.netty.NettyProtocolEncoder;
-import jforgame.socket.netty.NettySession;
+import jforgame.socket.netty.NSession;
 
 import java.net.InetSocketAddress;
 
@@ -47,7 +47,7 @@ public class RpcClientFactory {
             });
 
             ChannelFuture f = b.connect(new InetSocketAddress(hostPort.getHost(), hostPort.getPort())).sync();
-            IdSession session = new NettySession(f.channel());
+            IdSession session = new NSession(f.channel());
             return session;
         } catch (Exception e) {
             e.printStackTrace();
