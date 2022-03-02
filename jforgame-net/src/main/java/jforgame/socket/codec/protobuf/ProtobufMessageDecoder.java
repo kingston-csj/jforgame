@@ -2,8 +2,8 @@ package jforgame.socket.codec.protobuf;
 
 import java.io.IOException;
 
-import jforgame.socket.codec.PrivateProtocolDecoder;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageDecoder;
 import jforgame.socket.message.MessageFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,9 @@ import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
 /**
  * @author kinson
  */
-public class ProtobufDecoder implements PrivateProtocolDecoder {
+public class ProtobufMessageDecoder implements MessageDecoder {
 
-	private static Logger logger = LoggerFactory.getLogger(ProtobufDecoder.class);
+	private static Logger logger = LoggerFactory.getLogger(ProtobufMessageDecoder.class);
 
 	@Override
 	public Message readMessage(int cmd, byte[] body) {

@@ -1,9 +1,9 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.PrivateProtocolEncoder;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageEncoder;
 import jforgame.socket.message.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -34,7 +34,7 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 		IoBuffer buffer = IoBuffer.allocate(CodecProperties.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 
-		PrivateProtocolEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+		MessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		byte[] body = msgEncoder.writeMessageBody(message);
 		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
 		// the length of message body

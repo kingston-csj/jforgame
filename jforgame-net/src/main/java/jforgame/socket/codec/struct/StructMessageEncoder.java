@@ -1,15 +1,15 @@
-package jforgame.socket.codec.reflect;
+package jforgame.socket.codec.struct;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.PrivateProtocolEncoder;
+import jforgame.socket.message.MessageEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
-public class ReflectEncoder implements PrivateProtocolEncoder {
+public class StructMessageEncoder implements MessageEncoder {
 
-    private static Logger logger = LoggerFactory.getLogger(ReflectEncoder.class);
+    private static Logger logger = LoggerFactory.getLogger(StructMessageEncoder.class);
 
     private ThreadLocal<ByteBuffer> localBuff = ThreadLocal.withInitial(() -> ByteBuffer.allocate(CodecProperties.WRITE_CAPACITY));
 

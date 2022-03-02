@@ -1,4 +1,4 @@
-package jforgame.socket.codec.reflect;
+package jforgame.socket.codec.struct;
 
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;

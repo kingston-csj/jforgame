@@ -4,9 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.PrivateProtocolEncoder;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageEncoder;
 import jforgame.socket.message.MessageFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class NettyProtocolEncoder extends MessageToByteEncoder<Message> {
 
 		try {
 			final int metaSize = CodecProperties.MESSAGE_META_SIZE;
-			PrivateProtocolEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+			MessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 			byte[] body = msgEncoder.writeMessageBody(message);
 			//消息内容长度
 			out.writeInt(body.length + metaSize);

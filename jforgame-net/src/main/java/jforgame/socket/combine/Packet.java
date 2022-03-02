@@ -2,10 +2,10 @@ package jforgame.socket.combine;
 
 import com.baidu.bjf.remoting.protobuf.FieldType;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
-import jforgame.socket.codec.PrivateProtocolDecoder;
-import jforgame.socket.codec.PrivateProtocolEncoder;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageDecoder;
+import jforgame.socket.message.MessageEncoder;
 
 /**
  * full message unit
@@ -31,14 +31,14 @@ public class Packet {
 		packet.module  = message.getModule();
 		packet.cmd     = message.getCmd();
 
-		PrivateProtocolEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+		MessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
 		packet.body = msgEncoder.writeMessageBody(message);
 
 		return packet;
 	}
 
 	public static Message asMessage(Packet packet) {
-		PrivateProtocolDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
+		MessageDecoder msgEncoder = SerializerHelper.getInstance().getDecoder();
 
 		return msgEncoder.readMessage(packet.cmd, packet.body);
 	}

@@ -2,14 +2,13 @@ package jforgame.socket.codec.protobuf;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import jforgame.socket.codec.PrivateProtocolEncoder;
-import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProtobufEncoder implements PrivateProtocolEncoder {
+public class ProtobufMessageEncoder implements MessageEncoder {
 
-	private static Logger logger = LoggerFactory.getLogger(ProtobufEncoder.class);
+	private static Logger logger = LoggerFactory.getLogger(ProtobufMessageEncoder.class);
 
 	@Override
 	public byte[] writeMessageBody(Object message) {

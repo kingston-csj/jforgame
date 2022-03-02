@@ -1,13 +1,11 @@
-package jforgame.socket.codec;
-
-import jforgame.socket.message.Message;
+package jforgame.socket.message;
 
 /**
  * 私有协议栈消息编码器
  * @author kinson
  *
  */
-public interface PrivateProtocolEncoder {
+public interface MessageEncoder {
 
 	/**
 	 * 把一个具体的消息序列化byte[]

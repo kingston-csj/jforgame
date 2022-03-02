@@ -12,13 +12,6 @@ public interface MessageFactory {
     void registerMessage(int cmd, Class<?> clazz);
 
     /**
-     * rebinding  messageId and messageClass
-     * @param cmd
-     * @param clazz
-     */
-    void replaceMessage(int cmd, Class<?> clazz);
-
-    /**
      * return message class of the appointed messageId
      * @param cmd
      * @return

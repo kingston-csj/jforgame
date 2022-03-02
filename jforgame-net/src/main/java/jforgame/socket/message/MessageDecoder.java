@@ -1,6 +1,4 @@
-package jforgame.socket.codec;
-
-import jforgame.socket.message.Message;
+package jforgame.socket.message;
 
 /**
  * 私有协议栈消息解码器
@@ -8,7 +6,7 @@ import jforgame.socket.message.Message;
  * @author kinson
  *
  */
-public interface PrivateProtocolDecoder {
+public interface MessageDecoder {
 
 	/**
 	 * 	根据消息元信息反序列号为消息

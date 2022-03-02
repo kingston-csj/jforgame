@@ -5,7 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.IdSession;
-import jforgame.socket.codec.SerializerFactory;
+import jforgame.socket.codec.MessageCodecFactory;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.message.Message;
 import jforgame.socket.netty.ChannelUtils;
@@ -21,9 +21,9 @@ public class MsgIoHandler extends ChannelInboundHandlerAdapter {
 
     private IMessageDispatcher messageDispatcher;
 
-    private SerializerFactory messageSerializer;
+    private MessageCodecFactory messageSerializer;
 
-    public MsgIoHandler(IMessageDispatcher messageDispatcher, SerializerFactory messageSerializer) {
+    public MsgIoHandler(IMessageDispatcher messageDispatcher, MessageCodecFactory messageSerializer) {
         this.messageDispatcher = messageDispatcher;
         this.messageSerializer = messageSerializer;
     }

@@ -10,11 +10,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
-import jforgame.socket.codec.SerializerFactory;
+import jforgame.socket.codec.MessageCodecFactory;
 import jforgame.socket.message.IMessageDispatcher;
+import jforgame.socket.netty.NSession;
 import jforgame.socket.netty.NettyProtocolDecoder;
 import jforgame.socket.netty.NettyProtocolEncoder;
-import jforgame.socket.netty.NSession;
 
 import java.net.InetSocketAddress;
 
@@ -22,11 +22,11 @@ public class RpcClientFactory {
 
     private IMessageDispatcher messageDispatcher;
 
-    private SerializerFactory messageSerializer;
+    private MessageCodecFactory messageSerializer;
 
     private EventLoopGroup group = new NioEventLoopGroup(4);
 
-    public RpcClientFactory(IMessageDispatcher messageDispatcher, SerializerFactory messageSerializer) {
+    public RpcClientFactory(IMessageDispatcher messageDispatcher, MessageCodecFactory messageSerializer) {
         this.messageDispatcher = messageDispatcher;
         this.messageSerializer = messageSerializer;
     }

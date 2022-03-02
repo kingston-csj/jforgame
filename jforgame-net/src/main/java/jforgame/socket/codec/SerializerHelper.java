@@ -1,5 +1,8 @@
 package jforgame.socket.codec;
 
+import jforgame.socket.message.MessageDecoder;
+import jforgame.socket.message.MessageEncoder;
+
 /**
  * @author kinson
  */
@@ -10,12 +13,12 @@ public class SerializerHelper {
 	/**
 	 * 消息私有协议栈编解码
 	 */
-	private MessageCodecFactory codecFactory;
+	private MinaMessageCodecFactory codecFactory;
 
 	/**
 	 * 消息序列化编解码
 	 */
-	private static SerializerFactory serializerFactory = new ReflectSerializerFactory();
+	private static MessageCodecFactory serializerFactory = new StructPrivateProtocolCodec();
 
 	public static SerializerHelper getInstance() {
 		if (instance != null) {
@@ -32,22 +35,22 @@ public class SerializerHelper {
 	}
 
 	private void initialize() {
-		codecFactory = new MessageCodecFactory();
+		codecFactory = new MinaMessageCodecFactory();
 	}
 
-	public MessageCodecFactory getCodecFactory() {
+	public MinaMessageCodecFactory getCodecFactory() {
 		return codecFactory;
 	}
 
-	public PrivateProtocolDecoder getDecoder() {
+	public MessageDecoder getDecoder() {
 		return serializerFactory.getDecoder();
 	}
 
-	public PrivateProtocolEncoder getEncoder() {
+	public MessageEncoder getEncoder() {
 		return serializerFactory.getEncoder();
 	}
 
-	public SerializerFactory getSerializerFactory() {
+	public MessageCodecFactory getSerializerFactory() {
 		return serializerFactory;
 	}
 

@@ -1,9 +1,9 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.PrivateProtocolDecoder;
 import jforgame.socket.codec.SerializerHelper;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageDecoder;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
@@ -18,12 +18,14 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 
 	private Logger logger = LoggerFactory.getLogger(MinaProtocolDecoder.class);
 
+	private int maxProtocolLength;
+
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		if (in.remaining() < 4) {
 			return false;
 		}
-		PrivateProtocolDecoder msgDecoder = SerializerHelper.getInstance().getDecoder();
+		MessageDecoder msgDecoder = SerializerHelper.getInstance().getDecoder();
 		in.mark();
 
 		// ----------------protocol pattern-------------------------

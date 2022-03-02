@@ -46,11 +46,6 @@ public class MessageFactoryImpl implements MessageFactory {
 		if (id2Clazz.containsKey(cmd)) {
 			throw new IllegalStateException("message meta [" + cmd + "] duplicate！！");
 		}
-		replaceMessage(cmd, clazz);
-	}
-
-	@Override
-	public void replaceMessage(int cmd, Class<?> clazz) {
 		MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
 		if (meta == null) {
 			throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");

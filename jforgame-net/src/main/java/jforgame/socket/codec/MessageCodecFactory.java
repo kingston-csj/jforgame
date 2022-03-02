@@ -1,29 +1,24 @@
 package jforgame.socket.codec;
 
-import jforgame.socket.mina.MinaProtocolDecoder;
-import jforgame.socket.mina.MinaProtocolEncoder;
-import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolCodecFactory;
-import org.apache.mina.filter.codec.ProtocolDecoder;
-import org.apache.mina.filter.codec.ProtocolEncoder;
+import jforgame.socket.message.MessageDecoder;
+import jforgame.socket.message.MessageEncoder;
 
 /**
- * @author kinson
+ * 消息序列化工厂
+ *
  */
-public class MessageCodecFactory implements ProtocolCodecFactory {
-
-	private MinaProtocolDecoder decoder = new MinaProtocolDecoder();
-
-	private MinaProtocolEncoder encoder = new MinaProtocolEncoder();
-
-	@Override
-	public ProtocolEncoder getEncoder(IoSession session) throws Exception {
-		return encoder;
-	}
-
-	@Override
-	public ProtocolDecoder getDecoder(IoSession session) throws Exception {
-		return decoder;
-	}
+public interface MessageCodecFactory {
+	
+	/**
+	 * 生成解码器
+	 * @return
+	 */
+	MessageDecoder getDecoder();
+	
+	/**
+	 * 生成编码器
+	 * @return
+	 */
+	MessageEncoder getEncoder();
 
 }
