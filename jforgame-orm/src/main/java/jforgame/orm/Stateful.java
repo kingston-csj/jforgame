@@ -1,6 +1,6 @@
-package jforgame.orm.cache;
+package jforgame.orm;
 
-public abstract class Cacheable {
+public abstract class Stateful {
 
 	/** 当前实体对象的db状态 */
 	protected DbStatus status = DbStatus.NORMAL;
@@ -47,10 +47,5 @@ public abstract class Cacheable {
 	 */
 	public abstract void setDelete();
 	
-	/**
-	 * 获取持久化对应的sql语句
-	 * return {@link String} 入库sql语句
-	 */
-	public abstract String getSaveSql();
-	
+
 }

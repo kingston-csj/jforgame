@@ -1,4 +1,4 @@
-package jforgame.orm.exception;
+package jforgame.orm;
 
 /**
  *  orm配置异常

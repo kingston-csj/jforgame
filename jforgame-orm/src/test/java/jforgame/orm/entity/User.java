@@ -1,13 +1,13 @@
 package jforgame.orm.entity;
 
-import jforgame.orm.cache.AbstractCacheable;
+import jforgame.orm.StatefulEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="player")
-public class User extends AbstractCacheable {
+public class User extends StatefulEntity {
 
 	@Column(name="id")
 	@Id

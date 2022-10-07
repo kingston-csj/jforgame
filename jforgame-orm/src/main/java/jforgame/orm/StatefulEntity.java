@@ -1,12 +1,10 @@
-package jforgame.orm.cache;
-
-import jforgame.orm.utils.SqlUtils;
+package jforgame.orm;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class AbstractCacheable extends Cacheable {
+public abstract class StatefulEntity extends Stateful {
 
     /**
      * 是否已经持久化
@@ -110,12 +108,6 @@ public abstract class AbstractCacheable extends Cacheable {
      */
     public boolean existedInDb() {
         return persistent.get();
-    }
-
-    @Override
-    public final String getSaveSql() {
-        autoSetStatus();
-        return SqlUtils.getSaveSql(this);
     }
 
     public void autoSetStatus() {

@@ -4,7 +4,7 @@ import jforgame.orm.BeanProcessor;
 import jforgame.orm.FieldMetadata;
 import jforgame.orm.OrmBridge;
 import jforgame.orm.OrmProcessor;
-import jforgame.orm.cache.AbstractCacheable;
+import jforgame.orm.StatefulEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -253,7 +253,7 @@ public class DbHelper {
         }
     }
 
-    public static int executeInsert(Connection connection, AbstractCacheable entity) throws SQLException {
+    public static int executeInsert(Connection connection, StatefulEntity entity) throws SQLException {
         PreparedStatement statement = null;
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
@@ -296,7 +296,7 @@ public class DbHelper {
         }
     }
 
-    public static int executeUpdate(Connection connection, AbstractCacheable entity) throws SQLException {
+    public static int executeUpdate(Connection connection, StatefulEntity entity) throws SQLException {
         PreparedStatement statement = null;
         ParameterMetaData pmd = null;
         try {
@@ -332,7 +332,7 @@ public class DbHelper {
         }
     }
 
-    private static LinkedHashMap<String, Object> changedFieldValue(AbstractCacheable entity) {
+    private static LinkedHashMap<String, Object> changedFieldValue(StatefulEntity entity) {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
         Set<String> columns = entity.savingColumns();

@@ -1,4 +1,4 @@
-package jforgame.orm.cache;
+package jforgame.orm;
 
 public enum DbStatus {
 

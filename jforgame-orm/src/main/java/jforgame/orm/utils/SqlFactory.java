@@ -2,7 +2,7 @@ package jforgame.orm.utils;
 
 import jforgame.orm.FieldMetadata;
 import jforgame.orm.OrmBridge;
-import jforgame.orm.cache.AbstractCacheable;
+import jforgame.orm.StatefulEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ public class SqlFactory {
 
     private static Logger logger = LoggerFactory.getLogger(SqlFactory.class);
 
-    public static String createInsertSql(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createInsertSql(StatefulEntity entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(" INSERT INTO ")
@@ -55,7 +55,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createPreparedInsertSql(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createPreparedInsertSql(StatefulEntity entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(" INSERT INTO ")
@@ -85,7 +85,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createPreparedUpdateSql(AbstractCacheable entity, OrmBridge bridge, Object[] columns) {
+    public static String createPreparedUpdateSql(StatefulEntity entity, OrmBridge bridge, Object[] columns) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE ").append(bridge.getTableName())
                 .append(" SET ");
@@ -107,7 +107,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createUpdateSql(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createUpdateSql(StatefulEntity entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE ").append(bridge.getTableName())
                 .append(" SET ");
@@ -117,7 +117,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    private static String object2SetterSql(AbstractCacheable entity, OrmBridge bridge) {
+    private static String object2SetterSql(StatefulEntity entity, OrmBridge bridge) {
         Set<String> columns = entity.savingColumns();
         StringBuilder sb = new StringBuilder();
         boolean saveAll = entity.isSaveAll() || columns == null || columns.size() <= 0;
@@ -150,7 +150,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    public static String createDeleteSql(AbstractCacheable entity, OrmBridge bridge) {
+    public static String createDeleteSql(StatefulEntity entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         sb.append(" DELETE FROM ")
                 .append(bridge.getTableName())
@@ -159,7 +159,7 @@ public class SqlFactory {
         return sb.toString();
     }
 
-    private static String createWhereClauseSql(AbstractCacheable entity, OrmBridge bridge) {
+    private static String createWhereClauseSql(StatefulEntity entity, OrmBridge bridge) {
         StringBuilder sb = new StringBuilder();
         //占位申明，避免拼接sql需要考虑and
         sb.append(" WHERE 1=1");
