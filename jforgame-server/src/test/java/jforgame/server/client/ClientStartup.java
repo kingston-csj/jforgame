@@ -37,7 +37,7 @@ public class ClientStartup {
 			}
 
 			@Override
-			public void dispatch(IdSession session, Message message) {
+			public void dispatch(IdSession session, Object message) {
 				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
 			}
 

@@ -16,9 +16,9 @@ public class MessageFactoryImpl implements MessageFactory {
 	 */
 	private static MessageFactoryImpl instance = new MessageFactoryImpl();
 
-	private Map<Integer, Class<?>> id2Clazz = new HashMap<>();
+	private Map<Integer, Class> id2Clazz = new HashMap<>();
 
-	private Map<Class<?>, Integer> clazz2Id = new HashMap<>();
+	private Map<Class, Integer> clazz2Id = new HashMap<>();
 
 	public static MessageFactoryImpl getInstance() {
 		return instance;
@@ -57,17 +57,17 @@ public class MessageFactoryImpl implements MessageFactory {
 	}
 
 	@Override
-	public Class<?> getMessage(int cmd) {
+	public Class  getMessage(int cmd) {
 		return id2Clazz.get(cmd);
 	}
 
 
 	@Override
-	public int getMessageId(Class<?> clazz) {
+	public int getMessageId(Class clazz) {
 		return clazz2Id.get(clazz);
 	}
 
-	private int buildKey(short module, byte cmd) {
+	private int buildKey(short module, int cmd) {
 		int result = Math.abs(module) * 1000 + Math.abs(cmd);
 		return cmd < 0 ? -result : result;
 	}

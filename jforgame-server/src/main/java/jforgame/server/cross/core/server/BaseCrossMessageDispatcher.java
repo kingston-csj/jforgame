@@ -51,7 +51,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 				for (Method method : methods) {
 					RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);
 					if (mapperAnnotation != null) {
-						short[] meta = getMessageMeta(method);
+						int[] meta = getMessageMeta(method);
 						if (meta == null) {
 							throw new RuntimeException(
 									String.format("controller[%s] method[%s] lack of RequestMapping annotation",
@@ -91,12 +91,12 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 	 * @param method
 	 * @return
 	 */
-	private short[] getMessageMeta(Method method) {
+	private int[] getMessageMeta(Method method) {
 		for (Class<?> paramClazz : method.getParameterTypes()) {
 			if (Message.class.isAssignableFrom(paramClazz)) {
 				MessageMeta protocol = paramClazz.getAnnotation(MessageMeta.class);
 				if (protocol != null) {
-					short[] meta = { protocol.module(), protocol.cmd() };
+					int[] meta = { protocol.module(), protocol.cmd() };
 					return meta;
 				}
 			}

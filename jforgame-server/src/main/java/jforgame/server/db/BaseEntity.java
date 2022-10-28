@@ -1,6 +1,6 @@
 package jforgame.server.db;
 
-import jforgame.orm.cache.AbstractCacheable;
+import jforgame.orm.StatefulEntity;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author kinson
  */
 @SuppressWarnings("serial")
-public abstract class BaseEntity<Id extends Comparable & Serializable> extends AbstractCacheable
+public abstract class BaseEntity<Id extends Comparable & Serializable> extends StatefulEntity
         implements Serializable {
 
     /**

@@ -17,7 +17,7 @@ public interface IdSession {
 
     String ID = "ID";
 
-    void sendPacket(Message packet);
+    void sendPacket(Object packet);
 
     long getOwnerId();
 

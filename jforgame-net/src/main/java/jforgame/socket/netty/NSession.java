@@ -2,7 +2,6 @@ package jforgame.socket.netty;
 
 import io.netty.channel.Channel;
 import jforgame.socket.IdSession;
-import jforgame.socket.message.Message;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetSocketAddress;
@@ -27,7 +26,7 @@ public class NSession implements IdSession {
     }
 
     @Override
-    public void sendPacket(Message packet) {
+    public void sendPacket(Object packet) {
         channel.writeAndFlush(packet);
     }
 

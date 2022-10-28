@@ -4,7 +4,6 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-import jforgame.socket.message.Message;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mina.core.session.IoSession;
 
@@ -24,7 +23,7 @@ public class MSession implements IdSession {
 	}
 
 	@Override
-	public void sendPacket(Message packet) {
+	public void sendPacket(Object packet) {
 		session.write(packet);
 	}
 

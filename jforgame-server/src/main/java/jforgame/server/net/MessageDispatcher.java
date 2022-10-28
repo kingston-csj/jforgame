@@ -10,6 +10,7 @@ import jforgame.socket.annotation.RequestMapping;
 import jforgame.socket.message.CmdExecutor;
 import jforgame.socket.message.IMessageDispatcher;
 import jforgame.socket.message.Message;
+import jforgame.socket.message.MessageFactoryImpl;
 import jforgame.socket.session.SessionManager;
 import jforgame.socket.task.BaseGameTask;
 import jforgame.socket.task.MessageTask;
@@ -26,7 +27,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/** [module_cmd, CmdExecutor] */
-	private static final Map<String, CmdExecutor> MODULE_CMD_HANDLERS = new HashMap<>();
+	private static final Map<Integer, CmdExecutor> MODULE_CMD_HANDLERS = new HashMap<>();
 
 	public MessageDispatcher(String scanPath) {
 		initialize(scanPath);
@@ -43,15 +44,15 @@ public class MessageDispatcher implements IMessageDispatcher {
 				for (Method method : methods) {
 					RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);
 					if (mapperAnnotation != null) {
-						short[] meta = getMessageMeta(method);
+						int[] meta = getMessageMeta(method);
 						if (meta == null) {
 							throw new RuntimeException(
 									String.format("controller[%s] method[%s] lack of RequestMapping annotation",
 											controller.getName(), method.getName()));
 						}
-						short module = meta[0];
-						short cmd = meta[1];
-						String key = buildKey(module, cmd);
+						int module = meta[0];
+						int cmd = meta[1];
+						int key = buildKey(module, cmd);
 						CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(key);
 						if (cmdExecutor != null) {
 							throw new RuntimeException(String.format("module[%d] cmd[%d] duplicated", module, cmd));
@@ -73,12 +74,12 @@ public class MessageDispatcher implements IMessageDispatcher {
 	 * @param method
 	 * @return
 	 */
-	private short[] getMessageMeta(Method method) {
+	private int[] getMessageMeta(Method method) {
 		for (Class<?> paramClazz : method.getParameterTypes()) {
 			if (Message.class.isAssignableFrom(paramClazz)) {
 				MessageMeta protocol = paramClazz.getAnnotation(MessageMeta.class);
 				if (protocol != null) {
-					short[] meta = { protocol.module(), protocol.cmd() };
+					int[] meta = { protocol.module(), protocol.cmd() };
 					return meta;
 				}
 			}
@@ -93,15 +94,14 @@ public class MessageDispatcher implements IMessageDispatcher {
 	}
 
 	@Override
-	public void dispatch(IdSession session, Message message) {
-		short module = message.getModule();
-		short cmd = message.getCmd();
-
-		CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(buildKey(module, cmd));
+	public void dispatch(IdSession session, Object message) {
+		int cmd = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
+		CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(cmd);
 		if (cmdExecutor == null) {
-			logger.error("message executor missed, module={},cmd={}", module, cmd);
+			logger.error("message executor missed,  cmd={}",  cmd);
 			return;
 		}
+
 
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();
@@ -120,7 +120,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 	 * @param message
 	 * @return
 	 */
-	private Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Message message) {
+	private Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object message) {
 		Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
 
 		for (int i = 0; i < result.length; i++) {
@@ -139,8 +139,9 @@ public class MessageDispatcher implements IMessageDispatcher {
 		return result;
 	}
 
-	private String buildKey(short module, short cmd) {
-		return module + "_" + cmd;
+	private int buildKey(int module, int cmd) {
+		int result = Math.abs(module) * 1000 + Math.abs(cmd);
+		return cmd < 0 ? -result : result;
 	}
 
 	@Override

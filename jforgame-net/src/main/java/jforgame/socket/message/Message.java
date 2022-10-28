@@ -24,7 +24,7 @@ public interface Message {
      * @see
      * @return
      */
-    default byte getCmd() {
+    default int getCmd() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
         if (annotation != null) {
             return annotation.cmd();

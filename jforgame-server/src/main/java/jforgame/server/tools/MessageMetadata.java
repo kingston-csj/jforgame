@@ -8,7 +8,7 @@ public class MessageMetadata implements Comparable<MessageMetadata> {
 
     private short module;
 
-    private byte cmd;
+    private int cmd;
 
     private int id;
 
@@ -29,7 +29,7 @@ public class MessageMetadata implements Comparable<MessageMetadata> {
         return module;
     }
 
-    public byte getCmd() {
+    public int getCmd() {
         return cmd;
     }
 

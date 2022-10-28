@@ -15,7 +15,7 @@ public interface IMessageDispatcher {
      * @param session
      * @param message
      */
-	void dispatch(IdSession session, Message message);
+	void dispatch(IdSession session, Object message);
 	
 	/**
 	 * fire session close event

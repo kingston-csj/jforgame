@@ -26,6 +26,6 @@ public @interface MessageMeta {
 
 	short module() default 0;
 
-	byte cmd() default 0;
+	int cmd() default 0;
 
 }
