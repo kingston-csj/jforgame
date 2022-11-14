@@ -19,7 +19,7 @@
         <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.13.4.1</jackson.version>
         <juit.version>4.13.1</juit.version>
         <dom4j.version>2.1.3</dom4j.version>
         <mina.version>2.0.7</mina.version>
