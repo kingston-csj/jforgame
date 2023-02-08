@@ -1,5 +1,8 @@
-package jforgame.server;
+package jforgame.server.net;
 
+import jforgame.server.ServerConfig;
+import jforgame.server.ServerScanPaths;
+import jforgame.server.ServerVersion;
 import jforgame.server.cross.core.CrossServer;
 import jforgame.server.db.BaseEntity;
 import jforgame.server.db.DbService;
@@ -20,7 +23,7 @@ import jforgame.common.utils.TimeUtil;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.ServerNode;
-import jforgame.socket.message.MessageFactoryImpl;
+import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

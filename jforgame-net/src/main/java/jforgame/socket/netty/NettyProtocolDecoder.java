@@ -4,9 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageDecoder;
+import jforgame.socket.share.message.Message;
+import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
         if (in.readableBytes() < 4) {
             return;
         }
-        MessageDecoder msgDecoder = SerializerHelper.getInstance().getDecoder();
+        MessageDecoder msgDecoder = DefaultMessageCodecFactory.getMessageCodecFactory().getDecoder();
         in.markReaderIndex();
         // ----------------protocol pattern-------------------------
         // packetLength | cmd | body
@@ -47,7 +47,7 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
         int cmd = in.readInt();
         byte[] body = new byte[length - metaSize];
         in.readBytes(body);
-        Message msg = msgDecoder.readMessage(cmd, body);
+        Object msg = msgDecoder.readMessage(cmd, body);
 
         out.add(msg);
 

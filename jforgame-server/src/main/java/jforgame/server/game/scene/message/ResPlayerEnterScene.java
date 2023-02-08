@@ -2,8 +2,8 @@ package jforgame.server.game.scene.message;
 
 import jforgame.server.game.Modules;
 import jforgame.server.game.scene.SceneDataPool;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 @MessageMeta(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
 public class ResPlayerEnterScene implements Message {

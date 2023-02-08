@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
 import jforgame.common.utils.ClassScanner;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 /**
  * 导出.proto文件(供客户端用)

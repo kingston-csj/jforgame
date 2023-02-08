@@ -1,6 +1,6 @@
 package jforgame.server.tools;
 
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 public class MessageMetadata implements Comparable<MessageMetadata> {
 

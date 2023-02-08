@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jforgame.socket.IdSession;
-import jforgame.socket.message.IMessageDispatcher;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.IMessageDispatcher;
 
 /**
  * @author kinson
@@ -26,7 +25,6 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	@Override
 	public void sessionCreated(IoSession session) {
 		IdSession userSession = new MSession(session);
-		System.out.println(session.getRemoteAddress().toString());
 		session.setAttribute(MinaSessionProperties.UserSession,
 				userSession);
 		messageDispatcher.onSessionCreated(userSession);

@@ -1,9 +1,8 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageDecoder;
+import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
@@ -18,22 +17,21 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 
 	private Logger logger = LoggerFactory.getLogger(MinaProtocolDecoder.class);
 
-	private int maxProtocolLength;
+	private int maxProtocolLength = 4096;
 
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		if (in.remaining() < 4) {
 			return false;
 		}
-		MessageDecoder msgDecoder = SerializerHelper.getInstance().getDecoder();
+		MessageDecoder msgDecoder = DefaultMessageCodecFactory.getMessageCodecFactory().getDecoder();
 		in.mark();
 
 		// ----------------protocol pattern-------------------------
 		// packetLength | cmd | body
 		// int int byte[]
 		int length = in.getInt();
-		int maxReceiveBytes = 4096;
-		if (length > maxReceiveBytes) {
+		if (length > maxProtocolLength) {
 			logger.error("单包长度[{}]过大，断开链接", length);
 			session.close(true);
 			return true;
@@ -48,7 +46,7 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 		int cmd = in.getInt();
 		byte[] body = new byte[length - metaSize];
 		in.get(body);
-		Message msg = msgDecoder.readMessage(cmd, body);
+		Object msg = msgDecoder.readMessage(cmd, body);
 
 		out.write(msg);
 		return true;

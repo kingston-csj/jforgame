@@ -2,8 +2,8 @@ package jforgame.server.game.cross.ladder.message;
 
 import jforgame.server.game.Modules;
 import jforgame.server.game.cross.ladder.service.LadderDataPool;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 /**
  * 通知客户端切换socket到战斗服

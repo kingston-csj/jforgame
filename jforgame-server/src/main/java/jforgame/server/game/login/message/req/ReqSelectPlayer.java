@@ -3,8 +3,8 @@ package jforgame.server.game.login.message.req;
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import jforgame.server.game.Modules;
 import jforgame.server.game.login.LoginDataPool;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_SELECT_PLAYER)
 @ProtobufClass

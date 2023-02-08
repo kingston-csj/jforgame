@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 
 import jforgame.server.ServerScanPaths;
 import jforgame.server.net.MessageDispatcher;
+import jforgame.socket.support.MessageFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +68,7 @@ public class NettySocketServer implements ServerNode {
 		protected void initChannel(SocketChannel arg0) throws Exception {
 			ChannelPipeline pipeline = arg0.pipeline();
 			pipeline.addLast(new NettyProtocolDecoder(maxReceiveBytes));
-			pipeline.addLast(new NettyProtocolEncoder());
+			pipeline.addLast(new NettyProtocolEncoder(MessageFactoryImpl.getInstance()));
 			// 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
 			pipeline.addLast(new IdleStateHandler(0, 0, 300));
 			pipeline.addLast(new IoEventHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));

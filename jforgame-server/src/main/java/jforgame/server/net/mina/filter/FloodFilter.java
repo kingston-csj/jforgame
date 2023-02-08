@@ -1,16 +1,14 @@
 package jforgame.server.net.mina.filter;
 
+import jforgame.common.utils.NumberUtil;
+import jforgame.common.utils.TimeUtil;
+import jforgame.server.FireWallConfig;
 import jforgame.server.net.model.FloodRecord;
+import jforgame.socket.mina.MinaSessionProperties;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jforgame.common.utils.NumberUtil;
-import jforgame.common.utils.TimeUtil;
-import jforgame.server.FireWallConfig;
-import jforgame.socket.mina.MinaSessionProperties;
-import jforgame.socket.session.SessionManager;
 
 /**
  * 流量洪水过滤器
@@ -56,8 +54,7 @@ public class FloodFilter extends IoFilterAdapter {
 	}
 	
 	private static FloodRecord getFloodRecordBy(IoSession session) {
-		SessionManager sessionMgr = SessionManager.INSTANCE;
-		Object record =  session.getAttribute(
+		Object record = session.getAttribute(
 				MinaSessionProperties.FLOOD);
 		if (record == null) {
 			record = new FloodRecord();

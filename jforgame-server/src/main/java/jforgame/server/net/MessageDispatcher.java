@@ -4,16 +4,15 @@ import jforgame.common.utils.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.socket.IdSession;
-import jforgame.socket.annotation.Controller;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.annotation.RequestMapping;
-import jforgame.socket.message.CmdExecutor;
-import jforgame.socket.message.IMessageDispatcher;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageFactoryImpl;
-import jforgame.socket.session.SessionManager;
-import jforgame.socket.task.BaseGameTask;
-import jforgame.socket.task.MessageTask;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.annotation.RequestMapping;
+import jforgame.socket.share.message.CmdExecutor;
+import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.message.Message;
+import jforgame.socket.support.MessageFactoryImpl;
+import jforgame.socket.share.task.BaseGameTask;
+import jforgame.socket.share.task.MessageTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +34,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 
 	private void initialize(String scanPath) {
 		Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation(scanPath,
-				Controller.class);
+				MessageRoute.class);
 
 		for (Class<?> controller : controllers) {
 			try {
@@ -101,7 +100,6 @@ public class MessageDispatcher implements IMessageDispatcher {
 			logger.error("message executor missed,  cmd={}",  cmd);
 			return;
 		}
-
 
 		Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
 		Object controller = cmdExecutor.getHandler();

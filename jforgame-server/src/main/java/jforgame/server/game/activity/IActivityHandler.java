@@ -1,7 +1,7 @@
 package jforgame.server.game.activity;
 
 import jforgame.server.game.database.user.PlayerEnt;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 public interface IActivityHandler {
 	

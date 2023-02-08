@@ -1,24 +1,33 @@
 package jforgame.socket.codec;
 
-import jforgame.socket.codec.struct.ReflectDecoder;
+import jforgame.socket.codec.struct.StructMessageDecoder;
 import jforgame.socket.codec.struct.StructMessageEncoder;
-import jforgame.socket.message.MessageDecoder;
-import jforgame.socket.message.MessageEncoder;
+import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.share.message.MessageEncoder;
+import jforgame.socket.share.message.MessageFactory;
 
 public class StructPrivateProtocolCodec implements MessageCodecFactory {
-	
-	private MessageDecoder decoder = new ReflectDecoder();
-	
-	private MessageEncoder encoder = new StructMessageEncoder();
-	
-	@Override
-	public MessageDecoder getDecoder() {
-		return decoder;
-	}
 
-	@Override
-	public MessageEncoder getEncoder() {
-		return encoder;
-	}
+    private MessageFactory messageFactory;
+
+    private MessageDecoder decoder;
+
+    private MessageEncoder encoder;
+
+    public StructPrivateProtocolCodec(MessageFactory messageFactory) {
+        this.messageFactory = messageFactory;
+        this.decoder = new StructMessageDecoder(messageFactory);
+        this.encoder = new StructMessageEncoder();
+    }
+
+    @Override
+    public MessageDecoder getDecoder() {
+        return decoder;
+    }
+
+    @Override
+    public MessageEncoder getEncoder() {
+        return encoder;
+    }
 
 }

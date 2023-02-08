@@ -1,10 +1,8 @@
-package jforgame.socket.message;
+package jforgame.socket.share.message;
 
-import jforgame.socket.annotation.MessageMeta;
+import jforgame.socket.share.annotation.MessageMeta;
 
 public interface Message {
-
-
 
     /**
      * messageMeta, module of message

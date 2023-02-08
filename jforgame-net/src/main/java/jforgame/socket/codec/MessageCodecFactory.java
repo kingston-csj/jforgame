@@ -1,7 +1,7 @@
 package jforgame.socket.codec;
 
-import jforgame.socket.message.MessageDecoder;
-import jforgame.socket.message.MessageEncoder;
+import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.share.message.MessageEncoder;
 
 /**
  * 消息序列化工厂

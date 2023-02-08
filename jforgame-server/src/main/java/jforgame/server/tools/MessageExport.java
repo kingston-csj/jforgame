@@ -2,7 +2,7 @@ package jforgame.server.tools;
 
 import jforgame.common.utils.ClassScanner;
 import jforgame.server.ServerScanPaths;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 import java.util.stream.Collectors;
 

@@ -7,7 +7,7 @@ import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.client.CrossTransportManager;
 import jforgame.socket.HostAndPort;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 public class CrossDemoGameService {
 
@@ -20,7 +20,7 @@ public class CrossDemoGameService {
             String matchUrl = ServerConfig.getInstance().getMatchUrl();
             String ip = matchUrl.split(":")[0];
             int port = NumberUtil.intValue(matchUrl.split(":")[1]);
-            Message callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
+            Object callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
             System.out.println(callBack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,7 +37,7 @@ public class CrossDemoGameService {
             int port = NumberUtil.intValue(matchUrl.split(":")[1]);
             CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req, new RequestCallback() {
                 @Override
-                public void onSuccess(Message callBack) {
+                public void onSuccess(Object callBack) {
                     System.out.println(callBack);
                 }
 

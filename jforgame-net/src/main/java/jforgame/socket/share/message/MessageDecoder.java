@@ -1,4 +1,4 @@
-package jforgame.socket.message;
+package jforgame.socket.share.message;
 
 /**
  * 私有协议栈消息解码器
@@ -16,6 +16,6 @@ public interface MessageDecoder {
 	 * @param body   完整的消息包体字节流
 	 * @return
 	 */
-	Message readMessage(int cmd, byte[] body);
+	Object readMessage(int cmd, byte[] body);
 
 }

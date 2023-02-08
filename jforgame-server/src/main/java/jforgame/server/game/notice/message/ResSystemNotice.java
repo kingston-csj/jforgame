@@ -5,8 +5,8 @@ import java.util.List;
 
 import jforgame.server.game.Modules;
 import jforgame.server.game.notice.NoticeDataPool;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 @MessageMeta(module = Modules.NOTICE, cmd = NoticeDataPool.RES_NOTICE)
 public class ResSystemNotice implements Message {

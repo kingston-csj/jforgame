@@ -1,22 +1,20 @@
 package jforgame.server.cross.core.client;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import jforgame.server.cross.core.server.CMessageDispatcher;
 import jforgame.common.utils.TimeUtil;
+import jforgame.server.cross.core.server.CMessageDispatcher;
+import jforgame.socket.mina.MinaMessageCodecFactory;
+import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.Message;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.InetSocketAddress;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CCSession {
 
@@ -53,15 +51,14 @@ public class CCSession {
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
 		connector.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
+				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance())));
 		connector.setHandler(new IoHandlerAdapter() {
 			@Override
 			public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 			}
 			@Override
 			public void messageReceived(IoSession session, Object data) throws Exception {
-				Message message = (Message)data;
-				dispatcher.clientDispatch(CCSession.this, message);
+				dispatcher.clientDispatch(CCSession.this, data);
 			}
 		});
 
@@ -90,14 +87,14 @@ public class CCSession {
 		return id;
 	}
 
-	public void sendMessage(Message message) {
+	public void sendMessage(Object message) {
 		WriteFuture future = this.wrapper.write(message);
 		if (future.isWritten()) {
 			this.lastWriteTime = System.currentTimeMillis();
 		}
 	}
 
-	public void sendMessage(Message message, Runnable sentCallback) {
+	public void sendMessage(Object message, Runnable sentCallback) {
 		WriteFuture future = this.wrapper.write(message);
 		if (future.isWritten()) {
 			this.lastWriteTime = System.currentTimeMillis();

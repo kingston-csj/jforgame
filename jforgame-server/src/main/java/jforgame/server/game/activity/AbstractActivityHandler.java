@@ -3,7 +3,7 @@ package jforgame.server.game.activity;
 import jforgame.server.game.database.user.PlayerEnt;
 import org.apache.commons.lang3.StringUtils;
 
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 public abstract class AbstractActivityHandler implements IActivityHandler {
 	

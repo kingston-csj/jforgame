@@ -3,8 +3,8 @@ package jforgame.server.cross.core.callback;
 import jforgame.server.cross.core.client.CCSession;
 import jforgame.server.cross.core.server.CrossController;
 import jforgame.server.cross.core.server.SCSession;
-import jforgame.socket.annotation.RequestMapping;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.RequestMapping;
+import jforgame.socket.share.message.Message;
 
 @CrossController
 public class CallbackController {

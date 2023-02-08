@@ -3,7 +3,7 @@ package jforgame.server.game.cross.ladder.controller;
 import jforgame.server.cross.core.server.CrossController;
 import jforgame.server.cross.core.server.SCSession;
 import jforgame.server.game.cross.ladder.message.G2F_LadderTransfer;
-import jforgame.socket.annotation.RequestMapping;
+import jforgame.socket.share.annotation.RequestMapping;
 
 @CrossController
 public class LadderG2FController {

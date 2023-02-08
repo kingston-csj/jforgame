@@ -7,7 +7,6 @@ import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.callback.RequestResponseFuture;
 import jforgame.socket.HostAndPort;
-import jforgame.socket.message.Message;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import java.util.concurrent.ExecutorService;
@@ -59,7 +58,7 @@ public class CrossTransportManager {
      * @param port
      * @param message
      */
-    public void sendMessage(String ip, int port, Message message) {
+    public void sendMessage(String ip, int port, Object message) {
         CCSession session = sessionFactory.borrowSession(ip, port);
         session.sendMessage(message);
     }
@@ -71,7 +70,7 @@ public class CrossTransportManager {
      * @param port
      * @param message
      */
-    public void sendMessageAsync(String ip, int port, Message message) {
+    public void sendMessageAsync(String ip, int port, Object message) {
         String key = ip + port;
         int index = key.hashCode() % defaultCoreSum;
         services[index].submit(() -> {
@@ -86,7 +85,7 @@ public class CrossTransportManager {
      * @param request
      * @return
      */
-    public Message request(HostAndPort addr, G2FCallBack request) throws InterruptedException, CallTimeoutException {
+    public Object request(HostAndPort addr, G2FCallBack request) throws InterruptedException, CallTimeoutException {
         int timeout = 5000;
         int index = request.getIndex();
         request.serialize();
@@ -96,7 +95,7 @@ public class CrossTransportManager {
         final RequestResponseFuture future = new RequestResponseFuture(index,  timeout,null);
         try {
             CallBackService.getInstance().register(index, future);
-            Message responseMessage = future.waitResponseMessage(timeout);
+            Object responseMessage = future.waitResponseMessage(timeout);
             if (responseMessage == null) {
                 CallTimeoutException exception = new CallTimeoutException("send request message  failed");
                 future.setCause(exception);

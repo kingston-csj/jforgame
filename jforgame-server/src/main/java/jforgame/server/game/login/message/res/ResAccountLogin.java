@@ -3,8 +3,8 @@ package jforgame.server.game.login.message.res;
 import jforgame.server.game.Modules;
 import jforgame.server.game.login.LoginDataPool;
 import jforgame.server.game.login.message.vo.PlayerLoginVo;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;

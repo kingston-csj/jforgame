@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.callback;
 
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 public interface RequestCallback {
 
@@ -9,7 +9,7 @@ public interface RequestCallback {
      *
      * @param callBack
      */
-    void onSuccess(Message callBack);
+    void onSuccess(Object callBack);
 
     void onError(Throwable error);
 

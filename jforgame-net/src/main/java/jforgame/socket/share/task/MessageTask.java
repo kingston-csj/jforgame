@@ -1,4 +1,4 @@
-package jforgame.socket.task;
+package jforgame.socket.share.task;
 
 import java.lang.reflect.Method;
 
@@ -6,10 +6,9 @@ import jforgame.socket.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.socket.message.Message;
 
 /**
- * 将客户端消息封装成一个邮件，放到Actor的邮箱里
+ * 将用户的消息请求封装成一个命令
  */
 public class MessageTask extends BaseGameTask {
 
@@ -23,7 +22,6 @@ public class MessageTask extends BaseGameTask {
 	private Method method;
 	/**arguments passed to the method */
 	private Object[] params;
-
 
 
 	public static MessageTask valueOf(IdSession session, long dispatchKey, Object handler,
@@ -43,7 +41,7 @@ public class MessageTask extends BaseGameTask {
 		try{
 			Object response = method.invoke(handler, params);
 			if (response != null) {
-				session.sendPacket((Message) response);
+				session.sendPacket(response);
 			}
 		}catch(Exception e){
 			logger.error("message task execute failed ", e);

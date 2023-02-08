@@ -2,7 +2,7 @@ package jforgame.socket.codec.protobuf;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import jforgame.socket.message.MessageEncoder;
+import jforgame.socket.share.message.MessageEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

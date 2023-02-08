@@ -1,6 +1,7 @@
 package jforgame.server.game.player;
 
 import jforgame.server.game.GameContext;
+import jforgame.server.net.SessionManager;
 import jforgame.server.net.SessionProperties;
 import jforgame.common.utils.NumberUtil;
 import jforgame.server.cache.BaseCacheService;
@@ -21,7 +22,6 @@ import jforgame.server.listener.EventType;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.server.utils.IdGenerator;
 import jforgame.socket.IdSession;
-import jforgame.socket.session.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

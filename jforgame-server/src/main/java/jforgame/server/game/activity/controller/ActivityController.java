@@ -1,10 +1,10 @@
 package jforgame.server.game.activity.controller;
 
 import jforgame.server.game.activity.message.ReqOpenActivityPanel;
-import jforgame.socket.annotation.Controller;
-import jforgame.socket.annotation.RequestMapping;
+import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.annotation.RequestMapping;
 
-@Controller
+@MessageRoute
 public class ActivityController {
 
 	@RequestMapping

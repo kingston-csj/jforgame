@@ -3,15 +3,13 @@ package jforgame.server.client;
 
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
+import jforgame.socket.support.DefaultMessageCodecFactory;
+import jforgame.socket.support.MessageFactoryImpl;
 import jforgame.server.utils.JsonUtils;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
 import jforgame.socket.client.RpcClientFactory;
-import jforgame.socket.codec.MessageCodecFactory;
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.IMessageDispatcher;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageFactoryImpl;
+import jforgame.socket.share.message.IMessageDispatcher;
 
 /**
  * 客户端模拟器启动程序
@@ -29,7 +27,6 @@ public class ClientStartup {
 		hostPort.setHost("127.0.0.1");
 		hostPort.setPort(serverPort);
 
-		MessageCodecFactory serializerFactory = SerializerHelper.getInstance().getSerializerFactory();
 		IMessageDispatcher msgDispatcher = new IMessageDispatcher() {
 			@Override
 			public void onSessionCreated(IdSession session) {
@@ -47,7 +44,7 @@ public class ClientStartup {
 			}
 		};
 
-		RpcClientFactory clientFactory = new RpcClientFactory(msgDispatcher, serializerFactory);
+		RpcClientFactory clientFactory = new RpcClientFactory(msgDispatcher, MessageFactoryImpl.getInstance(), DefaultMessageCodecFactory.getMessageCodecFactory());
 		IdSession session = clientFactory.createSession(hostPort);
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();

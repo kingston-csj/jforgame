@@ -1,10 +1,10 @@
 package jforgame.server.cross.core;
 
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
+import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
+import jforgame.socket.ServerNode;
+import jforgame.socket.mina.MinaMessageCodecFactory;
+import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
@@ -19,9 +19,9 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.server.ServerConfig;
-import jforgame.socket.ServerNode;
-import jforgame.socket.codec.SerializerHelper;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CrossServer implements ServerNode {
 	
@@ -53,7 +53,7 @@ public class CrossServer implements ServerNode {
 		logger.info("cross server start at port:{},正在监听服务器点对点的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
-				new ProtocolCodecFilter(SerializerHelper.getInstance().getCodecFactory()));
+				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance())));
 		//指定业务逻辑处理器
 		acceptor.setHandler(new Game2GameIoHandler(BaseCrossMessageDispatcher.getInstance()));
 		//设置端口号

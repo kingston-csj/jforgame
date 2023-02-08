@@ -1,4 +1,4 @@
-package jforgame.socket.task;
+package jforgame.socket.share.task;
 
 public abstract class BaseGameTask implements Runnable {
 

@@ -2,10 +2,10 @@ package jforgame.server.game.gm.controller;
 
 import jforgame.server.game.GameContext;
 import jforgame.server.game.gm.message.ReqGmExec;
-import jforgame.socket.annotation.Controller;
-import jforgame.socket.annotation.RequestMapping;
+import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.annotation.RequestMapping;
 
-@Controller
+@MessageRoute
 public class GmController {
 
 	@RequestMapping

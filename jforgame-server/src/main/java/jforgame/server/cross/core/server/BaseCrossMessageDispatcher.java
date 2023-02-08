@@ -1,21 +1,20 @@
 package jforgame.server.cross.core.server;
 
+import jforgame.common.utils.ClassScanner;
+import jforgame.server.ServerScanPaths;
+import jforgame.server.cross.core.CrossCmdExecutor;
+import jforgame.server.cross.core.client.CCSession;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.annotation.RequestMapping;
+import jforgame.socket.share.message.CmdExecutor;
+import jforgame.socket.share.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import jforgame.server.ServerScanPaths;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jforgame.common.utils.ClassScanner;
-import jforgame.server.cross.core.CrossCmdExecutor;
-import jforgame.server.cross.core.client.CCSession;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.annotation.RequestMapping;
-import jforgame.socket.message.CmdExecutor;
-import jforgame.socket.message.Message;
 
 public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 
@@ -105,7 +104,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 	}
 
 	@Override
-	public void serverDispatch(SCSession session, Message message) {
+	public void serverDispatch(SCSession session, Object message) {
 		CmdExecutor cmdHandler = HANDLERS.get(message.getClass());
 		if (cmdHandler == null) {
 			logger.error("{}找不到处理器", message.getClass().getSimpleName());
@@ -125,7 +124,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 	}
 
 	@Override
-	public void clientDispatch(CCSession session, Message message) {
+	public void clientDispatch(CCSession session, Object message) {
 		CmdExecutor cmdHandler = HANDLERS.get(message.getClass());
 		if (cmdHandler == null) {
 			logger.error("{}找不到处理器", message.getClass().getSimpleName());

@@ -1,4 +1,4 @@
-package jforgame.socket.message;
+package jforgame.socket.share.message;
 
 public interface MessageFactory {
 

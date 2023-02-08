@@ -3,8 +3,8 @@ package jforgame.server.game.gm.message;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import jforgame.server.game.Modules;
 import jforgame.server.game.gm.GmConstant;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 @MessageMeta(module=Modules.GM, cmd=GmConstant.REQ_GM_EXEC)
 public class ReqGmExec implements Message {

@@ -2,13 +2,13 @@ package jforgame.server.cross.core;
 
 import jforgame.server.cross.core.server.CMessageDispatcher;
 import jforgame.server.cross.core.server.SCSession;
+import jforgame.socket.share.message.Message;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.socket.message.Message;
 import jforgame.socket.mina.MinaSessionProperties;
 import jforgame.socket.mina.ServerSocketIoHandler;
 

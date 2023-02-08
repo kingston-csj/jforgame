@@ -11,7 +11,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
 import jforgame.socket.codec.MessageCodecFactory;
-import jforgame.socket.message.IMessageDispatcher;
+import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.netty.NettyProtocolDecoder;
 import jforgame.socket.netty.NettyProtocolEncoder;
@@ -24,10 +25,13 @@ public class RpcClientFactory {
 
     private MessageCodecFactory messageSerializer;
 
+    private MessageFactory messageFactory;
+
     private EventLoopGroup group = new NioEventLoopGroup(4);
 
-    public RpcClientFactory(IMessageDispatcher messageDispatcher, MessageCodecFactory messageSerializer) {
+    public RpcClientFactory(IMessageDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodecFactory messageSerializer) {
         this.messageDispatcher = messageDispatcher;
+        this.messageFactory = messageFactory;
         this.messageSerializer = messageSerializer;
     }
 
@@ -40,7 +44,7 @@ public class RpcClientFactory {
                 protected void initChannel(SocketChannel arg0) throws Exception {
                     ChannelPipeline pipeline = arg0.pipeline();
                     pipeline.addLast(new NettyProtocolDecoder(10240));
-                    pipeline.addLast(new NettyProtocolEncoder());
+                    pipeline.addLast(new NettyProtocolEncoder(messageFactory));
                     pipeline.addLast((new MsgIoHandler(messageDispatcher, messageSerializer)));
                 }
 

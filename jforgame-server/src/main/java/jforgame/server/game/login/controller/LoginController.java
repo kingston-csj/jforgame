@@ -4,10 +4,10 @@ import jforgame.server.game.GameContext;
 import jforgame.server.game.login.message.req.ReqAccountLogin;
 import jforgame.server.game.login.message.req.ReqSelectPlayer;
 import jforgame.socket.IdSession;
-import jforgame.socket.annotation.Controller;
-import jforgame.socket.annotation.RequestMapping;
+import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.annotation.RequestMapping;
 
-@Controller
+@MessageRoute
 public class LoginController {
 
 	@RequestMapping

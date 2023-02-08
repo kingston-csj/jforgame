@@ -4,7 +4,7 @@ import jforgame.common.utils.ClassScanner;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.game.core.SchedulerManager;
 import jforgame.server.logs.LoggerUtils;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 import java.util.Iterator;
 import java.util.LinkedList;

@@ -1,7 +1,5 @@
 package jforgame.server.cross.core.callback;
 
-import jforgame.socket.message.Message;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +9,7 @@ public class RequestResponseFuture {
     private final RequestCallback requestCallback;
     private final long beginTimestamp = System.currentTimeMillis();
     private CountDownLatch countDownLatch = new CountDownLatch(1);
-    private volatile Message responseMsg = null;
+    private volatile Object responseMsg = null;
     private volatile Throwable cause = null;
 
     private long timeoutMillis;
@@ -32,12 +30,12 @@ public class RequestResponseFuture {
         }
     }
 
-    public Message waitResponseMessage(long timeout) throws InterruptedException {
+    public Object waitResponseMessage(long timeout) throws InterruptedException {
         this.countDownLatch.await(timeout, TimeUnit.MILLISECONDS);
         return this.responseMsg;
     }
 
-    public void putResponseMessage(Message responseMsg) {
+    public void putResponseMessage(Object responseMsg) {
         this.responseMsg = responseMsg;
         this.countDownLatch.countDown();
     }
@@ -62,11 +60,11 @@ public class RequestResponseFuture {
         this.countDownLatch = countDownLatch;
     }
 
-    public Message getResponseMsg() {
+    public Object getResponseMsg() {
         return this.responseMsg;
     }
 
-    public void setResponseMsg(Message responseMsg) {
+    public void setResponseMsg(Object responseMsg) {
         this.responseMsg = responseMsg;
     }
 

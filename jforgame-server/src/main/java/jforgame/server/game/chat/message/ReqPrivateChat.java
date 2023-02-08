@@ -2,8 +2,8 @@ package jforgame.server.game.chat.message;
 
 import jforgame.server.game.Modules;
 import jforgame.server.game.chat.ChatDataPool;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 @MessageMeta(module = Modules.CHAT, cmd = ChatDataPool.REQ_PRIVATE_CHAT)
 public class ReqPrivateChat implements Message {

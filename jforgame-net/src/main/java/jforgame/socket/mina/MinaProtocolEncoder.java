@@ -1,10 +1,10 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageEncoder;
-import jforgame.socket.message.MessageFactoryImpl;
+import jforgame.socket.share.message.Message;
+import jforgame.socket.share.message.MessageEncoder;
+import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
@@ -15,6 +15,12 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
  */
 public class MinaProtocolEncoder implements ProtocolEncoder {
 
+	private MessageFactory messageFactory;
+
+	public MinaProtocolEncoder(MessageFactory messageFactory) {
+		this.messageFactory = messageFactory;
+	}
+
 	@Override
 	public void dispose(IoSession arg0) throws Exception {
 
@@ -22,11 +28,11 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		IoBuffer buffer = writeMessage((Message) message);
+		IoBuffer buffer = writeMessage(message);
 		out.write(buffer);
 	}
 
-	private IoBuffer writeMessage(Message message) {
+	private IoBuffer writeMessage(Object message) {
 		// ----------------protocol pattern-------------------------
 		// packetLength | cmd | body
 		// int int byte[]
@@ -34,12 +40,12 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 		IoBuffer buffer = IoBuffer.allocate(CodecProperties.WRITE_CAPACITY);
 		buffer.setAutoExpand(true);
 
-		MessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+		MessageEncoder msgEncoder = DefaultMessageCodecFactory.getMessageCodecFactory().getEncoder();
 		byte[] body = msgEncoder.writeMessageBody(message);
 		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
 		// the length of message body
 		buffer.putInt(body.length + metaSize);
-		int cmd = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
+		int cmd = messageFactory.getMessageId(message.getClass());
 		// 写入cmd类型
 		buffer.putInt(cmd);
 		// 写入消息体

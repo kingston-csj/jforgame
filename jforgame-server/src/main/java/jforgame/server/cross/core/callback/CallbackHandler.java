@@ -1,7 +1,7 @@
 package jforgame.server.cross.core.callback;
 
 import jforgame.server.cross.core.server.SCSession;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.Message;
 
 import java.util.HashMap;
 import java.util.Map;

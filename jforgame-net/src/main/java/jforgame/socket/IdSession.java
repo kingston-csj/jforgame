@@ -1,7 +1,6 @@
 package jforgame.socket;
 
 import io.netty.channel.Channel;
-import jforgame.socket.message.Message;
 import org.apache.mina.core.session.IoSession;
 
 import java.net.InetSocketAddress;

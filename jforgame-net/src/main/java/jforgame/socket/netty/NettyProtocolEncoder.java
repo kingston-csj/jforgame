@@ -4,28 +4,32 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.SerializerHelper;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageEncoder;
-import jforgame.socket.message.MessageFactoryImpl;
+import jforgame.socket.share.message.MessageEncoder;
+import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NettyProtocolEncoder extends MessageToByteEncoder<Message> {
+public class NettyProtocolEncoder extends MessageToByteEncoder<Object> {
 
 	private Logger logger = LoggerFactory.getLogger(NettyProtocolEncoder.class);
 
+	private MessageFactory messageFactory;
+
+	public NettyProtocolEncoder(MessageFactory messageFactory) {
+		this.messageFactory = messageFactory;
+	}
+
 	@Override
-	protected void encode(ChannelHandlerContext ctx, Message message, ByteBuf out) throws Exception {
+	protected void encode(ChannelHandlerContext ctx, Object message, ByteBuf out) throws Exception {
 		// ----------------protocol pattern-------------------------
 		// packetLength | cmd | body
 		// int int byte[]
 
-		int  cmd = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
-
+		int  cmd = messageFactory.getMessageId(message.getClass());
 		try {
 			final int metaSize = CodecProperties.MESSAGE_META_SIZE;
-			MessageEncoder msgEncoder = SerializerHelper.getInstance().getEncoder();
+			MessageEncoder msgEncoder = DefaultMessageCodecFactory.getMessageCodecFactory().getEncoder();
 			byte[] body = msgEncoder.writeMessageBody(message);
 			//消息内容长度
 			out.writeInt(body.length + metaSize);

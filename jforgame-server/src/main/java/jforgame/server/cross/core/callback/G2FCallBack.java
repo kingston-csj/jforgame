@@ -3,8 +3,8 @@ package jforgame.server.cross.core.callback;
 import jforgame.server.cross.core.CrossCommands;
 import jforgame.server.game.Modules;
 import jforgame.server.utils.JsonUtils;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 import java.util.Base64;
 import java.util.HashMap;

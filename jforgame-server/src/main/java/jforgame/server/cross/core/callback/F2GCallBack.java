@@ -4,8 +4,8 @@ import jforgame.server.cross.core.CrossCommands;
 import jforgame.server.game.Modules;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.server.utils.JsonUtils;
-import jforgame.socket.annotation.MessageMeta;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.share.message.Message;
 
 /**
  * 跨服回调响应方

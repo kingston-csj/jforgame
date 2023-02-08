@@ -10,10 +10,8 @@ import jforgame.server.game.login.message.vo.PlayerLoginVo;
 import jforgame.server.game.player.model.AccountProfile;
 import jforgame.server.game.player.model.PlayerProfile;
 import jforgame.server.game.scene.message.ResPlayerEnterScene;
-import jforgame.server.net.SessionProperties;
+import jforgame.server.net.SessionManager;
 import jforgame.socket.IdSession;
-import jforgame.socket.combine.CombineMessage;
-import jforgame.socket.session.SessionManager;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -48,11 +46,9 @@ public class LoginManager {
 		MessagePusher.pushMessage(session, loginMessage);
 		
 		if ("kinson".equals(password)) {
-			CombineMessage combineMessage = new CombineMessage();
-			combineMessage.addMessage(new ResPlayerEnterScene());
-			combineMessage.addMessage(ResGmResult.buildSuccResult("执行gm成功"));
-			MessagePusher.pushMessage(session, combineMessage);
-		} 
+			MessagePusher.pushMessage(session,new ResPlayerEnterScene());
+			MessagePusher.pushMessage(session,ResGmResult.buildSuccResult("执行gm成功"));
+		}
 	}
 
 	/**

@@ -1,21 +1,20 @@
 package jforgame.server.net.mina.filter;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import com.google.gson.Gson;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.server.logs.LoggerUtils;
+import jforgame.server.net.SessionManager;
+import jforgame.socket.IdSession;
+import jforgame.socket.mina.MinaSessionProperties;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.core.write.WriteRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-import jforgame.socket.IdSession;
-import jforgame.socket.mina.MinaSessionProperties;
-import jforgame.socket.session.SessionManager;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MessageTraceFilter extends IoFilterAdapter {
 

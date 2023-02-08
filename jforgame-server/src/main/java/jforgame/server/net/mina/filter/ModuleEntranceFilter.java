@@ -3,8 +3,7 @@ package jforgame.server.net.mina.filter;
 import jforgame.server.game.core.BaseNotify;
 import jforgame.server.game.notice.message.ResSystemNotice;
 import jforgame.server.net.NetGateKeeper;
-import jforgame.socket.message.Message;
-import jforgame.socket.message.MessageFactoryImpl;
+import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
 
@@ -15,8 +14,7 @@ import org.apache.mina.core.session.IoSession;
 public class ModuleEntranceFilter extends IoFilterAdapter {
 
 	@Override
-	public void messageReceived(NextFilter nextFilter, IoSession session, Object packet) throws Exception {
-		Message message = (Message)packet;
+	public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
 		int messageId = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
 
 		if (NetGateKeeper.getInstance().canVisit(messageId)) {

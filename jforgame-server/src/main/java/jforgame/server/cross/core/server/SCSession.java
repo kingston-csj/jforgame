@@ -2,7 +2,6 @@ package jforgame.server.cross.core.server;
 
 import org.apache.mina.core.session.IoSession;
 
-import jforgame.socket.message.Message;
 
 import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,7 +39,7 @@ public class SCSession {
 		return clientIp;
 	}
 	
-	public void sendMessage(Message message) {
+	public void sendMessage(Object message) {
 		this.wrapper.write(message);
 	}
 	

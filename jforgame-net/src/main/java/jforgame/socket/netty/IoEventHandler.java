@@ -3,8 +3,7 @@ package jforgame.socket.netty;
 import java.io.IOException;
 
 import jforgame.socket.IdSession;
-import jforgame.socket.message.IMessageDispatcher;
-import jforgame.socket.message.Message;
+import jforgame.socket.share.message.IMessageDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +35,7 @@ public class IoEventHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext context, Object msg) throws Exception {
-		Message packet = (Message) msg;
+	public void channelRead(ChannelHandlerContext context, Object packet) throws Exception {
 		logger.info("receive pact, content is {}", packet.getClass().getSimpleName());
 
 		final Channel channel = context.channel();
