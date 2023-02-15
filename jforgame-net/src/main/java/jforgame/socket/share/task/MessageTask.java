@@ -41,6 +41,9 @@ public class MessageTask extends BaseGameTask {
 		try{
 			Object response = method.invoke(handler, params);
 			if (response != null) {
+//				if (response instanceof Traceful) {
+//					Traceful traceful = (Traceful) response;
+//				}
 				session.sendPacket(response);
 			}
 		}catch(Exception e){

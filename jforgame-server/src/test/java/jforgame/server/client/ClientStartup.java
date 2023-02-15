@@ -3,6 +3,8 @@ package jforgame.server.client;
 
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
+import jforgame.server.game.hello.ReqHello;
+import jforgame.socket.client.RpcCallbackClient;
 import jforgame.socket.support.DefaultMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import jforgame.server.utils.JsonUtils;
@@ -49,6 +51,8 @@ public class ClientStartup {
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
 		robot.selectedPlayer(10000L);
+
+		new RpcCallbackClient().request(session, new ReqHello());
 	}
 
 }
