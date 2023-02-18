@@ -1,7 +1,7 @@
 package jforgame.server.net.mina.filter;
 
-import jforgame.common.utils.NumberUtil;
-import jforgame.common.utils.TimeUtil;
+import jforgame.common.NumberUtil;
+import jforgame.common.TimeUtil;
 import jforgame.server.FireWallConfig;
 import jforgame.server.net.model.FloodRecord;
 import jforgame.socket.mina.MinaSessionProperties;

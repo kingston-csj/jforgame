@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import jforgame.server.logs.LoggerUtils;
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 
 /**
  * 所有策划配置的数据池

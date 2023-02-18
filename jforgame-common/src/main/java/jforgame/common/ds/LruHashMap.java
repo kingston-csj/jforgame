@@ -1,4 +1,4 @@
-package jforgame.common.utils;
+package jforgame.common.ds;
 
 import java.util.LinkedHashMap;
 import java.util.concurrent.locks.Lock;

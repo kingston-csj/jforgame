@@ -1,4 +1,4 @@
-package jforgame.common.utils;
+package jforgame.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

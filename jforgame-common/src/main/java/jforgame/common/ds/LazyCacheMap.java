@@ -1,4 +1,6 @@
-package jforgame.common.utils;
+package jforgame.common.ds;
+
+import jforgame.common.thread.ThreadSafe;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -6,12 +8,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * 基于LinkedHashMap实现的一个有限队列缓存 有时间及大小的限制
+ * 基于LinkedHashMap实现的一个有限队列缓存
+ * 只当在添加元素的时候会检测超时元素或者超出容量的元素，满足条件则将其移除
  * aliveTime参数为true时为模拟lru规则
  *
  * @author kinson
  */
-public class LimitedCacheMap<K, V> {
+@ThreadSafe
+public class LazyCacheMap<K, V> {
 
     private LinkedHashMap<K, Element<V>> data;
 
@@ -34,11 +38,11 @@ public class LimitedCacheMap<K, V> {
     private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
     private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
 
-    public LimitedCacheMap(int capacity, long aliveTime) {
+    public LazyCacheMap(int capacity, long aliveTime) {
         this(capacity, aliveTime, Boolean.FALSE);
     }
 
-    public LimitedCacheMap(int capacity, long aliveTime, boolean useLru) {
+    public LazyCacheMap(int capacity, long aliveTime, boolean useLru) {
         this.capacity = capacity;
         this.aliveTime = aliveTime;
         this.useLru = useLru;
@@ -121,7 +125,7 @@ public class LimitedCacheMap<K, V> {
     }
 
     public static void main(String[] args) throws Exception {
-        LimitedCacheMap<Integer, Integer> map = new LimitedCacheMap(3, 1500);
+        LazyCacheMap<Integer, Integer> map = new LazyCacheMap(3, 1500);
         map.put(1, 1);
 
         System.out.println("-----");

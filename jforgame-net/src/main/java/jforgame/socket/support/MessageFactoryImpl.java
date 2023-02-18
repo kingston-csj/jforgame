@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;

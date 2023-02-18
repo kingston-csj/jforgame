@@ -1,7 +1,7 @@
 package jforgame.server.game.player.serializer;
 
 import jforgame.server.game.database.user.PlayerEnt;
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 
 import java.util.ArrayList;
 import java.util.List;

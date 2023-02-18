@@ -1,13 +1,14 @@
 package jforgame.common.utils;
 
+import jforgame.common.ds.LazyCacheMap;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestLimitedCacheMap {
+public class TestLazyCacheMap {
 	
 	@Test
 	public void testCapacity() {
-		LimitedCacheMap<String, String> cache = new LimitedCacheMap<>(3, 100, true);
+		LazyCacheMap<String, String> cache = new LazyCacheMap<>(3, 100, true);
 		for (int i = 0; i < 100; i++) {
 			cache.put(String.valueOf(i), String.valueOf(i));
 		}
@@ -17,7 +18,7 @@ public class TestLimitedCacheMap {
 
 	@Test
 	public void testLru() {
-		LimitedCacheMap<String, String> cache = new LimitedCacheMap<>(3, 100, true);
+		LazyCacheMap<String, String> cache = new LazyCacheMap<>(3, 100, true);
 
 		cache.put("a", "a");
 		cache.put("b", "b");
@@ -34,7 +35,7 @@ public class TestLimitedCacheMap {
 	
 	@Test
 	public void testTimeout() throws Exception {
-		LimitedCacheMap<String, String> cache = new LimitedCacheMap<>(3, 100, true);
+		LazyCacheMap<String, String> cache = new LazyCacheMap<>(3, 100, true);
 
 		cache.put("a", "a");
 		cache.put("b", "b");

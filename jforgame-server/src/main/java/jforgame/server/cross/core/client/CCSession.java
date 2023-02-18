@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.client;
 
-import jforgame.common.utils.TimeUtil;
+import jforgame.common.TimeUtil;
 import jforgame.server.cross.core.server.CMessageDispatcher;
 import jforgame.socket.mina.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;

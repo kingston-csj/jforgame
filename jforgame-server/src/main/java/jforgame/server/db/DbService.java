@@ -1,7 +1,7 @@
 package jforgame.server.db;
 
 import jforgame.common.thread.NamedThreadFactory;
-import jforgame.common.utils.BlockingUniqueQueue;
+import jforgame.common.ds.BlockingUniqueQueue;
 import jforgame.orm.utils.SqlFactory;
 import jforgame.orm.utils.SqlUtils;
 import jforgame.server.logs.LoggerUtils;

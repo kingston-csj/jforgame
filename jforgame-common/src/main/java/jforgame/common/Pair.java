@@ -1,4 +1,4 @@
-package jforgame.common.utils;
+package jforgame.common;
 
 /**
  * 两个对象组合起来的点对，一般用于需要返回两个返回值的方法

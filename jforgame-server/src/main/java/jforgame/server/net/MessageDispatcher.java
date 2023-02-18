@@ -1,6 +1,6 @@
 package jforgame.server.net;
 
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.socket.IdSession;

@@ -1,13 +1,12 @@
 package jforgame.server.cross.demo;
 
-import jforgame.common.utils.NumberUtil;
+import jforgame.common.NumberUtil;
 import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.callback.CallBackCommands;
 import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.client.CrossTransportManager;
 import jforgame.socket.HostAndPort;
-import jforgame.socket.share.message.Message;
 
 public class CrossDemoGameService {
 

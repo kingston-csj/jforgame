@@ -3,7 +3,7 @@ package jforgame.server.game.player;
 import jforgame.server.game.GameContext;
 import jforgame.server.net.SessionManager;
 import jforgame.server.net.SessionProperties;
-import jforgame.common.utils.NumberUtil;
+import jforgame.common.NumberUtil;
 import jforgame.server.cache.BaseCacheService;
 import jforgame.server.db.DbService;
 import jforgame.server.db.DbUtils;

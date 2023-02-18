@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import jforgame.common.utils.FileUtils;
+import jforgame.common.FileUtils;
 import jforgame.server.FireWallConfig;
 
 public class JsConfigReaderTest {

@@ -1,4 +1,4 @@
-package jforgame.common.utils;
+package jforgame.common;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

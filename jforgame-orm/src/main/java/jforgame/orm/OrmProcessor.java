@@ -1,6 +1,6 @@
 package jforgame.orm;
 
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 import jforgame.orm.utils.StringUtils;
 
 import javax.persistence.Column;

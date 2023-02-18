@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.Set;
 
 import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 import jforgame.socket.share.message.Message;
 
 /**

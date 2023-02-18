@@ -1,4 +1,4 @@
-package jforgame.common.utils;
+package jforgame.common;
 
 /**
  * 三元结构体

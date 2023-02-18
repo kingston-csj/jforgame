@@ -1,6 +1,6 @@
 package jforgame.server.hotswap;
 
-import jforgame.common.utils.FileUtils;
+import jforgame.common.FileUtils;
 import org.junit.Test;
 
 import javax.script.ScriptEngine;

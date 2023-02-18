@@ -7,7 +7,7 @@ import java.util.Set;
 
 import jforgame.server.listener.annotation.EventHandler;
 import jforgame.server.listener.annotation.Listener;
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 import jforgame.server.logs.LoggerUtils;
 
 public enum ListenerManager {

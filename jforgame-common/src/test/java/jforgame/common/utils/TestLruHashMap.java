@@ -1,5 +1,6 @@
 package jforgame.common.utils;
 
+import jforgame.common.ds.LruHashMap;
 import org.junit.Assert;
 import org.junit.Test;
 

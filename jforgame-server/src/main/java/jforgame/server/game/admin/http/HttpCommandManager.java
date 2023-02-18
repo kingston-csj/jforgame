@@ -7,7 +7,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.common.utils.ClassScanner;
+import jforgame.common.ClassScanner;
 
 /**
  * @author kinson
