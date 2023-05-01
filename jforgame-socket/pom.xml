@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jforgame-net</artifactId>
+    <artifactId>jforgame-socket</artifactId>
 
     <dependencies>
         <dependency>

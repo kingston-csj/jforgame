@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * agent代理
+ * hot swap agent
  */
 public class MyAgent {
 
@@ -37,7 +37,7 @@ public class MyAgent {
                 reloadFiles.put(fileName, body);
             }
 
-            StringBuilder sb = new StringBuilder("重新定义[" );
+            StringBuilder sb = new StringBuilder("redefine [" );
 
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String fileName = entry.getKey();
@@ -46,7 +46,7 @@ public class MyAgent {
                 sb.append( fileName + ";");
             }
 
-            sb.append( "]完成");
+            sb.append( "] finished");
             Field field2 = c.getDeclaredField("log");
             field2.setAccessible(true);
             field2.set(null, sb.toString());

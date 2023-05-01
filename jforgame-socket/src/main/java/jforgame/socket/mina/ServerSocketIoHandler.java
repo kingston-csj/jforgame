@@ -1,6 +1,7 @@
 package jforgame.socket.mina;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
+import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,9 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	/** 消息分发器 */
 	private IMessageDispatcher messageDispatcher;
 
+	private final AttributeKey USER_SESSION = new AttributeKey(MinaSessionProperties.class, "GameSession");
+
+
 	public ServerSocketIoHandler(IMessageDispatcher messageDispatcher) {
 		this.messageDispatcher = messageDispatcher;
 	}
@@ -25,7 +29,7 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	@Override
 	public void sessionCreated(IoSession session) {
 		IdSession userSession = new MSession(session);
-		session.setAttribute(MinaSessionProperties.UserSession,
+		session.setAttribute(USER_SESSION,
 				userSession);
 		messageDispatcher.onSessionCreated(userSession);
 	}
@@ -33,14 +37,14 @@ public class ServerSocketIoHandler extends IoHandlerAdapter {
 	@Override
 	public void messageReceived(IoSession session, Object data) throws Exception {
 		Object message = data;
-		IdSession userSession = (IdSession) session.getAttribute(MinaSessionProperties.UserSession);
+		IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
 		//交由消息分发器处理
 		messageDispatcher.dispatch(userSession, message);
 	}
 	
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		IdSession userSession = (IdSession) session.getAttribute(MinaSessionProperties.UserSession);
+		IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
 		messageDispatcher.onSessionClosed(userSession);
 	}
 

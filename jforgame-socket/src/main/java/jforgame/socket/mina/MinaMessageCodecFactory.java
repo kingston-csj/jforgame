@@ -11,14 +11,11 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
  */
 public class MinaMessageCodecFactory implements ProtocolCodecFactory {
 
-	private MessageFactory messageFactory;
-
 	private MinaProtocolDecoder decoder;
 
 	private MinaProtocolEncoder encoder ;
 
 	public MinaMessageCodecFactory(MessageFactory messageFactory) {
-		this.messageFactory = messageFactory;
 		this.decoder = new MinaProtocolDecoder();
 		this.encoder = new MinaProtocolEncoder(messageFactory);
 	}

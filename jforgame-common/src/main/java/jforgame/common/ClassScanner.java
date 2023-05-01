@@ -169,7 +169,6 @@ public class ClassScanner {
 		File dir = new File(packagePath);
 		// 如果不存在或者 也不是目录就直接返回
 		if (!dir.exists() || !dir.isDirectory()) {
-			// log.warn("用户定义包名 " + packageName + " 下没有任何文件");
 			return;
 		}
 		// 如果存在 就获取包下的所有文件 包括目录

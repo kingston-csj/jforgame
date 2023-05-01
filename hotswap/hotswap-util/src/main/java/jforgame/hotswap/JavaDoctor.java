@@ -70,17 +70,16 @@ public class JavaDoctor {
             VirtualMachine vm = VirtualMachine.attach(pid);
             log = "empty";
             exception = null;
-            logger.error("热更目录[{}]，总共有{}个文件", path, reloadFiles.size());
-            // path参数即agentmain()方法的第一个参数
+            logger.error("hot swap directory [{}]，total {} files", path, reloadFiles.size());
             vm.loadAgent("agent/hotswap-agent.jar");
-            logger.error("热更完成--> {}", log);
+            logger.error("hot swap finished --> {}", log);
             if (exception != null) {
-                logger.error("热更异常{}", exception);
+                logger.error("hot swap failed {}", exception);
             }
             return log;
         } catch (Throwable e) {
             logger.error("", e);
-            return "热更失败";
+            return "hot swap failed";
         }
     }
 }

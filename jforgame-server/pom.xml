@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>org.jforgame</groupId>
-            <artifactId>jforgame-net</artifactId>
+            <artifactId>jforgame-socket</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

@@ -22,10 +22,10 @@ public class Timer {
 
     private final TimerThread thread;
 
-    private static final AtomicInteger nextSerialNumber = new AtomicInteger(0);
+    private static final AtomicInteger NEXT_NUMBER_FACTORY = new AtomicInteger(0);
 
     private static int serialNumber() {
-        return nextSerialNumber.getAndIncrement();
+        return NEXT_NUMBER_FACTORY.getAndIncrement();
     }
 
     public Timer() {

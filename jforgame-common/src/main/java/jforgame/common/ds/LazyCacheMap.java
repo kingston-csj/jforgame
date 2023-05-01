@@ -79,8 +79,8 @@ public class LazyCacheMap<K, V> {
     public V get(K key) {
         // 当使用lru，元素重放回队尾涉及到写操作，所以用写锁
         Lock lock = this.useLru ? this.writeLock : this.readLock;
-        lock.lock();
         Element<V> target = null;
+        lock.lock();
         try {
             target = this.data.get(key);
             if (target == null) {

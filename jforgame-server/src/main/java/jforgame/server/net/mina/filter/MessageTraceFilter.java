@@ -1,12 +1,7 @@
 package jforgame.server.net.mina.filter;
 
 import com.google.gson.Gson;
-import jforgame.server.game.GameContext;
-import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.server.logs.LoggerUtils;
-import jforgame.server.net.SessionManager;
-import jforgame.socket.IdSession;
-import jforgame.socket.mina.MinaSessionProperties;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.core.write.WriteRequest;
@@ -26,7 +21,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 	public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
 		if (debug && traceRequest(message)) {
 			logger.error("<<<<<<<<<<[{}]{}={}",
-					getMessageSignure(session),
+					session,
 					message.getClass().getSimpleName(), new Gson().toJson(message));
 		}
 		nextFilter.messageReceived(session, message);
@@ -43,7 +38,7 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		Object message = writeRequest.getMessage();
 		if (debug && traceResponse(message)) {
 			LoggerUtils.error(">>>>>>>>>>[{}]{}={}",
-					getMessageSignure(session),
+					session,
 					message.getClass().getSimpleName(),
 					new Gson().toJson(message));
 		}
@@ -54,16 +49,6 @@ public class MessageTraceFilter extends IoFilterAdapter {
 		Set<Class<?>> ignores = new HashSet<>();
 
 		return ! ignores.contains(message.getClass());
-	}
-
-	private String getMessageSignure(IoSession session) {
-		IdSession userSession = SessionManager.INSTANCE.getSessionAttr(session, MinaSessionProperties.UserSession, IdSession.class);
-		long playerId = SessionManager.INSTANCE.getPlayerIdBy(userSession);
-		if (playerId > 0) {
-            PlayerEnt player = GameContext.playerManager.getOnlinePlayer(playerId);
-			return player.getName();
-		}
-		return String.valueOf(session);
 	}
 
 }

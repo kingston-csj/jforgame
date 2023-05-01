@@ -1,7 +1,6 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.share.message.Message;
 import jforgame.socket.share.message.MessageEncoder;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.support.DefaultMessageCodecFactory;
