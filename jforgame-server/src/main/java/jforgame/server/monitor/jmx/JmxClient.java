@@ -10,7 +10,7 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-import jforgame.common.FileUtils;
+import jforgame.commons.FileUtils;
 
 /**
  * jmx客户端

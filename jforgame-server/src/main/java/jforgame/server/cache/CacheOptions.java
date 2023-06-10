@@ -1,17 +1,18 @@
 package jforgame.server.cache;
 
-import jforgame.common.TimeUtil;
+import jforgame.commons.TimeUtil;
 
 /**
  * 缓存相关配置
+ *
  * @author kinson
  */
 public class CacheOptions {
 
-    private final static int DEFAULT_INITIAL_CAPACITY = 1024; 
+    private final static int DEFAULT_INITIAL_CAPACITY = 1024;
     private final static int DEFAULT_MAXIMUM_SIZE = 65536;
-    private final static int DEFAULT_EXPIRE_AFTER_ACCESS_SECONDS = (int)(5*TimeUtil.ONE_HOUR/TimeUtil.ONE_MILLISECOND);
-    private final static int DEFAULT_EXPIRE_AFTER_WRITE_SECONDS = (int)(5*TimeUtil.ONE_HOUR/TimeUtil.ONE_MILLISECOND);
+    private final static int DEFAULT_EXPIRE_AFTER_ACCESS_SECONDS = (int) (5 * TimeUtil.MILLIS_PER_HOUR / TimeUtil.MILLIS_PER_SECOND);
+    private final static int DEFAULT_EXPIRE_AFTER_WRITE_SECONDS = (int) (5 * TimeUtil.MILLIS_PER_HOUR / TimeUtil.MILLIS_PER_SECOND);
 
     public final int initialCapacity;
     public final int maximumSize;
@@ -66,10 +67,10 @@ public class CacheOptions {
             if (maximumSize == 0) {
                 setMaximumSize(DEFAULT_MAXIMUM_SIZE);
             }
-            if(expireAfterAccessSeconds == 0) {
+            if (expireAfterAccessSeconds == 0) {
                 setExpireAfterAccessSeconds(DEFAULT_EXPIRE_AFTER_ACCESS_SECONDS);
             }
-            if(expireAfterWriteSeconds == 0) {
+            if (expireAfterWriteSeconds == 0) {
                 setExpireAfterWriteSeconds(DEFAULT_EXPIRE_AFTER_WRITE_SECONDS);
             }
             return new CacheOptions(initialCapacity, maximumSize, expireAfterAccessSeconds, expireAfterWriteSeconds);

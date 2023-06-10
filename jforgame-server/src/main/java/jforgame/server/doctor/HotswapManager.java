@@ -1,7 +1,7 @@
 package jforgame.server.doctor;
 
 import groovy.lang.GroovyClassLoader;
-import jforgame.common.FileUtils;
+import jforgame.commons.FileUtils;
 import jforgame.hotswap.JavaDoctor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

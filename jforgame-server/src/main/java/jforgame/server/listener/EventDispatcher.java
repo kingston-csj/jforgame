@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.logs.LoggerUtils;
 
 public class EventDispatcher {

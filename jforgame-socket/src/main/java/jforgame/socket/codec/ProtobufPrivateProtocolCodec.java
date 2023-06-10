@@ -8,24 +8,24 @@ import jforgame.socket.share.message.MessageFactory;
 
 public class ProtobufPrivateProtocolCodec implements MessageCodecFactory {
 
-	private MessageFactory messageFactory;
 
-	private MessageDecoder decoder = new ProtobufMessageDecoder(messageFactory);
-	
-	private MessageEncoder encoder = new ProtobufMessageEncoder();
+    private MessageDecoder decoder;
 
-	public ProtobufPrivateProtocolCodec(MessageFactory messageFactory) {
-		this.messageFactory = messageFactory;
-	}
+    private MessageEncoder encoder;
 
-	@Override
-	public MessageDecoder getDecoder() {
-		return decoder;
-	}
+    public ProtobufPrivateProtocolCodec(MessageFactory messageFactory) {
+        this.decoder = new ProtobufMessageDecoder(messageFactory);
+        this.encoder = new ProtobufMessageEncoder();
+    }
 
-	@Override
-	public MessageEncoder getEncoder() {
-		return encoder;
-	}
+    @Override
+    public MessageDecoder getDecoder() {
+        return decoder;
+    }
+
+    @Override
+    public MessageEncoder getEncoder() {
+        return encoder;
+    }
 
 }

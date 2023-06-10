@@ -5,7 +5,7 @@ import jforgame.server.game.core.MessagePusher;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.server.game.gm.command.AbstractGmCommand;
 import jforgame.server.game.gm.message.ResGmResult;
-import jforgame.common.ClassScanner;
+import jforgame.commons.ClassScanner;
 
 import java.util.*;
 import java.util.regex.Matcher;

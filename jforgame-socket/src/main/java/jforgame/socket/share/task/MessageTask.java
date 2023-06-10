@@ -3,6 +3,7 @@ package jforgame.socket.share.task;
 import java.lang.reflect.Method;
 
 import jforgame.socket.IdSession;
+import jforgame.socket.client.Traceful;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +21,8 @@ public class MessageTask extends BaseGameTask {
 	private Object handler;
 	/** target method of the controller */
 	private Method method;
-	/**arguments passed to the method */
+	/** arguments passed to the method */
 	private Object[] params;
-
 
 	public static MessageTask valueOf(IdSession session, long dispatchKey, Object handler,
 									  Method method, Object[] params) {
@@ -62,7 +62,6 @@ public class MessageTask extends BaseGameTask {
 	public Object[] getParams() {
 		return params;
 	}
-
 
 	@Override
 	public String toString() {

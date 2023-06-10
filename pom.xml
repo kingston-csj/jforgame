@@ -33,7 +33,7 @@
 
     <modules>
         <module>hotswap</module>
-        <module>jforgame-common</module>
+        <module>jforgame-commons</module>
         <module>jforgame-socket</module>
         <module>jforgame-orm</module>
         <module>jforgame-merge</module>

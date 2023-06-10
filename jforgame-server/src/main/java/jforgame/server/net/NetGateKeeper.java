@@ -1,6 +1,6 @@
 package jforgame.server.net;
 
-import jforgame.common.ds.ConcurrentHashSet;
+import jforgame.commons.ds.ConcurrentHashSet;
 
 public class NetGateKeeper {
 

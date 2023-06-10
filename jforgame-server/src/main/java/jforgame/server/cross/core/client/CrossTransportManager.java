@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.client;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.cross.core.callback.CallBackService;
 import jforgame.server.cross.core.callback.CallTimeoutException;
 import jforgame.server.cross.core.callback.G2FCallBack;

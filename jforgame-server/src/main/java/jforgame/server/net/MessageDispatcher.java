@@ -1,6 +1,6 @@
 package jforgame.server.net;
 
-import jforgame.common.ClassScanner;
+import jforgame.commons.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.socket.IdSession;
@@ -130,6 +130,8 @@ public class MessageDispatcher implements IMessageDispatcher {
             } else if (long.class.isAssignableFrom(param)) {
                 result[i] = session.getOwnerId();
             } else if (Message.class.isAssignableFrom(param)) {
+                result[i] = message;
+            } else if(MessageFactoryImpl.getInstance().contains(message.getClass())){
                 result[i] = message;
             }
         }

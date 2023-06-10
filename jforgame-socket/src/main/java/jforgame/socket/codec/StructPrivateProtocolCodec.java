@@ -8,14 +8,11 @@ import jforgame.socket.share.message.MessageFactory;
 
 public class StructPrivateProtocolCodec implements MessageCodecFactory {
 
-    private MessageFactory messageFactory;
-
     private MessageDecoder decoder;
 
     private MessageEncoder encoder;
 
     public StructPrivateProtocolCodec(MessageFactory messageFactory) {
-        this.messageFactory = messageFactory;
         this.decoder = new StructMessageDecoder(messageFactory);
         this.encoder = new StructMessageEncoder();
     }

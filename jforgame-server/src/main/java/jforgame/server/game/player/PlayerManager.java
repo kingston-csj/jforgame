@@ -2,8 +2,7 @@ package jforgame.server.game.player;
 
 import jforgame.server.game.GameContext;
 import jforgame.server.net.SessionManager;
-import jforgame.server.net.SessionProperties;
-import jforgame.common.NumberUtil;
+import jforgame.commons.NumberUtil;
 import jforgame.server.cache.BaseCacheService;
 import jforgame.server.db.DbService;
 import jforgame.server.db.DbUtils;
@@ -109,11 +108,9 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 	}
 
 	public void createNewPlayer(IdSession session, String name) {
-		long accountId = (long) session.getAttribute(SessionProperties.ACCOUNT);
 		PlayerEnt player = new PlayerEnt();
 		player.setId(IdGenerator.getNextId());
 		player.setName(name);
-		player.setAccountId(accountId);
 		player.setPlatform(Platform.ANDROID);
 
 		long playerId = player.getId();
@@ -123,7 +120,6 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 		DbService.getInstance().insertOrUpdate(player);
 
 		PlayerProfile baseInfo = new PlayerProfile();
-		baseInfo.setAccountId(accountId);
 		baseInfo.setId(playerId);
 		baseInfo.setLevel(player.getLevel());
 		baseInfo.setJob(player.getJob());

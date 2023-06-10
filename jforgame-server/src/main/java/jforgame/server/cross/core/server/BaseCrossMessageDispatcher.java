@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.server;
 
-import jforgame.common.ClassScanner;
+import jforgame.commons.ClassScanner;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.cross.core.CrossCmdExecutor;
 import jforgame.server.cross.core.client.CCSession;

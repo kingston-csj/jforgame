@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.client;
 
-import jforgame.common.TimeUtil;
+import jforgame.commons.TimeUtil;
 import jforgame.server.cross.core.server.CMessageDispatcher;
 import jforgame.socket.mina.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
@@ -106,7 +106,7 @@ public class CCSession {
 	public boolean isExpired() {
 		long now = System.currentTimeMillis();
 		long diff = now - lastWriteTime;
-		return diff > 30 * TimeUtil.ONE_SECOND;
+		return diff > 30 * TimeUtil.MILLIS_PER_SECOND;
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package jforgame.server.net;
 
+import jforgame.commons.ClassScanner;
+import jforgame.commons.TimeUtil;
+import jforgame.orm.OrmProcessor;
+import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.ServerVersion;
@@ -18,10 +22,6 @@ import jforgame.server.monitor.jmx.GameMonitor;
 import jforgame.server.monitor.jmx.GameMonitorMBean;
 import jforgame.server.net.mina.MinaSocketServer;
 import jforgame.server.redis.RedisCluster;
-import jforgame.common.ClassScanner;
-import jforgame.common.TimeUtil;
-import jforgame.orm.OrmProcessor;
-import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.ServerNode;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.commons.lang3.time.StopWatch;
@@ -120,7 +120,7 @@ public class GameServer {
 		SystemParameters.load();
 		// 启动时检查每日重置
 		long now = System.currentTimeMillis();
-		if (now - SystemParameters.dailyResetTimestamp > TimeUtil.ONE_DAY) {
+		if (now - SystemParameters.dailyResetTimestamp > TimeUtil.MILLIS_PER_DAY) {
 			logger.info("启动时每日重置");
 			SystemParameters.update("dailyResetTimestamp", now);
 		}

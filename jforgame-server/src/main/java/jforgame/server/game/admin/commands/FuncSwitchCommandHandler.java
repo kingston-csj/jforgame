@@ -1,7 +1,7 @@
 package jforgame.server.game.admin.commands;
 
 import jforgame.server.logs.LoggerSystem;
-import jforgame.common.NumberUtil;
+import jforgame.commons.NumberUtil;
 import jforgame.server.game.admin.http.CommandHandler;
 import jforgame.server.game.admin.http.HttpCommandHandler;
 import jforgame.server.game.admin.http.HttpCommandParams;

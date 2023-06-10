@@ -18,7 +18,7 @@
         <!-- 该项目其他模块 -->
         <dependency>
             <groupId>org.jforgame</groupId>
-            <artifactId>jforgame-common</artifactId>
+            <artifactId>jforgame-commons</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

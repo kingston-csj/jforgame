@@ -1,6 +1,6 @@
 package jforgame.socket.client;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 
 import java.util.Iterator;
 import java.util.LinkedList;

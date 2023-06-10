@@ -10,7 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.server.utils.XmlUtils;
 

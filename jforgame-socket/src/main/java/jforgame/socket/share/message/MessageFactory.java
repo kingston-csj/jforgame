@@ -24,4 +24,6 @@ public interface MessageFactory {
      * @return
      */
      int getMessageId(Class<?> clazz);
+
+    boolean contains(Class<?> clazz);
 }

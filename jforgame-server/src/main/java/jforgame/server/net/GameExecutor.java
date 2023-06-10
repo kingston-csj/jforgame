@@ -1,6 +1,6 @@
 package jforgame.server.net;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.socket.share.task.BaseGameTask;
 

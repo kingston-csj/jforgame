@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 
 import jforgame.server.cross.core.client.CCSession;
 import jforgame.server.cross.core.server.SCSession;
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 
 /**
  * 跨服业务执行器

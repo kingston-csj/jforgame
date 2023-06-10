@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.callback;
 
-import jforgame.common.ClassScanner;
+import jforgame.commons.ClassScanner;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.game.core.SchedulerManager;
 import jforgame.server.logs.LoggerUtils;

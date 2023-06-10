@@ -1,6 +1,6 @@
 package jforgame.server;
 
-import jforgame.common.FileUtils;
+import jforgame.commons.FileUtils;
 import jforgame.server.utils.JsScriptEngine;
 
 import java.util.HashMap;

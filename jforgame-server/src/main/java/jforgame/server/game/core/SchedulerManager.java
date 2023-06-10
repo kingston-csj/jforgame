@@ -1,6 +1,6 @@
 package jforgame.server.game.core;
 
-import jforgame.common.thread.NamedThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.logs.LoggerUtils;
 
 import javax.annotation.PreDestroy;

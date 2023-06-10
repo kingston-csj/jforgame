@@ -1,7 +1,7 @@
 package jforgame.server.net.mina.filter;
 
-import jforgame.common.NumberUtil;
-import jforgame.common.TimeUtil;
+import jforgame.commons.NumberUtil;
+import jforgame.commons.TimeUtil;
 import jforgame.server.FireWallConfig;
 import jforgame.server.net.model.FloodRecord;
 import jforgame.socket.mina.MinaSessionProperties;
@@ -29,9 +29,9 @@ public class FloodFilter extends IoFilterAdapter {
 
         // 基础思路：玩家XX秒内累计洪水记录超过Y次，则判定为嫌疑人
         long now = System.currentTimeMillis();
-        long currSecond = NumberUtil.intValue(now / TimeUtil.ONE_SECOND);
+        long currSecond = NumberUtil.intValue(now / TimeUtil.MILLIS_PER_SECOND);
         long lastTime = record.getLastReceivedTime();
-        int lastSecond = NumberUtil.intValue(lastTime / TimeUtil.ONE_SECOND);
+        int lastSecond = NumberUtil.intValue(lastTime / TimeUtil.MILLIS_PER_SECOND);
 
         tryToResetFloodTimes(now, record);
 
@@ -70,7 +70,7 @@ public class FloodFilter extends IoFilterAdapter {
     private static void tryToResetFloodTimes(long now, FloodRecord record) {
         FireWallConfig config = FireWallConfig.getInstance();
         long diffTime = now - record.getLastFloodTime();
-        if (NumberUtil.intValue(diffTime / TimeUtil.ONE_SECOND) > config.getFloodWindowSeconds()) {
+        if (NumberUtil.intValue(diffTime / TimeUtil.MILLIS_PER_SECOND) > config.getFloodWindowSeconds()) {
             record.setFloodTimes(0);
         }
     }

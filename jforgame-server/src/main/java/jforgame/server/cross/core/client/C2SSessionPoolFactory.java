@@ -1,6 +1,6 @@
 package jforgame.server.cross.core.client;
 
-import jforgame.common.NumberUtil;
+import jforgame.commons.NumberUtil;
 import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
 import jforgame.server.cross.core.server.CMessageDispatcher;

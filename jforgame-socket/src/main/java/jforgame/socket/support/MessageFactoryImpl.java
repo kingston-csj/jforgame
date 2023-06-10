@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.common.ClassScanner;
+import jforgame.commons.ClassScanner;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
@@ -64,9 +64,18 @@ public class MessageFactoryImpl implements MessageFactory {
 		return instance.clazz2Id.get(clazz);
 	}
 
+
+	@Override
+	public boolean contains(Class<?> clazz) {
+		return instance.clazz2Id.containsKey(clazz);
+	}
+
+
 	private int buildKey(short module, int cmd) {
 		int result = Math.abs(module) * 1000 + Math.abs(cmd);
 		return cmd < 0 ? -result : result;
 	}
+
+
 
 }
