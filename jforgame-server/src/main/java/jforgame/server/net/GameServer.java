@@ -21,7 +21,9 @@ import jforgame.server.listener.ListenerManager;
 import jforgame.server.monitor.jmx.GameMonitor;
 import jforgame.server.monitor.jmx.GameMonitorMBean;
 import jforgame.server.net.mina.MinaSocketServer;
+import jforgame.server.net.netty.NettySocketServer;
 import jforgame.server.redis.RedisCluster;
+import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.commons.lang3.time.StopWatch;
@@ -108,8 +110,8 @@ public class GameServer {
 			crossServer.start();
 		}
 		// 启动socket服务
-		socketServer = new MinaSocketServer();
-//		socketServer = new NettySocketServer(config.getMaxReceiveBytes());
+		socketServer = new MinaSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
+//		socketServer = new NettySocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()), config.getMaxReceiveBytes());
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();

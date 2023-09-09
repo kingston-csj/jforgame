@@ -36,7 +36,7 @@ public class IoEventHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext context, Object packet) throws Exception {
-		logger.info("receive pact, content is {}", packet.getClass().getSimpleName());
+		logger.debug("receive pact, content is {}", packet.getClass().getSimpleName());
 
 		final Channel channel = context.channel();
 		IdSession session = ChannelUtils.getSessionBy(channel);

@@ -6,6 +6,7 @@ import jforgame.server.net.MessageDispatcher;
 import jforgame.server.net.mina.filter.FloodFilter;
 import jforgame.server.net.mina.filter.MessageTraceFilter;
 import jforgame.server.net.mina.filter.ModuleEntranceFilter;
+import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
 import jforgame.socket.mina.MinaMessageCodecFactory;
 import jforgame.socket.mina.ServerSocketIoHandler;
@@ -25,6 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -41,21 +45,29 @@ public class MinaSocketServer implements ServerNode {
 
 	private SocketAcceptor acceptor;
 
+	private List<HostAndPort> nodesConfig;
+
+	public MinaSocketServer(HostAndPort hostPort) {
+		this.nodesConfig = Arrays.asList(hostPort);
+	}
+
+	public MinaSocketServer(List<HostAndPort> nodesConfig) {
+		this.nodesConfig = nodesConfig;
+	}
+
 	/**
 	 * start Mina serversocket
 	 * @throws Exception
 	 */
 	@Override
 	public void start() throws Exception {
-		int serverPort = ServerConfig.getInstance().getServerPort();
 		IoBuffer.setUseDirectBuffer(false);
 		IoBuffer.setAllocator(new SimpleBufferAllocator());
 
 		acceptor = new NioSocketAcceptor(pool);
 		acceptor.setReuseAddress(true);
-		acceptor.getSessionConfig().setAll(getSessionConfig());
+		acceptor.getSessionConfig().setAll(new DefaultSocketSessionConfig());
 
-		logger.info("mina socket server start at port:{},正在监听客户端的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance())));
@@ -64,18 +76,15 @@ public class MinaSocketServer implements ServerNode {
 		filterChain.addLast("flood", new FloodFilter());
 		//指定业务逻辑处理器
 		acceptor.setHandler(new ServerSocketIoHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));
-		//设置端口号
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
-		//启动监听
-		acceptor.bind();
-	}
 
-	private SocketSessionConfig getSessionConfig() {
-		SocketSessionConfig config = new DefaultSocketSessionConfig();
-		config.setKeepAlive(true);
-		config.setReuseAddress(true);
-
-		return config;
+		for (HostAndPort node : nodesConfig) {
+			logger.info("socket server is listening at " + node.getPort() + "......");
+			acceptor.bind(new InetSocketAddress(node.getPort()));
+		}
+//		//设置端口号
+//		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
+//		//启动监听
+//		acceptor.bind();
 	}
 
 	@Override
