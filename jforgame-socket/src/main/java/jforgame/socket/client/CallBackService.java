@@ -27,7 +27,7 @@ public class CallBackService {
         mapper.put(correlationId, future);
     }
 
-    public RequestResponseFuture remove(long correlationId) {
+    public RequestResponseFuture remove(int correlationId) {
         return mapper.remove(correlationId);
     }
 

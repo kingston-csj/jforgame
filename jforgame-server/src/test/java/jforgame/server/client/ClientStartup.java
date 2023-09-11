@@ -4,7 +4,11 @@ package jforgame.server.client;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.game.hello.ReqHello;
+import jforgame.server.game.hello.ResHello;
+import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RpcCallbackClient;
+import jforgame.socket.client.RpcResponseData;
+import jforgame.socket.client.Traceful;
 import jforgame.socket.support.DefaultMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import jforgame.server.utils.JsonUtils;
@@ -38,6 +42,13 @@ public class ClientStartup {
 			@Override
 			public void dispatch(IdSession session, Object message) {
 				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
+				if (message instanceof Traceful) {
+					Traceful traceful = (Traceful) message;
+					RpcResponseData responseData = new RpcResponseData();
+					responseData.setResponse(message);
+					CallBackService.getInstance().fillCallBack(traceful.getIndex(), responseData);
+				}
+
 			}
 
 			@Override
@@ -52,7 +63,8 @@ public class ClientStartup {
 		robot.login();
 		robot.selectedPlayer(10000L);
 
-		new RpcCallbackClient().request(session, new ReqHello());
+		ResHello response = (ResHello) new RpcCallbackClient().request(session, new ReqHello());
+		System.out.println(response.getContent());
 	}
 
 }

@@ -21,15 +21,14 @@ public class RpcCallbackClient implements RpcCallback {
 
         CallBackService.getInstance().register(index, future);
         try {
-            Object responseMessage = future.waitResponseMessage(timeout);
-
+            RequestResponseFuture responseMessage = future.waitResponseMessage(timeout);
             if (responseMessage == null) {
                 CallbackTimeoutException exception = new CallbackTimeoutException("send request message  failed");
                 future.setCause(exception);
 
                 throw exception;
             }
-            return responseMessage;
+            return responseMessage.getResponseMsg();
         } catch (InterruptedException e) {
             future.setCause(e);
             CallBackService.getInstance().remove(index);
