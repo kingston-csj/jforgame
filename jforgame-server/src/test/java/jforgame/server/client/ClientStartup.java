@@ -6,6 +6,8 @@ import jforgame.server.ServerScanPaths;
 import jforgame.server.game.hello.ReqHello;
 import jforgame.server.game.hello.ResHello;
 import jforgame.socket.client.CallBackService;
+import jforgame.socket.client.RequestCallback;
+import jforgame.socket.client.RpcBlockClient;
 import jforgame.socket.client.RpcCallbackClient;
 import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.Traceful;
@@ -63,8 +65,20 @@ public class ClientStartup {
 		robot.login();
 		robot.selectedPlayer(10000L);
 
-		ResHello response = (ResHello) new RpcCallbackClient().request(session, new ReqHello());
-		System.out.println(response.getContent());
+//		ResHello response = (ResHello) new RpcBlockClient().request(session, new ReqHello());
+//		System.out.println(response);
+		new RpcCallbackClient().callBack(session, new ReqHello(), new RequestCallback() {
+			@Override
+			public void onSuccess(Object callBack) {
+				ResHello response = (ResHello) callBack;
+				System.out.println("----"+response);
+			}
+
+			@Override
+			public void onError(Throwable error) {
+				System.out.println("----onError");
+			}
+		});
 	}
 
 }

@@ -88,14 +88,20 @@ public class CallBackService {
         if (future == null) {
             return;
         }
-        if (future != null) {
-            String errorText = message.getErrorText();
-            if (errorText != null && errorText.length() > 0) {
-                Throwable t = new RuntimeException(errorText);
-                future.setCause(t);
-            }
-            future.putResponseMessage(message.getResponse());
+        RequestCallback callback = future.getRequestCallback();
+        if (callback != null) {
+            // 异步回调
+            callback.onSuccess(message.getResponse());
+            return;
         }
+        // 同步回调
+        String errorText = message.getErrorText();
+        if (errorText != null && errorText.length() > 0) {
+            Throwable t = new RuntimeException(errorText);
+            future.setCause(t);
+        }
+        future.putResponseMessage(message.getResponse());
+
     }
 
 }

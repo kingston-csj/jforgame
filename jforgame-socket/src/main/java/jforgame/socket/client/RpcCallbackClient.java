@@ -4,12 +4,11 @@ import jforgame.socket.IdSession;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class RpcCallbackClient implements RpcCallback {
+public class RpcCallbackClient {
 
     private AtomicInteger idFactory = new AtomicInteger();
 
-    @Override
-    public Object request(IdSession session, Traceful request) throws CallbackTimeoutException {
+    public void callBack(IdSession session, Traceful request, RequestCallback callBack) throws CallbackTimeoutException {
 
         int timeout = 5000;
 
@@ -17,22 +16,8 @@ public class RpcCallbackClient implements RpcCallback {
         request.setIndex(index);
         session.sendPacket(request);
 
-        final RequestResponseFuture future = new RequestResponseFuture(index, timeout);
-
-        CallBackService.getInstance().register(index, future);
-        try {
-            RequestResponseFuture responseMessage = future.waitResponseMessage(timeout);
-            if (responseMessage == null) {
-                CallbackTimeoutException exception = new CallbackTimeoutException("send request message  failed");
-                future.setCause(exception);
-
-                throw exception;
-            }
-            return responseMessage.getResponseMsg();
-        } catch (InterruptedException e) {
-            future.setCause(e);
-            CallBackService.getInstance().remove(index);
-        }
-        return null;
+        final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(index, timeout, callBack);
+        CallBackService.getInstance().register(index, requestResponseFuture);
+        session.sendPacket(request);
     }
 }

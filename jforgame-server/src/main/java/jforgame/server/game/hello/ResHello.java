@@ -26,4 +26,12 @@ public class ResHello implements Traceful {
         this.content = content;
     }
 
+
+    @Override
+    public String toString() {
+        return "ResHello{" +
+                "index=" + index +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

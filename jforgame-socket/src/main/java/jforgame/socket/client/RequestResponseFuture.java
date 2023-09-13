@@ -5,20 +5,28 @@ import java.util.concurrent.TimeUnit;
 
 public class RequestResponseFuture {
 
-    private final long correlationId;
+    private final int correlationId;
+    private final RequestCallback requestCallback;
     private final long beginTimestamp = System.currentTimeMillis();
     private CountDownLatch countDownLatch = new CountDownLatch(1);
     private volatile Object responseMsg = null;
     private volatile Throwable cause = null;
     private long timeoutMillis;
 
-    public RequestResponseFuture(long correlationId, long timeOut) {
+    public RequestResponseFuture(int correlationId, long timeOut, RequestCallback requestCallback) {
         this.correlationId = correlationId;
+        this.requestCallback = requestCallback;
         this.timeoutMillis = timeOut;
     }
 
     public void executeRequestCallback() {
-        this.cause = new CallbackTimeoutException(correlationId + " timeout");
+        if (this.requestCallback != null) {
+            if (this.cause == null) {
+                this.requestCallback.onSuccess(this.responseMsg);
+            } else {
+                this.requestCallback.onError(this.cause);
+            }
+        }
     }
 
     public RequestResponseFuture waitResponseMessage(long timeout) throws InterruptedException {
@@ -53,6 +61,10 @@ public class RequestResponseFuture {
 
     public void setCause(Throwable cause) {
         this.cause = cause;
+    }
+
+    public RequestCallback getRequestCallback() {
+        return requestCallback;
     }
 
     public boolean isTimeout() {
