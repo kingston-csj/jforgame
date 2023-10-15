@@ -46,12 +46,12 @@ public class MsgIoHandler extends ChannelInboundHandlerAdapter {
 
         final Channel channel = context.channel();
         IdSession session = ChannelUtils.getSessionBy(channel);
-        if (packet instanceof Traceful) {
-            Traceful traceful = (Traceful) packet;
+        if (packet instanceof Traceable) {
+            Traceable traceable = (Traceable) packet;
             RpcResponseData callback = new RpcResponseData();
-            callback.setIndex(traceful.getIndex());
+            callback.setIndex(traceable.getIndex());
             callback.setResponse(packet);
-            CallBackService.getInstance().fillCallBack(traceful.getIndex(), callback);
+            CallBackService.getInstance().fillCallBack(traceable.getIndex(), callback);
             return;
         }
         messageDispatcher.dispatch(session, packet);

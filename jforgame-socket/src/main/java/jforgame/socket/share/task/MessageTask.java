@@ -1,7 +1,7 @@
 package jforgame.socket.share.task;
 
 import jforgame.socket.IdSession;
-import jforgame.socket.client.Traceful;
+import jforgame.socket.client.Traceable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,9 +51,9 @@ public class MessageTask extends BaseGameTask {
         try {
             Object response = method.invoke(handler, params);
             if (response != null) {
-				if (message instanceof Traceful && response instanceof Traceful) {
-					Traceful traceful = (Traceful) response;
-					traceful.setIndex(((Traceful)message).getIndex());
+				if (message instanceof Traceable && response instanceof Traceable) {
+					Traceable traceable = (Traceable) response;
+					traceable.setIndex(((Traceable)message).getIndex());
 				}
                 session.sendPacket(response);
             }

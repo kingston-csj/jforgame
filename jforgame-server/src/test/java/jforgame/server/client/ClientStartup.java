@@ -7,10 +7,9 @@ import jforgame.server.game.hello.ReqHello;
 import jforgame.server.game.hello.ResHello;
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RequestCallback;
-import jforgame.socket.client.RpcBlockClient;
-import jforgame.socket.client.RpcCallbackClient;
+import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.RpcResponseData;
-import jforgame.socket.client.Traceful;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.support.DefaultMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import jforgame.server.utils.JsonUtils;
@@ -44,11 +43,11 @@ public class ClientStartup {
 			@Override
 			public void dispatch(IdSession session, Object message) {
 				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
-				if (message instanceof Traceful) {
-					Traceful traceful = (Traceful) message;
+				if (message instanceof Traceable) {
+					Traceable traceable = (Traceable) message;
 					RpcResponseData responseData = new RpcResponseData();
 					responseData.setResponse(message);
-					CallBackService.getInstance().fillCallBack(traceful.getIndex(), responseData);
+					CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
 				}
 
 			}
@@ -65,11 +64,14 @@ public class ClientStartup {
 		robot.login();
 		robot.selectedPlayer(10000L);
 
-//		ResHello response = (ResHello) new RpcBlockClient().request(session, new ReqHello());
-//		System.out.println(response);
-		new RpcCallbackClient().callBack(session, new ReqHello(), new RequestCallback() {
+		ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
+		System.err.println("rpc 消息同步调用");
+		System.out.println(response);
+
+		RpcMessageClient.callBack(session, new ReqHello(), new RequestCallback() {
 			@Override
 			public void onSuccess(Object callBack) {
+				System.err.println("rpc 消息异步调用");
 				ResHello response = (ResHello) callBack;
 				System.out.println("----"+response);
 			}

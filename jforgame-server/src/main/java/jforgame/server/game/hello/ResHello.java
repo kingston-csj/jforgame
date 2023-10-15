@@ -1,10 +1,10 @@
 package jforgame.server.game.hello;
 
-import jforgame.socket.client.Traceful;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 
 @MessageMeta(cmd= 999)
-public class ResHello implements Traceful {
+public class ResHello implements Traceable {
 
     private int index;
     private String content;

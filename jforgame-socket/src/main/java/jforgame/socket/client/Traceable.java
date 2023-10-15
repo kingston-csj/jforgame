@@ -1,6 +1,6 @@
 package jforgame.socket.client;
 
-public interface Traceful {
+public interface Traceable {
 
     int getIndex();
 
