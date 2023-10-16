@@ -1,4 +1,4 @@
-package jforgame.server.net;
+package jforgame.server.socket;
 
 import java.util.ArrayList;
 import java.util.Collections;

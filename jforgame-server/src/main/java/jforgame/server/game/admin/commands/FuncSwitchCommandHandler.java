@@ -7,7 +7,7 @@ import jforgame.server.game.admin.http.HttpCommandHandler;
 import jforgame.server.game.admin.http.HttpCommandParams;
 import jforgame.server.game.admin.http.HttpCommandResponse;
 import jforgame.server.game.admin.http.HttpCommands;
-import jforgame.server.net.NetGateKeeper;
+import jforgame.server.socket.NetGateKeeper;
 
 @CommandHandler(cmd=HttpCommands.FUNC_SWITCH)
 public class FuncSwitchCommandHandler extends HttpCommandHandler {

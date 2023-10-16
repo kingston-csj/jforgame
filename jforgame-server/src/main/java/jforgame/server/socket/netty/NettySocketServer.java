@@ -1,4 +1,4 @@
-package jforgame.server.net.netty;
+package jforgame.server.socket.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -11,7 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
-import jforgame.server.net.MessageDispatcher;
+import jforgame.server.socket.MessageDispatcher;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
 import jforgame.socket.netty.IoEventHandler;

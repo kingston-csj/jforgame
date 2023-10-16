@@ -1,4 +1,4 @@
-package jforgame.server.net;
+package jforgame.server.socket;
 
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
@@ -20,8 +20,7 @@ import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.listener.ListenerManager;
 import jforgame.server.monitor.jmx.GameMonitor;
 import jforgame.server.monitor.jmx.GameMonitorMBean;
-import jforgame.server.net.mina.MinaSocketServer;
-import jforgame.server.net.netty.NettySocketServer;
+import jforgame.server.socket.mina.MinaSocketServer;
 import jforgame.server.redis.RedisCluster;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;

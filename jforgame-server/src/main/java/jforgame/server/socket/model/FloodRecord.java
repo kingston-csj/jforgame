@@ -1,4 +1,4 @@
-package jforgame.server.net.model;
+package jforgame.server.socket.model;
 
 public class FloodRecord {
 

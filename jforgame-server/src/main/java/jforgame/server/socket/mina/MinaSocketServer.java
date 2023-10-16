@@ -1,11 +1,10 @@
-package jforgame.server.net.mina;
+package jforgame.server.socket.mina;
 
-import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
-import jforgame.server.net.MessageDispatcher;
-import jforgame.server.net.mina.filter.FloodFilter;
-import jforgame.server.net.mina.filter.MessageTraceFilter;
-import jforgame.server.net.mina.filter.ModuleEntranceFilter;
+import jforgame.server.socket.MessageDispatcher;
+import jforgame.server.socket.mina.filter.FloodFilter;
+import jforgame.server.socket.mina.filter.MessageTraceFilter;
+import jforgame.server.socket.mina.filter.ModuleEntranceFilter;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
 import jforgame.socket.mina.MinaMessageCodecFactory;
@@ -18,7 +17,6 @@ import org.apache.mina.core.service.SimpleIoProcessorPool;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.DefaultSocketSessionConfig;
 import org.apache.mina.transport.socket.SocketAcceptor;
-import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioProcessor;
 import org.apache.mina.transport.socket.nio.NioSession;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
@@ -26,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;

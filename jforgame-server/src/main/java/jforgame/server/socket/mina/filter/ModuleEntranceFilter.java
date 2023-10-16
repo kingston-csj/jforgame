@@ -1,8 +1,8 @@
-package jforgame.server.net.mina.filter;
+package jforgame.server.socket.mina.filter;
 
 import jforgame.server.game.core.BaseNotify;
 import jforgame.server.game.notice.message.ResSystemNotice;
-import jforgame.server.net.NetGateKeeper;
+import jforgame.server.socket.NetGateKeeper;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.IoSession;

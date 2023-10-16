@@ -10,7 +10,7 @@ import jforgame.server.game.login.message.vo.PlayerLoginVo;
 import jforgame.server.game.player.model.AccountProfile;
 import jforgame.server.game.player.model.PlayerProfile;
 import jforgame.server.game.scene.message.ResPlayerEnterScene;
-import jforgame.server.net.SessionManager;
+import jforgame.server.socket.SessionManager;
 import jforgame.socket.IdSession;
 import org.apache.commons.collections4.CollectionUtils;
 

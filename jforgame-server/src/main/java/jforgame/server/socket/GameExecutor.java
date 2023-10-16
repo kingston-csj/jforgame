@@ -1,4 +1,4 @@
-package jforgame.server.net;
+package jforgame.server.socket;
 
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.server.logs.LoggerUtils;

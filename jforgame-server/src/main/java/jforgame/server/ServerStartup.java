@@ -1,6 +1,6 @@
 package jforgame.server;
 
-import jforgame.server.net.GameServer;
+import jforgame.server.socket.GameServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

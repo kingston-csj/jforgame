@@ -1,4 +1,4 @@
-package jforgame.server.net.mina.filter;
+package jforgame.server.socket.mina.filter;
 
 import com.google.gson.Gson;
 import jforgame.server.logs.LoggerUtils;

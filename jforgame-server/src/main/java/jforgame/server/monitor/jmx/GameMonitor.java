@@ -17,7 +17,7 @@ import javax.script.ScriptEngineManager;
 
 import jforgame.server.game.GameContext;
 import jforgame.server.logs.LoggerUtils;
-import jforgame.server.net.MessageStatistics;
+import jforgame.server.socket.MessageStatistics;
 import jforgame.server.utils.JsScriptEngine;
 
 public class GameMonitor implements GameMonitorMBean{

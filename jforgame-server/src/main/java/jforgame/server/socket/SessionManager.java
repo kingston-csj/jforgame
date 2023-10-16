@@ -1,4 +1,4 @@
-package jforgame.server.net;
+package jforgame.server.socket;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;

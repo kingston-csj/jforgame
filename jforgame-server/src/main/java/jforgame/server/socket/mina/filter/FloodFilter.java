@@ -1,9 +1,9 @@
-package jforgame.server.net.mina.filter;
+package jforgame.server.socket.mina.filter;
 
 import jforgame.commons.NumberUtil;
 import jforgame.commons.TimeUtil;
 import jforgame.server.FireWallConfig;
-import jforgame.server.net.model.FloodRecord;
+import jforgame.server.socket.model.FloodRecord;
 import jforgame.socket.mina.MinaSessionProperties;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.AttributeKey;

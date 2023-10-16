@@ -1,7 +1,7 @@
 package jforgame.server.game.player;
 
 import jforgame.server.game.GameContext;
-import jforgame.server.net.SessionManager;
+import jforgame.server.socket.SessionManager;
 import jforgame.commons.NumberUtil;
 import jforgame.server.cache.BaseCacheService;
 import jforgame.server.db.DbService;

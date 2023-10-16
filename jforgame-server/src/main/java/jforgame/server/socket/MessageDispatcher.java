@@ -1,4 +1,4 @@
-package jforgame.server.net;
+package jforgame.server.socket;
 
 import jforgame.commons.ClassScanner;
 import jforgame.server.game.GameContext;
