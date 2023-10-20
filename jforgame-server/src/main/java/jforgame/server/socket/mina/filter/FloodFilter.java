@@ -4,7 +4,6 @@ import jforgame.commons.NumberUtil;
 import jforgame.commons.TimeUtil;
 import jforgame.server.FireWallConfig;
 import jforgame.server.socket.model.FloodRecord;
-import jforgame.socket.mina.MinaSessionProperties;
 import org.apache.mina.core.filterchain.IoFilterAdapter;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
@@ -20,7 +19,7 @@ public class FloodFilter extends IoFilterAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(FloodFilter.class);
 
-    private static final AttributeKey KEY_FLOOD = new AttributeKey(MinaSessionProperties.class, "FLOOD");
+    private static final AttributeKey KEY_FLOOD = new AttributeKey(FloodFilter.class, "FLOOD");
 
     @Override
     public void messageReceived(NextFilter nextFilter, IoSession session, Object message)

@@ -3,7 +3,7 @@ package jforgame.server.cross.core;
 import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
 import jforgame.socket.ServerNode;
-import jforgame.socket.mina.MinaMessageCodecFactory;
+import jforgame.socket.support.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;

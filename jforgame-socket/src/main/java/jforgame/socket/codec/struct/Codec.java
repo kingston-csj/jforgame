@@ -35,7 +35,30 @@ public abstract class Codec {
 		register(Object[].class, new ArrayCodec());
 	}
 
+	/**
+	 * binding clazz and codec
+	 * if clazz repeated, an IllegalStateException exception thrown
+	 * @param clazz
+	 * @param codec
+	 */
 	public static void register(Class<?> clazz, Codec codec) {
+		if (class2Serializers.containsKey(clazz)) {
+			throw new IllegalStateException(clazz.getName() + " duplicated");
+		}
+		class2Serializers.put(clazz, codec);
+	}
+
+	/**
+	 * rebinding clazz and codec
+	 * you can use this api to replace a relation between clazz and codec
+	 * when you want to use a compress version of IntCodec or other types
+	 * @param clazz
+	 * @param codec
+	 */
+	public static void replace(Class<?> clazz, Codec codec) {
+		if (class2Serializers.containsKey(clazz)) {
+			throw new IllegalStateException(clazz.getName() + " duplicated");
+		}
 		class2Serializers.put(clazz, codec);
 	}
 

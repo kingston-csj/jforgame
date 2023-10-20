@@ -1,11 +1,10 @@
-package jforgame.socket.netty;
+package jforgame.socket.support;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.socket.CodecProperties;
 import jforgame.socket.share.message.MessageDecoder;
-import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

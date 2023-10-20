@@ -1,8 +1,7 @@
-package jforgame.socket.mina;
+package jforgame.socket.support;
 
 import jforgame.socket.CodecProperties;
 import jforgame.socket.share.message.MessageDecoder;
-import jforgame.socket.support.DefaultMessageCodecFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;

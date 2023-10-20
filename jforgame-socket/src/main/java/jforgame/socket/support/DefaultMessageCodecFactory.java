@@ -10,7 +10,6 @@ public class DefaultMessageCodecFactory {
 
     private static MessageCodecFactory messageCodecFactory = new StructPrivateProtocolCodec(messageFactory);
 
-
     public static MessageCodecFactory getMessageCodecFactory() {
         return messageCodecFactory;
     }

@@ -1,8 +1,10 @@
-package jforgame.socket.netty;
+package jforgame.socket.support;
 
 import java.io.IOException;
 
 import jforgame.socket.IdSession;
+import jforgame.socket.netty.ChannelUtils;
+import jforgame.socket.netty.NSession;
 import jforgame.socket.share.message.IMessageDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

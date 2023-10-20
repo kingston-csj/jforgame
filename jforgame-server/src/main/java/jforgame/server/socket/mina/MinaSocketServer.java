@@ -7,7 +7,7 @@ import jforgame.server.socket.mina.filter.MessageTraceFilter;
 import jforgame.server.socket.mina.filter.ModuleEntranceFilter;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
-import jforgame.socket.mina.MinaMessageCodecFactory;
+import jforgame.socket.support.MinaMessageCodecFactory;
 import jforgame.socket.mina.ServerSocketIoHandler;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;

@@ -43,7 +43,6 @@ public final class ByteBuffUtil {
 	}
 
 	public static int readInt(ByteBuffer buf) {
-		// TODO int变长压缩？？！！
 		return buf.getInt();
 	}
 
@@ -74,7 +73,6 @@ public final class ByteBuffUtil {
 	public static void writeDouble(ByteBuffer buf, double value) {
 		buf.putDouble(value);
 	}
-
 
 	public static String readUtf8(ByteBuffer buf) {
 		int strSize = buf.getInt();

@@ -14,8 +14,8 @@ import jforgame.socket.codec.MessageCodecFactory;
 import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.netty.NSession;
-import jforgame.socket.netty.NettyProtocolDecoder;
-import jforgame.socket.netty.NettyProtocolEncoder;
+import jforgame.socket.support.NettyProtocolDecoder;
+import jforgame.socket.support.NettyProtocolEncoder;
 
 import java.net.InetSocketAddress;
 

@@ -2,7 +2,7 @@ package jforgame.server.cross.core.client;
 
 import jforgame.commons.TimeUtil;
 import jforgame.server.cross.core.server.CMessageDispatcher;
-import jforgame.socket.mina.MinaMessageCodecFactory;
+import jforgame.socket.support.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.future.WriteFuture;

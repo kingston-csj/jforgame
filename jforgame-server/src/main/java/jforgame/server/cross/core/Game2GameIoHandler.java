@@ -9,7 +9,6 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.socket.mina.MinaSessionProperties;
 import jforgame.socket.mina.ServerSocketIoHandler;
 
 public class Game2GameIoHandler extends IoHandlerAdapter {
@@ -19,7 +18,7 @@ public class Game2GameIoHandler extends IoHandlerAdapter {
 	/** 消息分发器 */
 	private CMessageDispatcher messageDispatcher;
 	
-	private AttributeKey attrKey = new AttributeKey(MinaSessionProperties.class, "SESSION_CONTAINER");
+	private AttributeKey attrKey = new AttributeKey(Game2GameIoHandler.class, "SESSION_CONTAINER");
 
 	public Game2GameIoHandler(CMessageDispatcher messageDispatcher) {
 		this.messageDispatcher = messageDispatcher;

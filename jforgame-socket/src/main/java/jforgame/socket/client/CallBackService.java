@@ -41,7 +41,7 @@ public class CallBackService {
                 self = newObj;
                 self.service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("common-scheduler"));
 
-                newObj.timer = self.service.scheduleAtFixedRate(
+                self.timer = self.service.scheduleAtFixedRate(
                         () -> {
                             try {
                                 newObj.scanExpiredRequest();
