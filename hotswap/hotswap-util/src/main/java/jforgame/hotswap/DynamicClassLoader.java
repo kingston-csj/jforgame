@@ -10,7 +10,11 @@ public class DynamicClassLoader extends ClassLoader {
 
     private Logger logger = LoggerFactory.getLogger(DynamicClassLoader.class.getName());
 
-    private Map<String, byte[]> classByteDef = new HashMap<>();
+    private Map<String, byte[]> classByteDef;
+
+    public DynamicClassLoader(Map<String, byte[]> classByteDef) {
+        this.classByteDef = classByteDef;
+    }
 
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {

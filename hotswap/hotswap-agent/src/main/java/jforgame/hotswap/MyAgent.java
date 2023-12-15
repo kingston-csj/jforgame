@@ -39,11 +39,18 @@ public class MyAgent {
 
             StringBuilder sb = new StringBuilder("redefine [" );
 
+            ClassLoader scl = ClassLoader.getSystemClassLoader();
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String fileName = entry.getKey();
-                ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName), entry.getValue());
-                inst.redefineClasses(new ClassDefinition[]{clazzDef});
-                sb.append( fileName + ";");
+                try {
+                    if (scl.loadClass(fileName) != null) {
+                        ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName, true,Thread.currentThread().getContextClassLoader()), entry.getValue());
+                        inst.redefineClasses(new ClassDefinition[]{clazzDef});
+                        sb.append( fileName + ";");
+                    }
+                } catch (ClassNotFoundException ignore) {
+
+                }
             }
 
             sb.append( "] finished");
