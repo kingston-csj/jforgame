@@ -39,16 +39,18 @@ public class JavaDoctor {
         for (File file : files) {
             if (file.getName().endsWith(".class")) {
                 ClassFileMeta fileMeta = new ClassFileMeta(file);
-                    FileInputStream fis =  new FileInputStream(file);
-                    byte[] bytes = new byte[fis.available()];
-                    fis.read(bytes);
-                    classBytes.put(fileMeta.className, bytes);
+                FileInputStream fis = new FileInputStream(file);
+                byte[] bytes = new byte[fis.available()];
+                fis.read(bytes);
+                classBytes.put(fileMeta.className, bytes);
             }
         }
 
         DynamicClassLoader classLoader = new DynamicClassLoader(classBytes);
+//        Thread.currentThread().setContextClassLoader(classLoader);
+        ClassLoader c1 = Thread.currentThread().getContextClassLoader();
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
-                classLoader.loadClass(entry.getKey());
+            classLoader.loadClass(entry.getKey());
         }
 
         dos.writeInt(classBytes.entrySet().size());
@@ -67,7 +69,7 @@ public class JavaDoctor {
         return true;
     }
 
-    private String reloadClass(String path,  Map<String, byte[]> classBytes) {
+    private String reloadClass(String path, Map<String, byte[]> classBytes) {
         try {
             // 拿到当前jvm的进程id
             String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
@@ -78,7 +80,7 @@ public class JavaDoctor {
             vm.loadAgent("agent/hotswap-agent.jar");
             logger.error("hot swap finished --> {}", log);
             if (exception != null) {
-                logger.error("hot swap failed {}", exception);
+                logger.error("hot swap failed ", exception);
             }
             return log;
         } catch (Throwable e) {

@@ -11,7 +11,7 @@ public class ReloadHotSwapTest {
     public void test() throws Exception {
         ServicePool.playerService.say("Hi");
 
-        System.out.println("执行热更前，类加载器==" + ServicePool.playerService.getClass().getClassLoader());
+        System.out.println("执行热更前， 类加载器==" + ServicePool.playerService.getClass().getClassLoader());
 
         // 重新加载PlayerService class文件
         // 预先修改 say()方法后，把编译后的文件放到指定位置
@@ -25,7 +25,8 @@ public class ReloadHotSwapTest {
         DynamicClassLoader myLoader = new DynamicClassLoader();
         // 实例化新的对象
         Class<?> newClazz = myLoader.findClass(targetClassFile);
-        System.out.println("执行热更后，类加载器==" + newClazz.getClassLoader());
+        System.out.println("执行热更后1，类加载器==" + newClazz.getClassLoader());
+
 
         // 使用接口进行实例化
         IPlayerService newObj = (IPlayerService) newClazz.newInstance();
@@ -33,8 +34,10 @@ public class ReloadHotSwapTest {
         Field field = ServicePool.class.getField("playerService");
         field.setAccessible(true);
         field.set(null, newObj);
+        System.out.println("执行热更后2，类加载器==" + ServicePool.playerService.getClass().getClassLoader());
         // PlayerService实例被替换
         ServicePool.playerService.say("Hi");
+
     }
 
 }

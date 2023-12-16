@@ -37,23 +37,23 @@ public class MyAgent {
                 reloadFiles.put(fileName, body);
             }
 
-            StringBuilder sb = new StringBuilder("redefine [" );
+            StringBuilder sb = new StringBuilder("redefine [");
 
             ClassLoader scl = ClassLoader.getSystemClassLoader();
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String fileName = entry.getKey();
                 try {
                     if (scl.loadClass(fileName) != null) {
-                        ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName, true,Thread.currentThread().getContextClassLoader()), entry.getValue());
+                        ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName), entry.getValue());
                         inst.redefineClasses(new ClassDefinition[]{clazzDef});
-                        sb.append( fileName + ";");
+                        sb.append(fileName + ";");
                     }
                 } catch (ClassNotFoundException ignore) {
 
                 }
             }
 
-            sb.append( "] finished");
+            sb.append("] finished");
             Field field2 = c.getDeclaredField("log");
             field2.setAccessible(true);
             field2.set(null, sb.toString());
