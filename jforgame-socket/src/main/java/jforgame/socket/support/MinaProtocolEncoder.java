@@ -1,7 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.MessageEncoder;
+import jforgame.socket.codec.MessageCodec;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -15,8 +14,18 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 
 	private MessageFactory messageFactory;
 
-	public MinaProtocolEncoder(MessageFactory messageFactory) {
+	private MessageCodec messageCodec;
+
+	private int WRITE_BUFF_SIZE = 1024;
+
+	/**
+	 * 消息元信息常量，为int类型的长度，表示消息的id
+	 */
+	private static final int MESSAGE_META_SIZE = 4;
+
+	public MinaProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
 		this.messageFactory = messageFactory;
+		this.messageCodec = messageCodec;
 	}
 
 	@Override
@@ -35,12 +44,11 @@ public class MinaProtocolEncoder implements ProtocolEncoder {
 		// packetLength | cmd | body
 		// int int byte[]
 
-		IoBuffer buffer = IoBuffer.allocate(CodecProperties.WRITE_CAPACITY);
+		IoBuffer buffer = IoBuffer.allocate(WRITE_BUFF_SIZE);
 		buffer.setAutoExpand(true);
 
-		MessageEncoder msgEncoder = DefaultMessageCodecFactory.getMessageCodecFactory().getEncoder();
-		byte[] body = msgEncoder.writeMessageBody(message);
-		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
+		byte[] body = messageCodec.encode(message);
+		final int metaSize = MESSAGE_META_SIZE;
 		// the length of message body
 		buffer.putInt(body.length + metaSize);
 		int cmd = messageFactory.getMessageId(message.getClass());

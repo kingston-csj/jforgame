@@ -10,7 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
-import jforgame.socket.share.message.MessageCodecFactory;
+import jforgame.socket.codec.MessageCodec;
 import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.netty.NSession;
@@ -23,16 +23,16 @@ public class RpcClientFactory {
 
     private IMessageDispatcher messageDispatcher;
 
-    private MessageCodecFactory messageSerializer;
-
     private MessageFactory messageFactory;
+
+    private MessageCodec messageCodec;
 
     private EventLoopGroup group = new NioEventLoopGroup(4);
 
-    public RpcClientFactory(IMessageDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodecFactory messageSerializer) {
+    public RpcClientFactory(IMessageDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec) {
         this.messageDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
-        this.messageSerializer = messageSerializer;
+        this.messageCodec = messageCodec;
     }
 
     public IdSession createSession(HostAndPort hostPort) throws Exception {
@@ -43,9 +43,9 @@ public class RpcClientFactory {
                 @Override
                 protected void initChannel(SocketChannel arg0) throws Exception {
                     ChannelPipeline pipeline = arg0.pipeline();
-                    pipeline.addLast(new NettyProtocolDecoder(10240));
-                    pipeline.addLast(new NettyProtocolEncoder(messageFactory));
-                    pipeline.addLast((new MsgIoHandler(messageDispatcher, messageSerializer)));
+                    pipeline.addLast(new NettyProtocolDecoder(messageFactory, messageCodec));
+                    pipeline.addLast(new NettyProtocolEncoder(messageFactory, messageCodec));
+                    pipeline.addLast((new MsgIoHandler(messageDispatcher)));
                 }
 
             });

@@ -2,6 +2,7 @@ package jforgame.server.cross.core.client;
 
 import jforgame.commons.TimeUtil;
 import jforgame.server.cross.core.server.CMessageDispatcher;
+import jforgame.socket.codec.struct.StructMessageCodec;
 import jforgame.socket.support.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.future.ConnectFuture;
@@ -51,7 +52,7 @@ public class CCSession {
 	public void buildConnection() {
 		NioSocketConnector connector = new NioSocketConnector();
 		connector.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance())));
+				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance(), new StructMessageCodec())));
 		connector.setHandler(new IoHandlerAdapter() {
 			@Override
 			public void exceptionCaught(IoSession session, Throwable cause) throws Exception {

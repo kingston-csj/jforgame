@@ -1,7 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.CodecProperties;
-import jforgame.socket.codec.MessageDecoder;
+import jforgame.socket.codec.MessageCodec;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -21,8 +20,16 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 
 	private MessageFactory messageFactory;
 
-	public MinaProtocolDecoder(MessageFactory messageFactory) {
+	private MessageCodec messageCodec;
+
+	/**
+	 * 消息元信息常量，为int类型的长度，表示消息的id
+	 */
+	private static final int MESSAGE_META_SIZE = 4;
+
+	public MinaProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
 		this.messageFactory = messageFactory;
+		this.messageCodec = messageCodec;
 	}
 
 
@@ -31,7 +38,6 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 		if (in.remaining() < 4) {
 			return false;
 		}
-		MessageDecoder msgDecoder = DefaultMessageCodecFactory.getMessageCodecFactory().getDecoder();
 		in.mark();
 
 		// ----------------protocol pattern-------------------------
@@ -49,13 +55,13 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 			return false;
 		}
 
-		final int metaSize = CodecProperties.MESSAGE_META_SIZE;
+		final int metaSize = MESSAGE_META_SIZE;
 		int cmd = in.getInt();
 		byte[] body = new byte[length - metaSize];
 		in.get(body);
 
 		Class<?> msgClazz = messageFactory.getMessage(cmd);
-		Object msg = msgDecoder.readMessage(msgClazz, body);
+		Object msg = messageCodec.decode(msgClazz, body);
 
 		out.write(msg);
 		return true;

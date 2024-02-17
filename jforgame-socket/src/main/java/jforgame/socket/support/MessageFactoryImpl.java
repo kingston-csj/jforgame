@@ -76,6 +76,4 @@ public class MessageFactoryImpl implements MessageFactory {
 		return cmd < 0 ? -result : result;
 	}
 
-
-
 }

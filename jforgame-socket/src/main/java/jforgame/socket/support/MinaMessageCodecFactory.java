@@ -1,5 +1,6 @@
 package jforgame.socket.support;
 
+import jforgame.socket.codec.MessageCodec;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
@@ -11,23 +12,25 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
  */
 public class MinaMessageCodecFactory implements ProtocolCodecFactory {
 
-	private MinaProtocolDecoder decoder;
+    private MinaProtocolDecoder decoder;
 
-	private MinaProtocolEncoder encoder ;
+    private MinaProtocolEncoder encoder;
 
-	public MinaMessageCodecFactory(MessageFactory messageFactory) {
-		this.decoder = new MinaProtocolDecoder(messageFactory);
-		this.encoder = new MinaProtocolEncoder(messageFactory);
-	}
+    private MessageCodec messageCodec;
 
-	@Override
-	public ProtocolEncoder getEncoder(IoSession session) throws Exception {
-		return encoder;
-	}
+    public MinaMessageCodecFactory(MessageFactory messageFactory, MessageCodec messageCodec) {
+        this.decoder = new MinaProtocolDecoder(messageFactory, messageCodec);
+        this.encoder = new MinaProtocolEncoder(messageFactory, messageCodec);
+    }
 
-	@Override
-	public ProtocolDecoder getDecoder(IoSession session) throws Exception {
-		return decoder;
-	}
+    @Override
+    public ProtocolEncoder getEncoder(IoSession session) throws Exception {
+        return encoder;
+    }
+
+    @Override
+    public ProtocolDecoder getDecoder(IoSession session) throws Exception {
+        return decoder;
+    }
 
 }

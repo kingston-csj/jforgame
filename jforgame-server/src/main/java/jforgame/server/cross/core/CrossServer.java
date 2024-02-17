@@ -3,6 +3,7 @@ package jforgame.server.cross.core;
 import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
 import jforgame.socket.ServerNode;
+import jforgame.socket.codec.struct.StructMessageCodec;
 import jforgame.socket.support.MinaMessageCodecFactory;
 import jforgame.socket.support.MessageFactoryImpl;
 import org.apache.mina.core.buffer.IoBuffer;
@@ -53,7 +54,7 @@ public class CrossServer implements ServerNode {
 		logger.info("cross server start at port:{},正在监听服务器点对点的连接...", serverPort);
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
-				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance())));
+				new ProtocolCodecFilter(new MinaMessageCodecFactory(MessageFactoryImpl.getInstance(), new StructMessageCodec())));
 		//指定业务逻辑处理器
 		acceptor.setHandler(new Game2GameIoHandler(BaseCrossMessageDispatcher.getInstance()));
 		//设置端口号
