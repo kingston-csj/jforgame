@@ -10,7 +10,7 @@ import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.Traceable;
-import jforgame.socket.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructMessageCodec;
 import jforgame.socket.support.MessageFactoryImpl;
 import jforgame.server.utils.JsonUtils;
 import jforgame.socket.HostAndPort;

@@ -165,7 +165,6 @@ public class ClassScanner {
 
 	private static void findAndAddClassesInPackageByFile(String packageName, String packagePath,
 			final boolean recursive, Set<Class<?>> classes, Predicate<Class<?>> filter) {
-		// 获取此包的目录 建立一个File
 		File dir = new File(packagePath);
 		// 如果不存在或者 也不是目录就直接返回
 		if (!dir.exists() || !dir.isDirectory()) {

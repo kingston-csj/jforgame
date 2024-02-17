@@ -1,4 +1,4 @@
-package jforgame.socket.utils;
+package jforgame.codec.struct;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;

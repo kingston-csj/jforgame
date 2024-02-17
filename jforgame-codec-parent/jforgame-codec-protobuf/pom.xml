@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jforgame-parent</artifactId>
+        <groupId>org.jforgame</groupId>
+        <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>jforgame-codec-protobuf</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jforgame</groupId>
+            <artifactId>jforgame-codec-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu</groupId>
+            <artifactId>jprotobuf</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu</groupId>
+            <artifactId>jprotobuf-precompile-plugin</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

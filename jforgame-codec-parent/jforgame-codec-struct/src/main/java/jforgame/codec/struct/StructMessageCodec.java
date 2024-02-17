@@ -1,6 +1,6 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
-import jforgame.socket.codec.MessageCodec;
+import jforgame.codec.MessageCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

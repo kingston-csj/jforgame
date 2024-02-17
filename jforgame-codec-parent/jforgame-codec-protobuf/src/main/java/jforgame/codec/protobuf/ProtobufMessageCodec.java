@@ -1,8 +1,8 @@
-package jforgame.socket.codec.protobuf;
+package jforgame.codec.protobuf;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
-import jforgame.socket.codec.MessageCodec;
+import jforgame.codec.MessageCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class ProtobufMessageCodec implements MessageCodec {
 	public Object decode(Class<?> msgClazz, byte[] body) {
 		try {
 			Codec<?> codec = ProtobufProxy.create(msgClazz);
-			Object message =  codec.decode(body);
+			Object message = codec.decode(body);
 			return message;
 		} catch (IOException e) {
 			logger.error("read message {} failed, exception {}", new Object[]{msgClazz.getName() ,e});

@@ -1,8 +1,6 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
 import java.nio.ByteBuffer;
-
-import jforgame.socket.utils.ByteBuffUtil;
 
 public class ShortCodec extends Codec {
 

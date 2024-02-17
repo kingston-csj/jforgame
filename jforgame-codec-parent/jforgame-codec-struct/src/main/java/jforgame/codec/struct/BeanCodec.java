@@ -1,4 +1,4 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
@@ -9,12 +9,12 @@ import java.util.List;
  * 
  * @author kinson
  */
-public class MessageCodec extends Codec {
+public class BeanCodec extends Codec {
 
 	private List<FieldCodecMeta> fieldsMeta;
 
-	public static MessageCodec valueOf(List<FieldCodecMeta> fieldsMeta) {
-		MessageCodec serializer = new MessageCodec();
+	public static BeanCodec valueOf(List<FieldCodecMeta> fieldsMeta) {
+		BeanCodec serializer = new BeanCodec();
 		serializer.fieldsMeta = fieldsMeta;
 		return serializer;
 	}

@@ -1,4 +1,4 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

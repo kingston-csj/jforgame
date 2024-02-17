@@ -1,8 +1,8 @@
-package jforgame.socket.utils;
+package jforgame.codec.struct;
 
 import java.lang.reflect.Array;
 
-public class ReflectUtil {
+class ReflectUtil {
 
 	public static Object newArray(Class<?> clazz, Class<?> wrapper, int size) {
 		String name = clazz.getName();

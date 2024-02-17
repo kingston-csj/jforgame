@@ -2,8 +2,8 @@ package jforgame.server.cross.core.server;
 
 import org.apache.mina.core.session.IoSession;
 
+import java.util.concurrent.atomic.AtomicInteger;
 
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * session包装类，便于后续拓展，以及增强标识度

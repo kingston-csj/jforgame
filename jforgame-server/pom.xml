@@ -36,6 +36,11 @@
             <artifactId>hotswap-util</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jforgame</groupId>
+            <artifactId>jforgame-codec-struct</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <!-- 网关相关 -->
         <dependency>

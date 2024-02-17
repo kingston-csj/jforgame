@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.codec.MessageCodec;
+import jforgame.codec.MessageCodec;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
@@ -15,8 +15,6 @@ public class MinaMessageCodecFactory implements ProtocolCodecFactory {
     private MinaProtocolDecoder decoder;
 
     private MinaProtocolEncoder encoder;
-
-    private MessageCodec messageCodec;
 
     public MinaMessageCodecFactory(MessageFactory messageFactory, MessageCodec messageCodec) {
         this.decoder = new MinaProtocolDecoder(messageFactory, messageCodec);

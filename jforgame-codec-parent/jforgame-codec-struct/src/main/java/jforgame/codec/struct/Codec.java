@@ -1,4 +1,4 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -84,7 +84,7 @@ public abstract class Codec {
 
 			fieldsMeta.add(FieldCodecMeta.valueOf(field, codec));
 		}
-		Codec messageCodec = MessageCodec.valueOf(fieldsMeta);
+		Codec messageCodec = BeanCodec.valueOf(fieldsMeta);
 		Codec.register(clazz, messageCodec);
 		return messageCodec;
 	}

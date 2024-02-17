@@ -1,10 +1,7 @@
-package jforgame.socket.codec.struct;
+package jforgame.codec.struct;
 
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
-
-import jforgame.socket.utils.ByteBuffUtil;
-import jforgame.socket.utils.ReflectUtil;
 
 /**
 * 

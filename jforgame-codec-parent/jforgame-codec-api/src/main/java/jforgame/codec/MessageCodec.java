@@ -1,4 +1,4 @@
-package jforgame.socket.codec;
+package jforgame.codec;
 
 /**
  * 私有协议栈消息解码器
