@@ -1,4 +1,4 @@
-package jforgame.socket.share.message;
+package jforgame.socket.codec;
 
 /**
  * 私有协议栈消息编码器

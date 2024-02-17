@@ -10,7 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
-import jforgame.socket.codec.MessageCodecFactory;
+import jforgame.socket.share.message.MessageCodecFactory;
 import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.netty.NSession;

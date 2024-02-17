@@ -16,7 +16,7 @@ public class MinaMessageCodecFactory implements ProtocolCodecFactory {
 	private MinaProtocolEncoder encoder ;
 
 	public MinaMessageCodecFactory(MessageFactory messageFactory) {
-		this.decoder = new MinaProtocolDecoder();
+		this.decoder = new MinaProtocolDecoder(messageFactory);
 		this.encoder = new MinaProtocolEncoder(messageFactory);
 	}
 

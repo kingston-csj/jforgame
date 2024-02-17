@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.socket.CodecProperties;
-import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.codec.MessageDecoder;
+import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,14 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
     private int maxReceiveBytes;
 
     private Logger logger = LoggerFactory.getLogger(NettyProtocolDecoder.class);
+
+    private MessageFactory messageFactory;
+
+
+    public NettyProtocolDecoder(MessageFactory messageFactory) {
+        this.messageFactory = messageFactory;
+    }
+
 
     public NettyProtocolDecoder(int maxReceiveBytes) {
         this.maxReceiveBytes = maxReceiveBytes;
@@ -45,7 +54,9 @@ public class NettyProtocolDecoder extends ByteToMessageDecoder {
         int cmd = in.readInt();
         byte[] body = new byte[length - metaSize];
         in.readBytes(body);
-        Object msg = msgDecoder.readMessage(cmd, body);
+
+        Class<?> msgClazz = messageFactory.getMessage(cmd);
+        Object msg = msgDecoder.readMessage(msgClazz, body);
 
         out.add(msg);
 

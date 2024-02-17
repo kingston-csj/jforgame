@@ -6,6 +6,7 @@ public interface MessageFactory {
     /**
      * binding  messageId and messageClass
      * if messageId repeated, an IllegalStateException exception thrown
+     *
      * @param cmd
      * @param clazz
      */
@@ -13,17 +14,19 @@ public interface MessageFactory {
 
     /**
      * return message class of the appointed messageId
+     *
      * @param cmd
      * @return
      */
-     Class<?> getMessage(int cmd);
+    Class<?> getMessage(int cmd);
 
     /**
      * return id of the message
+     *
      * @param clazz
      * @return
      */
-     int getMessageId(Class<?> clazz);
+    int getMessageId(Class<?> clazz);
 
     boolean contains(Class<?> clazz);
 }

@@ -1,7 +1,7 @@
 package jforgame.socket.codec.struct;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.share.message.MessageEncoder;
+import jforgame.socket.codec.MessageEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

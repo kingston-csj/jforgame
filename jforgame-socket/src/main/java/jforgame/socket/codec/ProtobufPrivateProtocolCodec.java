@@ -2,8 +2,7 @@ package jforgame.socket.codec;
 
 import jforgame.socket.codec.protobuf.ProtobufMessageDecoder;
 import jforgame.socket.codec.protobuf.ProtobufMessageEncoder;
-import jforgame.socket.share.message.MessageDecoder;
-import jforgame.socket.share.message.MessageEncoder;
+import jforgame.socket.share.message.MessageCodecFactory;
 import jforgame.socket.share.message.MessageFactory;
 
 public class ProtobufPrivateProtocolCodec implements MessageCodecFactory {
@@ -14,7 +13,7 @@ public class ProtobufPrivateProtocolCodec implements MessageCodecFactory {
     private MessageEncoder encoder;
 
     public ProtobufPrivateProtocolCodec(MessageFactory messageFactory) {
-        this.decoder = new ProtobufMessageDecoder(messageFactory);
+        this.decoder = new ProtobufMessageDecoder();
         this.encoder = new ProtobufMessageEncoder();
     }
 

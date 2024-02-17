@@ -5,7 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.IdSession;
-import jforgame.socket.codec.MessageCodecFactory;
+import jforgame.socket.share.message.MessageCodecFactory;
 import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;

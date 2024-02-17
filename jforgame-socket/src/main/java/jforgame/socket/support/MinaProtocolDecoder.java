@@ -1,7 +1,8 @@
 package jforgame.socket.support;
 
 import jforgame.socket.CodecProperties;
-import jforgame.socket.share.message.MessageDecoder;
+import jforgame.socket.codec.MessageDecoder;
+import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
@@ -17,6 +18,13 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 	private Logger logger = LoggerFactory.getLogger(MinaProtocolDecoder.class);
 
 	private int maxProtocolLength = 4096;
+
+	private MessageFactory messageFactory;
+
+	public MinaProtocolDecoder(MessageFactory messageFactory) {
+		this.messageFactory = messageFactory;
+	}
+
 
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
@@ -45,7 +53,9 @@ public class MinaProtocolDecoder extends CumulativeProtocolDecoder {
 		int cmd = in.getInt();
 		byte[] body = new byte[length - metaSize];
 		in.get(body);
-		Object msg = msgDecoder.readMessage(cmd, body);
+
+		Class<?> msgClazz = messageFactory.getMessage(cmd);
+		Object msg = msgDecoder.readMessage(msgClazz, body);
 
 		out.write(msg);
 		return true;
