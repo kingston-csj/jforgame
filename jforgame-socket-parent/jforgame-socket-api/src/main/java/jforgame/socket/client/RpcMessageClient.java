@@ -1,6 +1,6 @@
 package jforgame.socket.client;
 
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

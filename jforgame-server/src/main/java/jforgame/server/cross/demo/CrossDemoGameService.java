@@ -6,7 +6,7 @@ import jforgame.server.cross.core.callback.CallBackCommands;
 import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.client.CrossTransportManager;
-import jforgame.socket.HostAndPort;
+import jforgame.socket.share.HostAndPort;
 
 public class CrossDemoGameService {
 

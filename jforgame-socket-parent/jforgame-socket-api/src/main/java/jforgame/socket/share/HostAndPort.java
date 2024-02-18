@@ -1,4 +1,4 @@
-package jforgame.socket;
+package jforgame.socket.share;
 
 public class HostAndPort {
 

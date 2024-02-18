@@ -1,7 +1,7 @@
 package jforgame.socket.netty;
 
 import io.netty.channel.Channel;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 
 import java.net.InetSocketAddress;
 import java.util.HashMap;
@@ -105,6 +105,11 @@ public class NSession implements IdSession {
     @Override
     public Object getAttribute(String key) {
         return attrs.get(key);
+    }
+
+    @Override
+    public Channel getRawSession() {
+        return this.channel;
     }
 
 }

@@ -3,7 +3,7 @@ package jforgame.server.game.login.controller;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.login.message.req.ReqAccountLogin;
 import jforgame.server.game.login.message.req.ReqSelectPlayer;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestMapping;
 

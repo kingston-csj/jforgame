@@ -2,7 +2,7 @@ package jforgame.socket.netty.support;
 
 import java.io.IOException;
 
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.share.message.IMessageDispatcher;

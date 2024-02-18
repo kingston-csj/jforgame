@@ -1,6 +1,7 @@
 
 package jforgame.server.client;
 
+import jforgame.codec.struct.StructMessageCodec;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.game.hello.ReqHello;
@@ -9,14 +10,13 @@ import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.RpcResponseData;
+import jforgame.socket.client.SocketClient;
 import jforgame.socket.client.Traceable;
-import jforgame.codec.struct.StructMessageCodec;
-import jforgame.socket.support.DefaultMessageFactory;
-import jforgame.server.utils.JsonUtils;
-import jforgame.socket.HostAndPort;
-import jforgame.socket.IdSession;
-import jforgame.socket.netty.client.RpcClientFactory;
+import jforgame.socket.mina.client.MSocketClient;
+import jforgame.socket.share.HostAndPort;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.support.DefaultMessageFactory;
 
 /**
  * 客户端模拟器启动程序
@@ -42,24 +42,28 @@ public class ClientStartup {
 
 			@Override
 			public void dispatch(IdSession session, Object message) {
-				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
+//				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
 				if (message instanceof Traceable) {
 					Traceable traceable = (Traceable) message;
 					RpcResponseData responseData = new RpcResponseData();
 					responseData.setResponse(message);
 					CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
 				}
-
 			}
 
 			@Override
 			public void onSessionClosed(IdSession session) {
 
 			}
+
+			@Override
+			public void exceptionCaught(IdSession session, Throwable cause) {
+
+			}
 		};
 
-		RpcClientFactory clientFactory = new RpcClientFactory(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec());
-		IdSession session = clientFactory.createSession(hostPort);
+		SocketClient clientFactory = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		IdSession session = clientFactory.openSession();
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
 		robot.selectedPlayer(10000L);

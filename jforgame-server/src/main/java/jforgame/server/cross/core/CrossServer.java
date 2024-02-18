@@ -2,7 +2,7 @@ package jforgame.server.cross.core;
 
 import jforgame.server.ServerConfig;
 import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
-import jforgame.socket.ServerNode;
+import jforgame.socket.share.ServerNode;
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.support.DefaultMessageFactory;

@@ -39,7 +39,7 @@ public class RequestResponseFuture {
         this.countDownLatch.countDown();
     }
 
-    public long getCorrelationId() {
+    public int getCorrelationId() {
         return this.correlationId;
     }
 

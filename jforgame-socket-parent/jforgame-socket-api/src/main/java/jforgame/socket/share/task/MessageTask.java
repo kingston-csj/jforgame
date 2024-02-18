@@ -1,6 +1,6 @@
 package jforgame.socket.share.task;
 
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.client.Traceable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,7 +3,7 @@ package jforgame.server.socket;
 import jforgame.commons.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestMapping;
@@ -159,6 +159,11 @@ public class MessageDispatcher implements IMessageDispatcher {
             };
             GameExecutor.getInstance().acceptTask(closeTask);
         }
+    }
+
+    @Override
+    public void exceptionCaught(IdSession session, Throwable cause) {
+        logger.error("", cause);
     }
 
 }

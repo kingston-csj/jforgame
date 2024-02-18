@@ -11,10 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class DefaultMessageFactory implements MessageFactory {
-	/**
 
-	 * 枚举单例
-	 */
 	private static DefaultMessageFactory instance = new DefaultMessageFactory();
 
 	private Map<Integer, Class> id2Clazz = new HashMap<>();
@@ -37,7 +34,6 @@ public class DefaultMessageFactory implements MessageFactory {
 		}
 	}
 
-
 	@Override
 	public void registerMessage(int cmd, Class<?> clazz) {
 		if (instance.id2Clazz.containsKey(cmd)) {
@@ -58,18 +54,15 @@ public class DefaultMessageFactory implements MessageFactory {
 		return instance.id2Clazz.get(cmd);
 	}
 
-
 	@Override
 	public int getMessageId(Class clazz) {
 		return instance.clazz2Id.get(clazz);
 	}
 
-
 	@Override
 	public boolean contains(Class<?> clazz) {
 		return instance.clazz2Id.containsKey(clazz);
 	}
-
 
 	private int buildKey(short module, int cmd) {
 		int result = Math.abs(module) * 1000 + Math.abs(cmd);

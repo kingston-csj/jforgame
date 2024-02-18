@@ -5,7 +5,7 @@ import jforgame.server.game.login.message.req.ReqAccountLogin;
 import jforgame.server.game.login.message.req.ReqSelectPlayer;
 import jforgame.server.game.player.message.req.ReqCreateNewPlayer;
 import jforgame.server.logs.LoggerUtils;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.Message;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;

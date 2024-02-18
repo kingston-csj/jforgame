@@ -6,7 +6,6 @@ public interface Message {
 
     /**
      * messageMeta, module of message
-     *
      * @return
      */
     default short getModule() {

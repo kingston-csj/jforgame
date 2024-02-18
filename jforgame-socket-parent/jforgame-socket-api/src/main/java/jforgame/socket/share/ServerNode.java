@@ -1,4 +1,4 @@
-package jforgame.socket;
+package jforgame.socket.share;
 
 public interface ServerNode {
 

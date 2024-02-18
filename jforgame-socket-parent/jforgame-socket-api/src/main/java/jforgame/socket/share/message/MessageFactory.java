@@ -29,4 +29,5 @@ public interface MessageFactory {
     int getMessageId(Class<?> clazz);
 
     boolean contains(Class<?> clazz);
+
 }

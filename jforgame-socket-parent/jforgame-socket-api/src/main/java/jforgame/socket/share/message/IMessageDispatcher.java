@@ -1,13 +1,17 @@
 package jforgame.socket.share.message;
 
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 
 /**
  * 消息分发器
  * @author kinson
  */
 public interface IMessageDispatcher {
-	
+
+	/**
+	 *
+	 * @param session
+	 */
 	void onSessionCreated(IdSession session);
 
 	 /**
@@ -22,4 +26,7 @@ public interface IMessageDispatcher {
 	 * @param session
 	 */
 	void onSessionClosed(IdSession session);
+
+
+	void exceptionCaught(IdSession session, Throwable cause);
 }

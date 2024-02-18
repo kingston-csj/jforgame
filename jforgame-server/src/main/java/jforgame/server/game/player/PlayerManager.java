@@ -20,7 +20,7 @@ import jforgame.server.listener.EventDispatcher;
 import jforgame.server.listener.EventType;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.server.utils.IdGenerator;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

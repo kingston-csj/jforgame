@@ -101,7 +101,6 @@ public class CallBackService {
             future.setCause(t);
         }
         future.putResponseMessage(message.getResponse());
-
     }
 
 }

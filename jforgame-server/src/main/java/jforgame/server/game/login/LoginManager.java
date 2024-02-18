@@ -11,7 +11,7 @@ import jforgame.server.game.player.model.AccountProfile;
 import jforgame.server.game.player.model.PlayerProfile;
 import jforgame.server.game.scene.message.ResPlayerEnterScene;
 import jforgame.server.socket.SessionManager;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;

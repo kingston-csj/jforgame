@@ -6,7 +6,7 @@ import jforgame.server.cross.core.callback.CallTimeoutException;
 import jforgame.server.cross.core.callback.G2FCallBack;
 import jforgame.server.cross.core.callback.RequestCallback;
 import jforgame.server.cross.core.callback.RequestResponseFuture;
-import jforgame.socket.HostAndPort;
+import jforgame.socket.share.HostAndPort;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import java.util.concurrent.ExecutorService;

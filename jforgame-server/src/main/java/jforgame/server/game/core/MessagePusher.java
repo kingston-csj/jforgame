@@ -4,7 +4,7 @@ import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.game.database.config.bean.ConfigNotice;
 import jforgame.server.game.database.config.storage.ConfigNoticeStorage;
 import jforgame.server.socket.SessionManager;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.Message;
 import org.apache.mina.core.session.IoSession;
 

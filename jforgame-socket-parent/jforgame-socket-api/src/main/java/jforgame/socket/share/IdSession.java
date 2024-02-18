@@ -1,4 +1,4 @@
-package jforgame.socket;
+package jforgame.socket.share;
 
 import java.net.InetSocketAddress;
 
@@ -43,5 +43,7 @@ public interface IdSession {
      * @return
      */
     Object getAttribute(String key);
+
+   Object getRawSession() ;
 
 }

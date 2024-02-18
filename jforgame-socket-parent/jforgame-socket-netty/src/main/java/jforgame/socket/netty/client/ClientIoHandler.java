@@ -4,7 +4,7 @@ package jforgame.socket.netty.client;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.Traceable;
@@ -16,14 +16,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class MsgIoHandler extends ChannelInboundHandlerAdapter {
+public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
-    private final static Logger logger = LoggerFactory.getLogger(MsgIoHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger(ClientIoHandler.class);
 
     private IMessageDispatcher messageDispatcher;
 
 
-    public MsgIoHandler(IMessageDispatcher messageDispatcher) {
+    public ClientIoHandler(IMessageDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.mina.core.session.IoSession;
 
-import jforgame.socket.IdSession;
+import jforgame.socket.share.IdSession;
 
 public class MSession implements IdSession {
 	
@@ -91,5 +91,10 @@ public class MSession implements IdSession {
 	public Object setAttribute(String key, Object value) {
 		attrs.put(key, value);
 		return value;
+	}
+
+	@Override
+	public IoSession getRawSession() {
+		return session;
 	}
 }
