@@ -12,6 +12,8 @@
   ├── jforgame-socket --including io message codec, message request mapper, message thread model    
   ├── jforgame-orm    --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── hotswap-agent   --support hotswap without restarting server
+  ├── jforgame-codec-parent  --data codec for socket communication  
+  ├── jforgame-socket-parent  --socket io, including netty and mina
   ├── jforgame-server   
   |    ├──  cache package, use guava cache to support players cache system   
   |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  

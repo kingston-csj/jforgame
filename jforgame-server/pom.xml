@@ -23,7 +23,12 @@
         </dependency>
         <dependency>
             <groupId>org.jforgame</groupId>
-            <artifactId>jforgame-socket</artifactId>
+            <artifactId>jforgame-socket-netty</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jforgame</groupId>
+            <artifactId>jforgame-socket-mina</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -61,8 +66,6 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-
-        
 
         <!-- 读取配置文件 -->
         <dependency>
@@ -146,6 +149,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
         </dependency>
+
 
     </dependencies>
     <build>

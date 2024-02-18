@@ -16,10 +16,10 @@ import jforgame.server.ServerScanPaths;
 import jforgame.server.socket.MessageDispatcher;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
-import jforgame.socket.support.IoEventHandler;
-import jforgame.socket.support.MessageFactoryImpl;
-import jforgame.socket.support.NettyProtocolDecoder;
-import jforgame.socket.support.NettyProtocolEncoder;
+import jforgame.socket.netty.support.DefaultSocketIoHandler;
+import jforgame.socket.netty.support.DefaultProtocolDecoder;
+import jforgame.socket.netty.support.DefaultProtocolEncoder;
+import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,11 +87,11 @@ public class NettySocketServer implements ServerNode {
         protected void initChannel(SocketChannel arg0) throws Exception {
             ChannelPipeline pipeline = arg0.pipeline();
             MessageCodec messageCodec = new StructMessageCodec();
-            pipeline.addLast(new NettyProtocolDecoder(MessageFactoryImpl.getInstance(), messageCodec));
-            pipeline.addLast(new NettyProtocolEncoder(MessageFactoryImpl.getInstance(), messageCodec));
+            pipeline.addLast(new DefaultProtocolDecoder(DefaultMessageFactory.getInstance(), messageCodec));
+            pipeline.addLast(new DefaultProtocolEncoder(DefaultMessageFactory.getInstance(), messageCodec));
             // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
             pipeline.addLast(new IdleStateHandler(0, 0, 300));
-            pipeline.addLast(new IoEventHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));
+            pipeline.addLast(new DefaultSocketIoHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));
         }
     }
 

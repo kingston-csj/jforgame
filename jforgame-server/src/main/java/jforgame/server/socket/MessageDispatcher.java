@@ -12,7 +12,7 @@ import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.share.message.Message;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
-import jforgame.socket.support.MessageFactoryImpl;
+import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +94,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 
     @Override
     public void dispatch(IdSession session, Object message) {
-        int cmd = MessageFactoryImpl.getInstance().getMessageId(message.getClass());
+        int cmd = DefaultMessageFactory.getInstance().getMessageId(message.getClass());
         CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(cmd);
         if (cmdExecutor == null) {
             logger.error("message executor missed,  cmd={}", cmd);
@@ -132,7 +132,7 @@ public class MessageDispatcher implements IMessageDispatcher {
                 result[i] = session.getOwnerId();
             } else if (Message.class.isAssignableFrom(param)) {
                 result[i] = message;
-            } else if(MessageFactoryImpl.getInstance().contains(message.getClass())){
+            } else if(DefaultMessageFactory.getInstance().contains(message.getClass())){
                 result[i] = message;
             }
         }

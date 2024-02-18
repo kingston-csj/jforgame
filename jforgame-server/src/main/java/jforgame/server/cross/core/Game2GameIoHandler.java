@@ -9,11 +9,11 @@ import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.socket.mina.ServerSocketIoHandler;
+import jforgame.socket.mina.support.DefaultSocketIoHandler;
 
 public class Game2GameIoHandler extends IoHandlerAdapter {
 
-	private static Logger logger = LoggerFactory.getLogger(ServerSocketIoHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);
 
 	/** 消息分发器 */
 	private CMessageDispatcher messageDispatcher;

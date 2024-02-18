@@ -24,7 +24,7 @@ import jforgame.server.socket.mina.MinaSocketServer;
 import jforgame.server.redis.RedisCluster;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.ServerNode;
-import jforgame.socket.support.MessageFactoryImpl;
+import jforgame.socket.support.DefaultMessageFactory;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ public class GameServer {
 		// 加载服务版本号
 		ServerVersion.load();
 		// 初始化协议池
-		MessageFactoryImpl.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
+		DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
 		// 初始化orm框架

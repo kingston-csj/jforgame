@@ -11,11 +11,11 @@ import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.Traceable;
 import jforgame.codec.struct.StructMessageCodec;
-import jforgame.socket.support.MessageFactoryImpl;
+import jforgame.socket.support.DefaultMessageFactory;
 import jforgame.server.utils.JsonUtils;
 import jforgame.socket.HostAndPort;
 import jforgame.socket.IdSession;
-import jforgame.socket.client.RpcClientFactory;
+import jforgame.socket.netty.client.RpcClientFactory;
 import jforgame.socket.share.message.IMessageDispatcher;
 
 /**
@@ -25,7 +25,7 @@ public class ClientStartup {
 
 	public static void main(String[] args) throws Exception {
 		//初始化协议池
-		MessageFactoryImpl.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
+		DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
 		ServerConfig.getInstance();
 
@@ -58,7 +58,7 @@ public class ClientStartup {
 			}
 		};
 
-		RpcClientFactory clientFactory = new RpcClientFactory(msgDispatcher, MessageFactoryImpl.getInstance(), new StructMessageCodec());
+		RpcClientFactory clientFactory = new RpcClientFactory(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec());
 		IdSession session = clientFactory.createSession(hostPort);
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();

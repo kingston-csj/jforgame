@@ -16,11 +16,13 @@
   ## 模块组织结构  
   ``` 
   jforgame
-  ├── jforgame-common  --基础公共服务  
+  ├── jforgame-commons --基础公共服务  
   ├── jforgame-merge   --合服工具        
   ├── jforgame-socket     --包括io网关模块，玩家消息自动映射到业务模块，异步处理玩家消息的线程模型      
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
-  ├── hotswap-agent  支持游戏业务热更新的agent机制  
+  ├── hotswap-agent  --支持游戏业务热更新的agent机制  
+  ├── jforgame-codec-parent  --用于socket通信的数据编解码  
+  ├── jforgame-socket-parent  --socket网络通信，包含netty和mina版本 
   ├── jforgame-server  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
   |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  

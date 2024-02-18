@@ -33,11 +33,11 @@
     <modules>
         <module>hotswap</module>
         <module>jforgame-commons</module>
-        <module>jforgame-socket</module>
         <module>jforgame-orm</module>
         <module>jforgame-merge</module>
         <module>jforgame-server</module>
         <module>jforgame-codec-parent</module>
+        <module>jforgame-socket-parent</module>
     </modules>
 
     <!-- 阿里云maven仓库 -->
@@ -155,12 +155,12 @@
                 <artifactId>quartz-jobs</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>javax.transaction</groupId>
                 <artifactId>jta</artifactId>
                 <version>1.1</version>
             </dependency>
-
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
@@ -204,6 +204,7 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- 全局依赖，所有子模块均会导入-->
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
