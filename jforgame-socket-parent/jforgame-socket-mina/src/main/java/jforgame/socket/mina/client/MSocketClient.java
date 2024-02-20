@@ -2,6 +2,9 @@ package jforgame.socket.mina.client;
 
 import jforgame.codec.MessageCodec;
 import jforgame.socket.client.AbstractSocketClient;
+import jforgame.socket.client.CallBackService;
+import jforgame.socket.client.RpcResponseData;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.mina.MSession;
 import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.support.DefaultSocketIoHandler;
@@ -42,6 +45,12 @@ public class MSocketClient extends AbstractSocketClient {
                 @Override
                 public void messageReceived(IoSession session, Object data) throws Exception {
                     IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
+                    if (data instanceof Traceable) {
+                        Traceable traceable = (Traceable) data;
+                        RpcResponseData responseData = new RpcResponseData();
+                        responseData.setResponse(data);
+                        CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
+                    }
                     //交由消息分发器处理
                     messageDispatcher.dispatch(userSession, data);
                 }

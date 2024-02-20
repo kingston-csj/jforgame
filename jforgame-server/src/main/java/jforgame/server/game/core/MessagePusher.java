@@ -27,7 +27,7 @@ public class MessagePusher {
         if (session == null || message == null) {
             return;
         }
-        session.sendPacket(message);
+        session.send(message);
     }
 
     public static void notify2Player(IoSession session, int i18nId) {

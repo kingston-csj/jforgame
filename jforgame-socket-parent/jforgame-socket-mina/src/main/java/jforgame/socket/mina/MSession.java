@@ -22,7 +22,7 @@ public class MSession implements IdSession {
 	}
 
 	@Override
-	public void sendPacket(Object packet) {
+	public void send(Object packet) {
 		session.write(packet);
 	}
 

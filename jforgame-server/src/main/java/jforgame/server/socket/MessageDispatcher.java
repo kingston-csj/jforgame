@@ -3,13 +3,13 @@ package jforgame.server.socket;
 import jforgame.commons.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestMapping;
 import jforgame.socket.share.message.CmdExecutor;
 import jforgame.socket.share.message.IMessageDispatcher;
-import jforgame.socket.share.message.Message;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
 import jforgame.socket.support.DefaultMessageFactory;
@@ -106,7 +106,7 @@ public class MessageDispatcher implements IMessageDispatcher {
 
         int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
         MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
-        task.setMessage(message);
+        task.setRequest(message);
         // 丢到任务消息队列，不在io线程进行业务处理
         GameExecutor.getInstance().acceptTask(task);
     }
@@ -121,19 +121,40 @@ public class MessageDispatcher implements IMessageDispatcher {
      */
     private Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object message) {
         Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
-
+        // 方法签名如果有两个参数，则为  method(IdSession session, Object message);
+        //       如果有三个参数，则为  method(IdSession session, int index, Object message);
         for (int i = 0; i < result.length; i++) {
             Class<?> param = methodParams[i];
-            if (IdSession.class.isAssignableFrom(param)) {
-                result[i] = session;
-            } else if (Long.class.isAssignableFrom(param)) {
-                result[i] = session.getOwnerId();
-            } else if (long.class.isAssignableFrom(param)) {
-                result[i] = session.getOwnerId();
-            } else if (Message.class.isAssignableFrom(param)) {
-                result[i] = message;
-            } else if(DefaultMessageFactory.getInstance().contains(message.getClass())){
-                result[i] = message;
+            if (i == 0) {
+                if (IdSession.class.isAssignableFrom(param)) {
+                    result[i] = session;
+                } else {
+                    throw new IllegalArgumentException("1st argument must be IdSession");
+                }
+            }
+            if (result.length == 2 && i == 1) {
+                if (DefaultMessageFactory.getInstance().contains(message.getClass())) {
+                    result[i] = message;
+                } else {
+                    throw new IllegalArgumentException("2nd argument must be registered Message");
+                }
+            }
+            if (result.length == 3) {
+                if (i== 1) {
+                    if (int.class.isAssignableFrom(param)){
+                        Traceable traceable = (Traceable) message;
+                        result[i] = traceable.getIndex();
+                    } else{
+                        throw new IllegalArgumentException("2nd argument must be int");
+                    }
+                }
+                if (i== 2) {
+                    if (DefaultMessageFactory.getInstance().contains(message.getClass())){
+                        result[i] = message;
+                    } else{
+                        throw new IllegalArgumentException("3nd argument must be registered Message");
+                    }
+                }
             }
         }
 

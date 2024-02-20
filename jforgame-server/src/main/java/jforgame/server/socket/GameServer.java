@@ -20,7 +20,7 @@ import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.listener.ListenerManager;
 import jforgame.server.monitor.jmx.GameMonitor;
 import jforgame.server.monitor.jmx.GameMonitorMBean;
-import jforgame.server.socket.mina.MinaSocketServer;
+import jforgame.server.socket.mina.MSocketServer;
 import jforgame.server.redis.RedisCluster;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
@@ -109,7 +109,7 @@ public class GameServer {
 			crossServer.start();
 		}
 		// 启动socket服务
-		socketServer = new MinaSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
+		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
 //		socketServer = new NettySocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()), config.getMaxReceiveBytes());
 		socketServer.start();
 		// 启动http服务

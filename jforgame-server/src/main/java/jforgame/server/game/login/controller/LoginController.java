@@ -16,8 +16,8 @@ public class LoginController {
 	}
 
 	@RequestMapping
-	public void reqSelectPlayer(IdSession session, ReqSelectPlayer requst) {
-        GameContext.loginManager.handleSelectPlayer(session, requst.getPlayerId());
+	public void reqSelectPlayer(IdSession session, ReqSelectPlayer request) {
+        GameContext.loginManager.handleSelectPlayer(session, request.getPlayerId());
 	}
 
 }

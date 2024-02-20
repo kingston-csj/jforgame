@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MinaSocketServer implements ServerNode {
+public class MSocketServer implements ServerNode {
 
-	private Logger logger = LoggerFactory.getLogger(MinaSocketServer.class);
+	private Logger logger = LoggerFactory.getLogger(MSocketServer.class);
 
 	private static final int CPU_CORE_SIZE = Runtime.getRuntime().availableProcessors();
 
@@ -45,11 +45,11 @@ public class MinaSocketServer implements ServerNode {
 
 	private List<HostAndPort> nodesConfig;
 
-	public MinaSocketServer(HostAndPort hostPort) {
+	public MSocketServer(HostAndPort hostPort) {
 		this.nodesConfig = Arrays.asList(hostPort);
 	}
 
-	public MinaSocketServer(List<HostAndPort> nodesConfig) {
+	public MSocketServer(List<HostAndPort> nodesConfig) {
 		this.nodesConfig = nodesConfig;
 	}
 

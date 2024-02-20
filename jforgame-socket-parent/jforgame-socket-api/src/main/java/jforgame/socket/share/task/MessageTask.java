@@ -32,7 +32,7 @@ public class MessageTask extends BaseGameTask {
     /**
      * request message
      */
-    private Object message;
+    private Object request;
 
     public static MessageTask valueOf(IdSession session, long dispatchKey, Object handler,
                                       Method method, Object[] params) {
@@ -51,11 +51,7 @@ public class MessageTask extends BaseGameTask {
         try {
             Object response = method.invoke(handler, params);
             if (response != null) {
-				if (message instanceof Traceable && response instanceof Traceable) {
-					Traceable traceable = (Traceable) response;
-					traceable.setIndex(((Traceable)message).getIndex());
-				}
-                session.sendPacket(response);
+                session.send(response);
             }
         } catch (Exception e) {
             logger.error("message task execute failed ", e);
@@ -74,12 +70,12 @@ public class MessageTask extends BaseGameTask {
         return params;
     }
 
-	public Object getMessage() {
-		return message;
+	public Object getRequest() {
+		return request;
 	}
 
-	public void setMessage(Object message) {
-		this.message = message;
+	public void setRequest(Object request) {
+		this.request = request;
 	}
 
 	@Override

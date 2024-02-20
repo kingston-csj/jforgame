@@ -4,13 +4,13 @@ package jforgame.socket.netty.client;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import jforgame.socket.share.IdSession;
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.Traceable;
-import jforgame.socket.share.message.IMessageDispatcher;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
+import jforgame.socket.share.IdSession;
+import jforgame.socket.share.message.IMessageDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +48,9 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
         IdSession session = ChannelUtils.getSessionBy(channel);
         if (packet instanceof Traceable) {
             Traceable traceable = (Traceable) packet;
-            RpcResponseData callback = new RpcResponseData();
-            callback.setIndex(traceable.getIndex());
-            callback.setResponse(packet);
-            CallBackService.getInstance().fillCallBack(traceable.getIndex(), callback);
-            return;
+            RpcResponseData responseData = new RpcResponseData();
+            responseData.setResponse(packet);
+            CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
         }
         messageDispatcher.dispatch(session, packet);
     }

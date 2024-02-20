@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RpcMessageClient {
 
-    private static final AtomicInteger idFactory = new AtomicInteger();
+    private static final AtomicInteger idFactory = new AtomicInteger(100);
 
     private static int CALL_BACK_TIME_OUT = 5000;
 
@@ -22,11 +22,10 @@ public class RpcMessageClient {
     public static void callBack(IdSession session, Traceable request, RequestCallback callBack) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
         request.setIndex(index);
-        session.sendPacket(request);
 
         final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(index, CALL_BACK_TIME_OUT, callBack);
         CallBackService.getInstance().register(index, requestResponseFuture);
-        session.sendPacket(request);
+        session.send(index, request);
     }
 
     /**
@@ -40,7 +39,7 @@ public class RpcMessageClient {
     public static Object request(IdSession session, Traceable request) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
         request.setIndex(index);
-        session.sendPacket(request);
+        session.send(index, request);
         final RequestResponseFuture future = new RequestResponseFuture(index, CALL_BACK_TIME_OUT, null);
 
         CallBackService.getInstance().register(index, future);

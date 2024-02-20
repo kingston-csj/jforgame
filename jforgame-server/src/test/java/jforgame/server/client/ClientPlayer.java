@@ -50,7 +50,7 @@ public class ClientPlayer {
 	 */
 	public void sendMessage(Message message) {
 		System.err.println(String.format("发送请求-->  %s %s", message.getClass().getSimpleName(), new Gson().toJson(message)));
-		this.session.sendPacket(message);
+		this.session.send(message);
 	}
 
 	private class ClientHandler extends IoHandlerAdapter {

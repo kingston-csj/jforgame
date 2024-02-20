@@ -10,6 +10,7 @@ public interface Traceable {
 
     /**
      * set index of the message
+     * this method will be invoked automaticly
      * @return
      */
     void setIndex(int index);

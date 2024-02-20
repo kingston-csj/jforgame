@@ -6,6 +6,7 @@ import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.game.hello.ReqHello;
 import jforgame.server.game.hello.ResHello;
+import jforgame.server.utils.JsonUtils;
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
@@ -13,6 +14,7 @@ import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.client.Traceable;
 import jforgame.socket.mina.client.MSocketClient;
+import jforgame.socket.netty.client.NSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.IMessageDispatcher;
@@ -27,8 +29,6 @@ public class ClientStartup {
 		//初始化协议池
 		DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
-		ServerConfig.getInstance();
-
 		int serverPort = ServerConfig.getInstance().getServerPort();
 		HostAndPort hostPort = new HostAndPort();
 		hostPort.setHost("127.0.0.1");
@@ -42,13 +42,7 @@ public class ClientStartup {
 
 			@Override
 			public void dispatch(IdSession session, Object message) {
-//				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
-				if (message instanceof Traceable) {
-					Traceable traceable = (Traceable) message;
-					RpcResponseData responseData = new RpcResponseData();
-					responseData.setResponse(message);
-					CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
-				}
+				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
 			}
 
 			@Override
@@ -62,7 +56,7 @@ public class ClientStartup {
 			}
 		};
 
-		SocketClient clientFactory = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		SocketClient clientFactory = new NSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
 		IdSession session = clientFactory.openSession();
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
@@ -83,6 +77,7 @@ public class ClientStartup {
 			@Override
 			public void onError(Throwable error) {
 				System.out.println("----onError");
+				error.printStackTrace();
 			}
 		});
 	}

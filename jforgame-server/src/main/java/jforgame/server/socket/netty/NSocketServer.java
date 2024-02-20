@@ -27,9 +27,9 @@ import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
 
-public class NettySocketServer implements ServerNode {
+public class NSocketServer implements ServerNode {
 
-    private Logger logger = LoggerFactory.getLogger(NettySocketServer.class);
+    private Logger logger = LoggerFactory.getLogger(NSocketServer.class);
 
     // 避免使用默认线程数参数
     private EventLoopGroup bossGroup = new NioEventLoopGroup(4);
@@ -39,17 +39,17 @@ public class NettySocketServer implements ServerNode {
     private int maxReceiveBytes;
 
 
-    public NettySocketServer(HostAndPort hostPort, int maxReceiveBytes) {
+    public NSocketServer(HostAndPort hostPort, int maxReceiveBytes) {
         this.nodesConfig = Arrays.asList(hostPort);
         this.maxReceiveBytes = maxReceiveBytes;
     }
 
-    public NettySocketServer(List<HostAndPort> nodesConfig, int maxReceiveBytes) {
+    public NSocketServer(List<HostAndPort> nodesConfig, int maxReceiveBytes) {
         this.nodesConfig = nodesConfig;
         this.maxReceiveBytes = maxReceiveBytes;
     }
 
-    public NettySocketServer() {
+    public NSocketServer() {
         this.maxReceiveBytes = maxReceiveBytes;
     }
 
@@ -61,8 +61,6 @@ public class NettySocketServer implements ServerNode {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
                     .childHandler(new ChildChannelHandler());
-
-
             for (HostAndPort node : nodesConfig) {
                 logger.info("socket server is listening at " + node.getPort() + "......");
                 b.bind(new InetSocketAddress(node.getPort())).sync();

@@ -25,7 +25,7 @@ public class NSession implements IdSession {
     }
 
     @Override
-    public void sendPacket(Object packet) {
+    public void send(Object packet) {
         channel.writeAndFlush(packet);
     }
 
