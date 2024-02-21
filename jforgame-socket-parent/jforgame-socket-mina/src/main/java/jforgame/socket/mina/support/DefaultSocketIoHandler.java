@@ -2,7 +2,7 @@ package jforgame.socket.mina.support;
 
 import jforgame.socket.share.IdSession;
 import jforgame.socket.mina.MSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
@@ -17,12 +17,12 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
 	private static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);
 
 	/** 消息分发器 */
-	private IMessageDispatcher messageDispatcher;
+	private SocketIoDispatcher messageDispatcher;
 
 	private final AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
 
 
-	public DefaultSocketIoHandler(IMessageDispatcher messageDispatcher) {
+	public DefaultSocketIoHandler(SocketIoDispatcher messageDispatcher) {
 		this.messageDispatcher = messageDispatcher;
 	}
 

@@ -1,4 +1,4 @@
-package jforgame.server.socket;
+package jforgame.server.socket.model;
 
 public class CmdRecord implements Comparable<CmdRecord> {
 

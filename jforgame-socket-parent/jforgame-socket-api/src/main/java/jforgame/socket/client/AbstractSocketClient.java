@@ -3,12 +3,12 @@ package jforgame.socket.client;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 
 public abstract class AbstractSocketClient implements SocketClient {
 
-    protected IMessageDispatcher messageDispatcher;
+    protected SocketIoDispatcher messageDispatcher;
 
     protected MessageFactory messageFactory;
 
@@ -21,11 +21,11 @@ public abstract class AbstractSocketClient implements SocketClient {
 
     protected IdSession session;
 
-    public IMessageDispatcher getMessageDispatcher() {
+    public SocketIoDispatcher getMessageDispatcher() {
         return messageDispatcher;
     }
 
-    public void setMessageDispatcher(IMessageDispatcher messageDispatcher) {
+    public void setMessageDispatcher(SocketIoDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 

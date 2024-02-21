@@ -1,12 +1,10 @@
-package jforgame.socket.share.message;
-
-import jforgame.socket.share.IdSession;
+package jforgame.socket.share;
 
 /**
  * 消息分发器
  * @author kinson
  */
-public interface IMessageDispatcher {
+public interface SocketIoDispatcher {
 
 	/**
 	 *

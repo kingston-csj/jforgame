@@ -10,7 +10,7 @@ import jforgame.socket.client.Traceable;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +20,10 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
     private final static Logger logger = LoggerFactory.getLogger(ClientIoHandler.class);
 
-    private IMessageDispatcher messageDispatcher;
+    private SocketIoDispatcher messageDispatcher;
 
 
-    public ClientIoHandler(IMessageDispatcher messageDispatcher) {
+    public ClientIoHandler(SocketIoDispatcher messageDispatcher) {
         this.messageDispatcher = messageDispatcher;
     }
 

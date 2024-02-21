@@ -1,12 +1,11 @@
-package jforgame.server.socket.mina.filter;
+package jforgame.server.socket.filter;
 
 import jforgame.commons.NumberUtil;
 import jforgame.commons.TimeUtil;
 import jforgame.server.FireWallConfig;
+import jforgame.server.socket.MessageHandler;
 import jforgame.server.socket.model.FloodRecord;
-import org.apache.mina.core.filterchain.IoFilterAdapter;
-import org.apache.mina.core.session.AttributeKey;
-import org.apache.mina.core.session.IoSession;
+import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,14 +14,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author kinson
  */
-public class FloodFilter extends IoFilterAdapter {
+public class FloodFilter implements MessageHandler {
 
     private static Logger logger = LoggerFactory.getLogger(FloodFilter.class);
 
-    private static final AttributeKey KEY_FLOOD = new AttributeKey(FloodFilter.class, "FLOOD");
+    private static final String KEY_FLOOD = "FLOOD";
 
     @Override
-    public void messageReceived(NextFilter nextFilter, IoSession session, Object message)
+    public boolean messageReceived(IdSession session, Object message)
             throws Exception {
         FloodRecord record = getFloodRecordBy(session);
 
@@ -41,6 +40,7 @@ public class FloodFilter extends IoFilterAdapter {
                 if (isMeetFloodStandard(floodTimes)) {
                     logger.error("session窗口期洪水记录超过上限");
                     // TODO 注销session
+
                 }
                 record.setLastFloodTime(now);
                 // 已经检查到洪水，则需要重置收包次数
@@ -52,10 +52,10 @@ public class FloodFilter extends IoFilterAdapter {
 
         record.setLastReceivedTime(now);
 
-        nextFilter.messageReceived(session, message);
+        return true;
     }
 
-    private static FloodRecord getFloodRecordBy(IoSession session) {
+    private static FloodRecord getFloodRecordBy(IdSession session) {
         Object record = session.getAttribute(
 				KEY_FLOOD);
         if (record == null) {

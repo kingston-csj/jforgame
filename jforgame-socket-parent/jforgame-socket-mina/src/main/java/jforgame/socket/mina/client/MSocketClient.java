@@ -10,7 +10,7 @@ import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.support.DefaultSocketIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -25,7 +25,7 @@ public class MSocketClient extends AbstractSocketClient {
 
     private AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
 
-    public MSocketClient(IMessageDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
+    public MSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.messageDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;

@@ -15,7 +15,7 @@ import jforgame.socket.netty.support.DefaultProtocolDecoder;
 import jforgame.socket.netty.support.DefaultProtocolEncoder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 
 import java.net.InetSocketAddress;
@@ -24,7 +24,7 @@ public class NSocketClient extends AbstractSocketClient {
 
     private EventLoopGroup group = new NioEventLoopGroup(4);
 
-    public NSocketClient(IMessageDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
+    public NSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.messageDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;

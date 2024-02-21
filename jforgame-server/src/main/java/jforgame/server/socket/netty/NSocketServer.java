@@ -13,7 +13,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
-import jforgame.server.socket.MessageDispatcher;
+import jforgame.server.socket.MessageIoDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.netty.support.DefaultSocketIoHandler;
@@ -38,7 +38,6 @@ public class NSocketServer implements ServerNode {
     private List<HostAndPort> nodesConfig;
     private int maxReceiveBytes;
 
-
     public NSocketServer(HostAndPort hostPort, int maxReceiveBytes) {
         this.nodesConfig = Arrays.asList(hostPort);
         this.maxReceiveBytes = maxReceiveBytes;
@@ -46,10 +45,6 @@ public class NSocketServer implements ServerNode {
 
     public NSocketServer(List<HostAndPort> nodesConfig, int maxReceiveBytes) {
         this.nodesConfig = nodesConfig;
-        this.maxReceiveBytes = maxReceiveBytes;
-    }
-
-    public NSocketServer() {
         this.maxReceiveBytes = maxReceiveBytes;
     }
 
@@ -89,7 +84,7 @@ public class NSocketServer implements ServerNode {
             pipeline.addLast(new DefaultProtocolEncoder(DefaultMessageFactory.getInstance(), messageCodec));
             // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
             pipeline.addLast(new IdleStateHandler(0, 0, 300));
-            pipeline.addLast(new DefaultSocketIoHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));
+            pipeline.addLast(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
         }
     }
 

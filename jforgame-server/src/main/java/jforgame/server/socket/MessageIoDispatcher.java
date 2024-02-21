@@ -4,86 +4,65 @@ import jforgame.commons.ClassScanner;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.database.user.PlayerEnt;
 import jforgame.socket.client.Traceable;
+import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.annotation.MessageRoute;
-import jforgame.socket.share.annotation.RequestMapping;
-import jforgame.socket.share.message.CmdExecutor;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
 import jforgame.socket.support.DefaultMessageFactory;
+import jforgame.socket.support.DefaultMessageHandlerRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MessageDispatcher implements IMessageDispatcher {
+public class MessageIoDispatcher implements SocketIoDispatcher {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * [module_cmd, CmdExecutor]
      */
-    private static final Map<Integer, CmdExecutor> MODULE_CMD_HANDLERS = new HashMap<>();
+    private  Map<Integer, MessageExecutor> cmdHandlers = new HashMap<>();
 
-    public MessageDispatcher(String scanPath) {
+    private List<MessageHandler> dispatchChain = new ArrayList<>();
+
+    public MessageIoDispatcher(String scanPath) {
         initialize(scanPath);
+
+        MessageHandler messageHandler = new MessageHandler() {
+            @Override
+            public boolean messageReceived(IdSession session, Object message) {
+                int cmd = DefaultMessageFactory.getInstance().getMessageId(message.getClass());
+                MessageExecutor cmdExecutor = cmdHandlers.get(cmd);
+                if (cmdExecutor == null) {
+                    logger.error("message executor missed,  cmd={}", cmd);
+                    return true;
+                }
+
+                Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
+                Object controller = cmdExecutor.getHandler();
+
+                int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+                MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
+                task.setRequest(message);
+                // 丢到任务消息队列，不在io线程进行业务处理
+                GameExecutor.getInstance().acceptTask(task);
+                return true;
+            }
+        };
+        dispatchChain.add(messageHandler);
     }
 
     private void initialize(String scanPath) {
         Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation(scanPath,
                 MessageRoute.class);
-
-        for (Class<?> controller : controllers) {
-            try {
-                Object handler = controller.newInstance();
-                Method[] methods = controller.getDeclaredMethods();
-                for (Method method : methods) {
-                    RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);
-                    if (mapperAnnotation != null) {
-                        int[] meta = getMessageMeta(method);
-                        if (meta == null) {
-                            throw new RuntimeException(
-                                    String.format("controller[%s] method[%s] lack of RequestMapping annotation",
-                                            controller.getName(), method.getName()));
-                        }
-                        int module = meta[0];
-                        int cmd = meta[1];
-                        int key = buildKey(module, cmd);
-                        CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(key);
-                        if (cmdExecutor != null) {
-                            throw new RuntimeException(String.format("module[%d] cmd[%d] duplicated", module, cmd));
-                        }
-
-                        cmdExecutor = CmdExecutor.valueOf(method, method.getParameterTypes(), handler);
-                        MODULE_CMD_HANDLERS.put(key, cmdExecutor);
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("", e);
-            }
-        }
-    }
-
-    /**
-     * 返回方法所带Message参数的元信息
-     *
-     * @param method
-     * @return
-     */
-    private int[] getMessageMeta(Method method) {
-        for (Class<?> paramClazz : method.getParameterTypes()) {
-            MessageMeta protocol = paramClazz.getAnnotation(MessageMeta.class);
-            if (protocol != null) {
-                int[] meta = {protocol.module(), protocol.cmd()};
-                return meta;
-            }
-        }
-        return null;
+        this.cmdHandlers = new DefaultMessageHandlerRegister(controllers).getCommandExecutors();
     }
 
     @Override
@@ -94,21 +73,15 @@ public class MessageDispatcher implements IMessageDispatcher {
 
     @Override
     public void dispatch(IdSession session, Object message) {
-        int cmd = DefaultMessageFactory.getInstance().getMessageId(message.getClass());
-        CmdExecutor cmdExecutor = MODULE_CMD_HANDLERS.get(cmd);
-        if (cmdExecutor == null) {
-            logger.error("message executor missed,  cmd={}", cmd);
-            return;
+        for (MessageHandler messageHandler : dispatchChain) {
+            try {
+                if (!messageHandler.messageReceived(session, message)) {
+                    break;
+                }
+            } catch (Exception e) {
+                logger.error("", e);
+            }
         }
-
-        Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
-        Object controller = cmdExecutor.getHandler();
-
-        int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-        MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
-        task.setRequest(message);
-        // 丢到任务消息队列，不在io线程进行业务处理
-        GameExecutor.getInstance().acceptTask(task);
     }
 
     /**
@@ -161,10 +134,7 @@ public class MessageDispatcher implements IMessageDispatcher {
         return result;
     }
 
-    private int buildKey(int module, int cmd) {
-        int result = Math.abs(module) * 1000 + Math.abs(cmd);
-        return cmd < 0 ? -result : result;
-    }
+
 
     @Override
     public void onSessionClosed(IdSession session) {

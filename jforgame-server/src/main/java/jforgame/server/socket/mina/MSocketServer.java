@@ -2,14 +2,11 @@ package jforgame.server.socket.mina;
 
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.server.ServerScanPaths;
-import jforgame.server.socket.MessageDispatcher;
-import jforgame.server.socket.mina.filter.FloodFilter;
-import jforgame.server.socket.mina.filter.MessageTraceFilter;
-import jforgame.server.socket.mina.filter.ModuleEntranceFilter;
+import jforgame.server.socket.MessageIoDispatcher;
+import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
+import jforgame.socket.mina.support.DefaultSocketIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
-import jforgame.socket.mina.support.DefaultSocketIoHandler;
-import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.support.DefaultMessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;
@@ -69,11 +66,8 @@ public class MSocketServer implements ServerNode {
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
 				new ProtocolCodecFilter(new DefaultProtocolCodecFactory(DefaultMessageFactory.getInstance(), new StructMessageCodec())));
-		filterChain.addLast("moduleEntrance", new ModuleEntranceFilter());
-		filterChain.addLast("msgTrace", new MessageTraceFilter());
-		filterChain.addLast("flood", new FloodFilter());
 		//指定业务逻辑处理器
-		acceptor.setHandler(new DefaultSocketIoHandler(new MessageDispatcher(ServerScanPaths.MESSAGE_PATH)));
+		acceptor.setHandler(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
 
 		for (HostAndPort node : nodesConfig) {
 			logger.info("socket server is listening at " + node.getPort() + "......");

@@ -7,17 +7,13 @@ import jforgame.server.ServerScanPaths;
 import jforgame.server.game.hello.ReqHello;
 import jforgame.server.game.hello.ResHello;
 import jforgame.server.utils.JsonUtils;
-import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
-import jforgame.socket.client.RpcResponseData;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.client.Traceable;
-import jforgame.socket.mina.client.MSocketClient;
 import jforgame.socket.netty.client.NSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.IMessageDispatcher;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.support.DefaultMessageFactory;
 
 /**
@@ -34,7 +30,7 @@ public class ClientStartup {
 		hostPort.setHost("127.0.0.1");
 		hostPort.setPort(serverPort);
 
-		IMessageDispatcher msgDispatcher = new IMessageDispatcher() {
+		SocketIoDispatcher msgDispatcher = new SocketIoDispatcher() {
 			@Override
 			public void onSessionCreated(IdSession session) {
 

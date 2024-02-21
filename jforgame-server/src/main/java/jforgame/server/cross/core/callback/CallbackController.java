@@ -3,7 +3,7 @@ package jforgame.server.cross.core.callback;
 import jforgame.server.cross.core.client.CCSession;
 import jforgame.server.cross.core.server.CrossController;
 import jforgame.server.cross.core.server.SCSession;
-import jforgame.socket.share.annotation.RequestMapping;
+import jforgame.socket.share.annotation.RequestHandler;
 import jforgame.socket.share.message.Message;
 
 @CrossController
@@ -14,7 +14,7 @@ public class CallbackController {
         CallBackService.getInstance();
     }
 
-    @RequestMapping
+    @RequestHandler
     public void onReqCallBack(SCSession session, G2FCallBack req) {
         int cmdType = req.getCommand();
         CallbackHandler handler = CallbackHandler.queryHandler(cmdType);
@@ -24,7 +24,7 @@ public class CallbackController {
         }
     }
 
-    @RequestMapping
+    @RequestHandler
     public void onRespCallBack(CCSession session, F2GCallBack response) {
         try {
             Message callback = response.getMessage();

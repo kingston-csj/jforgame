@@ -13,6 +13,7 @@ public class DynamicClassLoader extends ClassLoader {
     private Map<String, byte[]> classByteDef;
 
     public DynamicClassLoader(Map<String, byte[]> classByteDef) {
+        super(DynamicClassLoader.class.getClassLoader());
         this.classByteDef = classByteDef;
     }
 

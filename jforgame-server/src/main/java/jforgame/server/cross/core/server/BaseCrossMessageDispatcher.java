@@ -5,9 +5,10 @@ import jforgame.server.ServerScanPaths;
 import jforgame.server.cross.core.CrossCmdExecutor;
 import jforgame.server.cross.core.client.CCSession;
 import jforgame.socket.share.annotation.MessageMeta;
-import jforgame.socket.share.annotation.RequestMapping;
-import jforgame.socket.share.message.CmdExecutor;
+import jforgame.socket.share.annotation.RequestHandler;
 import jforgame.socket.share.message.Message;
+import jforgame.socket.share.message.MessageExecutor;
+import jforgame.socket.support.MessageExecuteUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 	private static volatile BaseCrossMessageDispatcher self;
 
 	/** [message.class, CmdExecutor] */
-	private static final Map<Class<?>, CmdExecutor> HANDLERS = new HashMap<>();
+	private static final Map<Class<?>, MessageExecutor> HANDLERS = new HashMap<>();
 
 	public static BaseCrossMessageDispatcher getInstance() {
 		if (self != null) {
@@ -48,7 +49,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 				Object handler = controller.newInstance();
 				Method[] methods = controller.getDeclaredMethods();
 				for (Method method : methods) {
-					RequestMapping mapperAnnotation = method.getAnnotation(RequestMapping.class);
+					RequestHandler mapperAnnotation = method.getAnnotation(RequestHandler.class);
 					if (mapperAnnotation != null) {
 						int[] meta = getMessageMeta(method);
 						if (meta == null) {
@@ -68,13 +69,13 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 							throw new RuntimeException(String.format("controller[%d] method[%d] arguments error",
 									controller.getClass().getSimpleName(), method.getName()));
 						}
-						CmdExecutor cmdExecutor = HANDLERS.get(paramTypes[1]);
+						MessageExecutor cmdExecutor = HANDLERS.get(paramTypes[1]);
 						if (cmdExecutor != null) {
 							throw new RuntimeException(String.format("controller[%d] method[%d] duplicated",
 									controller.getClass().getSimpleName(), method.getName()));
 						}
 
-						cmdExecutor = CmdExecutor.valueOf(method, method.getParameterTypes(), handler);
+						cmdExecutor = MessageExecuteUnit.valueOf(method, method.getParameterTypes(), handler);
 						HANDLERS.put(paramTypes[1], cmdExecutor);
 					}
 				}
@@ -105,7 +106,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 
 	@Override
 	public void serverDispatch(SCSession session, Object message) {
-		CmdExecutor cmdHandler = HANDLERS.get(message.getClass());
+		MessageExecutor cmdHandler = HANDLERS.get(message.getClass());
 		if (cmdHandler == null) {
 			logger.error("{}找不到处理器", message.getClass().getSimpleName());
 			return;
@@ -125,7 +126,7 @@ public class BaseCrossMessageDispatcher implements CMessageDispatcher {
 
 	@Override
 	public void clientDispatch(CCSession session, Object message) {
-		CmdExecutor cmdHandler = HANDLERS.get(message.getClass());
+		MessageExecutor cmdHandler = HANDLERS.get(message.getClass());
 		if (cmdHandler == null) {
 			logger.error("{}找不到处理器", message.getClass().getSimpleName());
 			return;

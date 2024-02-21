@@ -1,5 +1,7 @@
 package jforgame.server.socket;
 
+import jforgame.server.socket.model.CmdRecord;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
