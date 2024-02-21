@@ -45,11 +45,11 @@ public class RpcMessageClient {
         CallBackService.getInstance().register(index, future);
         try {
             RequestResponseFuture responseMessage = future.waitResponseMessage(CALL_BACK_TIME_OUT);
-            if (responseMessage == null) {
-                CallbackTimeoutException exception = new CallbackTimeoutException("send request message  failed");
-                future.setCause(exception);
-
-                throw exception;
+            if (responseMessage.getCause() != null) {
+                if (responseMessage.getCause()  instanceof CallbackTimeoutException){
+                    throw (CallbackTimeoutException)responseMessage.getCause();
+                }
+                throw new RuntimeException(responseMessage.getCause());
             }
             return responseMessage.getResponseMsg();
         } catch (InterruptedException e) {

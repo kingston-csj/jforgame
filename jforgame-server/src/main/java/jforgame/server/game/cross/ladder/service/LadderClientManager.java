@@ -2,7 +2,7 @@ package jforgame.server.game.cross.ladder.service;
 
 import jforgame.commons.NumberUtil;
 import jforgame.server.ServerConfig;
-import jforgame.server.cross.core.client.CrossTransportManager;
+import jforgame.server.cross.core.CrossTransportManager;
 import jforgame.server.game.GameContext;
 import jforgame.server.game.cross.ladder.message.G2F_LadderTransfer;
 import jforgame.server.game.cross.ladder.message.G2M_LadderApply;

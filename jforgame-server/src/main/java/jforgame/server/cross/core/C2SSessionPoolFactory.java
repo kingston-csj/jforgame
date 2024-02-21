@@ -1,13 +1,20 @@
-package jforgame.server.cross.core.client;
+package jforgame.server.cross.core;
 
+import io.netty.channel.Channel;
+import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.NumberUtil;
 import jforgame.server.ServerConfig;
-import jforgame.server.cross.core.server.BaseCrossMessageDispatcher;
-import jforgame.server.cross.core.server.CMessageDispatcher;
+import jforgame.server.ServerScanPaths;
 import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.game.database.config.bean.ConfigCross;
 import jforgame.server.game.database.config.storage.ConfigCrossStorage;
 import jforgame.server.logs.LoggerUtils;
+import jforgame.server.socket.MessageIoDispatcher;
+import jforgame.socket.client.SocketClient;
+import jforgame.socket.netty.client.NSocketClient;
+import jforgame.socket.share.HostAndPort;
+import jforgame.socket.share.IdSession;
+import jforgame.socket.support.DefaultMessageFactory;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -25,7 +32,7 @@ public class C2SSessionPoolFactory {
 
     private GenericObjectPoolConfig config;
 
-    private ConcurrentMap<String, GenericObjectPool<CCSession>> pools = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, GenericObjectPool<NSessionPlus>> pools = new ConcurrentHashMap<>();
 
     private static volatile C2SSessionPoolFactory self;
 
@@ -57,11 +64,11 @@ public class C2SSessionPoolFactory {
      * @param port
      * @return
      */
-    CCSession borrowSession(String ip, int port) {
+    public NSessionPlus borrowSession(String ip, int port) {
         String key = buildKey(ip, port);
         try {
             C2SSessionFactory factory = new C2SSessionFactory(ip, port);
-            GenericObjectPool<CCSession> pool = pools.getOrDefault(key, new GenericObjectPool(factory, config));
+            GenericObjectPool<NSessionPlus> pool = pools.getOrDefault(key, new GenericObjectPool(factory, config));
             pools.putIfAbsent(key, pool);
             return pool.borrowObject();
         } catch (Exception e) {
@@ -75,7 +82,7 @@ public class C2SSessionPoolFactory {
      *
      * @return
      */
-    CCSession borrowCrossSession() {
+    NSessionPlus borrowCrossSession() {
         ConfigCrossStorage storage = ConfigDataPool.getInstance().getStorage(ConfigCrossStorage.class);
         ServerConfig serverConfig = ServerConfig.getInstance();
         // 先拿到本服对应的跨服服务器id
@@ -93,16 +100,16 @@ public class C2SSessionPoolFactory {
      *
      * @return
      */
-    CCSession borrowCenterSession() {
+    NSessionPlus borrowCenterSession() {
         String matchUrl = ServerConfig.getInstance().getMatchUrl();
         String ip = matchUrl.split(":")[0];
         int port = NumberUtil.intValue(matchUrl.split(":")[1]);
         return borrowSession(ip, port);
     }
 
-    void returnSession(CCSession session) {
-        String key = buildKey(session.getIpAddr(), session.getPort());
-        GenericObjectPool<CCSession> pool = pools.get(key);
+    void returnSession(NSessionPlus session) {
+        String key = buildKey(session.getLocalIP(), session.getLocalPort());
+        GenericObjectPool<NSessionPlus> pool = pools.get(key);
         if (pool != null) {
             pool.returnObject(session);
         }
@@ -113,19 +120,16 @@ public class C2SSessionPoolFactory {
     }
 }
 
-class C2SSessionFactory extends BasePooledObjectFactory<CCSession> {
+class C2SSessionFactory extends BasePooledObjectFactory<NSessionPlus> {
 
     String ip;
 
     int port;
 
-    CMessageDispatcher dispatcher;
-
     public C2SSessionFactory(String ip, int port) {
         super();
         this.ip = ip;
         this.port = port;
-        this.dispatcher = BaseCrossMessageDispatcher.getInstance();
     }
 
     public String getIp() {
@@ -145,20 +149,20 @@ class C2SSessionFactory extends BasePooledObjectFactory<CCSession> {
     }
 
     @Override
-    public CCSession create() throws Exception {
-        CCSession session = CCSession.valueOf(ip, port, dispatcher);
-        session.buildConnection();
-        return session;
+    public NSessionPlus create() throws Exception {
+        SocketClient clientFactory = new NSocketClient(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH), DefaultMessageFactory.getInstance(), new StructMessageCodec(), HostAndPort.valueOf(ip, port));
+        IdSession session = clientFactory.openSession();
+        return new NSessionPlus((Channel) session.getRawSession());
     }
 
     @Override
-    public boolean validateObject(PooledObject<CCSession> p) {
+    public boolean validateObject(PooledObject<NSessionPlus> p) {
         return !p.getObject().isExpired();
     }
 
     @Override
-    public PooledObject<CCSession> wrap(CCSession obj) {
-        return new DefaultPooledObject<CCSession>(obj);
+    public PooledObject<NSessionPlus> wrap(NSessionPlus obj) {
+        return new DefaultPooledObject<NSessionPlus>(obj);
     }
 
 }

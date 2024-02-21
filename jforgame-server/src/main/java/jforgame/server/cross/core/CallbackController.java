@@ -1,21 +1,20 @@
-package jforgame.server.cross.core.callback;
+package jforgame.server.cross.core;
 
-import jforgame.server.cross.core.client.CCSession;
-import jforgame.server.cross.core.server.CrossController;
-import jforgame.server.cross.core.server.SCSession;
+import jforgame.socket.share.IdSession;
+import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestHandler;
 import jforgame.socket.share.message.Message;
 
-@CrossController
+@MessageRoute
 public class CallbackController {
 
     public CallbackController() {
         // 初始化
-        CallBackService.getInstance();
+//        CallBackService.getInstance();
     }
 
     @RequestHandler
-    public void onReqCallBack(SCSession session, G2FCallBack req) {
+    public void onReqCallBack(IdSession session, G2FCallBack req) {
         int cmdType = req.getCommand();
         CallbackHandler handler = CallbackHandler.queryHandler(cmdType);
         if (handler != null) {
@@ -25,10 +24,9 @@ public class CallbackController {
     }
 
     @RequestHandler
-    public void onRespCallBack(CCSession session, F2GCallBack response) {
+    public void onRespCallBack(IdSession session, F2GCallBack response) {
         try {
             Message callback = response.getMessage();
-            CallBackService.getInstance().fillCallBack(response.getIndex(), callback);
         } catch (Exception e) {
             e.printStackTrace();
         }

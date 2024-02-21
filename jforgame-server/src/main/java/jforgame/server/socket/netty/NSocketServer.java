@@ -38,20 +38,16 @@ public class NSocketServer implements ServerNode {
     private List<HostAndPort> nodesConfig;
     private int maxReceiveBytes;
 
-    public NSocketServer(HostAndPort hostPort, int maxReceiveBytes) {
+    public NSocketServer(HostAndPort hostPort) {
         this.nodesConfig = Arrays.asList(hostPort);
-        this.maxReceiveBytes = maxReceiveBytes;
     }
 
-    public NSocketServer(List<HostAndPort> nodesConfig, int maxReceiveBytes) {
+    public NSocketServer(List<HostAndPort> nodesConfig) {
         this.nodesConfig = nodesConfig;
-        this.maxReceiveBytes = maxReceiveBytes;
     }
 
     @Override
     public void start() throws Exception {
-        int serverPort = ServerConfig.getInstance().getServerPort();
-        logger.info("netty socket服务已启动，正在监听用户的请求@port:" + serverPort + "......");
         try {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
@@ -83,7 +79,7 @@ public class NSocketServer implements ServerNode {
             pipeline.addLast(new DefaultProtocolDecoder(DefaultMessageFactory.getInstance(), messageCodec));
             pipeline.addLast(new DefaultProtocolEncoder(DefaultMessageFactory.getInstance(), messageCodec));
             // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
-            pipeline.addLast(new IdleStateHandler(0, 0, 300));
+            pipeline.addLast(new IdleStateHandler(300, 300, 300));
             pipeline.addLast(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
         }
     }

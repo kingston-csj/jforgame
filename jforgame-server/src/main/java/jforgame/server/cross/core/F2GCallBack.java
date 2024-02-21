@@ -1,9 +1,9 @@
-package jforgame.server.cross.core.callback;
+package jforgame.server.cross.core;
 
-import jforgame.server.cross.core.CrossCommands;
 import jforgame.server.game.Modules;
 import jforgame.server.logs.LoggerUtils;
 import jforgame.server.utils.JsonUtils;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
 
@@ -11,7 +11,7 @@ import jforgame.socket.share.message.Message;
  * 跨服回调响应方
  */
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.F2G_CALL_BACK)
-public class F2GCallBack implements Message {
+public class F2GCallBack implements Message, Traceable {
 
     private int index;
 

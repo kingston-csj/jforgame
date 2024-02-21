@@ -10,12 +10,12 @@ import jforgame.socket.share.IdSession;
 
 public class MSession implements IdSession {
 	
-	private IoSession session;
+	protected IoSession session;
 
 	/**
 	 * extension properties
 	 */
-	private Map<String, Object> attrs = new HashMap<>();
+	protected Map<String, Object> attrs = new HashMap<>();
 	
 	public MSession(IoSession session) {
 		this.session = session;

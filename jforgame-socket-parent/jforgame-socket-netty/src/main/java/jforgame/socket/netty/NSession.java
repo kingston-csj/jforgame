@@ -12,12 +12,12 @@ public class NSession implements IdSession {
     /**
      * socket io channel
      */
-    private Channel channel;
+    protected Channel channel;
 
     /**
      * extension properties
      */
-    private Map<String, Object> attrs = new HashMap<>();
+    protected Map<String, Object> attrs = new HashMap<>();
 
     public NSession(Channel channel) {
         super();

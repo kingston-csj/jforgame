@@ -102,14 +102,14 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
                 if (IdSession.class.isAssignableFrom(param)) {
                     result[i] = session;
                 } else {
-                    throw new IllegalArgumentException("1st argument must be IdSession");
+                    throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 1st argument must be IdSession");
                 }
             }
             if (result.length == 2 && i == 1) {
                 if (DefaultMessageFactory.getInstance().contains(message.getClass())) {
                     result[i] = message;
                 } else {
-                    throw new IllegalArgumentException("2nd argument must be registered Message");
+                    throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 2nd argument must be registered Message");
                 }
             }
             if (result.length == 3) {
@@ -125,7 +125,7 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
                     if (DefaultMessageFactory.getInstance().contains(message.getClass())){
                         result[i] = message;
                     } else{
-                        throw new IllegalArgumentException("3nd argument must be registered Message");
+                        throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 3nd argument must be registered Message");
                     }
                 }
             }

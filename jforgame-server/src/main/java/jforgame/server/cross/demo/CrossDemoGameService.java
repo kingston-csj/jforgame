@@ -2,11 +2,13 @@ package jforgame.server.cross.demo;
 
 import jforgame.commons.NumberUtil;
 import jforgame.server.ServerConfig;
-import jforgame.server.cross.core.callback.CallBackCommands;
-import jforgame.server.cross.core.callback.G2FCallBack;
-import jforgame.server.cross.core.callback.RequestCallback;
-import jforgame.server.cross.core.client.CrossTransportManager;
-import jforgame.socket.share.HostAndPort;
+import jforgame.server.cross.core.CallBackCommands;
+import jforgame.server.cross.core.F2GCallBack;
+import jforgame.server.cross.core.G2FCallBack;
+import jforgame.server.cross.core.C2SSessionPoolFactory;
+import jforgame.server.cross.core.NSessionPlus;
+import jforgame.socket.client.RequestCallback;
+import jforgame.socket.client.RpcMessageClient;
 
 public class CrossDemoGameService {
 
@@ -19,8 +21,13 @@ public class CrossDemoGameService {
             String matchUrl = ServerConfig.getInstance().getMatchUrl();
             String ip = matchUrl.split(":")[0];
             int port = NumberUtil.intValue(matchUrl.split(":")[1]);
-            Object callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
-            System.out.println(callBack);
+//            Object callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
+            req.serialize();
+            NSessionPlus session = C2SSessionPoolFactory.getInstance().borrowSession(ip, port);
+
+            F2GCallBack response = (F2GCallBack) RpcMessageClient.request(session, req);
+            System.err.println("rpc 消息同步调用");
+            System.out.println(response);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,9 +41,15 @@ public class CrossDemoGameService {
             String matchUrl = ServerConfig.getInstance().getMatchUrl();
             String ip = matchUrl.split(":")[0];
             int port = NumberUtil.intValue(matchUrl.split(":")[1]);
-            CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req, new RequestCallback() {
+//            Object callBack = CrossTransportManager.getInstance().request(HostAndPort.valueOf(ip, port), req);
+            req.serialize();
+
+            NSessionPlus session = C2SSessionPoolFactory.getInstance().borrowSession(ip, port);
+
+            RpcMessageClient.callBack(session, req, new RequestCallback() {
                 @Override
                 public void onSuccess(Object callBack) {
+                    System.err.println("rpc 消息异步调用");
                     System.out.println(callBack);
                 }
 
@@ -45,6 +58,7 @@ public class CrossDemoGameService {
                     error.printStackTrace();
                 }
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }

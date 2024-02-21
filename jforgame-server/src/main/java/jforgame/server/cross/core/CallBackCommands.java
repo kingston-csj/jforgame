@@ -1,4 +1,4 @@
-package jforgame.server.cross.core.callback;
+package jforgame.server.cross.core;
 
 public interface CallBackCommands {
 

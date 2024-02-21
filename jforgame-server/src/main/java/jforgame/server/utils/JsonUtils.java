@@ -5,10 +5,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import jforgame.server.cross.core.G2FCallBack;
 import jforgame.server.logs.LoggerUtils;
 
 /**
@@ -22,6 +27,15 @@ public final class JsonUtils {
 	private static TypeFactory typeFactory = TypeFactory.defaultInstance();
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
+
+
+	static {
+		MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		MAPPER.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+		MAPPER.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
 
 	public static String object2String(Object object) {
 		StringWriter writer = new StringWriter();
@@ -90,6 +104,18 @@ public final class JsonUtils {
 		} catch(Exception e) {
 			return null;
 		}													
+	}
+
+	public static void main(String[] args) {
+		G2FCallBack req = new G2FCallBack();
+		req.addParam("name", "Lily");
+		req.serialize();
+		String json = JsonUtils.object2String(req);
+		System.out.println(json);
+		G2FCallBack req2 = JsonUtils.string2Object(json, G2FCallBack.class);
+
+		System.out.println(req2);
+
 	}
 
 }

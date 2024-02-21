@@ -7,7 +7,6 @@ import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.server.ServerConfig;
 import jforgame.server.ServerScanPaths;
 import jforgame.server.ServerVersion;
-import jforgame.server.cross.core.CrossServer;
 import jforgame.server.db.BaseEntity;
 import jforgame.server.db.DbService;
 import jforgame.server.db.DbUtils;
@@ -20,8 +19,8 @@ import jforgame.server.game.database.config.ConfigDataPool;
 import jforgame.server.listener.ListenerManager;
 import jforgame.server.monitor.jmx.GameMonitor;
 import jforgame.server.monitor.jmx.GameMonitorMBean;
-import jforgame.server.socket.mina.MSocketServer;
 import jforgame.server.redis.RedisCluster;
+import jforgame.server.socket.mina.MSocketServer;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.support.DefaultMessageFactory;
@@ -105,12 +104,12 @@ public class GameServer {
 
 		if (config.getCrossPort() > 0) {
 			// 启动跨服服务
-			crossServer = new CrossServer();
+			crossServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getCrossPort()));
 			crossServer.start();
 		}
 		// 启动socket服务
 		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
-//		socketServer = new NettySocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()), config.getMaxReceiveBytes());
+//		socketServer = new NSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();

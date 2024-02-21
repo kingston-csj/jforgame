@@ -1,6 +1,7 @@
-package jforgame.server.cross.core.callback;
+package jforgame.server.cross.core;
 
-import jforgame.server.cross.core.server.SCSession;
+import jforgame.server.cross.demo.HelloCallbackHandler;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.Message;
 
 import java.util.HashMap;
@@ -14,12 +15,15 @@ public abstract class CallbackHandler {
         handlers.put(handler.cmdType(), handler);
     }
 
-    public abstract void onRequest(SCSession session, G2FCallBack req);
+    static {
+        register(new HelloCallbackHandler());
+    }
+    public abstract void onRequest(IdSession session, G2FCallBack req);
 
-    public void sendBack(SCSession session, G2FCallBack req, Message response) {
+    public void sendBack(IdSession session, G2FCallBack req, Message response) {
         F2GCallBack callBack = F2GCallBack.valueOf(response);
         callBack.setIndex(req.getIndex());
-        session.sendMessage(callBack);
+        session.send(callBack);
     }
 
     public abstract int cmdType();

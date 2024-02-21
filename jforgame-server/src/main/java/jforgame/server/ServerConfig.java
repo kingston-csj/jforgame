@@ -38,7 +38,7 @@ public class ServerConfig {
 
 	private String[] whiteIpPattern;
 
-	/** 匹配服http地址 */
+	/** 匹配服地址 */
 	@Element(required = true)
 	private String matchUrl;
 	/** 本服是否為跨服 */

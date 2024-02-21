@@ -1,8 +1,10 @@
-package jforgame.server.cross.core.callback;
+package jforgame.server.cross.core;
 
-import jforgame.server.cross.core.CrossCommands;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jforgame.server.game.Modules;
 import jforgame.server.utils.JsonUtils;
+import jforgame.socket.client.RequestResponseFuture;
+import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
 
@@ -15,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 跨服回调请求方
  */
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.G2F_CALL_BACK)
-public class G2FCallBack implements Message {
+public class G2FCallBack implements Message, Traceable {
 
     /**
      * 关联id {@link RequestResponseFuture#getCorrelationId()}
@@ -27,6 +29,7 @@ public class G2FCallBack implements Message {
      */
     private int command;
 
+    @JsonIgnore
     private transient Map<String, String> params = new HashMap<>();
 
     private String data;
