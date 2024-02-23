@@ -6,10 +6,11 @@
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
   * 支持socket/webSocket接入，兼容手游/页游服务端架构  
-  * 通信协议支持protobuf或java反射，为客户端提供多种选择   
+  * 通信协议支持protobuf或普通javabean，为客户端提供多种选择  
+  * 强大的客户端异步/同步api，轻松实现跨进程通信
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
-  * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护   
+  * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护
   * 有独立http后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
 
 
@@ -17,12 +18,11 @@
   ``` 
   jforgame
   ├── jforgame-commons --基础公共服务  
-  ├── jforgame-merge   --合服工具        
   ├── jforgame-socket-parent    --socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── hotswap-agent  --支持游戏业务热更新的agent机制  
   ├── jforgame-codec-parent  --用于socket通信的数据编解码  
-  ├── jforgame-server  --游戏基础组件以及业务逻辑模块  
+  ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
   |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  
   |    ├──  monitor包，系统监控模块，包括使用jmx对程序进行监控  
@@ -63,9 +63,9 @@
   2. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
   3. 新建数据库game_data_001和game_user_001，并分别导入test/resources下的同名sql文件;  
   4. 启动服务端，入口为ServerStartup类  
-  （开发工具需要将src同目录的configs视为代码目录！如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-server。）;  
+  （开发工具需要将src同目录的configs视为代码目录！如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   5. 启动客户端，入口为ClientStartup类;  
-  （温馨提醒：在根目录执行mvn clean package install -DskipTests 后，在ide环境下就不用导入所有模块了。例如，只导入jforgame-server模块）
+  （温馨提醒：在根目录执行mvn clean package install -DskipTests 后，在ide环境下就不用导入所有模块了。例如，只导入jforgame-demo模块）
 
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  

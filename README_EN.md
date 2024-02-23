@@ -13,7 +13,7 @@
   ├── jforgame-orm    --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── hotswap-agent   --support hotswap without restarting server
   ├── jforgame-codec-parent  --data codec for socket communication  
-  ├── jforgame-server   
+  ├── jforgame-demo   
   |    ├──  cache package, use guava cache to support players cache system   
   |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  
   |    ├──  monitor package, to monitor game service，currently, we'll use jmx to manage game server    
