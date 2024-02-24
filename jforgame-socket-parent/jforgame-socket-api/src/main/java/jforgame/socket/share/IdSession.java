@@ -2,21 +2,34 @@ package jforgame.socket.share;
 
 import jforgame.socket.client.Traceable;
 
+import java.io.Closeable;
 import java.net.InetSocketAddress;
 
 /**
- * 点对点session，不与任何nio框架绑定
+ * A socket session abstraction. Allows sending messages over a socket
+ * connection and closing it.
  *
  * @author kinson
  */
-public interface IdSession {
+public interface IdSession extends Closeable {
 
     String ID = "ID";
+
+    /**
+     * Return a unique session identifier.
+     */
+    default String getId() {
+        if (getAttribute(ID) != null) {
+            return (String) getAttribute(ID);
+        }
+        return "";
+    }
 
     void send(Object packet);
 
     /**
      * send message with index.
+     * when client wants to send a message and gets its response, the message must be {@link  Traceable}
      * @param index
      * @param packet
      */
@@ -28,8 +41,6 @@ public interface IdSession {
         traceable.setIndex(index);
         send(packet);
     }
-
-    long getOwnerId();
 
     InetSocketAddress getRemoteAddress();
 

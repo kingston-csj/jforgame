@@ -9,33 +9,21 @@ import org.apache.mina.core.session.IoSession;
 
 public class MSessionPlus extends MSession {
 
-    private long lastWrittenTime = System.currentTimeMillis();
-
     public MSessionPlus(IoSession session) {
         super(session);
     }
 
     public void send(Object packet) {
         WriteFuture future = this.session.write(packet);
-        future.addListener(new IoFutureListener<IoFuture>() {
-            @Override
-            public void operationComplete(IoFuture future) {
-                MSessionPlus.this.lastWrittenTime = System.currentTimeMillis();
-            }
-        });
     }
 
-    public long getLastWrittenTime() {
-        return lastWrittenTime;
-    }
-
-    public void setLastWrittenTime(long lastWrittenTime) {
-        this.lastWrittenTime = lastWrittenTime;
+    public long getLastWriteTime() {
+        return this.session.getLastWriteTime();
     }
 
     public boolean isExpired() {
         long now = System.currentTimeMillis();
-        long diff = now - lastWrittenTime;
+        long diff = now - getLastWriteTime();
         return diff > 30 * TimeUtil.MILLIS_PER_SECOND;
     }
 
@@ -44,7 +32,6 @@ public class MSessionPlus extends MSession {
         future.addListener(new IoFutureListener<IoFuture>() {
             @Override
             public void operationComplete(IoFuture future) {
-                MSessionPlus.this.lastWrittenTime = System.currentTimeMillis();
                 sentCallback.run();
             }
         });

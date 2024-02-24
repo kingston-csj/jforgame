@@ -134,8 +134,6 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
         return result;
     }
 
-
-
     @Override
     public void onSessionClosed(IdSession session) {
         long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);

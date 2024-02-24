@@ -1,4 +1,4 @@
-package jforgame.demo.socket.mina;
+package jforgame.demo.socket.server;
 
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.ServerScanPaths;

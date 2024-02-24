@@ -11,10 +11,10 @@ import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.mina.client.MSocketClient;
-import jforgame.socket.netty.client.NSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.SocketIoDispatcherAdapter;
 import jforgame.socket.support.DefaultMessageFactory;
 
 /**
@@ -31,30 +31,19 @@ public class ClientStartup {
 		hostPort.setHost("127.0.0.1");
 		hostPort.setPort(serverPort);
 
-		SocketIoDispatcher msgDispatcher = new SocketIoDispatcher() {
-			@Override
-			public void onSessionCreated(IdSession session) {
-
-			}
-
+		SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
 			@Override
 			public void dispatch(IdSession session, Object message) {
 				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
 			}
-
-			@Override
-			public void onSessionClosed(IdSession session) {
-
-			}
-
 			@Override
 			public void exceptionCaught(IdSession session, Throwable cause) {
 					cause.printStackTrace();
 			}
 		};
 
-		SocketClient clientFactory = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
-		IdSession session = clientFactory.openSession();
+		SocketClient socketClient = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		IdSession session = socketClient.openSession();
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
 		robot.selectedPlayer(10000L);

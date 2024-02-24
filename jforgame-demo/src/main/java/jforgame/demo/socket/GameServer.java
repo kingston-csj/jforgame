@@ -2,7 +2,7 @@ package jforgame.demo.socket;
 
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
-import jforgame.demo.socket.netty.NSocketServer;
+import jforgame.demo.socket.server.NSocketServer;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.demo.ServerConfig;
@@ -21,7 +21,7 @@ import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.monitor.jmx.GameMonitor;
 import jforgame.demo.monitor.jmx.GameMonitorMBean;
 import jforgame.demo.redis.RedisCluster;
-import jforgame.demo.socket.mina.MSocketServer;
+import jforgame.demo.socket.server.MSocketServer;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.support.DefaultMessageFactory;

@@ -22,15 +22,10 @@ public class NSessionPlus extends NSession {
                 NSessionPlus.this.lastWrittenTime = System.currentTimeMillis();
             }
         });
-        future.getNow();
     }
 
-    public long getLastWrittenTime() {
+    public long getLastWriteTime() {
         return lastWrittenTime;
-    }
-
-    public void setLastWrittenTime(long lastWrittenTime) {
-        this.lastWrittenTime = lastWrittenTime;
     }
 
     public boolean isExpired() {

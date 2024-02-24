@@ -3,6 +3,7 @@ package jforgame.socket.netty;
 import io.netty.channel.Channel;
 import jforgame.socket.share.IdSession;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +28,6 @@ public class NSession implements IdSession {
     @Override
     public void send(Object packet) {
         channel.writeAndFlush(packet);
-    }
-
-    @Override
-    public long getOwnerId() {
-        if (attrs.containsKey(ID)) {
-            return (long) attrs.get(ID);
-        }
-        return 0;
     }
 
     @Override
@@ -85,7 +78,6 @@ public class NSession implements IdSession {
 
     @Override
     public int getLocalPort() {
-
         if (null == channel) {
             return -1;
         }
@@ -110,6 +102,11 @@ public class NSession implements IdSession {
     @Override
     public Channel getRawSession() {
         return this.channel;
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.channel.close();
     }
 
 }

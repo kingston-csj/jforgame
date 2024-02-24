@@ -1,4 +1,4 @@
-package jforgame.demo.socket.netty;
+package jforgame.demo.socket.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;

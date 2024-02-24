@@ -1,5 +1,6 @@
 package jforgame.socket.mina;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,14 +25,6 @@ public class MSession implements IdSession {
 	@Override
 	public void send(Object packet) {
 		session.write(packet);
-	}
-
-	@Override
-	public long getOwnerId() {
-		if (attrs.containsKey(ID)) {
-			return (long) attrs.get(ID);
-		}
-		return 0;
 	}
 
 	@Override
@@ -97,4 +90,10 @@ public class MSession implements IdSession {
 	public IoSession getRawSession() {
 		return session;
 	}
+
+	@Override
+	public void close() throws IOException {
+		this.session.close(true);
+	}
+
 }

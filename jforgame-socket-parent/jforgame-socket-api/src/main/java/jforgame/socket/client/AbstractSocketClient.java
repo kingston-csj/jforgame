@@ -49,6 +49,10 @@ public abstract class AbstractSocketClient implements SocketClient {
         return targetAddress;
     }
 
+    public void setTargetAddress(HostAndPort targetAddress) {
+        this.targetAddress = targetAddress;
+    }
+
     @Override
     public IdSession getSession() {
         return session;

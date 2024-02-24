@@ -18,6 +18,7 @@ import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class NSocketClient extends AbstractSocketClient {
@@ -32,7 +33,7 @@ public class NSocketClient extends AbstractSocketClient {
     }
 
     @Override
-    public IdSession openSession() throws Exception {
+    public IdSession openSession() throws IOException {
         try {
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
@@ -49,18 +50,17 @@ public class NSocketClient extends AbstractSocketClient {
 
             ChannelFuture f = b.connect(new InetSocketAddress(targetAddress.getHost(), targetAddress.getPort())).sync();
             IdSession session = new NSession(f.channel());
+            this.session = session;
             return session;
         } catch (Exception e) {
             e.printStackTrace();
             group.shutdownGracefully();
-            throw e;
+            throw new IOException(e);
         }
     }
 
     @Override
-    public void close() throws Exception {
-        if (this.session != null) {
-            ((NSession) this.session).getRawSession().close();
-        }
+    public void close() throws IOException {
+        this.session.close();
     }
 }

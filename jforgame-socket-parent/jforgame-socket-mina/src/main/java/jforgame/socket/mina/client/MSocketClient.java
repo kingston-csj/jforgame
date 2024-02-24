@@ -19,6 +19,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class MSocketClient extends AbstractSocketClient {
@@ -33,7 +34,7 @@ public class MSocketClient extends AbstractSocketClient {
     }
 
     @Override
-    public IdSession openSession() throws Exception {
+    public IdSession openSession() throws IOException {
         try {
             NioSocketConnector connector = new NioSocketConnector();
             connector.getFilterChain().addLast("codec",
@@ -64,18 +65,16 @@ public class MSocketClient extends AbstractSocketClient {
             IdSession userSession = new MSession(ioSession);
             ioSession.setAttribute(USER_SESSION,
                     userSession);
+            this.session = userSession;
             return userSession;
         } catch (Exception e) {
             e.printStackTrace();
-            throw e;
+            throw new IOException(e);
         }
     }
 
     @Override
-    public void close() throws Exception {
-        if (session != null) {
-            IoSession ioSession =  ((MSession) this.session).getRawSession();
-            ioSession.close(true);
-        }
+    public void close() throws IOException {
+        this.session.close();
     }
 }
