@@ -16,13 +16,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import jforgame.demo.game.GameContext;
-import jforgame.demo.logs.LoggerUtils;
 import jforgame.demo.socket.MessageStatistics;
 import jforgame.demo.utils.JsScriptEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameMonitor implements GameMonitorMBean{
 
-//	private Logger logger = LoggerSystem.MONITOR.getLogger();
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public int getOnlinePlayerSum() {
@@ -82,7 +83,7 @@ public class GameMonitor implements GameMonitorMBean{
 			result.append(String.format("活跃线程数 %s, 阻塞线程数 %s, 等待线程数 %s", nThreadRun, nThreadBlocked, nThreadWaiting)).append(newLine);
 
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 
 		return result.toString();

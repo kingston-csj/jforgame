@@ -10,6 +10,7 @@ import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
+import jforgame.socket.mina.client.MSocketClient;
 import jforgame.socket.netty.client.NSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
@@ -48,11 +49,11 @@ public class ClientStartup {
 
 			@Override
 			public void exceptionCaught(IdSession session, Throwable cause) {
-
+					cause.printStackTrace();
 			}
 		};
 
-		SocketClient clientFactory = new NSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		SocketClient clientFactory = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
 		IdSession session = clientFactory.openSession();
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();

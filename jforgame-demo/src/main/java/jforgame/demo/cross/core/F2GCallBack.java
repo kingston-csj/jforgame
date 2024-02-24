@@ -1,7 +1,6 @@
 package jforgame.demo.cross.core;
 
 import jforgame.demo.game.Modules;
-import jforgame.demo.logs.LoggerUtils;
 import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
@@ -55,7 +54,7 @@ public class F2GCallBack implements Message, Traceable {
         try {
             return (Message) JsonUtils.string2Object(data, Class.forName(msgClass));
         } catch (Exception e) {
-            LoggerUtils.error("", e);
+            e.printStackTrace();
             return null;
         }
     }

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigPlayerLevel;
-import jforgame.demo.logs.LoggerUtils;
 
 /**
  * 玩家等级配置表
@@ -27,7 +26,7 @@ public class ConfigPlayerLevelStorage implements Reloadable {
 			List<ConfigPlayerLevel> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigPlayerLevel.class);
 			levels = datas.stream().collect(Collectors.toMap(ConfigPlayerLevel::getLevel, Function.identity()));
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			e.printStackTrace();
 		}
 	}
 

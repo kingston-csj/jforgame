@@ -38,7 +38,6 @@ public class RpcMessageClient {
      */
     public static Object request(IdSession session, Traceable request) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
-        request.setIndex(index);
         session.send(index, request);
         final RequestResponseFuture future = new RequestResponseFuture(index, CALL_BACK_TIME_OUT, null);
 

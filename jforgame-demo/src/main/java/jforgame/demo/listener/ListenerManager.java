@@ -1,14 +1,16 @@
 package jforgame.demo.listener;
 
+import jforgame.commons.ClassScanner;
+import jforgame.demo.game.logs.LoggerUtils;
+import jforgame.demo.listener.annotation.EventHandler;
+import jforgame.demo.listener.annotation.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import jforgame.demo.listener.annotation.EventHandler;
-import jforgame.demo.listener.annotation.Listener;
-import jforgame.commons.ClassScanner;
-import jforgame.demo.logs.LoggerUtils;
 
 public enum ListenerManager {
 
@@ -18,6 +20,8 @@ public enum ListenerManager {
 	private Map<String, Method> map = new HashMap<>();
 
 	private final String SCAN_PATH = "jforgame.server";
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void init() {
         Set<Class<?>> listeners = ClassScanner.listClassesWithAnnotation(SCAN_PATH, Listener.class);
@@ -37,7 +41,7 @@ public enum ListenerManager {
                     }
                 }
             }catch(Exception e) {
-                LoggerUtils.error("", e);
+                logger.error("", e);
             }
         }
     }

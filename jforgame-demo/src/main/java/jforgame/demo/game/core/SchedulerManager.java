@@ -1,9 +1,8 @@
 package jforgame.demo.game.core;
 
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.demo.logs.LoggerUtils;
+import jforgame.demo.game.logs.LoggerUtils;
 
-import javax.annotation.PreDestroy;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -41,7 +40,6 @@ public class SchedulerManager {
         return service.schedule(new LogTask(command), delay, TimeUnit.MILLISECONDS);
     }
 
-    @PreDestroy
     public void shutDown() {
         service.shutdown();
         service.shutdownNow();

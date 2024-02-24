@@ -1,6 +1,7 @@
 package jforgame.demo.utils;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -27,6 +28,12 @@ public class XmlUtils {
 	 */
 	public static <T> T loadXmlConfig(String fileName, Class<T> configClass) {
 		T ob = null;
+		File curr = new File("out.txt");
+        try {
+            curr.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 		fileName = ROOT_CONFIG_PATH + fileName;
 		if (!new File(fileName).exists()) {
 			return ob;

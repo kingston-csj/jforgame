@@ -6,7 +6,7 @@ import jforgame.demo.game.admin.http.HttpCommandParams;
 import jforgame.demo.game.admin.http.HttpCommandResponse;
 import jforgame.demo.game.admin.http.HttpCommands;
 import jforgame.demo.game.core.SchedulerManager;
-import jforgame.demo.logs.LoggerSystem;
+import jforgame.demo.game.logs.LoggerSystem;
 
 @CommandHandler(cmd = HttpCommands.CLOSE_SERVER)
 public class CloseServerCommandHandler extends HttpCommandHandler {

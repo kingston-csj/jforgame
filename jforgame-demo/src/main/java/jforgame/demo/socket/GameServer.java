@@ -2,6 +2,7 @@ package jforgame.demo.socket;
 
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
+import jforgame.demo.socket.netty.NSocketServer;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.demo.ServerConfig;
@@ -108,8 +109,8 @@ public class GameServer {
 			crossServer.start();
 		}
 		// 启动socket服务
-		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
-//		socketServer = new NSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
+//		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
+		socketServer = new NSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();

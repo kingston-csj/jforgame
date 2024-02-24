@@ -1,7 +1,7 @@
 package jforgame.demo.socket;
 
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.demo.logs.LoggerUtils;
+import jforgame.demo.game.logs.LoggerUtils;
 import jforgame.socket.share.task.BaseGameTask;
 
 import java.util.Map;

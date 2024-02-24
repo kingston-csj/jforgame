@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigActivity;
-import jforgame.demo.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 活动配置
@@ -21,6 +22,8 @@ public class ConfigActivityStorage implements Reloadable {
 
 	private Map<Integer, ConfigActivity> activities = new HashMap<>();
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Override
 	public void reload() {
 		String sql = "SELECT * FROM ConfigActivity";
@@ -30,7 +33,7 @@ public class ConfigActivityStorage implements Reloadable {
 
 			activities = datas.stream().collect(Collectors.toMap(ConfigActivity::getId, Function.identity()));
 		} catch (SQLException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 
 	}

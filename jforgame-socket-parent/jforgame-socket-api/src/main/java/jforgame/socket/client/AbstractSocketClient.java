@@ -8,7 +8,7 @@ import jforgame.socket.share.message.MessageFactory;
 
 public abstract class AbstractSocketClient implements SocketClient {
 
-    protected SocketIoDispatcher messageDispatcher;
+    protected SocketIoDispatcher ioDispatcher;
 
     protected MessageFactory messageFactory;
 
@@ -21,12 +21,12 @@ public abstract class AbstractSocketClient implements SocketClient {
 
     protected IdSession session;
 
-    public SocketIoDispatcher getMessageDispatcher() {
-        return messageDispatcher;
+    public SocketIoDispatcher getIoDispatcher() {
+        return ioDispatcher;
     }
 
-    public void setMessageDispatcher(SocketIoDispatcher messageDispatcher) {
-        this.messageDispatcher = messageDispatcher;
+    public void setIoDispatcher(SocketIoDispatcher ioDispatcher) {
+        this.ioDispatcher = ioDispatcher;
     }
 
     public MessageFactory getMessageFactory() {

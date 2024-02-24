@@ -25,7 +25,7 @@ public class NSocketClient extends AbstractSocketClient {
     private EventLoopGroup group = new NioEventLoopGroup(4);
 
     public NSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
-        this.messageDispatcher = messageDispatcher;
+        this.ioDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
         this.targetAddress = hostPort;
@@ -42,7 +42,7 @@ public class NSocketClient extends AbstractSocketClient {
                     ChannelPipeline pipeline = arg0.pipeline();
                     pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec));
                     pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));
-                    pipeline.addLast((new ClientIoHandler(messageDispatcher)));
+                    pipeline.addLast((new ClientIoHandler(ioDispatcher)));
                 }
 
             });

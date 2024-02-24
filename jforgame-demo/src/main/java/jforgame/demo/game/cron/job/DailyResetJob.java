@@ -3,12 +3,12 @@ package jforgame.demo.game.cron.job;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.demo.logs.LoggerSystem;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -19,7 +19,7 @@ import java.util.Collection;
 @DisallowConcurrentExecution
 public class DailyResetJob implements Job {
 
-	private Logger logger = LoggerSystem.CRON_JOB.getLogger();
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {

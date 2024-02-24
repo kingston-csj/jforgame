@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigSkill;
-import jforgame.demo.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigSkillStorage implements Reloadable {
 
 	private Map<Integer, ConfigSkill> skills = new HashMap<>();
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void reload() {
@@ -22,7 +25,7 @@ public class ConfigSkillStorage implements Reloadable {
 			List<ConfigSkill> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigSkill.class);
 			skills = datas.stream().collect(Collectors.toMap(ConfigSkill::getId, Function.identity()));
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 	}
 

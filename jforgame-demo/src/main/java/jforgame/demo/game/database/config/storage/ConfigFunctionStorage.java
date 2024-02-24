@@ -11,11 +11,14 @@ import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigFunction;
 import jforgame.demo.game.function.model.OpenType;
-import jforgame.demo.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigFunctionStorage implements Reloadable {
 
 	private Map<Integer, ConfigFunction> functions = new HashMap<>();
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void reload() {
@@ -25,7 +28,7 @@ public class ConfigFunctionStorage implements Reloadable {
 
 			functions = datas.stream().collect(Collectors.toMap(ConfigFunction::getId, Function.identity()));
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 	}
 

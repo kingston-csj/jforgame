@@ -7,10 +7,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.demo.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EventDispatcher {
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private static EventDispatcher instance = new EventDispatcher();
 
 	private EventDispatcher() {
@@ -66,7 +68,7 @@ public class EventDispatcher {
 					ListenerManager.INSTANCE.fireEvent(listener, event);
 				}catch(Exception e){
 					//防止其中一个listener报异常而中断其他逻辑
-					LoggerUtils.error("triggerEvent failed", e);
+					logger.error("triggerEvent failed", e);
 				}
 			});
 		}

@@ -26,7 +26,7 @@ public class MSocketClient extends AbstractSocketClient {
     private AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
 
     public MSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
-        this.messageDispatcher = messageDispatcher;
+        this.ioDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
         this.targetAddress = hostPort;
@@ -41,6 +41,8 @@ public class MSocketClient extends AbstractSocketClient {
             connector.setHandler(new IoHandlerAdapter() {
                 @Override
                 public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+                    IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
+                    ioDispatcher.exceptionCaught(userSession, cause);
                 }
                 @Override
                 public void messageReceived(IoSession session, Object data) throws Exception {
@@ -52,7 +54,7 @@ public class MSocketClient extends AbstractSocketClient {
                         CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
                     }
                     //交由消息分发器处理
-                    messageDispatcher.dispatch(userSession, data);
+                    ioDispatcher.dispatch(userSession, data);
                 }
             });
 

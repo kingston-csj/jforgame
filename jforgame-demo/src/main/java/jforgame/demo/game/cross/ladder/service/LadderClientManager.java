@@ -9,7 +9,7 @@ import jforgame.demo.game.cross.ladder.message.G2M_LadderApply;
 import jforgame.demo.game.cross.ladder.message.vo.LadderMatchVo;
 import jforgame.demo.game.cross.utils.CrossJsonUtil;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.demo.logs.LoggerUtils;
+import jforgame.demo.game.logs.LoggerUtils;
 
 /**
  * 天梯游戏服（客户端）业务处理

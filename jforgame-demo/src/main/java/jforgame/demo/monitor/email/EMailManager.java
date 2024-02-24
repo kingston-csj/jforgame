@@ -11,8 +11,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.demo.logs.LoggerUtils;
 import jforgame.demo.utils.XmlUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EMailManager {
 
@@ -21,6 +22,8 @@ public class EMailManager {
 	private ExecutorService service;
 
 	private EMailConfig emailConfig;
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public static EMailManager getInstance() {
 		if (instance == null) {
@@ -75,7 +78,7 @@ public class EMailManager {
 			// 7. 关闭连接
 			transport.close();
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 	}
 

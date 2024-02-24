@@ -3,7 +3,6 @@ package jforgame.demo.game.database.config.storage;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigCross;
-import jforgame.demo.logs.LoggerUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public class ConfigCrossStorage implements Reloadable {
             List<ConfigCross> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigCross.class);
             configs = datas.stream().collect(Collectors.toMap(ConfigCross::getId, Function.identity()));
         } catch (Exception e) {
-            LoggerUtils.error("", e);
+            e.printStackTrace();
         }
     }
 

@@ -159,10 +159,13 @@
             </resource>
             <resource>
                 <directory>configs</directory>
+                <excludes>
+                    <exclude>server.xml</exclude>
+                    <exclude>server2.xml</exclude>
+                </excludes>
             </resource>
         </resources>
         <plugins>
-
             <plugin>
                 <!-- https://gitee.com/roseboy/classfinal -->
                 <groupId>net.roseboy</groupId>

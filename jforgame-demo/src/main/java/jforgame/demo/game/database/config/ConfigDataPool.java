@@ -1,12 +1,14 @@
 package jforgame.demo.game.database.config;
 
+import jforgame.commons.ClassScanner;
+import jforgame.demo.game.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import jforgame.demo.logs.LoggerUtils;
-import jforgame.commons.ClassScanner;
 
 /**
  * 所有策划配置的数据池
@@ -26,6 +28,8 @@ public class ConfigDataPool {
 
 	private ConcurrentMap<Class<?>, Reloadable> datas = new ConcurrentHashMap<>();
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	/**
 	 * 起服读取所有的配置数据
 	 */
@@ -40,7 +44,7 @@ public class ConfigDataPool {
 				container.reload();
 				datas.put(c, container);
 			} catch (Exception e) {
-				LoggerUtils.error(c.getName() + "策划配置数据有误，请检查", e);
+				logger.error(c.getName() + "策划配置数据有误，请检查", e);
 				System.exit(0);
 			}
 		});

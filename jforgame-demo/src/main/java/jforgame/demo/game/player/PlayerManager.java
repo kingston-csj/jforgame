@@ -18,7 +18,6 @@ import jforgame.demo.game.player.model.AccountProfile;
 import jforgame.demo.game.player.model.PlayerProfile;
 import jforgame.demo.listener.EventDispatcher;
 import jforgame.demo.listener.EventType;
-import jforgame.demo.logs.LoggerUtils;
 import jforgame.demo.utils.IdGenerator;
 import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;
@@ -60,7 +59,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 				addPlayerProfile(baseInfo);
 			}
 		} catch (SQLException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 	}
 

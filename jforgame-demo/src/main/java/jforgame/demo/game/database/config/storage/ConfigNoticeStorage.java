@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.database.config.Reloadable;
 import jforgame.demo.game.database.config.bean.ConfigNotice;
-import jforgame.demo.logs.LoggerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConfigNoticeStorage implements Reloadable {
 
 	private Map<Integer, ConfigNotice> messages = new HashMap<>();
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public void reload() {
@@ -23,7 +26,7 @@ public class ConfigNoticeStorage implements Reloadable {
 
 			messages = datas.stream().collect(Collectors.toMap(ConfigNotice::getId, Function.identity()));
 		} catch (Exception e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 	}
 

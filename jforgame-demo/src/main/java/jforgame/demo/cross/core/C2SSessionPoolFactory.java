@@ -8,7 +8,6 @@ import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
-import jforgame.demo.logs.LoggerUtils;
 import jforgame.demo.socket.MessageIoDispatcher;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.netty.client.NSocketClient;
@@ -20,6 +19,8 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -29,6 +30,8 @@ import java.util.concurrent.ConcurrentMap;
  * 原因：业务代码借东西不还就爆炸了。。。
  */
 public class C2SSessionPoolFactory {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private GenericObjectPoolConfig config;
 
@@ -72,7 +75,7 @@ public class C2SSessionPoolFactory {
             pools.putIfAbsent(key, pool);
             return pool.borrowObject();
         } catch (Exception e) {
-            LoggerUtils.error("", e);
+            logger.error("", e);
             return null;
         }
     }

@@ -9,8 +9,9 @@ import java.util.TreeSet;
 import org.apache.commons.lang3.StringUtils;
 
 import jforgame.demo.ServerConfig;
-import jforgame.demo.logs.LoggerUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -25,6 +26,8 @@ public enum RedisCluster {
 	INSTANCE;
 
 	private JedisCluster cluster;
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void init() {
 		String url = ServerConfig.getInstance().getRedisUrl();
@@ -81,7 +84,7 @@ public enum RedisCluster {
 		try {
 			return cluster.zscore(key, member);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			throw new JedisException(e);
 		}
 	}
@@ -90,7 +93,7 @@ public enum RedisCluster {
 		try {
 			return cluster.zrangeWithScores(key, start, end);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			throw new JedisException(e);
 		}
 	}
@@ -99,7 +102,7 @@ public enum RedisCluster {
 		try {
 			return cluster.zrevrangeWithScores(key, start, end);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			return new HashSet<>(0);
 		}
 	}
@@ -108,7 +111,7 @@ public enum RedisCluster {
 		try {
 			return cluster.zincrby(key, score, member);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			return null;
 		}
 	}
@@ -117,7 +120,7 @@ public enum RedisCluster {
 		try {
 			return cluster.zrank(key, member);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			return -1L;
 		}
 	}
@@ -126,7 +129,7 @@ public enum RedisCluster {
 		try {
 			return cluster.hset(key, field, value);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 		}
 		return -1L;
 	}
@@ -135,7 +138,7 @@ public enum RedisCluster {
 		try {
 			return cluster.hget(key, field);
 		} catch (JedisException e) {
-			LoggerUtils.error("", e);
+			logger.error("", e);
 			return null;
 		}
 	}

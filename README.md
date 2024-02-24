@@ -62,9 +62,10 @@
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
   2. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
   3. 新建数据库game_data_001和game_user_001，并分别导入test/resources下的同名sql文件;  
-  4. 启动服务端，入口为ServerStartup类  
-  （开发工具需要将src同目录的configs视为代码目录！如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
+  4. 启动服务端，入口为ServerStartup类;    
+  （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   5. 启动客户端，入口为ClientStartup类;  
+  （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）
   （温馨提醒：在根目录执行mvn clean package install -DskipTests 后，在ide环境下就不用导入所有模块了。例如，只导入jforgame-demo模块）
 
 
