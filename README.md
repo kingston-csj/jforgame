@@ -65,7 +65,7 @@
   4. 启动服务端，入口为ServerStartup类;    
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   5. 启动客户端，入口为ClientStartup类;  
-  （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）
+  （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。)  
   （温馨提醒：在根目录执行mvn clean package install -DskipTests 后，在ide环境下就不用导入所有模块了。例如，只导入jforgame-demo模块）
 
 
