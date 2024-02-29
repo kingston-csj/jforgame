@@ -6,7 +6,7 @@ import jforgame.demo.game.admin.http.HttpCommandHandler;
 import jforgame.demo.game.admin.http.HttpCommandParams;
 import jforgame.demo.game.admin.http.HttpCommandResponse;
 import jforgame.demo.game.admin.http.HttpCommands;
-import jforgame.demo.game.logs.LoggerSystem;
+import jforgame.demo.game.logger.LoggerSystem;
 import jforgame.demo.socket.NetGateKeeper;
 
 @CommandHandler(cmd=HttpCommands.FUNC_SWITCH)

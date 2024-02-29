@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import jforgame.demo.db.DbUtils;
-import jforgame.demo.game.logs.LoggerUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jforgame.demo.game.logger.LoggerUtils;
 
 /**
  * 保存一些系统级别的参数

@@ -2,7 +2,7 @@ package jforgame.demo.db;
 
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.commons.ds.BlockingUniqueQueue;
-import jforgame.demo.game.logs.LoggerUtils;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.orm.utils.SqlFactory;
 import jforgame.orm.utils.SqlUtils;
 import org.slf4j.Logger;

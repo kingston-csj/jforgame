@@ -3,7 +3,7 @@ package jforgame.demo.client;
 import com.google.gson.Gson;
 import jforgame.demo.game.login.message.req.ReqAccountLogin;
 import jforgame.demo.game.login.message.req.ReqSelectPlayer;
-import jforgame.demo.game.logs.LoggerUtils;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.game.player.message.req.ReqCreateNewPlayer;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.Message;

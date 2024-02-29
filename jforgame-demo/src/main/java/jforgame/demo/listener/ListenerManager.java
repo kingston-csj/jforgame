@@ -1,7 +1,7 @@
 package jforgame.demo.listener;
 
 import jforgame.commons.ClassScanner;
-import jforgame.demo.game.logs.LoggerUtils;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.listener.annotation.EventHandler;
 import jforgame.demo.listener.annotation.Listener;
 import org.slf4j.Logger;

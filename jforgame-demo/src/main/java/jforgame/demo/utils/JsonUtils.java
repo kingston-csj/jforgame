@@ -14,9 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import jforgame.demo.cross.core.G2FCallBack;
-import jforgame.demo.game.logs.LoggerUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jforgame.demo.game.logger.LoggerUtils;
 
 /**
  * json序列号工具（使用jackson）
