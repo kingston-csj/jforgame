@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.demo.utils;
 
 /**
  * @author kinson

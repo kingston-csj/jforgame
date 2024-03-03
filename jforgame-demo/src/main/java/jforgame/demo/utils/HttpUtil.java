@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.demo.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

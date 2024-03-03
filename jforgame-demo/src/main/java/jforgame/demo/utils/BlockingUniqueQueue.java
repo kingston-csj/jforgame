@@ -1,4 +1,4 @@
-package jforgame.commons.ds;
+package jforgame.demo.utils;
 
 import jforgame.commons.thread.ThreadSafe;
 
