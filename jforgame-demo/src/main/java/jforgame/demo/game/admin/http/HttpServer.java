@@ -35,6 +35,7 @@ public class HttpServer implements ServerNode {
 
 	private int port;
 
+	@Override
 	public void start() throws Exception {
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec", new HttpServerCodec());
@@ -45,6 +46,7 @@ public class HttpServer implements ServerNode {
 		acceptor.bind(new InetSocketAddress(port));
 	}
 
+	@Override
 	public void shutdown() {
 		if (acceptor != null) {
 			acceptor.unbind();

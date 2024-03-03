@@ -66,6 +66,8 @@ public class GameServer {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		GameMonitorMBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
+
+		socketServer.shutdown();
 	}
 
 	private void frameworkInit() throws Exception {
@@ -139,10 +141,14 @@ public class GameServer {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		// 各种业务逻辑的关闭写在这里。。。
-		socketServer.shutdown();
-		httpServer.shutdown();
-		if (crossServer != null) {
-			crossServer.shutdown();
+		try {
+			socketServer.shutdown();
+			httpServer.shutdown();
+			if (crossServer != null) {
+				crossServer.shutdown();
+			}
+		} catch (Exception e) {
+			logger.error("", e);
 		}
 		DbService.getInstance().shutDown();
 		stopWatch.stop();

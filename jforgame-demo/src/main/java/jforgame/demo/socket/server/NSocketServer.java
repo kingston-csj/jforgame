@@ -31,7 +31,7 @@ public class NSocketServer implements ServerNode {
     private Logger logger = LoggerFactory.getLogger(NSocketServer.class);
 
     // 避免使用默认线程数参数
-    private EventLoopGroup bossGroup = new NioEventLoopGroup(4);
+    private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
     private List<HostAndPort> nodesConfig;
@@ -66,8 +66,10 @@ public class NSocketServer implements ServerNode {
     }
 
     @Override
-    public void shutdown() {
-
+    public void shutdown() throws Exception {
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
+        logger.error("---------> socket server stop successfully");
     }
 
     private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {

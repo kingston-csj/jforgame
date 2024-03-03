@@ -4,5 +4,5 @@ public interface ServerNode {
 
 	void start() throws Exception;
 
-	void shutdown();
+	void shutdown() throws Exception;
 }

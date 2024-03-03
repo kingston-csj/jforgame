@@ -36,7 +36,7 @@ public class MSocketServer implements ServerNode {
 	private static final Executor executor = Executors.newCachedThreadPool();
 
 	private static final SimpleIoProcessorPool<NioSession> pool =
-			new SimpleIoProcessorPool<NioSession>(NioProcessor.class, executor, CPU_CORE_SIZE);
+			new SimpleIoProcessorPool<>(NioProcessor.class, executor, CPU_CORE_SIZE);
 
 	private SocketAcceptor acceptor;
 
@@ -80,7 +80,7 @@ public class MSocketServer implements ServerNode {
 	}
 
 	@Override
-	public void shutdown() {
+	public void shutdown() throws Exception{
 		if (acceptor != null) {
 			acceptor.unbind();
 			acceptor.dispose();
