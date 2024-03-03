@@ -71,8 +71,9 @@
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
-  本栏目详细教程 -->  [csdn博客](https://blog.csdn.net/littleschemer/category_9269220.html)
-                    [csdn博客](https://blog.csdn.net/littleschemer/category_12576391.html)
+  本栏目详细教程 -->  [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)
+                    [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
+
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
   
@@ -83,6 +84,7 @@
 
   ## 一起交流
   如果您发现bug，或者有任何疑问，请提交issue !!
+  合作/咨询：+Q 475139136
 
    ## 免责申明
    本项目只用于学习研究，禁止用于非法获利和商业活动。如产生法律纠纷与作者无关！！
