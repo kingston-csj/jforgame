@@ -18,6 +18,7 @@ import jforgame.socket.share.ServerNode;
 import jforgame.socket.netty.support.DefaultSocketIoHandler;
 import jforgame.socket.netty.support.DefaultProtocolDecoder;
 import jforgame.socket.netty.support.DefaultProtocolEncoder;
+import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,9 +77,10 @@ public class NSocketServer implements ServerNode {
         @Override
         protected void initChannel(SocketChannel arg0) throws Exception {
             ChannelPipeline pipeline = arg0.pipeline();
+            MessageFactory messageFactory = DefaultMessageFactory.getInstance();
             MessageCodec messageCodec = new StructMessageCodec();
-            pipeline.addLast(new DefaultProtocolDecoder(DefaultMessageFactory.getInstance(), messageCodec));
-            pipeline.addLast(new DefaultProtocolEncoder(DefaultMessageFactory.getInstance(), messageCodec));
+            pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec));
+            pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));
             // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
             pipeline.addLast(new IdleStateHandler(300, 300, 300));
             pipeline.addLast(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));

@@ -27,6 +27,8 @@ public class DefaultMessageFactory implements MessageFactory {
 	 */
 	public void initMessagePool(String scanPath) {
 		Set<Class<?>> messages = ClassScanner.listClassesWithAnnotation(scanPath, MessageMeta.class);
+		instance.id2Clazz.clear();
+		instance.clazz2Id.clear();
 		for (Class<?> clazz : messages) {
 			MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
 			int key = buildKey(meta.module(), meta.cmd());
