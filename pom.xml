@@ -8,7 +8,6 @@
     <artifactId>jforgame-parent</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
-
     <name>jforgame-parent</name>
 
     <properties>
@@ -18,10 +17,11 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-        <jackson.version>2.12.1</jackson.version>
+        <jackson.version>2.16.1</jackson.version>
         <juit.version>4.13.1</juit.version>
         <dom4j.version>2.1.3</dom4j.version>
         <mina.version>2.0.7</mina.version>
+        <guava.version>33.0.0-jre</guava.version>
         <netty.version>4.1.42.Final</netty.version>
         <mysql.version>8.0.16</mysql.version>
         <proxool.version>0.9.1</proxool.version>
@@ -140,7 +140,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>30.1.1-jre</version>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- quartz job调度器 -->
@@ -193,7 +193,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
-                <version>4.2</version>
+                <version>4.4</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

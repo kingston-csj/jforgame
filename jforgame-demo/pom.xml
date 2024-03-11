@@ -153,40 +153,19 @@
 
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>configs</directory>
-                <excludes>
-                    <exclude>server.xml</exclude>
-                    <exclude>server2.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--            </resource>-->
+<!--            <resource>-->
+<!--                <directory>configs</directory>-->
+<!--                <excludes>-->
+<!--                    <exclude>mail.xml</exclude>-->
+<!--                    <exclude>server2.xml</exclude>-->
+<!--                </excludes>-->
+<!--            </resource>-->
+<!--        </resources>-->
         <plugins>
-            <plugin>
-                <!-- https://gitee.com/roseboy/classfinal -->
-                <groupId>net.roseboy</groupId>
-                <artifactId>classfinal-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <configuration>
-                    <password>000000</password><!--加密打包之后pom.xml会被删除，不用担心在jar包里找到此密码-->
-                    <packages>jforgame.demo</packages>
-                    <cfgfiles>application.yml</cfgfiles>
-                    <excludes>org.spring</excludes>
-                    <libjars>a.jar,b.jar</libjars>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>classFinal</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 <!--            <plugin>-->
 <!--                <groupId>com.baidu</groupId>-->
 <!--                <artifactId>jprotobuf-precompile-plugin</artifactId>-->
@@ -206,11 +185,11 @@
 <!--                    </execution>-->
 <!--                </executions>-->
 <!--            </plugin>-->
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.felix</groupId>-->
+<!--                <artifactId>maven-bundle-plugin</artifactId>-->
+<!--                <extensions>true</extensions>-->
+<!--            </plugin>-->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
@@ -227,6 +206,11 @@
                             <resources>
                                 <resource>
                                     <directory>configs/</directory>
+                                    <excludes>
+                                        <exclude>
+                                            server2.xml
+                                        </exclude>
+                                    </excludes>
                                 </resource>
                             </resources>
                         </configuration>
@@ -254,15 +238,14 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <excludes>
-                        <!--跟运维关系密切的配置放到外部configs目录下 -->
-                        <exclude>firewall.cfg.js</exclude>
-                        <exclude>proxool.dtd</exclude>
-                        <exclude>proxool.xml</exclude>
-                        <exclude>server.xml</exclude>
-                        <exclude>version.properties</exclude>
-                        <exclude>SensitiveWord.txt</exclude>
-                    </excludes>
+<!--                    <excludes>-->
+<!--                        &lt;!&ndash;跟运维关系密切的配置放到外部configs目录下 &ndash;&gt;-->
+<!--                        <exclude>firewall.cfg.js</exclude>-->
+<!--                        <exclude>SensitiveWord.txt</exclude>-->
+<!--                        <exclude>server.xml</exclude>-->
+<!--                        <exclude>jdbc.properties</exclude>-->
+<!--                        <exclude>mail.xml</exclude>-->
+<!--                    </excludes>-->
                     <archive>
                         <manifestEntries>
                             <Class-Path>configs/</Class-Path>
@@ -275,8 +258,29 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- https://gitee.com/roseboy/classfinal -->
+                <groupId>net.roseboy</groupId>
+                <artifactId>classfinal-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <password>000000</password>
+                    <packages>jforgame.demo</packages>
+                    <!-- 非spring环境不能配置cfgfiles fixbug -->
+                    <!--                    <cfgfiles>application.yml</cfgfiles>-->
+                    <excludes>org.spring</excludes>
+                    <libjars>jforgame-commons-1.0.0.jar</libjars>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>classFinal</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <finalName>GameServer</finalName>
-
     </build>
 </project> 
