@@ -17,8 +17,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>hotswap-agent</module>
-        <module>hotswap-util</module>
+        <module>jforgame-hotswap-agent</module>
+        <module>jforgame-doctor</module>
     </modules>
 
 </project>

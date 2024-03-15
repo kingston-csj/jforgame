@@ -46,7 +46,7 @@ public enum HotswapManager {
             Class<?> clazz = new GroovyClassLoader().parseClass(clazzFile, classFullName);
             clazz.newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
             return "load class failed ," + e.getMessage();
         }
 

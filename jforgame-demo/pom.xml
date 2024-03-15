@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>org.jforgame</groupId>
-            <artifactId>hotswap-util</artifactId>
+            <artifactId>jforgame-doctor</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -150,7 +150,6 @@
             <artifactId>commons-collections4</artifactId>
         </dependency>
 
-
     </dependencies>
     <build>
 <!--        <resources>-->
@@ -191,8 +190,8 @@
 <!--                <extensions>true</extensions>-->
 <!--            </plugin>-->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
                 <executions>
                     <execution>
                         <!-- 配置文件要跟jar包在同一个目录 -->
