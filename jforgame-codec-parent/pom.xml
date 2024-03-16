@@ -11,7 +11,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jforgame</groupId>
     <artifactId>jforgame-codec-parent</artifactId>
     <name>jforgame-codec</name>
     <packaging>pom</packaging>

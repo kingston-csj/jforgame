@@ -1,5 +1,8 @@
 package jforgame.codec.struct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.List;
 public class BeanCodec extends Codec {
 
 	private List<FieldCodecMeta> fieldsMeta;
+
+	private static final Logger logger = LoggerFactory.getLogger(ArrayCodec.class);
 
 	public static BeanCodec valueOf(List<FieldCodecMeta> fieldsMeta) {
 		BeanCodec serializer = new BeanCodec();
@@ -31,7 +36,7 @@ public class BeanCodec extends Codec {
 			}
 			return bean;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("", e);
 		}
 		return null;
 	}
@@ -46,7 +51,7 @@ public class BeanCodec extends Codec {
 				fieldCodec.encode(out, value, fieldMeta.getWrapper());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("", e);
 		}
 	}
 

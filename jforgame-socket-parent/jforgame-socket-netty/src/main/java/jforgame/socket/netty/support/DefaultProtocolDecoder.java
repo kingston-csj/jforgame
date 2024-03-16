@@ -14,11 +14,11 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     private int maxProtocolBytes = 4096;
 
-    private Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
+    private final Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
 
-    private MessageFactory messageFactory;
+    private final MessageFactory messageFactory;
 
-    private MessageCodec messageCodec;
+    private final MessageCodec messageCodec;
 
     /**
      * 消息元信息常量，为int类型的长度，表示消息的id
@@ -36,7 +36,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if (in.readableBytes() < 4) {
+        if (in.readableBytes() < MESSAGE_META_SIZE) {
             return;
         }
         in.markReaderIndex();
@@ -45,7 +45,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
         // int int byte[]
         int length = in.readInt();
         if (length > maxProtocolBytes) {
-            logger.error("单包长度[{}]过大，断开链接", length);
+            logger.error("message data frame [{}] too large, close session now", length);
             ctx.close();
             return;
         }
@@ -54,9 +54,8 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
             in.resetReaderIndex();
             return;
         }
-        final int metaSize = MESSAGE_META_SIZE;
         int cmd = in.readInt();
-        byte[] body = new byte[length - metaSize];
+        byte[] body = new byte[length - MESSAGE_META_SIZE];
         in.readBytes(body);
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);

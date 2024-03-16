@@ -1,6 +1,7 @@
 package jforgame.socket.netty.support;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
@@ -8,13 +9,14 @@ import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ChannelHandler.Sharable
 public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 
-	private Logger logger = LoggerFactory.getLogger(DefaultProtocolEncoder.class);
+	private final Logger logger = LoggerFactory.getLogger(DefaultProtocolEncoder.class);
 
-	private MessageFactory messageFactory;
+	private final MessageFactory messageFactory;
 
-	private MessageCodec messageCodec;
+	private final MessageCodec messageCodec;
 
 	/**
 	 * 消息元信息常量，为int类型的长度，表示消息的id
@@ -31,7 +33,6 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 		// ----------------protocol pattern-------------------------
 		// packetLength | cmd | body
 		// int int byte[]
-
 		int  cmd = messageFactory.getMessageId(message.getClass());
 		try {
 			final int metaSize = MESSAGE_META_SIZE;

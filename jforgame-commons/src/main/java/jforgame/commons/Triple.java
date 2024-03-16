@@ -9,11 +9,11 @@ package jforgame.commons;
  */
 public class Triple<F, S, T> {
 
-	private F first;
+	private final F first;
 	
-	private S second;
+	private final S second;
 	
-	private T third;
+	private final T third;
 	
 	public Triple(F first, S second, T third) {
 		this.first = first;

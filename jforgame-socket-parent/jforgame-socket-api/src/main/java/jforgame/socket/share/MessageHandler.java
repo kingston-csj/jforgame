@@ -1,6 +1,4 @@
-package jforgame.demo.socket;
-
-import jforgame.socket.share.IdSession;
+package jforgame.socket.share;
 
 public interface MessageHandler {
 

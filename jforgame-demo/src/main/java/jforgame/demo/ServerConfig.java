@@ -8,7 +8,7 @@ import org.simpleframework.xml.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.commons.IpAddrUtil;
+import jforgame.demo.utils.IpAddrUtil;
 
 @Root(name = "server")
 public class ServerConfig {

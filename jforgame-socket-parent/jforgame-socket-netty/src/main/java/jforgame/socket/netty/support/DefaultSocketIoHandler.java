@@ -1,24 +1,23 @@
 package jforgame.socket.netty.support;
 
-import java.io.IOException;
-
-import jforgame.socket.share.IdSession;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
+import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import java.io.IOException;
 
 public class DefaultSocketIoHandler extends ChannelInboundHandlerAdapter {
 	
 	private final static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);
 	
 	/** 消息分发器 */
-	private SocketIoDispatcher messageDispatcher;
+	private final SocketIoDispatcher messageDispatcher;
 
 	public DefaultSocketIoHandler(SocketIoDispatcher messageDispatcher) {
 		super();
@@ -28,7 +27,7 @@ public class DefaultSocketIoHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		Channel channel = ctx.channel();
-		if (!ChannelUtils.addChannelSession(ctx.channel(), new NSession(channel))) {
+		if (!ChannelUtils.bindingSession(ctx.channel(), new NSession(channel))) {
 			ctx.channel().close();
 			logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(channel));
 			return;

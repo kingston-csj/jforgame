@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 /**
  * 标识一个容器组件为线程安全的
- * @author kinson
  */
 @Documented
 @Target(ElementType.TYPE)

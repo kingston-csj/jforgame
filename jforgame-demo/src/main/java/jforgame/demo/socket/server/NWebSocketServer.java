@@ -23,6 +23,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.ReferenceCounted;
 import jforgame.commons.NumberUtil;
 import jforgame.demo.ServerScanPaths;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
 import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.netty.support.DefaultSocketIoHandler;
@@ -53,7 +54,6 @@ public class NWebSocketServer implements ServerNode {
     @Override
     public void start() throws Exception {
         try {
-            DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new WebSocketChannelInitializer());
@@ -104,7 +104,7 @@ public class NWebSocketServer implements ServerNode {
                         String json =  ((TextWebSocketFrame)frame).text();
                         TextFrame textFrame = JsonUtils.string2Object(json, TextFrame.class);
 
-                        Class clazz = DefaultMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
+                        Class clazz = GameMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
                         Object realMsg = JsonUtils.string2Object(textFrame.msg, clazz);
                         System.out.println(textFrame);
                         list.add(realMsg);
@@ -117,10 +117,10 @@ public class NWebSocketServer implements ServerNode {
             pipeline.addLast("messageToSocketFrame", new MessageToMessageEncoder<Object>() {
                 @Override
                 protected void encode(ChannelHandlerContext channelHandlerContext, Object o, List<Object> list) throws Exception {
-                    if (DefaultMessageFactory.getInstance().contains(o.getClass())) {
+                    if (GameMessageFactory.getInstance().contains(o.getClass())) {
                         String json = JsonUtils.object2String(o);
                         TextFrame frame = new TextFrame();
-                        frame.id = String.valueOf(DefaultMessageFactory.getInstance().getMessageId(o.getClass()));
+                        frame.id = String.valueOf(GameMessageFactory.getInstance().getMessageId(o.getClass()));
                         frame.msg = json;
                         list.add(new TextWebSocketFrame(JsonUtils.object2String(frame)));
                     } else if (o instanceof ReferenceCounted) {

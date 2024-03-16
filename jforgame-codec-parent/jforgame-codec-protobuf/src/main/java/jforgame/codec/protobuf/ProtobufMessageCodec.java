@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class ProtobufMessageCodec implements MessageCodec {
 
-	private static Logger logger = LoggerFactory.getLogger(ProtobufMessageCodec.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProtobufMessageCodec.class);
 
 	@Override
 	public Object decode(Class<?> msgClazz, byte[] body) {
@@ -36,8 +36,7 @@ public class ProtobufMessageCodec implements MessageCodec {
 			Codec<Object> codec = ProtobufProxy.create(msgClazz);
 			body = codec.encode(message);
 		} catch (Exception e) {
-			logger.error("read message {} failed , exception {}",
-					new Object[]{message.getClass(), e});
+			logger.error("read message failed", e);
 		}
 		return body;
 	}

@@ -8,6 +8,7 @@ import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.netty.client.NSocketClient;
@@ -31,9 +32,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class C2SSessionPoolFactory {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private GenericObjectPoolConfig config;
+    private final GenericObjectPoolConfig config;
 
     private ConcurrentMap<String, GenericObjectPool<NSessionPlus>> pools = new ConcurrentHashMap<>();
 
@@ -48,8 +49,7 @@ public class C2SSessionPoolFactory {
                 GenericObjectPoolConfig config = new GenericObjectPoolConfig();
                 config.setMaxTotal(Runtime.getRuntime().availableProcessors());
                 config.setTestOnBorrow(true);
-                C2SSessionPoolFactory instance = new C2SSessionPoolFactory(config);
-                self = instance;
+                self = new C2SSessionPoolFactory(config);
             }
         }
         return self;
@@ -71,7 +71,7 @@ public class C2SSessionPoolFactory {
         String key = buildKey(ip, port);
         try {
             C2SSessionFactory factory = new C2SSessionFactory(ip, port);
-            GenericObjectPool<NSessionPlus> pool = pools.getOrDefault(key, new GenericObjectPool(factory, config));
+            GenericObjectPool<NSessionPlus> pool = pools.getOrDefault(key, new GenericObjectPool<>(factory, config));
             pools.putIfAbsent(key, pool);
             return pool.borrowObject();
         } catch (Exception e) {
@@ -153,7 +153,7 @@ class C2SSessionFactory extends BasePooledObjectFactory<NSessionPlus> {
 
     @Override
     public NSessionPlus create() throws Exception {
-        SocketClient clientFactory = new NSocketClient(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH), DefaultMessageFactory.getInstance(), new StructMessageCodec(), HostAndPort.valueOf(ip, port));
+        SocketClient clientFactory = new NSocketClient(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH), GameMessageFactory.getInstance(), new StructMessageCodec(), HostAndPort.valueOf(ip, port));
         IdSession session = clientFactory.openSession();
         return new NSessionPlus((Channel) session.getRawSession());
     }

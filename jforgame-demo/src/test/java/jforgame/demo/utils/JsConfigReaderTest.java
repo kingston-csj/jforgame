@@ -12,7 +12,7 @@ public class JsConfigReaderTest {
 
 	@Test
 	public void testReadConfig() throws Exception {
-		String content = FileUtils.readLines("configs/firewall.cfg.js");
+		String content = FileUtils.readFullText("configs/firewall.cfg.js");
 		
 		FireWallConfig config = new FireWallConfig();
 		Map<String, Object> params = new HashMap<>();

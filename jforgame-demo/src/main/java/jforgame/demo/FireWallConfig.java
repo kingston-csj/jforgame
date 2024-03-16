@@ -40,7 +40,7 @@ public class FireWallConfig {
 
 	private void init() {
 		try {
-			String content = FileUtils.readLines("configs/firewall.cfg.js");
+			String content = FileUtils.readFullText("configs/firewall.cfg.js");
 
 			self = new FireWallConfig();
 			Map<String, Object> params = new HashMap<>();

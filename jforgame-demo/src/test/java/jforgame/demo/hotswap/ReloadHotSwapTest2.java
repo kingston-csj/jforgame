@@ -16,7 +16,7 @@ public class ReloadHotSwapTest2 {
         System.out.println("执行热更前，类加载器==" + ServicePool.playerService.getClass().getClassLoader());
         try {
             String filePath = "script" + File.separator + "groovy.txxt";
-            String groovyCode = FileUtils.readLines(filePath);
+            String groovyCode = FileUtils.readFullText(filePath);
 
             ScriptEngineManager engineManager = new ScriptEngineManager();
             ScriptEngine scriptEngine = engineManager.getEngineByName("groovy");

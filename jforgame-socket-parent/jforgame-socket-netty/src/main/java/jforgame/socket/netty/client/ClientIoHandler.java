@@ -20,7 +20,7 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
     private final static Logger logger = LoggerFactory.getLogger(ClientIoHandler.class);
 
-    private SocketIoDispatcher messageDispatcher;
+    private final SocketIoDispatcher messageDispatcher;
 
 
     public ClientIoHandler(SocketIoDispatcher messageDispatcher) {
@@ -29,7 +29,7 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        if (!ChannelUtils.addChannelSession(ctx.channel(),
+        if (!ChannelUtils.bindingSession(ctx.channel(),
                 new NSession(ctx.channel()))) {
             ctx.channel().close();
             logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(ctx.channel()));

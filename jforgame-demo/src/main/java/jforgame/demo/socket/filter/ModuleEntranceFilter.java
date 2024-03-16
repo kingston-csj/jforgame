@@ -2,10 +2,10 @@ package jforgame.demo.socket.filter;
 
 import jforgame.demo.game.core.BaseNotify;
 import jforgame.demo.game.notice.message.ResSystemNotice;
-import jforgame.demo.socket.MessageHandler;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.NetGateKeeper;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.support.DefaultMessageFactory;
+import jforgame.socket.share.MessageHandler;
 
 /**
  * 功能模块请求过滤器
@@ -15,7 +15,7 @@ public class ModuleEntranceFilter implements MessageHandler {
 
 	@Override
 	public boolean messageReceived(IdSession session, Object message)  throws Exception {
-		int messageId = DefaultMessageFactory.getInstance().getMessageId(message.getClass());
+		int messageId = GameMessageFactory.getInstance().getMessageId(message.getClass());
 
 		if (NetGateKeeper.getInstance().canVisit(messageId)) {
 			return true;

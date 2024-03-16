@@ -48,7 +48,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 		// int int byte[]
 		int length = in.getInt();
 		if (length > maxProtocolBytes) {
-			logger.error("单包长度[{}]过大，断开链接", length);
+			logger.error("message data frame [{}] too large, close session now", length);
 			session.close(true);
 			return true;
 		}

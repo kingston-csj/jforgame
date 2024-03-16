@@ -2,6 +2,7 @@ package jforgame.demo.socket.client;
 
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.CallbackTimeoutException;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
@@ -12,7 +13,6 @@ import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.SocketIoDispatcherAdapter;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,15 +23,15 @@ public class RpcClientHelper {
     private static SocketIoDispatcher ioDispatcher = new SocketIoDispatcherAdapter() {
         @Override
         public void exceptionCaught(IdSession session, Throwable cause) {
-            cause.printStackTrace();
+            logger.error("", cause);
         }
     };
 
-    private static MessageFactory messageFactory = DefaultMessageFactory.getInstance();
+    private static MessageFactory messageFactory = GameMessageFactory.getInstance();
 
     private static MessageCodec messageCodec = new StructMessageCodec();
 
-    private static Logger logger = LoggerFactory.getLogger(RpcClientHelper.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RpcClientHelper.class.getName());
 
     public static void setIoDispatcher(SocketIoDispatcher ioDispatcher) {
         RpcClientHelper.ioDispatcher = ioDispatcher;
@@ -49,12 +49,9 @@ public class RpcClientHelper {
         SocketClient socketClient = new MSocketClient(ioDispatcher, messageFactory, messageCodec, HostAndPort.valueOf(ip, port));
         IdSession session = socketClient.openSession();
         try {
-            Object response = RpcMessageClient.request(session, request);
-            return response;
-        } catch (CallbackTimeoutException e1) {
-            throw e1;
+            return RpcMessageClient.request(session, request);
         } finally {
-            if (socketClient != null && session != null) {
+            if (session != null) {
                 try {
                     socketClient.close();
                 } catch (Exception e) {

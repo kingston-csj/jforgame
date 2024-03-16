@@ -12,63 +12,59 @@ import java.util.Set;
 
 public class DefaultMessageFactory implements MessageFactory {
 
-	private static DefaultMessageFactory instance = new DefaultMessageFactory();
 
-	private Map<Integer, Class> id2Clazz = new HashMap<>();
+    private final Map<Integer, Class<?>> id2Clazz = new HashMap<>();
 
-	private Map<Class, Integer> clazz2Id = new HashMap<>();
+    private final Map<Class<?>, Integer> clazz2Id = new HashMap<>();
 
-	public static DefaultMessageFactory getInstance() {
-		return instance;
-	}
+    public DefaultMessageFactory(String scanPath) {
+        Set<Class<?>> messages = ClassScanner.listClassesWithAnnotation(scanPath, MessageMeta.class);
+        id2Clazz.clear();
+        clazz2Id.clear();
+        for (Class<?> clazz : messages) {
+            MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
+            int key = buildKey(meta.module(), meta.cmd());
+            registerMessage(key, clazz);
+        }
+    }
 
-	/**
-	 * scan all message class and register into pool
-	 */
-	public void initMessagePool(String scanPath) {
-		Set<Class<?>> messages = ClassScanner.listClassesWithAnnotation(scanPath, MessageMeta.class);
-		instance.id2Clazz.clear();
-		instance.clazz2Id.clear();
-		for (Class<?> clazz : messages) {
-			MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
-			int key = buildKey(meta.module(), meta.cmd());
-			registerMessage(key, clazz);
-		}
-	}
+    public DefaultMessageFactory() {
 
-	@Override
-	public void registerMessage(int cmd, Class<?> clazz) {
-		if (instance.id2Clazz.containsKey(cmd)) {
-			throw new IllegalStateException("message meta [" + cmd + "] duplicate！！");
-		}
-		MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
-		if (meta == null) {
-			throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
-		}
-		Logger logger = LoggerFactory.getLogger(DefaultMessageFactory.class);
-		logger.debug("register message {} {} ", cmd, clazz.getSimpleName());
-		instance.id2Clazz.put(cmd, clazz);
-		instance.clazz2Id.put(clazz, cmd);
-	}
+    }
 
-	@Override
-	public Class  getMessage(int cmd) {
-		return instance.id2Clazz.get(cmd);
-	}
+    @Override
+    public void registerMessage(int cmd, Class<?> clazz) {
+        if (id2Clazz.containsKey(cmd)) {
+            throw new IllegalStateException("message meta [" + cmd + "] duplicate！！");
+        }
+        MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
+        if (meta == null) {
+            throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
+        }
+        Logger logger = LoggerFactory.getLogger(DefaultMessageFactory.class);
+        logger.debug("register message {} {} ", cmd, clazz.getSimpleName());
+        id2Clazz.put(cmd, clazz);
+        clazz2Id.put(clazz, cmd);
+    }
 
-	@Override
-	public int getMessageId(Class clazz) {
-		return instance.clazz2Id.get(clazz);
-	}
+    @Override
+    public Class<?> getMessage(int cmd) {
+        return id2Clazz.get(cmd);
+    }
 
-	@Override
-	public boolean contains(Class<?> clazz) {
-		return instance.clazz2Id.containsKey(clazz);
-	}
+    @Override
+    public int getMessageId(Class<?> clazz) {
+        return clazz2Id.get(clazz);
+    }
 
-	private int buildKey(short module, int cmd) {
-		int result = Math.abs(module) * 1000 + Math.abs(cmd);
-		return cmd < 0 ? -result : result;
-	}
+    @Override
+    public boolean contains(Class<?> clazz) {
+        return clazz2Id.containsKey(clazz);
+    }
+
+    private int buildKey(short module, int cmd) {
+        int result = Math.abs(module) * 1000 + Math.abs(cmd);
+        return cmd < 0 ? -result : result;
+    }
 
 }

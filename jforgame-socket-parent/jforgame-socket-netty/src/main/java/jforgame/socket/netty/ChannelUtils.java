@@ -16,7 +16,7 @@ public static AttributeKey<IdSession> SESSION_KEY = AttributeKey.valueOf("sessio
 	 * @param session
 	 * @return
 	 */
-	public static boolean addChannelSession(Channel channel, IdSession session) {
+	public static boolean bindingSession(Channel channel, IdSession session) {
 		Attribute<IdSession> sessionAttr = channel.attr(SESSION_KEY);
 		return sessionAttr.compareAndSet(null, session);
 	}

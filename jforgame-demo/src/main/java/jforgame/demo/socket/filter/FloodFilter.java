@@ -3,7 +3,7 @@ package jforgame.demo.socket.filter;
 import jforgame.commons.NumberUtil;
 import jforgame.commons.TimeUtil;
 import jforgame.demo.FireWallConfig;
-import jforgame.demo.socket.MessageHandler;
+import jforgame.socket.share.MessageHandler;
 import jforgame.demo.socket.model.FloodRecord;
 import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;

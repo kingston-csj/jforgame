@@ -1,7 +1,7 @@
 package jforgame.demo.socket.filter;
 
 import com.google.gson.Gson;
-import jforgame.demo.socket.MessageHandler;
+import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

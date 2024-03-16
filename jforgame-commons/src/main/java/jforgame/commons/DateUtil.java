@@ -6,12 +6,10 @@ import java.util.Date;
 
 /**
  * 日期工具类
- * @author kinson
- *
  */
 public class DateUtil {
 
-    private static ThreadLocal<SimpleDateFormat> STANDARD_FMT = new ThreadLocal<SimpleDateFormat>() {
+    private static final ThreadLocal<SimpleDateFormat> STANDARD_FMT = new ThreadLocal<SimpleDateFormat>() {
         @Override
         public SimpleDateFormat initialValue() {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

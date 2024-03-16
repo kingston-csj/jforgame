@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultProtocolEncoder implements ProtocolEncoder {
 
-	private MessageFactory messageFactory;
+	private final MessageFactory messageFactory;
 
-	private MessageCodec messageCodec;
+	private final MessageCodec messageCodec;
 
 	private int WRITE_BUFF_SIZE = 1024;
 
@@ -25,7 +25,7 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 	 */
 	private static final int MESSAGE_META_SIZE = 4;
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public DefaultProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
 		this.messageFactory = messageFactory;

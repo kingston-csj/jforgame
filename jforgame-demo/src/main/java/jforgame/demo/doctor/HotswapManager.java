@@ -41,7 +41,7 @@ public enum HotswapManager {
         String simpleName = classFullName.substring(classFullName.lastIndexOf(".") + 1, classFullName.length());
         try {
             String filePath = getFilePath("groovy" + File.separator + simpleName + ".java");
-            String clazzFile = FileUtils.readLines(filePath);
+            String clazzFile = FileUtils.readFullText(filePath);
             @SuppressWarnings("resource")
             Class<?> clazz = new GroovyClassLoader().parseClass(clazzFile, classFullName);
             clazz.newInstance();

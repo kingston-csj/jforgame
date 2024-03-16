@@ -2,12 +2,12 @@ package jforgame.demo.socket.server;
 
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.ServerScanPaths;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
 import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.support.DefaultSocketIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
-import jforgame.socket.support.DefaultMessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
@@ -65,7 +65,7 @@ public class MSocketServer implements ServerNode {
 
 		DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
 		filterChain.addLast("codec",
-				new ProtocolCodecFilter(new DefaultProtocolCodecFactory(DefaultMessageFactory.getInstance(), new StructMessageCodec())));
+				new ProtocolCodecFilter(new DefaultProtocolCodecFactory(GameMessageFactory.getInstance(), new StructMessageCodec())));
 		//指定业务逻辑处理器
 		acceptor.setHandler(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
 

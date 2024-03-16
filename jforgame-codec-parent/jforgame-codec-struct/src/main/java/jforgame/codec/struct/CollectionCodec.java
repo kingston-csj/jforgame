@@ -32,7 +32,6 @@ public class CollectionCodec extends Codec {
 			try {
 				result = (Collection)type.newInstance();
 			}catch(Exception e) {
-				e.printStackTrace();
 				result = new ArrayList<>();
 			}
 		}

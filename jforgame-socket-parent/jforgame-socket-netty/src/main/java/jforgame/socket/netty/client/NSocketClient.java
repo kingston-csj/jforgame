@@ -23,7 +23,7 @@ import java.net.InetSocketAddress;
 
 public class NSocketClient extends AbstractSocketClient {
 
-    private EventLoopGroup group = new NioEventLoopGroup(4);
+    private final EventLoopGroup group = new NioEventLoopGroup(4);
 
     public NSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.ioDispatcher = messageDispatcher;
@@ -53,7 +53,6 @@ public class NSocketClient extends AbstractSocketClient {
             this.session = session;
             return session;
         } catch (Exception e) {
-            e.printStackTrace();
             group.shutdownGracefully();
             throw new IOException(e);
         }

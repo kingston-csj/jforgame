@@ -4,22 +4,18 @@ import jforgame.commons.ClassScanner;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.socket.client.Traceable;
-import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
-import jforgame.socket.support.DefaultMessageFactory;
 import jforgame.socket.support.DefaultMessageHandlerRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MessageIoDispatcher implements SocketIoDispatcher {
 
@@ -38,7 +34,7 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
         MessageHandler messageHandler = new MessageHandler() {
             @Override
             public boolean messageReceived(IdSession session, Object message) {
-                int cmd = DefaultMessageFactory.getInstance().getMessageId(message.getClass());
+                int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
                 MessageExecutor cmdExecutor = cmdHandlers.get(cmd);
                 if (cmdExecutor == null) {
                     logger.error("message executor missed,  cmd={}", cmd);
@@ -106,7 +102,7 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
                 }
             }
             if (result.length == 2 && i == 1) {
-                if (DefaultMessageFactory.getInstance().contains(message.getClass())) {
+                if (GameMessageFactory.getInstance().contains(message.getClass())) {
                     result[i] = message;
                 } else {
                     throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 2nd argument must be registered Message");
@@ -122,7 +118,7 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
                     }
                 }
                 if (i== 2) {
-                    if (DefaultMessageFactory.getInstance().contains(message.getClass())){
+                    if (GameMessageFactory.getInstance().contains(message.getClass())){
                         result[i] = message;
                     } else{
                         throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 3nd argument must be registered Message");

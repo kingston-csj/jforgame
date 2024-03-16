@@ -12,9 +12,9 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
  */
 public class DefaultProtocolCodecFactory implements ProtocolCodecFactory {
 
-    private DefaultProtocolDecoder decoder;
+    private final DefaultProtocolDecoder decoder;
 
-    private DefaultProtocolEncoder encoder;
+    private final DefaultProtocolEncoder encoder;
 
     public DefaultProtocolCodecFactory(MessageFactory messageFactory, MessageCodec messageCodec) {
         this.decoder = new DefaultProtocolDecoder(messageFactory, messageCodec);

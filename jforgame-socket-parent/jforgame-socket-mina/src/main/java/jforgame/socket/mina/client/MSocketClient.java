@@ -24,7 +24,7 @@ import java.net.InetSocketAddress;
 
 public class MSocketClient extends AbstractSocketClient {
 
-    private AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
+    private final AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
 
     public MSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.ioDispatcher = messageDispatcher;
@@ -54,7 +54,7 @@ public class MSocketClient extends AbstractSocketClient {
                         responseData.setResponse(data);
                         CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
                     }
-                    //交由消息分发器处理
+                    //fire message to dispatcher
                     ioDispatcher.dispatch(userSession, data);
                 }
             });
@@ -68,7 +68,6 @@ public class MSocketClient extends AbstractSocketClient {
             this.session = userSession;
             return userSession;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new IOException(e);
         }
     }

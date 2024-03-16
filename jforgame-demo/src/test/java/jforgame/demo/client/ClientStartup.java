@@ -6,6 +6,7 @@ import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
@@ -23,8 +24,6 @@ import jforgame.socket.support.DefaultMessageFactory;
 public class ClientStartup {
 
 	public static void main(String[] args) throws Exception {
-		//初始化协议池
-		DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		//读取服务器配置
 		int serverPort = ServerConfig.getInstance().getServerPort();
 		HostAndPort hostPort = new HostAndPort();
@@ -42,7 +41,7 @@ public class ClientStartup {
 			}
 		};
 
-		SocketClient socketClient = new MSocketClient(msgDispatcher, DefaultMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		SocketClient socketClient = new MSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
 		IdSession session = socketClient.openSession();
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();

@@ -12,14 +12,14 @@ import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.ServerScanPaths;
+import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
-import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.ServerNode;
-import jforgame.socket.netty.support.DefaultSocketIoHandler;
 import jforgame.socket.netty.support.DefaultProtocolDecoder;
 import jforgame.socket.netty.support.DefaultProtocolEncoder;
+import jforgame.socket.netty.support.DefaultSocketIoHandler;
+import jforgame.socket.share.HostAndPort;
+import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,13 +29,13 @@ import java.util.List;
 
 public class NSocketServer implements ServerNode {
 
-    private Logger logger = LoggerFactory.getLogger(NSocketServer.class);
+    private final Logger logger = LoggerFactory.getLogger(NSocketServer.class);
 
     // 避免使用默认线程数参数
-    private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-    private EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+    private final EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    private List<HostAndPort> nodesConfig;
+    private final List<HostAndPort> nodesConfig;
     private int maxReceiveBytes;
 
     public NSocketServer(HostAndPort hostPort) {
@@ -70,14 +70,14 @@ public class NSocketServer implements ServerNode {
     public void shutdown() throws Exception {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
-        logger.error("---------> socket server stop successfully");
+        logger.info("socket server stopped successfully");
     }
 
-    private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
+    private static class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
         @Override
         protected void initChannel(SocketChannel arg0) throws Exception {
             ChannelPipeline pipeline = arg0.pipeline();
-            MessageFactory messageFactory = DefaultMessageFactory.getInstance();
+            MessageFactory messageFactory = GameMessageFactory.getInstance();
             MessageCodec messageCodec = new StructMessageCodec();
             pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec));
             pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));

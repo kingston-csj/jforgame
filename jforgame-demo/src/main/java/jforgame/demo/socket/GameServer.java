@@ -66,8 +66,6 @@ public class GameServer {
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 		GameMonitorMBean controller = new GameMonitor();
 		mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
-
-		socketServer.shutdown();
 	}
 
 	private void frameworkInit() throws Exception {
@@ -75,8 +73,6 @@ public class GameServer {
 		GameContext.init();
 		// 加载服务版本号
 		ServerVersion.load();
-		// 初始化协议池
-		DefaultMessageFactory.getInstance().initMessagePool(ServerScanPaths.MESSAGE_PATH);
 		// 读取服务器配置
 		ServerConfig config = ServerConfig.getInstance();
 		// 初始化orm框架
@@ -105,14 +101,14 @@ public class GameServer {
 
 		GameContext.gmManager.init();
 
-		if (config.getCrossPort() > 0) {
-			// 启动跨服服务
-			crossServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getCrossPort()));
-			crossServer.start();
-		}
+//		if (config.getCrossPort() > 0) {
+//			// 启动跨服服务
+//			crossServer = new MSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getCrossPort()));
+//			crossServer.start();
+//		}
 		// 启动socket服务
 //		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
-		socketServer = new NSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
+		socketServer = new NSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()));
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();

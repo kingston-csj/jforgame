@@ -20,7 +20,7 @@
   ├── jforgame-commons --基础公共服务  
   ├── jforgame-socket-parent    --socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
-  ├── hotswap-agent  --支持游戏业务热更新的agent机制  
+  ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent  --用于socket通信的数据编解码  
   ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
@@ -71,7 +71,7 @@
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
-  本栏目详细教程 -->  [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)
+  本栏目详细教程 -->  [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
                     [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
 
 

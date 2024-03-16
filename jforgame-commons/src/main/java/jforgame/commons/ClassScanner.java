@@ -20,12 +20,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 类扫描器
- * 
- * @author kinson
  */
 public class ClassScanner {
 
-	private static Logger logger = LoggerFactory.getLogger(ClassScanner.class);
+	private static final Logger logger = LoggerFactory.getLogger(ClassScanner.class);
 
 	/**
 	 * 默认过滤器（无实现）
@@ -36,7 +34,6 @@ public class ClassScanner {
 	 * 扫描目录下的所有class文件
 	 * 
 	 * @param scanPackage 搜索的包根路径
-	 * @return
 	 */
 	public static Set<Class<?>> getClasses(String scanPackage) {
 		return getClasses(scanPackage, EMPTY_FILTER);
@@ -45,44 +42,37 @@ public class ClassScanner {
 	/**
 	 * 返回所有的子类（不包括抽象类）
 	 * 
-	 * @param scanPackage 搜索的包根路径
-	 * @param parent
-	 * @return
+	 * @param scanPackage the path to scan
+	 * @param parent parent class type
 	 */
 	public static Set<Class<?>> listAllSubclasses(String scanPackage, Class<?> parent) {
-		return getClasses(scanPackage, (clazz) -> {
-			return parent.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers());
-		});
+		return getClasses(scanPackage, clazz -> parent.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()));
 	}
 
 	/**
 	 * 返回所有带制定注解的class列表
 	 * 
 	 * @param scanPackage 搜索的包根路径
-	 * @param annotation
+	 * @param annotation target annotation of the class
 	 * @return
 	 */
 	public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage,
 			Class<A> annotation) {
-		return getClasses(scanPackage, (clazz) -> {
-			return clazz.getAnnotation(annotation) != null;
-		});
+		return getClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);
 	}
 
 	/**
 	 * 扫描目录下的所有class文件
-	 * 
 	 * @param pack   包路径
 	 * @param filter 自定义类过滤器
 	 * @return
 	 */
 	public static Set<Class<?>> getClasses(String pack, Predicate<Class<?>> filter) {
-		Set<Class<?>> result = new LinkedHashSet<Class<?>>();
+		Set<Class<?>> result = new LinkedHashSet<>();
 		// 是否循环迭代
 		boolean recursive = true;
 		// 获取包的名字 并进行替换
-		String packageName = pack;
-		String packageDirName = packageName.replace('.', '/');
+        String packageDirName = pack.replace('.', '/');
 		// 定义一个枚举的集合 并进行循环来处理这个目录下的things
 		Enumeration<URL> dirs;
 		try {
@@ -98,10 +88,10 @@ public class ClassScanner {
 					// 获取包的物理路径
 					String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
 					// 以文件的方式扫描整个包下的文件 并添加到集合中
-					findAndAddClassesInPackageByFile(packageName, filePath, recursive, result, filter);
+					findAndAddClassesInPackageByFile(pack, filePath, recursive, result, filter);
 				} else if ("jar".equals(protocol)) {
 					// 如果是jar包文件
-					Set<Class<?>> jarClasses = findClassFromJar(url, packageName, packageDirName, recursive, filter);
+					Set<Class<?>> jarClasses = findClassFromJar(url, pack, packageDirName, recursive, filter);
 					result.addAll(jarClasses);
 				}
 			}
@@ -171,15 +161,10 @@ public class ClassScanner {
 			return;
 		}
 		// 如果存在 就获取包下的所有文件 包括目录
-		File[] dirfiles = dir.listFiles(new FileFilter() {
-			// 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
-			@Override
-			public boolean accept(File file) {
-				return (recursive && file.isDirectory()) || (file.getName().endsWith(".class"));
-			}
-		});
+        // 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
+        File[] files = dir.listFiles(file -> (recursive && file.isDirectory()) || (file.getName().endsWith(".class")));
 		// 循环所有文件
-		for (File file : dirfiles) {
+		for (File file : files) {
 			// 如果是目录 则继续扫描
 			if (file.isDirectory()) {
 				findAndAddClassesInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive,

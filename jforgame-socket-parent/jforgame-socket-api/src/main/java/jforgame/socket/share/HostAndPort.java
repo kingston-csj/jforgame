@@ -19,6 +19,14 @@ public class HostAndPort {
 
         return hostPort;
     }
+    public static HostAndPort valueOf(int port) {
+        HostAndPort hostPort = new HostAndPort();
+        hostPort.host = "localhost";
+        hostPort.port = port;
+
+        return hostPort;
+    }
+
 
     public String getHost() {
         return host;
