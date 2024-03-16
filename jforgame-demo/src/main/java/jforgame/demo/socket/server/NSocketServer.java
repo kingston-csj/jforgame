@@ -38,6 +38,11 @@ public class NSocketServer implements ServerNode {
     private final List<HostAndPort> nodesConfig;
     private int maxReceiveBytes;
 
+    private static MessageCodec messageCodec = new StructMessageCodec();
+    private static DefaultSocketIoHandler ioDispatcher = new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH));
+
+    private static DefaultProtocolEncoder protocolEncoder = new DefaultProtocolEncoder(GameMessageFactory.getInstance(), messageCodec);
+
     public NSocketServer(HostAndPort hostPort) {
         this.nodesConfig = Arrays.asList(hostPort);
     }
@@ -78,12 +83,11 @@ public class NSocketServer implements ServerNode {
         protected void initChannel(SocketChannel arg0) throws Exception {
             ChannelPipeline pipeline = arg0.pipeline();
             MessageFactory messageFactory = GameMessageFactory.getInstance();
-            MessageCodec messageCodec = new StructMessageCodec();
             pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec));
-            pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));
+            pipeline.addLast(protocolEncoder);
             // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
             pipeline.addLast(new IdleStateHandler(300, 300, 300));
-            pipeline.addLast(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
+            pipeline.addLast(ioDispatcher);
         }
     }
 

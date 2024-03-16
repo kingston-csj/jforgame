@@ -81,9 +81,8 @@ public class MSession implements IdSession {
 	}
 	
 	@Override
-	public Object setAttribute(String key, Object value) {
+	public void setAttribute(String key, Object value) {
 		attrs.put(key, value);
-		return value;
 	}
 
 	@Override

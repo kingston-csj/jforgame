@@ -1,6 +1,7 @@
 package jforgame.socket.netty.support;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.netty.ChannelUtils;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+@ChannelHandler.Sharable
 public class DefaultSocketIoHandler extends ChannelInboundHandlerAdapter {
 	
 	private final static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);

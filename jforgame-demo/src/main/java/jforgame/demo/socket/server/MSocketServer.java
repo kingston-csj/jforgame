@@ -73,10 +73,6 @@ public class MSocketServer implements ServerNode {
 			logger.info("socket server is listening at " + node.getPort() + "......");
 			acceptor.bind(new InetSocketAddress(node.getPort()));
 		}
-//		//设置端口号
-//		acceptor.setDefaultLocalAddress(new InetSocketAddress(serverPort));
-//		//启动监听
-//		acceptor.bind();
 	}
 
 	@Override

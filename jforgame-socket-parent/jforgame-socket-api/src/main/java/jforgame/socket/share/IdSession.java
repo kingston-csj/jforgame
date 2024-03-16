@@ -20,7 +20,7 @@ public interface IdSession extends Closeable {
      */
     default String getId() {
         if (getAttribute(ID) != null) {
-            return (String) getAttribute(ID);
+            return getAttribute(ID).toString();
         }
         return "";
     }
@@ -59,9 +59,8 @@ public interface IdSession extends Closeable {
      *
      * @param key
      * @param value
-     * @return
      */
-    Object setAttribute(String key, Object value);
+    void setAttribute(String key, Object value);
 
     /**
      * get session attribute
