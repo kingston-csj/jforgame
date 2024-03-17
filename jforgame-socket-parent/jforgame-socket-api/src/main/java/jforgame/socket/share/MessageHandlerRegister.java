@@ -2,9 +2,10 @@ package jforgame.socket.share;
 
 import jforgame.socket.share.message.MessageExecutor;
 
-import java.util.Map;
-
 public interface MessageHandlerRegister {
 
-    Map<Integer, MessageExecutor> getCommandExecutors();
+    void register(int cmd, MessageExecutor executor);
+
+    MessageExecutor getMessageExecutor(int cmd);
+
 }

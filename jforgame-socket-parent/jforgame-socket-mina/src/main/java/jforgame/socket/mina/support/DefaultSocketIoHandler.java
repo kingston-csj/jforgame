@@ -35,8 +35,7 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
 	}
 
 	@Override
-	public void messageReceived(IoSession session, Object data) throws Exception {
-		Object message = data;
+	public void messageReceived(IoSession session, Object message) throws Exception {
 		IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
 		//交由消息分发器处理
 		messageDispatcher.dispatch(userSession, message);

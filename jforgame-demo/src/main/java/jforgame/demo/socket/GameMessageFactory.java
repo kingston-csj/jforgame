@@ -1,12 +1,16 @@
 package jforgame.demo.socket;
 
+import jforgame.commons.ClassScanner;
 import jforgame.demo.ServerScanPaths;
+import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.support.DefaultMessageFactory;
 
+import java.util.Set;
+
 public class GameMessageFactory implements MessageFactory {
 
-    private static volatile DefaultMessageFactory self;
+    private static volatile DefaultMessageFactory self ;
 
     public static MessageFactory getInstance() {
         if (self != null) {
@@ -14,10 +18,21 @@ public class GameMessageFactory implements MessageFactory {
         }
         synchronized (GameMessageFactory.class) {
             if (self == null) {
-                self = new DefaultMessageFactory(ServerScanPaths.MESSAGE_PATH);
+                self = new DefaultMessageFactory();
+                Set<Class<?>> messages = ClassScanner.listClassesWithAnnotation(ServerScanPaths.MESSAGE_PATH, MessageMeta.class);
+                for (Class<?> clazz : messages) {
+                    MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
+                    int key = buildKey(meta.module(), meta.cmd());
+                    self.registerMessage(key, clazz);
+                }
             }
             return self;
         }
+    }
+
+    private static int buildKey(short module, int cmd) {
+        int result = Math.abs(module) * 1000 + Math.abs(cmd);
+        return cmd < 0 ? -result : result;
     }
 
     @Override

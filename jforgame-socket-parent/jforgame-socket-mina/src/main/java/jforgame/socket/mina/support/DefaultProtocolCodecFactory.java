@@ -17,7 +17,11 @@ public class DefaultProtocolCodecFactory implements ProtocolCodecFactory {
     private final DefaultProtocolEncoder encoder;
 
     public DefaultProtocolCodecFactory(MessageFactory messageFactory, MessageCodec messageCodec) {
-        this.decoder = new DefaultProtocolDecoder(messageFactory, messageCodec);
+        this(messageFactory, messageCodec, 4096);
+    }
+
+    public DefaultProtocolCodecFactory(MessageFactory messageFactory, MessageCodec messageCodec, int maxProtocolSize) {
+        this.decoder = new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolSize);
         this.encoder = new DefaultProtocolEncoder(messageFactory, messageCodec);
     }
 

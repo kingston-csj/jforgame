@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
-    private int maxProtocolBytes = 4096;
+    private int maxProtocolBytes;
 
     private final Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
 
@@ -26,8 +26,13 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
     private final int MESSAGE_META_SIZE = 4;
 
     public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
+        this(messageFactory, messageCodec, 4096);
+    }
+
+    public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec, int maxProtocolBytes) {
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
+        this.maxProtocolBytes = maxProtocolBytes;
     }
 
     public void setMaxProtocolBytes(int maxProtocolBytes) {

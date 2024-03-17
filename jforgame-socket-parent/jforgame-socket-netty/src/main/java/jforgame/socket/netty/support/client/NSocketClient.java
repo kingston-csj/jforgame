@@ -1,4 +1,4 @@
-package jforgame.socket.netty.client;
+package jforgame.socket.netty.support.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -23,7 +23,7 @@ import java.net.InetSocketAddress;
 
 public class NSocketClient extends AbstractSocketClient {
 
-    private final EventLoopGroup group = new NioEventLoopGroup(4);
+    private final EventLoopGroup group = new NioEventLoopGroup(1);
 
     public NSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.ioDispatcher = messageDispatcher;

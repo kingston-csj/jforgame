@@ -14,14 +14,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 @ChannelHandler.Sharable
-public class DefaultSocketIoHandler extends ChannelInboundHandlerAdapter {
+public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
 	
-	private final static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);
+	private final static Logger logger = LoggerFactory.getLogger(ChannelIoHandler.class);
 	
 	/** 消息分发器 */
 	private final SocketIoDispatcher messageDispatcher;
 
-	public DefaultSocketIoHandler(SocketIoDispatcher messageDispatcher) {
+	public ChannelIoHandler(SocketIoDispatcher messageDispatcher) {
 		super();
 		this.messageDispatcher = messageDispatcher;
 	}

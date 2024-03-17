@@ -16,7 +16,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
 	private Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
 
-	private int maxProtocolBytes = 4096;
+	private int maxProtocolBytes;
 
 	private MessageFactory messageFactory;
 
@@ -28,11 +28,12 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 	private final int MESSAGE_META_SIZE = 4;
 
 	public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
-		this.messageFactory = messageFactory;
-		this.messageCodec = messageCodec;
+		this(messageFactory, messageCodec, 4096);
 	}
 
-	public void setMaxProtocolBytes(int maxProtocolBytes) {
+	public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec, int maxProtocolBytes) {
+		this.messageFactory = messageFactory;
+		this.messageCodec = messageCodec;
 		this.maxProtocolBytes = maxProtocolBytes;
 	}
 

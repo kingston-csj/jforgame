@@ -1,4 +1,4 @@
-package jforgame.socket.mina.client;
+package jforgame.socket.mina.support.client;
 
 import jforgame.codec.MessageCodec;
 import jforgame.socket.client.AbstractSocketClient;

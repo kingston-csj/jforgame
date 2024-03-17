@@ -1,4 +1,4 @@
-package jforgame.socket.netty.client;
+package jforgame.socket.netty.support.client;
 
 
 import io.netty.channel.Channel;
@@ -57,7 +57,7 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("channel[{}] inactive", ctx.channel());
+        logger.debug("channel[{}] inactive", ctx.channel());
         IdSession session = ChannelUtils.getSessionBy(ctx.channel());
         messageDispatcher.onSessionClosed(session);
     }

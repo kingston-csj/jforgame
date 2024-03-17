@@ -3,76 +3,83 @@ package jforgame.demo.socket;
 import jforgame.commons.ClassScanner;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.socket.client.Traceable;
+import jforgame.socket.share.BaseSocketIoDispatcher;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.MessageHandler;
-import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.MessageHandlerRegister;
+import jforgame.socket.share.MessageParameterConverter;
+import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.annotation.MessageRoute;
+import jforgame.socket.share.annotation.RequestHandler;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
 import jforgame.socket.support.DefaultMessageHandlerRegister;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jforgame.socket.support.DefaultMessageParameterConverter;
+import jforgame.socket.support.MessageExecuteUnit;
 
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.Set;
 
-public class MessageIoDispatcher implements SocketIoDispatcher {
+public class MessageIoDispatcher extends BaseSocketIoDispatcher {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private MessageHandlerRegister handlerRegister;
 
-    /**
-     * [module_cmd, CmdExecutor]
-     */
-    private  Map<Integer, MessageExecutor> cmdHandlers = new HashMap<>();
-
-    private List<MessageHandler> dispatchChain = new ArrayList<>();
+    private MessageParameterConverter msgParameterConverter = new DefaultMessageParameterConverter(GameMessageFactory.getInstance());
 
     public MessageIoDispatcher(String scanPath) {
         initialize(scanPath);
 
-        MessageHandler messageHandler = new MessageHandler() {
-            @Override
-            public boolean messageReceived(IdSession session, Object message) {
-                int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
-                MessageExecutor cmdExecutor = cmdHandlers.get(cmd);
-                if (cmdExecutor == null) {
-                    logger.error("message executor missed,  cmd={}", cmd);
-                    return true;
-                }
-
-                Object[] params = convertToMethodParams(session, cmdExecutor.getParams(), message);
-                Object controller = cmdExecutor.getHandler();
-
-                int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-                MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
-                task.setRequest(message);
-                // 丢到任务消息队列，不在io线程进行业务处理
-                GameExecutor.getInstance().acceptTask(task);
+        MessageHandler messageHandler = (session, message) -> {
+            int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
+            MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
+            if (cmdExecutor == null) {
+                logger.error("message executor missed,  cmd={}", cmd);
                 return true;
             }
+
+            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), message);
+            Object controller = cmdExecutor.getHandler();
+
+            int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
+            MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
+            task.setRequest(message);
+            // 丢到任务消息队列，不在io线程进行业务处理
+            GameExecutor.getInstance().acceptTask(task);
+            return true;
         };
-        dispatchChain.add(messageHandler);
+
+        addMessageHandler(messageHandler);
     }
 
     private void initialize(String scanPath) {
         Set<Class<?>> controllers = ClassScanner.listClassesWithAnnotation(scanPath,
                 MessageRoute.class);
-        this.cmdHandlers = new DefaultMessageHandlerRegister(controllers).getCommandExecutors();
-    }
-
-    @Override
-    public void onSessionCreated(IdSession session) {
-        session.setAttribute(SessionProperties.DISTRIBUTE_KEY,
-                SessionManager.INSTANCE.getNextSessionId());
-    }
-
-    @Override
-    public void dispatch(IdSession session, Object message) {
-        for (MessageHandler messageHandler : dispatchChain) {
+        this.handlerRegister = new DefaultMessageHandlerRegister();
+        for (Class<?> controller : controllers) {
             try {
-                if (!messageHandler.messageReceived(session, message)) {
-                    break;
+                Object handler = controller.newInstance();
+                Method[] methods = controller.getDeclaredMethods();
+                for (Method method : methods) {
+                    RequestHandler mapperAnnotation = method.getAnnotation(RequestHandler.class);
+                    if (mapperAnnotation != null) {
+                        int[] meta = getMessageMeta(method);
+                        if (meta == null) {
+                            throw new RuntimeException(
+                                    String.format("controller[%s] method[%s] lack of RequestMapping annotation",
+                                            controller.getName(), method.getName()));
+                        }
+                        int module = meta[0];
+                        int cmd = meta[1];
+                        int key = buildKey(module, cmd);
+                        MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(key);
+                        if (cmdExecutor != null) {
+                            throw new RuntimeException(String.format("module[%d] cmd[%d] duplicated", module, cmd));
+                        }
+
+                        cmdExecutor = MessageExecuteUnit.valueOf(method, method.getParameterTypes(), handler);
+                        handlerRegister.register(key, cmdExecutor);
+                    }
                 }
             } catch (Exception e) {
                 logger.error("", e);
@@ -81,53 +88,31 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
     }
 
     /**
-     * 将各种参数转为被RequestMapper注解的方法的实参
+     * 返回方法所带Message参数的元信息
      *
-     * @param session
-     * @param methodParams
-     * @param message
+     * @param method
      * @return
      */
-    private Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object message) {
-        Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
-        // 方法签名如果有两个参数，则为  method(IdSession session, Object message);
-        //       如果有三个参数，则为  method(IdSession session, int index, Object message);
-        for (int i = 0; i < result.length; i++) {
-            Class<?> param = methodParams[i];
-            if (i == 0) {
-                if (IdSession.class.isAssignableFrom(param)) {
-                    result[i] = session;
-                } else {
-                    throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 1st argument must be IdSession");
-                }
-            }
-            if (result.length == 2 && i == 1) {
-                if (GameMessageFactory.getInstance().contains(message.getClass())) {
-                    result[i] = message;
-                } else {
-                    throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 2nd argument must be registered Message");
-                }
-            }
-            if (result.length == 3) {
-                if (i== 1) {
-                    if (int.class.isAssignableFrom(param)){
-                        Traceable traceable = (Traceable) message;
-                        result[i] = traceable.getIndex();
-                    } else{
-                        throw new IllegalArgumentException("2nd argument must be int");
-                    }
-                }
-                if (i== 2) {
-                    if (GameMessageFactory.getInstance().contains(message.getClass())){
-                        result[i] = message;
-                    } else{
-                        throw new IllegalArgumentException("message (" + message.getClass().getSimpleName()+") handler 3nd argument must be registered Message");
-                    }
-                }
+    private int[] getMessageMeta(Method method) {
+        for (Class<?> paramClazz : method.getParameterTypes()) {
+            MessageMeta protocol = paramClazz.getAnnotation(MessageMeta.class);
+            if (protocol != null) {
+                int[] meta = {protocol.module(), protocol.cmd()};
+                return meta;
             }
         }
+        return null;
+    }
 
-        return result;
+    private int buildKey(int module, int cmd) {
+        int result = Math.abs(module) * 1000 + Math.abs(cmd);
+        return cmd < 0 ? -result : result;
+    }
+
+    @Override
+    public void onSessionCreated(IdSession session) {
+        session.setAttribute(SessionProperties.DISTRIBUTE_KEY,
+                SessionManager.INSTANCE.getNextSessionId());
     }
 
     @Override
@@ -144,11 +129,6 @@ public class MessageIoDispatcher implements SocketIoDispatcher {
             };
             GameExecutor.getInstance().acceptTask(closeTask);
         }
-    }
-
-    @Override
-    public void exceptionCaught(IdSession session, Throwable cause) {
-        logger.error("", cause);
     }
 
 }

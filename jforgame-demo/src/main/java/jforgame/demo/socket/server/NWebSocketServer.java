@@ -1,7 +1,6 @@
 package jforgame.demo.socket.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -26,10 +25,9 @@ import jforgame.demo.ServerScanPaths;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
 import jforgame.demo.utils.JsonUtils;
-import jforgame.socket.netty.support.DefaultSocketIoHandler;
+import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
-import jforgame.socket.support.DefaultMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +38,8 @@ import java.util.List;
 public class NWebSocketServer implements ServerNode {
 
     private Logger logger = LoggerFactory.getLogger(NWebSocketServer.class);
+
+    private static ChannelIoHandler messageIoHandler = new ChannelIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH));
 
     // 避免使用默认线程数参数
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -101,7 +101,7 @@ public class NWebSocketServer implements ServerNode {
                 @Override
                 protected void decode(ChannelHandlerContext channelHandlerContext, WebSocketFrame frame, List<Object> list) throws Exception {
                     if (frame instanceof TextWebSocketFrame) {
-                        String json =  ((TextWebSocketFrame)frame).text();
+                        String json = ((TextWebSocketFrame) frame).text();
                         TextFrame textFrame = JsonUtils.string2Object(json, TextFrame.class);
 
                         Class clazz = GameMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
@@ -124,14 +124,14 @@ public class NWebSocketServer implements ServerNode {
                         frame.msg = json;
                         list.add(new TextWebSocketFrame(JsonUtils.object2String(frame)));
                     } else if (o instanceof ReferenceCounted) {
-                        ((ReferenceCounted)o).retain();
+                        ((ReferenceCounted) o).retain();
                         list.add(o);
                     } else {
                         list.add(o);
                     }
                 }
             });
-            pipeline.addLast(new DefaultSocketIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH)));
+            pipeline.addLast(messageIoHandler);
         }
     }
 
@@ -144,8 +144,8 @@ public class NWebSocketServer implements ServerNode {
     }
 
 
-    public static void main(String[] args) throws Exception{
-        NWebSocketServer socketServer = new NWebSocketServer(HostAndPort.valueOf("localhost", 8080));
+    public static void main(String[] args) throws Exception {
+        NWebSocketServer socketServer = new NWebSocketServer(HostAndPort.valueOf(8080));
         socketServer.start();
     }
 

@@ -3,7 +3,6 @@ package jforgame.demo.client;
 
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.ServerConfig;
-import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
 import jforgame.demo.socket.GameMessageFactory;
@@ -11,12 +10,11 @@ import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.mina.client.MSocketClient;
+import jforgame.socket.mina.support.client.MSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.SocketIoDispatcherAdapter;
-import jforgame.socket.support.DefaultMessageFactory;
 
 /**
  * 客户端模拟器启动程序

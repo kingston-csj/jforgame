@@ -1,10 +1,8 @@
 package jforgame.demo.socket;
 
+import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
-import jforgame.demo.socket.server.NSocketServer;
-import jforgame.orm.OrmProcessor;
-import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
 import jforgame.demo.ServerVersion;
@@ -21,10 +19,11 @@ import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.monitor.jmx.GameMonitor;
 import jforgame.demo.monitor.jmx.GameMonitorMBean;
 import jforgame.demo.redis.RedisCluster;
-import jforgame.demo.socket.server.MSocketServer;
+import jforgame.socket.mina.support.server.MSocketServerBuilder;
+import jforgame.orm.OrmProcessor;
+import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
-import jforgame.socket.support.DefaultMessageFactory;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,9 +105,19 @@ public class GameServer {
 //			crossServer = new MSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getCrossPort()));
 //			crossServer.start();
 //		}
-		// 启动socket服务
-//		socketServer = new MSocketServer(HostAndPort.valueOf("localhost",ServerConfig.getInstance().getServerPort()));
-		socketServer = new NSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()));
+		socketServer = MSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+				.setMessageFactory(GameMessageFactory.getInstance())
+				.setMessageCodec(new StructMessageCodec())
+				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+				.build();
+
+//		// 启动socket服务
+//		socketServer = NSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+//				.setMessageFactory(GameMessageFactory.getInstance())
+//				.setMessageCodec(new StructMessageCodec())
+//				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+//								.build();
+
 		socketServer.start();
 		// 启动http服务
 		httpServer = new HttpServer();
