@@ -12,8 +12,8 @@ public class TestLazyCacheMap {
 		for (int i = 0; i < 100; i++) {
 			cache.put(String.valueOf(i), String.valueOf(i));
 		}
-		
-		Assert.assertTrue(cache.size() == 3);
+
+        Assert.assertEquals(3, cache.size());
 	}
 
 	@Test
@@ -27,10 +27,10 @@ public class TestLazyCacheMap {
 		cache.get("a");
 		cache.put("d", "d");
 
-		Assert.assertTrue(cache.get("c") != null);
-		Assert.assertTrue(cache.get("a") != null);
-		Assert.assertTrue(cache.get("d") != null);
-		Assert.assertTrue(cache.get("b") == null);
+        Assert.assertNotNull(cache.get("c"));
+        Assert.assertNotNull(cache.get("a"));
+        Assert.assertNotNull(cache.get("d"));
+        Assert.assertNull(cache.get("b"));
 	}
 	
 	@Test
@@ -43,10 +43,10 @@ public class TestLazyCacheMap {
 		
 		Thread.sleep(150);
 		cache.put("c", "c");
-		
-		Assert.assertTrue(cache.get("b") != null);
-		Assert.assertTrue(cache.get("c") != null);
-		Assert.assertTrue(cache.get("a") == null);
+
+        Assert.assertNotNull(cache.get("b"));
+        Assert.assertNotNull(cache.get("c"));
+        Assert.assertNull(cache.get("a"));
 	}
 
 }

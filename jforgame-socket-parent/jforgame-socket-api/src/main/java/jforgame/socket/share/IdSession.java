@@ -29,7 +29,7 @@ public interface IdSession extends Closeable {
 
     /**
      * send message with index.
-     * when client wants to send a message and gets its response, the message must be {@link  Traceable}
+     * when client wants to send a message and then gets its response, the message must be {@link  Traceable}
      * @param index
      * @param packet
      */

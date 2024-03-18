@@ -9,10 +9,6 @@
 		<version>${revision}</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-
 	<artifactId>jforgame-commons</artifactId>
 
-	<dependencies>
-
-	</dependencies>
 </project>

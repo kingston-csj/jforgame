@@ -1,10 +1,13 @@
 package jforgame.demo.monitor.jmx;
 
-import static java.lang.management.ManagementFactory.getGarbageCollectorMXBeans;
-import static java.lang.management.ManagementFactory.getMemoryMXBean;
-import static java.lang.management.ManagementFactory.getPlatformMXBeans;
-import static java.lang.management.ManagementFactory.getThreadMXBean;
+import jforgame.demo.game.GameContext;
+import jforgame.demo.utils.JsScriptEngine;
+import jforgame.socket.share.TrafficStatistic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.lang.management.BufferPoolMXBean;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.MemoryMXBean;
@@ -12,14 +15,10 @@ import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.List;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
-import jforgame.demo.game.GameContext;
-import jforgame.demo.socket.MessageStatistics;
-import jforgame.demo.utils.JsScriptEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.lang.management.ManagementFactory.getGarbageCollectorMXBeans;
+import static java.lang.management.ManagementFactory.getMemoryMXBean;
+import static java.lang.management.ManagementFactory.getPlatformMXBeans;
+import static java.lang.management.ManagementFactory.getThreadMXBean;
 
 public class GameMonitor implements GameMonitorMBean{
 
@@ -95,7 +94,7 @@ public class GameMonitor implements GameMonitorMBean{
      */
     @Override
     public String getMessageStatistics() {
-        return MessageStatistics.getInstance().toString();
+        return TrafficStatistic.showReceivedNumbers().toString();
     }
 
 

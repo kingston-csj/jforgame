@@ -22,6 +22,7 @@ import jforgame.demo.redis.RedisCluster;
 import jforgame.socket.mina.support.server.MSocketServerBuilder;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
+import jforgame.socket.netty.support.server.NSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;
@@ -105,18 +106,18 @@ public class GameServer {
 //			crossServer = new MSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getCrossPort()));
 //			crossServer.start();
 //		}
-		socketServer = MSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-				.setMessageFactory(GameMessageFactory.getInstance())
-				.setMessageCodec(new StructMessageCodec())
-				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-				.build();
-
-//		// 启动socket服务
-//		socketServer = NSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+//		socketServer = MSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
 //				.setMessageFactory(GameMessageFactory.getInstance())
 //				.setMessageCodec(new StructMessageCodec())
 //				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-//								.build();
+//				.build();
+
+//		// 启动socket服务
+		socketServer = NSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+				.setMessageFactory(GameMessageFactory.getInstance())
+				.setMessageCodec(new StructMessageCodec())
+				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+								.build();
 
 		socketServer.start();
 		// 启动http服务

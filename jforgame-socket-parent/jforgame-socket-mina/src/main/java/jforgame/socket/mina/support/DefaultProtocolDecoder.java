@@ -1,6 +1,7 @@
 package jforgame.socket.mina.support;
 
 import jforgame.codec.MessageCodec;
+import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -10,6 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * This class provides a default private protocol stack decoder.
+ * A full data frame includes a message head and a message body
+ * The message head including the length of the data frame and the message id meta.
+ * If you want to contain other message meta, like the index of message, you need to store it in the message body.
+ * The message body including just the bytes of message which needs to be decoded by {@link MessageCodec}
+ * @see MessageCodec#decode(Class, byte[])
  * @author kinson
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
@@ -63,6 +70,10 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 		int cmd = in.getInt();
 		byte[] body = new byte[length - metaSize];
 		in.get(body);
+
+		// 流量统计
+		TrafficStatistic.addReceivedBytes(cmd, length);
+		TrafficStatistic.addReceivedNumber(cmd);
 
 		Class<?> msgClazz = messageFactory.getMessage(cmd);
 		Object msg = messageCodec.decode(msgClazz, body);

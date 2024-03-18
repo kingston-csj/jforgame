@@ -19,7 +19,7 @@ public class CallBackService {
 
     private ScheduledFuture<?> timer;
 
-    private ConcurrentMap<Integer, RequestResponseFuture> mapper = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, RequestResponseFuture> mapper = new ConcurrentHashMap<>();
 
     private ScheduledExecutorService service;
 
@@ -53,12 +53,16 @@ public class CallBackService {
         return self;
     }
 
+    public void closeTimer() {
+        self.timer.cancel(true);
+    }
+
     /**
      * 定时异常过期的回调
      */
     public void scanExpiredRequest() {
         List<RequestResponseFuture> rfList = new LinkedList();
-        Iterator it = mapper.entrySet().iterator();
+        Iterator<Map.Entry<Integer, RequestResponseFuture>> it = mapper.entrySet().iterator();
 
         RequestResponseFuture rf;
         while (it.hasNext()) {
@@ -70,10 +74,8 @@ public class CallBackService {
             }
         }
 
-        Iterator var6 = rfList.iterator();
-        while (var6.hasNext()) {
-            rf = (RequestResponseFuture) var6.next();
-
+        for (RequestResponseFuture requestResponseFuture : rfList) {
+            rf = requestResponseFuture;
             try {
                 Throwable cause = new CallbackTimeoutException("request timeout, no reply");
                 rf.setCause(cause);
@@ -96,7 +98,7 @@ public class CallBackService {
         }
         // 同步回调
         String errorText = message.getErrorText();
-        if (errorText != null && errorText.length() > 0) {
+        if (errorText != null && !errorText.isEmpty()) {
             Throwable t = new RuntimeException(errorText);
             future.setCause(t);
         }

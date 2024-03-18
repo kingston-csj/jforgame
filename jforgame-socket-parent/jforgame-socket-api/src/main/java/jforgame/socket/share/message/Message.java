@@ -2,6 +2,12 @@ package jforgame.socket.share.message;
 
 import jforgame.socket.share.annotation.MessageMeta;
 
+/**
+ * socket message base interface.
+ * remember this interface is optional.
+ * you can use your own way to collection all message class and binding its cmd.
+ * @see MessageFactory
+ */
 public interface Message {
 
     /**

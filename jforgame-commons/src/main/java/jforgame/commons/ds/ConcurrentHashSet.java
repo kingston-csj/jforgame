@@ -12,20 +12,19 @@ import jforgame.commons.thread.ThreadSafe;
  * @author kinson
  */
 @ThreadSafe
-public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E>, java.io.Serializable {
+public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E> {
 
-    private static final long serialVersionUID = -8672117787651310382L;
 
     private static final Object PRESENT = new Object();
 
     private final ConcurrentHashMap<E, Object> map;
 
     public ConcurrentHashSet() {
-        map = new ConcurrentHashMap<E, Object>();
+        map = new ConcurrentHashMap<>();
     }
 
     public ConcurrentHashSet(int initialCapacity) {
-        map = new ConcurrentHashMap<E, Object>(initialCapacity);
+        map = new ConcurrentHashMap<>(initialCapacity);
     }
 
     /**
@@ -53,7 +52,6 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E>, java
     /**
      * Returns <tt>true</tt> if this set contains no elements.
      *
-     * @return <tt>true</tt> if this set contains no elements
      */
     @Override
     public boolean isEmpty() {

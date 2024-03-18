@@ -8,7 +8,7 @@ public class RpcMessageClient {
 
     private static final AtomicInteger idFactory = new AtomicInteger(100);
 
-    private static int CALL_BACK_TIME_OUT = 5000;
+    private static final int CALL_BACK_TIME_OUT = 5000;
 
     /**
      * send a message to an appointed session and then register a callback

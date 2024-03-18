@@ -37,7 +37,7 @@ import java.util.List;
 
 public class NWebSocketServer implements ServerNode {
 
-    private Logger logger = LoggerFactory.getLogger(NWebSocketServer.class);
+    private final Logger logger = LoggerFactory.getLogger(NWebSocketServer.class);
 
     private static ChannelIoHandler messageIoHandler = new ChannelIoHandler(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH));
 
@@ -106,7 +106,6 @@ public class NWebSocketServer implements ServerNode {
 
                         Class clazz = GameMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
                         Object realMsg = JsonUtils.string2Object(textFrame.msg, clazz);
-                        System.out.println(textFrame);
                         list.add(realMsg);
                     } else if (frame instanceof BinaryWebSocketFrame) {
                         throw new UnsupportedOperationException("BinaryWebSocketFrame not supported");

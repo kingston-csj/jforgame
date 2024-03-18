@@ -3,7 +3,7 @@ package jforgame.socket.mina.support.server;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.support.DefaultSocketIoHandler;
-import jforgame.socket.share.BaseSocketIoDispatcher;
+import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
@@ -44,7 +44,7 @@ public class MSocketServer implements ServerNode {
 
     protected MessageCodec messageCodec;
 
-    protected BaseSocketIoDispatcher socketIoDispatcher;
+    protected ChainedMessageDispatcher socketIoDispatcher;
 
     protected int maxProtocolSize;
 

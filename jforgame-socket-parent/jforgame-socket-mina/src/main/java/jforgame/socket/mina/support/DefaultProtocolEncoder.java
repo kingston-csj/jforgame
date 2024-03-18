@@ -1,6 +1,7 @@
 package jforgame.socket.mina.support;
 
 import jforgame.codec.MessageCodec;
+import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -10,7 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author kinson
+ * This class provides a default private protocol stack encoder.
+ * A full data frame includes a message head and a message body
+ * The message head including the length of the data frame and the message id meta.
+ * If you want to contain other message meta, like the index of message, you need to store it in the message body.
+ * The message body including just the bytes of message which needs to be encoded by {@link MessageCodec}
+ * @see MessageCodec#encode(Object)
  */
 public class DefaultProtocolEncoder implements ProtocolEncoder {
 
@@ -56,10 +62,14 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 		buffer.setAutoExpand(true);
 
 		byte[] body = messageCodec.encode(message);
-		final int metaSize = MESSAGE_META_SIZE;
-		// the length of message body
-		buffer.putInt(body.length + metaSize);
+        // the length of message body
+		int msgLength = body.length + MESSAGE_META_SIZE;
+		buffer.putInt(msgLength);
 		int cmd = messageFactory.getMessageId(message.getClass());
+
+		// 流量统计
+		TrafficStatistic.addSentBytes(cmd, msgLength);
+		TrafficStatistic.addSentNumber(cmd);
 		// 写入cmd类型
 		buffer.putInt(cmd);
 		// 写入消息体

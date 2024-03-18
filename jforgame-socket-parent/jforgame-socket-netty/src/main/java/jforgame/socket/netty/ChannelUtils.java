@@ -14,11 +14,11 @@ public static AttributeKey<IdSession> SESSION_KEY = AttributeKey.valueOf("sessio
 	/**
 	 * @param channel
 	 * @param session
-	 * @return
+	 * @return true if this channel has bound its session
 	 */
-	public static boolean bindingSession(Channel channel, IdSession session) {
+	public static boolean duplicateBindingSession(Channel channel, IdSession session) {
 		Attribute<IdSession> sessionAttr = channel.attr(SESSION_KEY);
-		return sessionAttr.compareAndSet(null, session);
+		return !sessionAttr.compareAndSet(null, session);
 	}
 	
 	public static IdSession getSessionBy(Channel channel) {

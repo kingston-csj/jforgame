@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FloodFilter implements MessageHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(FloodFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(FloodFilter.class);
 
     private static final String KEY_FLOOD = "FLOOD";
 

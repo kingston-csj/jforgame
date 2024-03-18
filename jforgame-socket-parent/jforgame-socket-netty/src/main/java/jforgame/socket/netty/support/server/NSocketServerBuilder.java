@@ -8,7 +8,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.netty.support.DefaultProtocolDecoder;
 import jforgame.socket.netty.support.DefaultProtocolEncoder;
-import jforgame.socket.share.BaseSocketIoDispatcher;
+import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.message.MessageFactory;
 
@@ -29,13 +29,13 @@ public class NSocketServerBuilder {
 
     MessageCodec messageCodec;
 
-    BaseSocketIoDispatcher socketIoDispatcher;
+    ChainedMessageDispatcher socketIoDispatcher;
 
     ChannelInitializer<SocketChannel> childChannelInitializer;
 
     private ChannelIoHandler channelIoHandler;
 
-    public NSocketServerBuilder setSocketIoDispatcher(BaseSocketIoDispatcher socketIoDispatcher) {
+    public NSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }

@@ -1,7 +1,7 @@
 package jforgame.socket.mina.support.server;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.share.BaseSocketIoDispatcher;
+import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.message.MessageFactory;
 
@@ -22,9 +22,9 @@ public class MSocketServerBuilder {
 
     MessageCodec messageCodec;
 
-    BaseSocketIoDispatcher socketIoDispatcher;
+    ChainedMessageDispatcher socketIoDispatcher;
 
-    public MSocketServerBuilder setSocketIoDispatcher(BaseSocketIoDispatcher socketIoDispatcher) {
+    public MSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }

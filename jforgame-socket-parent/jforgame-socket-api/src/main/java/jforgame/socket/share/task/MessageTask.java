@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  */
 public class MessageTask extends BaseGameTask {
 
-    private static Logger logger = LoggerFactory.getLogger(MessageTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageTask.class);
 
     private IdSession session;
 

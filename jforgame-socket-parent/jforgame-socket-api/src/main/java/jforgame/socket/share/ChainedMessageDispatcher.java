@@ -6,7 +6,15 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseSocketIoDispatcher implements SocketIoDispatcher {
+/**
+ * This class provide a skeletal implementation of the SocketIoDispatcher interface,
+ * to enhance {@link  SocketIoDispatcher#dispatch(IdSession, Object)} method by providing
+ * a chained message handler. Each of the ChainedMessageDispatcher may have some {@link MessageHandler} nodes,
+ * when the message passed to a MessageHandler, the MessageHandler can choose to pass it to the next node,
+ * or stop the message passing.
+ * @see MessageHandler#messageReceived(IdSession, Object)
+ */
+public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -3,7 +3,7 @@ package jforgame.demo.socket;
 import jforgame.commons.ClassScanner;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.socket.share.BaseSocketIoDispatcher;
+import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.MessageHandlerRegister;
@@ -21,7 +21,7 @@ import jforgame.socket.support.MessageExecuteUnit;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-public class MessageIoDispatcher extends BaseSocketIoDispatcher {
+public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
     private MessageHandlerRegister handlerRegister;
 

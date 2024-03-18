@@ -23,7 +23,6 @@ public class DateUtil {
 
     /**
      * Adds to a date 
-     * The original {@link Date} is unchanged.
      *
      * @param date  the date, not null
      * @param calendarField  the calendar field to add to
@@ -38,8 +37,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of days to a date 
-     * The original {@link Date} is unchanged.
+     * Adds days to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -50,8 +48,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of hours to a date 
-     * The original {@link Date} is unchanged.
+     * Adds hours to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -62,8 +59,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of milliseconds to a date 
-     * The original {@link Date} is unchanged.
+     * Adds milliseconds to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -74,8 +70,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of minutes to a date 
-     * The original {@link Date} is unchanged.
+     * Adds minutes to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -86,8 +81,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of months to a date 
-     * The original {@link Date} is unchanged.
+     * Adds months to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -98,8 +92,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of seconds to a date 
-     * The original {@link Date} is unchanged.
+     * Adds seconds to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative
@@ -110,8 +103,7 @@ public class DateUtil {
     }
 
     /**
-     * Adds a number of weeks to a date 
-     * The original {@link Date} is unchanged.
+     * Adds weeks to a date
      *
      * @param date  the date, not null
      * @param amount  the amount to add, may be negative

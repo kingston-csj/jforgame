@@ -19,10 +19,9 @@ public class ProtobufMessageCodec implements MessageCodec {
 	public Object decode(Class<?> msgClazz, byte[] body) {
 		try {
 			Codec<?> codec = ProtobufProxy.create(msgClazz);
-			Object message = codec.decode(body);
-			return message;
+            return codec.decode(body);
 		} catch (IOException e) {
-			logger.error("read message {} failed, exception {}", new Object[]{msgClazz.getName() ,e});
+			logger.error("read message {} failed", msgClazz.getName(),e);
 		}
 		return null;
 	}

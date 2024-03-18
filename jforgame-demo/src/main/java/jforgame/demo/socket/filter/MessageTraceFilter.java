@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class MessageTraceFilter implements MessageHandler  {
 
-	private Logger logger = LoggerFactory.getLogger(MessageTraceFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(MessageTraceFilter.class);
 
 	private boolean debug = true;
 

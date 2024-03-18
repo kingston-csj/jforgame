@@ -1,6 +1,7 @@
 package jforgame.commons;
 
 /**
+ * This utils is used for number convert, you can convert number typed string to target number type
  * @author kinson
  */
 public final class NumberUtil {

@@ -17,7 +17,7 @@ public class DefaultMessageHandlerRegister implements MessageHandlerRegister {
     /**
      * [module_cmd, CmdExecutor]
      */
-    private  Map<Integer, MessageExecutor> cmdHandlers = new HashMap<>();
+    private Map<Integer, MessageExecutor> cmdHandlers = new HashMap<>();
 
     @Override
     public void register(int cmd, MessageExecutor executor) {

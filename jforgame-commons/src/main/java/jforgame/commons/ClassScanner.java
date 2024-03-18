@@ -104,7 +104,7 @@ public class ClassScanner {
 
 	private static Set<Class<?>> findClassFromJar(URL url, String packageName, String packageDirName, boolean recursive,
 			Predicate<Class<?>> filter) {
-		Set<Class<?>> result = new LinkedHashSet<Class<?>>();
+		Set<Class<?>> result = new LinkedHashSet<>();
 		try {
 			// 获取jar
 			JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile();

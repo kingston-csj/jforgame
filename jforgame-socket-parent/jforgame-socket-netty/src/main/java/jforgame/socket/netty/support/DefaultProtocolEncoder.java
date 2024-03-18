@@ -5,10 +5,22 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
+import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class provides a default private protocol stack encoder.
+ * A full data frame includes a message head and a message body
+ * The message head including the length of the data frame and the message id meta.
+ * If you want to contain other message meta, like the index of message, you need to store it in the message body.
+ * The message body including just the bytes of message which needs to be encoded by {@link MessageCodec}
+ * @see MessageCodec#encode(Object)
+ *
+ * Remeber this class is annotationed by {@link io.netty.channel.ChannelHandler.Sharable}, you can share the encoder
+ * in different channel pipeline.
+ */
 @ChannelHandler.Sharable
 public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 
@@ -35,10 +47,14 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 		// int int byte[]
 		int  cmd = messageFactory.getMessageId(message.getClass());
 		try {
-			final int metaSize = MESSAGE_META_SIZE;
-			byte[] body = messageCodec.encode(message);
+            byte[] body = messageCodec.encode(message);
 			//消息内容长度
-			out.writeInt(body.length + metaSize);
+			int msgLength = body.length + MESSAGE_META_SIZE;
+			out.writeInt(msgLength);
+
+			// 流量统计
+			TrafficStatistic.addSentBytes(cmd, msgLength);
+			TrafficStatistic.addSentNumber(cmd);
 			// 写入cmd类型
 			out.writeInt(cmd);
 			out.writeBytes(body);

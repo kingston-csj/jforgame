@@ -31,12 +31,10 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- 网关相关 -->
         <dependency>
             <groupId>org.apache.mina</groupId>
             <artifactId>mina-core</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.mina/mina-http -->
         <dependency>
             <groupId>org.apache.mina</groupId>
             <artifactId>mina-http</artifactId>

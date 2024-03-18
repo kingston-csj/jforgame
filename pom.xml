@@ -34,9 +34,9 @@
         <module>jforgame-hotswap</module>
         <module>jforgame-commons</module>
         <module>jforgame-orm</module>
-        <module>jforgame-demo</module>
         <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>
+        <module>jforgame-demo</module>
     </modules>
 
     <!-- 阿里云maven仓库 -->

@@ -29,7 +29,7 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		Channel channel = ctx.channel();
-		if (!ChannelUtils.bindingSession(ctx.channel(), new NSession(channel))) {
+		if (ChannelUtils.duplicateBindingSession(ctx.channel(), new NSession(channel))) {
 			ctx.channel().close();
 			logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(channel));
 			return;
