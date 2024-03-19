@@ -17,7 +17,7 @@ import java.util.List;
 
 public class NSocketServerBuilder {
 
-    public static NSocketServerBuilder builder() {
+    public static NSocketServerBuilder newBuilder() {
         return new NSocketServerBuilder();
     }
 

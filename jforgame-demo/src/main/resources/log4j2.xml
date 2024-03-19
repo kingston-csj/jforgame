@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+
+    <Properties>
+        <!-- 触发日志文件分割的时间间隔，此配置必须和filePattern协调, 如果后者是精确到HH, 则此配置项单位是小时，若后者精确到dd, 则此配置项单位是天 -->
+        <Property name="POLICY_TIME_INTERVAL">1</Property>
+        <!-- 日志清理规则 文件名称匹配规则 -->
+        <Property name="DELETE_IF_FILE_NAME">*.log-*</Property>
+        <!-- 日志清理规则 归档日志文件存在时长匹配规则，此配置项必须和filePattern协调, 后者是精确到HH, 这里就要写成xH -->
+        <Property name="DELETE_IF_LAST_MODIFIED_AGE">168H</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <RollingRandomAccessFile name="RollingFileAppender" fileName="logs/console.log"
+                                 filePattern="logs/console/%d{yyyyMMdd}/console.log-%d{yyyy-MM-dd-HH}">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%5t] %5p (%F:%L) : %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${POLICY_TIME_INTERVAL}"/>
+                <!--<SizeBasedTriggeringPolicy size="50MB"/>-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}/" maxDepth="1">
+                    <IfFileName glob="${DELETE_IF_FILE_NAME}" />
+                    <IfLastModified age="${DELETE_IF_LAST_MODIFIED_AGE}" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <!-- 同时打印到程序控制台和外部文件 -->
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFileAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

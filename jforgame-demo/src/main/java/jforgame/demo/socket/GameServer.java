@@ -19,7 +19,6 @@ import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.monitor.jmx.GameMonitor;
 import jforgame.demo.monitor.jmx.GameMonitorMBean;
 import jforgame.demo.redis.RedisCluster;
-import jforgame.socket.mina.support.server.MSocketServerBuilder;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.netty.support.server.NSocketServerBuilder;
@@ -113,7 +112,7 @@ public class GameServer {
 //				.build();
 
 //		// 启动socket服务
-		socketServer = NSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+		socketServer = NSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
 				.setMessageFactory(GameMessageFactory.getInstance())
 				.setMessageCodec(new StructMessageCodec())
 				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))

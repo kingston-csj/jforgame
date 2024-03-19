@@ -1,7 +1,7 @@
 package jforgame.demo.game.logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.Logger;
 
 public enum LoggerSystem {
 
@@ -14,7 +14,7 @@ public enum LoggerSystem {
     ;
 
     public Logger getLogger() {
-        return LoggerFactory.getLogger(this.name());
+        return LoggerBuilder.getLogger(this.name());
     }
 
 }

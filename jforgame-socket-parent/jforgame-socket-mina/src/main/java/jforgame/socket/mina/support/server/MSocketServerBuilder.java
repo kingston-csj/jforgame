@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MSocketServerBuilder {
 
-    public static MSocketServerBuilder builder() {
+    public static MSocketServerBuilder newBuilder() {
         return new MSocketServerBuilder();
     }
 

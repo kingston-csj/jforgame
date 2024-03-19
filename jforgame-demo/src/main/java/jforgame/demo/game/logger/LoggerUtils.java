@@ -1,6 +1,7 @@
 package jforgame.demo.game.logger;
 
-import org.slf4j.Logger;
+
+import org.apache.logging.log4j.Logger;
 
 public class LoggerUtils {
 
@@ -17,7 +18,7 @@ public class LoggerUtils {
      */
     public static void error(String errMsg, Exception e) {
         Logger logger = LoggerSystem.EXCEPTION.getLogger();
-        logger.error("", e);
+        logger.error(errMsg, e);
     }
 
     public static void error(String format, Object... arguments) {
