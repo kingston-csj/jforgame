@@ -102,7 +102,12 @@ public class GameServer {
 
 //		if (config.getCrossPort() > 0) {
 //			// 启动跨服服务
-//			crossServer = new MSocketServer(HostAndPort.valueOf(ServerConfig.getInstance().getCrossPort()));
+//			crossServer = NSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getCrossPort()))
+//					.setMessageFactory(GameMessageFactory.getInstance())
+//					.setMessageCodec(new StructMessageCodec())
+//					.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+//					.build();
+//
 //			crossServer.start();
 //		}
 //		socketServer = MSocketServerBuilder.builder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))

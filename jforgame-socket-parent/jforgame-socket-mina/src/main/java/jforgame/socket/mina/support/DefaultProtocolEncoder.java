@@ -24,7 +24,7 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 
 	private final MessageCodec messageCodec;
 
-	private int WRITE_BUFF_SIZE = 1024;
+	private final int WRITE_BUFF_SIZE = 1024;
 
 	/**
 	 * 消息元信息常量，为int类型的长度，表示消息的id

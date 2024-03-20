@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
-	private Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
+	private Logger logger = LoggerFactory.getLogger("socketserver");
 
 	private int maxProtocolBytes;
 

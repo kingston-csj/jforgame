@@ -32,7 +32,7 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
         if (ChannelUtils.duplicateBindingSession(ctx.channel(),
                 new NSession(ctx.channel()))) {
             ctx.channel().close();
-            logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(ctx.channel()));
+            logger.error("Duplicate session,IP=[{}]", ChannelUtils.parseRemoteAddress(ctx.channel()));
             return;
         }
 

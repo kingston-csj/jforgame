@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultSocketIoHandler extends IoHandlerAdapter {
 
-	private static Logger logger = LoggerFactory.getLogger(DefaultSocketIoHandler.class);
+	private static Logger logger = LoggerFactory.getLogger("socketserver");
 
 	/** 消息分发器 */
 	private SocketIoDispatcher messageDispatcher;

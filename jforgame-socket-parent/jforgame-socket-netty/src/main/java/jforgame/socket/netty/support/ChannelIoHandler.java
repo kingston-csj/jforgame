@@ -16,7 +16,7 @@ import java.io.IOException;
 @ChannelHandler.Sharable
 public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
 	
-	private final static Logger logger = LoggerFactory.getLogger(ChannelIoHandler.class);
+	private final static Logger logger = LoggerFactory.getLogger("socketserver");
 	
 	/** 消息分发器 */
 	private final SocketIoDispatcher messageDispatcher;
@@ -31,7 +31,7 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
 		Channel channel = ctx.channel();
 		if (ChannelUtils.duplicateBindingSession(ctx.channel(), new NSession(channel))) {
 			ctx.channel().close();
-			logger.error("Duplicate session,IP=[{}]", ChannelUtils.getIp(channel));
+			logger.error("Duplicate session,IP=[{}]", ChannelUtils.parseRemoteAddress(channel));
 			return;
 		}
 		IdSession userSession = ChannelUtils.getSessionBy(channel);

@@ -25,7 +25,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     private int maxProtocolBytes;
 
-    private final Logger logger = LoggerFactory.getLogger(DefaultProtocolDecoder.class);
+    private final Logger logger = LoggerFactory.getLogger("socketserver");
 
     private final MessageFactory messageFactory;
 

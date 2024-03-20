@@ -1,6 +1,8 @@
 package jforgame.socket.netty.support.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class NSocketServer implements ServerNode {
 
-    private final Logger logger = LoggerFactory.getLogger(NSocketServer.class);
+    private final Logger logger = LoggerFactory.getLogger("socketserver");
 
     protected List<HostAndPort> nodesConfig;
     protected ChannelInitializer<SocketChannel> childChannelInitializer;
@@ -29,7 +31,9 @@ public class NSocketServer implements ServerNode {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
 
-    private boolean useEpollForLinux = false;
+    boolean useEpollForLinux;
+
+    boolean usePooledBuff;
 
     @Override
     public void start() throws Exception {
@@ -37,12 +41,21 @@ public class NSocketServer implements ServerNode {
             bossGroup = useEpoll() ? new EpollEventLoopGroup(1) : new NioEventLoopGroup(1);
             workerGroup = useEpoll() ? new EpollEventLoopGroup(CORE_SIZE) : new NioEventLoopGroup(CORE_SIZE);
 
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
                     .childHandler(childChannelInitializer);
+
+            if (usePooledBuff) {
+                bootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
+                        .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+            } else {
+                bootstrap.option(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT)
+                        .childOption(ChannelOption.ALLOCATOR, UnpooledByteBufAllocator.DEFAULT);
+            }
+
             for (HostAndPort node : nodesConfig) {
                 logger.info("socket server is listening at " + node.getPort() + "......");
-                b.bind(new InetSocketAddress(node.getPort())).sync();
+                bootstrap.bind(new InetSocketAddress(node.getPort())).sync();
             }
         } catch (Exception e) {
             logger.error("", e);

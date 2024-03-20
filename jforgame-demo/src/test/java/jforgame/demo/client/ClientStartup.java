@@ -22,7 +22,6 @@ import jforgame.socket.share.SocketIoDispatcherAdapter;
 public class ClientStartup {
 
 	public static void main(String[] args) throws Exception {
-		//读取服务器配置
 		int serverPort = ServerConfig.getInstance().getServerPort();
 		HostAndPort hostPort = new HostAndPort();
 		hostPort.setHost("127.0.0.1");

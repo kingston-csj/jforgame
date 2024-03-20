@@ -1,5 +1,6 @@
 package jforgame.socket.netty.support.server;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -14,6 +15,7 @@ import jforgame.socket.share.message.MessageFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class NSocketServerBuilder {
 
@@ -31,9 +33,24 @@ public class NSocketServerBuilder {
 
     ChainedMessageDispatcher socketIoDispatcher;
 
-    ChannelInitializer<SocketChannel> childChannelInitializer;
-
     private ChannelIoHandler channelIoHandler;
+
+    private final ServerIdleHandler serverIdleHandler = new ServerIdleHandler();
+
+    /**
+     * In the server side, the connection will be closed if it is idle for a certain period of time.
+     */
+    private int idleTime;
+
+    /**
+     * Leave it to support the addition of extended handler in the channel
+     */
+    private ExtendedChannelHandler extChannelHandler;
+
+    boolean useEpollForLinux = false;
+
+    boolean usePooledBuff = false;
+
 
     public NSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
@@ -60,8 +77,24 @@ public class NSocketServerBuilder {
         return this;
     }
 
-    public NSocketServerBuilder setChildChannelInitializer(ChannelInitializer<SocketChannel> childChannelInitializer) {
-        this.childChannelInitializer = childChannelInitializer;
+    public NSocketServerBuilder setIdleTime(int idleTime) {
+        this.idleTime = idleTime;
+        return this;
+    }
+
+
+    public NSocketServerBuilder setUseEpollForLinux(boolean useEpollForLinux) {
+        this.useEpollForLinux = useEpollForLinux;
+        return this;
+    }
+
+    public NSocketServerBuilder setUsePooledBuff(boolean usePooledBuff) {
+        this.usePooledBuff = usePooledBuff;
+        return this;
+    }
+
+    public NSocketServerBuilder setExtChannelHandler(ExtendedChannelHandler extChannelHandler) {
+        this.extChannelHandler = extChannelHandler;
         return this;
     }
 
@@ -82,11 +115,10 @@ public class NSocketServerBuilder {
         socketServer.nodesConfig = ipPortNodes;
         channelIoHandler = new ChannelIoHandler(socketIoDispatcher);
 
-        if (childChannelInitializer != null) {
-            socketServer.childChannelInitializer = childChannelInitializer;
-        } else {
-            socketServer.childChannelInitializer = new ChildChannelHandler();
-        }
+        socketServer.usePooledBuff = usePooledBuff;
+        socketServer.useEpollForLinux = useEpollForLinux;
+
+        socketServer.childChannelInitializer = new ChildChannelHandler();
 
         return socketServer;
     }
@@ -95,11 +127,31 @@ public class NSocketServerBuilder {
         @Override
         protected void initChannel(SocketChannel arg0) throws Exception {
             ChannelPipeline pipeline = arg0.pipeline();
-            pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolBytes));
-            pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));
-            // 客户端300秒没收发包，便会触发UserEventTriggered事件到IdleEventHandler
-            pipeline.addLast(new IdleStateHandler(300, 300, 300));
-            pipeline.addLast(channelIoHandler);
+            if (extChannelHandler != null) {
+                List<ChannelHandler> frontDoor = extChannelHandler.frontChannelHandlers();
+                if (frontDoor != null) {
+                    for (ChannelHandler channelHandler : frontDoor) {
+                        pipeline.addLast(channelHandler.getClass().getName(), channelHandler);
+                    }
+                }
+            }
+            pipeline.addLast("protocolDecoder", new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolBytes));
+            pipeline.addLast("protocolEncoder", new DefaultProtocolEncoder(messageFactory, messageCodec));
+            if (idleTime > 0) {
+                // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
+                pipeline.addLast(new IdleStateHandler(0, 0, idleTime,
+                        TimeUnit.MILLISECONDS));
+                pipeline.addLast("serverIdleHandler", serverIdleHandler);
+            }
+            pipeline.addLast("socketIoHandler", channelIoHandler);
+            if (extChannelHandler != null) {
+                List<ChannelHandler> backdoor = extChannelHandler.backChannelHandlers();
+                if (backdoor != null) {
+                    for (ChannelHandler channelHandler : backdoor) {
+                        pipeline.addLast(channelHandler.getClass().getName(), channelHandler);
+                    }
+                }
+            }
         }
     }
 }
