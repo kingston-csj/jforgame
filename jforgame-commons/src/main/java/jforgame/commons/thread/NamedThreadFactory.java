@@ -10,11 +10,11 @@ public class NamedThreadFactory implements ThreadFactory {
 
 	private ThreadGroup threadGroup;
 
-	private String groupName;
+	private final String groupName;
 
 	private final boolean daemon;
 
-	private AtomicInteger idGenerator = new AtomicInteger(1);
+	private final AtomicInteger idGenerator = new AtomicInteger(1);
 
 	public NamedThreadFactory(String group) {
 		this(group, false);
@@ -23,14 +23,19 @@ public class NamedThreadFactory implements ThreadFactory {
 	public NamedThreadFactory(String group, boolean daemon) {
 		this.groupName = group;
 		this.daemon = daemon;
+		SecurityManager s = System.getSecurityManager();
+		threadGroup = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
 	}
 
 	@Override
 	public Thread newThread(Runnable r) {
 		String name = getNextThreadName();
-		Thread ret = new Thread(threadGroup, r, name, 0);
-		ret.setDaemon(daemon);
-		return ret;
+		Thread t = new Thread(threadGroup, r, name, 0);
+		t.setDaemon(daemon);
+		if (t.getPriority() != Thread.NORM_PRIORITY) {
+			t.setPriority(Thread.NORM_PRIORITY);
+		}
+		return t;
 	}
 
 	private String getNextThreadName() {

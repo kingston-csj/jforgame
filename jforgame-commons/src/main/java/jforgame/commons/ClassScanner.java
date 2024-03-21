@@ -1,7 +1,6 @@
 package jforgame.commons;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Modifier;
@@ -35,8 +34,8 @@ public class ClassScanner {
 	 * 
 	 * @param scanPackage 搜索的包根路径
 	 */
-	public static Set<Class<?>> getClasses(String scanPackage) {
-		return getClasses(scanPackage, EMPTY_FILTER);
+	public static Set<Class<?>> listClasses(String scanPackage) {
+		return listClasses(scanPackage, EMPTY_FILTER);
 	}
 
 	/**
@@ -46,7 +45,7 @@ public class ClassScanner {
 	 * @param parent parent class type
 	 */
 	public static Set<Class<?>> listAllSubclasses(String scanPackage, Class<?> parent) {
-		return getClasses(scanPackage, clazz -> parent.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()));
+		return listClasses(scanPackage, clazz -> parent.isAssignableFrom(clazz) && !Modifier.isAbstract(clazz.getModifiers()));
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class ClassScanner {
 	 */
 	public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage,
 			Class<A> annotation) {
-		return getClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);
+		return listClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);
 	}
 
 	/**
@@ -67,7 +66,7 @@ public class ClassScanner {
 	 * @param filter 自定义类过滤器
 	 * @return
 	 */
-	public static Set<Class<?>> getClasses(String pack, Predicate<Class<?>> filter) {
+	public static Set<Class<?>> listClasses(String pack, Predicate<Class<?>> filter) {
 		Set<Class<?>> result = new LinkedHashSet<>();
 		// 是否循环迭代
 		boolean recursive = true;

@@ -19,14 +19,11 @@
 			<artifactId>jforgame-commons</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-
 	</dependencies>
 
 </project>
