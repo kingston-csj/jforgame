@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public class NSocketServer implements ServerNode {
+public class TcpSocketServer implements ServerNode {
 
-    private final Logger logger = LoggerFactory.getLogger("socketserver");
+    private static final Logger logger = LoggerFactory.getLogger("socketserver");
 
     protected List<HostAndPort> nodesConfig;
     protected ChannelInitializer<SocketChannel> childChannelInitializer;
@@ -42,7 +42,8 @@ public class NSocketServer implements ServerNode {
             workerGroup = useEpoll() ? new EpollEventLoopGroup(CORE_SIZE) : new NioEventLoopGroup(CORE_SIZE);
 
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).option(ChannelOption.SO_BACKLOG, 1024)
+            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.SO_BACKLOG, 1024)
                     .childHandler(childChannelInitializer);
 
             if (usePooledBuff) {

@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class NSocketServerBuilder {
+public class TcpSocketServerBuilder {
 
-    public static NSocketServerBuilder newBuilder() {
-        return new NSocketServerBuilder();
+    public static TcpSocketServerBuilder newBuilder() {
+        return new TcpSocketServerBuilder();
     }
 
     List<HostAndPort> ipPortNodes = new ArrayList<>();
@@ -52,54 +52,54 @@ public class NSocketServerBuilder {
     boolean usePooledBuff = false;
 
 
-    public NSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
+    public TcpSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }
 
-    public NSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
+    public TcpSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
         return this;
     }
 
-    public NSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
+    public TcpSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
         this.messageCodec = messageCodec;
         return this;
     }
 
-    public NSocketServerBuilder bindingPort(HostAndPort node) {
+    public TcpSocketServerBuilder bindingPort(HostAndPort node) {
         this.ipPortNodes.add(node);
         return this;
     }
 
-    public NSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
+    public TcpSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
         this.maxProtocolBytes = maxProtocolBytes;
         return this;
     }
 
-    public NSocketServerBuilder setIdleTime(int idleTime) {
+    public TcpSocketServerBuilder setIdleTime(int idleTime) {
         this.idleTime = idleTime;
         return this;
     }
 
 
-    public NSocketServerBuilder setUseEpollForLinux(boolean useEpollForLinux) {
+    public TcpSocketServerBuilder setUseEpollForLinux(boolean useEpollForLinux) {
         this.useEpollForLinux = useEpollForLinux;
         return this;
     }
 
-    public NSocketServerBuilder setUsePooledBuff(boolean usePooledBuff) {
+    public TcpSocketServerBuilder setUsePooledBuff(boolean usePooledBuff) {
         this.usePooledBuff = usePooledBuff;
         return this;
     }
 
-    public NSocketServerBuilder setExtChannelHandler(ExtendedChannelHandler extChannelHandler) {
+    public TcpSocketServerBuilder setExtChannelHandler(ExtendedChannelHandler extChannelHandler) {
         this.extChannelHandler = extChannelHandler;
         return this;
     }
 
-    public NSocketServer build() {
-        NSocketServer socketServer = new NSocketServer();
+    public TcpSocketServer build() {
+        TcpSocketServer socketServer = new TcpSocketServer();
         if (socketIoDispatcher == null) {
             throw new IllegalArgumentException("socketIoDispatcher must not null");
         }

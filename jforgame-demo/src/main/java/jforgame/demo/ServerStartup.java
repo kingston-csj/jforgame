@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ServerStartup {
 
-	private static Logger logger = LoggerFactory.getLogger(ServerStartup.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServerStartup.class);
 
 	public static void main(String args[]) {
 		// vm arguments:

@@ -50,5 +50,7 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		logger.error("server exception", cause);
+		IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
+		messageDispatcher.exceptionCaught(userSession, cause);
 	}
 }

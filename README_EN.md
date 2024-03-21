@@ -9,7 +9,7 @@
   jforgame  
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  
-  ├── jforgame-socket-parent -- io message codec, message request mapper, session management, including netty and mina    
+  ├── jforgame-socket-parent -- tcp socket server, inclding io message codec, message request mapper, session management, including netty and mina    
   ├── jforgame-orm    --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── jforgame-hotswap   --support hotswap without restarting server
   ├── jforgame-codec-parent  --data codec for socket communication  

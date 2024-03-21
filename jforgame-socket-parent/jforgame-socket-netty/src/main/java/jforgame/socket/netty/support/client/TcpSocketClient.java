@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
+import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.netty.support.DefaultProtocolDecoder;
 import jforgame.socket.netty.support.DefaultProtocolEncoder;
 import jforgame.socket.share.HostAndPort;
@@ -21,11 +22,11 @@ import jforgame.socket.share.message.MessageFactory;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class NSocketClient extends AbstractSocketClient {
+public class TcpSocketClient extends AbstractSocketClient {
 
     private final EventLoopGroup group = new NioEventLoopGroup(1);
 
-    public NSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
+    public TcpSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.ioDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
@@ -43,7 +44,8 @@ public class NSocketClient extends AbstractSocketClient {
                     ChannelPipeline pipeline = arg0.pipeline();
                     pipeline.addLast(new DefaultProtocolDecoder(messageFactory, messageCodec));
                     pipeline.addLast(new DefaultProtocolEncoder(messageFactory, messageCodec));
-                    pipeline.addLast((new ClientIoHandler(ioDispatcher)));
+                    pipeline.addLast((new CallbackHandler()));
+                    pipeline.addLast((new ChannelIoHandler(ioDispatcher)));
                 }
 
             });

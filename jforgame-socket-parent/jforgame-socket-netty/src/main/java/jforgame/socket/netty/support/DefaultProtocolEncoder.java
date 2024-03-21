@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @ChannelHandler.Sharable
 public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 
-	private final Logger logger = LoggerFactory.getLogger("socketserver");
+	private static final Logger logger = LoggerFactory.getLogger("socketserver");
 
 	private final MessageFactory messageFactory;
 

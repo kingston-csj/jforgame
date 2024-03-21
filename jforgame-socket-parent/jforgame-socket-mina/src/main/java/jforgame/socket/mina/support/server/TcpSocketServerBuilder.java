@@ -8,10 +8,10 @@ import jforgame.socket.share.message.MessageFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MSocketServerBuilder {
+public class TcpSocketServerBuilder {
 
-    public static MSocketServerBuilder newBuilder() {
-        return new MSocketServerBuilder();
+    public static TcpSocketServerBuilder newBuilder() {
+        return new TcpSocketServerBuilder();
     }
 
     List<HostAndPort> ipPortNodes = new ArrayList<>();
@@ -24,33 +24,33 @@ public class MSocketServerBuilder {
 
     ChainedMessageDispatcher socketIoDispatcher;
 
-    public MSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
+    public TcpSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }
 
-    public MSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
+    public TcpSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
         return this;
     }
 
-    public MSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
+    public TcpSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
         this.messageCodec = messageCodec;
         return this;
     }
 
-    public MSocketServerBuilder bindingPort(HostAndPort node) {
+    public TcpSocketServerBuilder bindingPort(HostAndPort node) {
         this.ipPortNodes.add(node);
         return this;
     }
 
-    public MSocketServerBuilder setMaxProtocolSize(int maxProtocolSize) {
+    public TcpSocketServerBuilder setMaxProtocolSize(int maxProtocolSize) {
         this.maxProtocolSize = maxProtocolSize;
         return this;
     }
 
-    public MSocketServer build() {
-        MSocketServer socketServer = new MSocketServer();
+    public TcpSocketServer build() {
+        TcpSocketServer socketServer = new TcpSocketServer();
         if (socketIoDispatcher == null) {
             throw new IllegalArgumentException("socketIoDispatcher must not null");
         }

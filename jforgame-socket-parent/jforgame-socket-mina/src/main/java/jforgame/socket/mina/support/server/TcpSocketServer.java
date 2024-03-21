@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MSocketServer implements ServerNode {
+public class TcpSocketServer implements ServerNode {
 
-    private final Logger logger = LoggerFactory.getLogger(MSocketServer.class);
+    private final Logger logger = LoggerFactory.getLogger(TcpSocketServer.class);
 
     private static final int CPU_CORE_SIZE = Runtime.getRuntime().availableProcessors();
 

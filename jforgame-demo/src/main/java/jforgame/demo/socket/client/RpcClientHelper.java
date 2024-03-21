@@ -7,7 +7,7 @@ import jforgame.socket.client.CallbackTimeoutException;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.client.Traceable;
-import jforgame.socket.mina.support.client.MSocketClient;
+import jforgame.socket.mina.support.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
@@ -46,7 +46,7 @@ public class RpcClientHelper {
     }
 
     public Object onceRequest(String ip, int port, Traceable request) throws IOException, CallbackTimeoutException {
-        SocketClient socketClient = new MSocketClient(ioDispatcher, messageFactory, messageCodec, HostAndPort.valueOf(ip, port));
+        SocketClient socketClient = new TcpSocketClient(ioDispatcher, messageFactory, messageCodec, HostAndPort.valueOf(ip, port));
         IdSession session = socketClient.openSession();
         try {
             return RpcMessageClient.request(session, request);

@@ -18,7 +18,7 @@
   ``` 
   jforgame
   ├── jforgame-commons --基础公共服务  
-  ├── jforgame-socket-parent    --socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
+  ├── jforgame-socket-parent    --Tcp socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent  --用于socket通信的数据编解码  

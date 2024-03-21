@@ -1,12 +1,9 @@
-package jforgame.socket.netty.support.client;
-
+package jforgame.demo.udp;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import jforgame.socket.client.CallBackService;
-import jforgame.socket.client.RpcResponseData;
-import jforgame.socket.client.Traceable;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.share.IdSession;
@@ -16,28 +13,29 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class ClientIoHandler extends ChannelInboundHandlerAdapter {
+@ChannelHandler.Sharable
+public class UdpChannelIoHandler extends ChannelInboundHandlerAdapter {
 
-    private final static Logger logger = LoggerFactory.getLogger(ClientIoHandler.class);
+    private final static Logger logger = LoggerFactory.getLogger("socketserver");
 
+    /** 消息分发器 */
     private final SocketIoDispatcher messageDispatcher;
 
-
-    public ClientIoHandler(SocketIoDispatcher messageDispatcher) {
+    public UdpChannelIoHandler(SocketIoDispatcher messageDispatcher) {
+        super();
         this.messageDispatcher = messageDispatcher;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        if (ChannelUtils.duplicateBindingSession(ctx.channel(),
-                new NSession(ctx.channel()))) {
+        Channel channel = ctx.channel();
+        if (ChannelUtils.duplicateBindingSession(ctx.channel(), new NSession(channel))) {
             ctx.channel().close();
-            logger.error("Duplicate session,IP=[{}]", ChannelUtils.parseRemoteAddress(ctx.channel()));
+            logger.error("Duplicate session,IP=[{}]", ChannelUtils.parseRemoteAddress(channel));
             return;
         }
-
-        IdSession session = ChannelUtils.getSessionBy(ctx.channel());
-        messageDispatcher.onSessionCreated(session);
+//        IdSession userSession = ChannelUtils.getSessionBy(channel);
+//        messageDispatcher.onSessionCreated(userSession);
     }
 
     @Override
@@ -46,20 +44,14 @@ public class ClientIoHandler extends ChannelInboundHandlerAdapter {
 
         final Channel channel = context.channel();
         IdSession session = ChannelUtils.getSessionBy(channel);
-        if (packet instanceof Traceable) {
-            Traceable traceable = (Traceable) packet;
-            RpcResponseData responseData = new RpcResponseData();
-            responseData.setResponse(packet);
-            CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
-        }
         messageDispatcher.dispatch(session, packet);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("channel[{}] inactive", ctx.channel());
-        IdSession session = ChannelUtils.getSessionBy(ctx.channel());
-        messageDispatcher.onSessionClosed(session);
+        Channel channel = ctx.channel();
+        IdSession userSession = ChannelUtils.getSessionBy(channel);
+        messageDispatcher.onSessionClosed(userSession);
     }
 
     @Override

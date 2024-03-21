@@ -8,8 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.MessageToMessageDecoder;
-import io.netty.handler.codec.MessageToMessageEncoder;
+import io.netty.handler.codec.MessageToMessageCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
@@ -97,25 +96,9 @@ public class NWebSocketServer implements ServerNode {
             // 用于处理websocket, /ws为访问websocket时的uri
             pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("/ws"));
 
-            pipeline.addLast("socketFrameToMessage", new MessageToMessageDecoder<WebSocketFrame>() {
+            pipeline.addLast("socketFrameToMessage", new MessageToMessageCodec<WebSocketFrame, Object>() {
                 @Override
-                protected void decode(ChannelHandlerContext channelHandlerContext, WebSocketFrame frame, List<Object> list) throws Exception {
-                    if (frame instanceof TextWebSocketFrame) {
-                        String json = ((TextWebSocketFrame) frame).text();
-                        TextFrame textFrame = JsonUtils.string2Object(json, TextFrame.class);
-
-                        Class clazz = GameMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
-                        Object realMsg = JsonUtils.string2Object(textFrame.msg, clazz);
-                        list.add(realMsg);
-                    } else if (frame instanceof BinaryWebSocketFrame) {
-                        throw new UnsupportedOperationException("BinaryWebSocketFrame not supported");
-                    }
-                }
-            });
-
-            pipeline.addLast("messageToSocketFrame", new MessageToMessageEncoder<Object>() {
-                @Override
-                protected void encode(ChannelHandlerContext channelHandlerContext, Object o, List<Object> list) throws Exception {
+                protected void encode(ChannelHandlerContext ctx, Object o, List<Object> list) throws Exception {
                     if (GameMessageFactory.getInstance().contains(o.getClass())) {
                         String json = JsonUtils.object2String(o);
                         TextFrame frame = new TextFrame();
@@ -129,7 +112,21 @@ public class NWebSocketServer implements ServerNode {
                         list.add(o);
                     }
                 }
+
+                @Override
+                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> out) throws Exception {
+                    if (frame instanceof TextWebSocketFrame) {
+                        String json = ((TextWebSocketFrame) frame).text();
+                        TextFrame textFrame = JsonUtils.string2Object(json, TextFrame.class);
+                        Class clazz = GameMessageFactory.getInstance().getMessage(NumberUtil.intValue(textFrame.id));
+                        Object realMsg = JsonUtils.string2Object(textFrame.msg, clazz);
+                        out.add(realMsg);
+                    } else if (frame instanceof BinaryWebSocketFrame) {
+                        throw new UnsupportedOperationException("BinaryWebSocketFrame not supported");
+                    }
+                }
             });
+
             pipeline.addLast(messageIoHandler);
         }
     }
@@ -139,7 +136,6 @@ public class NWebSocketServer implements ServerNode {
         String id;
         // 消息内容
         String msg;
-
     }
 
 

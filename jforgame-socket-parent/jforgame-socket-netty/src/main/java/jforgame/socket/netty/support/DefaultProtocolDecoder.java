@@ -80,9 +80,8 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
         TrafficStatistic.addReceivedNumber(cmd);
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);
-        Object msg = messageCodec.decode(msgClazz, body);
 
-        out.add(msg);
+        out.add(messageCodec.decode(msgClazz, body));
     }
 
 }

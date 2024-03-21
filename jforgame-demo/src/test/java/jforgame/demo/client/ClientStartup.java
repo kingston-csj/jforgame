@@ -10,7 +10,7 @@ import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.mina.support.client.MSocketClient;
+import jforgame.socket.mina.support.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
@@ -38,14 +38,23 @@ public class ClientStartup {
 			}
 		};
 
-		SocketClient socketClient = new MSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		SocketClient socketClient = new TcpSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
 		IdSession session = socketClient.openSession();
+//		ByteBuf byteBuf = Unpooled.buffer();
+//		ByteBufUtil.writeUtf8(byteBuf, "234111");
+//		ReqAccountLogin request = new ReqAccountLogin();
+//		request.setPassword("admin");
+//		request.setAccountId(123L);
+//		session.send(request);
+//		if (true) {
+//			return;
+//		}
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
 		robot.selectedPlayer(10000L);
 
 		ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
-		System.err.println("rpc 消息同步调用");
+		System.out.println("rpc 消息同步调用");
 		System.out.println(response);
 
 		RpcMessageClient.callBack(session, new ReqHello(), new RequestCallback() {
@@ -53,7 +62,7 @@ public class ClientStartup {
 			public void onSuccess(Object callBack) {
 				System.err.println("rpc 消息异步调用");
 				ResHello response = (ResHello) callBack;
-				System.out.println("----"+response);
+				System.err.println(response);
 			}
 
 			@Override
