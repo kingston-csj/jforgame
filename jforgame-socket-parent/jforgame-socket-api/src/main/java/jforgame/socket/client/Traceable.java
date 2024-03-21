@@ -9,15 +9,13 @@ public interface Traceable {
     /**
      * get index of the message
      *
-     * @return
+     * @return get index of the message
      */
     int getIndex();
 
     /**
      * set index of the message
-     * this method will be invoked automaticly
-     *
-     * @return
+     * this method will be invoked automatically
      */
     void setIndex(int index);
 }

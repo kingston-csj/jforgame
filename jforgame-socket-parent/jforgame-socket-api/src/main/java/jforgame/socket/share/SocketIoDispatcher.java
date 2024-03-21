@@ -8,20 +8,20 @@ public interface SocketIoDispatcher {
 
 	/**
 	 *
-	 * @param session
+	 * @param session socket session
 	 */
 	void onSessionCreated(IdSession session);
 
 	 /**
      * message entrance, in which io thread dispatch messages
-     * @param session
-     * @param message
+     * @param session socket session
+     * @param message request message
      */
 	void dispatch(IdSession session, Object message);
 	
 	/**
 	 * fire session close event
-	 * @param session
+	 * @param session  socket session
 	 */
 	void onSessionClosed(IdSession session);
 

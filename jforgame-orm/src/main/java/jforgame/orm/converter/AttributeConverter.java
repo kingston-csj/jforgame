@@ -24,6 +24,7 @@ public interface AttributeConverter<X, Y> {
      * column for use by the JDBC driver: i.e., persistence providers are
      * not expected to do such type conversion.
      *
+     * @param clazz the class of the dbdata
      * @param dbData the data from the database column to be
      *               converted
      * @return the converted value to be stored in the entity

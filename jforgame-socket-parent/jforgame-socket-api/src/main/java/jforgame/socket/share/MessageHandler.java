@@ -9,6 +9,8 @@ public interface MessageHandler {
      * @param session target session
      * @param message the message received
      * @return true if you need the chain to pass the message to the next {@link MessageHandler} node
+     * Throws:
+     * Exception when handling message
      */
     boolean messageReceived(IdSession session, Object message) throws Exception ;
 

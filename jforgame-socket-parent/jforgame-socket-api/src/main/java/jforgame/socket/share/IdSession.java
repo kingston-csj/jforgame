@@ -16,7 +16,8 @@ public interface IdSession extends Closeable {
     String ID = "ID";
 
     /**
-     * Return a unique session identifier.
+     * get a unique session identifier
+     * @return Return a unique session identifier
      */
     default String getId() {
         if (getAttribute(ID) != null) {
@@ -30,8 +31,8 @@ public interface IdSession extends Closeable {
     /**
      * send message with index.
      * when client wants to send a message and then gets its response, the message must be {@link  Traceable}
-     * @param index
-     * @param packet
+     * @param index index of the request message
+     * @param packet message to send
      */
     default void send(int index, Object packet) {
         if (!(packet instanceof Traceable)) {
@@ -57,16 +58,16 @@ public interface IdSession extends Closeable {
     /**
      * update session attribute
      *
-     * @param key
-     * @param value
+     * @param key  key of the attribute
+     * @param value value of the attribute
      */
     void setAttribute(String key, Object value);
 
     /**
      * get session attribute
      *
-     * @param key
-     * @return
+     * @param key target attribute key
+     * @return the value associated with the key
      */
     Object getAttribute(String key);
 

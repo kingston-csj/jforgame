@@ -17,7 +17,7 @@ public @interface MessageRoute {
 
     /**
      * module of the message
-     * @return
+     * @return module of the message
      */
     short module() default 0;
 }

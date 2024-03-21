@@ -29,14 +29,23 @@ public class MessageMetadata implements Comparable<MessageMetadata> {
         return module;
     }
 
+    /**
+     * @return cmd of the message
+     */
     public int getCmd() {
         return cmd;
     }
 
+    /**
+     * @return id of the message, including module and cmd
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @return name of the message
+     */
     public String getName() {
         return name;
     }

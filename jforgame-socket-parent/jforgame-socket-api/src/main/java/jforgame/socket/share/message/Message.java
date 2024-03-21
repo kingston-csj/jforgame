@@ -12,7 +12,7 @@ public interface Message {
 
     /**
      * messageMeta, module of message
-     * @return
+     * @return module of message
      */
     default short getModule() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
@@ -24,8 +24,7 @@ public interface Message {
 
     /**
      * messageMeta, subType of module
-     * @see
-     * @return
+     * @return cmd of message
      */
     default int getCmd() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
@@ -34,6 +33,7 @@ public interface Message {
         }
         return 0;
     }
+
 
     default String key() {
         return this.getModule() + "_" + this.getCmd();

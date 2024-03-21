@@ -17,7 +17,7 @@ public class RpcMessageClient {
      * @param session target session
      * @param request request message
      * @param callBack response callback
-     * @throws CallbackTimeoutException
+     * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
      */
     public static void callBack(IdSession session, Traceable request, RequestCallback callBack) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
@@ -31,10 +31,10 @@ public class RpcMessageClient {
     /**
      * send a message to an appointed session, a response message will be returned as a return value.
      * If no response arrives, a CallbackTimeoutException exception will be thrown.
-     * @param session
-     * @param request
-     * @return
-     * @throws CallbackTimeoutException
+     * @param session socket session
+     * @param request traceable message
+     * @return response message
+     * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
      */
     public static Object request(IdSession session, Traceable request) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();

@@ -32,8 +32,8 @@ public class OrmBridge {
 	}
 
 	/**
-	 * 返回查询实体的id组合
-	 * @return
+	 * 查询实体的id组合
+	 * @return 实体所有的主键字段
 	 */
 	public List<String> getQueryProperties() {
 		return new ArrayList<>(this.uniqueProperties);

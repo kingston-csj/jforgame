@@ -104,7 +104,7 @@ public abstract class StatefulEntity extends Stateful {
     /**
      * 是否数据库已有对应的实体
      *
-     * @return
+     * @return 是否数据库已有对应的实体
      */
     public boolean existedInDb() {
         return persistent.get();
