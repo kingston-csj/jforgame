@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jforgame</groupId>
+    <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-parent</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <name>jforgame-parent</name>
-    <description>Parent for jforgame artifacts</description>
+    <description>jforgame is d lightweight online game framework written in Java. The project just shows some simple logic examples, and provides most of the base components for rapid game development. You only need to focus on game logic then. </description>
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
@@ -345,11 +345,11 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-version-plugin</artifactId>
-                <version>3.2.1</version>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-version-plugin</artifactId>-->
+<!--                <version>3.2.1</version>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>

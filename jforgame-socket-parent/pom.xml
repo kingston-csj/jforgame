@@ -5,12 +5,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <parent>
         <artifactId>jforgame-parent</artifactId>
-        <groupId>org.jforgame</groupId>
+        <groupId>io.github.jforgame</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.jforgame</groupId>
+    <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-socket-parent</artifactId>
     <packaging>pom</packaging>
 

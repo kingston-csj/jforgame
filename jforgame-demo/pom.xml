@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jforgame</groupId>
+        <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-parent</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -17,32 +17,32 @@
     <dependencies>
         <!-- 该项目其他模块 -->
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-commons</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-socket-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-socket-mina</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-orm</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-doctor</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-struct</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
