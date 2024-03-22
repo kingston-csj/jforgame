@@ -11,11 +11,13 @@ public interface ExtendedChannelHandler {
 
     /**
      * Netty ChannelHandlers to be added before built-in Handler.
+     * @return ChannelHandlers as front door
      */
     List<ChannelHandler> frontChannelHandlers();
 
     /**
      * Netty ChannelHandlers to be added after built-in Handler.
+     * @return ChannelHandlers as back door
      */
     List<ChannelHandler> backChannelHandlers();
 }

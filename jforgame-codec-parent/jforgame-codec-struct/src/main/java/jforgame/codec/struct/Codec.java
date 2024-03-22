@@ -38,8 +38,8 @@ public abstract class Codec {
 	/**
 	 * binding clazz and codec
 	 * if clazz repeated, an IllegalStateException exception thrown
-	 * @param clazz
-	 * @param codec
+	 * @param clazz class of the message
+	 * @param codec codec of the message
 	 */
 	public static void register(Class<?> clazz, Codec codec) {
 		if (class2Serializers.containsKey(clazz)) {
@@ -52,8 +52,8 @@ public abstract class Codec {
 	 * rebinding clazz and codec
 	 * you can use this api to replace a relation between clazz and codec
 	 * when you want to use a compress version of IntCodec or other types
-	 * @param clazz
-	 * @param codec
+	 * @param clazz class of the message
+	 * @param codec codec of the message
 	 */
 	public static void replace(Class<?> clazz, Codec codec) {
 		if (class2Serializers.containsKey(clazz)) {
@@ -70,7 +70,6 @@ public abstract class Codec {
 			return class2Serializers.get(Object[].class);
 		}
 		Field[] fields = clazz.getDeclaredFields();
-		LinkedHashMap<Field, Class<?>> sortedFields = new LinkedHashMap<>();
 		List<FieldCodecMeta> fieldsMeta = new ArrayList<>();
 		for (Field field: fields) {
 			int modifier = field.getModifiers();
@@ -78,7 +77,6 @@ public abstract class Codec {
 				continue;
 			}
 			field.setAccessible(true);
-			sortedFields.put(field, field.getType());
 			Class<?> type = field.getType();
 			Codec codec = Codec.getSerializer(type);
 
@@ -91,18 +89,18 @@ public abstract class Codec {
 
 	/**
 	 * 消息解码
-	 * @param in
-	 * @param type
+	 * @param in buff to read
+	 * @param type class type
 	 * @param wrapper 集合元素包装类
-	 * @return
+	 * @return request message
 	 */
 	public abstract Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper);
 
-	
+
 	/**
 	 * 消息编码
-	 * @param out
-	 * @param value
+	 * @param out buff to write
+	 * @param value message object
 	 * @param wrapper 集合元素包装类
 	 */
 	public abstract void encode(ByteBuffer out, Object value, Class<?> wrapper);

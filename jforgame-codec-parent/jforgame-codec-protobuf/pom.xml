@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>jforgame-codec-parent</artifactId>
-        <groupId>org.jforgame</groupId>
+        <groupId>io.github.jforgame</groupId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.jforgame</groupId>
+            <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-api</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>

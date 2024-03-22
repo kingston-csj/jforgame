@@ -1,10 +1,10 @@
-  ## English | [中文](README.md)  
-  
-  ## jforgame　　
-  A lightweight online game framework written in Java. The project just shows some simple logic examples, the most imporant is to provide most of the base functions for rapid game development. You only need to focus on game logic then. The project use maven to manage jar dependency and build project  
+## English | [中文](README.md)
+
+## jforgame　　
+A lightweight online game framework written in Java. The project just shows some simple logic examples, the most important is to provide most of the base components for rapid game development. You only need to focus on game logic then. The project use maven to manage jar dependency and build project
 
 
-  ## Module Directory  
+## Module Directory
   ``` 
   jforgame  
   ├── jforgame-common --base common service  
@@ -25,8 +25,8 @@
   |    ├──  tools pakcage, little tool to support project's development  
   |    └──  utils package, code utils    
   ``` 
-  
-  ## Third Party 
+
+## Third Party
   Name | Purpose | Official website  
   ----|------|----     
   Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
@@ -40,17 +40,17 @@
   maven | manage jar dependency, build project| [http://maven.apache.org/](http://maven.apache.org/)  
 
 
-  ## QuickStart  
-  1. Use git to download codes, git clone https://github.com/kingston-csj/jforgame  
-  2. Import maven project to your ide  
-  3. Create new database named game_data_001 and import resources/game_data_001.sql into it. Similarly, create new databse named game_user_001 and import resources/game_user_001.sql into it
-  4. Start game server，entrance is ServerStartup.java  
-  5. Start robot client，entrance is ClientStartup.java
+## QuickStart
+1. Use git to download codes, git clone https://github.com/kingston-csj/jforgame
+2. Import maven project to your ide
+3. Create new database named game_data_001 and import resources/game_data_001.sql into it. Similarly, create new databse named game_user_001 and import resources/game_user_001.sql into it
+4. Start game server，entrance is ServerStartup.java
+5. Start robot client，entrance is ClientStartup.java
 
 
-  Chinese wiki --> [wiki](https://github.com/kingston-csj/jforgame/wiki)  
-  
-  ## Contributing  
-  We are always looking for people to join us. If you have an issue, feature request, or pull request, let us know!  
-  Many thanks for your stars!!
+Chinese wiki --> [wiki](https://github.com/kingston-csj/jforgame/wiki)
+
+## Contributing
+We are always looking for people to join us. If you have an issue, feature request, or pull request, let us know!  
+Many thanks for your stars!!
   

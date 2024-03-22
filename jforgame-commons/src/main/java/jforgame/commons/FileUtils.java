@@ -19,6 +19,7 @@ public class FileUtils {
      * read file content based on Utf-8
      *
      * @param fileName targetFileName
+     * @return text content of the file
      */
     public static String readFullText(String fileName) throws IOException {
         File file = new File(fileName);
@@ -29,10 +30,22 @@ public class FileUtils {
         return readFullText(in);
     }
 
+    /**
+     * Read all lines from a file as a Stream. Bytes from the file are decoded into characters using the UTF-8 charset.
+     * @param fileName the name of the file
+     * @return the lines from the file as a Stream
+     * @throws IOException if an I/O error occurs when opening the file
+     */
     public static Stream<String> readLines(String fileName) throws IOException {
         return Files.lines(Paths.get(fileName));
     }
 
+    /**
+     * read file content based on Utf-8
+     *
+     * @param inputStream targetInputStream
+     * @return text content of the file
+     */
     public static String readFullText(InputStream inputStream) throws IOException {
         StringBuilder result = new StringBuilder();
         // 指定读取文件时以UTF-8的格式读取

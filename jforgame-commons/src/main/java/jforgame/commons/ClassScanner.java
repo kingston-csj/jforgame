@@ -31,7 +31,7 @@ public class ClassScanner {
 
 	/**
 	 * 扫描目录下的所有class文件
-	 * 
+	 *
 	 * @param scanPackage 搜索的包根路径
 	 */
 	public static Set<Class<?>> listClasses(String scanPackage) {
@@ -40,7 +40,7 @@ public class ClassScanner {
 
 	/**
 	 * 返回所有的子类（不包括抽象类）
-	 * 
+	 *
 	 * @param scanPackage the path to scan
 	 * @param parent parent class type
 	 */
@@ -50,13 +50,13 @@ public class ClassScanner {
 
 	/**
 	 * 返回所有带制定注解的class列表
-	 * 
+	 *
 	 * @param scanPackage 搜索的包根路径
 	 * @param annotation target annotation of the class
 	 * @return
 	 */
 	public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage,
-			Class<A> annotation) {
+																				 Class<A> annotation) {
 		return listClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);
 	}
 
@@ -64,14 +64,14 @@ public class ClassScanner {
 	 * 扫描目录下的所有class文件
 	 * @param pack   包路径
 	 * @param filter 自定义类过滤器
-	 * @return
+	 * @return all the classes that meet filter rule
 	 */
 	public static Set<Class<?>> listClasses(String pack, Predicate<Class<?>> filter) {
 		Set<Class<?>> result = new LinkedHashSet<>();
 		// 是否循环迭代
 		boolean recursive = true;
 		// 获取包的名字 并进行替换
-        String packageDirName = pack.replace('.', '/');
+		String packageDirName = pack.replace('.', '/');
 		// 定义一个枚举的集合 并进行循环来处理这个目录下的things
 		Enumeration<URL> dirs;
 		try {
@@ -102,7 +102,7 @@ public class ClassScanner {
 	}
 
 	private static Set<Class<?>> findClassFromJar(URL url, String packageName, String packageDirName, boolean recursive,
-			Predicate<Class<?>> filter) {
+												  Predicate<Class<?>> filter) {
 		Set<Class<?>> result = new LinkedHashSet<>();
 		try {
 			// 获取jar
@@ -140,7 +140,7 @@ public class ClassScanner {
 									result.add(c);
 								}
 							} catch (ClassNotFoundException e) {
-								logger.error("", e);  
+								logger.error("", e);
 							}
 						}
 					}
@@ -153,15 +153,15 @@ public class ClassScanner {
 	}
 
 	private static void findAndAddClassesInPackageByFile(String packageName, String packagePath,
-			final boolean recursive, Set<Class<?>> classes, Predicate<Class<?>> filter) {
+														 final boolean recursive, Set<Class<?>> classes, Predicate<Class<?>> filter) {
 		File dir = new File(packagePath);
 		// 如果不存在或者 也不是目录就直接返回
 		if (!dir.exists() || !dir.isDirectory()) {
 			return;
 		}
 		// 如果存在 就获取包下的所有文件 包括目录
-        // 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
-        File[] files = dir.listFiles(file -> (recursive && file.isDirectory()) || (file.getName().endsWith(".class")));
+		// 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
+		File[] files = dir.listFiles(file -> (recursive && file.isDirectory()) || (file.getName().endsWith(".class")));
 		// 循环所有文件
 		for (File file : files) {
 			// 如果是目录 则继续扫描
@@ -179,7 +179,7 @@ public class ClassScanner {
 						classes.add(clazz);
 					}
 				} catch (ClassNotFoundException e) {
-					logger.error("", e);  
+					logger.error("", e);
 				}
 			}
 		}
