@@ -17,6 +17,7 @@ import java.util.Set;
 public class CollectionCodec extends Codec {
 
 	@Override
+	@SuppressWarnings("all")
 	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
 		int size = ByteBuffUtil.readShort(in);
 		int modifier = type.getModifiers();

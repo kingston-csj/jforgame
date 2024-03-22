@@ -10,24 +10,24 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
 public class ChannelUtils {
-	
-public static AttributeKey<IdSession> SESSION_KEY = AttributeKey.valueOf("session");
-	
+
+	public static AttributeKey<IdSession> SESSION_KEY = AttributeKey.valueOf("session");
+
 	/**
-	 * @param channel
-	 * @param session
+	 * @param channel target channel
+	 * @param session session to bind
 	 * @return true if this channel has bound its session
 	 */
 	public static boolean duplicateBindingSession(Channel channel, IdSession session) {
 		Attribute<IdSession> sessionAttr = channel.attr(SESSION_KEY);
 		return !sessionAttr.compareAndSet(null, session);
 	}
-	
+
 	public static IdSession getSessionBy(Channel channel) {
 		Attribute<IdSession> sessionAttr = channel.attr(SESSION_KEY);
 		return sessionAttr.get() ;
 	}
-	
+
 	public static String parseRemoteAddress(Channel channel) {
 		if (null == channel) {
 			return "";

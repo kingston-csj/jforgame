@@ -20,18 +20,19 @@ public @interface MessageMeta {
 	/**
 	 * indicate the message pipeline direction,
 	 * some from client to server, or from server to server
+	 * @return source meta of the message
 	 */
 	byte source() default 0;
 
 	/**
 	 * module of the message
-	 * @return
+	 * @return module meta of the message
 	 */
 	short module() default 0;
 
 	/**
 	 * cmd of the message
-	 * @return
+	 * @return cmd of the message
 	 */
 	int cmd() default 0;
 
