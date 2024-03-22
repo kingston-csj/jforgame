@@ -9,7 +9,7 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <name>jforgame-parent</name>
-    <description>jforgame is d lightweight online game framework written in Java. The project just shows some simple logic examples, and provides most of the base components for rapid game development. You only need to focus on game logic then. </description>
+    <description>jforgame is a lightweight online game framework written in Java. The project just shows some simple logic examples, and provides most of the base components for rapid game development. You only need to focus on game logic then. </description>
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
@@ -37,9 +37,9 @@
         <module>jforgame-commons</module>
         <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>
-<!--        <module>jforgame-hotswap</module>-->
-<!--        <module>jforgame-orm</module>-->
-<!--        <module>jforgame-demo</module>-->
+        <!--        <module>jforgame-hotswap</module>-->
+        <!--        <module>jforgame-orm</module>-->
+        <!--        <module>jforgame-demo</module>-->
     </modules>
     <issueManagement>
         <system>GitHub Issues</system>
@@ -272,6 +272,7 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <tokenAuth>true</tokenAuth>
+                    <checksums>required</checksums>
                 </configuration>
             </plugin>
             <plugin>
@@ -345,11 +346,6 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-version-plugin</artifactId>-->
-<!--                <version>3.2.1</version>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>

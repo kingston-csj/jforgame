@@ -5,7 +5,7 @@
     <parent>
         <artifactId>jforgame-codec-parent</artifactId>
         <groupId>io.github.jforgame</groupId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -16,7 +16,7 @@
         <dependency>
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-api</artifactId>
-            <version>${project.parent.version}</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
