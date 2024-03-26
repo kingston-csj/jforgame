@@ -72,7 +72,8 @@
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
   本栏目详细教程 -->  [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
-                    [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
+                    [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)  
+                    [开房间类网游五子棋代码](https://blog.csdn.net/littleschemer/article/details/137053262)
 
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！

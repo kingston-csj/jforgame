@@ -37,7 +37,7 @@ public class GameServer {
 
 	private static Logger logger = LoggerFactory.getLogger(GameServer.class);
 
-	private static GameServer gameServer = new GameServer();
+	private static GameServer self = new GameServer();
 
 	private ServerNode socketServer;
 
@@ -45,9 +45,16 @@ public class GameServer {
 
 	private ServerNode crossServer;
 
+	private MonitorGameExecutor gameExecutor = new MonitorGameExecutor();
+
 	public static GameServer getInstance() {
-		return gameServer;
+		return self;
 	}
+
+	public static MonitorGameExecutor getMonitorGameExecutor() {
+		return self.gameExecutor;
+	}
+
 
 	public void start() throws Exception {
 		StopWatch stopWatch = new StopWatch();

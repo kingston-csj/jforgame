@@ -45,7 +45,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
             task.setRequest(message);
             // 丢到任务消息队列，不在io线程进行业务处理
-            GameExecutor.getInstance().acceptTask(task);
+            GameServer.getMonitorGameExecutor().accept(task);
             return true;
         };
 
@@ -127,7 +127,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
                     GameContext.playerManager.playerLogout(playerId);
                 }
             };
-            GameExecutor.getInstance().acceptTask(closeTask);
+            GameServer.getMonitorGameExecutor().accept(closeTask);
         }
     }
 
