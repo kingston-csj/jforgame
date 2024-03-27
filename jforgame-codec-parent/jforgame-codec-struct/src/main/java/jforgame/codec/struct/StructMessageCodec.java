@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 
 public class StructMessageCodec implements MessageCodec {
 
-	private static Logger logger = LoggerFactory.getLogger(StructMessageCodec.class);
+	private static final Logger logger = LoggerFactory.getLogger(StructMessageCodec.class);
 
 	private int WRITE_BUFF_SIZE = 1024;
 
@@ -23,8 +23,7 @@ public class StructMessageCodec implements MessageCodec {
 		
 		try {
 			Codec messageCodec = Codec.getSerializer(msgClazz);
-			Object message =  messageCodec.decode(in, msgClazz, null);
-			return message;
+            return messageCodec.decode(in, msgClazz, null);
 		} catch (Exception e) {
 			logger.error("", e);
 		}

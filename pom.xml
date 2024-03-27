@@ -35,7 +35,7 @@
 
     <modules>
         <module>jforgame-commons</module>
-<!--        <module>jforgame-codec-parent</module>-->
+        <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>
         <module>jforgame-hotswap</module>
         <module>jforgame-orm</module>

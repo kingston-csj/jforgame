@@ -35,18 +35,19 @@ public class TestLazyCacheMap {
 	
 	@Test
 	public void testTimeout() throws Exception {
-		LazyCacheMap<String, String> cache = new LazyCacheMap<>(3, 100, true);
+		LazyCacheMap<String, String> cache = new LazyCacheMap<>(2, 300, true);
 
 		cache.put("a", "a");
 		cache.put("b", "b");
 		
 		
-		Thread.sleep(150);
+		Thread.sleep(200);
+		Assert.assertNotNull(cache.get("a"));
 		cache.put("c", "c");
 
-        Assert.assertNotNull(cache.get("b"));
+		Thread.sleep(100);
         Assert.assertNotNull(cache.get("c"));
-        Assert.assertNull(cache.get("a"));
+        Assert.assertNull(cache.get("b"));
 	}
 
 }

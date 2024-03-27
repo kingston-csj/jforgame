@@ -27,7 +27,7 @@
         <dependency>
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-api</artifactId>
-            <version>1.0.0</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -7,6 +7,11 @@ package jforgame.commons;
  */
 public class TimeUtil {
 
+
+    private TimeUtil() {
+
+    }
+
     /**
      * Number of milliseconds in a standard second.
      */

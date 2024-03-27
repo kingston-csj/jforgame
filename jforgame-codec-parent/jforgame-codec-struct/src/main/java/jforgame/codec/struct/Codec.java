@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Codec {
 
-	private static Map<Class<?>, Codec> class2Serializers = new ConcurrentHashMap<>();
+	private static final Map<Class<?>, Codec> class2Serializers = new ConcurrentHashMap<>();
 
 	static {
 		register(Boolean.TYPE, new BooleanCodec());
@@ -69,19 +68,25 @@ public abstract class Codec {
 		if (clazz.isArray()) {
 			return class2Serializers.get(Object[].class);
 		}
-		Field[] fields = clazz.getDeclaredFields();
-		List<FieldCodecMeta> fieldsMeta = new ArrayList<>();
-		for (Field field: fields) {
-			int modifier = field.getModifiers();
-			if (Modifier.isFinal(modifier) || Modifier.isStatic(modifier) || Modifier.isTransient(modifier)) {
-				continue;
-			}
-			field.setAccessible(true);
-			Class<?> type = field.getType();
-			Codec codec = Codec.getSerializer(type);
+		Class<?> currClazz = clazz;
 
-			fieldsMeta.add(FieldCodecMeta.valueOf(field, codec));
+		List<FieldCodecMeta> fieldsMeta = new ArrayList<>();
+		while (currClazz != Object.class) {
+			Field[] fields = currClazz.getDeclaredFields();
+			for (Field field: fields) {
+				int modifier = field.getModifiers();
+				if (Modifier.isFinal(modifier) || Modifier.isStatic(modifier) || Modifier.isTransient(modifier)) {
+					continue;
+				}
+				field.setAccessible(true);
+				Class<?> type = field.getType();
+				Codec codec = Codec.getSerializer(type);
+
+				fieldsMeta.add(FieldCodecMeta.valueOf(field, codec));
+			}
+			currClazz = currClazz.getSuperclass();
 		}
+
 		Codec messageCodec = BeanCodec.valueOf(fieldsMeta);
 		Codec.register(clazz, messageCodec);
 		return messageCodec;

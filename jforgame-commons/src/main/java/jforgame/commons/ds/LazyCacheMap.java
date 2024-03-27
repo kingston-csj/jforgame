@@ -131,7 +131,7 @@ public class LazyCacheMap<K, V> {
     }
 
     @SuppressWarnings("hiding")
-    class Element<V> {
+    static class Element<V> {
         V value;
         /** 元素添加时的时间戳 */
         long bornTime;
