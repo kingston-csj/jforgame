@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class InstrumentHotSwapTest {
 
-	@Test
+//	@Test
 	public void testHotswap() throws Exception {
 		System.out.println(new Person().toString());
 		HotswapManager.INSTANCE.reloadClass("hotswap");

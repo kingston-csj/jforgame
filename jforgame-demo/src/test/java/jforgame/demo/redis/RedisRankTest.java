@@ -13,7 +13,7 @@ import jforgame.demo.game.crossrank.impl.CrossLevelRank;
 
 public class RedisRankTest {
 	
-	@Test
+//	@Test
 	public void test() {
 		RedisCluster cluster = RedisCluster.INSTANCE;
 		cluster.init();

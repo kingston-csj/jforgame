@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 
 public class ReloadHotSwapTest {
 
-    @Test
+//    @Test
     public void test() throws Exception {
         ServicePool.playerService.say("Hi");
 

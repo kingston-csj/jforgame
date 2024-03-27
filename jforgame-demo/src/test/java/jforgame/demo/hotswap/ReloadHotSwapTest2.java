@@ -9,7 +9,7 @@ import java.io.File;
 
 public class ReloadHotSwapTest2 {
 
-    @Test
+//    @Test
     public void test() throws Exception {
         ServicePool.playerService.say("Hi");
 

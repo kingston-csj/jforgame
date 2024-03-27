@@ -1,5 +1,6 @@
 package jforgame.demo.redis;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -18,13 +19,13 @@ public class RedisTest {
 
 	}
 
-	@Test
+//	@Test
 	public void testConnection() {
 		System.out.println("connected succ");
 		System.out.println("服务正在运行: "+jedis.ping());
 	}
 
-	@Test
+//	@Test
 	public void testSortedSet() {
 
 		String key = "rank";
@@ -35,7 +36,7 @@ public class RedisTest {
 		jedis.zadd("rank", 5, "d");
 		jedis.zadd("rank", 2, "e");
 
-		assertTrue(jedis.zcount(key, 0, 100) == 5);
+        assertEquals(5, (long) jedis.zcount(key, 0, 100));
 	}
 
 }

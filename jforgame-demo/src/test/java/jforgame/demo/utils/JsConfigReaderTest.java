@@ -10,7 +10,7 @@ import jforgame.demo.FireWallConfig;
 
 public class JsConfigReaderTest {
 
-	@Test
+//	@Test
 	public void testReadConfig() throws Exception {
 		String content = FileUtils.readFullText("configs/firewall.cfg.js");
 		

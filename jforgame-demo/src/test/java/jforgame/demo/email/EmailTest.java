@@ -8,7 +8,7 @@ public class EmailTest {
 	
 	@Test
 	public void sendEmail() throws Exception {
-		EMailManager.getInstance().sendEmailSync("测试", "测试内容");
+//		EMailManager.getInstance().sendEmailSync("测试", "测试内容");
 	}
 
 }

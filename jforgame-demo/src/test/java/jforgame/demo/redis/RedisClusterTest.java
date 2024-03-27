@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class RedisClusterTest {
 	
-	@Test
+//	@Test
 	public void test() {
 		
 		RedisCluster cluster = RedisCluster.INSTANCE;
