@@ -16,6 +16,8 @@ import java.util.Map;
 
 public class JavaDoctor {
 
+    private final Logger logger = LoggerFactory.getLogger(JavaDoctor.class.getName());
+
     private static final JavaDoctor self = new JavaDoctor();
 
     public static byte[] fixData;
@@ -23,8 +25,6 @@ public class JavaDoctor {
     public static String log;
 
     public static Exception exception;
-
-    private Logger logger = LoggerFactory.getLogger(JavaDoctor.class.getName());
 
     public static JavaDoctor getInstance() {
         return self;
@@ -48,7 +48,7 @@ public class JavaDoctor {
 
         DynamicClassLoader classLoader = new DynamicClassLoader(classBytes);
 //        Thread.currentThread().setContextClassLoader(classLoader);
-        ClassLoader c1 = Thread.currentThread().getContextClassLoader();
+//        ClassLoader c1 = Thread.currentThread().getContextClassLoader();
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
             classLoader.loadClass(entry.getKey());
         }
@@ -69,7 +69,7 @@ public class JavaDoctor {
         return true;
     }
 
-    private String reloadClass(String path, Map<String, byte[]> classBytes) {
+    private void reloadClass(String path, Map<String, byte[]> classBytes) {
         try {
             // 拿到当前jvm的进程id
             String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
@@ -82,10 +82,8 @@ public class JavaDoctor {
             if (exception != null) {
                 logger.error("hot swap failed ", exception);
             }
-            return log;
         } catch (Throwable e) {
             logger.error("", e);
-            return "hot swap failed";
         }
     }
 }

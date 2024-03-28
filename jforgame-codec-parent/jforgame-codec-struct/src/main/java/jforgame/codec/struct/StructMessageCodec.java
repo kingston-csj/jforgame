@@ -10,9 +10,9 @@ public class StructMessageCodec implements MessageCodec {
 
 	private static final Logger logger = LoggerFactory.getLogger(StructMessageCodec.class);
 
-	private int WRITE_BUFF_SIZE = 1024;
+	private final int WRITE_BUFF_SIZE = 1024;
 
-	private ThreadLocal<ByteBuffer> localBuff = ThreadLocal.withInitial(() -> ByteBuffer.allocate(WRITE_BUFF_SIZE));
+	private final ThreadLocal<ByteBuffer> localBuff = ThreadLocal.withInitial(() -> ByteBuffer.allocate(WRITE_BUFF_SIZE));
 
 
 	public Object decode(Class<?> msgClazz, byte[] body) {

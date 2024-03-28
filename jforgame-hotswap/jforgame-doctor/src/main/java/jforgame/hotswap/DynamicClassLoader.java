@@ -3,14 +3,17 @@ package jforgame.hotswap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class DynamicClassLoader extends ClassLoader {
 
-    private Logger logger = LoggerFactory.getLogger(DynamicClassLoader.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DynamicClassLoader.class.getName());
 
     private Map<String, byte[]> classByteDef;
+
+    private DynamicClassLoader() {
+
+    }
 
     public DynamicClassLoader(Map<String, byte[]> classByteDef) {
         super(DynamicClassLoader.class.getClassLoader());
@@ -19,7 +22,7 @@ public class DynamicClassLoader extends ClassLoader {
 
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        Class c = null;
+        Class<?> c = null;
         try {
             c = super.findClass(name);
         } catch (ClassNotFoundException ignore) {
@@ -31,7 +34,7 @@ public class DynamicClassLoader extends ClassLoader {
                 throw new ClassNotFoundException(name);
             }
             c = super.defineClass(name, data, 0, data.length);
-            logger.error("注入新类 {}", name);
+            logger.error("loaded new class {}", name);
         }
         return c;
     }

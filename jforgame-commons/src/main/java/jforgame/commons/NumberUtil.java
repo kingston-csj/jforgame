@@ -6,6 +6,11 @@ package jforgame.commons;
  */
 public final class NumberUtil {
 
+
+    private NumberUtil() {
+
+    }
+
     public static boolean booleanValue(Object object) {
         return booleanValue(object, Boolean.FALSE);
     }

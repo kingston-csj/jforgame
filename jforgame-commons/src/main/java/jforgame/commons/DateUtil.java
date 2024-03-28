@@ -16,6 +16,10 @@ public class DateUtil {
         }
     };
 
+    private DateUtil() {
+
+    }
+
     public static String format(Date date) {
         return STANDARD_FMT.get().format(date);
     }

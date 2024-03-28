@@ -45,8 +45,8 @@ public class MyAgent {
                 try {
                     if (scl.loadClass(fileName) != null) {
                         ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName), entry.getValue());
-                        inst.redefineClasses(new ClassDefinition[]{clazzDef});
-                        sb.append(fileName + ";");
+                        inst.redefineClasses(clazzDef);
+                        sb.append(fileName).append(";");
                     }
                 } catch (ClassNotFoundException ignore) {
 
