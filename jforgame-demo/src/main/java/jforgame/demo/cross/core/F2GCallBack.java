@@ -1,7 +1,7 @@
 package jforgame.demo.cross.core;
 
+import jforgame.commons.JsonUtil;
 import jforgame.demo.game.Modules;
-import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
@@ -20,7 +20,7 @@ public class F2GCallBack implements Message, Traceable {
 
     public static F2GCallBack valueOf(Message message) {
         F2GCallBack response = new F2GCallBack();
-        response.data = JsonUtils.object2String(message);
+        response.data = JsonUtil.object2String(message);
         response.msgClass = message.getClass().getName();
 
         return response;
@@ -52,7 +52,7 @@ public class F2GCallBack implements Message, Traceable {
 
     public Message getMessage() {
         try {
-            return (Message) JsonUtils.string2Object(data, Class.forName(msgClass));
+            return (Message) JsonUtil.string2Object(data, Class.forName(msgClass));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

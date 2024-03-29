@@ -1,7 +1,7 @@
 package jforgame.demo.game.logger;
 
 
-import jforgame.demo.utils.JsonUtils;
+import jforgame.commons.JsonUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,7 +80,7 @@ public enum LoggerBusiness {
             String value = args[i + 1];
             params.put(key, value);
         }
-        logger.info(JsonUtils.object2String(params));
+        logger.info(JsonUtil.object2String(params));
     }
 
 }

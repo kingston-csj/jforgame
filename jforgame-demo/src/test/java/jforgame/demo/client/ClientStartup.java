@@ -2,11 +2,11 @@
 package jforgame.demo.client;
 
 import jforgame.codec.struct.StructMessageCodec;
+import jforgame.commons.JsonUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
 import jforgame.demo.socket.GameMessageFactory;
-import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
@@ -30,7 +30,7 @@ public class ClientStartup {
 		SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
 			@Override
 			public void dispatch(IdSession session, Object message) {
-				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtils.object2String(message));
+				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
 			}
 			@Override
 			public void exceptionCaught(IdSession session, Throwable cause) {
@@ -40,15 +40,7 @@ public class ClientStartup {
 
 		SocketClient socketClient = new TcpSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
 		IdSession session = socketClient.openSession();
-//		ByteBuf byteBuf = Unpooled.buffer();
-//		ByteBufUtil.writeUtf8(byteBuf, "234111");
-//		ReqAccountLogin request = new ReqAccountLogin();
-//		request.setPassword("admin");
-//		request.setAccountId(123L);
-//		session.send(request);
-//		if (true) {
-//			return;
-//		}
+
 		ClientPlayer robot = new ClientPlayer(session);
 		robot.login();
 		robot.selectedPlayer(10000L);

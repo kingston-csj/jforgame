@@ -1,8 +1,8 @@
 package jforgame.demo.cross.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jforgame.commons.JsonUtil;
 import jforgame.demo.game.Modules;
-import jforgame.demo.utils.JsonUtils;
 import jforgame.socket.client.RequestResponseFuture;
 import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
@@ -46,13 +46,13 @@ public class G2FCallBack implements Message, Traceable {
     }
 
     public void serialize() {
-        String json = JsonUtils.object2String(params);
+        String json = JsonUtil.object2String(params);
         this.data = Base64.getEncoder().encodeToString(json.getBytes());
     }
 
     public void deserialize() {
         byte[] json = Base64.getDecoder().decode(this.data);
-        this.params = JsonUtils.string2Map(new String(json), String.class, String.class);
+        this.params = JsonUtil.string2Map(new String(json), String.class, String.class);
     }
 
     public int getIndex() {
