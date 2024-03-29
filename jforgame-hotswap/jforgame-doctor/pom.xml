@@ -14,13 +14,14 @@
 	<artifactId>jforgame-doctor</artifactId>
 
 	<dependencies>
+		<!-- tools.jar包，jdk9+不用外部导入
+		 所以这里用了optional参数，如果是jdk8及以下，需要客户端代码自行添加-->
 		<dependency>
-			<groupId>com.sun</groupId>
-			<artifactId>tools</artifactId>
-			<version>1.8.0</version>
-			<scope>system</scope>
-			<!--JDK9 ?? -->
-			<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+			<groupId>com.github.olivergondza</groupId>
+			<artifactId>maven-jdk-tools-wrapper</artifactId>
+			<version>0.1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 	</dependencies>
