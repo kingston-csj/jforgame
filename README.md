@@ -18,10 +18,16 @@
   ``` 
   jforgame
   ├── jforgame-commons --基础公共服务  
-  ├── jforgame-socket-parent    --Tcp socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
+  ├── jforgame-socket-parent     --Tcp socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
+      ├── jforgame-socket-api    --服务端/客户端基础API接口
+      ├── jforgame-socket-netty  --netty版实现，包含简易WebSocket
+      ├── jforgame-socket-mina   --mina版实现
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── jforgame-hotswap  --支持游戏业务热更新
-  ├── jforgame-codec-parent  --用于socket通信的数据编解码  
+  ├── jforgame-codec-parent         --用于socket通信的数据编解码  
+      ├── jforgame-codec-api        --消息编解码API接口
+      ├── jforgame-codec-protobuf   --protobuf实现
+      ├── jforgame-socket-mina      --普通javabean，反射实现  
   ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
   |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  
@@ -29,7 +35,6 @@
   |    ├──  listener包，事件驱动模型  
   |    ├──  doctor包，采用Groovy执行任意动态代码，或JDK的instrument机制修改类方法体 
   |    ├──  cross包，跨服赛事的通信基础 
-  |    ├──  match包，全服匹配业务 
   |    ├──  game/gm包，游戏内部金手指命令
   |    ├──  game/admin包，游戏运营/运维后台命令  
   |    ├──  redis包，跨服通信（比如跨服排行榜）  
@@ -54,8 +59,7 @@
 
 
   ## ToDoList    
-  * 登录服工程  
-  * 更多基础设施与业务演示  
+  * 更多基础组件与业务演示  
 
 
   ## 快速开始  

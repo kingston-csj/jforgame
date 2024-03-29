@@ -10,9 +10,15 @@ A lightweight online game framework written in Java. The project just shows some
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  
   ├── jforgame-socket-parent -- tcp socket server, inclding io message codec, message request mapper, session management, including netty and mina    
+      ├── jforgame-socket-api     --socket api, including server and client
+      ├── jforgame-socket-netty   --netty implemention, including a simple websocket server
+      ├── jforgame-socket-mina    --mina implemention
   ├── jforgame-orm    --use a lightweight tool for conversion between pojo and database asynchronously 
   ├── jforgame-hotswap   --support hotswap without restarting server
-  ├── jforgame-codec-parent  --data codec for socket communication  
+  ├── jforgame-codec-parent  --data codec for socket communication
+      ├── jforgame-codec-api        --codec api
+      ├── jforgame-codec-protobuf   --protobuf implemention
+      ├── jforgame-codec-struct     --reflect implemention
   ├── jforgame-demo   
   |    ├──  cache package, use guava cache to support players cache system   
   |    ├──  db package, use a independent thread pool to save players' and common data asynchronously  
