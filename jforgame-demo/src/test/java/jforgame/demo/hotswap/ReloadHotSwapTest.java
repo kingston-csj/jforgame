@@ -1,30 +1,22 @@
 package jforgame.demo.hotswap;
 
+import jforgame.hotswap.DynamicClassLoader;
 import org.junit.Test;
 
-import java.io.*;
 import java.lang.reflect.Field;
 
 public class ReloadHotSwapTest {
 
-//    @Test
+    @Test
     public void test() throws Exception {
         ServicePool.playerService.say("Hi");
 
         System.out.println("执行热更前， 类加载器==" + ServicePool.playerService.getClass().getClassLoader());
 
-        // 重新加载PlayerService class文件
-        // 预先修改 say()方法后，把编译后的文件放到指定位置
-        File f = new File("hotswap/PlayerService.class");
-        byte[] targetClassFile = new byte[(int)f.length()];
-        DataInputStream dis = new DataInputStream(new FileInputStream(f));
-        dis.readFully(targetClassFile);
-        dis.close();
-
         // 要用自定义类加载器，才能重新加载同名class文件
-        DynamicClassLoader myLoader = new DynamicClassLoader();
+        DynamicClassLoader myLoader = new DynamicClassLoader("hotswap");
         // 实例化新的对象
-        Class<?> newClazz = myLoader.findClass(targetClassFile);
+        Class<?> newClazz = myLoader.findClass("jforgame.demo.hotswap.PlayerService");
         System.out.println("执行热更后1，类加载器==" + newClazz.getClassLoader());
 
 

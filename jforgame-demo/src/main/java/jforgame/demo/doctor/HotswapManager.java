@@ -62,10 +62,10 @@ public enum HotswapManager {
      */
     public String reloadClass(String path) {
         try {
-            if (JavaDoctor.getInstance().hotSwap(getFilePath(path))) {
+            if (JavaDoctor.hotSwap(getFilePath(path))) {
                 return "热更成功";
             } else {
-                return "热更失败ß";
+                return "热更失败";
             }
         } catch (Exception e) {
             logger.error("", e);

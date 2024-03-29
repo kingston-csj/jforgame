@@ -9,15 +9,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-class ClassFileMeta {
+/**
+ * This class provides a way to get bytes data and its className of a file.
+ * It should be noted that the class uses some apis form tools.jar.
+ */
+ class ClassFileMeta {
 
     byte[] data;
 
-    String md5;
-
     String className;
 
-    ClassFileMeta(File file) throws Exception {
+    public ClassFileMeta(File file) throws Exception {
         data = Files.readAllBytes(file.toPath());
         className = readClassName(data);
     }
@@ -27,4 +29,11 @@ class ClassFileMeta {
         return ClassFile.read(dis).getName().replaceAll("/", ".");
     }
 
+    public byte[] getData() {
+        return data;
+    }
+
+    public String getClassName() {
+        return className;
+    }
 }

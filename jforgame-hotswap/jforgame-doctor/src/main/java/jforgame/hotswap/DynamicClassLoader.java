@@ -5,21 +5,36 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * This class loader provides a way to load new class in runtime.
+ * If {@link #loadClass(String)} is invoked, this class will follow the delegation model for loading classes.
+ * If {@link #findClass(String)} is invoked directly, this class will NOT
+ * follow the delegation model for loading classes and then creates new class.
+ */
 public class DynamicClassLoader extends ClassLoader {
 
     private final Logger logger = LoggerFactory.getLogger(DynamicClassLoader.class.getName());
 
-    private Map<String, byte[]> classByteDef;
+    private final Map<String, byte[]> classBytes;
 
-    private DynamicClassLoader() {
-
+    /**
+     * loading class data and its className
+     * @param directoryPath the directory path you want to scan
+     */
+    public DynamicClassLoader(String directoryPath) {
+        this.classBytes = FileUtil.readClassData(directoryPath);
     }
 
-    public DynamicClassLoader(Map<String, byte[]> classByteDef) {
-        super(DynamicClassLoader.class.getClassLoader());
-        this.classByteDef = classByteDef;
+    public DynamicClassLoader(Map<String, byte[]> classBytes) {
+        this.classBytes = classBytes;
     }
 
+    /**
+     * This method should follow the delegation model for loading classes
+     *
+     * @param name – The binary name of the class
+     * @return The resulting Class object
+     */
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
         Class<?> c = null;
@@ -29,7 +44,7 @@ public class DynamicClassLoader extends ClassLoader {
         }
 
         if (c == null) {
-            byte[] data = classByteDef.get(name);
+            byte[] data = classBytes.get(name);
             if (data == null) {
                 throw new ClassNotFoundException(name);
             }
@@ -39,4 +54,7 @@ public class DynamicClassLoader extends ClassLoader {
         return c;
     }
 
+    public Map<String, byte[]> getClassBytes() {
+        return classBytes;
+    }
 }

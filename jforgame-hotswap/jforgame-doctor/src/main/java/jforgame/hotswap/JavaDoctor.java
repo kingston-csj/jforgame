@@ -8,17 +8,12 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class JavaDoctor {
 
-    private final Logger logger = LoggerFactory.getLogger(JavaDoctor.class.getName());
-
-    private static final JavaDoctor self = new JavaDoctor();
+    private static final Logger logger = LoggerFactory.getLogger(JavaDoctor.class.getName());
 
     public static byte[] fixData;
 
@@ -26,33 +21,17 @@ public class JavaDoctor {
 
     public static Exception exception;
 
-    public static JavaDoctor getInstance() {
-        return self;
-    }
+    private static String agentPath = "agent" + File.separator + "/jforgame-hotswap-agent.jar";
 
-    public synchronized boolean hotSwap(String filePath) throws Exception {
-        List<File> files = FileUtil.listFiles(filePath);
-        ByteArrayOutputStream bou = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(bou));
-
-        Map<String, byte[]> classBytes = new HashMap<>();
-        for (File file : files) {
-            if (file.getName().endsWith(".class")) {
-                ClassFileMeta fileMeta = new ClassFileMeta(file);
-                FileInputStream fis = new FileInputStream(file);
-                byte[] bytes = new byte[fis.available()];
-                fis.read(bytes);
-                classBytes.put(fileMeta.className, bytes);
-            }
-        }
-
-        DynamicClassLoader classLoader = new DynamicClassLoader(classBytes);
-//        Thread.currentThread().setContextClassLoader(classLoader);
-//        ClassLoader c1 = Thread.currentThread().getContextClassLoader();
+    public static synchronized boolean hotSwap(String filePath) throws Exception {
+        DynamicClassLoader classLoader = new DynamicClassLoader(filePath);
+        Map<String, byte[]> classBytes = classLoader.getClassBytes();
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
             classLoader.loadClass(entry.getKey());
         }
 
+        ByteArrayOutputStream bou = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(bou));
         dos.writeInt(classBytes.entrySet().size());
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
             String fileName = entry.getKey();
@@ -64,12 +43,12 @@ public class JavaDoctor {
 
         fixData = bou.toByteArray();
 
-        reloadClass(filePath, classBytes);
+        redefineClasses(filePath, classBytes);
 
         return true;
     }
 
-    private void reloadClass(String path, Map<String, byte[]> classBytes) {
+    private static void redefineClasses(String path, Map<String, byte[]> classBytes) {
         try {
             // 拿到当前jvm的进程id
             String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
@@ -77,7 +56,7 @@ public class JavaDoctor {
             log = "empty";
             exception = null;
             logger.error("hot swap directory [{}]，total {} files", path, classBytes.size());
-            vm.loadAgent("agent/hotswap-agent.jar");
+            vm.loadAgent(agentPath);
             logger.error("hot swap finished --> {}", log);
             if (exception != null) {
                 logger.error("hot swap failed ", exception);
@@ -85,5 +64,9 @@ public class JavaDoctor {
         } catch (Throwable e) {
             logger.error("", e);
         }
+    }
+
+    public static void setAgentPath(String agentPath) {
+        JavaDoctor.agentPath = agentPath;
     }
 }

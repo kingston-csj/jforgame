@@ -9,13 +9,13 @@ import java.io.File;
 
 public class ReloadHotSwapTest2 {
 
-//    @Test
+    @Test
     public void test() throws Exception {
         ServicePool.playerService.say("Hi");
 
         System.out.println("执行热更前，类加载器==" + ServicePool.playerService.getClass().getClassLoader());
         try {
-            String filePath = "script" + File.separator + "groovy.txxt";
+            String filePath = "script" + File.separator + "script.groovy";
             String groovyCode = FileUtils.readFullText(filePath);
 
             ScriptEngineManager engineManager = new ScriptEngineManager();

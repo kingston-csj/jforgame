@@ -1,16 +1,16 @@
 package jforgame.demo.hotswap;
 
 import jforgame.demo.doctor.HotswapManager;
-import jforgame.demo.doctor.Person;
 import org.junit.Test;
 
-public class InstrumentHotSwapTest {
+public class JavaDoctorHotSwapTest {
 
-//	@Test
+	@Test
 	public void testHotswap() throws Exception {
-		System.out.println(new Person().toString());
+		new PlayerService().say("jforgame");
 		HotswapManager.INSTANCE.reloadClass("hotswap");
-		System.out.println(new Person().toString());
+//		Person.sayHi();
+		new PlayerService().say("jforgame");
 	}
 
 }

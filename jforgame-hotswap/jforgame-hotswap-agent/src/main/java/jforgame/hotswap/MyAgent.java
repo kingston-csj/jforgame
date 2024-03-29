@@ -43,6 +43,7 @@ public class MyAgent {
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String fileName = entry.getKey();
                 try {
+                    // new classes loaded in runtime does not need to be redefine
                     if (scl.loadClass(fileName) != null) {
                         ClassDefinition clazzDef = new ClassDefinition(Class.forName(fileName), entry.getValue());
                         inst.redefineClasses(clazzDef);
