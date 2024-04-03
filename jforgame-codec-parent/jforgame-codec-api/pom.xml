@@ -12,6 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-codec-api</artifactId>
+    <description>jforgame message codec api </description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

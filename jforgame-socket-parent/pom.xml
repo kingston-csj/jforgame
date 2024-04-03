@@ -12,6 +12,7 @@
 
     <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-socket-parent</artifactId>
+    <description>jforgame socket server, including message codec, message request mapper, session management</description>
     <packaging>pom</packaging>
 
     <modules>

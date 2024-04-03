@@ -12,6 +12,12 @@
 	</parent>
 
 	<artifactId>jforgame-doctor</artifactId>
+	<description>jforgame hostswap util</description>
+
+	<properties>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+	</properties>
 
 	<dependencies>
 		<!-- tools.jar包，jdk9+不用外部导入

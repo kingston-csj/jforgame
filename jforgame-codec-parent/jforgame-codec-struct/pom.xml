@@ -10,8 +10,14 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>jforgame-codec-struct</artifactId>
+    <description>jforgame message codec reflect implementation, every message instance is a simple javabean  </description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.jforgame</groupId>
@@ -20,10 +26,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
 </project>

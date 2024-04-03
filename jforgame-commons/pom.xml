@@ -10,6 +10,13 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>jforgame-commons</artifactId>
+	<description>jforgame base common service</description>
+
+
+	<properties>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+	</properties>
 
 	<dependencies>
 		<dependency>

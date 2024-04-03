@@ -9,7 +9,7 @@ A lightweight online game framework written in Java. The project just shows some
   jforgame  
   ├── jforgame-common --base common service  
   ├── jforgame-admin  --game admin web tool  
-  ├── jforgame-socket-parent -- tcp socket server, inclding io message codec, message request mapper, session management, including netty and mina    
+  ├── jforgame-socket-parent -- tcp socket server, including io message codec, message request mapper, session management    
       ├── jforgame-socket-api     --socket api, including server and client
       ├── jforgame-socket-netty   --netty implemention, including a simple websocket server
       ├── jforgame-socket-mina    --mina implemention

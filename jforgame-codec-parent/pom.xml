@@ -13,6 +13,8 @@
 
     <artifactId>jforgame-codec-parent</artifactId>
     <name>jforgame-codec</name>
+    <description>jforgame message codec</description>
+
     <packaging>pom</packaging>
 
     <modules>

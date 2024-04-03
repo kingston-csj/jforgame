@@ -125,6 +125,12 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+                <artifactId>concurrentlinkedhashmap-lru</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
             <!-- 读取配置文件 -->
             <dependency>
                 <groupId>org.dom4j</groupId>
