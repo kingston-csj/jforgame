@@ -29,13 +29,9 @@ public class UdpChannelIoHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
-        if (ChannelUtils.duplicateBindingSession(ctx.channel(), new NSession(channel))) {
-            ctx.channel().close();
-            logger.error("Duplicate session,IP=[{}]", ChannelUtils.parseRemoteAddress(channel));
-            return;
-        }
-//        IdSession userSession = ChannelUtils.getSessionBy(channel);
-//        messageDispatcher.onSessionCreated(userSession);
+        ChannelUtils.duplicateBindingSession(ctx.channel(), new NSession(channel));
+        SessionManager.getInstance().buildSession(ChannelUtils.getSessionBy(channel));
+        System.out.println("socket register " + channel);
     }
 
     @Override
@@ -50,18 +46,9 @@ public class UdpChannelIoHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
+        System.out.println("socket inactive " + channel);
         IdSession userSession = ChannelUtils.getSessionBy(channel);
         messageDispatcher.onSessionClosed(userSession);
     }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        Channel channel = ctx.channel();
-        if (channel.isActive() || channel.isOpen()) {
-            ctx.close();
-        }
-        if (!(cause instanceof IOException)) {
-            logger.error("remote:" + channel.remoteAddress(), cause);
-        }
-    }
 }

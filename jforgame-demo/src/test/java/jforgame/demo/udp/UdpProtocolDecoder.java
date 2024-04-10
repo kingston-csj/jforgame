@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class UdpProtocolDecoder extends MessageToMessageDecoder<DatagramPacket> {
-    private static final Logger logger = LoggerFactory.getLogger("socketserver");
-
     private final MessageFactory messageFactory;
 
     private final MessageCodec messageCodec;
@@ -32,7 +30,7 @@ public class UdpProtocolDecoder extends MessageToMessageDecoder<DatagramPacket> 
         byte[] body = new byte[length - 4];
         in.readBytes(body);
         Class<?> msgClazz = messageFactory.getMessage(cmd);
-
         out.add(messageCodec.decode(msgClazz, body));
     }
+
 }

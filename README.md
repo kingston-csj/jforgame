@@ -77,8 +77,7 @@
 
   本栏目详细教程 -->  
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
-  [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)    
-  [开房间类网游五子棋代码](https://blog.csdn.net/littleschemer/article/details/137053262)
+  [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
 
 
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
@@ -90,6 +89,7 @@
 
   ## 一起交流
   如果您发现bug，或者有任何疑问，请提交issue !!
+  基于jforgame的分布式五子棋源代码，私聊获取。
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，来向我提问吧~~
   ![](/screenshots/zsxq.jpg "知识星球")

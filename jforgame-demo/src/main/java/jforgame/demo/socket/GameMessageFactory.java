@@ -6,6 +6,7 @@ import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.support.DefaultMessageFactory;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class GameMessageFactory implements MessageFactory {
@@ -53,5 +54,10 @@ public class GameMessageFactory implements MessageFactory {
     @Override
     public boolean contains(Class<?> clazz) {
         return self.contains(clazz);
+    }
+
+    @Override
+    public Collection<Class<?>> registeredClassTypes() {
+        return self.registeredClassTypes();
     }
 }

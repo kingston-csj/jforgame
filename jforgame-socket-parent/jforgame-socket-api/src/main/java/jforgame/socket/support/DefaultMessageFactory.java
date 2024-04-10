@@ -1,11 +1,10 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.MessageFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class DefaultMessageFactory implements MessageFactory {
@@ -20,12 +19,12 @@ public class DefaultMessageFactory implements MessageFactory {
         if (id2Clazz.containsKey(cmd)) {
             throw new IllegalStateException("message meta [" + cmd + "] duplicate！！");
         }
-        MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
-        if (meta == null) {
-            throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
-        }
-        Logger logger = LoggerFactory.getLogger(DefaultMessageFactory.class);
-        logger.debug("register message {} {} ", cmd, clazz.getSimpleName());
+//        MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
+//        if (meta == null) {
+//            throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
+//        }
+//        Logger logger = LoggerFactory.getLogger(DefaultMessageFactory.class);
+//        logger.debug("register message {} {} ", cmd, clazz.getSimpleName());
         id2Clazz.put(cmd, clazz);
         clazz2Id.put(clazz, cmd);
     }
@@ -45,6 +44,10 @@ public class DefaultMessageFactory implements MessageFactory {
         return clazz2Id.containsKey(clazz);
     }
 
+    @Override
+    public Collection<Class<?>> registeredClassTypes() {
+        return new HashSet<>(clazz2Id.keySet());
+    }
 
 
 }

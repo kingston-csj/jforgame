@@ -10,6 +10,12 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
+import jforgame.codec.struct.StructMessageCodec;
+import jforgame.demo.ServerConfig;
+import jforgame.demo.ServerScanPaths;
+import jforgame.demo.game.core.SchedulerManager;
+import jforgame.demo.socket.GameMessageFactory;
+import jforgame.socket.mina.support.server.TcpSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.SocketIoDispatcher;
@@ -23,24 +29,21 @@ public class UdpSocketServer implements ServerNode {
 
     private static final Logger logger = LoggerFactory.getLogger("socketserver");
 
-
     private EventLoopGroup group = new NioEventLoopGroup();
 
-    protected List<HostAndPort> nodesConfig;
+    protected HostAndPort nodesConfig = HostAndPort.valueOf(8088);
 
-   public SocketIoDispatcher socketIoDispatcher;
+    public SocketIoDispatcher socketIoDispatcher;
 
-    public  MessageFactory messageFactory;
+    public MessageFactory messageFactory;
 
-    public   MessageCodec messageCodec;
-
-     ChannelInitializer<DatagramChannel> channelInitializer;
+    public MessageCodec messageCodec;
 
     @Override
     public void start() throws Exception {
-
-
         try {
+            SessionManager.getInstance().schedule();
+            
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(group)
                     .channel(NioDatagramChannel.class)
@@ -51,17 +54,13 @@ public class UdpSocketServer implements ServerNode {
                             ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast("protocolDecoder", new UdpProtocolDecoder(messageFactory, messageCodec));
                             pipeline.addLast("protocolEncoder", new UdpProtocolEncoder(messageFactory, messageCodec));
-//                            pipeline.addLast("UDPServerHandler", new UDPServerHandler());
                             pipeline.addLast(new UdpChannelIoHandler(socketIoDispatcher));
 
                         }
                     });
 
-            for (HostAndPort node : nodesConfig) {
-                logger.info("socket server is listening at " + node.getPort() + "......");
-//                bootstrap.bind(new InetSocketAddress(node.getPort())).sync();
-                bootstrap.bind(node.getPort()).sync().channel().closeFuture().sync();
-            }
+            logger.info("socket server is listening at " + nodesConfig.getPort() + "......");
+            bootstrap.bind(nodesConfig.getPort()).sync().channel().closeFuture().sync();
 
         } catch (Exception e) {
             logger.error("", e);
@@ -72,5 +71,15 @@ public class UdpSocketServer implements ServerNode {
     @Override
     public void shutdown() throws Exception {
         group.shutdownGracefully();
+    }
+
+
+    public static void main(String[] args) throws Exception {
+        UdpSocketServer udpSocketServer = new UdpSocketServer();
+        udpSocketServer.messageFactory = GameMessageFactory.getInstance();
+        udpSocketServer.messageCodec = new StructMessageCodec();
+        udpSocketServer.socketIoDispatcher = new MessageIoDispatcher();
+
+        udpSocketServer.start();
     }
 }

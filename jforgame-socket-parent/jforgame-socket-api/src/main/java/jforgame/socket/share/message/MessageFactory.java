@@ -1,5 +1,7 @@
 package jforgame.socket.share.message;
 
+import java.util.Collection;
+
 public interface MessageFactory {
 
 
@@ -29,5 +31,13 @@ public interface MessageFactory {
     int getMessageId(Class<?> clazz);
 
     boolean contains(Class<?> clazz);
+
+
+    /**
+     * return all registered class
+     * @since 1.2.0
+     * @return a copied view  of the registered class
+     */
+    Collection<Class<?>> registeredClassTypes();
 
 }
