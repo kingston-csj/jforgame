@@ -1,35 +1,36 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>io.github.jforgame</groupId>
-		<artifactId>jforgame-hotswap</artifactId>
-		<version>${revision}</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-hotswap</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<artifactId>jforgame-doctor</artifactId>
-	<description>jforgame hostswap util</description>
+    <artifactId>jforgame-doctor</artifactId>
+    <description>jforgame hostswap util</description>
 
-	<properties>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
-	</properties>
-
-	<dependencies>
-		<!-- tools.jar包，jdk9+不用外部导入
-		 所以这里用了optional参数，如果是jdk8及以下，需要客户端代码自行添加-->
-		<dependency>
-			<groupId>com.github.olivergondza</groupId>
-			<artifactId>maven-jdk-tools-wrapper</artifactId>
-			<version>0.1</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-	</dependencies>
+    <dependencies>
+        <!-- tools.jar包，jdk9+不用外部导入
+         所以这里用了optional参数，如果是jdk8及以下，需要客户端代码自行添加-->
+        <dependency>
+            <groupId>com.github.olivergondza</groupId>
+            <artifactId>maven-jdk-tools-wrapper</artifactId>
+            <version>0.1</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- jdk9+  com.sun.tools.classfile不允许外部代码访问
+            改成使用asm获取byte数组对应的className-->
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

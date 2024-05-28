@@ -21,7 +21,7 @@ public class JavaDoctor {
 
     public static Exception exception;
 
-    private static String agentPath = "agent" + File.separator + "/jforgame-hotswap-agent.jar";
+    private static String agentPath = "agent" + File.separator + "jforgame-hotswap-agent.jar";
 
     public static synchronized boolean hotSwap(String filePath) throws Exception {
         DynamicClassLoader classLoader = new DynamicClassLoader(filePath);

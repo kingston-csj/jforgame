@@ -26,8 +26,10 @@
     增加websocket简易实现  
 ### jforgame-socket-struct
     消息javabean支持继承关系，允许编解码父类字段  
-### jforgame-parent
-    所有子模块取消对log4j的全局依赖,log层只绑定sl4j接口  
+
+## V1.2.0(2024-03-29)
+### jforgame-doctor
+    增加對jdk17及以上版本的支持
     
 
 
