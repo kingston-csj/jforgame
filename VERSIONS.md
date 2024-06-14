@@ -27,9 +27,11 @@
 ### jforgame-socket-struct
     消息javabean支持继承关系，允许编解码父类字段  
 
-## V1.2.0(2024-03-29)
+## V1.2.0(2024-06-2)
 ### jforgame-doctor
     增加對jdk17及以上版本的支持
+### jforgame-data
+    增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新
     
 
 

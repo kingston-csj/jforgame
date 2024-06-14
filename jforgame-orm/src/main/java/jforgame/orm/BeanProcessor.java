@@ -37,14 +37,14 @@ public class BeanProcessor {
     private final Map<String, String> columnToPropertyOverrides;
 
     static {
-        primitiveDefaults.put(Integer.TYPE, Integer.valueOf(0));
-        primitiveDefaults.put(Short.TYPE, Short.valueOf((short) 0));
-        primitiveDefaults.put(Byte.TYPE, Byte.valueOf((byte) 0));
-        primitiveDefaults.put(Float.TYPE, Float.valueOf(0.0F));
-        primitiveDefaults.put(Double.TYPE, Double.valueOf(0.0D));
-        primitiveDefaults.put(Long.TYPE, Long.valueOf(0L));
+        primitiveDefaults.put(Integer.TYPE, 0);
+        primitiveDefaults.put(Short.TYPE, (short) 0);
+        primitiveDefaults.put(Byte.TYPE, (byte) 0);
+        primitiveDefaults.put(Float.TYPE, 0.0F);
+        primitiveDefaults.put(Double.TYPE, 0.0D);
+        primitiveDefaults.put(Long.TYPE, 0L);
         primitiveDefaults.put(Boolean.TYPE, Boolean.FALSE);
-        primitiveDefaults.put(Character.TYPE, Character.valueOf('\000'));
+        primitiveDefaults.put(Character.TYPE, '\0');
     }
 
     public BeanProcessor() {
@@ -243,25 +243,25 @@ public class BeanProcessor {
             return rs.getString(index);
         }
         if ((propType.equals(Integer.TYPE)) || (propType.equals(Integer.class))) {
-            return Integer.valueOf(rs.getInt(index));
+            return rs.getInt(index);
         }
         if ((propType.equals(Boolean.TYPE)) || (propType.equals(Boolean.class))) {
-            return Boolean.valueOf(rs.getBoolean(index));
+            return rs.getBoolean(index);
         }
         if ((propType.equals(Long.TYPE)) || (propType.equals(Long.class))) {
-            return Long.valueOf(rs.getLong(index));
+            return rs.getLong(index);
         }
         if ((propType.equals(Double.TYPE)) || (propType.equals(Double.class))) {
-            return Double.valueOf(rs.getDouble(index));
+            return rs.getDouble(index);
         }
         if ((propType.equals(Float.TYPE)) || (propType.equals(Float.class))) {
-            return Float.valueOf(rs.getFloat(index));
+            return rs.getFloat(index);
         }
         if ((propType.equals(Short.TYPE)) || (propType.equals(Short.class))) {
-            return Short.valueOf(rs.getShort(index));
+            return rs.getShort(index);
         }
         if ((propType.equals(Byte.TYPE)) || (propType.equals(Byte.class))) {
-            return Byte.valueOf(rs.getByte(index));
+            return rs.getByte(index);
         }
         if (propType.equals(Timestamp.class)) {
             return rs.getTimestamp(index);

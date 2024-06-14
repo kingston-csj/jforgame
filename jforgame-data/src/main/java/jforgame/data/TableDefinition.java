@@ -62,11 +62,11 @@ public class TableDefinition {
                 });
     }
 
-    public IdMeta getIdMeta() {
+    IdMeta getIdMeta() {
         return idMeta;
     }
 
-    public Map<String, IndexMeta> getIndexMetaMap() {
+    Map<String, IndexMeta> getIndexMetaMap() {
         return indexMetaMap;
     }
 

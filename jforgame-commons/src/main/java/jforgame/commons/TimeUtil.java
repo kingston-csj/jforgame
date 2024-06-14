@@ -32,5 +32,10 @@ public class TimeUtil {
      */
     public static final long MILLIS_PER_DAY = 24 * MILLIS_PER_HOUR;
 
+    /**
+     * Number of milliseconds in a standard week.
+     */
+    public static final long MILLIS_PER_WEEK = 7 * MILLIS_PER_DAY;
+
 
 }

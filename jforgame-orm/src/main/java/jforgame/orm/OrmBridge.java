@@ -69,7 +69,7 @@ public class OrmBridge {
 	}
 
 	public List<String> listProperties() {
-		return this.fieldMetadataMap.keySet().stream().collect(Collectors.toList());
+		return new ArrayList<>(this.fieldMetadataMap.keySet());
 	}
 
 }
