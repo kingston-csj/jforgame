@@ -25,13 +25,19 @@
 ### jforgame-socket-netty
     增加websocket简易实现  
 ### jforgame-socket-struct
-    消息javabean支持继承关系，允许编解码父类字段  
+    消息javabean支持继承关系，允许编解码父类字段
+### jforgame-parent
+    所有子模块取消对log4j的全局依赖,log层只绑定sl4j接口  
 
-## V1.2.0(2024-06-2)
+
+## V1.2.0(2024-06-16)
+### jforgame-socket-netty
+    TcpSocketServerBuilder的protocolEncoder改为单例模式，所有客户端共享
 ### jforgame-doctor
     增加對jdk17及以上版本的支持
 ### jforgame-data
-    增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新
+    新增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新
+
     
 
 
