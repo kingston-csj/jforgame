@@ -35,7 +35,7 @@ public class JmxClient {
 		Map<String, String[]> props = new HashMap<String, String[]>();
 		props.put("jmx.remote.credentials", account);
 
-		// 10086参数，具体见启动脚本的vm参数，@see -Dcom.sun.management.jmxremote.port=10086
+		// 10086参数，具体见启动脚本的vm参数，@see -Dcom.sun.management.jmxremote.port=10086  -Dcom.sun.management.jmxremote.rmi.port=10086
 		JMXServiceURL address = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:10086/jmxrmi");
 		JMXConnector connector = JMXConnectorFactory.connect(address, props);
 		MBeanServerConnection mBeanConnection = connector.getMBeanServerConnection();
