@@ -1,6 +1,6 @@
 package jforgame.demo.socket.filter;
 
-import com.google.gson.Gson;
+import jforgame.commons.JsonUtil;
 import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.IdSession;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class MessageTraceFilter implements MessageHandler  {
 		if (debug && traceRequest(message)) {
 			logger.error("<<<<<<<<<<[{}]{}={}",
 					session,
-					message.getClass().getSimpleName(), new Gson().toJson(message));
+					message.getClass().getSimpleName(), JsonUtil.object2String(message));
 		}
 		return true;
 	}

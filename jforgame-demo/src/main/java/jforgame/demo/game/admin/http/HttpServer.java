@@ -1,9 +1,11 @@
 package jforgame.demo.game.admin.http;
 
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import jforgame.commons.JsonUtil;
 import jforgame.demo.socket.SessionManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mina.core.buffer.IoBuffer;
@@ -20,7 +22,6 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
 import jforgame.demo.ServerConfig;
 import jforgame.socket.share.ServerNode;
 
@@ -95,8 +96,9 @@ class HttpServerHandle extends IoHandlerAdapter {
 			HttpRequest request = (HttpRequest) message;
 			HttpCommandResponse commandResponse = handleCommand(request);
 			// 响应HTML
-			String responseHtml = new Gson().toJson(commandResponse);
-			byte[] responseBytes = responseHtml.getBytes("UTF-8");
+			String responseHtml = JsonUtil.object2String(commandResponse);
+            assert responseHtml != null;
+            byte[] responseBytes = responseHtml.getBytes(StandardCharsets.UTF_8);
 			int contentLength = responseBytes.length;
 
 			// 构造HttpResponse对象，HttpResponse只包含响应的status line和header部分
@@ -143,7 +145,7 @@ class HttpServerHandle extends IoHandlerAdapter {
 		Map<String, String> params = new HashMap<>();
 		if (StringUtils.isNotEmpty(paramJson)) {
 			try {
-				params = new Gson().fromJson(paramJson, HashMap.class);
+				params = JsonUtil.string2Map(paramJson, String.class, String.class);
 			} catch (Exception e) {
 			}
 		}
