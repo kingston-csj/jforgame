@@ -43,20 +43,8 @@ public enum SessionManager {
 		return player2sessions.get(playerId);
 	}
 
-	/**
-	 * get appointed sessionAttr
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> T getSessionAttr(IoSession session, AttributeKey attrKey, Class<T> attrType) {
-		return (T)session.getAttribute(attrKey, attrType);
-	}
-
 	public int getNextSessionId() {
 		return this.distributeKeyGenerator.getAndIncrement();
-	}
-
-	public String getRemoteIp(IoSession session) {
-		return ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress();
 	}
 
 }

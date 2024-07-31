@@ -20,7 +20,7 @@ public class ConfigConstantStorage implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigConstant";
+		String sql = "SELECT * FROM configconstant";
 		try {
 			List<ConfigConstant> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigConstant.class);
 			configs = datas.stream().collect(Collectors.toMap(ConfigConstant::getId, Function.identity()));

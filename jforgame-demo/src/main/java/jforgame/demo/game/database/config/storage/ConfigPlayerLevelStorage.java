@@ -21,7 +21,7 @@ public class ConfigPlayerLevelStorage implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigPlayerLevel";
+		String sql = "SELECT * FROM configplayerlevel";
 		try {
 			List<ConfigPlayerLevel> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigPlayerLevel.class);
 			levels = datas.stream().collect(Collectors.toMap(ConfigPlayerLevel::getLevel, Function.identity()));

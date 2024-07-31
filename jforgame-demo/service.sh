@@ -22,7 +22,7 @@ stop() {
 JMX_PORT=8099
 JMX_IP="192.168.0.120"
 JVM_ARGS="-Xms1024m -Xmx1024m "
-JVM_ARGS="$JVM_ARGS"" -XX:+UseZGC"
+JVM_ARGS="$JVM_ARGS"" -XX:+UseG1"
 JVM_ARGS="$JVM_ARGS"" -Djdk.attach.allowAttachSelf"
 JVM_ARGS="$JVM_ARGS"" -XX:+HeapDumpOnOutOfMemoryError -XX:ErrorFile=./logs/java_error_%p.log"
 JVM_ARGS="$JVM_ARGS"" -Dcom.sun.management.jmxremote.port="$JMX_PORT

@@ -39,7 +39,7 @@ public enum OrmProcessor {
         OrmBridge bridge = new OrmBridge();
         Entity entity = clazz.getAnnotation(Entity.class);
         //没有设置tablename,则用entity名首字母小写
-        if (entity.name().length() <= 0) {
+        if (entity.name().isEmpty()) {
             bridge.setTableName(StringUtils.firstLetterToLowerCase(clazz.getSimpleName()));
         } else {
             bridge.setTableName(entity.name());
@@ -65,7 +65,7 @@ public enum OrmProcessor {
                 throw new OrmConfigException(e);
             }
             //如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
-            if (bridge.getQueryProperties().size() <= 0) {
+            if (bridge.getQueryProperties().isEmpty()) {
                 throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
             }
         }

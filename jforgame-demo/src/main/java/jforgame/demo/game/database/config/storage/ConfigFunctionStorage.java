@@ -22,7 +22,7 @@ public class ConfigFunctionStorage implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigFunction";
+		String sql = "SELECT * FROM configfunction";
 		try {
 			List<ConfigFunction> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigFunction.class);
 

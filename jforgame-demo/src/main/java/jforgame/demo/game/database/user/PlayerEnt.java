@@ -38,9 +38,6 @@ public class PlayerEnt extends BaseEntity {
 	@Column
 	private int level;
 
-	@Column
-	private long exp;
-
 	/**
 	 * 上一次每日重置的时间戳
 	 */
@@ -88,14 +85,6 @@ public class PlayerEnt extends BaseEntity {
 
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	public long getExp() {
-		return exp;
-	}
-
-	public void setExp(long exp) {
-		this.exp = exp;
 	}
 
 	public long getLastDailyReset() {

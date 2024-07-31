@@ -26,7 +26,7 @@ public class ConfigActivityStorage implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigActivity";
+		String sql = "SELECT * FROM configactivity";
 		List<ConfigActivity> datas;
 		try {
 			datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigActivity.class);

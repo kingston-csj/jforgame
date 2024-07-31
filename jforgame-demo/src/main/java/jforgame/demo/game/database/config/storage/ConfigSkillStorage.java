@@ -20,7 +20,7 @@ public class ConfigSkillStorage implements Reloadable {
 
 	@Override
 	public void reload() {
-		String sql = "SELECT * FROM ConfigSkill";
+		String sql = "SELECT * FROM configskill";
 		try {
 			List<ConfigSkill> datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigSkill.class);
 			skills = datas.stream().collect(Collectors.toMap(ConfigSkill::getId, Function.identity()));
