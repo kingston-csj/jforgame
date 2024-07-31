@@ -32,10 +32,8 @@ public class TcpSocketServer implements ServerNode {
 
     private static final int CPU_CORE_SIZE = Runtime.getRuntime().availableProcessors();
 
-    private static final Executor executor = Executors.newCachedThreadPool();
-
     private static final SimpleIoProcessorPool<NioSession> pool =
-            new SimpleIoProcessorPool<>(NioProcessor.class, executor, CPU_CORE_SIZE);
+            new SimpleIoProcessorPool<>(NioProcessor.class, CPU_CORE_SIZE);
 
     protected SocketAcceptor acceptor;
 

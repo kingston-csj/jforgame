@@ -14,13 +14,14 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
-
 @Configuration
-@EnableConfigurationProperties(ResourceProperties.class)
+@EnableConfigurationProperties({ResourceProperties.class})
 public class ResourceAutoConfiguration {
-
     @Autowired
     private ResourceProperties properties;
+
+    public ResourceAutoConfiguration() {
+    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -28,7 +29,7 @@ public class ResourceAutoConfiguration {
         return new CsvDataReader();
     }
 
-    @Bean(name = "dataConversionService")
+    @Bean(name = {"dataConversionService"})
     public ConversionService createConversionService() {
         DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
         conversionService.addConverter(new JsonToListConvertor());
@@ -38,11 +39,10 @@ public class ResourceAutoConfiguration {
     }
 
     @Bean
-    @DependsOn(value = {"dataConversionService"})
-    public DataManager createDataManager() {
-        DataManager dataManager = new DataManager();
+    @DependsOn({"dataConversionService"})
+    public DataManager createDataManager(ResourceProperties properties, DataReader dataReader) {
+        DataManager dataManager = new DataManager(properties, dataReader);
         dataManager.init();
         return dataManager;
     }
-
 }

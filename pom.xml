@@ -16,7 +16,7 @@
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
-        <revision>1.3.0</revision>
+        <revision>2.0.0</revision>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -44,7 +44,7 @@
         <module>jforgame-hotswap</module>
         <module>jforgame-orm</module>
         <module>jforgame-demo</module>
-        <module>jforgame-data</module>
+        <module>jforgame-spring-boot-starter-data</module>
     </modules>
     <issueManagement>
         <system>GitHub Issues</system>

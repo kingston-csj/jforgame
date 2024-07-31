@@ -50,6 +50,9 @@
        由于jdk同一个类加载器不会重复相同的class文件，当类加载器首先加载到项目的MessageHeader类，便不会加载jforgame-socket-api依赖的同名文件了！
 ### jforgame-socket-mina
     升级mina-core组件： from 2.0.7 to 2.0.22
+### jforgame-data
+    jforgame-data更名为jforgame-spring-boot-starter-data
+    修复DataManager注入失败bug
 
 
 

@@ -7,8 +7,9 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jforgame-data</artifactId>
-    <name>jforgame-data, including csv and excel pattern</name>
+    <artifactId>jforgame-spring-boot-starter-data</artifactId>
+    <name>jforgame-spring-boot-starter-data</name>
+    <description>jforgame-data, including csv and excel pattern</description>
 
     <dependencies>
         <dependency>

@@ -5,7 +5,6 @@ import jforgame.data.annotation.PTable;
 import jforgame.data.reader.DataReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -26,15 +25,18 @@ public class DataManager implements DataRepository {
 
     private Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
 
-    @Autowired
     private ResourceProperties properties;
 
-    @Autowired
     private DataReader dataReader;
 
     private final Map<String, TableDefinition> tableDefinitions = new HashMap<>();
 
     private final ConcurrentMap<Class, Container> data = new ConcurrentHashMap<>();
+
+    public DataManager(ResourceProperties properties, DataReader dataReader) {
+        this.properties = properties;
+        this.dataReader = dataReader;
+    }
 
     public void init() {
         Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getScanPath(), PTable.class);
