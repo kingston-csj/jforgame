@@ -10,6 +10,7 @@ import jforgame.socket.share.MessageHandlerRegister;
 import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.RequestDataFrame;
 import jforgame.socket.share.task.MessageTask;
 import jforgame.socket.support.DefaultMessageParameterConverter;
 
@@ -26,7 +27,9 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
     public MessageIoDispatcher() {
         LoginRouter router = new LoginRouter();
         this.handlerRegister = new CommonMessageHandlerRegister(Collections.singletonList(router), messageFactory);
-        MessageHandler messageHandler = (session, message) -> {
+        MessageHandler messageHandler = (session, frame) -> {
+            RequestDataFrame dataFrame = (RequestDataFrame)frame;
+            Object message = dataFrame.getMessage();
             int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
             MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
             if (cmdExecutor == null) {
@@ -34,7 +37,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
                 return true;
             }
 
-            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), message);
+            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
             Object controller = cmdExecutor.getHandler();
 
             MessageTask task = MessageTask.valueOf(session, session.hashCode(), controller, cmdExecutor.getMethod(), params);

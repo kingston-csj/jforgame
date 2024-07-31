@@ -11,7 +11,7 @@
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护
-  * 有独立http后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
+  * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
 
 
   ## 模块组织结构  
@@ -45,22 +45,17 @@
 
 
   ## 第三方技术栈 
-  名称 | 用途 | 官网  
-  ----|------|----     
-  Mina | nio socket 框架 | [http://mina.apache.org/](http://mina.apache.org/)  
-  Netty | nio socket 框架 | [http://netty.io/](http://netty.io/)   
+  名称 | 用途             | 官网  
+  ----|----------------|----     
+  Mina | nio socket 框架  | [http://mina.apache.org/](http://mina.apache.org/)  
+  Netty | nio socket 框架  | [http://netty.io/](http://netty.io/)   
   jprotobuf | protobuff协议层注解 | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
-  Guava | 玩家数据缓存系统 | [https://github.com/google/guava](https://github.com/google/guava)  
-  Jedis | 跨服数据缓存 | [https://redis.io](https://redis.io/)  
-  quartz | job调度任务 | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
-  groovy | 热更新维护相关 | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  proxool | mysql数据链接池 | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)   
-  slf4j+log4j | 日志系统 | [https://www.slf4j.org/](https://www.slf4j.org/)  
-  maven | 依赖管理及项目构建 | [http://maven.apache.org/](http://maven.apache.org/)  
-
-
-  ## ToDoList    
-  * 更多基础组件与业务演示  
+  Guava | 玩家数据缓存系统       | [https://github.com/google/guava](https://github.com/google/guava)  
+  Jedis | 数据缓存,全服排行榜     | [https://redis.io](https://redis.io/)  
+  quartz | job调度任务        | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
+  groovy | 热更新维护相关        | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
+  slf4j+log4j | 日志系统           | [https://www.slf4j.org/](https://www.slf4j.org/)  
+  maven | 依赖管理及项目构建      | [http://maven.apache.org/](http://maven.apache.org/)  
 
 
   ## 快速开始  
@@ -71,8 +66,6 @@
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   5. 启动客户端，入口为ClientStartup类;  
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。)  
-  （温馨提醒：在根目录执行mvn clean package install -DskipTests 后，在ide环境下就不用导入所有模块了。例如，只导入jforgame-demo模块）
-
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
@@ -89,8 +82,8 @@
    ![](/screenshots/zfb.jpg "支付宝收款码")  
 
   ## 一起交流
-  如果您发现bug，或者有任何疑问，请提交issue !!
-  mysql合服工程，基于jforgame的分布式五子棋源代码，私聊获取。
+  如果您发现bug，或者有任何疑问，请提交issue !!  
+  mysql合服工程，基于jforgame的分布式五子棋源代码，私聊获取。  
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，来向我提问吧~~
   ![](/screenshots/zsxq.jpg "知识星球")

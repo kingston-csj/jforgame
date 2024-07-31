@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
+import jforgame.socket.share.message.SocketDataFrame;
 import org.apache.mina.core.session.IoSession;
 
 import jforgame.socket.share.IdSession;
@@ -24,7 +25,11 @@ public class MSession implements IdSession {
 
 	@Override
 	public void send(Object packet) {
-		session.write(packet);
+		if (packet instanceof SocketDataFrame) {
+			session.write(packet);
+		} else {
+			session.write(SocketDataFrame.withoutIndex(packet));
+		}
 	}
 
 	@Override

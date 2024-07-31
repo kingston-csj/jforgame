@@ -6,6 +6,8 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.share.message.RequestDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +20,7 @@ import java.util.List;
  * If you want to contain other message meta, like the index of message, you need to store it in the message body.
  * The message body including just the bytes of message which needs to be decoded by {@link MessageCodec}
  * @see MessageCodec#decode(Class, byte[])
- * @author kinson
  */
-
 public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     private int maxProtocolBytes;
@@ -30,11 +30,6 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
     private final MessageFactory messageFactory;
 
     private final MessageCodec messageCodec;
-
-    /**
-     * 消息元信息常量，为int类型的长度，表示消息的id
-     */
-    private final int MESSAGE_META_SIZE = 4;
 
 
     public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
@@ -53,26 +48,32 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if (in.readableBytes() < MESSAGE_META_SIZE) {
+        if (in.readableBytes() < MessageHeader.SIZE) {
             return;
         }
         in.markReaderIndex();
         // ----------------protocol pattern-------------------------
-        // packetLength | cmd | body
-        // int int byte[]
-        int length = in.readInt();
+        //      header(12bytes)     | body
+        // msgLength = 12+len(body) | body
+        // msgLength | index | cmd  | body
+        byte[] header = new byte[MessageHeader.SIZE];
+        in.readBytes(header);
+        MessageHeader headerMeta = new MessageHeader();
+        headerMeta.read(header);
+
+        int length = headerMeta.getMsgLength();
         if (length > maxProtocolBytes) {
             logger.error("message data frame [{}] too large, close session now", length);
             ctx.close();
             return;
         }
-
-        if (in.readableBytes() < length) {
+        int bodySize = length - MessageHeader.SIZE;
+        if (in.readableBytes() < bodySize) {
             in.resetReaderIndex();
             return;
         }
-        int cmd = in.readInt();
-        byte[] body = new byte[length - MESSAGE_META_SIZE];
+        int cmd = headerMeta.getCmd();
+        byte[] body = new byte[bodySize];
         in.readBytes(body);
 
         // 流量统计
@@ -81,7 +82,8 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);
 
-        out.add(messageCodec.decode(msgClazz, body));
+        Object message = messageCodec.decode(msgClazz, body);
+        out.add(new RequestDataFrame(headerMeta, message));
     }
 
 }

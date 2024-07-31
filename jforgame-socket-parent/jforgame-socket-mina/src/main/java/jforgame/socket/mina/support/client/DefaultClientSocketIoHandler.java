@@ -2,9 +2,9 @@ package jforgame.socket.mina.support.client;
 
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RpcResponseData;
-import jforgame.socket.client.Traceable;
 import jforgame.socket.mina.support.DefaultSocketIoHandler;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.message.RequestDataFrame;
 import org.apache.mina.core.session.IoSession;
 
 public class DefaultClientSocketIoHandler extends DefaultSocketIoHandler {
@@ -13,15 +13,16 @@ public class DefaultClientSocketIoHandler extends DefaultSocketIoHandler {
     }
 
     @Override
-    public void messageReceived(IoSession session, Object data) throws Exception {
-        // 客户端增加callback处理
-        if (data instanceof Traceable) {
-            Traceable traceable = (Traceable) data;
+    public void messageReceived(IoSession session, Object frame) throws Exception {
+        RequestDataFrame dataFrame = (RequestDataFrame) frame;
+        Object message = dataFrame.getMessage();
+        int msgIndex = dataFrame.getHeader().getIndex();
+        if (msgIndex > 0) {
             RpcResponseData responseData = new RpcResponseData();
-            responseData.setResponse(data);
-            CallBackService.getInstance().fillCallBack(traceable.getIndex(), responseData);
+            responseData.setResponse(message);
+            CallBackService.getInstance().fillCallBack(msgIndex, responseData);
         } else {
-            super.messageReceived(session, data);
+            super.messageReceived(session, dataFrame);
         }
     }
 }

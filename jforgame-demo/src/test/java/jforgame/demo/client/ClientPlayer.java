@@ -53,17 +53,4 @@ public class ClientPlayer {
         this.session.send(message);
     }
 
-    private class ClientHandler extends IoHandlerAdapter {
-
-        @Override
-        public void messageReceived(IoSession session, Object message) {
-            System.err.printf("收到响应<--  %s %s%n", message.getClass().getSimpleName(), JsonUtil.object2String(message));
-        }
-
-        @Override
-        public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-            LoggerUtils.error("client exception", cause);
-        }
-    }
-
 }

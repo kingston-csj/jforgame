@@ -15,6 +15,7 @@ import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.SocketIoDispatcherAdapter;
+import jforgame.socket.share.message.RequestDataFrame;
 
 /**
  * 客户端模拟器启动程序
@@ -29,7 +30,9 @@ public class ClientStartup {
 
 		SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
 			@Override
-			public void dispatch(IdSession session, Object message) {
+			public void dispatch(IdSession session, Object frame) {
+				RequestDataFrame dataFrame = (RequestDataFrame) frame;
+				Object message = dataFrame.getMessage();
 				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
 			}
 			@Override

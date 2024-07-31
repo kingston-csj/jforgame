@@ -3,6 +3,8 @@ package jforgame.socket.mina.support;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.share.message.SocketDataFrame;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
@@ -26,11 +28,6 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 
 	private final int WRITE_BUFF_SIZE = 1024;
 
-	/**
-	 * 消息元信息常量，为int类型的长度，表示消息的id
-	 */
-	private static final int MESSAGE_META_SIZE = 4;
-
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public DefaultProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
@@ -45,7 +42,9 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		IoBuffer buffer = writeMessage(message);
+		assert message instanceof SocketDataFrame;
+		SocketDataFrame dataFrame = (SocketDataFrame) message;
+		IoBuffer buffer = writeMessage(dataFrame);
 		try {
 			out.write(buffer);
 		} catch (Exception e) {
@@ -53,30 +52,35 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 		}
 	}
 
-	private IoBuffer writeMessage(Object message) throws Exception {
+	private IoBuffer writeMessage(SocketDataFrame frame) throws Exception {
 		// ----------------protocol pattern-------------------------
-		// packetLength | cmd | body
-		// int int byte[]
+		//      header(12bytes)     | body
+		// msgLength = 12+len(body) | body
+		// msgLength | index | cmd  | body
 
 		IoBuffer buffer = IoBuffer.allocate(WRITE_BUFF_SIZE);
 		buffer.setAutoExpand(true);
-
+		Object message = frame.getMessage();
 		byte[] body = messageCodec.encode(message);
         // the length of message body
-		int msgLength = body.length + MESSAGE_META_SIZE;
-		buffer.putInt(msgLength);
+		int msgLength = body.length + MessageHeader.SIZE;
 		int cmd = messageFactory.getMessageId(message.getClass());
 
-		// 流量统计
-		TrafficStatistic.addSentBytes(cmd, msgLength);
-		TrafficStatistic.addSentNumber(cmd);
+		// 写入包头
+		//消息内容长度
+		buffer.putInt(msgLength);
+		buffer.putInt(frame.getIndex());
 		// 写入cmd类型
 		buffer.putInt(cmd);
-		// 写入消息体
+
+		// 写入包体
 		buffer.put(body);
 		// 回到buff字节数组头部
 		buffer.flip();
 
+		// 流量统计
+		TrafficStatistic.addSentBytes(cmd, msgLength);
+		TrafficStatistic.addSentNumber(cmd);
 		return buffer;
 	}
 

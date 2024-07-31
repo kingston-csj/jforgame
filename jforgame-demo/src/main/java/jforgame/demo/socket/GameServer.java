@@ -87,7 +87,7 @@ public class GameServer {
 		DbUtils.init();
 
 		// 数据库自动更新schema
-		Set<Class<?>> codeTables = ClassScanner.listAllSubclasses("jforgame.server.game.database.user", BaseEntity.class);
+		Set<Class<?>> codeTables = ClassScanner.listAllSubclasses("jforgame.demo.game", BaseEntity.class);
 		new SchemaUpdate().execute(DbUtils.getConnection(DbUtils.DB_USER), codeTables);
 
 		// 事件驱动

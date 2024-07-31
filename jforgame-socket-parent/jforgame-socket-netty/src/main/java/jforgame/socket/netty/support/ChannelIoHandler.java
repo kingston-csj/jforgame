@@ -4,14 +4,14 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import jforgame.commons.JsonUtil;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.message.RequestDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 @ChannelHandler.Sharable
 public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
@@ -41,12 +41,16 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext context, Object packet) throws Exception {
-        logger.debug("receive pact, content is {}", packet.getClass().getSimpleName());
+    public void channelRead(ChannelHandlerContext context, Object frame) throws Exception {
+        assert frame instanceof RequestDataFrame;
+        RequestDataFrame dataFrame = (RequestDataFrame) frame;
+        if (logger.isDebugEnabled()) {
+            logger.debug("receive pact, content is {}", JsonUtil.object2String(dataFrame.getMessage()));
+        }
 
         final Channel channel = context.channel();
         IdSession session = ChannelUtils.getSessionBy(channel);
-        messageDispatcher.dispatch(session, packet);
+        messageDispatcher.dispatch(session, frame);
     }
 
     @Override
@@ -61,12 +65,5 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         IdSession userSession = ChannelUtils.getSessionBy(channel);
         messageDispatcher.exceptionCaught(userSession, cause);
-//        if (channel.isActive() || channel.isOpen()) {
-//            ctx.close();
-//        }
-//		if (!(cause instanceof IOException)) {
-//        logger.error("remote:" + channel.remoteAddress(), cause);
-//		}
-
     }
 }

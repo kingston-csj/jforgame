@@ -34,14 +34,4 @@ public class NSessionPlus extends NSession {
         return diff > 30 * TimeUtil.MILLIS_PER_SECOND;
     }
 
-    public void sendMessage(Object message, Runnable sentCallback) {
-        ChannelFuture future = this.channel.write(message);
-        future.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                NSessionPlus.this.lastWrittenTime = System.currentTimeMillis();
-                sentCallback.run();
-            }
-        });
-    }
 }

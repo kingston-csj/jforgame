@@ -4,6 +4,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.MessageToByteEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.support.ChannelIoHandler;
@@ -32,6 +34,16 @@ public class TcpSocketServerBuilder {
     MessageCodec messageCodec;
 
     ChainedMessageDispatcher socketIoDispatcher;
+
+    /**
+     * 自定义私有协议栈解码器
+     */
+    ByteToMessageDecoder protocolDecoder;
+
+    /**
+     * 自定义私有协议栈编码器
+     */
+    MessageToByteEncoder<Object> protocolEncoder;
 
     private ChannelIoHandler channelIoHandler;
 
@@ -98,6 +110,16 @@ public class TcpSocketServerBuilder {
         return this;
     }
 
+    public TcpSocketServerBuilder setProtocolDecoder(ByteToMessageDecoder protocolDecoder) {
+        this.protocolDecoder = protocolDecoder;
+        return this;
+    }
+
+    public TcpSocketServerBuilder setProtocolEncoder(MessageToByteEncoder<Object> protocolEncoder) {
+        this.protocolEncoder = protocolEncoder;
+        return this;
+    }
+
     public TcpSocketServer build() {
         TcpSocketServer socketServer = new TcpSocketServer();
         if (socketIoDispatcher == null) {
@@ -135,8 +157,17 @@ public class TcpSocketServerBuilder {
                     }
                 }
             }
-            pipeline.addLast("protocolDecoder", new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolBytes));
-            pipeline.addLast("protocolEncoder", new DefaultProtocolEncoder(messageFactory, messageCodec));
+            if (protocolDecoder != null) {
+                pipeline.addLast("protocolDecoder",protocolDecoder);
+            } else {
+                pipeline.addLast("protocolDecoder", new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolBytes));
+            }
+            if (protocolEncoder != null) {
+                pipeline.addLast("protocolEncoder", protocolEncoder);
+            } else {
+                pipeline.addLast("protocolEncoder", new DefaultProtocolEncoder(messageFactory, messageCodec));
+            }
+
             if (idleTime > 0) {
                 // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
                 pipeline.addLast(new IdleStateHandler(0, 0, idleTime,

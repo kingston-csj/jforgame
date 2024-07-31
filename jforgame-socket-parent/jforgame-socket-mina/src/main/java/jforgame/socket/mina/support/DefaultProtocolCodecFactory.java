@@ -8,6 +8,7 @@ import org.apache.mina.filter.codec.ProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 
 /**
+ * mina私有协议栈编解码
  * @author kinson
  */
 public class DefaultProtocolCodecFactory implements ProtocolCodecFactory {

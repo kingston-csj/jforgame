@@ -1,6 +1,7 @@
 package jforgame.socket.share;
 
 import jforgame.socket.client.Traceable;
+import jforgame.socket.share.message.SocketDataFrame;
 
 import java.io.Closeable;
 import java.net.InetSocketAddress;
@@ -9,7 +10,6 @@ import java.net.InetSocketAddress;
  * A socket session abstraction. Allows sending messages over a socket
  * connection and closing it.
  *
- * @author kinson
  */
 public interface IdSession extends Closeable {
 
@@ -35,12 +35,7 @@ public interface IdSession extends Closeable {
      * @param packet message to send
      */
     default void send(int index, Object packet) {
-        if (!(packet instanceof Traceable)) {
-            throw new IllegalArgumentException(packet.getClass().getName() + " must be Traceable");
-        }
-        Traceable traceable = (Traceable) packet;
-        traceable.setIndex(index);
-        send(packet);
+        send(SocketDataFrame.withIndex(index, packet));
     }
 
     InetSocketAddress getRemoteAddress();

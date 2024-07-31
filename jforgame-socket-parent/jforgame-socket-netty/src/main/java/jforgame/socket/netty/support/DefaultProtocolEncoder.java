@@ -7,6 +7,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.share.message.SocketDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +32,6 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 
 	private final MessageCodec messageCodec;
 
-	/**
-	 * 消息元信息常量，为int类型的长度，表示消息的id
-	 */
-	private static final int MESSAGE_META_SIZE = 4;
-
 	public DefaultProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
 		this.messageFactory = messageFactory;
 		this.messageCodec = messageCodec;
@@ -42,22 +39,29 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
 
 	@Override
 	protected void encode(ChannelHandlerContext ctx, Object message, ByteBuf out) throws Exception {
+		assert message instanceof SocketDataFrame;
+		SocketDataFrame dataFrame = (SocketDataFrame) message;
 		// ----------------protocol pattern-------------------------
-		// packetLength | cmd | body
-		// int int byte[]
-		int  cmd = messageFactory.getMessageId(message.getClass());
+		//      header(12bytes)     | body
+		// msgLength = 12+len(body) | body
+		// msgLength | index | cmd  | body
+		int  cmd = messageFactory.getMessageId(dataFrame.getMessage().getClass());
 		try {
-            byte[] body = messageCodec.encode(message);
+            byte[] body = messageCodec.encode(dataFrame.getMessage());
+			// 写入包头
 			//消息内容长度
-			int msgLength = body.length + MESSAGE_META_SIZE;
+			int msgLength = body.length + MessageHeader.SIZE;
 			out.writeInt(msgLength);
+			out.writeInt(dataFrame.getIndex());
+			// 写入cmd类型
+			out.writeInt(cmd);
+
+			// 写入包体
+			out.writeBytes(body);
 
 			// 流量统计
 			TrafficStatistic.addSentBytes(cmd, msgLength);
 			TrafficStatistic.addSentNumber(cmd);
-			// 写入cmd类型
-			out.writeInt(cmd);
-			out.writeBytes(body);
 		} catch (Exception e) {
 			logger.error("wrote message {} failed", cmd, e);
 		}

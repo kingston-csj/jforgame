@@ -15,9 +15,9 @@ public interface SocketIoDispatcher {
 	 /**
      * message entrance, in which io thread dispatch messages
      * @param session socket session
-     * @param message request message
+     * @param frame request message {@link jforgame.socket.share.message.RequestDataFrame}
      */
-	void dispatch(IdSession session, Object message);
+	void dispatch(IdSession session, Object frame);
 	
 	/**
 	 * fire session close event

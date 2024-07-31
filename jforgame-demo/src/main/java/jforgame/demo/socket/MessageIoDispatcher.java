@@ -10,9 +10,12 @@ import jforgame.socket.share.MessageHandlerRegister;
 import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.RequestDataFrame;
 import jforgame.socket.share.task.BaseGameTask;
 import jforgame.socket.share.task.MessageTask;
 import jforgame.socket.support.DefaultMessageParameterConverter;
+
+import java.io.IOException;
 
 public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
@@ -20,11 +23,13 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
     MessageFactory messageFactory = GameMessageFactory.getInstance();
 
-    private MessageParameterConverter msgParameterConverter= new DefaultMessageParameterConverter(messageFactory);
+    private MessageParameterConverter msgParameterConverter = new DefaultMessageParameterConverter(messageFactory);
 
     public MessageIoDispatcher(String scanPath) {
         this.handlerRegister = new CommonMessageHandlerRegister(scanPath, messageFactory);
-        MessageHandler messageHandler = (session, message) -> {
+        MessageHandler messageHandler = (session, frame) -> {
+            RequestDataFrame dataFrame = (RequestDataFrame) frame;
+            Object message = dataFrame.getMessage();
             int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
             MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
             if (cmdExecutor == null) {
@@ -32,7 +37,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
                 return true;
             }
 
-            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), message);
+            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
             Object controller = cmdExecutor.getHandler();
 
             int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
@@ -65,6 +70,13 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
                 }
             };
             GameServer.getMonitorGameExecutor().accept(closeTask);
+        }
+    }
+
+    @Override
+    public void exceptionCaught(IdSession session, Throwable cause) {
+        if (!(cause instanceof IOException)) {
+            logger.error("", cause);
         }
     }
 

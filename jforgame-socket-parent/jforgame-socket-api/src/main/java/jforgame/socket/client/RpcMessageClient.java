@@ -19,10 +19,8 @@ public class RpcMessageClient {
      * @param callBack response callback
      * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
      */
-    public static void callBack(IdSession session, Traceable request, RequestCallback callBack) throws CallbackTimeoutException {
+    public static void callBack(IdSession session, Object request, RequestCallback callBack) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
-        request.setIndex(index);
-
         final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(index, CALL_BACK_TIME_OUT, callBack);
         CallBackService.getInstance().register(index, requestResponseFuture);
         session.send(index, request);
@@ -36,7 +34,7 @@ public class RpcMessageClient {
      * @return response message
      * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
      */
-    public static Object request(IdSession session, Traceable request) throws CallbackTimeoutException {
+    public static Object request(IdSession session, Object request) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();
         session.send(index, request);
         final RequestResponseFuture future = new RequestResponseFuture(index, CALL_BACK_TIME_OUT, null);

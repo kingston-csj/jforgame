@@ -3,6 +3,8 @@ package jforgame.socket.mina.support;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.share.message.RequestDataFrame;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
@@ -21,18 +23,13 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
-	private Logger logger = LoggerFactory.getLogger("socketserver");
+	private final Logger logger = LoggerFactory.getLogger("socketserver");
 
-	private int maxProtocolBytes;
+	private final int maxProtocolBytes;
 
 	private MessageFactory messageFactory;
 
 	private MessageCodec messageCodec;
-
-	/**
-	 * 消息元信息常量，为int类型的长度，表示消息的id
-	 */
-	private final int MESSAGE_META_SIZE = 4;
 
 	public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
 		this(messageFactory, messageCodec, 4096);
@@ -46,29 +43,35 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
-		if (in.remaining() < 4) {
+		if (in.remaining() < MessageHeader.SIZE) {
 			return false;
 		}
 		in.mark();
 
 		// ----------------protocol pattern-------------------------
-		// packetLength | cmd | body
-		// int int byte[]
-		int length = in.getInt();
+		//      header(12bytes)     | body
+		// msgLength = 12+len(body) | body
+		// msgLength | index | cmd  | body
+		byte[] header = new byte[MessageHeader.SIZE];
+		in.get(header);
+		MessageHeader headerMeta = new MessageHeader();
+		headerMeta.read(header);
+
+		int length = headerMeta.getMsgLength();
 		if (length > maxProtocolBytes) {
 			logger.error("message data frame [{}] too large, close session now", length);
 			session.close(true);
 			return true;
 		}
 
-		if (in.remaining() < length) {
+		int cmd = headerMeta.getCmd();
+		int bodySize = length - MessageHeader.SIZE;
+		if (in.remaining() < bodySize) {
 			in.reset();
 			return false;
 		}
 
-		final int metaSize = MESSAGE_META_SIZE;
-		int cmd = in.getInt();
-		byte[] body = new byte[length - metaSize];
+		byte[] body = new byte[bodySize];
 		in.get(body);
 
 		// 流量统计
@@ -78,7 +81,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 		Class<?> msgClazz = messageFactory.getMessage(cmd);
 		Object msg = messageCodec.decode(msgClazz, body);
 
-		out.write(msg);
+		out.write(new RequestDataFrame(headerMeta, msg));
 		return true;
 	}
 

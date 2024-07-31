@@ -51,7 +51,12 @@ public class MessageTask extends BaseGameTask {
         try {
             Object response = method.invoke(handler, params);
             if (response != null) {
-                session.send(response);
+                // 消息处理器包含消息序号，则下发响应将其带上
+                if (params.length == 3 && Integer.class.isAssignableFrom(params[1].getClass())) {
+                    session.send((Integer) params[1], response);
+                } else {
+                    session.send(response);
+                }
             }
         } catch (Exception e) {
             logger.error("message task execute failed ", e);

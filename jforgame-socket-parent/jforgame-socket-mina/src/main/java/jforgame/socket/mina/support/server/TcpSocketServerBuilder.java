@@ -4,6 +4,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.message.MessageFactory;
+import org.apache.mina.filter.codec.ProtocolCodecFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ public class TcpSocketServerBuilder {
     MessageCodec messageCodec;
 
     ChainedMessageDispatcher socketIoDispatcher;
+
+    ProtocolCodecFactory protocolCodecFactory;
 
     public TcpSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
@@ -49,6 +52,11 @@ public class TcpSocketServerBuilder {
         return this;
     }
 
+    public TcpSocketServerBuilder setProtocolCodecFactory(ProtocolCodecFactory protocolCodecFactory) {
+        this.protocolCodecFactory = protocolCodecFactory;
+        return this;
+    }
+
     public TcpSocketServer build() {
         TcpSocketServer socketServer = new TcpSocketServer();
         if (socketIoDispatcher == null) {
@@ -68,6 +76,7 @@ public class TcpSocketServerBuilder {
         socketServer.messageCodec = messageCodec;
         socketServer.socketIoDispatcher = socketIoDispatcher;
         socketServer.maxProtocolSize = maxProtocolSize;
+        socketServer.protocolCodecFactory = protocolCodecFactory;
 
         return socketServer;
     }

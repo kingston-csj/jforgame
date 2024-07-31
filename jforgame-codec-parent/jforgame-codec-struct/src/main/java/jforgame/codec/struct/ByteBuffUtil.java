@@ -1,7 +1,7 @@
 package jforgame.codec.struct;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,25 +78,16 @@ public final class ByteBuffUtil {
 		int strSize = buf.getInt();
 		byte[] content = new byte[strSize];
 		buf.get(content);
-		try {
-			return new String(content,"UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			logger.error("", e);
-			return "";
-		}
-	}
+        return new String(content, StandardCharsets.UTF_8);
+    }
 
 	public static void writeUtf8(ByteBuffer buf, String msg) {
 		byte[] content ;
-		try {
-			if (msg == null) {
-				msg = "";
-			}
-			content = msg.getBytes("UTF-8");
-			buf.putInt(content.length);
-			buf.put(content);
-		} catch (UnsupportedEncodingException e) {
-			logger.error("", e);
-		}
-	}
+        if (msg == null) {
+            msg = "";
+        }
+        content = msg.getBytes(StandardCharsets.UTF_8);
+        buf.putInt(content.length);
+        buf.put(content);
+    }
 }

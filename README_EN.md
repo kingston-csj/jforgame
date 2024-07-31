@@ -41,7 +41,6 @@ A lightweight online game framework written in Java. The project just shows some
   Jedis | redis memory cache | [https://redis.io](https://redis.io/)  
   quartz | job task scheduler | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
   groovy | class hotswap | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  proxool | mysql data pool | [http://proxool.sourceforge.net/](http://proxool.sourceforge.net/)   
   slf4j+log4j | logging system | [https://www.slf4j.org/](https://www.slf4j.org/)  
   maven | manage jar dependency, build project| [http://maven.apache.org/](http://maven.apache.org/)  
 

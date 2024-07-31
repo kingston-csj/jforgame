@@ -11,6 +11,7 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.service.SimpleIoProcessorPool;
+import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.DefaultSocketSessionConfig;
 import org.apache.mina.transport.socket.SocketAcceptor;
@@ -44,6 +45,8 @@ public class TcpSocketServer implements ServerNode {
 
     protected MessageCodec messageCodec;
 
+    protected ProtocolCodecFactory protocolCodecFactory;
+
     protected ChainedMessageDispatcher socketIoDispatcher;
 
     protected int maxProtocolSize;
@@ -63,8 +66,15 @@ public class TcpSocketServer implements ServerNode {
         acceptor.getSessionConfig().setAll(new DefaultSocketSessionConfig());
 
         DefaultIoFilterChainBuilder filterChain = acceptor.getFilterChain();
-        filterChain.addLast("codec",
-                new ProtocolCodecFilter(new DefaultProtocolCodecFactory(messageFactory, messageCodec, maxProtocolSize)));
+
+        if (protocolCodecFactory != null) {
+            filterChain.addLast("codec",
+                    new ProtocolCodecFilter(protocolCodecFactory));
+        } else {
+            filterChain.addLast("codec",
+                    new ProtocolCodecFilter(new DefaultProtocolCodecFactory(messageFactory, messageCodec, maxProtocolSize)));
+        }
+
         //指定业务逻辑处理器
         acceptor.setHandler(new DefaultSocketIoHandler(socketIoDispatcher));
 
