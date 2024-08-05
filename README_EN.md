@@ -14,6 +14,7 @@ A lightweight online game framework written in Java. The project just shows some
       ├── jforgame-socket-netty   --netty implemention, including a simple websocket server
       ├── jforgame-socket-mina    --mina implemention
   ├── jforgame-orm    --use a lightweight tool for conversion between pojo and database asynchronously 
+  ├── jforgame-spring-boot-starter-data    --Encapsulate the reading of configuration data in springboot's starter mode, supporting file formats such as CSV and Excel. Support configuration hot reload
   ├── jforgame-hotswap   --support hotswap without restarting server
   ├── jforgame-codec-parent  --data codec for socket communication
       ├── jforgame-codec-api        --codec api

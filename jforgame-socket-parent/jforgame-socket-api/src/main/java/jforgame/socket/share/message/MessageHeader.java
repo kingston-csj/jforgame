@@ -54,11 +54,23 @@ public class MessageHeader {
         return msgLength;
     }
 
+    public void setMsgLength(int msgLength) {
+        this.msgLength = msgLength;
+    }
+
     public int getIndex() {
         return index;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public int getCmd() {
         return cmd;
+    }
+
+    public void setCmd(int cmd) {
+        this.cmd = cmd;
     }
 }

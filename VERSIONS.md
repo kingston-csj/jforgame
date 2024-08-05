@@ -48,6 +48,8 @@
        如果实在介意消息序号，或者消息长度，或者需要支持压缩，加密啥的，底层无法做到面面俱到，用户可以参考DefaultProtocolDecoder/DefaultProtocolEncoder,设计自己的私有协议。
        至于RequestDataFrame的MessageHeader类，由于包头字段是具体化设计的，若需要修改，就简单的做法就是在工程里直接拷贝整个文件（包路径不要修改）进行覆盖。
        由于jdk同一个类加载器不会重复相同的class文件，当类加载器首先加载到项目的MessageHeader类，便不会加载jforgame-socket-api依赖的同名文件了！
+### jforgame-socket-netty
+    websocket支持BinaryWebSocketFrame
 ### jforgame-socket-mina
     升级mina-core组件： from 2.0.7 to 2.0.22
 ### jforgame-data

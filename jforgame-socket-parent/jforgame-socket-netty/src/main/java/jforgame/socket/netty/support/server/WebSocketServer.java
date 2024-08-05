@@ -1,6 +1,7 @@
 package jforgame.socket.netty.support.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -17,6 +18,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.ReferenceCounted;
+import jforgame.codec.MessageCodec;
 import jforgame.commons.JsonUtil;
 import jforgame.commons.NumberUtil;
 import jforgame.socket.netty.support.ChannelIoHandler;
@@ -24,39 +26,37 @@ import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.share.message.SocketDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
  * simple web socket server
- * support {@link TextWebSocketFrame} only
- * unsupported {@link BinaryWebSocketFrame}
+ * support {@link TextWebSocketFrame} and  {@link BinaryWebSocketFrame}
  */
 public class WebSocketServer implements ServerNode {
 
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
-    private static ChannelIoHandler messageIoHandler;
+    ChannelIoHandler messageIoHandler;
 
     // 避免使用默认线程数参数
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
 
-    private final HostAndPort nodeConfig;
+    HostAndPort nodeConfig;
 
-    private final MessageFactory messageFactory;
+    MessageFactory messageFactory;
 
-    private String
-            websocketPath = "/ws";
+    MessageCodec messageCodec;
 
-    public WebSocketServer(HostAndPort hostPort, MessageFactory messageFactory, ChainedMessageDispatcher messageDispatcher) {
-        this.nodeConfig = hostPort;
-        this.messageFactory = messageFactory;
-        messageIoHandler = new ChannelIoHandler(messageDispatcher);
-    }
+    String websocketPath;
 
     @Override
     public void start() throws Exception {
@@ -90,17 +90,19 @@ public class WebSocketServer implements ServerNode {
 
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
-            pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(8192));
+            pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(512 * 1024));
             pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath));
 
             // WebSocketFrame vs Message codec
             pipeline.addLast("socketFrameToMessage", new MessageToMessageCodec<WebSocketFrame, Object>() {
                 @Override
                 protected void encode(ChannelHandlerContext ctx, Object o, List<Object> list) throws Exception {
-                    if (messageFactory.contains(o.getClass())) {
-                        String json = JsonUtil.object2String(o);
+                    if (o instanceof SocketDataFrame) {
+                        SocketDataFrame socketDataFrame = (SocketDataFrame) o;
+                        Object message = socketDataFrame.getMessage();
+                        String json = JsonUtil.object2String(message);
                         TextFrame frame = new TextFrame();
-                        frame.id = String.valueOf(messageFactory.getMessageId(o.getClass()));
+                        frame.cmd = messageFactory.getMessageId(message.getClass());
                         frame.msg = json;
                         list.add(new TextWebSocketFrame(JsonUtil.object2String(frame)));
                     } else if (o instanceof ReferenceCounted) {
@@ -120,11 +122,29 @@ public class WebSocketServer implements ServerNode {
                             logger.error("json failed, data [{}]", json);
                             return;
                         }
-                        Class<?> clazz = messageFactory.getMessage(NumberUtil.intValue(textFrame.id));
+                        Class<?> clazz = messageFactory.getMessage(NumberUtil.intValue(textFrame.cmd));
                         Object realMsg = JsonUtil.string2Object(textFrame.msg, clazz);
-                        out.add(realMsg);
+                        MessageHeader header = new MessageHeader();
+                        header.setCmd(textFrame.cmd);
+                        header.setIndex(textFrame.index);
+                        RequestDataFrame requestDataFrame = new RequestDataFrame(header, realMsg);
+                        out.add(requestDataFrame);
                     } else if (frame instanceof BinaryWebSocketFrame) {
-                        throw new UnsupportedOperationException("BinaryWebSocketFrame not supported");
+                        BinaryWebSocketFrame binaryFrame = (BinaryWebSocketFrame) frame;
+                        ByteBuf in = binaryFrame.content();
+                        byte[] headerData = new byte[MessageHeader.SIZE];
+                        in.readBytes(headerData);
+                        MessageHeader headerMeta = new MessageHeader();
+                        headerMeta.read(headerData);
+                        int length = headerMeta.getMsgLength();
+                        int bodySize = length - MessageHeader.SIZE;
+                        int cmd = headerMeta.getCmd();
+                        byte[] body = new byte[bodySize];
+                        in.readBytes(body);
+                        Class<?> clazz = messageFactory.getMessage(NumberUtil.intValue(cmd));
+                        Object message = JsonUtil.string2Object(new String(body, StandardCharsets.UTF_8), clazz);
+                        RequestDataFrame requestDataFrame = new RequestDataFrame(headerMeta, message);
+                        out.add(requestDataFrame);
                     }
                 }
             });
@@ -134,8 +154,10 @@ public class WebSocketServer implements ServerNode {
     }
 
     static class TextFrame {
+        // 消息包序号
+        int index;
         // 消息id
-        String id;
+        int cmd;
         // 消息内容
         String msg;
     }

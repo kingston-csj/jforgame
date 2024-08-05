@@ -5,6 +5,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalGenericConverter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -29,9 +30,7 @@ public class JsonToListConvertor implements ConditionalGenericConverter {
         Object[] array = JsonUtil.string2Array(json, targetType.getElementTypeDescriptor().getType());
         if (array != null) {
             List<Object> list = new ArrayList<>(array.length);
-            for (Object o : array) {
-                list.add(o);
-            }
+            list.addAll(Arrays.asList(array));
             return list;
         }
         return null;
