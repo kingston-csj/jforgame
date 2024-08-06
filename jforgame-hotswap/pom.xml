@@ -13,8 +13,6 @@
     <artifactId>jforgame-hotswap</artifactId>
     <name>hotswap</name>
     <description>jforgame hostswap parent</description>
-
-
     <packaging>pom</packaging>
     <modules>
         <module>jforgame-hotswap-agent</module>

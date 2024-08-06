@@ -11,12 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-socket-netty</artifactId>
-    <description>jforgame socket - netty implementation, including a simple websocket server </description>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <description>jforgame socket - netty implementation, including a simple websocket server</description>
 
     <dependencies>
         <dependency>

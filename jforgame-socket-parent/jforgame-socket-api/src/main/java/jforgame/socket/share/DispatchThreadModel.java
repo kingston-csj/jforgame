@@ -19,18 +19,25 @@ public class DispatchThreadModel implements ThreadModel {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatchThreadModel.class);
 
-    private final int CORE_SIZE = Runtime.getRuntime().availableProcessors();
     /**
      * task worker pool
      */
-    private final Worker[] workerPool = new Worker[CORE_SIZE];
+    private final Worker[] workerPool;
 
     private static final AtomicBoolean running = new AtomicBoolean(true);
 
 
     public DispatchThreadModel() {
+        this(Runtime.getRuntime().availableProcessors());
+    }
+
+    /**
+     * @param workCapacity worker count in thread group
+     */
+    public DispatchThreadModel(int workCapacity) {
         ThreadFactory threadFactory = new NamedThreadFactory("message-business");
-        for (int i = 0; i < CORE_SIZE; i++) {
+        workerPool = new Worker[workCapacity];
+        for (int i = 0; i < workCapacity; i++) {
             Worker w = new Worker();
             workerPool[i] = w;
             threadFactory.newThread(w).start();
@@ -73,7 +80,7 @@ public class DispatchThreadModel implements ThreadModel {
         if (!running.get()) {
             return;
         }
-        int distributeKey = (int) (task.getDispatchKey() % CORE_SIZE);
+        int distributeKey = (int) (task.getDispatchKey() % workerPool.length);
         workerPool[distributeKey].receive(task);
     }
 

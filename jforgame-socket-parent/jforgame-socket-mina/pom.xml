@@ -11,12 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jforgame-socket-mina</artifactId>
-    <description>jforgame socket - mina implementation </description>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <description>jforgame socket - mina implementation</description>
 
     <dependencies>
         <dependency>

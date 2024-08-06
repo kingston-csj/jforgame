@@ -14,11 +14,6 @@
     <artifactId>jforgame-socket-api</artifactId>
     <description>jforgame socket api, including server and client api</description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.github.jforgame</groupId>

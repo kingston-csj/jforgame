@@ -6,12 +6,12 @@ package jforgame.socket.share.message;
 public class RequestDataFrame {
 
     /**
-     * 包头元信息
+     * message header meta
      */
     private MessageHeader header;
 
     /**
-     * 包体具体消息
+     * message bean rather than bytes data
      */
     private Object message;
 

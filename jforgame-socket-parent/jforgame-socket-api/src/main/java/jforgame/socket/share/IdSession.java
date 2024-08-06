@@ -7,9 +7,8 @@ import java.io.Closeable;
 import java.net.InetSocketAddress;
 
 /**
- * A socket session abstraction. Allows sending messages over a socket
- * connection and closing it.
- *
+ * A socket session abstraction. Allows sending messages over a socket connection and closing it.
+ * The implements can be netty or mina.
  */
 public interface IdSession extends Closeable {
 
@@ -65,6 +64,10 @@ public interface IdSession extends Closeable {
      * @return the value associated with the key
      */
     Object getAttribute(String key);
+
+    default boolean hasAttribute(String key) {
+        return getAttribute(key) != null;
+    }
 
     Object getRawSession();
 
