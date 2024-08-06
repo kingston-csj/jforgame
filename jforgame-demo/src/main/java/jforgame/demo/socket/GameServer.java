@@ -22,6 +22,7 @@ import jforgame.demo.redis.RedisCluster;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.netty.support.server.TcpSocketServerBuilder;
+import jforgame.socket.netty.support.server.WebSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;

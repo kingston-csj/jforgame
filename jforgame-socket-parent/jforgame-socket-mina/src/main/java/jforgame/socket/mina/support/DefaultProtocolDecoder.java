@@ -3,8 +3,8 @@ package jforgame.socket.mina.support;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.support.DefaultMessageHeader;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
@@ -43,7 +43,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
-		if (in.remaining() < MessageHeader.SIZE) {
+		if (in.remaining() < DefaultMessageHeader.SIZE) {
 			return false;
 		}
 		in.mark();
@@ -52,9 +52,9 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 		//      header(12bytes)     | body
 		// msgLength = 12+len(body) | body
 		// msgLength | index | cmd  | body
-		byte[] header = new byte[MessageHeader.SIZE];
+		byte[] header = new byte[DefaultMessageHeader.SIZE];
 		in.get(header);
-		MessageHeader headerMeta = new MessageHeader();
+		DefaultMessageHeader headerMeta = new DefaultMessageHeader();
 		headerMeta.read(header);
 
 		int length = headerMeta.getMsgLength();
@@ -65,7 +65,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 		}
 
 		int cmd = headerMeta.getCmd();
-		int bodySize = length - MessageHeader.SIZE;
+		int bodySize = length - DefaultMessageHeader.SIZE;
 		if (in.remaining() < bodySize) {
 			in.reset();
 			return false;

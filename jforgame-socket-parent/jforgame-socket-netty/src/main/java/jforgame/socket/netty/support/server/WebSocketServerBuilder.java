@@ -22,6 +22,10 @@ public class WebSocketServerBuilder {
 
     private String websocketPath = "/ws";
 
+//    private SslContext sslContext;
+//
+//    private boolean ssl = true;
+
     public WebSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
@@ -62,6 +66,21 @@ public class WebSocketServerBuilder {
         if (hortPort == null) {
             throw new IllegalArgumentException("nodeConfig must not null");
         }
+
+//        if (ssl) {
+//            if (sslContext == null) {
+//                try {
+//                    SelfSignedCertificate ssc = new SelfSignedCertificate();
+//                    sslContext = SslContextBuilder
+//                            .forServer(ssc.certificate(), ssc.privateKey())
+//                            .build();
+//                } catch (CertificateException | SSLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//            socketServer.sslContext = sslContext;
+//        }
+
         socketServer.nodeConfig = hortPort;
         socketServer.messageCodec = messageCodec;
         socketServer.messageFactory = messageFactory;

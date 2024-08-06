@@ -22,13 +22,13 @@ import jforgame.codec.MessageCodec;
 import jforgame.commons.JsonUtil;
 import jforgame.commons.NumberUtil;
 import jforgame.socket.netty.support.ChannelIoHandler;
-import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.RequestDataFrame;
 import jforgame.socket.share.message.SocketDataFrame;
+import jforgame.socket.support.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +58,8 @@ public class WebSocketServer implements ServerNode {
 
     String websocketPath;
 
+//    SslContext sslContext;
+
     @Override
     public void start() throws Exception {
         try {
@@ -85,9 +87,11 @@ public class WebSocketServer implements ServerNode {
     private class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
         @Override
-        protected void initChannel(SocketChannel arg0) throws Exception {
-            ChannelPipeline pipeline = arg0.pipeline();
-
+        protected void initChannel(SocketChannel ch) throws Exception {
+            ChannelPipeline pipeline = ch.pipeline();
+//            if (sslContext != null) {
+//                pipeline.addLast("ssl", sslContext.newHandler(ch.alloc()));
+//            }
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(512 * 1024));
@@ -116,7 +120,8 @@ public class WebSocketServer implements ServerNode {
                 @Override
                 protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> out) throws Exception {
                     if (frame instanceof TextWebSocketFrame) {
-                        String json = ((TextWebSocketFrame) frame).text();
+                        TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) frame;
+                        String json = textWebSocketFrame.text();
                         TextFrame textFrame = JsonUtil.string2Object(json, TextFrame.class);
                         if (textFrame == null) {
                             logger.error("json failed, data [{}]", json);
@@ -124,20 +129,22 @@ public class WebSocketServer implements ServerNode {
                         }
                         Class<?> clazz = messageFactory.getMessage(NumberUtil.intValue(textFrame.cmd));
                         Object realMsg = JsonUtil.string2Object(textFrame.msg, clazz);
-                        MessageHeader header = new MessageHeader();
+                        MessageHeader header = new DefaultMessageHeader();
                         header.setCmd(textFrame.cmd);
+                        // TextWebSocketFrame的byte长度近似取值即可
+                        header.setMsgLength(textWebSocketFrame.content().readableBytes());
                         header.setIndex(textFrame.index);
                         RequestDataFrame requestDataFrame = new RequestDataFrame(header, realMsg);
                         out.add(requestDataFrame);
                     } else if (frame instanceof BinaryWebSocketFrame) {
                         BinaryWebSocketFrame binaryFrame = (BinaryWebSocketFrame) frame;
                         ByteBuf in = binaryFrame.content();
-                        byte[] headerData = new byte[MessageHeader.SIZE];
+                        byte[] headerData = new byte[DefaultMessageHeader.SIZE];
                         in.readBytes(headerData);
-                        MessageHeader headerMeta = new MessageHeader();
+                        MessageHeader headerMeta = new DefaultMessageHeader();
                         headerMeta.read(headerData);
                         int length = headerMeta.getMsgLength();
-                        int bodySize = length - MessageHeader.SIZE;
+                        int bodySize = length - DefaultMessageHeader.SIZE;
                         int cmd = headerMeta.getCmd();
                         byte[] body = new byte[bodySize];
                         in.readBytes(body);

@@ -15,7 +15,7 @@
    * 连接webcocket
    */
   $.connect = function () {
-    var protocol = window.location.protocol == "http:" ? "ws:" : "ws:";
+    var protocol = "ws:";
     this.host = protocol + this.config.url;
 
     window.WebSocket = window.WebSocket || window.MozWebSocket;

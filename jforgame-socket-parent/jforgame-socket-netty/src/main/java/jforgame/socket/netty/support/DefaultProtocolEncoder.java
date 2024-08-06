@@ -7,8 +7,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.SocketDataFrame;
+import jforgame.socket.support.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
             byte[] body = messageCodec.encode(dataFrame.getMessage());
 			// 写入包头
 			//消息内容长度
-			int msgLength = body.length + MessageHeader.SIZE;
+			int msgLength = body.length + DefaultMessageHeader.SIZE;
 			out.writeInt(msgLength);
 			out.writeInt(dataFrame.getIndex());
 			// 写入cmd类型

@@ -3,8 +3,8 @@ package jforgame.socket.mina.support;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.SocketDataFrame;
+import jforgame.socket.support.DefaultMessageHeader;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
@@ -63,7 +63,7 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 		Object message = frame.getMessage();
 		byte[] body = messageCodec.encode(message);
         // the length of message body
-		int msgLength = body.length + MessageHeader.SIZE;
+		int msgLength = body.length + DefaultMessageHeader.SIZE;
 		int cmd = messageFactory.getMessageId(message.getClass());
 
 		// 写入包头

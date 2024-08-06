@@ -1,76 +1,44 @@
 package jforgame.socket.share.message;
 
-import java.nio.ByteBuffer;
+/**
+ * 私有协议栈——消息包头定义
+ * 这里用接口定义，用户可根据需要，对指定字段（例如cmd）的类型进行修改
+ * 例如：网络io可将cmd定义为short型，应用程序统一以int接收。
+ * 这样可节省部分网络浏览，同时，这列对象属于“短命小对象”，对gc英雄很小
+ */
+public interface MessageHeader {
 
-public class MessageHeader {
 
-    /**
-     * meta head size.
-     */
-    public static final int SIZE = 12;
+    byte[] write();
 
-
-    /**
-     * 消息总长度，包括包头的12个字节，以及包体的长度
-     */
-    private int msgLength;
+    void read(byte[] bytes);
 
     /**
-     * 消息包序，由客户端维护
-     * 可用于客户端回调设计；或者服务器检测消息重播
-     * 由客户端自行保证自增长
+     * 私有协议栈的总长度，包括包头+包体
+     * @return 私有协议栈的总长度
      */
-    private int index;
+    int getMsgLength();
+
+    void setMsgLength(int msgLength);
+
+    /**
+     * 消息包序号（由客户端保证自增长）
+     * 可用于客户端回调，消息重放检测
+     * @return 消息包序号
+     */
+    int getIndex();
+
+
+    void setIndex(int index);
+
 
     /**
      * 消息类型
+     * @return 消息类型
      */
-    private int cmd;
+    int getCmd();
 
-    public byte[] write() {
-        ByteBuffer allocate = ByteBuffer.allocate(SIZE);
-        allocate.putInt(msgLength);
-        allocate.putInt(index);
-        allocate.putInt(cmd);
-        byte[] ret = allocate.array();
-        allocate.clear();
-        return ret;
-    }
 
-    public void read(byte[] bytes) {
-        if (bytes == null || bytes.length != SIZE) {
-            throw new IllegalArgumentException("invalid byte array, size must be " + SIZE);
-        }
+    void setCmd(int cmd);
 
-        ByteBuffer allocate = ByteBuffer.wrap(bytes);
-        msgLength = allocate.getInt();
-        index = allocate.getInt();
-        cmd = allocate.getInt();
-
-        allocate.clear();
-    }
-
-    public int getMsgLength() {
-        return msgLength;
-    }
-
-    public void setMsgLength(int msgLength) {
-        this.msgLength = msgLength;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public int getCmd() {
-        return cmd;
-    }
-
-    public void setCmd(int cmd) {
-        this.cmd = cmd;
-    }
 }

@@ -6,8 +6,8 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.support.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +48,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if (in.readableBytes() < MessageHeader.SIZE) {
+        if (in.readableBytes() < DefaultMessageHeader.SIZE) {
             return;
         }
         in.markReaderIndex();
@@ -56,9 +56,9 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
         //      header(12bytes)     | body
         // msgLength = 12+len(body) | body
         // msgLength | index | cmd  | body
-        byte[] header = new byte[MessageHeader.SIZE];
+        byte[] header = new byte[DefaultMessageHeader.SIZE];
         in.readBytes(header);
-        MessageHeader headerMeta = new MessageHeader();
+        DefaultMessageHeader headerMeta = new DefaultMessageHeader();
         headerMeta.read(header);
 
         int length = headerMeta.getMsgLength();
@@ -67,7 +67,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
             ctx.close();
             return;
         }
-        int bodySize = length - MessageHeader.SIZE;
+        int bodySize = length - DefaultMessageHeader.SIZE;
         if (in.readableBytes() < bodySize) {
             in.resetReaderIndex();
             return;
