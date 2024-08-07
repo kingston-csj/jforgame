@@ -1,14 +1,12 @@
 package jforgame.demo.game.hello;
 
 
-import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 
-@MessageMeta(cmd= 888)
-public class ReqHello implements Traceable {
+@MessageMeta(cmd = 888)
+public class ReqHello {
 
     private int index;
-
 
     public int getIndex() {
         return index;

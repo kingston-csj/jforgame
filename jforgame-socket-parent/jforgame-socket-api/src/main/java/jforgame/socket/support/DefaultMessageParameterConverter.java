@@ -20,7 +20,7 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
         Object message = dataFrame.getMessage();
         Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
         // 方法签名如果有两个参数，则为  method(IdSession session, Object message);
-        //       如果有三个参数，则为  method(IdSession session, int index, Object message);
+        //        如果有三个参数，则为  method(IdSession session, int index, Object message);
         for (int i = 0; i < result.length; i++) {
             Class<?> param = methodParams[i];
             if (i == 0) {

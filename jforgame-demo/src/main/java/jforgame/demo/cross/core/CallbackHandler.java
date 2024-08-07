@@ -22,7 +22,7 @@ public abstract class CallbackHandler {
 
     public void sendBack(IdSession session, G2FCallBack req, Message response) {
         F2GCallBack callBack = F2GCallBack.valueOf(response);
-        callBack.setIndex(req.getIndex());
+//        callBack.setIndex(req.getIndex());
         session.send(callBack);
     }
 

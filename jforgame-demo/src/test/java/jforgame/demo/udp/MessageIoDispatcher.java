@@ -41,7 +41,6 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             Object controller = cmdExecutor.getHandler();
 
             MessageTask task = MessageTask.valueOf(session, session.hashCode(), controller, cmdExecutor.getMethod(), params);
-            task.setRequest(message);
             // 丢到任务消息队列，不在io线程进行业务处理
             GameServer.getMonitorGameExecutor().accept(task);
             return true;

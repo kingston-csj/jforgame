@@ -11,7 +11,6 @@ public class HelloMsgRoute {
     public Object sayHello(IdSession session, int index, ReqHello request) {
         ResHello response = new ResHello();
         response.setContent("hello, rpc");
-        response.setIndex(index);
         return response;
     }
 }

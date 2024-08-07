@@ -39,19 +39,18 @@
     新增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新
 
 
-## V2.0.0(2024-08-01)
+## V2.0.0(2024-08-01),网关客户端代码需要稍微修改，升级大版本号
 ### jforgame-socket
     修改私有协议栈格式，消息头增加一个int字段，保存客户端的消息序号。
-    废弃Traceable接口，客户端回调id直接使用上面的消息序号。
+    删除Traceable接口，客户端回调id直接使用上面的消息序号。
     注：消息序号不是每个项目都需要，在每个消息增加这样的字段，会导致每个消息多出4个字段的长度。一开始设计是拒绝的，但底层设计不应过于严格，应尽量宽容。
        就像消息类型cmd字段，其实在很多项目里直接申明为short（3w+）也足够用。当然，int的长度允许业务为各种类型进行分段分类。还是那个词，宽容！
        如果实在介意消息序号，或者消息长度，或者需要支持压缩，加密啥的，底层无法做到面面俱到，用户可以参考DefaultProtocolDecoder/DefaultProtocolEncoder,设计自己的私有协议。
-       至于RequestDataFrame的MessageHeader类，由于包头字段是具体化设计的，若需要修改，就简单的做法就是在工程里直接拷贝整个文件（包路径不要修改）进行覆盖。
-       由于jdk同一个类加载器不会重复相同的class文件，当类加载器首先加载到项目的MessageHeader类，便不会加载jforgame-socket-api依赖的同名文件了！
+       至于RequestDataFrame的MessageHeader类，接口参数及返回值都是int类型，但编辑码层面仍可选择short等类型，节省网络流量。至于应用程序方面的内存消耗，这些消息属于“短命小对象”，对GC影响甚微。
 ### jforgame-socket-netty
     websocket支持BinaryWebSocketFrame
 ### jforgame-socket-mina
-    升级mina-core组件： from 2.0.7 to 2.0.22
+    升级mina-core版本： from 2.0.7 to 2.0.22
 ### jforgame-data
     jforgame-data更名为jforgame-spring-boot-starter-data
     修复DataManager注入失败bug

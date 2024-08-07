@@ -1,6 +1,5 @@
 package jforgame.socket.share;
 
-import jforgame.socket.client.Traceable;
 import jforgame.socket.share.message.SocketDataFrame;
 
 import java.io.Closeable;
@@ -25,11 +24,16 @@ public interface IdSession extends Closeable {
         return "";
     }
 
+    /**
+     * session message without index
+     * the message will be wrapped to {@link SocketDataFrame}
+     * @param packet
+     */
     void send(Object packet);
 
     /**
      * send message with index.
-     * when client wants to send a message and then gets its response, the message must be {@link  Traceable}
+     * when client wants to send a message and then gets its response, so-called callback
      * @param index index of the request message
      * @param packet message to send
      */
@@ -65,10 +69,20 @@ public interface IdSession extends Closeable {
      */
     Object getAttribute(String key);
 
+    /**
+     * return whether session has value of target key
+     * @param key attribute key
+     * @return value binding to the key
+     */
     default boolean hasAttribute(String key) {
         return getAttribute(key) != null;
     }
 
+    /**
+     * nio raw session
+     * @see io.netty.channel.Channel
+     * @see org.apache.mina.core.session.IoSession
+     */
     Object getRawSession();
 
 }

@@ -2,7 +2,6 @@ package jforgame.demo.cross.core;
 
 import jforgame.commons.JsonUtil;
 import jforgame.demo.game.Modules;
-import jforgame.socket.client.Traceable;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
 
@@ -10,9 +9,7 @@ import jforgame.socket.share.message.Message;
  * 跨服回调响应方
  */
 @MessageMeta(module = Modules.CROSS, cmd = CrossCommands.F2G_CALL_BACK)
-public class F2GCallBack implements Message, Traceable {
-
-    private int index;
+public class F2GCallBack implements Message {
 
     private String data;
 
@@ -24,14 +21,6 @@ public class F2GCallBack implements Message, Traceable {
         response.msgClass = message.getClass().getName();
 
         return response;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public String getData() {

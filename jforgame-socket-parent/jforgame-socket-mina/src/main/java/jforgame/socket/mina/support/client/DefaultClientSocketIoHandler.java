@@ -22,6 +22,7 @@ public class DefaultClientSocketIoHandler extends DefaultSocketIoHandler {
             responseData.setResponse(message);
             CallBackService.getInstance().fillCallBack(msgIndex, responseData);
         } else {
+            // pass the message to the next handler
             super.messageReceived(session, dataFrame);
         }
     }
