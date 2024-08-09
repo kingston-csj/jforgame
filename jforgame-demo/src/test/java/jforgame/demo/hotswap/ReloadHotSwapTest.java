@@ -17,6 +17,8 @@ public class ReloadHotSwapTest {
         DynamicClassLoader myLoader = new DynamicClassLoader("hotswap");
         // 实例化新的对象
         Class<?> newClazz = myLoader.findClass("jforgame.demo.hotswap.PlayerService");
+        // 使用loadClass会遵循双亲委派，导致热更新不了
+//        Class<?> newClazz = myLoader.loadClass("jforgame.demo.hotswap.PlayerService");
         System.out.println("执行热更后1，类加载器==" + newClazz.getClassLoader());
 
 

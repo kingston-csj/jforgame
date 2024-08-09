@@ -7,9 +7,9 @@ import java.util.Map;
 
 /**
  * This class loader provides a way to load new class in runtime.
- * If {@link #loadClass(String)} is invoked, this class will follow the delegation model for loading classes.
- * If {@link #findClass(String)} is invoked directly, this class will NOT
- * follow the delegation model for loading classes and then creates new class.
+ * If {@link #loadClass(String)} is invoked, this loader will follow the delegation model for loading classes.
+ * If {@link #findClass(String)} is invoked directly, this loader will NOT
+ * follow the delegation model for loading classes and then creates a new class.
  */
 public class DynamicClassLoader extends ClassLoader {
 

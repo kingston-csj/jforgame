@@ -54,6 +54,7 @@
 ### jforgame-data
     jforgame-data更名为jforgame-spring-boot-starter-data
     修复DataManager注入失败bug
+    PTable重命名为DataTable
 
 
 

@@ -1,7 +1,7 @@
 package jforgame.data;
 
 import jforgame.commons.ClassScanner;
-import jforgame.data.annotation.PTable;
+import jforgame.data.annotation.DataTable;
 import jforgame.data.reader.DataReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class DataManager implements DataRepository {
     }
 
     public void init() {
-        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getScanPath(), PTable.class);
+        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getScanPath(), DataTable.class);
         classSet.forEach(this::registerContainer);
     }
 
@@ -47,7 +47,7 @@ public class DataManager implements DataRepository {
         if (table == null) {
             throw new NullPointerException("");
         }
-        if (table.getAnnotation(PTable.class) == null) {
+        if (table.getAnnotation(DataTable.class) == null) {
             throw new IllegalStateException(table.getName() + "没有PTable注解");
         }
         TableDefinition definition = new TableDefinition(table);
