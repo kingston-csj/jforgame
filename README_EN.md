@@ -8,6 +8,7 @@ A lightweight online game framework written in Java. The project just shows some
   ``` 
   jforgame  
   ├── jforgame-common --base common service  
+  ├── jforgame-runtime --application runtime profile, including memory, thread, clazz and so on.
   ├── jforgame-admin  --game admin web tool  
   ├── jforgame-socket-parent -- tcp socket server, including io message codec, message request mapper, session management    
       ├── jforgame-socket-api     --socket api, including server and client

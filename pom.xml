@@ -39,12 +39,13 @@
 
     <modules>
         <module>jforgame-commons</module>
+        <module>jforgame-runtime</module>
         <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>
         <module>jforgame-hotswap</module>
+        <module>jforgame-spring-boot-starter-data</module>
         <module>jforgame-orm</module>
         <module>jforgame-demo</module>
-        <module>jforgame-spring-boot-starter-data</module>
     </modules>
     <issueManagement>
         <system>GitHub Issues</system>
