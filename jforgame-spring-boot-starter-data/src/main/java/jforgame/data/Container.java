@@ -12,10 +12,9 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     private final Map<K, V> data = new HashMap<>();
 
     /**
-     * name@id --> List<V>
+     * name@index --> List<V>
      */
     private final Map<String, List<V>> indexMapper = new HashMap<>();
-
 
     public void inject(TableDefinition definition, List<V> records) {
         records.forEach(row -> {

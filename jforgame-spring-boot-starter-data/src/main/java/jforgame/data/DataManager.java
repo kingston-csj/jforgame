@@ -23,9 +23,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataManager implements DataRepository {
 
-    private Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
 
-    private ResourceProperties properties;
+    private final ResourceProperties properties;
 
     private DataReader dataReader;
 
@@ -48,10 +48,10 @@ public class DataManager implements DataRepository {
             throw new NullPointerException("");
         }
         if (table.getAnnotation(DataTable.class) == null) {
-            throw new IllegalStateException(table.getName() + "没有PTable注解");
+            throw new IllegalStateException(table.getName() + "DataTable annotation not found");
         }
         TableDefinition definition = new TableDefinition(table);
-        String tableName = table.getSimpleName().toLowerCase();
+        String tableName = definition.getResourceTable();
         tableDefinitions.put(tableName, definition);
 
         reload(tableName);
@@ -59,10 +59,9 @@ public class DataManager implements DataRepository {
 
     @Override
     public void reload(String table) {
-        table = table.toLowerCase();
         TableDefinition definition = tableDefinitions.get(table);
         if (definition == null) {
-            throw new IllegalStateException(table + "不属于配置表");
+            throw new IllegalStateException(table + " not found");
         }
         try {
             Resource resource = new ClassPathResource(properties.getLocation() + table + properties.getSuffix());
@@ -70,7 +69,7 @@ public class DataManager implements DataRepository {
             try {
                 records = dataReader.read(resource.getInputStream(), definition.getClazz());
             } catch (IOException e) {
-                throw new IllegalStateException(table + "无法读取");
+                throw new IllegalStateException(String.format("cannot read %s data file", table));
             }
             Container container = new Container<>();
             container.inject(definition, records);
@@ -78,7 +77,7 @@ public class DataManager implements DataRepository {
             data.put(definition.getClazz(), container);
         } catch (Exception e) {
             logger.error("", e);
-            throw new RuntimeException(table + "配置异常", e);
+            throw new RuntimeException(table + " read failed ", e);
         }
     }
 

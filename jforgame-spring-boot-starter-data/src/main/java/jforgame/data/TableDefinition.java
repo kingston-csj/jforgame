@@ -1,7 +1,9 @@
 package jforgame.data;
 
+import jforgame.data.annotation.DataTable;
 import jforgame.data.annotation.Id;
 import jforgame.data.annotation.Index;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,12 +23,24 @@ public class TableDefinition {
 
     private Class clazz;
 
+    /**
+     * 配置表名称（默认为类名小写）
+     */
+    private String resourceTable;
+
     public TableDefinition(Class clazz) {
         this.clazz = clazz;
         this.init();
     }
 
     private void init() {
+        DataTable dataTable = (DataTable) clazz.getAnnotation(DataTable.class);
+        if (StringUtils.isEmpty(dataTable.name())) {
+            this.resourceTable = clazz.getSimpleName().toLowerCase();
+        } else {
+            this.resourceTable = dataTable.name();
+        }
+
         Arrays.stream(clazz.getDeclaredFields()).filter(f -> f.getAnnotation(Id.class) != null)
                 .forEach(f -> {
                     IdMeta indexMeta = new FieldIdMeta(f);
@@ -74,4 +88,7 @@ public class TableDefinition {
         return clazz;
     }
 
+    public String getResourceTable() {
+        return resourceTable;
+    }
 }

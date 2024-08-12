@@ -17,7 +17,7 @@ class FieldIndexMeta implements IndexMeta {
 
     private final Field field;
 
-    private String name;
+    private final String name;
 
     FieldIndexMeta(Field field) {
         Index index = field.getAnnotation(Index.class);
@@ -40,7 +40,6 @@ class FieldIndexMeta implements IndexMeta {
         try {
             return field.get(obj);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             throw new IllegalStateException(obj.getClass().getName() + "无法访问" + field.getName() + "字段");
         }
     }
@@ -50,7 +49,7 @@ class MethodIndexMeta implements IndexMeta {
 
     private final Method method;
 
-    private String name;
+    private final String name;
 
     MethodIndexMeta(Index index, Method method) {
         this.method = method;

@@ -15,7 +15,7 @@ class FieldIdMeta implements IdMeta {
 
     private final Field field;
 
-    private String name;
+    private final String name;
 
     FieldIdMeta(Field field) {
         this.field = field;
@@ -33,7 +33,6 @@ class FieldIdMeta implements IdMeta {
         try {
             return field.get(obj);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
             throw new IllegalStateException(obj.getClass().getName() + "无法访问" + field.getName() + "字段");
         }
     }
