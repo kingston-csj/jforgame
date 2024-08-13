@@ -27,7 +27,7 @@ public class SqlFactory {
             if (bridge.getOverrideProperty(property) != null) {
                 column = bridge.getOverrideProperty(property);
             }
-            sb.append("`" + column + "`");
+            sb.append("`").append(column).append("`");
             if (i < properties.size() - 1) {
                 sb.append(",");
             }
@@ -43,7 +43,7 @@ public class SqlFactory {
                     // 进行转换
                     value = fieldMetadata.getConverter().convertToDatabaseColumn(value);
                 }
-                sb.append("'" + value + "'");
+                sb.append("'").append(value).append("'");
                 if (i < properties.size() - 1) {
                     sb.append(",");
                 }
@@ -68,7 +68,7 @@ public class SqlFactory {
             if (bridge.getOverrideProperty(property) != null) {
                 column = bridge.getOverrideProperty(property);
             }
-            sb.append("`" + column + "`");
+            sb.append("`").append(column).append("`");
             if (i < properties.size() - 1) {
                 sb.append(",");
             }
@@ -101,7 +101,7 @@ public class SqlFactory {
             if (sb.length() > 0) {
                 sb.append(", ");
             }
-            sb.append("`" + column + "` = ? ");
+            sb.append("`").append(column).append("` = ? ");
         }
 
         return sb.toString();
@@ -141,7 +141,7 @@ public class SqlFactory {
                 if (bridge.getOverrideProperty(property) != null) {
                     column = bridge.getOverrideProperty(property);
                 }
-                sb.append("`" + column + "` = '" + value + "'");
+                sb.append("`").append(column).append("` = '").append(value).append("'");
             } catch (Exception e) {
                 logger.error("object2SetterSql failed", e);
             }
@@ -164,8 +164,7 @@ public class SqlFactory {
         //占位申明，避免拼接sql需要考虑and
         sb.append(" WHERE 1=1");
         List<String> properties = bridge.getQueryProperties();
-        for (int i = 0; i < properties.size(); i++) {
-            String property = properties.get(i);
+        for (String property : properties) {
             Object colValue;
             try {
                 colValue = ReflectUtils.getMethodValue(entity, property);
@@ -173,7 +172,7 @@ public class SqlFactory {
                 if (bridge.getOverrideProperty(property) != null) {
                     column = bridge.getOverrideProperty(property);
                 }
-                sb.append(" AND `" + column + "` = '" + colValue + "'");
+                sb.append(" AND `").append(column).append("` = '").append(colValue).append("'");
             } catch (Exception e) {
                 logger.error("createWhereClauseSql failed", e);
             }

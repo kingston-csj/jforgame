@@ -21,7 +21,7 @@ public enum OrmProcessor {
     /**
      * entity与对应bridge的映射关系
      */
-    private Map<Class<?>, OrmBridge> classOrmMapper = new HashMap<>();
+    private final Map<Class<?>, OrmBridge> classOrmMapper = new HashMap<>();
 
     /**
      * @param scanPath path to load orm entities

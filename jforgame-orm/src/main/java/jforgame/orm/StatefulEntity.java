@@ -98,7 +98,6 @@ public abstract class StatefulEntity extends Stateful {
      */
     public void markPersistent() {
         persistent.compareAndSet(false, true);
-
     }
 
     /**
@@ -121,4 +120,5 @@ public abstract class StatefulEntity extends Stateful {
             }
         }
     }
+
 }

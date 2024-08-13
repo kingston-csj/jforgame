@@ -7,13 +7,13 @@ public class OrmBridge {
 	/** 对应的数据库表名称 */
 	private String tableName;
 	/** 缓存所有表字段及其对应的元数据 */
-	private Map<String, FieldMetadata> fieldMetadataMap = new HashMap<>();
+	private final Map<String, FieldMetadata> fieldMetadataMap = new HashMap<>();
 	/** 被覆写的property与表column的映射 */
 	private Map<String, String> propertyToColumnOverride = new HashMap<>();
 	/** 被覆写的表column与property的映射 */
 	private Map<String, String> columnToPropertyOverride = new HashMap<>();
 	/** 实体所有的主键字段 */
-	private Set<String> uniqueProperties = new HashSet<>();
+	private final Set<String> uniqueProperties = new HashSet<>();
 
 	public String getTableName() {
 		return tableName;

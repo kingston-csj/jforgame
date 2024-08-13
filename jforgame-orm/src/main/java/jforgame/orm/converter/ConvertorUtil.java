@@ -11,12 +11,9 @@ public class ConvertorUtil {
         return converters.computeIfAbsent(clazz, c -> {
             try {
                 return (AttributeConverter) clazz.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            return null;
         });
     }
 }

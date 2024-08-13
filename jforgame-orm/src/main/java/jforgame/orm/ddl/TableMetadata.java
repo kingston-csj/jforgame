@@ -1,8 +1,5 @@
 package jforgame.orm.ddl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +8,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class TableMetadata {
-
-    private static Logger LOG = LoggerFactory.getLogger(TableMetadata.class);
 
     private final String catalog;
     private final String schema;

@@ -81,7 +81,7 @@ public class TableDefinition {
     }
 
     public Iterator<String> sqlAlterStrings(TableMetadata tableMetadata) {
-        StringBuilder root = new StringBuilder("alter table "+tableName)
+        StringBuilder root = new StringBuilder("alter table " + tableName)
                 .append(' ');
 
         Iterator<ColumnDefinition> iter = columns.values().iterator();
@@ -118,7 +118,6 @@ public class TableDefinition {
                 }
                 results.add(alter.toString());
             }
-
         }
 
         return results.iterator();

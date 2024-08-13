@@ -7,7 +7,7 @@ import java.util.List;
 
 public class IndexMetadata {
     private final String name;
-    private final List columns = new ArrayList();
+    private final List<ColumnMetadata> columns = new ArrayList<>();
 
     IndexMetadata(ResultSet rs) throws SQLException {
         name = rs.getString("INDEX_NAME");

@@ -147,11 +147,7 @@ public class BeanProcessor {
             } else {
                 throw new SQLException("Cannot set " + prop.getName() + ": incompatible types, cannot convert " + value.getClass().getName() + " to " + params[0].getName());
             }
-        } catch (IllegalArgumentException e) {
-            throw new SQLException("Cannot set " + prop.getName() + ": " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new SQLException("Cannot set " + prop.getName() + ": " + e.getMessage());
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
             throw new SQLException("Cannot set " + prop.getName() + ": " + e.getMessage());
         }
     }
@@ -191,9 +187,7 @@ public class BeanProcessor {
             throws SQLException {
         try {
             return c.newInstance();
-        } catch (InstantiationException e) {
-            throw new SQLException("Cannot create " + c.getName() + ": " + e.getMessage());
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             throw new SQLException("Cannot create " + c.getName() + ": " + e.getMessage());
         }
     }
@@ -216,7 +210,7 @@ public class BeanProcessor {
         Arrays.fill(columnToProperty, -1);
         for (int col = 1; col <= cols; col++) {
             String columnName = rsmd.getColumnLabel(col);
-            if ((null == columnName) || (0 == columnName.length())) {
+            if ((null == columnName) || (columnName.isEmpty())) {
                 columnName = rsmd.getColumnName(col);
             }
             String propertyName = (String) this.columnToPropertyOverrides.get(columnName);
@@ -274,4 +268,5 @@ public class BeanProcessor {
         }
         return rs.getObject(index);
     }
+
 }

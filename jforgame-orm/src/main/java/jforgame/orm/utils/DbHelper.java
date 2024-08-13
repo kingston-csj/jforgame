@@ -144,7 +144,7 @@ public class DbHelper {
                 int cols = rsmd.getColumnCount();
                 for (int i = 1; i <= cols; i++) {
                     String columnName = rsmd.getColumnLabel(i);
-                    if ((null == columnName) || (0 == columnName.length())) {
+                    if ((null == columnName) || (columnName.isEmpty())) {
                         columnName = rsmd.getColumnName(i);
                     }
                     result.put(columnName, rs.getObject(i));
@@ -182,7 +182,7 @@ public class DbHelper {
                 Map<String, Object> map = new HashMap<>();
                 for (int i = 1; i <= cols; i++) {
                     String columnName = rsmd.getColumnLabel(i);
-                    if ((null == columnName) || (0 == columnName.length())) {
+                    if ((null == columnName) || (columnName.isEmpty())) {
                         columnName = rsmd.getColumnName(i);
                     }
                     map.put(columnName, rs.getObject(i));
