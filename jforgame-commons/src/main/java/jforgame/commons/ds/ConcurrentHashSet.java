@@ -8,9 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jforgame.commons.thread.ThreadSafe;
 
-/**
- * @author kinson
- */
 @ThreadSafe
 public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E> {
 
@@ -51,7 +48,6 @@ public class ConcurrentHashSet<E> extends AbstractSet<E> implements Set<E> {
 
     /**
      * Returns <tt>true</tt> if this set contains no elements.
-     *
      */
     @Override
     public boolean isEmpty() {

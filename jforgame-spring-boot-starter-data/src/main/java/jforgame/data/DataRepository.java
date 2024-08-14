@@ -1,5 +1,6 @@
 package jforgame.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,10 +11,10 @@ public interface DataRepository {
 
     /**
      * 查询配置容器
-     * @param clazz 配置类
-     * @return
+     * @param tableClass 配置类
+     * @return containerClass container类
      */
-    Container queryContainer(Class clazz);
+    <T extends Container> T queryContainer(Class<?> tableClass, Class<T> containerClass);
 
     /**
      * 根据主键读取指定文件的配置数据
@@ -22,7 +23,7 @@ public interface DataRepository {
      * @param id
      * @return 指定id记录
      */
-    <E> E queryById(Class<E> clazz, Object id);
+    <E> E queryById(Class<E> clazz, Serializable id);
 
     /**
      * 读取指定文件的所有配置数据

@@ -68,7 +68,6 @@ public class DataManager implements DataRepository {
         reload(tableName);
     }
 
-
     @Override
     public void reload(String table) {
         table = table.toLowerCase();
@@ -100,16 +99,16 @@ public class DataManager implements DataRepository {
     }
 
     @Override
-    public Container queryContainer(Class clazz) {
-        return data.get(clazz);
+    public <T extends Container> T queryContainer(Class<?> tableClass, Class<T> containerClass) {
+        return (T) data.get(tableClass);
     }
 
     @Override
-    public <E> E queryById(Class<E> clazz, Object id) {
+    public <E> E queryById(Class<E> clazz, Serializable id) {
         if (!data.containsKey(clazz)) {
             return null;
         }
-        return (E) data.get(clazz).getRecord((Serializable) id);
+        return (E) data.get(clazz).getRecord(id);
     }
 
     @Override

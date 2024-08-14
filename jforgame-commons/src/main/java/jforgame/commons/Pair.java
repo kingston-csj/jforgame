@@ -2,7 +2,6 @@ package jforgame.commons;
 
 /**
  * 两个对象组合起来的点对，一般用于需要返回两个返回值的方法
- * @author kinson
  */
 public class Pair<F, S> {
 

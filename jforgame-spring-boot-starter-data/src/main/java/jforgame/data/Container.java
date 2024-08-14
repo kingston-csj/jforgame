@@ -18,6 +18,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
 
     public void inject(TableDefinition definition, List<V> records) {
         records.forEach(row -> {
+            @SuppressWarnings("unchecked")
             K id = (K) definition.getIdMeta().getValue(row);
             data.put(id, row);
 

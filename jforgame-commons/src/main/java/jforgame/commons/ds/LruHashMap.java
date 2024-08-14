@@ -12,8 +12,6 @@ import jforgame.commons.thread.ThreadSafe;
  * Java makes it very easy to implement LruHashMap - all its functionality is already available from LinkedHashMap,
  * and we just need to configure that properly.
  * Note that LruHashMap is thread safe
- *
- * @author kinson
  */
 @ThreadSafe
 public class LruHashMap<K, V> extends LinkedHashMap<K, V> {

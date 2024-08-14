@@ -3,6 +3,7 @@ package jforgame.commons;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * 日期工具类
@@ -26,11 +27,11 @@ public class DateUtil {
 
 
     /**
-     * Adds to a date 
+     * Adds to a date
      *
-     * @param date  the date, not null
-     * @param calendarField  the calendar field to add to
-     * @param amount  the amount to add, may be negative
+     * @param date          the date, not null
+     * @param calendarField the calendar field to add to
+     * @param amount        the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     private static Date add(final Date date, final int calendarField, final int amount) {
@@ -43,8 +44,8 @@ public class DateUtil {
     /**
      * Adds days to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addDays(final Date date, final int amount) {
@@ -54,8 +55,8 @@ public class DateUtil {
     /**
      * Adds hours to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addHours(final Date date, final int amount) {
@@ -65,8 +66,8 @@ public class DateUtil {
     /**
      * Adds milliseconds to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addMilliseconds(final Date date, final int amount) {
@@ -76,8 +77,8 @@ public class DateUtil {
     /**
      * Adds minutes to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addMinutes(final Date date, final int amount) {
@@ -87,8 +88,8 @@ public class DateUtil {
     /**
      * Adds months to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addMonths(final Date date, final int amount) {
@@ -98,8 +99,8 @@ public class DateUtil {
     /**
      * Adds seconds to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addSeconds(final Date date, final int amount) {
@@ -109,12 +110,32 @@ public class DateUtil {
     /**
      * Adds weeks to a date
      *
-     * @param date  the date, not null
-     * @param amount  the amount to add, may be negative
+     * @param date   the date, not null
+     * @param amount the amount to add, may be negative
      * @return the new {@link Date} with the amount added
      */
     public static Date addWeeks(final Date date, final int amount) {
         return add(date, Calendar.WEEK_OF_YEAR, amount);
+    }
+
+    /**
+     * get the Chinese customary week, where Monday is the first day and Sunday is the seventh day
+     */
+    public static int getChinaWeekDay() {
+        int standardDay = getWeekDay();
+        standardDay--;
+        if (standardDay == 0) {
+            standardDay = 7;
+        }
+        return standardDay;
+    }
+
+    /**
+     * get the day of the week in western countries
+     */
+    public static int getWeekDay() {
+        Calendar cal = new GregorianCalendar();
+        return cal.get(Calendar.DAY_OF_WEEK);
     }
 
 }

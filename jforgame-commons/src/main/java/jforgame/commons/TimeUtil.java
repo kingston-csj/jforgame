@@ -1,9 +1,9 @@
 package jforgame.commons;
 
+import java.text.SimpleDateFormat;
+
 /**
  * 时间工具类
- *
- * @author kinson
  */
 public class TimeUtil {
 
@@ -23,6 +23,7 @@ public class TimeUtil {
 
     /**
      * Number of milliseconds in a standard hour.
+     *
      * @since 2.1
      */
     public static final long MILLIS_PER_HOUR = 60 * MILLIS_PER_MINUTE;
@@ -36,6 +37,32 @@ public class TimeUtil {
      * Number of milliseconds in a standard week.
      */
     public static final long MILLIS_PER_WEEK = 7 * MILLIS_PER_DAY;
+
+
+    public static int getYear(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String[] split = format.format(time).split("-");
+        return NumberUtil.intValue(split[0]);
+    }
+
+    public static int getMonth(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String[] split = format.format(time).split("-");
+        return NumberUtil.intValue(split[1]);
+    }
+
+    public static int getDay(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String[] split = format.format(time).split("-");
+        return NumberUtil.intValue(split[2]);
+    }
+
+    /**
+     * tell if two timestamps are on the same day
+     */
+    public static boolean isSameDay(long time1, long time2) {
+        return getDay(time1) == getDay(time2);
+    }
 
 
 }
