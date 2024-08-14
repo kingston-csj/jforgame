@@ -1,14 +1,11 @@
 package jforgame.demo.socket;
 
-import java.net.InetSocketAddress;
+import jforgame.commons.NumberUtil;
+import jforgame.socket.share.IdSession;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import jforgame.commons.NumberUtil;
-import jforgame.socket.share.IdSession;
-import org.apache.mina.core.session.AttributeKey;
-import org.apache.mina.core.session.IoSession;
 
 public enum SessionManager {
 

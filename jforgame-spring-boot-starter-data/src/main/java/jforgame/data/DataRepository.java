@@ -9,6 +9,13 @@ public interface DataRepository {
 
 
     /**
+     * 查询配置容器
+     * @param clazz 配置类
+     * @return
+     */
+    Container queryContainer(Class clazz);
+
+    /**
      * 根据主键读取指定文件的配置数据
      *
      * @param clazz

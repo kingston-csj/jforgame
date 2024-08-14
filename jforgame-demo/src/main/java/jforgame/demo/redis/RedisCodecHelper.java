@@ -1,6 +1,6 @@
 package jforgame.demo.redis;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
  */
 public class RedisCodecHelper {
 
-	private static final Charset CHARSET = Charset.forName("ISO-8859-1");
 	private static IRedisSerializer serializer = new ProtobufRedisSerializer();
 
 	/***
@@ -19,7 +18,7 @@ public class RedisCodecHelper {
 	 */
 	public static String serialize(Object o) {
 		byte[] bytes = Base64.getEncoder().encode(serializer.serialize(o));
-		return new String(bytes, CHARSET);
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
 	public static List<String> serialize(List<Object> objectList) {

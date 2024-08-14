@@ -15,7 +15,16 @@ public class ResourceProperties {
      */
     private String suffix = ".csv";
 
-    private String scanPath;
+    /**
+     * 配置实体{@link jforgame.data.annotation.DataTable}扫描路径
+     */
+    private String tableScanPath;
+
+
+    /**
+     * 配置容器{@link Container}子类的扫描路径
+     */
+    private String containerScanPath;
 
     public String getLocation() {
         return location;
@@ -33,11 +42,19 @@ public class ResourceProperties {
         this.suffix = suffix;
     }
 
-    public String getScanPath() {
-        return scanPath;
+    public String getTableScanPath() {
+        return tableScanPath;
     }
 
-    public void setScanPath(String scanPath) {
-        this.scanPath = scanPath;
+    public void setTableScanPath(String tableScanPath) {
+        this.tableScanPath = tableScanPath;
+    }
+
+    public String getContainerScanPath() {
+        return containerScanPath;
+    }
+
+    public void setContainerScanPath(String containerScanPath) {
+        this.containerScanPath = containerScanPath;
     }
 }

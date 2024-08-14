@@ -9,12 +9,12 @@ import java.util.Map;
 
 public class Container<K extends Serializable & Comparable<K>, V> {
 
-    private final Map<K, V> data = new HashMap<>();
+    protected final Map<K, V> data = new HashMap<>();
 
     /**
      * name@index --> List<V>
      */
-    private final Map<String, List<V>> indexMapper = new HashMap<>();
+    protected final Map<String, List<V>> indexMapper = new HashMap<>();
 
     public void inject(TableDefinition definition, List<V> records) {
         records.forEach(row -> {
@@ -30,6 +30,12 @@ public class Container<K extends Serializable & Comparable<K>, V> {
                 indexMapper.get(key).add(row);
             }
         });
+    }
+
+    /**
+     * 初始化二级缓存
+     */
+    public void init() {
 
     }
 

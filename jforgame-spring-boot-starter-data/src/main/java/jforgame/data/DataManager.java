@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,13 +24,15 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class DataManager implements DataRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
+    private Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
 
-    private final ResourceProperties properties;
+    private ResourceProperties properties;
 
     private DataReader dataReader;
 
     private final Map<String, TableDefinition> tableDefinitions = new HashMap<>();
+
+    private final Map<String, Class<? extends Container>> containerDefinitions = new HashMap<>();
 
     private final ConcurrentMap<Class, Container> data = new ConcurrentHashMap<>();
 
@@ -39,7 +42,15 @@ public class DataManager implements DataRepository {
     }
 
     public void init() {
-        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getScanPath(), DataTable.class);
+        if (!StringUtils.isEmpty(properties.getContainerScanPath())) {
+            Set<Class<?>> containers = ClassScanner.listAllSubclasses(properties.getContainerScanPath(), Container.class);
+            containers.forEach(c -> {
+                // container命名必须以配置文件名+Container,例如配置表为common.csv，则对应的Container命名为CommonContainer
+                String name = c.getSimpleName().replace("Container", "").toLowerCase();
+                containerDefinitions.put(name, (Class<? extends Container>) c);
+            });
+        }
+        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getTableScanPath(), DataTable.class);
         classSet.forEach(this::registerContainer);
     }
 
@@ -57,8 +68,10 @@ public class DataManager implements DataRepository {
         reload(tableName);
     }
 
+
     @Override
     public void reload(String table) {
+        table = table.toLowerCase();
         TableDefinition definition = tableDefinitions.get(table);
         if (definition == null) {
             throw new IllegalStateException(table + " not found");
@@ -72,13 +85,23 @@ public class DataManager implements DataRepository {
                 throw new IllegalStateException(String.format("cannot read %s data file", table));
             }
             Container container = new Container<>();
+            if (containerDefinitions.containsKey(table)) {
+                container = containerDefinitions.get(table).newInstance();
+            }
             container.inject(definition, records);
+            // 二级缓存数据
+            container.init();
 
             data.put(definition.getClazz(), container);
         } catch (Exception e) {
             logger.error("", e);
             throw new RuntimeException(table + " read failed ", e);
         }
+    }
+
+    @Override
+    public Container queryContainer(Class clazz) {
+        return data.get(clazz);
     }
 
     @Override

@@ -24,7 +24,7 @@
       ├── jforgame-socket-netty  --netty版实现，包含简易WebSocket
       ├── jforgame-socket-mina   --mina版实现
   ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
-  ├── jforgame-spring-boot-starter-data    --以springboot的starter模式封装对配置数据的读取，支持csv，excel等文件格式。支持配置数据热更新        
+  ├── jforgame-spring-boot-starter-data    --以springboot的starter模式封装对配置数据的读取，支持csv，excel等文件格式。支持配置数据热更新,支持二级缓存。       
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
       ├── jforgame-codec-api        --消息编解码API接口
