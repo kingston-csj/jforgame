@@ -12,7 +12,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     protected final Map<K, V> data = new HashMap<>();
 
     /**
-     * name@index --> List<V>
+     * key is name@index and value is list of elements
      */
     protected final Map<String, List<V>> indexMapper = new HashMap<>();
 

@@ -27,7 +27,7 @@ public interface IdSession extends Closeable {
     /**
      * session message without index
      * the message will be wrapped to {@link SocketDataFrame}
-     * @param packet
+     * @param packet message to send
      */
     void send(Object packet);
 
@@ -80,8 +80,8 @@ public interface IdSession extends Closeable {
 
     /**
      * nio raw session
-     * @see io.netty.channel.Channel
-     * @see org.apache.mina.core.session.IoSession
+//     * @see io.netty.channel.Channel
+//     * @see org.apache.mina.core.session.IoSession
      */
     Object getRawSession();
 
