@@ -14,7 +14,7 @@
 ## V1.0.0(2024-03-22)
 ### jforgame-commons 基本工具类
 ### jforgame-socket-parent  网络框架,netty+mina
-### jforgame-codec-parent  消息编解码,protobuf+reflect
+### jforgame-codec-parent  消息编解码,protobuf+struct
 
 
 ## V1.1.0(2024-03-29)
@@ -36,7 +36,7 @@
 ### jforgame-doctor
     增加對jdk17及以上版本的支持
 ### jforgame-data
-    新增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新
+    新增加策划配置数据读取工具，支持csv/excel格式，允许数据按id查询，按索引查询，支持数据热更新(此版本不推荐使用，直接升级到2.x)
 
 
 ## V2.0.0(2024-08-01),网关客户端代码需要稍微修改，升级大版本号
@@ -50,7 +50,7 @@
 ### jforgame-socket-netty
     websocket支持BinaryWebSocketFrame
 ### jforgame-socket-mina
-    升级mina-core版本： from 2.0.7 to 2.0.22
+    升级mina-core版本： from 2.0.7 to 2.0.22, 去掉mina-http依赖
 ### jforgame-data
     jforgame-data更名为jforgame-spring-boot-starter-data
     修复DataManager注入失败bug

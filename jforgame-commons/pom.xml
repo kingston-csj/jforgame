@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jforgame-commons</artifactId>
-    <description>jforgame base common utils</description>
+    <description>jforgame common utils</description>
 
     <dependencies>
         <dependency>

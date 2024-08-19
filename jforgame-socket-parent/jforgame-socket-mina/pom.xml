@@ -18,15 +18,10 @@
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-socket-api</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.mina</groupId>
             <artifactId>mina-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.mina</groupId>
-            <artifactId>mina-http</artifactId>
         </dependency>
     </dependencies>
 </project>

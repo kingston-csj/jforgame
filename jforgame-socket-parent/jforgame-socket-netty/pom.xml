@@ -17,13 +17,11 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-socket-api</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

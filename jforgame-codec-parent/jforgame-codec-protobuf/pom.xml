@@ -19,7 +19,6 @@
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-api</artifactId>
             <version>${project.parent.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.baidu</groupId>
