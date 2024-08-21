@@ -5,12 +5,12 @@
 
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
-  * 支持socket/webSocket接入，兼容手游/页游服务端架构  
+  * 支持socket/webSocket接入，完美适配手游/页游/H5/小游戏服务端架构  
   * 通信协议支持protobuf或普通javabean，为客户端提供多种选择  
   * 强大的客户端异步/同步api，轻松实现跨进程通信
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
-  * 提供热更机制以及jmx接口，方便对生产项目进行监控与维护
+  * 不停机热更代码，不停机热更配置，运维，运营不掉线
   * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
 
 
@@ -44,21 +44,6 @@
   |    └──  utils包，各种工具类    
   ```
 
-
-  ## 第三方技术栈 
-  名称 | 用途             | 官网  
-  ----|----------------|----     
-  Mina | nio socket 框架  | [http://mina.apache.org/](http://mina.apache.org/)  
-  Netty | nio socket 框架  | [http://netty.io/](http://netty.io/)   
-  jprotobuf | protobuff协议层注解 | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
-  Guava | 玩家数据缓存系统       | [https://github.com/google/guava](https://github.com/google/guava)  
-  Jedis | 数据缓存,全服排行榜     | [https://redis.io](https://redis.io/)  
-  quartz | job调度任务        | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
-  groovy | 热更新维护相关        | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  slf4j+log4j | 日志系统           | [https://www.slf4j.org/](https://www.slf4j.org/)  
-  maven | 依赖管理及项目构建      | [http://maven.apache.org/](http://maven.apache.org/)  
-
-
   ## 快速开始  
   1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
   2. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
@@ -67,27 +52,45 @@
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   5. 启动客户端，入口为ClientStartup类;  
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。)  
+  
+  作为组件导入
+  ```
+    <dependency>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-socket-netty</artifactId>
+        <version>2.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-codec-struct</artifactId>
+        <version>2.0.0</version>
+    </dependency>
+  ```  
+  ```
+   TcpSocketServerBuilder.newBuilder()
+    .bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+    .setMessageFactory(GameMessageFactory.getInstance())
+    .setMessageCodec(new StructMessageCodec())
+    .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+    .build()
+    .start();
+  ```  
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
+  ## 快速开始
   本栏目详细教程 -->  
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
   [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
 
 
+  ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
-  
-  ## 请作者喝杯咖啡
-  如果您觉得有所收获，可以请作者喝杯咖啡。大家的支持，促使我不断改进优化，谢谢！  
-   ![](/screenshots/wx.jpg "微信收款码")
-   ![](/screenshots/zfb.jpg "支付宝收款码")  
-
-  ## 一起交流
   如果您发现bug，或者有任何疑问，请提交issue !!  
   mysql合服工程，基于jforgame的分布式五子棋源代码，私聊获取。  
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
-  定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~
+  定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  
   ![](/screenshots/zsxq.jpg "知识星球")
 
    ## 免责申明

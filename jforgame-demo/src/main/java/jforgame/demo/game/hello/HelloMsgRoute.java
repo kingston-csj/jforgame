@@ -10,7 +10,7 @@ public class HelloMsgRoute {
     @RequestHandler
     public Object sayHello(IdSession session, int index, ReqHello request) {
         ResHello response = new ResHello();
-        response.setContent("hello, rpc");
+        response.setContent("hello, rpc, index = " + index);
         return response;
     }
 }
