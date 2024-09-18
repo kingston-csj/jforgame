@@ -13,7 +13,7 @@ public class ThreadUtil {
         while (root.enumerate(threads, true) == threads.length) {
             threads = new Thread[threads.length * 2];
         }
-        List<ThreadVo> list = new ArrayList<ThreadVo>(threads.length);
+        List<ThreadVo> list = new ArrayList<>(threads.length);
         for (Thread thread : threads) {
             if (thread != null) {
                 ThreadVo threadVO = createThreadVO(thread);

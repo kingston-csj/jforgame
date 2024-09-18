@@ -1,6 +1,6 @@
 package jforgame.runtime.memory;
 
-import jforgame.runtime.util.StringUtils;
+import jforgame.runtime.util.StringUtil;
 
 import java.lang.management.BufferPoolMXBean;
 import java.lang.management.ManagementFactory;
@@ -30,7 +30,7 @@ public final class MemoryStats {
             if (MemoryType.HEAP.equals(poolMXBean.getType())) {
                 MemoryUsage usage = getUsage(poolMXBean);
                 if (usage != null) {
-                    String poolName = StringUtils.beautifyName(poolMXBean.getName());
+                    String poolName = StringUtil.beautifyName(poolMXBean.getName());
                     heapMemEntries.add(createMemoryEntryVO(TYPE_HEAP, poolName, usage));
                 }
             }
@@ -45,7 +45,7 @@ public final class MemoryStats {
             if (MemoryType.NON_HEAP.equals(poolMXBean.getType())) {
                 MemoryUsage usage = getUsage(poolMXBean);
                 if (usage != null) {
-                    String poolName = StringUtils.beautifyName(poolMXBean.getName());
+                    String poolName = StringUtil.beautifyName(poolMXBean.getName());
                     nonHeapMemEntries.add(createMemoryEntryVO(TYPE_NON_HEAP, poolName, usage));
                 }
             }

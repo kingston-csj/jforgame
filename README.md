@@ -11,6 +11,7 @@
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 不停机热更代码，不停机热更配置，运维，运营不掉线
+  * 喜欢Go语言，这里也支持  --> [Go版游戏服务器](https://github.com/kingston-csj/gforgame)  
   * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
 
 
@@ -66,6 +67,8 @@
         <version>2.0.0</version>
     </dependency>
   ```  
+ 
+  一行代码启动服务器(socket/websocket)
   ```
    TcpSocketServerBuilder.newBuilder()
     .bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))

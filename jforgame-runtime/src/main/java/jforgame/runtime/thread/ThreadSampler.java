@@ -94,7 +94,7 @@ public class ThreadSampler {
         long sampleIntervalNanos = newSampleTimeNanos - lastSampleTimeNanos;
 
         // Compute cpu usage
-        final HashMap<ThreadVo, Double> cpuUsages = new HashMap<ThreadVo, Double>(threads.size());
+        final HashMap<ThreadVo, Double> cpuUsages = new HashMap<>(threads.size());
         for (ThreadVo thread : threads) {
             double cpu = sampleIntervalNanos == 0 ? 0 : (Math.rint(deltas.get(thread) * 10000.0 / sampleIntervalNanos) / 100.0);
             cpuUsages.put(thread, cpu);

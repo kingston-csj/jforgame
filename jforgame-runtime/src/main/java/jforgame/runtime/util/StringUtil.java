@@ -2,7 +2,7 @@ package jforgame.runtime.util;
 
 import java.lang.reflect.Modifier;
 
-public class StringUtils {
+public class StringUtil {
 
     public static String beautifyName(String name) {
         return name.replace(' ', '_').toLowerCase();

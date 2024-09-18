@@ -1,6 +1,6 @@
 package jforgame.runtime.gc;
 
-import jforgame.runtime.util.StringUtils;
+import jforgame.runtime.util.StringUtil;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
@@ -14,7 +14,7 @@ public final class GcStats {
         List<GcInfoVo> gcInfos = new ArrayList<>();
         for (GarbageCollectorMXBean gcMXBean : garbageCollectorMxBeans) {
             String name = gcMXBean.getName();
-            gcInfos.add(new GcInfoVo(StringUtils.beautifyName(name), gcMXBean.getCollectionCount(), gcMXBean.getCollectionTime()));
+            gcInfos.add(new GcInfoVo(StringUtil.beautifyName(name), gcMXBean.getCollectionCount(), gcMXBean.getCollectionTime()));
         }
         return gcInfos;
     }
