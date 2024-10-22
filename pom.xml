@@ -30,7 +30,7 @@
         <netty.version>4.1.107.Final</netty.version>
         <mysql.version>8.0.30</mysql.version>
         <quartz.version>2.3.2</quartz.version>
-        <groovy.version>2.4.11</groovy.version>
+        <groovy.version>2.4.21</groovy.version>
         <log4j.version>2.23.1</log4j.version>
         <spring-boot.version>2.6.3</spring-boot.version>
         <poi.version>4.1.1</poi.version>
