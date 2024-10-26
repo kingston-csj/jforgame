@@ -34,19 +34,6 @@ A lightweight online game framework written in Java. The project just shows some
   |    └──  utils package, code utils    
   ``` 
 
-## Third Party
-  Name | Purpose | Official website  
-  ----|------|----     
-  Mina | nio socket framework | [http://mina.apache.org/](http://mina.apache.org/)  
-  jprotobuf | message codec | [https://github.com/jhunters/jprotobuf](https://github.com/jhunters/jprotobuf)  
-  Guava | pojo memory cache | [https://github.com/google/guava](https://github.com/google/guava)  
-  Jedis | redis memory cache | [https://redis.io](https://redis.io/)  
-  quartz | job task scheduler | [http://www.quartz-scheduler.org/](http://www.quartz-scheduler.org/) 
-  groovy | class hotswap | [http://www.groovy-lang.org/](http://www.groovy-lang.org/)　　  
-  slf4j+log4j | logging system | [https://www.slf4j.org/](https://www.slf4j.org/)  
-  maven | manage jar dependency, build project| [http://maven.apache.org/](http://maven.apache.org/)  
-
-
 ## QuickStart
 1. Use git to download codes, git clone https://github.com/kingston-csj/jforgame
 2. Import maven project to your ide

@@ -1,6 +1,5 @@
 package jforgame.demo.game.database.config.bean;
 
-import jforgame.demo.game.activity.ActivityTypes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

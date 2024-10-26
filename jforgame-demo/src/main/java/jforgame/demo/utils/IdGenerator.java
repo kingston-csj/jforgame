@@ -21,7 +21,7 @@ public class IdGenerator {
 		// 高16位          	| 中32位          |  低16位
 		// serverId        系统秒数          自增长号
 
-		long serverId = (long)ServerConfig.getInstance().getServerId();
+		long serverId = ServerConfig.getInstance().getServerId();
 		return  (serverId << 48)
 			  |	(((System.currentTimeMillis()/1000) & 0xFFFFFFFF) << 16)
 			  | (generator.getAndIncrement() & 0xFFFF);

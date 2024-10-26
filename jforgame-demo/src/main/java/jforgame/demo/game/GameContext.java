@@ -1,7 +1,6 @@
 package jforgame.demo.game;
 
 import jforgame.demo.game.accout.entity.AccountManager;
-import jforgame.demo.game.chat.ChatManager;
 import jforgame.demo.game.gm.GmManager;
 import jforgame.demo.game.login.LoginManager;
 import jforgame.demo.game.player.PlayerManager;
@@ -24,8 +23,6 @@ public class GameContext {
     public static PlayerManager playerManager = new PlayerManager();
 
     public static SkillManager skillManager = new SkillManager();
-
-    public static ChatManager chatManager;
 
     public static void init() {
         Class c = GameContext.class;

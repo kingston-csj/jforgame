@@ -59,4 +59,10 @@
 
 
 
+## V2.1.0(2024-06-16)
+### jforgame-socket-netty
+    修复bug：WebSocketServer二进制流只支持json编解码
+
+
+
 

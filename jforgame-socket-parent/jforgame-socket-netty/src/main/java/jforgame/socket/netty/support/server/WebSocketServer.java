@@ -149,7 +149,7 @@ public class WebSocketServer implements ServerNode {
                         byte[] body = new byte[bodySize];
                         in.readBytes(body);
                         Class<?> clazz = messageFactory.getMessage(NumberUtil.intValue(cmd));
-                        Object message = JsonUtil.string2Object(new String(body, StandardCharsets.UTF_8), clazz);
+                        Object message = messageCodec.decode(clazz, body);
                         RequestDataFrame requestDataFrame = new RequestDataFrame(headerMeta, message);
                         out.add(requestDataFrame);
                     }

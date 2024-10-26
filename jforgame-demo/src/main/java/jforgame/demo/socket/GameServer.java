@@ -16,22 +16,16 @@ import jforgame.demo.game.core.CronSchedulerHelper;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.listener.ListenerManager;
-import jforgame.demo.monitor.jmx.GameMonitor;
-import jforgame.demo.monitor.jmx.GameMonitorMBean;
 import jforgame.demo.redis.RedisCluster;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.netty.support.server.TcpSocketServerBuilder;
-import jforgame.socket.netty.support.server.WebSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import java.lang.management.ManagementFactory;
 import java.util.Set;
 
 public class GameServer {
@@ -69,10 +63,6 @@ public class GameServer {
         stopWatch.stop();
         logger.error("游戏服启动成功，耗时[{}]毫秒", stopWatch.getTime());
 
-        // mbean监控
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        GameMonitorMBean controller = new GameMonitor();
-        mbs.registerMBean(controller, new ObjectName("GameMXBean:name=GameMonitor"));
     }
 
     private void frameworkInit() throws Exception {

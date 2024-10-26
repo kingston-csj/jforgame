@@ -85,12 +85,6 @@
             <artifactId>netty-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.7</version>
-        </dependency>
-
         <!-- 读取配置文件 -->
         <dependency>
             <groupId>org.dom4j</groupId>
@@ -177,18 +171,6 @@
 
     </dependencies>
     <build>
-        <!--        <resources>-->
-        <!--            <resource>-->
-        <!--                <directory>src/main/resources</directory>-->
-        <!--            </resource>-->
-        <!--            <resource>-->
-        <!--                <directory>configs</directory>-->
-        <!--                <excludes>-->
-        <!--                    <exclude>mail.xml</exclude>-->
-        <!--                    <exclude>server2.xml</exclude>-->
-        <!--                </excludes>-->
-        <!--            </resource>-->
-        <!--        </resources>-->
         <plugins>
             <!--            <plugin>-->
             <!--                <groupId>com.baidu</groupId>-->

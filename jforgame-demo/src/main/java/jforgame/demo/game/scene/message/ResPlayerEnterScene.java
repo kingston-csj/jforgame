@@ -1,11 +1,10 @@
 package jforgame.demo.game.scene.message;
 
 import jforgame.demo.game.Modules;
-import jforgame.demo.game.scene.SceneDataPool;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
 
-@MessageMeta(module=Modules.SCENE, cmd=SceneDataPool.RES_ENTER_SCENE)
+@MessageMeta(module=Modules.SCENE, cmd=1)
 public class ResPlayerEnterScene implements Message {
 	
 	/** 地图id */
