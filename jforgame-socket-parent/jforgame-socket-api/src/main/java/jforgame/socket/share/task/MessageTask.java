@@ -17,6 +17,11 @@ public class MessageTask extends BaseGameTask {
     private IdSession session;
 
     /**
+     * 消息流水号
+     */
+    private int msgIndex;
+
+    /**
      * message controller
      */
     private Object handler;
@@ -45,13 +50,11 @@ public class MessageTask extends BaseGameTask {
     public void action() {
         try {
             Object response = method.invoke(handler, params);
+            // 如果消息签名带有返回值，则无需index字段，这里会自动把index附加到返回值
+            // index字段只用于异步推送才是必填字段
             if (response != null) {
                 // 消息处理器包含消息序号，则下发响应将其带上
-                if (params.length == 3 && Integer.class.isAssignableFrom(params[1].getClass())) {
-                    session.send((Integer) params[1], response);
-                } else {
-                    session.send(response);
-                }
+                session.send(msgIndex, response);
             }
         } catch (Exception e) {
             logger.error("message task execute failed ", e);
@@ -68,6 +71,10 @@ public class MessageTask extends BaseGameTask {
 
     public Object[] getParams() {
         return params;
+    }
+
+    public void setMsgIndex(int msgIndex) {
+        this.msgIndex = msgIndex;
     }
 
     @Override
