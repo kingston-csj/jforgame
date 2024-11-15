@@ -13,10 +13,11 @@
   * 不停机热更代码，不停机热更配置，运维，运营不掉线
   * 喜欢Go语言，这里也支持  --> [Go版游戏服务器](https://github.com/kingston-csj/gforgame)  
   * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
+  * 除了做游戏，也可以用来开发其他网络应用，例如实时聊天  --> [仿QQ聊天应用](https://github.com/kingston-csj/im)  
 
 
   ## 模块组织结构  
-  ``` 
+  ``` git
   jforgame
   ├── jforgame-commons --基础公共服务  
   ├── jforgame-runtime --应用运行时监控数据，包括内存，线程，类等等
@@ -81,8 +82,7 @@
 
   各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
-  ## 快速开始
-  本栏目详细教程 -->  
+  ## 本栏目详细教程   
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
   [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
 
