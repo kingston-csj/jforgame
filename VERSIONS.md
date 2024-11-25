@@ -64,6 +64,8 @@
     消息处理器如果方法签名有返回值，则无须申明index字段
 ### jforgame-socket-netty
     修复bug：WebSocketServer二进制流只支持json编解码
+### jforgame-codec-struct  
+    StructMessageCodec新增构造函数，用于设置编码最大字节长度
 ### jforgame-runtime
     新增模块，用于对应用程序的线程、CPU、内存、gc等数据进行监控
 
