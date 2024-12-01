@@ -59,7 +59,7 @@
 
 
 
-## V2.1.0(2024-11-16)
+## V2.1.1(2024-12-16)
 ### jforgame-socket-api
     消息处理器如果方法签名有返回值，则无须申明index字段
 ### jforgame-socket-netty

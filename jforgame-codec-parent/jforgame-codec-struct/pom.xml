@@ -5,7 +5,7 @@
     <parent>
         <artifactId>jforgame-codec-parent</artifactId>
         <groupId>io.github.jforgame</groupId>
-        <version>${revision}</version>
+        <version>2.1.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
