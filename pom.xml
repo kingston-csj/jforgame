@@ -6,7 +6,7 @@
 
     <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-parent</artifactId>
-    <version>2.1.1</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>jforgame-parent</name>
     <description>jforgame is a lightweight online game framework written in Java. The project just shows some simple
@@ -16,7 +16,7 @@
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
-        <revision>2.1.0</revision>
+        <revision>2.1.2</revision>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
