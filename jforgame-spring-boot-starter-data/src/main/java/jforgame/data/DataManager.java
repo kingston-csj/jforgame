@@ -21,14 +21,16 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * 数据读取对外暴露的唯一API
+ * 对所有的配置数据作统一管理，不再一个配置文件对应一个配置容器
+ * 如果需要实现二级缓存，只需继承{@link Container}即可，参考{@link ResourceProperties#getContainerScanPath()}参数
  */
 public class DataManager implements DataRepository {
 
-    private Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
 
-    private ResourceProperties properties;
+    private final ResourceProperties properties;
 
-    private DataReader dataReader;
+    private final DataReader dataReader;
 
     private final Map<String, TableDefinition> tableDefinitions = new HashMap<>();
 
@@ -54,6 +56,11 @@ public class DataManager implements DataRepository {
         classSet.forEach(this::registerContainer);
     }
 
+    /**
+     * 根据领域类注册容器
+     * 会自动加载对应的配置文件
+     * @param table
+     */
     public void registerContainer(Class<?> table) {
         if (table == null) {
             throw new NullPointerException("");
@@ -125,6 +132,14 @@ public class DataManager implements DataRepository {
             return Collections.EMPTY_LIST;
         }
         return data.get(clazz).getRecordsBy(name, index);
+    }
+
+    /**
+     * 返回已加载的所有配置领域类
+     * @return
+     */
+    public Set<Class> getAllTables() {
+        return data.keySet();
     }
 
 }
