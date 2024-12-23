@@ -63,7 +63,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                     continue;
                 }
 
-                records.add(readExcelRow(header, row.iterator()));
+                records.add(readExcelRow(header, row));
                 if (END.equalsIgnoreCase(firstCell)) {
                     // 结束符号
                     break;
@@ -79,7 +79,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
 
     private <E> List<E> readRecords(Class<E> clazz, List<CellColumn[]> rows) throws Exception {
         List<E> records = new ArrayList<>(rows.size());
-        ConversionService conversionService = applicationContext.getBean(ConversionService.class);
+        ConversionService conversionService = applicationContext.getBean("dataConversionService", ConversionService.class);
         for (int i = 0; i < rows.size(); i++) {
             CellColumn[] record = rows.get(i);
             E obj = clazz.newInstance();
@@ -89,7 +89,6 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                 if (StringUtils.isEmpty(colName)) {
                     continue;
                 }
-
                 try {
                     Field field = clazz.getDeclaredField(colName);
                     field.setAccessible(true);
@@ -101,7 +100,6 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                     }
                 }
             }
-
             records.add(obj);
         }
 
@@ -135,22 +133,22 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
     }
 
     private String getCellValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
         if (cell.getCellTypeEnum() != CellType.STRING) {
             cell.setCellType(CellType.STRING);
         }
         return cell.getStringCellValue();
     }
 
-    private CellColumn[] readExcelRow(CellHeader[] headers, Iterator<Cell> cells) {
+    private CellColumn[] readExcelRow(CellHeader[] headers, Row row) {
         List<CellColumn> columns = new ArrayList<>();
         int index = 0;
-        boolean first = true;
-        while (cells.hasNext()) {
-            Cell cell = cells.next();
-            if (first) {
-                first = false;
-                continue;
-            }
+        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        int actualColumnCount = row.getLastCellNum();
+        for (int i = 1; i < actualColumnCount; i++) {
+            Cell cell = row.getCell(i);
 
             String cellValue = getCellValue(cell);
             CellColumn column = new CellColumn();
@@ -159,7 +157,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
             columns.add(column);
             index++;
         }
-        return columns.toArray(new CellColumn[columns.size()]);
+        return columns.toArray(new CellColumn[0]);
     }
 
     @Override
