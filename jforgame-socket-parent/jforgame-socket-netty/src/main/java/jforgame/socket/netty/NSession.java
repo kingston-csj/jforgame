@@ -1,8 +1,12 @@
 package jforgame.socket.netty;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.SocketDataFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NSession implements IdSession {
+
+    private static Logger logger = LoggerFactory.getLogger(IdSession.class);
 
     /**
      * socket io channel
@@ -32,6 +38,27 @@ public class NSession implements IdSession {
             channel.writeAndFlush(packet);
         } else {
             channel.writeAndFlush(SocketDataFrame.withoutIndex(packet));
+        }
+    }
+
+    @Override
+    public void sendAndClose(Object packet) {
+        ChannelFutureListener closeListener = new ChannelFutureListener() {
+            @Override
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                if (channelFuture.isSuccess()) {
+                    try {
+                        close();
+                    } catch (IOException e) {
+                        logger.info("", e);
+                    }
+                }
+            }
+        };
+        if (packet instanceof SocketDataFrame) {
+            channel.writeAndFlush(packet).addListener(closeListener);
+        } else {
+            channel.writeAndFlush(SocketDataFrame.withoutIndex(packet)).addListener(closeListener);
         }
     }
 

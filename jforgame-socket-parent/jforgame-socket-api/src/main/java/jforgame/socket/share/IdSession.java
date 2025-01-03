@@ -3,6 +3,7 @@ package jforgame.socket.share;
 import jforgame.socket.share.message.SocketDataFrame;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
@@ -15,6 +16,7 @@ public interface IdSession extends Closeable {
 
     /**
      * get a unique session identifier
+     *
      * @return Return a unique session identifier
      */
     default String getId() {
@@ -27,14 +29,24 @@ public interface IdSession extends Closeable {
     /**
      * session message without index
      * the message will be wrapped to {@link SocketDataFrame}
+     *
      * @param packet message to send
      */
     void send(Object packet);
 
     /**
+     * session message before close session
+     * the message will be wrapped to {@link SocketDataFrame}
+     *
+     * @param packet message to send
+     */
+    void sendAndClose(Object packet) throws IOException;
+
+    /**
      * send message with index.
      * when client wants to send a message and then gets its response, so-called callback
-     * @param index index of the request message
+     *
+     * @param index  index of the request message
      * @param packet message to send
      */
     default void send(int index, Object packet) {
@@ -56,7 +68,7 @@ public interface IdSession extends Closeable {
     /**
      * update session attribute
      *
-     * @param key  key of the attribute
+     * @param key   key of the attribute
      * @param value value of the attribute
      */
     void setAttribute(String key, Object value);
@@ -71,6 +83,7 @@ public interface IdSession extends Closeable {
 
     /**
      * return whether session has value of target key
+     *
      * @param key attribute key
      * @return value binding to the key
      */
@@ -80,8 +93,8 @@ public interface IdSession extends Closeable {
 
     /**
      * nio raw session
-//     * @see io.netty.channel.Channel
-//     * @see org.apache.mina.core.session.IoSession
+     * //     * @see io.netty.channel.Channel
+     * //     * @see org.apache.mina.core.session.IoSession
      */
     Object getRawSession();
 
