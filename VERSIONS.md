@@ -74,6 +74,10 @@
 ## V2.2.1(2024-1-16)
 ### jforgame-data
     修复读取excel文件，如果首列数据为空导致数据错乱问题
+### jforgame-socket
+    IdSession类增加sendAndClose方法，用于在主动关闭session前做一些清尾通知
+### jforgame-socket-netty
+    WebSocketServerBuilder增加idleMilliSeconds参数，若XX时间没收到请求，则服务器主动断开session
 
 
 

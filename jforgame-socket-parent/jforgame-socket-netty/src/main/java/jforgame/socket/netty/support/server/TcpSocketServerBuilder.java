@@ -47,7 +47,7 @@ public class TcpSocketServerBuilder {
 
     private ChannelIoHandler channelIoHandler;
 
-    private final ServerIdleHandler serverIdleHandler = new ServerIdleHandler();
+    private ServerIdleHandler serverIdleHandler;
 
     /**
      * In the server side, the connection will be closed if it is idle for a certain period of time.
@@ -158,7 +158,7 @@ public class TcpSocketServerBuilder {
                 }
             }
             if (protocolDecoder != null) {
-                pipeline.addLast("protocolDecoder",protocolDecoder);
+                pipeline.addLast("protocolDecoder", protocolDecoder);
             } else {
                 pipeline.addLast("protocolDecoder", new DefaultProtocolDecoder(messageFactory, messageCodec, maxProtocolBytes));
             }
@@ -172,7 +172,7 @@ public class TcpSocketServerBuilder {
                 // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
                 pipeline.addLast(new IdleStateHandler(0, 0, idleTime,
                         TimeUnit.MILLISECONDS));
-                pipeline.addLast("serverIdleHandler", serverIdleHandler);
+                pipeline.addLast("serverIdleHandler", new ServerIdleHandler(socketIoDispatcher));
             }
             pipeline.addLast("socketIoHandler", channelIoHandler);
             if (extChannelHandler != null) {

@@ -26,6 +26,12 @@ public class WebSocketServerBuilder {
 //
 //    private boolean ssl = true;
 
+    /**
+     * In the server side, the connection will be closed if it is idle for a certain period of time.
+     * unit is MILLISECONDS
+     */
+    private int idleMilliSeconds;
+
     public WebSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
@@ -49,6 +55,11 @@ public class WebSocketServerBuilder {
 
     public WebSocketServerBuilder bindingPort(HostAndPort node) {
         this.hortPort = node;
+        return this;
+    }
+
+    public WebSocketServerBuilder setIdleMilliSeconds(int idleMilliSeconds) {
+        this.idleMilliSeconds = idleMilliSeconds;
         return this;
     }
 
@@ -85,7 +96,9 @@ public class WebSocketServerBuilder {
         socketServer.messageCodec = messageCodec;
         socketServer.messageFactory = messageFactory;
         socketServer.messageIoHandler = new ChannelIoHandler(socketIoDispatcher);
+        socketServer.socketIoDispatcher = socketIoDispatcher;
         socketServer.websocketPath = websocketPath;
+        socketServer.idleMilliSeconds = idleMilliSeconds;
 
         return socketServer;
     }

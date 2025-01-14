@@ -17,6 +17,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.ReferenceCounted;
 import jforgame.codec.MessageCodec;
 import jforgame.commons.JsonUtil;
@@ -24,6 +25,7 @@ import jforgame.commons.NumberUtil;
 import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
+import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.RequestDataFrame;
@@ -33,8 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * simple web socket server
@@ -43,6 +45,8 @@ import java.util.List;
 public class WebSocketServer implements ServerNode {
 
     private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
+
+    SocketIoDispatcher socketIoDispatcher;
 
     ChannelIoHandler messageIoHandler;
 
@@ -58,7 +62,15 @@ public class WebSocketServer implements ServerNode {
 
     String websocketPath;
 
+
+    /**
+     * In the server side, the connection will be closed if it is idle for a certain period of time.
+     */
+    int idleMilliSeconds;
+
 //    SslContext sslContext;
+
+    private ServerIdleHandler serverIdleHandler;
 
     @Override
     public void start() throws Exception {
@@ -155,6 +167,13 @@ public class WebSocketServer implements ServerNode {
                     }
                 }
             });
+
+            if (idleMilliSeconds > 0) {
+                // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
+                pipeline.addLast(new IdleStateHandler(0, 0, idleMilliSeconds,
+                        TimeUnit.MILLISECONDS));
+                pipeline.addLast("serverIdleHandler", new ServerIdleHandler(socketIoDispatcher));
+            }
 
             pipeline.addLast(messageIoHandler);
         }
