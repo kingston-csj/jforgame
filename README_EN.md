@@ -35,14 +35,35 @@ A lightweight online game framework written in Java. The project just shows some
   ``` 
 
 ## QuickStart
-1. Use git to download codes, git clone https://github.com/kingston-csj/jforgame
-2. Import maven project to your ide
-3. Create new database named game_data_001 and import resources/game_data_001.sql into it. Similarly, create new databse named game_user_001 and import resources/game_user_001.sql into it
-4. Start game server，entrance is ServerStartup.java
-5. Start robot client，entrance is ClientStartup.java
-
-
-Chinese wiki --> [wiki](https://github.com/kingston-csj/jforgame/wiki)
+1. Chinese wiki --> [wiki](https://github.com/kingston-csj/jforgame/wiki)
+2. Use git to download codes, git clone https://github.com/kingston-csj/jforgame
+3. Import maven project to your ide
+4. Create new database named game_data_001 and import resources/game_data_001.sql into it. Similarly, create new databse named game_user_001 and import resources/game_user_001.sql into it
+5. Start game server，entrance is ServerStartup.java
+6. Start robot client，entrance is ClientStartup.java
+7. you can also import as dependencies
+  ```
+    <dependency>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-socket-netty</artifactId>
+        <version>2.1.1</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-codec-struct</artifactId>
+        <version>2.1.1</version>
+    </dependency>
+  ```
+  starting server just as following (socket/websocket)
+  ```
+   TcpSocketServerBuilder.newBuilder()
+    .bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+    .setMessageFactory(GameMessageFactory.getInstance())
+    .setMessageCodec(new StructMessageCodec())
+    .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+    .build()
+    .start();
+  ```  
 
 ## Contributing
 We are always looking for people to join us. If you have an issue, feature request, or pull request, let us know!  

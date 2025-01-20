@@ -47,25 +47,25 @@
   ```
 
   ## 快速开始  
-  1. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
-  2. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
-  3. 新建数据库game_data_001和game_user_001，并分别导入test/resources下的同名sql文件;  
-  4. 启动服务端，入口为ServerStartup类;    
+  1. 各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
+  2. 使用git下载代码 git clone https://github.com/kingston-csj/jforgame;  
+  3. 将代码导入带有maven插件的IDE(选择根目录下的pom.xml文件);  
+  4. 新建数据库game_data_001和game_user_001，并分别导入test/resources下的同名sql文件;  
+  5. 启动服务端，入口为ServerStartup类;    
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
-  5. 启动客户端，入口为ClientStartup类;  
+  6. 启动客户端，入口为ClientStartup类;  
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。)  
-  
-  作为组件导入
+  7. 作为组件导入
   ```
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-socket-netty</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.1</version>
     </dependency>
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-codec-struct</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.1</version>
     </dependency>
   ```  
  
@@ -79,8 +79,6 @@
     .build()
     .start();
   ```  
-
-  各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
 
   ## 本栏目详细教程   
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
