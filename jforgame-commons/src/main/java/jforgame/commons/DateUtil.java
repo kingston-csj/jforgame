@@ -1,9 +1,16 @@
 package jforgame.commons;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 日期工具类
@@ -131,6 +138,17 @@ public class DateUtil {
     }
 
     /**
+     * get days between two dates
+     */
+    public static int getDiffDays(Date startDate, Date endDate) {
+        Objects.requireNonNull(startDate);
+        Objects.requireNonNull(endDate);
+        long start = startDate.getTime();
+        long end = endDate.getTime();
+        return (int) ((end - start) / TimeUtil.MILLIS_PER_DAY);
+    }
+
+    /**
      * get the day of the week in western countries
      */
     public static int getWeekDay() {
@@ -138,4 +156,35 @@ public class DateUtil {
         return cal.get(Calendar.DAY_OF_WEEK);
     }
 
+    private static final List<DateTimeFormatter> FORMATTERS = Arrays.asList(
+            DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    );
+
+    /**
+     * parse date string to Date object
+     * 日期格式可以是 yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss
+     *
+     * @param dateString 日期字符串
+     * @return 解析成功返回 Date 对象，否则返回 null
+     */
+    public static Date parseDate(String dateString) {
+        for (DateTimeFormatter formatter : FORMATTERS) {
+            try {
+                // 尝试解析为 LocalDate
+                LocalDate localDate = LocalDate.parse(dateString, formatter);
+                return java.util.Date.from(localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
+            } catch (DateTimeParseException e1) {
+                try {
+                    // 若解析为 LocalDate 失败，尝试解析为 LocalDateTime
+                    LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
+                    return java.util.Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+                } catch (DateTimeParseException e2) {
+                    // 若当前格式解析失败，尝试下一个格式
+                }
+            }
+        }
+        // 若所有格式都无法解析，返回 null
+        return null;
+    }
 }
