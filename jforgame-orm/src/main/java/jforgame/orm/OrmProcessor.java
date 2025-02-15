@@ -1,6 +1,7 @@
 package jforgame.orm;
 
 import jforgame.commons.ClassScanner;
+import jforgame.orm.utils.ReflectUtils;
 import jforgame.orm.utils.StringUtils;
 
 import javax.persistence.Column;
@@ -45,7 +46,7 @@ public enum OrmProcessor {
             bridge.setTableName(entity.name());
         }
 
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = ReflectUtils.getAllFields(clazz);
         for (Field field : fields) {
             Column column = field.getAnnotation(Column.class);
             String fieldName = field.getName();

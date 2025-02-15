@@ -151,9 +151,11 @@ public class DbService {
                 DbUtils.executeUpdate(sql);
                 entity.resetDbStatus();
             } else if (entity.isUpdate()) {
+                entity.setUpdateTime(System.currentTimeMillis());
                 DbUtils.executePreparedUpdate(entity);
                 entity.resetDbStatus();
             } else if (entity.isInsert()) {
+                entity.setCreateTime(System.currentTimeMillis());
                 DbUtils.executePreparedInsert(entity);
                 entity.resetDbStatus();
             }

@@ -2,6 +2,7 @@ package jforgame.demo.db;
 
 import jforgame.orm.StatefulEntity;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
@@ -20,7 +21,26 @@ public abstract class BaseEntity<Id extends Comparable & Serializable> extends S
      * @return
      */
     public abstract Id getId();
+    @Column
+    private long createTime;
+    @Column
+    private long updateTime;
 
+    public long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
     /**
      * init hook
      */
