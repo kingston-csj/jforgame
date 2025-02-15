@@ -1,5 +1,7 @@
 package jforgame.orm.ddl;
 
+import jforgame.commons.Pair;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,10 +48,16 @@ public class SchemaUpdate {
                 // 数据库不存在，建表
                 result.add(tableDef.sqlCreateString());
             } else {
-                // 数据库已存在，查看是否有字段新增,不处理删除的字段
-                Iterator<String> it = tableDef.sqlAlterStrings(tablesMetadata.get(tableName));
+                Pair<Iterator<String>, String> iteratorStrPair = tableDef.sqlAlterStrings(tablesMetadata.get(tableName));
+                Iterator<String> it = iteratorStrPair.getFirst();
                 while (it.hasNext()) {
                     result.add(it.next());
+                }
+                String lastColumn = iteratorStrPair.getSecond();
+                if (lastColumn != null) {
+                    String sql = "ALTER TABLE " + tableName + " MODIFY COLUMN createTime BIGINT(20) DEFAULT NULL  AFTER " + lastColumn;
+                    result.add(sql);
+                    result.add("ALTER TABLE " + tableName + " MODIFY COLUMN updateTime BIGINT(20) DEFAULT NULL AFTER createTime");
                 }
             }
         }
