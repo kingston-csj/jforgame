@@ -12,9 +12,11 @@ public interface MessageHeader {
     byte[] write();
 
     void read(byte[] bytes);
+    void readServerBytes(byte[] bytes);
 
     /**
      * 私有协议栈的总长度，包括包头+包体
+     *
      * @return 私有协议栈的总长度
      */
     int getMsgLength();
@@ -24,6 +26,7 @@ public interface MessageHeader {
     /**
      * 消息包序号（由客户端保证自增长）
      * 可用于客户端回调，消息重放检测
+     *
      * @return 消息包序号
      */
     int getIndex();
@@ -34,6 +37,7 @@ public interface MessageHeader {
 
     /**
      * 消息类型
+     *
      * @return 消息类型
      */
     int getCmd();
@@ -41,4 +45,7 @@ public interface MessageHeader {
 
     void setCmd(int cmd);
 
+    int getCode();
+
+    void setCode(int code);
 }

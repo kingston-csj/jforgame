@@ -1,14 +1,11 @@
 package jforgame.demo.client;
 
 import jforgame.commons.JsonUtil;
-import jforgame.demo.game.login.message.req.ReqAccountLogin;
+import jforgame.demo.Player;
 import jforgame.demo.game.login.message.req.ReqSelectPlayer;
-import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.game.player.message.req.ReqCreateNewPlayer;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.Message;
-import org.apache.mina.core.service.IoHandlerAdapter;
-import org.apache.mina.core.session.IoSession;
 
 /**
  * 使用socket构建的机器人
@@ -30,10 +27,8 @@ public class ClientPlayer {
     }
 
     public void login() {
-        ReqAccountLogin request = new ReqAccountLogin();
-        request.setPassword("admin");
-        request.setAccountId(123L);
-        this.sendMessage(request);
+        Player.ReqAccountLogin admin = Player.ReqAccountLogin.newBuilder().setPassword("admin").setAccountId(123L).build();
+        this.sendMessage(admin);
     }
 
 
@@ -53,4 +48,13 @@ public class ClientPlayer {
         this.session.send(message);
     }
 
+    /**
+     * 发送消息
+     *
+     * @param message
+     */
+    public void sendMessage(Player.ReqAccountLogin message) {
+        System.err.printf("发送请求-->  %s %s%n", message.getClass().getSimpleName(), JsonUtil.object2String(message));
+        this.session.send(message);
+    }
 }

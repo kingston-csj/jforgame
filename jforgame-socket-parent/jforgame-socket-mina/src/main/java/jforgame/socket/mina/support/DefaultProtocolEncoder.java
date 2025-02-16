@@ -57,7 +57,7 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
 		//      header(12bytes)     | body
 		// msgLength = 12+len(body) | body
 		// msgLength | index | cmd  | body
-
+		Object message1 = frame.getMessage();
 		IoBuffer buffer = IoBuffer.allocate(WRITE_BUFF_SIZE);
 		buffer.setAutoExpand(true);
 		Object message = frame.getMessage();

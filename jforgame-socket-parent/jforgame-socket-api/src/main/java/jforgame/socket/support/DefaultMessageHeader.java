@@ -29,6 +29,9 @@ public class DefaultMessageHeader implements MessageHeader {
      */
     private int cmd;
 
+    private int code;
+
+
     public byte[] write() {
         ByteBuffer allocate = ByteBuffer.allocate(SIZE);
         allocate.putInt(msgLength);
@@ -48,8 +51,16 @@ public class DefaultMessageHeader implements MessageHeader {
         msgLength = allocate.getInt();
         index = allocate.getInt();
         cmd = allocate.getInt();
-
         allocate.clear();
+    }
+
+    @Override
+    public void readServerBytes(byte[] bytes) {
+        ByteBuffer allocate = ByteBuffer.wrap(bytes);
+        msgLength = allocate.getInt();
+        index = allocate.getInt();
+        cmd = allocate.getInt();
+        code = allocate.getInt();
     }
 
     public int getMsgLength() {
@@ -74,5 +85,15 @@ public class DefaultMessageHeader implements MessageHeader {
 
     public void setCmd(int cmd) {
         this.cmd = cmd;
+    }
+
+    @Override
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public void setCode(int code) {
+        this.code = code;
     }
 }

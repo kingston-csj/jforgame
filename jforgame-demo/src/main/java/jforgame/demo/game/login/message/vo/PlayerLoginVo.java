@@ -1,8 +1,10 @@
 package jforgame.demo.game.login.message.vo;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import groovy.transform.ToString;
 
 @ProtobufClass
+@ToString
 public class PlayerLoginVo {
 	
 	private long id;

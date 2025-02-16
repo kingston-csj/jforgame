@@ -26,15 +26,13 @@ import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.MessageHeader;
-import jforgame.socket.share.message.RequestDataFrame;
-import jforgame.socket.share.message.SocketDataFrame;
+import jforgame.socket.share.message.*;
 import jforgame.socket.support.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -95,7 +93,11 @@ public class WebSocketServer implements ServerNode {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
-
+    public  byte[] toByteArray(ByteBuf buffer) {
+        byte[] bytes = new byte[buffer.readableBytes()];
+        buffer.readBytes(bytes);
+        return bytes;
+    }
     private class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
         @Override
@@ -107,7 +109,7 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(512 * 1024));
-            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath,null,true));
+            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath, null, true));
             // WebSocketFrame vs Message codec
             pipeline.addLast("socketFrameToMessage", new MessageToMessageCodec<WebSocketFrame, Object>() {
                 @Override
@@ -115,11 +117,27 @@ public class WebSocketServer implements ServerNode {
                     if (o instanceof SocketDataFrame) {
                         SocketDataFrame socketDataFrame = (SocketDataFrame) o;
                         Object message = socketDataFrame.getMessage();
-                        String json = JsonUtil.object2String(message);
-                        TextFrame frame = new TextFrame();
-                        frame.cmd = messageFactory.getMessageId(message.getClass());
-                        frame.msg = json;
-                        list.add(new TextWebSocketFrame(JsonUtil.object2String(frame)));
+                        if (message instanceof SCMessage) {
+                            SCMessage scMessage = (SCMessage) message;
+                            int errorCode = scMessage.getErrorCode();
+                            int cmd = scMessage.getCmd();
+                            int totalSize = DefaultMessageHeader.SIZE + 4;
+                            byte[] encode = null;
+                            if (errorCode == 0) {
+                                encode = messageCodec.encode(scMessage);
+                                totalSize += encode.length;
+                            }
+                            // Write header
+                            ByteBuf header = ctx.alloc().buffer(totalSize);
+                            header.writeInt(totalSize);
+                            header.writeInt(socketDataFrame.getIndex());
+                            header.writeInt(cmd);
+                            header.writeInt(errorCode);
+                            if (errorCode == 0) {
+                                header.writeBytes(encode);
+                            }
+                            list.add(new BinaryWebSocketFrame(header));
+                        }
                     } else if (o instanceof ReferenceCounted) {
                         ((ReferenceCounted) o).retain();
                         list.add(o);
@@ -129,7 +147,8 @@ public class WebSocketServer implements ServerNode {
                 }
 
                 @Override
-                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> out) throws Exception {
+                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> out) throws
+                        Exception {
                     if (frame instanceof TextWebSocketFrame) {
                         TextWebSocketFrame textWebSocketFrame = (TextWebSocketFrame) frame;
                         String json = textWebSocketFrame.text();

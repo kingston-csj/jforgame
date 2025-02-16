@@ -1,6 +1,8 @@
 package jforgame.demo.client;
 
 import jforgame.codec.MessageCodec;
+import jforgame.demo.Player;
+import jforgame.demo.game.login.message.req.ReqAccountLogin;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.MessageHeader;
@@ -103,7 +105,43 @@ public class WebSocketSession implements IdSession {
         return session;
     }
 
-    @Override
+    public void send(Object message) {
+        try {
+            MessageHeader header = new DefaultMessageHeader();
+            Player.ReqAccountLogin reqAccountLogin = (Player.ReqAccountLogin) message;
+            // 2. 编码消息体
+            //byte[] messageBody = messageCodec.encode(message);
+            byte[] messageBody = reqAccountLogin.toByteArray();
+            // 3. 计算总长度并设置消息头
+            int totalLength = messageBody.length + DefaultMessageHeader.SIZE;
+            header.setMsgLength(totalLength);
+            header.setCmd(GameMessageFactory.getInstance().getMessageId(ReqAccountLogin.class));
+            header.setIndex(1);
+
+            // 4. 获取消息头字节数组
+            byte[] headerBytes = header.write();
+
+            // 5. 创建一个能容纳消息头和消息体的ByteBuffer
+            ByteBuffer byteBuffer = ByteBuffer.allocate(totalLength);
+
+            // 6. 写入消息头和消息体
+            byteBuffer.put(headerBytes);
+            byteBuffer.put(messageBody);
+
+            // 7. 准备读取
+            byteBuffer.flip();
+
+            // 8. 发送完整的消息
+            session.getBasicRemote().sendBinary(byteBuffer);
+            Thread.sleep(500000);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to send message", e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+ /*   @Override
     public void send(Object message) {
         try {
             MessageHeader header = new DefaultMessageHeader();
@@ -135,7 +173,7 @@ public class WebSocketSession implements IdSession {
         } catch (IOException e) {
             throw new RuntimeException("Failed to send message", e);
         }
-    }
+    }*/
 
     @Override
     public void close() {

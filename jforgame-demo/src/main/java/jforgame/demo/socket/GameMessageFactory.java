@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class GameMessageFactory implements MessageFactory {
 
-    private static volatile DefaultMessageFactory self ;
+    private static volatile DefaultMessageFactory self;
 
     public static MessageFactory getInstance() {
         if (self != null) {
@@ -31,7 +31,7 @@ public class GameMessageFactory implements MessageFactory {
         }
     }
 
-    private static int buildKey(short module, int cmd) {
+    public static int buildKey(short module, int cmd) {
         int result = Math.abs(module) * 1000 + Math.abs(cmd);
         return cmd < 0 ? -result : result;
     }

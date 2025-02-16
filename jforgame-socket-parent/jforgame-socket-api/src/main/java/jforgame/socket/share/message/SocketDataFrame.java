@@ -7,7 +7,6 @@ public class SocketDataFrame {
      * 若由服务器主动下发的消息，该字段为0
      */
     private int index;
-
     /**
      * 具体消息包
      */
