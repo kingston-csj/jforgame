@@ -48,8 +48,28 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-client</artifactId>
+            <version>1.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-grizzly-client</artifactId>
+            <version>1.17</version>
+        </dependency>
+        <dependency>
             <groupId>io.github.jforgame</groupId>
             <artifactId>jforgame-codec-struct</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-codec-protobuf</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -168,6 +188,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.baidu</groupId>
+            <artifactId>jprotobuf</artifactId>
+        </dependency>
+
 
     </dependencies>
     <build>

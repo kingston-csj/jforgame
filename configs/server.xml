@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+
+	<serverId>10001</serverId>
+	<serverPort>9527</serverPort>
+	<!-- 客户端封包最大字节数 -->
+	<maxReceiveBytes>4096</maxReceiveBytes>
+
+	<!-- http后台管理 -->
+	<adminPort>8080</adminPort>
+	<whiteIps>127.0.0.1;192.168.*;10.11.*</whiteIps>
+
+	<!--匹配服ip端口地址 -->
+	<matchUrl>localhost:9628</matchUrl>
+	<!--本服是否为战斗服 -->
+	<fight>0</fight>
+	<!--对外跨服端口 -->
+	<crossPort>9627</crossPort>
+
+	<redisUrl>127.0.0.1:8001</redisUrl>
+</server>

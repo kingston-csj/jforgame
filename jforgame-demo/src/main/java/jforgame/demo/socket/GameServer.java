@@ -1,6 +1,6 @@
 package jforgame.demo.socket;
 
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.protobuf.ProtobufMessageCodec;
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
 import jforgame.demo.ServerConfig;
@@ -20,6 +20,7 @@ import jforgame.demo.redis.RedisCluster;
 import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.netty.support.server.TcpSocketServerBuilder;
+import jforgame.socket.netty.support.server.WebSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;
@@ -109,11 +110,11 @@ public class GameServer {
 //			crossServer.start();
 //		}
 
-		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-				.setMessageFactory(GameMessageFactory.getInstance())
-				.setMessageCodec(new StructMessageCodec())
-				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-				.build();
+        socketServer = WebSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+                .setMessageFactory(GameMessageFactory.getInstance())
+                .setMessageCodec(new ProtobufMessageCodec())
+                .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+                .build();
 
 //        socketServer = WebSocketServerBuilder.newBuilder().setMessageCodec(new JsonCodec()).setMessageFactory(GameMessageFactory.getInstance()).setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
 //                .bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort())).build();

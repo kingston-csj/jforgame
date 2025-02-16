@@ -1,8 +1,10 @@
 package jforgame.demo.game.hello;
 
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import jforgame.socket.share.annotation.MessageMeta;
 
 @MessageMeta(cmd = 999)
+@ProtobufClass
 public class ResHello {
 
     private String content;

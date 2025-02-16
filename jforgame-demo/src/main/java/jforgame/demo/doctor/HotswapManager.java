@@ -2,7 +2,6 @@ package jforgame.demo.doctor;
 
 import groovy.lang.GroovyClassLoader;
 import jforgame.commons.FileUtils;
-import jforgame.hotswap.JavaDoctor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,11 +61,7 @@ public enum HotswapManager {
      */
     public String reloadClass(String path) {
         try {
-            if (JavaDoctor.hotSwap(getFilePath(path))) {
-                return "热更成功";
-            } else {
                 return "热更失败";
-            }
         } catch (Exception e) {
             logger.error("", e);
             return e.getMessage();
