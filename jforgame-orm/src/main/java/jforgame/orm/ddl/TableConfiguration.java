@@ -1,5 +1,6 @@
 package jforgame.orm.ddl;
 
+import jforgame.orm.utils.ReflectUtils;
 import jforgame.orm.utils.StringUtils;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ public class TableConfiguration {
     }
 
     private void fillColumns(Class<?> entity, TableDefinition tableDefinition) {
-        Arrays.stream(entity.getDeclaredFields()).filter(e -> e.getAnnotation(Column.class) != null)
+        Arrays.stream(ReflectUtils.getAllFields(entity)).filter(e -> e.getAnnotation(Column.class) != null)
                 .forEach(f -> {
                     Column column = f.getAnnotation(Column.class);
                     ColumnDefinition columnDef = new ColumnDefinition();

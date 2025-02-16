@@ -10,33 +10,52 @@ import javax.persistence.Id;
 
 @Entity(name = "accountent")
 public class AccountEnt extends BaseEntity<Long> {
-	
-	@Id
-	@Column
-	private Long id;
-	
-	@Column
-	private String name;
-	
-	public AccountEnt() {
-		this.id = IdGenerator.getNextId();
-	}
 
-	@Override
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @Column
+    private Long id;
 
-	public String getName() {
-		return name;
-	}
+    @Column
+    private String name;
+    @Column
+    private int age;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column
+    private int sex;
+    @Column
+    private int job;
+    @Column
+    private String sign;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+
+
+    public AccountEnt() {
+        this.id = IdGenerator.getNextId();
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

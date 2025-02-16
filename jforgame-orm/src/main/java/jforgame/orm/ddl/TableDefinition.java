@@ -1,10 +1,9 @@
 package jforgame.orm.ddl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import jforgame.commons.Pair;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TableDefinition {
 
@@ -33,9 +32,12 @@ public class TableDefinition {
                 .append(' ')
                 .append(tableName)
                 .append(" (");
-        Iterator<ColumnDefinition> it = columns.values().stream().iterator();
+        List<String> list = columns.values().stream().map(ColumnDefinition::getName).collect(Collectors.toList());
+        List<String> orderColumns = orderColumns(list, true);
+        Iterator<String> it = orderColumns.iterator();
         while (it.hasNext()) {
-            ColumnDefinition col = it.next();
+            String orderColumn = it.next();
+            ColumnDefinition col = columns.get(orderColumn);
             buf.append(col.getName())
                     .append(' ');
             buf.append(col.getJdbcType());
@@ -80,17 +82,19 @@ public class TableDefinition {
         return buf.toString();
     }
 
-    public Iterator<String> sqlAlterStrings(TableMetadata tableMetadata) {
+    public Pair<Iterator<String>, String> sqlAlterStrings(TableMetadata tableMetadata) {
         StringBuilder root = new StringBuilder("alter table " + tableName)
                 .append(' ');
 
-        Iterator<ColumnDefinition> iter = columns.values().iterator();
+        List<String> list = columns.values().stream().map(ColumnDefinition::getName).collect(Collectors.toList());
+        List<String> orderColumns = orderColumns(list, false);
+        Iterator<String> iter = orderColumns.iterator();
         List<String> results = new ArrayList<>();
-
         while (iter.hasNext()) {
-            final ColumnDefinition column = iter.next();
+            ColumnDefinition column = columns.get(iter.next());
             ColumnMetadata columnInfo = tableMetadata.getColumnMetadata(column.getName());
             if (columnInfo == null) {
+
                 // the column doesnt exist at all.
                 StringBuilder alter = new StringBuilder(root.toString())
                         .append(" add column ")
@@ -119,8 +123,45 @@ public class TableDefinition {
                 results.add(alter.toString());
             }
         }
-
-        return results.iterator();
+        return new Pair<>(results.iterator(), orderColumns.get(orderColumns.size() - 1));
     }
 
+    /**
+     * 对字段进行排序
+     *
+     * @param columns 字段列表
+     * @return 排序后的字段列表
+     */
+    private List<String> orderColumns(List<String> columns, boolean isCreate) {
+        List<String> orderedColumns = new ArrayList<>();
+        Set<String> specialColumns = new HashSet<>(Arrays.asList("id", "cid", "templateId", "createTime", "updateTime"));
+
+        // 首先添加 id
+        if (columns.contains("id")) {
+            orderedColumns.add("id");
+        }
+
+        // 添加 cid（如果存在）
+        if (columns.contains("cid")) {
+            orderedColumns.add("cid");
+        }
+
+        // 添加其他字段（除了特殊字段）
+        for (String column : columns) {
+            if (!specialColumns.contains(column)) {
+                orderedColumns.add(column);
+            }
+        }
+        if (isCreate) {
+            // 添加 createTime 和 updateTime
+            if (columns.contains("createTime")) {
+                orderedColumns.add("createTime");
+            }
+            if (columns.contains("updateTime")) {
+                orderedColumns.add("updateTime");
+            }
+        }
+
+        return orderedColumns;
+    }
 }

@@ -107,8 +107,7 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(512 * 1024));
-            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath));
-
+            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath,null,true));
             // WebSocketFrame vs Message codec
             pipeline.addLast("socketFrameToMessage", new MessageToMessageCodec<WebSocketFrame, Object>() {
                 @Override
