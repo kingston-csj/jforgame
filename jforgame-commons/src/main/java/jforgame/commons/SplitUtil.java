@@ -11,7 +11,7 @@ public final class SplitUtil {
 
     public static final String UNDERLINE = "_";
 
-    public static final String COMMA = ",|；";   //逗号
+    public static final String COMMA = ",|，";   //逗号
 
     public static final String AND = "&";
 
