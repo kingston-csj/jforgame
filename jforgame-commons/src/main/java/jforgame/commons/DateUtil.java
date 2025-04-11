@@ -169,15 +169,18 @@ public class DateUtil {
      * @return 解析成功返回 Date 对象，否则返回 null
      */
     public static Date parseDate(String dateString) {
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
         for (DateTimeFormatter formatter : FORMATTERS) {
             try {
                 // 尝试解析为 LocalDate
-                LocalDate localDate = LocalDate.parse(dateString, formatter);
+                LocalDate localDate = LocalDate.parse(dateString.trim(), formatter);
                 return java.util.Date.from(localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
             } catch (DateTimeParseException e1) {
                 try {
                     // 若解析为 LocalDate 失败，尝试解析为 LocalDateTime
-                    LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
+                    LocalDateTime localDateTime = LocalDateTime.parse(dateString.trim(), formatter);
                     return java.util.Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
                 } catch (DateTimeParseException e2) {
                     // 若当前格式解析失败，尝试下一个格式
@@ -187,4 +190,62 @@ public class DateUtil {
         // 若所有格式都无法解析，返回 null
         return null;
     }
+
+    /**
+     * tell if two timestamps are on the same day
+     *
+     * @param t1 date1
+     * @param t2 date2
+     * @return true if they are on the same day
+     */
+    public static boolean isSameDay(Date t1, Date t2) {
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(t1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(t2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static boolean isSameDay(long t1, long t2) {
+        return isSameDay(new Date(t1), new Date(t2));
+    }
+
+    /**
+     * tell if two timestamps are in the same week
+     * warming: the first day of the week is Monday
+     *
+     * @param t1 date1
+     * @param t2 date2
+     * @return true if they are in the same week
+     */
+    public static boolean isSameWeek(Date t1, Date t2) {
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        // 获取 Calendar 实例
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        // 设置 Calendar 的时间
+        cal1.setTime(t1);
+        cal2.setTime(t2);
+        // 设置每周的第一天为周一
+        cal1.setFirstDayOfWeek(Calendar.MONDAY);
+        cal2.setFirstDayOfWeek(Calendar.MONDAY);
+        // 设置判断一周的最小天数，这里设置为 4 天
+        cal1.setMinimalDaysInFirstWeek(4);
+        cal2.setMinimalDaysInFirstWeek(4);
+
+        int week1 = cal1.get(Calendar.WEEK_OF_YEAR);
+        int week2 = cal2.get(Calendar.WEEK_OF_YEAR);
+        int year1 = cal1.get(Calendar.YEAR);
+        int year2 = cal2.get(Calendar.YEAR);
+
+        return year1 == year2 && week1 == week2;
+    }
+
 }

@@ -38,7 +38,7 @@ public class ResourceAutoConfiguration {
         return conversionService;
     }
 
-    @Bean
+    @Bean(name = {"dataManager"})
     @DependsOn({"dataConversionService"})
     public DataManager createDataManager(ResourceProperties properties, DataReader dataReader) {
         DataManager dataManager = new DataManager(properties, dataReader);

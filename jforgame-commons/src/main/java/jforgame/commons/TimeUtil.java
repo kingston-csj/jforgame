@@ -57,12 +57,4 @@ public class TimeUtil {
         return NumberUtil.intValue(split[2]);
     }
 
-    /**
-     * tell if two timestamps are on the same day
-     */
-    public static boolean isSameDay(long time1, long time2) {
-        return getDay(time1) == getDay(time2);
-    }
-
-
 }

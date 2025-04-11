@@ -55,7 +55,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                 Row row = rows.next();
                 String firstCell = getCellValue(row.getCell(0));
                 if (BEGIN.equalsIgnoreCase(firstCell)) {
-                    header = readHeader(clazz, row.iterator());
+                    header = readHeader(clazz, row);
                     hasColMeta = true;
                     continue;
                 }
@@ -106,10 +106,12 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
         return records;
     }
 
-    private CellHeader[] readHeader(Class clazz, Iterator<Cell> cells) throws NoSuchFieldException {
+    private CellHeader[] readHeader(Class clazz, Row row) throws NoSuchFieldException {
         List<CellHeader> columns = new ArrayList<>();
-        while (cells.hasNext()) {
-            Cell cell = cells.next();
+        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        int actualColumnCount = row.getLastCellNum();
+        for (int i = 1; i < actualColumnCount; i++) {
+            Cell cell = row.getCell(i);
             String cellValue = getCellValue(cell);
             if (BEGIN.equalsIgnoreCase(cellValue)) {
                 continue;
@@ -129,7 +131,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
             columns.add(header);
         }
 
-        return columns.toArray(new CellHeader[columns.size()]);
+        return columns.toArray(new CellHeader[0]);
     }
 
     private String getCellValue(Cell cell) {
@@ -144,18 +146,19 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
 
     private CellColumn[] readExcelRow(CellHeader[] headers, Row row) {
         List<CellColumn> columns = new ArrayList<>();
-        int index = 0;
         // 直接读取最后一列的序号，防止第一列空白格被跳过
         int actualColumnCount = row.getLastCellNum();
         for (int i = 1; i < actualColumnCount; i++) {
             Cell cell = row.getCell(i);
-
+            // 表头没配，多余的列不读
+            if (i - 1 >= headers.length) {
+                continue;
+            }
             String cellValue = getCellValue(cell);
             CellColumn column = new CellColumn();
-            column.header = headers[index];
+            column.header = headers[i - 1];
             column.value = cellValue;
             columns.add(column);
-            index++;
         }
         return columns.toArray(new CellColumn[0]);
     }
