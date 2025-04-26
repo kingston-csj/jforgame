@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ExcelDataReader implements DataReader, ApplicationContextAware {
@@ -26,6 +27,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(ExcelDataReader.class.getName());
     private static final String BEGIN = "header";
     private static final String END = "end";
+    private static final String EXPORT = "export";
     private final TypeDescriptor sourceType = TypeDescriptor.valueOf(String.class);
 
     private ApplicationContext applicationContext;
@@ -36,6 +38,26 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
      * 若设置为不忽略，则报会异常
      */
     private boolean ignoreUnknownFields = true;
+
+    /**
+     * 导出类型--服务端与客户端均导入
+     */
+    private final static String EXPORT_TYPE_BOTH = "both";
+
+    /**
+     * 导出类型--仅服务端
+     */
+    private final static String EXPORT_TYPE_SERVER = "server";
+
+    /**
+     * 导出类型--仅客户端
+     */
+    private final static String EXPORT_TYPE_CLIENT = "client";
+
+    /**
+     * 导出类型--服务端与客户端均 不 导入
+     */
+    private final static String EXPORT_TYPE_NONE = "none";
 
     @Override
     public <E> List<E> read(InputStream is, Class<E> clazz) {
@@ -51,6 +73,9 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
             // 获取行
             Iterator<Row> rows = sheet.rowIterator();
 
+            // 导出类型
+            String[] exportHeader = new String[0];
+
             while (rows.hasNext()) {
                 Row row = rows.next();
                 String firstCell = getCellValue(row.getCell(0));
@@ -59,11 +84,15 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                     hasColMeta = true;
                     continue;
                 }
+                if (EXPORT.equalsIgnoreCase(firstCell)) {
+                    exportHeader = readExportHeader(row);
+                    continue;
+                }
                 if (!hasColMeta) {
                     continue;
                 }
 
-                records.add(readExcelRow(header, row));
+                records.add(readExcelRow(header, exportHeader, row));
                 if (END.equalsIgnoreCase(firstCell)) {
                     // 结束符号
                     break;
@@ -106,6 +135,30 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
         return records;
     }
 
+    private String[] readExportHeader(Row row) {
+        List<String> columns = new LinkedList<>();
+        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        int actualColumnCount = row.getLastCellNum();
+        for (int i = 1; i < actualColumnCount; i++) {
+            Cell cell = row.getCell(i);
+            String cellValue = getCellValue(cell);
+            if (!StringUtils.isEmpty(cellValue)) {
+                columns.add(cellValue);
+            } else {
+                // 没填就是不导出
+                columns.add(EXPORT_TYPE_NONE);
+            }
+        }
+        return columns.toArray(new String[0]);
+    }
+
+    private String getExportType(String[] header, int index) {
+        if (header.length <= index) {
+            return EXPORT_TYPE_BOTH;
+        }
+        return header[index];
+    }
+
     private CellHeader[] readHeader(Class clazz, Row row) throws NoSuchFieldException {
         List<CellHeader> columns = new ArrayList<>();
         // 直接读取最后一列的序号，防止第一列空白格被跳过
@@ -144,7 +197,7 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
         return cell.getStringCellValue();
     }
 
-    private CellColumn[] readExcelRow(CellHeader[] headers, Row row) {
+    private CellColumn[] readExcelRow(CellHeader[] headers, String[] exportHeader, Row row) {
         List<CellColumn> columns = new ArrayList<>();
         // 直接读取最后一列的序号，防止第一列空白格被跳过
         int actualColumnCount = row.getLastCellNum();
@@ -155,10 +208,13 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                 continue;
             }
             String cellValue = getCellValue(cell);
-            CellColumn column = new CellColumn();
-            column.header = headers[i - 1];
-            column.value = cellValue;
-            columns.add(column);
+            String exportType = getExportType(exportHeader, i - 1);
+            if (EXPORT_TYPE_BOTH.equalsIgnoreCase(exportType) || EXPORT_TYPE_SERVER.equalsIgnoreCase(exportType)) {
+                CellColumn column = new CellColumn();
+                column.header = headers[i - 1];
+                column.value = cellValue;
+                columns.add(column);
+            }
         }
         return columns.toArray(new CellColumn[0]);
     }

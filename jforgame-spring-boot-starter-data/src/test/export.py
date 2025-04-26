@@ -22,13 +22,19 @@ def calculate_md5(text):
 
 
 def excel_to_json(excel_path):
-    file_name_without_ext = os.path.splitext(os.path.basename(excel_file))[0]
+    file_name_without_ext = os.path.splitext(os.path.basename(excel_path))[0]
     df = pd.read_excel(excel_path)
     type_row = df.iloc[0]  # 获取第二行（类型说明行）
     header_row = df.iloc[1]  # 获取第三行（属性名行）
-
+    dataRowIndex = 2
+    export_header = {}
+    # 如果第三行第一列为EXPORT，表示包含导出类型
+    if header_row.iloc[0] == 'EXPORT':
+        export_header = df.iloc[1]
+        header_row = df.iloc[2]
+        dataRowIndex = 3
     result = []
-    for index, row in df[2:].iterrows():  # 从第四行开始处理实际数据
+    for index, row in df[dataRowIndex:].iterrows():  # 从第四行开始处理实际数据
         item = {}
         try:
             for col_idx, col in enumerate(df.columns):
@@ -36,30 +42,36 @@ def excel_to_json(excel_path):
                     continue
                 if pd.isna(type_row[col]):
                     continue
-                col_type = type_row[col]
-                col_name = header_row[col]
-                value = row[col]
-                if 'int' in str(col_type):
-                    item[col_name] = int(value) if pd.notnull(value) else None
-                elif 'float' in str(col_type):
-                    item[col_name] = float(value) if pd.notnull(value) else None
-                elif 'str' in str(col_type) or 'string' in str(col_type):
-                    item[col_name] = value if pd.notnull(value) else None
-                elif 'list' in str(col_type):
-                    try:
-                        item[col_name] = json.loads(value) if pd.notnull(value) else None
-                    except json.JSONDecodeError:
+                export_type = "CLIENT"
+                if col in export_header:
+                    export_type = str(export_header[col])
+                if export_type.upper() == 'CLIENT' or export_type.upper() == 'BOTH':
+                    col_type = type_row[col]
+                    col_name = header_row[col]
+                    value = row[col]
+                    if 'int' in str(col_type):
+                        item[col_name] = int(value) if pd.notnull(value) else 0
+                    elif 'float' in str(col_type):
+                        item[col_name] = float(value) if pd.notnull(value) else 0
+                    elif 'str' in str(col_type) or 'string' in str(col_type):
+                        item[col_name] = value if pd.notnull(value) else None
+                    elif 'date' in str(col_type):
+                        item[col_name] = value.strftime("%Y-%m-%d %H:%M:%S") if pd.notnull(value) else None
+                    elif 'list' in str(col_type):
+                        try:
+                            item[col_name] = json.loads(value) if pd.notnull(value) else None
+                        except json.JSONDecodeError:
+                            item[col_name] = value
+                    elif 'json' in str(col_type):
+                        try:
+                            item[col_name] = json.loads(value) if pd.notnull(value) else None
+                        except json.JSONDecodeError:
+                            item[col_name] = value
+                    else:
                         item[col_name] = value
-                elif 'json' in str(col_type):
-                    try:
-                        item[col_name] = json.loads(value) if pd.notnull(value) else None
-                    except json.JSONDecodeError:
-                        item[col_name] = value
-                else:
-                    item[col_name] = value
         except Exception as e:
             print(e)
-            print(f"解析{excel_file}出错")
+            print(f"解析{excel_path}出错")
         result.append(item)
 
     generate_code_from_json(type_row, header_row, result[0], file_name_without_ext,

@@ -12,7 +12,15 @@
 - HEADER行标记每个字段的名称，程序从HEADER所在行的下一行开始读取
 - 程序读取到END所在的行结束，END行下面，即使有数据，程序也不会读取
 
-  ![Image](../screenshots/csv_file.jpg "配置csv格式")
+  ![Image](../screenshots/csv_file.jpg "配置格式")
+
+- EXPORT所在的行为可选项,没有则代表所有字段都导出
+- SERVER表示该字段为服务器使用，客户端不需要
+- CLIENT表示该字段为客户端使用，服务器不需要
+- BOTH表示该字段为服务器和客户端都需要
+- 空白表示服务器和客户端均不需要,仅作策划备注
+
+  ![Image](../screenshots/config_export.jpg "配置格式")
 
 - Csv对应的Java类
 

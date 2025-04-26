@@ -1,5 +1,6 @@
- 字段,主键,技能ID,等级,名称,,消耗,,
-HEADER,id,skillId,level,name,arr,consumes,map,type
-,1,1,1,飞龙探云手,"[1,2,3]","[{""item"":11,""num"":1}]","{""item"":11,""num"":1}",ActiveSkill
-,2,1,2,“三味真火”,"[1,2,3]",[],"{""item"":11,""num"":1}",ActiveSkill
-END,3,3,1,酒神,"[1,2,3]",[],"{""item"":11,""num"":1}",PassiveSkill
+ 字段,主键,技能ID,等级,名称,消耗,类型
+EXPORT,BOTH,BOTH,BOTH,CLIENT,BOTH,BOTH,NONE
+HEADER,id,skillId,level,name,consumes,type
+,1,1,1,飞龙探云手,"[{""item"":11,""num"":1}]",ActiveSkill
+,2,1,2,“三味真火”,[],ActiveSkill
+END,3,3,1,酒神,[],PassiveSkill
