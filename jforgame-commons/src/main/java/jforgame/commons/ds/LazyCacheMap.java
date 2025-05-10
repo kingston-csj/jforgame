@@ -64,7 +64,7 @@ public class LazyCacheMap<K, V> {
         V preValue = null;
         Element<V> newValue = new Element<V>(value);
 
-        readLock.lock();
+        writeLock.lock();
         try {
             if (data.containsKey(key)) {
                 preValue = data.get(key).value;
@@ -72,7 +72,7 @@ public class LazyCacheMap<K, V> {
             data.put(key, newValue);
             return preValue;
         } finally {
-            readLock.unlock();
+            writeLock.unlock();
         }
     }
 
