@@ -5,7 +5,7 @@ import jforgame.data.annotation.DataTable;
 import jforgame.data.reader.DataReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
@@ -83,7 +83,7 @@ public class DataManager implements DataRepository {
             throw new IllegalStateException(table + " not found");
         }
         try {
-            Resource resource = new ClassPathResource(properties.getLocation() + table + properties.getSuffix());
+            Resource resource = new FileSystemResource(properties.getLocation() + table + properties.getSuffix());
             List<?> records = null;
             try {
                 records = dataReader.read(resource.getInputStream(), definition.getClazz());

@@ -31,7 +31,7 @@
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
       ├── jforgame-codec-api        --消息编解码API接口
       ├── jforgame-codec-protobuf   --protobuf实现
-      ├── jforgame-socket-mina      --普通javabean，反射实现  
+      ├── jforgame-codec-struct     --普通javabean，反射实现  
   ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
   |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  

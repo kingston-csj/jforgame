@@ -3,16 +3,16 @@ package jforgame.commons.ds;
 import jforgame.commons.thread.ThreadSafe;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 /**
  * 基于LinkedHashMap实现的一个有限队列缓存
  * 只当在添加元素的时候会检测超时元素或者超出容量的元素，满足条件则将其移除
  * aliveTime参数为true时为模拟lru规则
- *
- * @author kinson
  */
 @ThreadSafe
 public class LazyCacheMap<K, V> {
@@ -24,16 +24,20 @@ public class LazyCacheMap<K, V> {
      */
     private int capacity;
 
-    /** 生存时长（毫秒数） */
+    /**
+     * 生存时长（毫秒数）
+     */
     private long aliveTime;
 
     /**
      * 是否使用lru规则，为true时表示当元素被查找命中时被重放到队尾
-     *  {@link LinkedHashMap#accessOrder}}
+     * {@link LinkedHashMap#accessOrder}}
      */
     private boolean useLru;
 
-    /** 读写锁 */
+    /**
+     * 读写锁
+     */
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
     private ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
@@ -124,6 +128,19 @@ public class LazyCacheMap<K, V> {
         }
     }
 
+    /**
+     * 获取所有的记录
+     * @return
+     */
+    public List<V> getAllRecords() {
+        this.readLock.lock();
+        try {
+            return data.values().stream().map(e -> e.value).collect(Collectors.toList());
+        } finally {
+            this.readLock.unlock();
+        }
+    }
+
     @Override
     public String toString() {
         return "LinkedCacheMap [data=" + data + ", capacity=" + capacity + ", aliveTime=" + aliveTime + ", useLru="
@@ -133,7 +150,9 @@ public class LazyCacheMap<K, V> {
     @SuppressWarnings("hiding")
     static class Element<V> {
         V value;
-        /** 元素添加时的时间戳 */
+        /**
+         * 元素添加时的时间戳
+         */
         long bornTime;
 
         Element(V v) {
