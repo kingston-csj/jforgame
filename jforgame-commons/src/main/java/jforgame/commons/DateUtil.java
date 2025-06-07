@@ -1,8 +1,10 @@
 package jforgame.commons;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -174,16 +176,14 @@ public class DateUtil {
         }
         for (DateTimeFormatter formatter : FORMATTERS) {
             try {
-                // 尝试解析为 LocalDate
-                LocalDate localDate = LocalDate.parse(dateString.trim(), formatter);
-                return java.util.Date.from(localDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
-            } catch (DateTimeParseException e1) {
+                LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);
+                return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+            } catch (Exception e1) {
                 try {
-                    // 若解析为 LocalDate 失败，尝试解析为 LocalDateTime
-                    LocalDateTime localDateTime = LocalDateTime.parse(dateString.trim(), formatter);
-                    return java.util.Date.from(localDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
-                } catch (DateTimeParseException e2) {
-                    // 若当前格式解析失败，尝试下一个格式
+                    LocalDate localDate = LocalDate.parse(dateString, formatter);
+                    return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                } catch (Exception e2) {
+                    // 继续尝试下一个格式
                 }
             }
         }
@@ -246,6 +246,14 @@ public class DateUtil {
         int year2 = cal2.get(Calendar.YEAR);
 
         return year1 == year2 && week1 == week2;
+    }
+
+    public static boolean isToday(long time) {
+        Instant instant = Instant.ofEpochMilli(time);
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDate date = instant.atZone(zoneId).toLocalDate();
+        LocalDate today = LocalDate.now();
+        return date.isEqual(today);
     }
 
 }
