@@ -76,7 +76,11 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
             // 导出类型
             String[] exportHeader = new String[0];
 
+            // 第一行有效数据索引
+            int firstDataIndex = 0;
+            int index = 0;
             while (rows.hasNext()) {
+                index++;
                 Row row = rows.next();
                 String firstCell = getCellValue(row.getCell(0));
                 if (BEGIN.equalsIgnoreCase(firstCell)) {
@@ -91,7 +95,9 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                 if (!hasColMeta) {
                     continue;
                 }
-
+                if (firstDataIndex == 0) {
+                    firstDataIndex = index - 1;
+                }
                 records.add(readExcelRow(header, exportHeader, row));
                 if (END.equalsIgnoreCase(firstCell)) {
                     // 结束符号
@@ -99,14 +105,14 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                 }
             }
 
-            return readRecords(clazz, records);
+            return readRecords(clazz, records, firstDataIndex);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error(String.format("配置表[%s]解析异常", clazz.getSimpleName()), e);
             throw new RuntimeException(e);
         }
     }
 
-    private <E> List<E> readRecords(Class<E> clazz, List<CellColumn[]> rows) throws Exception {
+    private <E> List<E> readRecords(Class<E> clazz, List<CellColumn[]> rows, int headerIndex) throws Exception {
         List<E> records = new ArrayList<>(rows.size());
         ConversionService conversionService = applicationContext.getBean("dataConversionService", ConversionService.class);
         for (int i = 0; i < rows.size(); i++) {
@@ -127,6 +133,9 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
                     if (!ignoreUnknownFields) {
                         throw e;
                     }
+                } catch (Exception e) {
+                    logger.error(String.format("配置表[%s]第%d行字段[%s]转换异常", clazz.getSimpleName(), i + headerIndex + 1, colName), e);
+                    throw e;
                 }
             }
             records.add(obj);
