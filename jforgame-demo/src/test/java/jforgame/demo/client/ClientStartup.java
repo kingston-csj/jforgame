@@ -1,16 +1,16 @@
 
 package jforgame.demo.client;
 
-import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.JsonUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
 import jforgame.demo.socket.GameMessageFactory;
+import jforgame.demo.socket.JsonCodec;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.mina.support.client.TcpSocketClient;
+import jforgame.socket.netty.support.client.WebSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
@@ -41,7 +41,7 @@ public class ClientStartup {
 			}
 		};
 
-		SocketClient socketClient = new TcpSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+		SocketClient socketClient = new WebSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new JsonCodec(), hostPort, "ws");
 		IdSession session = socketClient.openSession();
 
 		ClientPlayer robot = new ClientPlayer(session);
