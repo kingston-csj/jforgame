@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
 import java.util.Collection;
@@ -19,6 +21,8 @@ import java.util.Map;
  * 注意：在反序列化的时候，会忽略没申明的字段
  */
 public class JsonUtil {
+
+    private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     private static final TypeFactory typeFactory = TypeFactory.defaultInstance();
 
@@ -37,6 +41,7 @@ public class JsonUtil {
         try {
             MAPPER.writeValue(writer, object);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
         return writer.toString();
@@ -48,6 +53,7 @@ public class JsonUtil {
         try {
             return (T) MAPPER.readValue(json, type);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
     }
@@ -57,6 +63,7 @@ public class JsonUtil {
         try {
             MAPPER.writeValue(writer, map);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
         return writer.toString();
@@ -67,6 +74,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, type);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
     }
@@ -76,6 +84,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, type);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
     }
@@ -84,8 +93,9 @@ public class JsonUtil {
     public static <T> T[] string2Array(String json, Class<T> clazz) {
         ArrayType type = typeFactory.constructArrayType(clazz);
         try {
-            return (T[]) MAPPER.readValue(json, type);
+            return MAPPER.readValue(json, type);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
     }
@@ -95,6 +105,7 @@ public class JsonUtil {
         try {
             return MAPPER.readValue(json, type);
         } catch (Exception e) {
+            logger.error("", e);
             return null;
         }
     }
