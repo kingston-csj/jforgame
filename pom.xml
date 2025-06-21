@@ -16,7 +16,7 @@
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
-        <revision>2.3.0</revision>
+        <revision>2.4.0</revision>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
