@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-socket-parent</artifactId>
+    <name>jforgame-socket-parent</name>
     <description>jforgame socket server, including message codec, message request mapper, session management</description>
     <packaging>pom</packaging>
 

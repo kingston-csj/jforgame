@@ -11,6 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>jforgame-codec-struct</artifactId>
+    <name>jforgame-codec-struct</name>
     <description>jforgame message codec with fields reflection</description>
     <dependencies>
         <dependency>

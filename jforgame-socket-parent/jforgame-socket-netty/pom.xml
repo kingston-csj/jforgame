@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-socket-netty</artifactId>
+    <name>jforgame-socket-netty</name>
     <description>jforgame socket - netty implementation, including a simple websocket server</description>
 
     <dependencies>

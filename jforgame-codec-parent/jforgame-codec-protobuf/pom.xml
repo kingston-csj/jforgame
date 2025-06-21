@@ -12,6 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-codec-protobuf</artifactId>
+    <name>jforgame-codec-protobuf</name>
     <description>jforgame message codec with protobuf</description>
 
     <dependencies>

@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>jforgame-doctor</artifactId>
+    <name>jforgame-doctor</name>
     <description>jforgame hostswap util</description>
 
     <dependencies>

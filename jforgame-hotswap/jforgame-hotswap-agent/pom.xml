@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>jforgame-hotswap-agent</artifactId>
+    <name>jforgame-hotswap-agent</name>
     <description>jforgame hostswap agent</description>
 
     <build>

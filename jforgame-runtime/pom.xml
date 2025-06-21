@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>jforgame-runtime</artifactId>
-
+    <name>jforgame-runtime</name>
     <dependencies>
         <dependency>
             <groupId>io.github.jforgame</groupId>

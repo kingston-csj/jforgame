@@ -12,6 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jforgame-codec-api</artifactId>
+    <name>jforgame-codec-api</name>
     <description>jforgame message codec api</description>
 
 </project>
