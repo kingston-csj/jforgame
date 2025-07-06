@@ -38,10 +38,8 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             }
 
             Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
-            Object controller = cmdExecutor.getHandler();
-
             int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-            MessageTask task = MessageTask.valueOf(session, sessionId, controller, cmdExecutor.getMethod(), params);
+            MessageTask task = MessageTask.valueOf(session, sessionId, cmdExecutor, params);
             task.setMsgIndex(((RequestDataFrame) frame).getHeader().getIndex());
             // 丢到任务消息队列，不在io线程进行业务处理
             GameServer.getMonitorGameExecutor().accept(task);

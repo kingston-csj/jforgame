@@ -96,7 +96,7 @@ public class DbService {
         public void run() {
             while (run.get()) {
                 int size = queue.size();
-                if (size <= 0) {
+                if (size == 0) {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ignore) {
