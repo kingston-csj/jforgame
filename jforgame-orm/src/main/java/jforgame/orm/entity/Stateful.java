@@ -1,4 +1,6 @@
-package jforgame.orm;
+package jforgame.orm.entity;
+
+import jforgame.orm.DbStatus;
 
 public abstract class Stateful {
 

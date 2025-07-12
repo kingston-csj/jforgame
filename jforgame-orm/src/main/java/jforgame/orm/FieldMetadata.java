@@ -2,7 +2,7 @@ package jforgame.orm;
 
 import jforgame.orm.converter.AttributeConverter;
 import jforgame.orm.converter.Convert;
-import jforgame.orm.converter.ConvertorUtil;
+import jforgame.orm.converter.ConvertorFactory;
 
 import java.lang.reflect.Field;
 
@@ -18,7 +18,7 @@ public class FieldMetadata {
         metadata.field = field;
         Convert annotation = field.getAnnotation(Convert.class);
         if (annotation != null) {
-            AttributeConverter convert = ConvertorUtil.getAttributeConverter(annotation.converter());
+            AttributeConverter convert = ConvertorFactory.getAttributeConverter(annotation.converter());
             metadata.converter = convert;
         }
         return metadata;

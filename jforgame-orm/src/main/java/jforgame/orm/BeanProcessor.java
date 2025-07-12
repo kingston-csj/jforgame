@@ -2,7 +2,7 @@ package jforgame.orm;
 
 import jforgame.orm.converter.AttributeConverter;
 import jforgame.orm.converter.Convert;
-import jforgame.orm.converter.ConvertorUtil;
+import jforgame.orm.converter.ConvertorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,6 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -135,7 +134,7 @@ public class BeanProcessor {
                     Field field = target.getClass().getDeclaredField(prop.getName());
                     Convert annotation = field.getAnnotation(Convert.class);
                     if (annotation != null) {
-                        AttributeConverter convert = ConvertorUtil.getAttributeConverter(annotation.converter());
+                        AttributeConverter convert = ConvertorFactory.getAttributeConverter(annotation.converter());
                         value = convert.convertToEntityAttribute(field.getType(), value);
                     }
                 } catch (Exception e) {

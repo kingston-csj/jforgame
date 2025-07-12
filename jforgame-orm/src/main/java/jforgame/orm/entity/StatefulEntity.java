@@ -1,8 +1,11 @@
-package jforgame.orm;
+package jforgame.orm.entity;
+
+import jforgame.orm.DbStatus;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class StatefulEntity extends Stateful {
 
@@ -22,6 +25,11 @@ public abstract class StatefulEntity extends Stateful {
      * 是否已经在持久化状态
      */
     protected AtomicBoolean saving = new AtomicBoolean(false);
+
+    /**
+     * 当前实体对象的db状态 - 使用 AtomicReference 替代 volatile
+     */
+    protected AtomicReference<DbStatus> statusRef = new AtomicReference<>(DbStatus.NORMAL);
 
     public boolean isSaving() {
         return saving.get();
@@ -44,49 +52,52 @@ public abstract class StatefulEntity extends Stateful {
     }
 
     @Override
-    public synchronized final DbStatus getStatus() {
-        return this.status;
+    public final DbStatus getStatus() {
+        return this.statusRef.get();
     }
 
     @Override
-    public synchronized final boolean isInsert() {
-        return this.status == DbStatus.INSERT;
+    public final boolean isInsert() {
+        return this.statusRef.get() == DbStatus.INSERT;
     }
 
     @Override
-    public synchronized final boolean isUpdate() {
-        return this.status == DbStatus.UPDATE;
+    public final boolean isUpdate() {
+        return this.statusRef.get() == DbStatus.UPDATE;
     }
 
     @Override
-    public synchronized final boolean isDelete() {
-        return this.status == DbStatus.DELETE;
+    public final boolean isDelete() {
+        return this.statusRef.get() == DbStatus.DELETE;
     }
 
     @Override
-    public synchronized void setInsert() {
-        this.status = DbStatus.INSERT;
+    public void setInsert() {
+        // 使用 CAS 设置插入状态
+        this.statusRef.set(DbStatus.INSERT);
     }
 
     @Override
-    public synchronized final void setUpdate() {
-        //只有该状态才可以变更为update
-        if (this.status == DbStatus.NORMAL) {
-            this.status = DbStatus.UPDATE;
-        }
+    public final void setUpdate() {
+        // 只有 NORMAL 状态才可以变更为 UPDATE
+        this.statusRef.compareAndSet(DbStatus.NORMAL, DbStatus.UPDATE);
     }
 
     @Override
-    public synchronized final void setDelete() {
-        if (this.status == DbStatus.INSERT) {
-            this.status = DbStatus.NORMAL;
-        } else {
-            this.status = DbStatus.DELETE;
-        }
+    public final void setDelete() {
+        // 如果当前是 INSERT 状态，则设置为 NORMAL
+        // 否则设置为 DELETE 状态
+        this.statusRef.updateAndGet(currentStatus -> {
+            if (currentStatus == DbStatus.INSERT) {
+                return DbStatus.NORMAL;
+            } else {
+                return DbStatus.DELETE;
+            }
+        });
     }
 
-    public synchronized final void resetDbStatus() {
-        this.status = DbStatus.NORMAL;
+    public final void resetDbStatus() {
+        this.statusRef.set(DbStatus.NORMAL);
         this.columns.clear();
         this.saveAll.compareAndSet(true, false);
         this.saving.compareAndSet(true, false);

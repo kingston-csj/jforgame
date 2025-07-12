@@ -1,6 +1,6 @@
 package jforgame.demo.cache;
 
-import jforgame.demo.db.BaseEntity;
+import jforgame.orm.entity.BaseEntity;
 
 public class DefaultCacheContainer<K, V extends BaseEntity> extends AbstractCacheContainer<K, V> {
 

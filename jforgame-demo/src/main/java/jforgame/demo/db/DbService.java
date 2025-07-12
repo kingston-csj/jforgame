@@ -3,7 +3,7 @@ package jforgame.demo.db;
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.demo.utils.BlockingUniqueQueue;
 import jforgame.demo.game.logger.LoggerUtils;
-import jforgame.orm.utils.SqlFactory;
+import jforgame.orm.entity.BaseEntity;
 import jforgame.orm.utils.SqlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class DbService {
 
-    private static Logger logger = LoggerFactory.getLogger(SqlFactory.class);
+    private static Logger logger = LoggerFactory.getLogger(DbService.class);
 
     private static volatile DbService instance = new DbService();
 

@@ -27,7 +27,6 @@ public class LoginManager {
 	 */
 	public void handleAccountLogin(IdSession session, long accountId, String password) {
         AccountEnt account = GameContext.accountManager.getOrCreate(accountId);
-
 		List<PlayerLoginVo> players = new ArrayList<>();
 		AccountProfile accountProfile = GameContext.playerManager.getAccountProfiles(accountId);
 		List<PlayerProfile> playerProfiles = accountProfile.getPlayers();
@@ -63,6 +62,10 @@ public class LoginManager {
 			session.setAttribute(IdSession.ID, playerId);
 			//加入在线列表
 			GameContext.playerManager.add2Online(player);
+
+			player.setLevel(777);
+			GameContext.playerManager.save(player);
+
 			SessionManager.INSTANCE.registerNewPlayer(playerId, session);
 
 			//推送进入场景

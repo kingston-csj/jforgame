@@ -3,11 +3,11 @@ package jforgame.orm.converter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ConvertorUtil {
+public class ConvertorFactory {
 
-    private static Map<Class<?>, AttributeConverter> converters = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, AttributeConverter<Object, Object>> converters = new ConcurrentHashMap<>();
 
-    public static AttributeConverter getAttributeConverter(Class<?> clazz) {
+    public static AttributeConverter<Object, Object> getAttributeConverter(Class<?> clazz) {
         return converters.computeIfAbsent(clazz, c -> {
             try {
                 return (AttributeConverter) clazz.newInstance();

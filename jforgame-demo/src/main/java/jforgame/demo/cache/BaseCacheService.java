@@ -2,7 +2,7 @@ package jforgame.demo.cache;
 
 import java.util.concurrent.Callable;
 
-import jforgame.demo.db.BaseEntity;
+import jforgame.orm.entity.BaseEntity;
 import jforgame.demo.db.DbService;
 
 /**

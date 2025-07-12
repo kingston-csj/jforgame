@@ -1,6 +1,4 @@
-package jforgame.demo.db;
-
-import jforgame.orm.StatefulEntity;
+package jforgame.orm.entity;
 
 import java.io.Serializable;
 
@@ -9,14 +7,14 @@ import java.io.Serializable;
  *
  * @author kinson
  */
-@SuppressWarnings("serial")
-public abstract class BaseEntity<Id extends Comparable & Serializable> extends StatefulEntity
+public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> extends StatefulEntity
         implements Serializable {
 
     /**
      * 实体的主键属性最好定义为包装类型，防止属性与getter/setter方法类型不匹配
      * TODO 增加起服验证
      * entity id
+     *
      * @return
      */
     public abstract Id getId();

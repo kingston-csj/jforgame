@@ -1,6 +1,6 @@
 package jforgame.demo.game.accout.entity;
 
-import jforgame.demo.db.BaseEntity;
+import jforgame.orm.entity.BaseEntity;
 import jforgame.demo.utils.IdGenerator;
 
 import javax.persistence.Column;

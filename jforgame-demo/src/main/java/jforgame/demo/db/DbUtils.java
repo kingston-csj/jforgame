@@ -2,7 +2,7 @@ package jforgame.demo.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import jforgame.orm.StatefulEntity;
+import jforgame.orm.entity.StatefulEntity;
 import jforgame.orm.utils.DbHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package jforgame.demo.game.database.user;
 
 import jforgame.orm.converter.Convert;
-import jforgame.demo.db.BaseEntity;
-import jforgame.demo.db.JsonAttributeConverter;
+import jforgame.orm.entity.BaseEntity;
+import jforgame.orm.converter.JsonAttributeConverter;
 import jforgame.demo.game.login.model.Platform;
 import jforgame.demo.game.vip.model.VipRight;
 
@@ -12,119 +12,120 @@ import javax.persistence.Id;
 
 /**
  * 玩家实体
+ *
  * @author kinson
  */
 @Entity(name = "playerent")
-public class PlayerEnt extends BaseEntity {
+public class PlayerEnt extends BaseEntity<Long> {
 
-	private static final long serialVersionUID = 8913056963732639062L;
+    private static final long serialVersionUID = 8913056963732639062L;
 
-	@Id
-	@Column
-	private Long id;
-	
-	@Column
-	private long accountId;
+    @Id
+    @Column
+    private Long id;
 
-	@Column
-	private String name;
+    @Column
+    private long accountId;
 
-	/**
-	 * 职业
-	 */
-	@Column
-	private int job;
+    @Column
+    private String name;
 
-	@Column
-	private int level;
+    /**
+     * 职业
+     */
+    @Column
+    private int job;
 
-	/**
-	 * 上一次每日重置的时间戳
-	 */
-	@Column
-	private long lastDailyReset;
+    @Column
+    private int level;
 
-	@Column
-	@Convert(converter = JsonAttributeConverter.class)
-	private VipRight vipRight;
+    /**
+     * 上一次每日重置的时间戳
+     */
+    @Column
+    private long lastDailyReset;
 
-	@Column(columnDefinition="varchar(16)")
-	private Platform platform = Platform.ANDROID;
+    @Column
+    @Convert(converter = JsonAttributeConverter.class)
+    private VipRight vipRight;
 
-	public PlayerEnt() {
-	}
+    @Column(columnDefinition = "varchar(16)")
+    private Platform platform = Platform.ANDROID;
 
-	@Override
-	public Long getId() {
-		return id;
-	}
+    public PlayerEnt() {
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getJob() {
-		return job;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setJob(int job) {
-		this.job = job;
-	}
+    public int getJob() {
+        return job;
+    }
 
-	public int getLevel() {
-		return level;
-	}
+    public void setJob(int job) {
+        this.job = job;
+    }
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
+    public int getLevel() {
+        return level;
+    }
 
-	public long getLastDailyReset() {
-		return lastDailyReset;
-	}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
-	public void setLastDailyReset(long lastDailyReset) {
-		this.lastDailyReset = lastDailyReset;
-	}
+    public long getLastDailyReset() {
+        return lastDailyReset;
+    }
 
-	public Platform getPlatform() {
-		return platform;
-	}
+    public void setLastDailyReset(long lastDailyReset) {
+        this.lastDailyReset = lastDailyReset;
+    }
 
-	public void setPlatform(Platform platform) {
-		this.platform = platform;
-	}
+    public Platform getPlatform() {
+        return platform;
+    }
 
-	public long getAccountId() {
-		return accountId;
-	}
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
+    }
 
-	public void setAccountId(long accountId) {
-		this.accountId = accountId;
-	}
+    public long getAccountId() {
+        return accountId;
+    }
 
-	public VipRight getVipRight() {
-		return vipRight;
-	}
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
 
-	public void setVipRight(VipRight vipRight) {
-		this.vipRight = vipRight;
-	}
+    public VipRight getVipRight() {
+        return vipRight;
+    }
 
-	@Override
-	public void doAfterInit() {
-	}
+    public void setVipRight(VipRight vipRight) {
+        this.vipRight = vipRight;
+    }
 
-	@Override
-	public void doBeforeSave() {
-	}
+    @Override
+    public void doAfterInit() {
+    }
+
+    @Override
+    public void doBeforeSave() {
+    }
 
 }

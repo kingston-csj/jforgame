@@ -9,7 +9,7 @@ import jforgame.socket.share.annotation.RequestHandler;
 public class LoginRouter {
 
     @RequestHandler
-    public void reqTime(IdSession session, ReqLogin req) {
+    public void reqLogin(IdSession session, ReqLogin req) {
         long playerId = req.getPlayerId();
         System.out.println("player login" + playerId);
         Player player = new Player();
