@@ -57,7 +57,7 @@ public abstract class BaseCacheService<K, V extends BaseEntity> implements Persi
 	}
 
 	public void save(V v) {
-		DbService.getInstance().insertOrUpdate(v);
+		DbService.getInstance().saveToDb(v);
 	}
 
 }

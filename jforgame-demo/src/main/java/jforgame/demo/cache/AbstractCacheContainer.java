@@ -10,67 +10,70 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 缓存容器
- * 
+ *
  * @author kinson
  */
 public abstract class AbstractCacheContainer<K, V> {
 
-	private LoadingCache<K, V> cache;
+    private Logger logger = LoggerFactory.getLogger(AbstractCacheContainer.class);
+    private LoadingCache<K, V> cache;
 
-	public AbstractCacheContainer(CacheOptions p) {
-		cache = CacheBuilder.newBuilder().initialCapacity(p.initialCapacity).maximumSize(p.maximumSize)
-				// 超时自动删除
-				.expireAfterAccess(p.expireAfterAccessSeconds, TimeUnit.SECONDS)
-				.expireAfterWrite(p.expireAfterWriteSeconds, TimeUnit.SECONDS).removalListener(new MyRemovalListener())
-				.build(new DataLoader());
-	}
+    public AbstractCacheContainer(CacheOptions p) {
+        cache = CacheBuilder.newBuilder().initialCapacity(p.initialCapacity).maximumSize(p.maximumSize)
+                // 超时自动删除
+                .expireAfterAccess(p.expireAfterAccessSeconds, TimeUnit.SECONDS)
+                .expireAfterWrite(p.expireAfterWriteSeconds, TimeUnit.SECONDS).removalListener(new MyRemovalListener())
+                .build(new DataLoader());
+    }
 
-	public final V get(K k) {
-		try {
-			return cache.get(k);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    public final V get(K k) {
+        try {
+            return cache.get(k);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	public final V getOrCreate(K k, Callable<V> callable) {
-		try {
-			return cache.get(k, callable);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    public final V getOrCreate(K k, Callable<V> callable) {
+        try {
+            return cache.get(k, callable);
+        } catch (ExecutionException e) {
+            logger.error("AbstractCacheContainer.getOrCreate() error", e);
+        }
+        return null;
+    }
 
-	public abstract V loadFromDb(K k) throws Exception;
+    public abstract V loadFromDb(K k) throws Exception;
 
-	public final void put(K k, V v) {
-		cache.put(k, v);
-	}
+    public final void put(K k, V v) {
+        cache.put(k, v);
+    }
 
-	public final void remove(K k) {
-		cache.invalidate(k);
-	}
+    public final void remove(K k) {
+        cache.invalidate(k);
+    }
 
-	public final ConcurrentMap<K, V> asMap() {
-		return cache.asMap();
-	}
+    public final ConcurrentMap<K, V> asMap() {
+        return cache.asMap();
+    }
 
-	class DataLoader extends CacheLoader<K, V> {
-		@Override
-		public V load(K key) throws Exception {
-			return loadFromDb(key);
-		}
-	}
+    class DataLoader extends CacheLoader<K, V> {
+        @Override
+        public V load(K key) throws Exception {
+            return loadFromDb(key);
+        }
+    }
 
-	class MyRemovalListener implements RemovalListener<K, V> {
-		@Override
-		public void onRemoval(RemovalNotification<K, V> notification) {
-			// logger
-		}
-	}
+    class MyRemovalListener implements RemovalListener<K, V> {
+        @Override
+        public void onRemoval(RemovalNotification<K, V> notification) {
+            // logger
+        }
+    }
 
 }

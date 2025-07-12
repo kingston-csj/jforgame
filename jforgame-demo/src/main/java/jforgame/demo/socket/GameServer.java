@@ -86,8 +86,6 @@ public class GameServer {
         CronSchedulerHelper.initAndStart();
         // 读取所有策划配置
         ConfigDataPool.getInstance().loadAllConfigs();
-        // 异步持久化服务
-        DbService.getInstance().init();
         // 读取系统参数
         loadSystemRecords();
         // Redis cache

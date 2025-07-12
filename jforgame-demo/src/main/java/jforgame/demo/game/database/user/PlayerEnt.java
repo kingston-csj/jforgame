@@ -9,6 +9,8 @@ import jforgame.demo.game.vip.model.VipRight;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 /**
  * 玩家实体
@@ -50,7 +52,7 @@ public class PlayerEnt extends BaseEntity<Long> {
     private VipRight vipRight;
 
     @Column(columnDefinition = "varchar(16)")
-    private Platform platform = Platform.ANDROID;
+    private Platform platform;
 
     public PlayerEnt() {
     }
@@ -121,11 +123,37 @@ public class PlayerEnt extends BaseEntity<Long> {
     }
 
     @Override
-    public void doAfterInit() {
+    protected void onAfterLoad() {
+        // 为所有空值的引用属性自动初始化
+        Arrays.stream(getClass().getDeclaredFields())
+                .forEach(e -> {
+                    e.setAccessible(true);
+                    try {
+                        // 过滤静态属性
+                        if (Modifier.isFinal(e.getModifiers()) || Modifier.isStatic(e.getModifiers())) {
+                            return;
+                        }
+                        // 过滤基本类型
+                        if (e.getType().isPrimitive()) {
+                            return;
+                        }
+                        // 过滤枚举类型
+                        if (e.getType().isEnum()) {
+                            return;
+                        }
+                        if (e.get(this) == null) {
+                            @SuppressWarnings("all")
+                            Object instance = e.getType().newInstance();
+                            e.set(this, instance);
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
     }
 
     @Override
-    public void doBeforeSave() {
+    protected void onBeforeSave() {
     }
 
 }

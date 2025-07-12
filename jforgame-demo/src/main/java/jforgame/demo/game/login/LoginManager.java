@@ -63,7 +63,7 @@ public class LoginManager {
 			//加入在线列表
 			GameContext.playerManager.add2Online(player);
 
-			player.setLevel(777);
+			player.setLevel(999);
 			GameContext.playerManager.save(player);
 
 			SessionManager.INSTANCE.registerNewPlayer(playerId, session);

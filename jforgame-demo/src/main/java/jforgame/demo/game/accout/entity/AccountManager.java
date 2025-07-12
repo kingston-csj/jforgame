@@ -10,7 +10,7 @@ public class AccountManager extends BaseCacheService<Long, AccountEnt> {
 	@Override
 	public AccountEnt load(Long accountId) throws Exception {
 		String sql = "SELECT * FROM accountent WHERE id = ? ";
-		AccountEnt account = DbUtils.queryOneById(DbUtils.DB_USER, sql, AccountEnt.class, String.valueOf(accountId));
+		AccountEnt account = DbUtils.queryOne(DbUtils.DB_USER, sql, AccountEnt.class, String.valueOf(accountId));
 		return account;
 	}
 	
@@ -22,7 +22,7 @@ public class AccountManager extends BaseCacheService<Long, AccountEnt> {
 		
 		AccountEnt newAccount = new AccountEnt();
 		newAccount.setId(accountId);
-		DbService.getInstance().insertOrUpdate(newAccount);
+		DbService.getInstance().saveToDb(newAccount);
 		GameContext.playerManager.addAccountProfile(newAccount);
 		return newAccount;
 	}

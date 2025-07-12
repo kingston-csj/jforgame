@@ -2,6 +2,9 @@ package jforgame.orm.entity;
 
 import jforgame.orm.DbStatus;
 
+/**
+ * 拥有各种db状态的对象
+ */
 public abstract class Stateful {
 
 	/** 当前实体对象的db状态 */

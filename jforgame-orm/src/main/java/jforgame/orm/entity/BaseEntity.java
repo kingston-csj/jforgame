@@ -1,5 +1,7 @@
 package jforgame.orm.entity;
 
+import jforgame.orm.DbStatus;
+
 import java.io.Serializable;
 
 /**
@@ -20,15 +22,53 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
     public abstract Id getId();
 
     /**
-     * init hook
+     * 从数据库加载完成的钩子
      */
-    public void doAfterInit() {
+    public final void afterLoad() {
+        markPersistent();
+        onAfterLoad();
     }
 
     /**
-     * save hook
+     * 供子类使用的加载完成钩子
+     * 避免子类无意覆盖了afterLoad方法
      */
-    public void doBeforeSave() {
+    protected void onAfterLoad() {
+
+    }
+
+    /**
+     * 在entity持久化之前，应该调用该方法
+     */
+    public final void beforeSave() {
+        autoChangedStatus();
+        this.onBeforeSave();
+    }
+
+    /**
+     * 供子类使用的持久化前钩子
+     * 避免子类无意覆盖了beforeSave方法
+     */
+    protected void onBeforeSave() {
+    }
+
+    /**
+     * 当entity持久化之后，应该调用该方法
+     */
+    public final void afterSave() {
+        this.statusRef.set(DbStatus.NORMAL);
+        this.columns.clear();
+        this.saveAll.compareAndSet(true, false);
+        this.saving.compareAndSet(true, false);
+        onAfterSave();
+    }
+
+    /**
+     * 供子类使用的持久化后钩子
+     * 避免子类无意覆盖了afterSave方法
+     */
+    protected void onAfterSave() {
+
     }
 
     @Override
@@ -55,6 +95,14 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
             return false;
         }
         return true;
+    }
+
+
+    /**
+     * 主键的字符串表示
+     */
+    public String getKey() {
+        return getClass().getSimpleName() + "@" + getId().toString();
     }
 
 }

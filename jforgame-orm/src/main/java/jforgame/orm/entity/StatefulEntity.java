@@ -7,18 +7,24 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * 拥有各种db状态的数据库实体对象
+ */
 public abstract class StatefulEntity extends Stateful {
 
     /**
      * 是否已经持久化
      */
-    private AtomicBoolean persistent = new AtomicBoolean(false);
+    private final AtomicBoolean persistent = new AtomicBoolean(false);
 
     /**
-     * 当次需要持久化的字段列表
+     * 当次需要持久化的字段列表(增量更新)
      */
     protected Set<String> columns = new HashSet<>();
 
+    /**
+     * 是否需要保存所有字段
+     */
     protected AtomicBoolean saveAll = new AtomicBoolean();
 
     /**
@@ -96,16 +102,9 @@ public abstract class StatefulEntity extends Stateful {
         });
     }
 
-    public final void resetDbStatus() {
-        this.statusRef.set(DbStatus.NORMAL);
-        this.columns.clear();
-        this.saveAll.compareAndSet(true, false);
-        this.saving.compareAndSet(true, false);
-        markPersistent();
-    }
-
     /**
      * 标记为已经持久化
+     * 当一个实体从数据库中加载出来，意识着这个实体已经存在于数据库中
      */
     public void markPersistent() {
         persistent.compareAndSet(false, true);
@@ -120,7 +119,10 @@ public abstract class StatefulEntity extends Stateful {
         return persistent.get();
     }
 
-    public void autoSetStatus() {
+    /**
+     * 自动变更状db状态
+     */
+    public void autoChangedStatus() {
         // 删除状态只能手动设置
         if (!isDelete()) {
             // 如果已经存在于数据库，则表示修改记录

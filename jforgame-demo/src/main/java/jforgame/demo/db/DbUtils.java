@@ -56,20 +56,11 @@ public class DbUtils {
         return ds;
     }
 
+
     /**
      * 查询返回一个bean实体
-     *
-     * @param alias  数据库别名
-     * @param sql
-     * @param entity
-     * @return
      */
-    public static <T> T queryOne(String alias, String sql, Class<?> entity) throws SQLException {
-        Connection connection = getConnection(alias);
-        return DbHelper.queryOne(connection, sql, entity);
-    }
-
-    public static <T> T queryOneById(String alias, String sql, Class<?> entity, String id) throws SQLException {
+    public static <T> T queryOne(String alias, String sql, Class<?> entity, String id) throws SQLException {
         Connection connection = getConnection(alias);
         return DbHelper.queryOne(connection, sql, entity, id);
     }
@@ -126,6 +117,11 @@ public class DbUtils {
     public static int executePreparedUpdate(StatefulEntity entity) throws SQLException {
         Connection connection = getConnection(DB_USER);
         return DbHelper.executeUpdate(connection, entity);
+    }
+
+    public static int executeDelete(StatefulEntity entity) throws SQLException {
+        Connection connection = getConnection(DB_USER);
+        return DbHelper.executeDelete(connection, entity);
     }
 
     public static int executePreparedInsert(StatefulEntity entity) throws SQLException {
