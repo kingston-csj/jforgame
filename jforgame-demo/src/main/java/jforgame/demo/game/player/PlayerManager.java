@@ -31,8 +31,6 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * 玩家业务管理器
- *
- * @author kinson
  */
 public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 

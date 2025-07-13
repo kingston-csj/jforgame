@@ -101,7 +101,7 @@ public class DbHelper {
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            Object bean = entity.newInstance();
+            Object bean = null;
             while (resultSet.next()) {
                 bean = new BeanProcessor().toBean(resultSet, entity);
                 result.add((T) bean);

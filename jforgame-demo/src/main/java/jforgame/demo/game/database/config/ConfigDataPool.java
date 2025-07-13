@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * 所有策划配置的数据池
  * 
- * @author kinson
  */
 public class ConfigDataPool {
 

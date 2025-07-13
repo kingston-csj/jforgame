@@ -3,6 +3,10 @@ package jforgame.orm.converter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 转换器工厂
+ * 用于创始并缓存转换器实例
+ */
 public class ConvertorFactory {
 
     private static final Map<Class<?>, AttributeConverter<Object, Object>> converters = new ConcurrentHashMap<>();

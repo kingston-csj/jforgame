@@ -2,8 +2,7 @@ package jforgame.demo;
 
 /**
  * 各种配置记取路径申明
- * 
- * @author kinson
+ *
  */
 public class ServerScanPaths {
 

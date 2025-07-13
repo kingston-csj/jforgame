@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * game server start entrance
- * 
- * @author kinson
+ *
  */
 public class ServerStartup {
 

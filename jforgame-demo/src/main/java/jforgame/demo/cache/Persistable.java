@@ -2,7 +2,6 @@ package jforgame.demo.cache;
 
 /**
  * 可持久化的
- * @author kinson
  */
 public interface Persistable<K, V> {
 	

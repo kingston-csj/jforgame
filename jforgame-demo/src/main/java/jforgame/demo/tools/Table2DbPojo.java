@@ -15,7 +15,7 @@ import jforgame.demo.db.DbUtils;
 
 /**
  * generate db pojo class from jdbc table automatically
- * @author kinson
+ * 
  */
 public class Table2DbPojo {
 

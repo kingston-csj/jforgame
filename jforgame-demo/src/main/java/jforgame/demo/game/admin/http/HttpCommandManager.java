@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import jforgame.commons.ClassScanner;
 
 /**
- * @author kinson
+ * 后台管理http接口
  */
 public class HttpCommandManager {
 

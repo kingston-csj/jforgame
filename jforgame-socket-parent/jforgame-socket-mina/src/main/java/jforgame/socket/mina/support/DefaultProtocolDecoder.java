@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
  * If you want to contain other message meta, like the index of message, you need to store it in the message body.
  * The message body including just the bytes of message which needs to be decoded by {@link MessageCodec}
  * @see MessageCodec#decode(Class, byte[])
- * @author kinson
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 

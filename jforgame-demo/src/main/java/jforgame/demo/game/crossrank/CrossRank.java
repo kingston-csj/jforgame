@@ -3,7 +3,6 @@ package jforgame.demo.game.crossrank;
 /**
  *  cross server rank based on Redis SortedSet
  *  redis sortedset's score is  double type, which has only 52 bits
- * @author kinson
  *
  */
 public interface CrossRank {

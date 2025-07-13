@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author kinson
+ * 
  */
 public class RedisCodecHelper {
 

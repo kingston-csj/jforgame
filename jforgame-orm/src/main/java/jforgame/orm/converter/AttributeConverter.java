@@ -1,6 +1,10 @@
 package jforgame.orm.converter;
 
 /**
+ * 实体属性转换器
+ * 这里比JPA的AttributeConverter更灵活，因为JPA的AttributeConverter#convertToEntityAttribute方法只包含数据，
+ * 没有包含数据类型，在使用json序列化时，会丢失数据类型信息，导致序列化信息比较冗余
+ *
  * @param <X>
  * @param <Y>
  */
@@ -24,7 +28,7 @@ public interface AttributeConverter<X, Y> {
      * column for use by the JDBC driver: i.e., persistence providers are
      * not expected to do such type conversion.
      *
-     * @param clazz the class of the dbdata
+     * @param clazz  the class of the dbdata
      * @param dbData the data from the database column to be
      *               converted
      * @return the converted value to be stored in the entity

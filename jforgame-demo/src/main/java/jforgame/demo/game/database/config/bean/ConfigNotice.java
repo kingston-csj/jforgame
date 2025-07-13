@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 /**
  * 系统公告
- * @author kinson
+ * 
  */
 @Entity
 public class ConfigNotice {

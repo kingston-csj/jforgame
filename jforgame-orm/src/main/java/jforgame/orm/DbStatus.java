@@ -1,5 +1,8 @@
 package jforgame.orm;
 
+/**
+ * 数遍库实体状态
+ */
 public enum DbStatus {
 
 	/** 无需入库 */

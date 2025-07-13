@@ -10,7 +10,7 @@ import jforgame.demo.game.gm.message.ResGmResult;
 
 /**
  * 抽象gm命令
- * @author kinson
+ * 
  */
 public abstract class AbstractGmCommand {
 	

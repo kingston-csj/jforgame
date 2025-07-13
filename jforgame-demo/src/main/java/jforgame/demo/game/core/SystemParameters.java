@@ -10,8 +10,6 @@ import jforgame.demo.game.logger.LoggerUtils;
 
 /**
  * 保存一些系统级别的参数
- * 
- * @author kinson
  */
 public class SystemParameters {
 

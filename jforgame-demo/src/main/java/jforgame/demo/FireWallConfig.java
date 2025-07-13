@@ -8,8 +8,6 @@ import java.util.Map;
 
 /**
  * 防火墙配置
- * 
- * @author kinson
  *
  */
 public class FireWallConfig {

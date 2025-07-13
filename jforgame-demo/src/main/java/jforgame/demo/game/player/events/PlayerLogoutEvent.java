@@ -5,8 +5,6 @@ import jforgame.demo.listener.EventType;
 
 /**
  * 玩家登出事件
- * 
- * @author kinson
  *
  */
 public class PlayerLogoutEvent extends BasePlayerEvent {

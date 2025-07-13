@@ -5,7 +5,6 @@ import jforgame.demo.game.crossrank.CrossRankKinds;
 
 /**
  *  cross server level rank 
- * @author kinson
  *
  */
 public class CrossLevelRank extends AbstractCrossRank {

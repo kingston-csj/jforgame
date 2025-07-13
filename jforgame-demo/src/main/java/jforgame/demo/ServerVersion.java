@@ -8,8 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 服务版本号
- * 
- * @author kinson
+ *
  */
 public class ServerVersion {
 

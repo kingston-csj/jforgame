@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 /**
  * The annotation type is used in ordinal java bean
  * to specify module and cmd of the given message.
- * @author kinson
  */
 @Documented
 @Target(ElementType.TYPE)

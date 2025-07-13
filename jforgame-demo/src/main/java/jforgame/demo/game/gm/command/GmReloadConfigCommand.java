@@ -9,7 +9,6 @@ import jforgame.demo.game.gm.message.ResGmResult;
 /**
  * 修改配置表的gm
  * 
- * @author kinson
  */
 public class GmReloadConfigCommand extends AbstractGmCommand {
 

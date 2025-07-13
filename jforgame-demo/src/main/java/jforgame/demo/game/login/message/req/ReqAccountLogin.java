@@ -8,7 +8,7 @@ import jforgame.socket.share.message.Message;
 
 /**
  * 请求－账号登录
- * @author kinson
+ * 
  */
 @MessageMeta(module=Modules.LOGIN, cmd=LoginDataPool.REQ_LOGIN)
 @ProtobufClass

@@ -1,8 +1,7 @@
 package jforgame.socket.share;
 
 /**
- * 消息分发器
- * @author kinson
+ * 消息分发器，服务器，客户端均适用
  */
 public interface SocketIoDispatcher {
 

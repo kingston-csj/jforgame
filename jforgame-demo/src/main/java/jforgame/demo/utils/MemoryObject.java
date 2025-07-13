@@ -1,7 +1,7 @@
 package jforgame.demo.utils;
 
 /**
- * @author kinson
+ * 
  */
 public interface MemoryObject {
 

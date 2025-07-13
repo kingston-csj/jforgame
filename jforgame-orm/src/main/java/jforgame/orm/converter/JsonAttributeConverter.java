@@ -5,11 +5,15 @@ import jforgame.orm.utils.StringUtils;
 
 import java.util.Objects;
 
+/**
+ * 默认转化器，将对象与json字符串进行转换
+ */
 public class JsonAttributeConverter implements AttributeConverter<Object, String> {
 
     /**
      * 将实体转为json字符串
      * 如果对象为空，返回空字符串
+     *
      * @param attribute the entity attribute value to be converted
      * @return
      */

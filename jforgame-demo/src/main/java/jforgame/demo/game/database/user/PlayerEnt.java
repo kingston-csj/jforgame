@@ -15,7 +15,6 @@ import java.util.Arrays;
 /**
  * 玩家实体
  *
- * @author kinson
  */
 @Entity(name = "playerent")
 public class PlayerEnt extends BaseEntity<Long> {

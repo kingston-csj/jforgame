@@ -3,7 +3,7 @@ package jforgame.demo.utils;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author kinson
+ * 
  */
 public class SimplyObjectPool <E extends MemoryObject> {
 	

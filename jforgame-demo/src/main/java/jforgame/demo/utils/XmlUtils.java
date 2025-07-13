@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * xml相关工具栏
- * 
- * @author kinson
+ *
  */
 public class XmlUtils {
 

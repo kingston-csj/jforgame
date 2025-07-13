@@ -30,7 +30,7 @@ import java.util.Map;
  * 支持引用对象对数据库的转换 {@link AttributeConverter}
  */
 public class BeanProcessor {
-    private static Logger logger = LoggerFactory.getLogger(BeanProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(BeanProcessor.class);
     protected static final int PROPERTY_NOT_FOUND = -1;
     private static final Map<Class<?>, Object> primitiveDefaults = new HashMap<>();
     private final Map<String, String> columnToPropertyOverrides;

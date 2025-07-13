@@ -17,7 +17,6 @@ import java.util.Properties;
 /**
  * 使用Hikari数据源对orm-DbUtils的进一步封装
  *
- * @author kinson
  */
 public class DbUtils {
 

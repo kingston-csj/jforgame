@@ -14,7 +14,6 @@ import java.util.Collection;
 
 /**
  * 每日５点定时job
- * @author kinson
  */
 @DisallowConcurrentExecution
 public class DailyResetJob implements Job {

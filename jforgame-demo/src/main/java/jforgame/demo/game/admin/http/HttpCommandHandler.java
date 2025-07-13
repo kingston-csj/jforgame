@@ -2,7 +2,7 @@ package jforgame.demo.game.admin.http;
 
 /**
  * 抽象后台命令处理者
- * @author kinson
+ * 
  */
 public abstract class HttpCommandHandler {
 	

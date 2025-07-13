@@ -1,7 +1,7 @@
 package jforgame.demo.game.admin.http;
 
 /**
- * @author kinson
+ * 后台管理http请求返回值
  */
 public class HttpCommandResponse {
 	/**  执行成功 */

@@ -1,8 +1,8 @@
 package jforgame.demo.game.admin.http;
 
 /**
- * http command enum
- * @author kinson
+ * 后台管理类型枚举
+ * 
  */
 public final class HttpCommands {
 

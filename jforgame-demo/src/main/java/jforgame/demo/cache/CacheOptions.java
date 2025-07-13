@@ -5,7 +5,6 @@ import jforgame.commons.TimeUtil;
 /**
  * 缓存相关配置
  *
- * @author kinson
  */
 public class CacheOptions {
 

@@ -7,8 +7,6 @@ import javax.persistence.Id;
 
 /**
  * 本服公共数据杂项记录
- *
- * @author kinson
  */
 @Entity
 public class ServerRecord {

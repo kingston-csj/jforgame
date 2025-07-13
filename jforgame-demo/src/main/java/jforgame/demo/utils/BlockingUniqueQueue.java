@@ -11,7 +11,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * LinkedBlockingQueue的增强版（队伍内未消费的元素保证是不重复的）
  *
- * @author kinson
  */
 @ThreadSafe
 public class BlockingUniqueQueue<E> extends LinkedBlockingQueue<E> {

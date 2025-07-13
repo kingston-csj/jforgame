@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 流量洪水过滤器
- *
- * @author kinson
  */
 public class FloodFilter implements MessageHandler {
 

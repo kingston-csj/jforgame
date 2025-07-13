@@ -11,7 +11,7 @@ import jforgame.demo.game.gm.message.ResGmResult;
 
 /**
  * 修改玩家等级的gm
- * @author kinson
+ * 
  */
 public class GmPlayerLevelCommand extends AbstractGmCommand {
 	

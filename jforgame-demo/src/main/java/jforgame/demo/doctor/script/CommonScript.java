@@ -10,8 +10,7 @@ import jforgame.demo.game.player.PlayerManager;
 /**
  * you can invoke any code here see {@link HotswapManager#loadJavaFile(String)}
  * for example HotswapManage.INSTANCE.loadJavaFile("CommonScript")
- * 
- * @author kinson
+ *
  */
 public class CommonScript {
 

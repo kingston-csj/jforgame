@@ -1,6 +1,5 @@
 package jforgame.demo.socket.filter;
 
-import jforgame.demo.game.core.BaseNotify;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.NetGateKeeper;
 import jforgame.socket.share.IdSession;
@@ -10,7 +9,6 @@ import jforgame.socket.share.message.RequestDataFrame;
 /**
  * 功能模块请求过滤器
  *
- * @author kinson
  */
 public class ModuleEntranceFilter implements MessageHandler {
 

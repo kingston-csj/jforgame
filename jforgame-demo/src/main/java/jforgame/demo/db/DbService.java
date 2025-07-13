@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 /**
  * 用户数据异步持久化的服务
  *
- * @author kinson
  */
 public class DbService {
 

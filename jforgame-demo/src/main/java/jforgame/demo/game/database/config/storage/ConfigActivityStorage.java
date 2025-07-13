@@ -15,31 +15,29 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 活动配置
- * 
- * @author kinson
  */
 public class ConfigActivityStorage implements Reloadable {
 
-	private Map<Integer, ConfigActivity> activities = new HashMap<>();
+    private Map<Integer, ConfigActivity> activities = new HashMap<>();
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Override
-	public void reload() {
-		String sql = "SELECT * FROM configactivity";
-		List<ConfigActivity> datas;
-		try {
-			datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigActivity.class);
+    @Override
+    public void reload() {
+        String sql = "SELECT * FROM configactivity";
+        List<ConfigActivity> datas;
+        try {
+            datas = DbUtils.queryMany(DbUtils.DB_DATA, sql, ConfigActivity.class);
 
-			activities = datas.stream().collect(Collectors.toMap(ConfigActivity::getId, Function.identity()));
-		} catch (SQLException e) {
-			logger.error("", e);
-		}
+            activities = datas.stream().collect(Collectors.toMap(ConfigActivity::getId, Function.identity()));
+        } catch (SQLException e) {
+            logger.error("", e);
+        }
 
-	}
+    }
 
-	public ConfigActivity getConfigActivityBy(int id) {
-		return activities.get(id);
-	}
+    public ConfigActivity getConfigActivityBy(int id) {
+        return activities.get(id);
+    }
 
 }

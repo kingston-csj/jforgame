@@ -13,7 +13,6 @@ import jforgame.demo.game.database.user.PlayerEnt;
 
 /**
  * 测试玩家缓存系统
- * @author kinson
  */
 public class UserCacheTest {
 

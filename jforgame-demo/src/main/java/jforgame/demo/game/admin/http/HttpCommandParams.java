@@ -3,7 +3,7 @@ package jforgame.demo.game.admin.http;
 import java.util.Map;
 
 /**
- * @author kinson
+ * 
  */
 public class HttpCommandParams {
 	/**  命令类型 {@link HttpCommands} */

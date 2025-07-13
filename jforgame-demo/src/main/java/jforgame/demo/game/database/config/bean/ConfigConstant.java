@@ -6,7 +6,6 @@ import javax.persistence.Id;
 
 /**
  * 常量配置表
- * @author kinson
  */
 @Entity()
 public class ConfigConstant {

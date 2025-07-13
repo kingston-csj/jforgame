@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 /**
  * 玩家等级配置表
- * @author kinson
+ * 
  */
 @Entity()
 public class ConfigPlayerLevel {

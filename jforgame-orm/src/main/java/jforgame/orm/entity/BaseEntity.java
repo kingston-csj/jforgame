@@ -5,9 +5,12 @@ import jforgame.orm.DbStatus;
 import java.io.Serializable;
 
 /**
- * abstract base class for db entity
- *
- * @author kinson
+ * 基本实体类
+ * 所有需要持久化的实体类都应该继承该类
+ * 特别注意以下几个钩子方法一定需要接入
+ * 1. {@link #afterLoad()} 当实体从数据库加载完成后，应该调用该方法，主要是用于标记实体为持久化状态，用于自动识别实体是更新还是插入状态， 与 beforeSave配合使用
+ * 2. {@link #beforeSave()} 当实体准备持久化前，应该调用该方法，主要是用于自动识别实体是更新还是插入状态， 与 afterLoad配合使用
+ * 3. {@link #afterSave()} 当实体持久化完成后，应该调用该方法，用于重置初实体为普通状态
  */
 public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> extends StatefulEntity
         implements Serializable {

@@ -13,7 +13,6 @@ import java.util.Map;
 /**
  * 以javaAgent的方式热更文件 只能修改java文件的方法体
  *
- * @author kinson
  */
 public enum HotswapManager {
 

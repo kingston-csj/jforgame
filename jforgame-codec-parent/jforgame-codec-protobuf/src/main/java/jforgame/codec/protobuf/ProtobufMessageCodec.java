@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * @author kinson
+ * 
  */
 public class ProtobufMessageCodec implements MessageCodec {
 

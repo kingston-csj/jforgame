@@ -12,8 +12,6 @@ import jforgame.demo.game.database.config.bean.ConfigPlayerLevel;
 
 /**
  * 玩家等级配置表
- * 
- * @author kinson
  */
 public class ConfigPlayerLevelStorage implements Reloadable {
 

@@ -8,7 +8,6 @@ import jforgame.socket.share.message.Message;
 
 /**
  * gm执行结果
- * @author kinson
  */
 @MessageMeta(module=Modules.GM, cmd=GmConstant.RES_GM_RESULT)
 public class ResGmResult implements Message {

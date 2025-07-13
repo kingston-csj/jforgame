@@ -12,7 +12,7 @@ import jforgame.socket.share.message.Message;
 
 /**
  * 导出.proto文件(供客户端用)
- * @author kinson
+ * 
  */
 public class ProtoFileGenerator {
 

@@ -9,8 +9,7 @@ import java.util.List;
 
 /**
  * 消息或vo的解析器
- * 
- * @author kinson
+ *
  */
 public class BeanCodec extends Codec {
 

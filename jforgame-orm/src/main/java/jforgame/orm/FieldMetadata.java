@@ -6,10 +6,19 @@ import jforgame.orm.converter.ConvertorFactory;
 
 import java.lang.reflect.Field;
 
+/**
+ * 字段元数据
+ */
 public class FieldMetadata {
 
+    /**
+     * 字段反射对象
+     */
     private Field field;
 
+    /**
+     * 字段转化器，在读取后，写入前，进行转化
+     */
     private AttributeConverter converter;
 
     public static FieldMetadata valueOf(Field field) {

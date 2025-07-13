@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 /**
  * A method whose type is meta-annotated with this
  * is used to be a logic handler
- * @author kinson
  */
 @Documented
 @Target(ElementType.METHOD)

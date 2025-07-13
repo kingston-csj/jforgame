@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 缓存容器
- *
- * @author kinson
  */
 public abstract class AbstractCacheContainer<K, V> {
 

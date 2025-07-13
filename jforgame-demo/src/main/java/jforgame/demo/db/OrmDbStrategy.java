@@ -5,8 +5,6 @@ import jforgame.orm.entity.BaseEntity;
 
 /**
  * 异步保存策略
- *
- * @author kinson
  */
 public class OrmDbStrategy implements SavingStrategy {
 
@@ -23,6 +21,6 @@ public class OrmDbStrategy implements SavingStrategy {
             DbUtils.executePreparedInsert(entity);
         }
         // 入库后处理
-        entity.afterLoad();
+        entity.afterSave();
     }
 }

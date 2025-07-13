@@ -3,6 +3,9 @@ package jforgame.orm;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 对象与数据库表记录之间的桥梁
+ */
 public class OrmBridge {
 	/** 对应的数据库表名称 */
 	private String tableName;

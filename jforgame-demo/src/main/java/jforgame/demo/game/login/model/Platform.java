@@ -1,7 +1,7 @@
 package jforgame.demo.game.login.model;
 
 /**
- * @author kinson
+ * 
  */
 public enum Platform {
 
