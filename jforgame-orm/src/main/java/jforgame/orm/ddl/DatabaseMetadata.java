@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 数据库schema
  */
-public class DatabaseMetadata {
+class DatabaseMetadata {
 
     private Map<String, TableMetadata> tables = new HashMap<>();
 
@@ -27,7 +27,30 @@ public class DatabaseMetadata {
     public List<String> getTables(Connection conn) throws SQLException {
         DatabaseMetaData databaseMetaData = conn.getMetaData();
         String[] types = {"TABLE"};
-        ResultSet tables = databaseMetaData.getTables(null, null, "%", types);
+
+        // 获取当前连接的数据库schema
+        String catalog = conn.getCatalog();
+        String schema = conn.getSchema();
+
+        // 如果catalog为null，尝试从URL中获取数据库名
+        if (catalog == null) {
+            String url = conn.getMetaData().getURL();
+            // 从JDBC URL中提取数据库名
+            // 格式通常是: jdbc:mysql://host:port/database_name
+            if (url.contains("/")) {
+                String[] parts = url.split("/");
+                if (parts.length > 1) {
+                    String lastPart = parts[parts.length - 1];
+                    // 移除可能的参数部分
+                    if (lastPart.contains("?")) {
+                        lastPart = lastPart.split("\\?")[0];
+                    }
+                    catalog = lastPart;
+                }
+            }
+        }
+
+        ResultSet tables = databaseMetaData.getTables(catalog, schema, "%", types);
         ArrayList<String> tablesList = new ArrayList<String>();
         while (tables.next()) {
             tablesList.add(tables.getString("TABLE_NAME"));
@@ -38,7 +61,18 @@ public class DatabaseMetadata {
     public TableMetadata getTableMetadata(String table) {
         return tables.computeIfAbsent(table, k -> {
             try {
-                ResultSet rs = metaData.getTables(null, null, "%", types);
+                // 同样需要指定正确的catalog和schema
+                String catalog = null;
+                String schema = null;
+
+                // 尝试从连接获取catalog
+                try {
+                    catalog = metaData.getConnection().getCatalog();
+                } catch (Exception e) {
+                    // 忽略异常，使用null
+                }
+
+                ResultSet rs = metaData.getTables(catalog, schema, "%", types);
                 while (rs.next()) {
                     String tableName = rs.getString("TABLE_NAME");
                     if (tableName.equalsIgnoreCase(table)) {

@@ -1,12 +1,11 @@
-package jforgame.orm.utils;
+package jforgame.orm.core;
 
-import jforgame.orm.BeanProcessor;
-import jforgame.orm.OrmBridge;
-import jforgame.orm.OrmProcessor;
+import jforgame.commons.StringUtil;
 import jforgame.orm.entity.StatefulEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,21 +17,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DbHelper {
+/**
+ * 数据库相关方法
+ * 注意：此类的所有crud方法都会自动关闭数据库连接，避免用在事务环境！！
+ * 游戏领域不需要事务，如果需要事务，不要使用此类方法！！
+ */
+public class DataRepository {
 
-    private static Logger logger = LoggerFactory.getLogger(DbHelper.class);
+    private static Logger logger = LoggerFactory.getLogger(DataRepository.class);
+
+    private final DataSource dataSource;
+
+    public DataRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 
     /**
      * 查询返回一个bean实体
      *
-     * @param connection 数据库链接
      * @param sql
      * @param entity
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <T> T queryOne(Connection connection, String sql, Class<?> entity) throws SQLException {
-        if (StringUtils.isEmpty(sql)) {
+    public <T> T queryOne(String sql, Class<?> entity) throws SQLException {
+        if (StringUtil.isEmpty(sql)) {
             throw new SQLException("sql argument is null");
         }
         if (entity == null) {
@@ -42,24 +55,22 @@ public class DbHelper {
         if (bridge == null) {
             throw new SQLException(entity.getName() + " bridge is null");
         }
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
             }
         } catch (Exception e) {
             logger.error("DbUtils queryOne failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
         return null;
     }
 
-    public static <T> T queryOne(Connection connection, String sql, Class<?> entity, String id) throws SQLException {
-        if (StringUtils.isEmpty(sql)) {
+    public <T> T queryOne(String sql, Class<?> entity, String id) throws SQLException {
+        if (StringUtil.isEmpty(sql)) {
             throw new SQLException("sql argument is null");
         }
         if (entity == null) {
@@ -69,19 +80,19 @@ public class DbHelper {
         if (bridge == null) {
             throw new SQLException(entity.getName() + " bridge is null");
         }
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
             statement.setObject(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
+                }
             }
         } catch (Exception e) {
             logger.error("DbUtils queryOne failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
         return null;
     }
@@ -89,18 +100,18 @@ public class DbHelper {
     /**
      * 查询返回bean实体列表
      *
-     * @param connection 数据库链接
      * @param sql
      * @param entity
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <T> List<T> queryMany(Connection connection, String sql, Class<?> entity) throws SQLException {
+    public <T> List<T> queryMany(String sql, Class<?> entity) throws SQLException {
         List<T> result = new ArrayList<>();
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+
             Object bean = null;
             while (resultSet.next()) {
                 bean = new BeanProcessor().toBean(resultSet, entity);
@@ -109,8 +120,6 @@ public class DbHelper {
         } catch (Exception e) {
             logger.error("DbUtils queryMany failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
         return result;
     }
@@ -118,18 +127,17 @@ public class DbHelper {
     /**
      * 查询返回一个map
      *
-     * @param connection 数据库链接
      * @param sql
      * @return
      */
-    public static Map<String, Object> queryMap(Connection connection, String sql) throws SQLException {
-        Statement statement = null;
+    public Map<String, Object> queryMap(String sql) throws SQLException {
         Map<String, Object> result = new HashMap<>();
-        try {
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
 
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+
+            ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 int cols = rsmd.getColumnCount();
                 for (int i = 1; i <= cols; i++) {
@@ -144,27 +152,24 @@ public class DbHelper {
         } catch (Exception e) {
             logger.error("DbUtils queryMap failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
         return result;
     }
 
     /**
-     * 查询返回一个map
+     * 查询返回map列表
      *
-     * @param connection 数据库链接
      * @param sql
      * @return
      */
-    public static List<Map<String, Object>> queryMapList(Connection connection, String sql) throws SQLException {
-        Statement statement = null;
+    public List<Map<String, Object>> queryMapList(String sql) throws SQLException {
         List<Map<String, Object>> result = new ArrayList<>();
-        try {
-            statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            ResultSetMetaData rsmd = rs.getMetaData();
 
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+
+            ResultSetMetaData rsmd = rs.getMetaData();
             while (rs.next()) {
                 int cols = rsmd.getColumnCount();
                 Map<String, Object> map = new HashMap<>();
@@ -180,8 +185,6 @@ public class DbHelper {
         } catch (Exception e) {
             logger.error("DbUtils queryMapList failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
         return result;
     }
@@ -189,54 +192,50 @@ public class DbHelper {
     /**
      * 执行特定的sql语句（防止sql注入!!!）
      *
-     * @param connection 数据库链接
      * @param sql
      * @return
      * @see Statement#execute(String)
      */
-    public static boolean executeSql(Connection connection, String sql) throws SQLException {
-        if (StringUtils.isEmpty(sql)) {
+    public boolean executeSql(String sql) throws SQLException {
+        if (StringUtil.isEmpty(sql)) {
             return true;
         }
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
             statement.execute(sql);
             return true;
         } catch (Exception e) {
             logger.error("DbUtils executeSql failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
     }
 
     /**
      * 执行update语句（防止sql注入!!!）
      *
-     * @param connection 数据库链接
      * @param sql
      * @return
      * @see Statement#executeUpdate(String)
      */
-    public static int executeUpdate(Connection connection, String sql) throws SQLException {
-        if (StringUtils.isEmpty(sql)) {
+    public int executeUpdate(String sql) throws SQLException {
+        if (StringUtil.isEmpty(sql)) {
             return 0;
         }
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
             return statement.executeUpdate(sql);
         } catch (Exception e) {
             logger.error("DbUtils executeSql failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
     }
 
-    public static int executeInsert(Connection connection, StatefulEntity entity) throws SQLException {
-        try {
+    public int executeInsert(StatefulEntity entity) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
             String sql = SqlFactory.createInsertPreparedSql(bridge);
@@ -253,13 +252,11 @@ public class DbHelper {
         } catch (Exception e) {
             logger.error("DbUtils executeSql failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
     }
 
-    public static int executeUpdate(Connection connection, StatefulEntity entity) throws SQLException {
-        try {
+    public int executeUpdate(StatefulEntity entity) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
             String sql = SqlFactory.createUpdatePreparedSql(entity, bridge);
@@ -276,67 +273,27 @@ public class DbHelper {
         } catch (Exception e) {
             logger.error("DbUtils executeSql failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(connection);
         }
     }
 
-    public static int executeDelete(Connection conn, StatefulEntity entity) throws SQLException {
-        try {
+    public int executeDelete(StatefulEntity entity) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
             String sql = SqlFactory.createDeletePreparedSql(bridge);
             // 获取参数值
             List<Object> parameters = SqlParameterUtils.getDeleteParameters(entity, bridge);
 
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 // 设置参数
                 for (int i = 0; i < parameters.size(); i++) {
                     stmt.setObject(i + 1, parameters.get(i));
                 }
-
                 return stmt.executeUpdate();
             }
-
         } catch (Exception e) {
             logger.error("DbUtils executeSql failed", e);
             throw new SQLException(e);
-        } finally {
-            closeConn(conn);
-        }
-    }
-
-    /**
-     * 关闭连接
-     *
-     * @param conn
-     */
-    public static void closeConn(Connection conn) throws SQLException {
-        if (conn != null) {
-            conn.close();
-        }
-    }
-
-    /**
-     * 关闭statement
-     *
-     * @param st
-     * @throws SQLException
-     */
-    public static void closeStatement(Statement st) throws SQLException {
-        if (st != null) {
-            st.close();
-        }
-    }
-
-    /**
-     * 关闭resultSet
-     *
-     * @param rst
-     */
-    public static void closeResultSet(ResultSet rst) throws SQLException {
-        if (rst != null) {
-            rst.close();
         }
     }
 

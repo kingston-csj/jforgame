@@ -1,15 +1,15 @@
-package jforgame.orm.utils;
+package jforgame.orm.core;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import jforgame.commons.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.orm.FieldMetadata;
-import jforgame.orm.OrmBridge;
 import jforgame.orm.entity.StatefulEntity;
 
 /**
@@ -39,14 +39,14 @@ class SqlParameterUtils {
         List<Object> whereValues = new ArrayList<>();
 
         // 获取SET子句的参数
-        for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
+        for (Map.Entry<String, FieldMetaData> entry : bridge.getFieldMetadataMap().entrySet()) {
             String property = entry.getKey();
             if (!saveAll && !columns.contains(property)) {
                 continue;
             }
 
             try {
-                FieldMetadata metadata = entry.getValue();
+                FieldMetaData metadata = entry.getValue();
                 Object value = metadata.getField().get(entity);
                 if (metadata.getConverter() != null) {
                     value = metadata.getConverter().convertToDatabaseColumn(value);
@@ -61,7 +61,7 @@ class SqlParameterUtils {
         // 获取WHERE子句的参数
         for (String property : bridge.getPrimaryKeyProperties()) {
             try {
-                Object value = ReflectUtils.getMethodValue(entity, property);
+                Object value = getMethodValue(entity, property);
                 whereValues.add(value);
             } catch (Exception e) {
                 logger.error("Failed to get query property value: {}", property, e);
@@ -81,10 +81,9 @@ class SqlParameterUtils {
      */
     public static List<Object> getDeleteParameters(StatefulEntity entity, OrmBridge bridge) {
         List<Object> whereValues = new ArrayList<>();
-
         for (String property : bridge.getPrimaryKeyProperties()) {
             try {
-                Object value = ReflectUtils.getMethodValue(entity, property);
+                Object value = getMethodValue(entity, property);
                 whereValues.add(value);
             } catch (Exception e) {
                 logger.error("Failed to get query property value: {}", property, e);
@@ -102,7 +101,7 @@ class SqlParameterUtils {
         List<Object> values = new ArrayList<>();
         for (String property : properties) {
             try {
-                FieldMetadata metadata = bridge.getFieldMetadataMap().get(property);
+                FieldMetaData metadata = bridge.getFieldMetadataMap().get(property);
                 Object value = metadata.getField().get(entity);
                 if (metadata.getConverter() != null) {
                     value = metadata.getConverter().convertToDatabaseColumn(value);
@@ -115,4 +114,12 @@ class SqlParameterUtils {
         }
         return values;
     }
+
+    private static Object getMethodValue(Object obj, String property)
+            throws Exception {
+        String methodName = "get" + StringUtil.firstLetterToUpperCase(property);
+        Method method = obj.getClass().getMethod(methodName);
+        return method.invoke(obj);
+    }
+
 } 

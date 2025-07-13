@@ -6,13 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TableDefinition {
+class TableDefinition {
 
     private String tableName;
 
     private Map<String, ColumnDefinition> columns = new LinkedHashMap<>();
-
-//    private Map<String, Index> indexes = new LinkedHashMap<>();
 
     private String comment;
 
@@ -81,7 +79,7 @@ public class TableDefinition {
     }
 
     public Iterator<String> sqlAlterStrings(TableMetadata tableMetadata) {
-        StringBuilder root = new StringBuilder("alter table " + tableName)
+        StringBuilder root = new StringBuilder("ALTER TABLE " + tableName)
                 .append(' ');
 
         Iterator<ColumnDefinition> iter = columns.values().iterator();
@@ -93,20 +91,20 @@ public class TableDefinition {
             if (columnInfo == null) {
                 // the column doesnt exist at all.
                 StringBuilder alter = new StringBuilder(root.toString())
-                        .append(" add column ")
+                        .append(" ADD COLUMN ")
                         .append(column.getName())
                         .append(' ')
                         .append(column.getJdbcType());
 
                 String defaultValue = column.getDefaultValue();
                 if (defaultValue != null) {
-                    alter.append(" default ").append(defaultValue);
+                    alter.append(" DEFAULT ").append(defaultValue);
                 }
 
                 if (column.isNullable()) {
                     alter.append(" ");
                 } else {
-                    alter.append(" not null");
+                    alter.append(" NOT NULL");
                 }
                 if (column.isPrimary()) {
                     alter.append("  PRIMARY KEY ");

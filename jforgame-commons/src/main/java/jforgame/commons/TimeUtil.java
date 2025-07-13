@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 /**
  * 时间工具类
  */
-public class TimeUtil {
+public final class TimeUtil {
 
 
     private TimeUtil() {

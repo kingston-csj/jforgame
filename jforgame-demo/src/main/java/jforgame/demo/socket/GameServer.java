@@ -6,6 +6,7 @@ import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
 import jforgame.demo.ServerVersion;
 import jforgame.demo.db.AsyncDbService;
+import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.entity.BaseEntity;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
@@ -16,7 +17,6 @@ import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.redis.RedisCluster;
-import jforgame.orm.OrmProcessor;
 import jforgame.orm.ddl.SchemaUpdate;
 import jforgame.socket.netty.support.server.WebSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
@@ -25,6 +25,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Connection;
 import java.util.Set;
 
 public class GameServer {
@@ -77,8 +78,10 @@ public class GameServer {
         DbUtils.init();
 
         // 数据库自动更新schema
-        Set<Class<?>> codeTables = ClassScanner.listAllSubclasses("jforgame.demo.game", BaseEntity.class);
-        new SchemaUpdate().execute(DbUtils.getConnection(DbUtils.DB_USER), codeTables);
+        Set<Class<?>> codeTables = ClassScanner.listAllSubclasses(ServerScanPaths.ORM_PATH, BaseEntity.class);
+        try (Connection conn = DbUtils.getConnection(DbUtils.DB_USER).getDataSource().getConnection()) {
+            new SchemaUpdate().execute(conn, codeTables);
+        }
 
         // 事件驱动
         ListenerManager.INSTANCE.init();

@@ -1,7 +1,7 @@
 package jforgame.orm.entity;
 
 import jforgame.commons.persist.Entity;
-import jforgame.orm.DbStatus;
+import jforgame.orm.core.DbStatus;
 
 import java.io.Serializable;
 
@@ -63,7 +63,6 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
         this.statusRef.set(DbStatus.NORMAL);
         this.columns.clear();
         this.saveAll.compareAndSet(true, false);
-        this.saving.compareAndSet(true, false);
         onAfterSave();
     }
 

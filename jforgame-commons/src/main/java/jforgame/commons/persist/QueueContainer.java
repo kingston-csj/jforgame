@@ -40,11 +40,16 @@ public class QueueContainer extends BasePersistContainer {
     @Override
     public void receive(Entity<?> entity) {
         String key = entity.getKey();
+        if (!run.get()) {
+            // 小店已经打烊了，恕不招待
+            logger.info("db closed, received entity: {}", key);
+            return;
+        }
         if (savingQueue.contains(key)) {
             return;
         }
-        this.queue.add(entity);
         this.savingQueue.add(key);
+        this.queue.add(entity);
     }
 
     private void run() {
@@ -72,19 +77,22 @@ public class QueueContainer extends BasePersistContainer {
 
     @Override
     protected void saveAllBeforeShutdown() {
-        try {
-            while (!queue.isEmpty()) {
-                Iterator<Entity<?>> it = queue.iterator();
-                while (it.hasNext()) {
-                    Entity<?> ent = it.next();
-                    it.remove();
+        while (!queue.isEmpty()) {
+            Iterator<Entity<?>> it = queue.iterator();
+            while (it.hasNext()) {
+                Entity<?> ent = it.next();
+                it.remove();
+                try {
                     savingStrategy.doSave(ent);
+                } catch (Exception e) {
+                    logger.error("save entity error, entity: {}", ent, e);
                 }
             }
-        } catch (Exception e) {
-            // 这里报错，就只能打日志了，因为要关服了
-            logger.error("save all entity error, queue size: {}", queue.size(), e);
         }
     }
 
+    @Override
+    public int size() {
+        return queue.size();
+    }
 }

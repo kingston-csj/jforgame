@@ -1,6 +1,6 @@
 package jforgame.orm.entity;
 
-import jforgame.orm.DbStatus;
+import jforgame.orm.core.DbStatus;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,22 +28,9 @@ public abstract class StatefulEntity extends Stateful {
     protected AtomicBoolean saveAll = new AtomicBoolean();
 
     /**
-     * 是否已经在持久化状态
-     */
-    protected AtomicBoolean saving = new AtomicBoolean(false);
-
-    /**
      * 当前实体对象的db状态 - 使用 AtomicReference 替代 volatile
      */
     protected AtomicReference<DbStatus> statusRef = new AtomicReference<>(DbStatus.NORMAL);
-
-    public boolean isSaving() {
-        return saving.get();
-    }
-
-    public void setSaving() {
-        saving.compareAndSet(false, true);
-    }
 
     public Set<String> savingColumns() {
         return columns;
@@ -111,7 +98,7 @@ public abstract class StatefulEntity extends Stateful {
      * 标记为已经持久化
      * 当一个实体从数据库中加载出来，意识着这个实体已经存在于数据库中
      */
-    public void markPersistent() {
+    protected void markPersistent() {
         persistent.compareAndSet(false, true);
     }
 

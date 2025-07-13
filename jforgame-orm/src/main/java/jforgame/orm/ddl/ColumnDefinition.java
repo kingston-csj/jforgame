@@ -1,11 +1,11 @@
 package jforgame.orm.ddl;
 
-import jforgame.orm.utils.StringUtils;
+import jforgame.commons.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ColumnDefinition {
+class ColumnDefinition {
 
     private static Map<Class<?>, String> java2jdbc = new HashMap<>();
 
@@ -77,7 +77,7 @@ public class ColumnDefinition {
     }
 
     public void setJdbcType(Class<?> clazz, String jdbcType) {
-        if (StringUtils.isNotEmpty(jdbcType)) {
+        if (StringUtil.isNotEmpty(jdbcType)) {
             this.jdbcType = jdbcType;
         } else {
             if (java2jdbc.containsKey(clazz)) {

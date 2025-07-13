@@ -1,4 +1,4 @@
-package jforgame.orm;
+package jforgame.orm.core;
 
 /**
  * 数遍库实体状态

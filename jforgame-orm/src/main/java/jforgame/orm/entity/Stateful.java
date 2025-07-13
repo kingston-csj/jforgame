@@ -1,6 +1,6 @@
 package jforgame.orm.entity;
 
-import jforgame.orm.DbStatus;
+import jforgame.orm.core.DbStatus;
 
 /**
  * 拥有各种db状态的对象

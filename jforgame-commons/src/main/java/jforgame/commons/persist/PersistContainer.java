@@ -23,4 +23,11 @@ public interface PersistContainer {
      */
     void shutdownGraceful();
 
+    /**
+     * 当前等待入库的队列大小
+     *
+     * @return size
+     */
+    int size();
+
 }

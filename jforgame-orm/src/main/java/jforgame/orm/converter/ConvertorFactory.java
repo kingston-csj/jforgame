@@ -1,5 +1,6 @@
 package jforgame.orm.converter;
 
+import javax.persistence.AttributeConverter;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

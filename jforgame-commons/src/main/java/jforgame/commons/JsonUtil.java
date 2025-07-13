@@ -20,7 +20,7 @@ import java.util.Map;
  * 基于jackson的json工具
  * 注意：在反序列化的时候，会忽略没申明的字段
  */
-public class JsonUtil {
+public final class JsonUtil {
 
     private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 

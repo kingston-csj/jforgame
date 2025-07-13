@@ -10,7 +10,7 @@ import java.io.Serializable;
 public interface Entity<ID extends Serializable & Comparable<ID>> {
 
     /**
-     * 获取主键
+     * 获取实体主键
      *
      * @return
      */

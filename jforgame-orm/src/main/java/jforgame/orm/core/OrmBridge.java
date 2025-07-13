@@ -1,4 +1,4 @@
-package jforgame.orm;
+package jforgame.orm.core;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ public class OrmBridge {
     /**
      * 缓存所有表字段及其对应的元数据
      */
-    private final Map<String, FieldMetadata> fieldMetadataMap = new HashMap<>();
+    private final Map<String, FieldMetaData> fieldMetadataMap = new HashMap<>();
     /**
      * 被覆写的property与表column的映射
      */
@@ -35,11 +35,11 @@ public class OrmBridge {
         this.tableName = tableName;
     }
 
-    public void addFieldMetadata(String field, FieldMetadata metadata) {
+    public void addFieldMetadata(String field, FieldMetaData metadata) {
         fieldMetadataMap.put(field, metadata);
     }
 
-    public Map<String, FieldMetadata> getFieldMetadataMap() {
+    public Map<String, FieldMetaData> getFieldMetadataMap() {
         return fieldMetadataMap;
     }
 

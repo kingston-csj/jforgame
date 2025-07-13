@@ -1,15 +1,15 @@
-package jforgame.orm;
+package jforgame.orm.core;
 
-import jforgame.orm.converter.AttributeConverter;
 import jforgame.orm.converter.Convert;
 import jforgame.orm.converter.ConvertorFactory;
 
+import javax.persistence.AttributeConverter;
 import java.lang.reflect.Field;
 
 /**
  * 字段元数据
  */
-public class FieldMetadata {
+public class FieldMetaData {
 
     /**
      * 字段反射对象
@@ -21,9 +21,9 @@ public class FieldMetadata {
      */
     private AttributeConverter converter;
 
-    public static FieldMetadata valueOf(Field field) {
+    public static FieldMetaData valueOf(Field field) {
         field.setAccessible(true);
-        FieldMetadata metadata = new FieldMetadata();
+        FieldMetaData metadata = new FieldMetaData();
         metadata.field = field;
         Convert annotation = field.getAnnotation(Convert.class);
         if (annotation != null) {

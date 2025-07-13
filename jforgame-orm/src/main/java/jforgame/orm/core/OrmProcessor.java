@@ -1,7 +1,7 @@
-package jforgame.orm;
+package jforgame.orm.core;
 
 import jforgame.commons.ClassScanner;
-import jforgame.orm.utils.StringUtils;
+import jforgame.commons.StringUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,25 +40,25 @@ public enum OrmProcessor {
         Entity entity = clazz.getAnnotation(Entity.class);
         //没有设置tablename,则用entity名首字母小写
         if (entity.name().isEmpty()) {
-            bridge.setTableName(StringUtils.firstLetterToLowerCase(clazz.getSimpleName()));
+            bridge.setTableName(StringUtil.firstLetterToLowerCase(clazz.getSimpleName()));
         } else {
             bridge.setTableName(entity.name());
         }
 
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
             String fieldName = field.getName();
+            if (field.getAnnotation(Id.class) != null) {
+                bridge.addUniqueKey(fieldName);
+            }
+            Column column = field.getAnnotation(Column.class);
             try {
                 if (column == null) {
                     continue;
                 }
-                FieldMetadata metadata = FieldMetadata.valueOf(field);
+                FieldMetaData metadata = FieldMetaData.valueOf(field);
                 bridge.addFieldMetadata(fieldName, metadata);
-                if (field.getAnnotation(Id.class) != null) {
-                    bridge.addUniqueKey(fieldName);
-                }
-                if (!StringUtils.isEmpty(column.name())) {
+                if (!StringUtil.isEmpty(column.name())) {
                     bridge.addPropertyColumnOverride(fieldName, column.name());
                 }
             } catch (Exception e) {

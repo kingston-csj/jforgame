@@ -1,11 +1,11 @@
-package jforgame.orm;
+package jforgame.orm.core;
 
-import jforgame.orm.converter.AttributeConverter;
 import jforgame.orm.converter.Convert;
 import jforgame.orm.converter.ConvertorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.AttributeConverter;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -31,7 +31,6 @@ import java.util.Map;
  */
 public class BeanProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanProcessor.class);
-    protected static final int PROPERTY_NOT_FOUND = -1;
     private static final Map<Class<?>, Object> primitiveDefaults = new HashMap<>();
     private final Map<String, String> columnToPropertyOverrides;
 
@@ -135,7 +134,7 @@ public class BeanProcessor {
                     Convert annotation = field.getAnnotation(Convert.class);
                     if (annotation != null) {
                         AttributeConverter convert = ConvertorFactory.getAttributeConverter(annotation.converter());
-                        value = convert.convertToEntityAttribute(field.getType(), value);
+                        value = convert.convertToEntityAttribute(value);
                     }
                 } catch (Exception e) {
                     logger.error("", e);
@@ -182,7 +181,7 @@ public class BeanProcessor {
         return false;
     }
 
-    protected <T> T newInstance(Class<T> c)
+    private <T> T newInstance(Class<T> c)
             throws SQLException {
         try {
             return c.newInstance();

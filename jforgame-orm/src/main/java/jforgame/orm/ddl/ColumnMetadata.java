@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 /**
  * 数据库表字段schema
  */
-public class ColumnMetadata {
+class ColumnMetadata {
 
     private final String name;
     private final String typeName;
@@ -22,7 +22,7 @@ public class ColumnMetadata {
         decimalDigits = rs.getInt("DECIMAL_DIGITS");
         isNullable = rs.getString("IS_NULLABLE");
         typeCode = rs.getInt("DATA_TYPE");
-        typeName = new StringTokenizer( rs.getString("TYPE_NAME"), "() " ).nextToken();
+        typeName = new StringTokenizer(rs.getString("TYPE_NAME"), "() ").nextToken();
     }
 
     public String getName() {

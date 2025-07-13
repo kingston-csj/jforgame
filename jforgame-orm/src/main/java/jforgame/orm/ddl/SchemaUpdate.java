@@ -1,5 +1,7 @@
 package jforgame.orm.ddl;
 
+import org.slf4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.Set;
 
 public class SchemaUpdate {
 
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaUpdate.class);
+
     public void execute(Connection con, Set<Class<?>> codeTables) throws SQLException {
         TableConfiguration tableConfiguration = new TableConfiguration();
         tableConfiguration.register(codeTables);
@@ -17,16 +21,14 @@ public class SchemaUpdate {
         DatabaseMetadata databaseMetadata = new DatabaseMetadata(con);
         List<String> tables = databaseMetadata.getTables(con);
         for (String table : tables) {
-            if (table.endsWith("ent")) {
-                databaseMetadata.getTableMetadata(table);
-            }
+            databaseMetadata.getTableMetadata(table);
         }
 
         List<String> sqls = createDdlSqls(tableConfiguration.getTables(), databaseMetadata.getTables());
 
         for (String sql : sqls) {
+            logger.info("执行schema --> {}", sql);
             con.createStatement().execute(sql);
-            System.out.println("执行schema --> " + sql);
         }
     }
 

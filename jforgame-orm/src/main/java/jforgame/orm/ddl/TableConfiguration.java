@@ -1,6 +1,6 @@
 package jforgame.orm.ddl;
 
-import jforgame.orm.utils.StringUtils;
+import jforgame.commons.StringUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class TableConfiguration {
+class TableConfiguration {
 
     private Map<String, TableDefinition> tables = new HashMap<>();
 
@@ -18,7 +18,7 @@ public class TableConfiguration {
         for (Class<?> entity : codeTables) {
             String tableName = entity.getSimpleName();
             Entity annotation = entity.getAnnotation(Entity.class);
-            if (StringUtils.isNotEmpty(annotation.name())) {
+            if (StringUtil.isNotEmpty(annotation.name())) {
                 tableName = annotation.name();
             }
             TableDefinition tableDefinition = new TableDefinition();
@@ -33,7 +33,7 @@ public class TableConfiguration {
                 .forEach(f -> {
                     Column column = f.getAnnotation(Column.class);
                     ColumnDefinition columnDef = new ColumnDefinition();
-                    if (StringUtils.isNotEmpty(column.name())) {
+                    if (StringUtil.isNotEmpty(column.name())) {
                         columnDef.setName(column.name());
                     } else {
                         columnDef.setName(f.getName());

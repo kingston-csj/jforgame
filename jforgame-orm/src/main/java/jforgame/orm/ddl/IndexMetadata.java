@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndexMetadata {
+class IndexMetadata {
     private final String name;
     private final List<ColumnMetadata> columns = new ArrayList<>();
 

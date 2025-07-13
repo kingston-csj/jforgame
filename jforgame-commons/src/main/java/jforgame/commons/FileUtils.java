@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-public class FileUtils {
+public final class FileUtils {
 
 
     private FileUtils() {
@@ -36,6 +36,7 @@ public class FileUtils {
 
     /**
      * Read all lines from a file as a Stream. Bytes from the file are decoded into characters using the UTF-8 charset.
+     *
      * @param fileName the name of the file
      * @return the lines from the file as a Stream
      * @throws IOException if an I/O error occurs when opening the file

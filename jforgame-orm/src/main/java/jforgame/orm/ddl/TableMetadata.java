@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class TableMetadata {
+class TableMetadata {
 
     private final String catalog;
     private final String schema;
@@ -16,12 +16,12 @@ public class TableMetadata {
     private final Map<String, IndexMetadata> indexes = new HashMap<>();
 
     TableMetadata(ResultSet rs, DatabaseMetaData meta, boolean extras) throws SQLException {
-        catalog = rs.getString( "TABLE_CAT" );
-        schema = rs.getString( "TABLE_SCHEM" );
-        name = rs.getString( "TABLE_NAME" );
-        initColumns( meta );
-        if ( extras ) {
-            initIndexes( meta );
+        catalog = rs.getString("TABLE_CAT");
+        schema = rs.getString("TABLE_SCHEM");
+        name = rs.getString("TABLE_NAME");
+        initColumns(meta);
+        if (extras) {
+            initIndexes(meta);
         }
     }
 
@@ -43,74 +43,55 @@ public class TableMetadata {
     }
 
     public ColumnMetadata getColumnMetadata(String columnName) {
-        return columns.get( columnName.toLowerCase( Locale.ROOT ) );
+        return columns.get(columnName.toLowerCase(Locale.ROOT));
     }
 
     public IndexMetadata getIndexMetadata(String indexName) {
-        return indexes.get( indexName.toLowerCase( Locale.ROOT ) );
+        return indexes.get(indexName.toLowerCase(Locale.ROOT));
     }
 
     private void addIndex(ResultSet rs) throws SQLException {
-        String index = rs.getString( "INDEX_NAME" );
-
-        if ( index == null ) {
+        String index = rs.getString("INDEX_NAME");
+        if (index == null) {
             return;
         }
-
-        IndexMetadata info = getIndexMetadata( index );
-        if ( info == null ) {
-            info = new IndexMetadata( rs );
-            indexes.put( info.getName().toLowerCase( Locale.ROOT ), info );
+        IndexMetadata info = getIndexMetadata(index);
+        if (info == null) {
+            info = new IndexMetadata(rs);
+            indexes.put(info.getName().toLowerCase(Locale.ROOT), info);
         }
 
-        info.addColumn( getColumnMetadata( rs.getString( "COLUMN_NAME" ) ) );
+        info.addColumn(getColumnMetadata(rs.getString("COLUMN_NAME")));
     }
 
     public void addColumn(ResultSet rs) throws SQLException {
-        String column = rs.getString( "COLUMN_NAME" );
-
-        if ( column == null ) {
+        String column = rs.getString("COLUMN_NAME");
+        if (column == null) {
             return;
         }
 
-        if ( getColumnMetadata( column ) == null ) {
-            ColumnMetadata info = new ColumnMetadata( rs );
-            columns.put( info.getName().toLowerCase( Locale.ROOT ), info );
+        if (getColumnMetadata(column) == null) {
+            ColumnMetadata info = new ColumnMetadata(rs);
+            columns.put(info.getName().toLowerCase(Locale.ROOT), info);
         }
     }
 
     private void initIndexes(DatabaseMetaData meta) throws SQLException {
-        ResultSet rs = null;
+        try (ResultSet rs = meta.getIndexInfo(catalog, schema, name, false, true)) {
 
-        try {
-            rs = meta.getIndexInfo( catalog, schema, name, false, true );
-
-            while ( rs.next() ) {
-                if ( rs.getShort( "TYPE" ) == DatabaseMetaData.tableIndexStatistic ) {
+            while (rs.next()) {
+                if (rs.getShort("TYPE") == DatabaseMetaData.tableIndexStatistic) {
                     continue;
                 }
-                addIndex( rs );
-            }
-        }
-        finally {
-            if ( rs != null ) {
-                rs.close();
+                addIndex(rs);
             }
         }
     }
 
     private void initColumns(DatabaseMetaData meta) throws SQLException {
-        ResultSet rs = null;
-
-        try {
-            rs = meta.getColumns( catalog, schema, name, "%" );
-            while ( rs.next() ) {
-                addColumn( rs );
-            }
-        }
-        finally {
-            if ( rs != null ) {
-                rs.close();
+        try (ResultSet rs = meta.getColumns(catalog, schema, name, "%")) {
+            while (rs.next()) {
+                addColumn(rs);
             }
         }
     }

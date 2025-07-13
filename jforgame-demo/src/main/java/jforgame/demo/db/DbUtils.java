@@ -2,13 +2,12 @@ package jforgame.demo.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jforgame.orm.core.DataRepository;
 import jforgame.orm.entity.StatefulEntity;
-import jforgame.orm.utils.DbHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Properties;
 
 /**
  * 使用Hikari数据源对orm-DbUtils的进一步封装
- *
  */
 public class DbUtils {
 
@@ -31,15 +29,18 @@ public class DbUtils {
      */
     public static final String DB_USER = "user";
 
-    private static HikariDataSource configDataSource;
 
-    private static HikariDataSource userDataSource;
+    private static DataRepository configDataRepository;
+
+    private static DataRepository userDataRepository;
 
     public static void init() throws Exception {
         Properties props = new Properties();
         props.load(new FileReader("configs/jdbc.properties"));
-        configDataSource = createDataSource(props, DB_DATA);
-        userDataSource = createDataSource(props, DB_USER);
+        HikariDataSource configDataSource = createDataSource(props, DB_DATA);
+        HikariDataSource userDataSource = createDataSource(props, DB_USER);
+        configDataRepository = new DataRepository(configDataSource);
+        userDataRepository = new DataRepository(userDataSource);
     }
 
     private static HikariDataSource createDataSource(Properties props, String db) {
@@ -51,8 +52,7 @@ public class DbUtils {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
-        HikariDataSource ds = new HikariDataSource(config);
-        return ds;
+        return new HikariDataSource(config);
     }
 
 
@@ -60,8 +60,8 @@ public class DbUtils {
      * 查询返回一个bean实体
      */
     public static <T> T queryOne(String alias, String sql, Class<?> entity, String id) throws SQLException {
-        Connection connection = getConnection(alias);
-        return DbHelper.queryOne(connection, sql, entity, id);
+        DataRepository dataRepository = getConnection(alias);
+        return dataRepository.queryOne(sql, entity, id);
     }
 
 
@@ -74,8 +74,8 @@ public class DbUtils {
      * @return
      */
     public static <T> List<T> queryMany(String alias, String sql, Class<?> entity) throws SQLException {
-        Connection connection = getConnection(alias);
-        return DbHelper.queryMany(connection, sql, entity);
+        DataRepository dataRepository = getConnection(alias);
+        return dataRepository.queryMany(sql, entity);
     }
 
     /**
@@ -86,8 +86,8 @@ public class DbUtils {
      * @return
      */
     public static Map<String, Object> queryMap(String alias, String sql) throws SQLException {
-        Connection connection = getConnection(alias);
-        return DbHelper.queryMap(connection, sql);
+        DataRepository dataRepository = getConnection(alias);
+        return dataRepository.queryMap(sql);
     }
 
     /**
@@ -98,8 +98,8 @@ public class DbUtils {
      * @return
      */
     public static List<Map<String, Object>> queryMapList(String alias, String sql) throws SQLException {
-        Connection connection = getConnection(alias);
-        return DbHelper.queryMapList(connection, sql);
+        DataRepository dataRepository = getConnection(alias);
+        return dataRepository.queryMapList(sql);
     }
 
     /**
@@ -109,36 +109,33 @@ public class DbUtils {
      * @return
      */
     public static int executeUpdate(String sql) throws SQLException {
-        Connection connection = getConnection(DB_USER);
-        return DbHelper.executeUpdate(connection, sql);
+        DataRepository dataRepository = getConnection(DB_USER);
+        return dataRepository.executeUpdate(sql);
     }
 
     public static int executePreparedUpdate(StatefulEntity entity) throws SQLException {
-        Connection connection = getConnection(DB_USER);
-        return DbHelper.executeUpdate(connection, entity);
+        DataRepository dataRepository = getConnection(DB_USER);
+        return dataRepository.executeUpdate(entity);
     }
 
     public static int executeDelete(StatefulEntity entity) throws SQLException {
-        Connection connection = getConnection(DB_USER);
-        return DbHelper.executeDelete(connection, entity);
+        DataRepository dataRepository = getConnection(DB_USER);
+        return dataRepository.executeDelete(entity);
     }
 
     public static int executePreparedInsert(StatefulEntity entity) throws SQLException {
-        Connection connection = getConnection(DB_USER);
-        return DbHelper.executeInsert(connection, entity);
+        DataRepository dataRepository = getConnection(DB_USER);
+        return dataRepository.executeInsert(entity);
     }
 
-    public static Connection getConnection(String alias) {
-        try {
-            if (DB_DATA.equals(alias)) {
-                return configDataSource.getConnection();
-            } else if (DB_USER.equals(alias)) {
-                return userDataSource.getConnection();
-            }
-        } catch (Exception e) {
-            logger.error("", e);
+    public static DataRepository getConnection(String alias) {
+        if (DB_DATA.equals(alias)) {
+            return configDataRepository;
+        } else if (DB_USER.equals(alias)) {
+            return userDataRepository;
+        } else {
+            throw new RuntimeException("数据库别名不存在");
         }
-        return null;
     }
 
 }

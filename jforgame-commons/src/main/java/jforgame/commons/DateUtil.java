@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * 日期工具类
  */
-public class DateUtil {
+public final class DateUtil {
 
     private static final ThreadLocal<SimpleDateFormat> STANDARD_FMT = new ThreadLocal<SimpleDateFormat>() {
         @Override

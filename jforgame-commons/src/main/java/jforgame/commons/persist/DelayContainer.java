@@ -21,11 +21,6 @@ public class DelayContainer extends BasePersistContainer {
     private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new NamedThreadFactory("jforgame-persist-delay-service"));
 
     /**
-     * 当前正在保存的队列，去重
-     */
-    private final Set<String> savingQueue = new ConcurrentHashSet<>();
-
-    /**
      * db容器器排队的任务池
      */
     private final ConcurrentMap<String, Node> pool = new ConcurrentHashMap<>();
@@ -47,19 +42,19 @@ public class DelayContainer extends BasePersistContainer {
     }
 
     public void receive(Entity<?> entity) {
+        String key = entity.getKey();
         if (!run.get()) {
             // 小店已经打烊了，恕不招待
+            logger.info("db closed, received entity: {}", key);
             return;
         }
-        String key = entity.getKey();
-        if (savingQueue.contains(key)) {
+        if (pool.containsKey(key)) {
             return;
         }
         Runnable task = () -> {
             try {
                 savingStrategy.doSave(entity);
                 pool.remove(key);
-                savingQueue.remove(key);
             } catch (Exception e) {
                 receive(entity);
                 // 重复放入持久化队列，很容易造成异常日志爆炸了，这里控制下日志频率
@@ -100,6 +95,11 @@ public class DelayContainer extends BasePersistContainer {
         public void run() {
             task.run();
         }
+    }
+
+    @Override
+    public int size() {
+        return pool.size();
     }
 
 }

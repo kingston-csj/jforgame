@@ -1,4 +1,4 @@
-package jforgame.orm.utils;
+package jforgame.orm.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.orm.FieldMetadata;
-import jforgame.orm.OrmBridge;
 import jforgame.orm.entity.StatefulEntity;
 
 /**
@@ -58,7 +56,7 @@ class SqlFactory {
         List<String> updateColumns = new ArrayList<>();
 
         // 构建SET子句
-        for (Map.Entry<String, FieldMetadata> entry : bridge.getFieldMetadataMap().entrySet()) {
+        for (Map.Entry<String, FieldMetaData> entry : bridge.getFieldMetadataMap().entrySet()) {
             String property = entry.getKey();
             if (!saveAll && !columns.contains(property)) {
                 continue;
@@ -155,26 +153,6 @@ class SqlFactory {
             placeholders.add("?");
         }
         return placeholders;
-    }
-
-    /**
-     * 创建WHERE子句SQL
-     */
-    private static String createWhereClauseSql(StatefulEntity entity, OrmBridge bridge) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(WHERE).append(WHERE_1_EQ_1);
-
-        for (String property : bridge.getPrimaryKeyProperties()) {
-            try {
-                Object value = ReflectUtils.getMethodValue(entity, property);
-                String column = getColumnName(property, bridge);
-                sb.append(AND).append(wrapColumn(column)).append(EQUALS)
-                        .append("'").append(value != null ? value.toString().replace("'", "''") : "").append("'");
-            } catch (Exception e) {
-                logger.error("Failed to create WHERE clause for property: {}", property, e);
-            }
-        }
-        return sb.toString();
     }
 
 }
