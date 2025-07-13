@@ -239,7 +239,7 @@ public class DbHelper {
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
-            String sql = SqlFactory.createInsertSql(entity, bridge);
+            String sql = SqlFactory.createInsertPreparedSql(bridge);
             // 获取参数值
             List<Object> parameters = SqlParameterUtils.getInsertParameters(entity, bridge);
 
@@ -262,7 +262,7 @@ public class DbHelper {
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
-            String sql = SqlFactory.createUpdateSql(entity, bridge);
+            String sql = SqlFactory.createUpdatePreparedSql(entity, bridge);
             // 获取参数值
             List<Object> parameters = SqlParameterUtils.getUpdateParameters(entity, bridge);
 
@@ -285,7 +285,7 @@ public class DbHelper {
         try {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
             // 获取参数化SQL
-            String sql = SqlFactory.createDeleteSql(entity, bridge);
+            String sql = SqlFactory.createDeletePreparedSql(bridge);
             // 获取参数值
             List<Object> parameters = SqlParameterUtils.getDeleteParameters(entity, bridge);
 

@@ -1,38 +1,29 @@
-package jforgame.orm.asyncdb;
+package jforgame.commons.persist;
 
 
 import jforgame.commons.TimeUtil;
 import jforgame.commons.ds.ConcurrentHashSet;
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.orm.entity.BaseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 以队列的形式持久化
  */
-public class QueueContainer implements PersistContainer {
+public class QueueContainer extends BasePersistContainer {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+    private final BlockingQueue<Entity<?>> queue = new LinkedBlockingDeque<>();
 
-    private final AtomicBoolean run = new AtomicBoolean(true);
-
-    private final String name;
-
-    private final BlockingQueue<BaseEntity<?>> queue = new LinkedBlockingDeque<>();
-
+    /**
+     * 当前正在保存的队列，去重
+     */
     private final Set<String> savingQueue = new ConcurrentHashSet<>();
 
-    private static final NamedThreadFactory namedThreadFactory = new NamedThreadFactory("jforgame-persist-queue-thread");
-
-    private SavingStrategy savingStrategy;
+    private static final NamedThreadFactory namedThreadFactory = new NamedThreadFactory("jforgame-persist-queue-service");
 
     /**
      * 上次错误日志打印的时间
@@ -47,7 +38,7 @@ public class QueueContainer implements PersistContainer {
     }
 
     @Override
-    public void receive(BaseEntity<?> entity) {
+    public void receive(Entity<?> entity) {
         String key = entity.getKey();
         if (savingQueue.contains(key)) {
             return;
@@ -58,7 +49,7 @@ public class QueueContainer implements PersistContainer {
 
     private void run() {
         while (run.get()) {
-            BaseEntity<?> entity = null;
+            Entity<?> entity = null;
             try {
                 entity = queue.take();
                 savingQueue.remove(entity.getKey());
@@ -80,29 +71,12 @@ public class QueueContainer implements PersistContainer {
     }
 
     @Override
-    public void shutdownGraceful() {
-        run.compareAndSet(true, false);
-        for (; ; ) {
-            if (!queue.isEmpty()) {
-                saveAllBeforeShutDown();
-            } else {
-                break;
-            }
-        }
-        logger.info("db container [{}] close ok", name);
-    }
-
-    @Override
-    public SavingStrategy getSavingStrategy() {
-        return savingStrategy;
-    }
-
-    private void saveAllBeforeShutDown() {
+    protected void saveAllBeforeShutdown() {
         try {
             while (!queue.isEmpty()) {
-                Iterator<BaseEntity<?>> it = queue.iterator();
+                Iterator<Entity<?>> it = queue.iterator();
                 while (it.hasNext()) {
-                    BaseEntity<?> ent = it.next();
+                    Entity<?> ent = it.next();
                     it.remove();
                     savingStrategy.doSave(ent);
                 }
@@ -112,4 +86,5 @@ public class QueueContainer implements PersistContainer {
             logger.error("save all entity error, queue size: {}", queue.size(), e);
         }
     }
+
 }

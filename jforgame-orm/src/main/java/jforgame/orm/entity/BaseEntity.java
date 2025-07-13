@@ -1,5 +1,6 @@
 package jforgame.orm.entity;
 
+import jforgame.commons.persist.Entity;
 import jforgame.orm.DbStatus;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  * 3. {@link #afterSave()} 当实体持久化完成后，应该调用该方法，用于重置初实体为普通状态
  */
 public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> extends StatefulEntity
-        implements Serializable {
+        implements Entity<Id> {
 
     /**
      * 实体的主键属性最好定义为包装类型，防止属性与getter/setter方法类型不匹配
@@ -94,18 +95,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
             return false;
         }
         BaseEntity other = (BaseEntity) obj;
-        if (getId() != other.getId()) {
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * 主键的字符串表示
-     */
-    public String getKey() {
-        return getClass().getSimpleName() + "@" + getId().toString();
+        return getId().equals(other.getId());
     }
 
 }

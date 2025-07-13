@@ -16,6 +16,8 @@ public abstract class Stateful {
 	 */
 	public abstract DbStatus getStatus();
 
+	public abstract boolean isNormal();
+
 	/**
 	 * 当前是否为插入状态
 	 * @return 当前是否为插入状态

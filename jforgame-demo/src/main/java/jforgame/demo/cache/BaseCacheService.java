@@ -3,7 +3,7 @@ package jforgame.demo.cache;
 import java.util.concurrent.Callable;
 
 import jforgame.orm.entity.BaseEntity;
-import jforgame.demo.db.DbService;
+import jforgame.demo.db.AsyncDbService;
 
 /**
  * 抽象缓存服务
@@ -55,7 +55,7 @@ public abstract class BaseCacheService<K, V extends BaseEntity> implements Persi
     }
 
     public void save(V v) {
-        DbService.getInstance().saveToDb(v);
+        AsyncDbService.getInstance().saveToDb(v);
     }
 
 }

@@ -1,11 +1,8 @@
-package jforgame.orm.asyncdb;
+package jforgame.commons.persist;
 
 import jforgame.commons.TimeUtil;
 import jforgame.commons.ds.ConcurrentHashSet;
 import jforgame.commons.thread.NamedThreadFactory;
-import jforgame.orm.entity.BaseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -15,19 +12,16 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 以延迟执行的形式持久化
  */
-public class DelayContainer implements PersistContainer {
+public class DelayContainer extends BasePersistContainer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DelayContainer.class);
-
-    private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new NamedThreadFactory("common-scheduler"));
+    private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new NamedThreadFactory("jforgame-persist-delay-service"));
 
     /**
-     * 当前正在保存的队列
+     * 当前正在保存的队列，去重
      */
     private final Set<String> savingQueue = new ConcurrentHashSet<>();
 
@@ -35,10 +29,6 @@ public class DelayContainer implements PersistContainer {
      * db容器器排队的任务池
      */
     private final ConcurrentMap<String, Node> pool = new ConcurrentHashMap<>();
-
-    private final AtomicBoolean run = new AtomicBoolean(true);
-
-    private final String name;
 
     /**
      * 上次错误日志打印的时间
@@ -49,7 +39,6 @@ public class DelayContainer implements PersistContainer {
      */
     private final int delaySeconds;
 
-    private SavingStrategy savingStrategy;
 
     public DelayContainer(String name, int delaySeconds, SavingStrategy savingStrategy) {
         this.name = name;
@@ -57,7 +46,7 @@ public class DelayContainer implements PersistContainer {
         this.savingStrategy = savingStrategy;
     }
 
-    public void receive(BaseEntity<?> entity) {
+    public void receive(Entity<?> entity) {
         if (!run.get()) {
             // 小店已经打烊了，恕不招待
             return;
@@ -90,8 +79,7 @@ public class DelayContainer implements PersistContainer {
     }
 
     @Override
-    public void shutdownGraceful() {
-        run.compareAndSet(true, false);
+    protected void saveAllBeforeShutdown() {
         Iterator<Map.Entry<String, Node>> iterator = pool.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Node> next = iterator.next();
@@ -99,13 +87,8 @@ public class DelayContainer implements PersistContainer {
             next.getValue().task.run();
             iterator.remove();
         }
-        logger.info("db container [{}] close ok", name);
     }
 
-    @Override
-    public SavingStrategy getSavingStrategy() {
-        return savingStrategy;
-    }
 
     private static class Node implements Runnable {
 

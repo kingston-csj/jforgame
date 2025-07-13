@@ -65,7 +65,7 @@ public enum OrmProcessor {
                 throw new OrmConfigException(e);
             }
             //如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
-            if (bridge.getQueryProperties().isEmpty()) {
+            if (bridge.getPrimaryKeyProperties().isEmpty()) {
                 throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
             }
         }

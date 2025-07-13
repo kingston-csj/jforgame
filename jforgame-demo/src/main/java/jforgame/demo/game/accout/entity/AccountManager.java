@@ -1,7 +1,7 @@
 package jforgame.demo.game.accout.entity;
 
 import jforgame.demo.cache.BaseCacheService;
-import jforgame.demo.db.DbService;
+import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
 
@@ -22,7 +22,7 @@ public class AccountManager extends BaseCacheService<Long, AccountEnt> {
 		
 		AccountEnt newAccount = new AccountEnt();
 		newAccount.setId(accountId);
-		DbService.getInstance().saveToDb(newAccount);
+		AsyncDbService.getInstance().saveToDb(newAccount);
 		GameContext.playerManager.addAccountProfile(newAccount);
 		return newAccount;
 	}

@@ -1,6 +1,7 @@
 package jforgame.demo.db;
 
-import jforgame.orm.asyncdb.SavingStrategy;
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.SavingStrategy;
 import jforgame.orm.entity.BaseEntity;
 
 /**
@@ -9,18 +10,19 @@ import jforgame.orm.entity.BaseEntity;
 public class OrmDbStrategy implements SavingStrategy {
 
     @Override
-    public void doSave(BaseEntity<?> entity) throws Exception {
+    public void doSave(Entity<?> entity) throws Exception {
+        BaseEntity<?> baseEntity = (BaseEntity<?>) entity;
         // 入库前准备
-        entity.beforeSave();
+        baseEntity.beforeSave();
         // 根据实体的状态，执行不同的入库操作
-        if (entity.isDelete()) {
-            DbUtils.executeDelete(entity);
-        } else if (entity.isUpdate()) {
-            DbUtils.executePreparedUpdate(entity);
-        } else if (entity.isInsert()) {
-            DbUtils.executePreparedInsert(entity);
+        if (baseEntity.isDelete()) {
+            DbUtils.executeDelete(baseEntity);
+        } else if (baseEntity.isUpdate()) {
+            DbUtils.executePreparedUpdate(baseEntity);
+        } else if (baseEntity.isInsert()) {
+            DbUtils.executePreparedInsert(baseEntity);
         }
         // 入库后处理
-        entity.afterSave();
+        baseEntity.afterSave();
     }
 }

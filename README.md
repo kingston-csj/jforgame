@@ -60,12 +60,12 @@
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-socket-netty</artifactId>
-        <version>2.1.1</version>
+        <version>2.3.0</version>
     </dependency>
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-codec-struct</artifactId>
-        <version>2.1.1</version>
+        <version>2.3.0</version>
     </dependency>
   ```  
  

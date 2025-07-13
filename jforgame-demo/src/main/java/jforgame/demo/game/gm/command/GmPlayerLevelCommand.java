@@ -2,7 +2,7 @@ package jforgame.demo.game.gm.command;
 
 import java.util.List;
 
-import jforgame.demo.db.DbService;
+import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigPlayerLevel;
 import jforgame.demo.game.database.config.storage.ConfigPlayerLevelStorage;
@@ -35,7 +35,7 @@ public class GmPlayerLevelCommand extends AbstractGmCommand {
 		}
 		player.setLevel(newLevel);
 		
-		DbService.getInstance().saveToDb(player);
+		AsyncDbService.getInstance().saveToDb(player);
 		return ResGmResult.buildSuccResult("修改玩家等级成功");
 	}
 

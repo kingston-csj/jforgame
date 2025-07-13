@@ -1,10 +1,10 @@
 package jforgame.demo.game.player;
 
+import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.socket.SessionManager;
 import jforgame.commons.NumberUtil;
 import jforgame.demo.cache.BaseCacheService;
-import jforgame.demo.db.DbService;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.accout.entity.AccountEnt;
 import jforgame.demo.game.core.MessagePusher;
@@ -118,7 +118,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         // 手动放入缓存
         super.put(playerId, player);
 
-        DbService.getInstance().saveToDb(player);
+        AsyncDbService.getInstance().saveToDb(player);
 
         PlayerProfile baseInfo = new PlayerProfile();
         baseInfo.setId(playerId);

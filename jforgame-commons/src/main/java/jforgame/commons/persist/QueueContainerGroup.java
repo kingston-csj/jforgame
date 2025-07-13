@@ -1,6 +1,4 @@
-package jforgame.orm.asyncdb;
-
-import jforgame.orm.entity.BaseEntity;
+package jforgame.commons.persist;
 
 /**
  * 以队列组的形式持久化
@@ -23,7 +21,7 @@ public class QueueContainerGroup extends QueueContainer {
     }
 
     @Override
-    public void receive(BaseEntity<?> entity) {
+    public void receive(Entity<?> entity) {
         int index = entity.getId().hashCode() % group.length;
         group[index].receive(entity);
     }

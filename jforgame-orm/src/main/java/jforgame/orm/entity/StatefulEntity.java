@@ -63,6 +63,11 @@ public abstract class StatefulEntity extends Stateful {
     }
 
     @Override
+    public final boolean isNormal() {
+        return this.statusRef.get() == DbStatus.NORMAL;
+    }
+
+    @Override
     public final boolean isInsert() {
         return this.statusRef.get() == DbStatus.INSERT;
     }

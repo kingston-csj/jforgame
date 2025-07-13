@@ -24,7 +24,7 @@ class SqlParameterUtils {
      * 获取插入SQL的参数值
      */
     public static List<Object> getInsertParameters(StatefulEntity entity, OrmBridge bridge) {
-        List<String> properties = bridge.listProperties();
+        List<String> properties = bridge.listAllProperties();
         return getFieldValues(entity, properties, bridge);
     }
 
@@ -53,18 +53,18 @@ class SqlParameterUtils {
                 }
                 updateValues.add(value);
             } catch (Exception e) {
-                logger.error("Failed to get field value for property: " + property, e);
+                logger.error("Failed to get field value for property: {}", property, e);
                 updateValues.add(null);
             }
         }
 
         // 获取WHERE子句的参数
-        for (String property : bridge.getQueryProperties()) {
+        for (String property : bridge.getPrimaryKeyProperties()) {
             try {
                 Object value = ReflectUtils.getMethodValue(entity, property);
                 whereValues.add(value);
             } catch (Exception e) {
-                logger.error("Failed to get query property value: " + property, e);
+                logger.error("Failed to get query property value: {}", property, e);
                 whereValues.add(null);
             }
         }
@@ -82,13 +82,13 @@ class SqlParameterUtils {
     public static List<Object> getDeleteParameters(StatefulEntity entity, OrmBridge bridge) {
         List<Object> whereValues = new ArrayList<>();
 
-        for (String property : bridge.getQueryProperties()) {
+        for (String property : bridge.getPrimaryKeyProperties()) {
             try {
                 Object value = ReflectUtils.getMethodValue(entity, property);
                 whereValues.add(value);
             } catch (Exception e) {
-                logger.error("Failed to get query property value: " + property, e);
-                whereValues.add(null);
+                logger.error("Failed to get query property value: {}", property, e);
+                throw new RuntimeException("Failed to get query property value: " + property, e);
             }
         }
 
@@ -109,7 +109,7 @@ class SqlParameterUtils {
                 }
                 values.add(value);
             } catch (Exception e) {
-                logger.error("Failed to get field value for property: " + property, e);
+                logger.error("Failed to get field value for property: {}", property, e);
                 values.add(null);
             }
         }

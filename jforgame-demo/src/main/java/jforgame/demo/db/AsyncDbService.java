@@ -1,28 +1,26 @@
 package jforgame.demo.db;
 
+import jforgame.commons.persist.DbService;
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.PersistContainer;
+import jforgame.commons.persist.QueueContainer;
+import jforgame.commons.persist.SavingStrategy;
 import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.demo.game.logger.LoggerUtils;
-import jforgame.orm.asyncdb.PersistContainer;
-import jforgame.orm.asyncdb.QueueContainer;
-import jforgame.orm.asyncdb.SavingStrategy;
 import jforgame.orm.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 /**
  * 用户数据异步持久化的服务
- *
  */
-public class DbService {
+public class AsyncDbService implements DbService {
 
-    private static Logger logger = LoggerFactory.getLogger(DbService.class);
+    private static Logger logger = LoggerFactory.getLogger(AsyncDbService.class);
 
-    private static volatile DbService instance = new DbService();
+    private static volatile AsyncDbService instance = new AsyncDbService();
 
-    public static DbService getInstance() {
+    public static AsyncDbService getInstance() {
         return instance;
     }
 
@@ -33,12 +31,11 @@ public class DbService {
     private PersistContainer commonWorker = new QueueContainer("common", savingStrategy);
 
     /**
-     * 自动插入或者更新数据
+     * 数据实体持久化到数据库
      *
      * @param entity
      */
-    public void saveToDb(BaseEntity<?> entity) {
-        // 防止重复添加
+    public void saveToDb(Entity<?> entity) {
         if (entity instanceof PlayerEnt) {
             playerWorker.receive(entity);
         } else {
@@ -47,23 +44,25 @@ public class DbService {
     }
 
     /**
+     * 删除数据
+     *
+     * @param entity
+     */
+    public void deleteFromDb(Entity<?> entity) {
+        BaseEntity baseEntity = (BaseEntity) entity;
+        baseEntity.setDelete();
+        saveToDb(entity);
+    }
+
+    /**
+     * 增加更新表字段
      * 仅更新部分字段
      *
      * @param entity
      * @param columns
      */
     public void saveColumns(BaseEntity entity, String... columns) {
-        entity.savingColumns().add(Arrays.stream(columns).collect(Collectors.joining()));
-        saveToDb(entity);
-    }
-
-    /**
-     * 删除数据
-     *
-     * @param entity
-     */
-    public void delete(BaseEntity entity) {
-        entity.setDelete();
+        entity.savingColumns().add(String.join("", columns));
         saveToDb(entity);
     }
 
