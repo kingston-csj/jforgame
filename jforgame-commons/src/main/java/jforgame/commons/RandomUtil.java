@@ -1,6 +1,5 @@
-package jforgame.demo.utils;
+package jforgame.commons;
 
-import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 /**
+ * 随机工具类
  * Created by Carson
  */
 public class RandomUtil {
@@ -72,7 +72,7 @@ public class RandomUtil {
      * @return 索引列表
      */
     public static List<Integer> randomIndexList(List<Integer> probabilityList, int count, boolean remove) {
-        if (CollectionUtils.isEmpty(probabilityList)) {
+        if (probabilityList == null || probabilityList.isEmpty()) {
             throw new IllegalArgumentException("probabilityList is empty");
         }
         for (Integer prob : probabilityList) {
@@ -102,14 +102,14 @@ public class RandomUtil {
         return hits;
     }
 
-    public static <E> List<E> randomListResult(RandomWeightObject<E> randomWeightObject, int count, boolean remove) {
-        return randomWeightObject.randomListResult(count, remove);
-    }
-
-    public static <E> E randomOne(RandomWeightObject<E> randomWeightObject) {
-        return randomWeightObject.randomOneResult();
-    }
-
+    /**
+     * 随机一个对象
+     *
+     * @param objects  对象列表
+     * @param function 对象权重函数
+     * @param <E>      对象类型
+     * @return 随机对象
+     */
     public static <E> E randomOne(Collection<E> objects, Function<E, Integer> function) {
         int totalWeight = 0;
         for (E object : objects) {

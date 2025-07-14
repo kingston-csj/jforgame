@@ -52,6 +52,9 @@ public class ServerConfig {
 	@Element(required = true)
 	private String redisUrl;
 
+	@Element(required = true)
+	private FireWall fireWall;
+
 	private ServerConfig() {
 	}
 
@@ -161,5 +164,13 @@ public class ServerConfig {
 
 	public void setMaxReceiveBytes(int maxReceiveBytes) {
 		this.maxReceiveBytes = maxReceiveBytes;
+	}
+
+	public FireWall getFireWall() {
+		return fireWall;
+	}
+
+	public void setFireWall(FireWall fireWall) {
+		this.fireWall = fireWall;
 	}
 }

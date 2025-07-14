@@ -18,10 +18,10 @@ public class SchemaUpdate {
         TableConfiguration tableConfiguration = new TableConfiguration();
         tableConfiguration.register(codeTables);
 
-        DatabaseMetadata databaseMetadata = new DatabaseMetadata(con);
+        DatabaseSchema databaseMetadata = new DatabaseSchema(con);
         List<String> tables = databaseMetadata.getTables(con);
         for (String table : tables) {
-            databaseMetadata.getTableMetadata(table);
+            databaseMetadata.getOrCreateTableMetadata(table);
         }
 
         List<String> sqls = createDdlSqls(tableConfiguration.getTables(), databaseMetadata.getTables());

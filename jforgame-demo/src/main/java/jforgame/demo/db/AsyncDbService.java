@@ -50,7 +50,7 @@ public class AsyncDbService implements DbService {
      */
     public void deleteFromDb(Entity<?> entity) {
         BaseEntity baseEntity = (BaseEntity) entity;
-        baseEntity.setDelete();
+        baseEntity.markAsSoftDeleted();
         saveToDb(entity);
     }
 
@@ -62,7 +62,7 @@ public class AsyncDbService implements DbService {
      * @param columns
      */
     public void saveColumns(BaseEntity entity, String... columns) {
-        entity.savingColumns().add(String.join("", columns));
+        entity.addModifiedColumn(columns);
         saveToDb(entity);
     }
 

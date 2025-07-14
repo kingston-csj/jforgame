@@ -2,7 +2,7 @@ package jforgame.demo.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import jforgame.orm.core.DataRepository;
+import jforgame.orm.core.OrmTemplate;
 import jforgame.orm.entity.StatefulEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +30,17 @@ public class DbUtils {
     public static final String DB_USER = "user";
 
 
-    private static DataRepository configDataRepository;
+    private static OrmTemplate configOrmTemplate;
 
-    private static DataRepository userDataRepository;
+    private static OrmTemplate userOrmTemplate;
 
     public static void init() throws Exception {
         Properties props = new Properties();
         props.load(new FileReader("configs/jdbc.properties"));
         HikariDataSource configDataSource = createDataSource(props, DB_DATA);
         HikariDataSource userDataSource = createDataSource(props, DB_USER);
-        configDataRepository = new DataRepository(configDataSource);
-        userDataRepository = new DataRepository(userDataSource);
+        configOrmTemplate = new OrmTemplate(configDataSource);
+        userOrmTemplate = new OrmTemplate(userDataSource);
     }
 
     private static HikariDataSource createDataSource(Properties props, String db) {
@@ -60,8 +60,8 @@ public class DbUtils {
      * 查询返回一个bean实体
      */
     public static <T> T queryOne(String alias, String sql, Class<?> entity, String id) throws SQLException {
-        DataRepository dataRepository = getConnection(alias);
-        return dataRepository.queryOne(sql, entity, id);
+        OrmTemplate OrmTemplate = getConnection(alias);
+        return OrmTemplate.queryOne(sql, entity, id);
     }
 
 
@@ -74,8 +74,8 @@ public class DbUtils {
      * @return
      */
     public static <T> List<T> queryMany(String alias, String sql, Class<?> entity) throws SQLException {
-        DataRepository dataRepository = getConnection(alias);
-        return dataRepository.queryMany(sql, entity);
+        OrmTemplate OrmTemplate = getConnection(alias);
+        return OrmTemplate.queryMany(sql, entity);
     }
 
     /**
@@ -86,8 +86,8 @@ public class DbUtils {
      * @return
      */
     public static Map<String, Object> queryMap(String alias, String sql) throws SQLException {
-        DataRepository dataRepository = getConnection(alias);
-        return dataRepository.queryMap(sql);
+        OrmTemplate OrmTemplate = getConnection(alias);
+        return OrmTemplate.queryMap(sql);
     }
 
     /**
@@ -98,8 +98,8 @@ public class DbUtils {
      * @return
      */
     public static List<Map<String, Object>> queryMapList(String alias, String sql) throws SQLException {
-        DataRepository dataRepository = getConnection(alias);
-        return dataRepository.queryMapList(sql);
+        OrmTemplate OrmTemplate = getConnection(alias);
+        return OrmTemplate.queryMapList(sql);
     }
 
     /**
@@ -109,30 +109,30 @@ public class DbUtils {
      * @return
      */
     public static int executeUpdate(String sql) throws SQLException {
-        DataRepository dataRepository = getConnection(DB_USER);
-        return dataRepository.executeUpdate(sql);
+        OrmTemplate OrmTemplate = getConnection(DB_USER);
+        return OrmTemplate.executeUpdate(sql);
     }
 
     public static int executePreparedUpdate(StatefulEntity entity) throws SQLException {
-        DataRepository dataRepository = getConnection(DB_USER);
-        return dataRepository.executeUpdate(entity);
+        OrmTemplate OrmTemplate = getConnection(DB_USER);
+        return OrmTemplate.executeUpdate(entity);
     }
 
     public static int executeDelete(StatefulEntity entity) throws SQLException {
-        DataRepository dataRepository = getConnection(DB_USER);
-        return dataRepository.executeDelete(entity);
+        OrmTemplate OrmTemplate = getConnection(DB_USER);
+        return OrmTemplate.executeDelete(entity);
     }
 
     public static int executePreparedInsert(StatefulEntity entity) throws SQLException {
-        DataRepository dataRepository = getConnection(DB_USER);
-        return dataRepository.executeInsert(entity);
+        OrmTemplate OrmTemplate = getConnection(DB_USER);
+        return OrmTemplate.executeInsert(entity);
     }
 
-    public static DataRepository getConnection(String alias) {
+    public static OrmTemplate getConnection(String alias) {
         if (DB_DATA.equals(alias)) {
-            return configDataRepository;
+            return configOrmTemplate;
         } else if (DB_USER.equals(alias)) {
-            return userDataRepository;
+            return userOrmTemplate;
         } else {
             throw new RuntimeException("数据库别名不存在");
         }

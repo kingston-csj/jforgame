@@ -3,7 +3,6 @@ package jforgame.demo;
 import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.demo.game.vip.model.VipRight;
 import jforgame.demo.socket.GameServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ public class ServerStartup {
             // test
 //            PlayerEnt p = GameContext.playerManager.get(10000L);
 //            p.setLevel(666);
-//            p.setVipRight(new VipRight());
 //            p.setName("robot22");
 ////            AsyncDbService.getInstance().deleteFromDb(p);
 //            Thread.sleep(3000);

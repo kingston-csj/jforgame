@@ -10,9 +10,9 @@ public class ConfigActivity {
 
     @Column
     @Id
-    private int id;
+    private Integer id;
     /**
-     * 活动类型 {@link ActivityTypes#getType()}
+     * 活动类型
      */
     @Column
     private int type;
@@ -22,11 +22,11 @@ public class ConfigActivity {
     @Column
     private String name;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

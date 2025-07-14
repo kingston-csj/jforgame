@@ -24,6 +24,17 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>2.2.3</version>
         </dependency>
+        <!-- 这里特别申明下jackson的依赖版本，如果没有加下面两个配置，拿到的是2.13.1??!!-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version.annotations}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version.core}</version>
+        </dependency>
     </dependencies>
 
 </project>

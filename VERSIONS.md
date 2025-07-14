@@ -124,6 +124,33 @@
 
     websocket增加客户端工具
 
+
+## V2.4.0()
+
+### jforgame-orm
+    新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
+
+### jforgame-commons
+
+    增加trie树结构，用于实现脏词检测
+    增加persist工具，用于实现对象异步持久化
+    增加MethodCaller工具，基于句柄反射工具
+    新增随机库RandomUtil, RandomWeightObject
+
+### jforgame-spring-boot-starter-data
+
+    excel配置读取改用FileSystemResource；完善表格读取异常日志；增加导出export选项
+
+### jforgame-socket-netty
+
+    增加websocket帧聚合器，处理大数据请求
+
+### jforgame-socket-parent
+
+    消息处理器使用方法句柄代替传统反射，大幅提升性能
+
+
+
 ## V3.1.0（计划） api变动！！
 
 ### jforgame-commons 新增util包，容纳所有工具类, Pair, Triple放到ds包下

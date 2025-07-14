@@ -18,17 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 提供所有数据表CRUD接口，以及执行任意sql的接口
  * 数据库相关方法
  * 注意：此类的所有crud方法都会自动关闭数据库连接，避免用在事务环境！！
  * 游戏领域不需要事务，如果需要事务，不要使用此类方法！！
  */
-public class DataRepository {
+public class OrmTemplate {
 
-    private static Logger logger = LoggerFactory.getLogger(DataRepository.class);
+    private static Logger logger = LoggerFactory.getLogger(OrmTemplate.class);
 
     private final DataSource dataSource;
 
-    public DataRepository(DataSource dataSource) {
+    public OrmTemplate(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -37,7 +38,7 @@ public class DataRepository {
     }
 
     /**
-     * 查询返回一个bean实体
+     * 查询返回指定类型的第一条实体
      *
      * @param sql
      * @param entity
@@ -83,7 +84,6 @@ public class DataRepository {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
             statement.setObject(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -203,7 +203,6 @@ public class DataRepository {
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
-
             statement.execute(sql);
             return true;
         } catch (Exception e) {

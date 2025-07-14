@@ -18,4 +18,10 @@
 	<crossPort>9627</crossPort>
 
 	<redisUrl>127.0.0.1:8001</redisUrl>
+
+	<fireWall>
+		<maxPackagePerSecond>3</maxPackagePerSecond>
+		<floodWindowSeconds>60</floodWindowSeconds>
+		<maxFloodTimes>5</maxFloodTimes>
+	</fireWall>
 </server>

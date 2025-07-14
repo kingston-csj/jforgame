@@ -29,5 +29,4 @@ public interface DbService {
      */
     void shutDown();
 
-
 }

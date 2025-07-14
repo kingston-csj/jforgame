@@ -16,7 +16,7 @@ public class ConfigPlayerLevel {
 	 */
 	@Id
 	@Column
-	private int level;
+	private Integer level;
 	
 	/**
 	 * 升到下一级别需要的经验
@@ -30,11 +30,11 @@ public class ConfigPlayerLevel {
 	@Column
 	private int vitality;
 
-	public int getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 

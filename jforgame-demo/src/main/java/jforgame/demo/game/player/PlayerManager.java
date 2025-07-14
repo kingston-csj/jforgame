@@ -10,7 +10,6 @@ import jforgame.demo.game.accout.entity.AccountEnt;
 import jforgame.demo.game.core.MessagePusher;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.demo.game.login.model.Platform;
 import jforgame.demo.game.player.events.PlayerLogoutEvent;
 import jforgame.demo.game.player.message.res.ResCreateNewPlayer;
 import jforgame.demo.game.player.message.res.ResKickPlayer;
@@ -112,7 +111,6 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         PlayerEnt player = new PlayerEnt();
         player.setId(IdGenerator.getNextId());
         player.setName(name);
-        player.setPlatform(Platform.ANDROID);
 
         long playerId = player.getId();
         // 手动放入缓存

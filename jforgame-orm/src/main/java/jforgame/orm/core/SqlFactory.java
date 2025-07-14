@@ -50,8 +50,8 @@ class SqlFactory {
      * 创建更新SQL（参数化版本）
      */
     public static String createUpdatePreparedSql(StatefulEntity entity, OrmBridge bridge) {
-        Set<String> columns = entity.savingColumns();
-        boolean saveAll = entity.isSaveAll() || columns == null || columns.isEmpty();
+        Set<String> columns = entity.getAllModifiedColumns();
+        boolean saveAll = entity.isSaveAll();
 
         List<String> updateColumns = new ArrayList<>();
 

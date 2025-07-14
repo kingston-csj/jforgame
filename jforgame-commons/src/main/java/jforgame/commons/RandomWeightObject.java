@@ -1,4 +1,4 @@
-package jforgame.demo.utils;
+package jforgame.commons;
 
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public abstract class RandomWeightObject<E> {
      *
      * @return 随机结果
      */
-    public E randomOneResult() {
+    public E randomOne() {
         int index = RandomUtil.randomIndex(weights);
         return randomList.get(index);
     }
@@ -63,7 +63,7 @@ public abstract class RandomWeightObject<E> {
      * @param remove 被随机的元素是否从列表中移除
      * @return 随机结果
      */
-    public List<E> randomListResult(int count, boolean remove) {
+    public List<E> randomList(int count, boolean remove) {
         List<E> results = new ArrayList<>(count);
         List<Integer> indexs = RandomUtil.randomIndexList(weights, count, remove);
         indexs.forEach(i -> results.add(randomList.get(i)));

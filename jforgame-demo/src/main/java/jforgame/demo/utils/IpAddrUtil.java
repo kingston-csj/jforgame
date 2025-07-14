@@ -21,12 +21,12 @@ public class IpAddrUtil {
                 ip = address.nextElement();
                 if (!ip.isSiteLocalAddress()
                         && !ip.isLoopbackAddress()
-                        && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
+                        && !ip.getHostAddress().contains(":")) {// 外网IP
                     netip = ip.getHostAddress();
                     found = true;
                     break;
                 } else if (ip.isSiteLocalAddress()
-                        && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
+                        && !ip.isLoopbackAddress() && !ip.getHostAddress().contains(":")) {// 内网IP
                     localip = ip.getHostAddress();
                 }
             }

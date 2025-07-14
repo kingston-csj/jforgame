@@ -32,8 +32,8 @@ class SqlParameterUtils {
      * 获取更新SQL的参数值
      */
     public static List<Object> getUpdateParameters(StatefulEntity entity, OrmBridge bridge) {
-        Set<String> columns = entity.savingColumns();
-        boolean saveAll = entity.isSaveAll() || columns == null || columns.isEmpty();
+        Set<String> columns = entity.getAllModifiedColumns();
+        boolean saveAll = entity.isSaveAll();
 
         List<Object> updateValues = new ArrayList<>();
         List<Object> whereValues = new ArrayList<>();

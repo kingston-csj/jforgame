@@ -1,11 +1,11 @@
 package jforgame.orm.core;
 
-import jforgame.orm.converter.Convert;
 import jforgame.orm.converter.ConvertorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Convert;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -107,6 +107,7 @@ public class BeanProcessor {
             throws SQLException {
         Method setter = prop.getWriteMethod();
         if (setter == null) {
+            logger.info("实体[{}]字段[{}]没有对应的setter方法", target.getClass().getName(), prop.getName());
             return;
         }
         Class<?>[] params = setter.getParameterTypes();

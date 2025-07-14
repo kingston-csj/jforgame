@@ -1,12 +1,10 @@
 package jforgame.demo.game.database.user;
 
-import jforgame.orm.converter.Convert;
+import jforgame.orm.converter.support.JpaObjectConverter;
 import jforgame.orm.entity.BaseEntity;
-import jforgame.orm.converter.JsonAttributeConverter;
-import jforgame.demo.game.login.model.Platform;
-import jforgame.demo.game.vip.model.VipRight;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.lang.reflect.Modifier;
@@ -45,13 +43,6 @@ public class PlayerEnt extends BaseEntity<Long> {
      */
     @Column
     private long lastDailyReset;
-
-    @Column
-    @Convert(converter = JsonAttributeConverter.class)
-    private VipRight vipRight;
-
-    @Column(columnDefinition = "varchar(16)")
-    private Platform platform;
 
     public PlayerEnt() {
     }
@@ -97,28 +88,12 @@ public class PlayerEnt extends BaseEntity<Long> {
         this.lastDailyReset = lastDailyReset;
     }
 
-    public Platform getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
     public long getAccountId() {
         return accountId;
     }
 
     public void setAccountId(long accountId) {
         this.accountId = accountId;
-    }
-
-    public VipRight getVipRight() {
-        return vipRight;
-    }
-
-    public void setVipRight(VipRight vipRight) {
-        this.vipRight = vipRight;
     }
 
     @Override

@@ -49,6 +49,10 @@ public enum OrmProcessor {
         for (Field field : fields) {
             String fieldName = field.getName();
             if (field.getAnnotation(Id.class) != null) {
+                // 不能是基本类型
+                if (field.getType().isPrimitive()) {
+                    throw new OrmConfigException(clazz.getSimpleName() + " entity 主键字段不能是基本类型");
+                }
                 bridge.addUniqueKey(fieldName);
             }
             Column column = field.getAnnotation(Column.class);

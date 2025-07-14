@@ -1,9 +1,9 @@
 package jforgame.orm.core;
 
-import jforgame.orm.converter.Convert;
 import jforgame.orm.converter.ConvertorFactory;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Convert;
 import java.lang.reflect.Field;
 
 /**

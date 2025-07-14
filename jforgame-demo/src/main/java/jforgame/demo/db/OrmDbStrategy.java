@@ -15,11 +15,11 @@ public class OrmDbStrategy implements SavingStrategy {
         // 入库前准备
         baseEntity.beforeSave();
         // 根据实体的状态，执行不同的入库操作
-        if (baseEntity.isDelete()) {
+        if (baseEntity.isSoftDeleted()) {
             DbUtils.executeDelete(baseEntity);
-        } else if (baseEntity.isUpdate()) {
+        } else if (baseEntity.isModified()) {
             DbUtils.executePreparedUpdate(baseEntity);
-        } else if (baseEntity.isInsert()) {
+        } else if (baseEntity.isNew()) {
             DbUtils.executePreparedInsert(baseEntity);
         }
         // 入库后处理

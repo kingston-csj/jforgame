@@ -17,8 +17,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
         implements Entity<Id> {
 
     /**
-     * 实体的主键属性最好定义为包装类型，防止属性与getter/setter方法类型不匹配
-     * TODO 增加起服验证
+     * 实体的主键属性，不能是基本类型，只能是包装类型，或者是String类型
      * entity id
      *
      * @return
@@ -61,7 +60,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
      */
     public final void afterSave() {
         this.statusRef.set(DbStatus.NORMAL);
-        this.columns.clear();
+        this.modifiedColumns.clear();
         this.saveAll.compareAndSet(true, false);
         onAfterSave();
     }

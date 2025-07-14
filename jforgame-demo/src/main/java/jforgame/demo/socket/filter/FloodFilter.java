@@ -2,7 +2,8 @@ package jforgame.demo.socket.filter;
 
 import jforgame.commons.NumberUtil;
 import jforgame.commons.TimeUtil;
-import jforgame.demo.FireWallConfig;
+import jforgame.demo.FireWall;
+import jforgame.demo.ServerConfig;
 import jforgame.socket.share.MessageHandler;
 import jforgame.demo.socket.model.FloodRecord;
 import jforgame.socket.share.IdSession;
@@ -55,7 +56,7 @@ public class FloodFilter implements MessageHandler {
 
     private static FloodRecord getFloodRecordBy(IdSession session) {
         Object record = session.getAttribute(
-				KEY_FLOOD);
+                KEY_FLOOD);
         if (record == null) {
             record = new FloodRecord();
             session.setAttribute(KEY_FLOOD, record);
@@ -65,7 +66,7 @@ public class FloodFilter implements MessageHandler {
     }
 
     private static void tryToResetFloodTimes(long now, FloodRecord record) {
-        FireWallConfig config = FireWallConfig.getInstance();
+        FireWall config = ServerConfig.getInstance().getFireWall();
         long diffTime = now - record.getLastFloodTime();
         if (NumberUtil.intValue(diffTime / TimeUtil.MILLIS_PER_SECOND) > config.getFloodWindowSeconds()) {
             record.setFloodTimes(0);
@@ -73,12 +74,12 @@ public class FloodFilter implements MessageHandler {
     }
 
     private static boolean isMessageTooFast(int packageSum) {
-        FireWallConfig config = FireWallConfig.getInstance();
+        FireWall config = ServerConfig.getInstance().getFireWall();
         return packageSum >= config.getMaxPackagePerSecond();
     }
 
     private static boolean isMeetFloodStandard(int floodTimes) {
-        FireWallConfig config = FireWallConfig.getInstance();
+        FireWall config = ServerConfig.getInstance().getFireWall();
         return floodTimes > config.getMaxFloodTimes();
     }
 

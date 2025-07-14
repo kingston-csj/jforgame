@@ -15,7 +15,7 @@ public class DefaultCacheContainer<K, V extends BaseEntity> extends AbstractCach
 	public V loadFromDb(K k) throws Exception {
 		V entity = persistable.load(k);
 		if (entity != null) {
-			entity.markPersistent();
+			entity.afterLoad();
 		}
 		return entity;
 	}
