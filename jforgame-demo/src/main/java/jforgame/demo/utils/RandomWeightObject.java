@@ -21,7 +21,7 @@ public abstract class RandomWeightObject<E> {
         while (iterator.hasNext()) {
             E element = iterator.next();
             int weight = getWeight(element);
-            if (weight > 0) {
+            if (weight <= 0) {
                 iterator.remove();
             } else {
                 weights.add(weight);
