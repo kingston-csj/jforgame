@@ -5,7 +5,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
@@ -14,27 +13,17 @@ import java.util.function.Function;
  */
 public class RandomUtil {
 
-    private static ThreadLocal<Random> tr = new ThreadLocal<Random>(){
-        @Override
-        protected Random initialValue() {
-            return new Random(System.currentTimeMillis());
-        }
-    };
-
-    public static final Random getRandom() {
-        return tr.get();
-    }
-
     /**
      * 返回0（包括）至Integer.MAX_VALUE(不包括)之间随机的一个数
+     *
      * @return
      */
-    public static final int nextInt() {
-        return getRandom().nextInt();
+    public static int nextInt() {
+        return ThreadLocalRandom.current().nextInt();
     }
 
-    public static final int nextInt(int n) {
-        return getRandom().nextInt(n);
+    public static int nextInt(int n) {
+        return ThreadLocalRandom.current().nextInt(n);
     }
 
     public static int randomValue(int min, int max) {
@@ -48,18 +37,12 @@ public class RandomUtil {
     }
 
 
-    public static int randomList( final List<Integer> probabilityList ) {
-        if (CollectionUtils.isEmpty(probabilityList)) {
-            throw new IllegalArgumentException("probabilityList is empty");
-        }
-        for (Integer i : probabilityList) {
-            if (i < 0) {
-                throw new IllegalArgumentException("probabilityList contains negative number");
-            }
-        }
-        return randomIndex(probabilityList);
-    }
-
+    /**
+     * 根据权重随机一个索引
+     *
+     * @param probs 权重列表
+     * @return 索引
+     */
     public static int randomIndex(List<Integer> probs) {
         if (probs == null || probs.isEmpty()) {
             return -1;
@@ -80,7 +63,15 @@ public class RandomUtil {
         throw new IllegalArgumentException("randomIndex out of range");
     }
 
-    public static List<Integer> randomList(List<Integer> probabilityList, int count, boolean remove) {
+    /**
+     * 根据权重随机一个索引列表
+     *
+     * @param probabilityList 权重列表
+     * @param count           随机数量
+     * @param remove          被挑中后是否移除
+     * @return 索引列表
+     */
+    public static List<Integer> randomIndexList(List<Integer> probabilityList, int count, boolean remove) {
         if (CollectionUtils.isEmpty(probabilityList)) {
             throw new IllegalArgumentException("probabilityList is empty");
         }
@@ -111,15 +102,15 @@ public class RandomUtil {
         return hits;
     }
 
-    public static <E> List<E> randomWeightList(RandomWeightObject<E> randomWeightObject, int count, boolean remove) {
-        return randomWeightObject.randomOneResult(count, remove);
+    public static <E> List<E> randomListResult(RandomWeightObject<E> randomWeightObject, int count, boolean remove) {
+        return randomWeightObject.randomListResult(count, remove);
     }
 
     public static <E> E randomOne(RandomWeightObject<E> randomWeightObject) {
         return randomWeightObject.randomOneResult();
     }
 
-    public static <E> E randomOneResult(Collection<E> objects, Function<E, Integer> function) {
+    public static <E> E randomOne(Collection<E> objects, Function<E, Integer> function) {
         int totalWeight = 0;
         for (E object : objects) {
             totalWeight += function.apply(object);
