@@ -3,9 +3,11 @@ package jforgame.demo.utils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 
 /**
  * Created by Carson
@@ -29,6 +31,10 @@ public class RandomUtil {
      */
     public static final int nextInt() {
         return getRandom().nextInt();
+    }
+
+    public static final int nextInt(int n) {
+        return getRandom().nextInt(n);
     }
 
     public static int randomValue(int min, int max) {
@@ -105,6 +111,32 @@ public class RandomUtil {
         return hits;
     }
 
-//    public static <E> List<E> randomWeightList()
+    public static <E> List<E> randomWeightList(RandomWeightObject<E> randomWeightObject, int count, boolean remove) {
+        return randomWeightObject.randomOneResult(count, remove);
+    }
+
+    public static <E> E randomOne(RandomWeightObject<E> randomWeightObject) {
+        return randomWeightObject.randomOneResult();
+    }
+
+    public static <E> E randomOneResult(Collection<E> objects, Function<E, Integer> function) {
+        int totalWeight = 0;
+        for (E object : objects) {
+            totalWeight += function.apply(object);
+        }
+        if (totalWeight <= 0) {
+            return null;
+        }
+        int random = nextInt(totalWeight);
+        int weight = 0;
+        for (E object : objects) {
+            weight += function.apply(object);
+            if (weight >= random) {
+                return object;
+            }
+        }
+        return null;
+
+    }
 
 }
