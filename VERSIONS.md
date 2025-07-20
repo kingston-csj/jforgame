@@ -134,12 +134,8 @@
 
     增加trie树结构，用于实现脏词检测
     增加persist工具，用于实现对象异步持久化
-    增加MethodCaller工具，基于句柄反射工具
-    新增随机库RandomUtil, RandomWeightObject
-
-### jforgame-spring-boot-starter-data
-
-    excel配置读取改用FileSystemResource；完善表格读取异常日志；增加导出export选项
+    增加MethodCaller工具，基于句柄高性能反射工具
+    新增随机工具RandomUtil, RandomWeightPool
 
 ### jforgame-socket-netty
 

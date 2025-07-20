@@ -26,6 +26,9 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
 
     /**
      * 从数据库加载完成的钩子
+     * 当entity从数据库加载完成后，应该调用该方法
+     * 该方法会标记entity为持久化状态，用于自动识别entity是更新还是插入状态
+     * 如果是new出来的实例，千万不要调用该方法，否则会导致插入失败
      */
     public final void afterLoad() {
         markPersistent();
@@ -59,6 +62,8 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
      * 当entity持久化之后，应该调用该方法
      */
     public final void afterSave() {
+        // 存储过一次，肯定是持久化过的
+        markPersistent();
         this.statusRef.set(DbStatus.NORMAL);
         this.modifiedColumns.clear();
         this.saveAll.compareAndSet(true, false);

@@ -37,39 +37,6 @@ public class OrmTemplate {
         return dataSource;
     }
 
-    /**
-     * 查询返回指定类型的第一条实体
-     *
-     * @param sql
-     * @param entity
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T queryOne(String sql, Class<?> entity) throws SQLException {
-        if (StringUtil.isEmpty(sql)) {
-            throw new SQLException("sql argument is null");
-        }
-        if (entity == null) {
-            throw new SQLException("entity argument is null");
-        }
-        OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity);
-        if (bridge == null) {
-            throw new SQLException(entity.getName() + " bridge is null");
-        }
-
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
-            }
-        } catch (Exception e) {
-            logger.error("DbUtils queryOne failed", e);
-            throw new SQLException(e);
-        }
-        return null;
-    }
-
     public <T> T queryOne(String sql, Class<?> entity, String id) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
             throw new SQLException("sql argument is null");

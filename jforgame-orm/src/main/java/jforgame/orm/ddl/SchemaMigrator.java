@@ -1,5 +1,7 @@
 package jforgame.orm.ddl;
 
+import org.slf4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,13 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
+/**
+ * 启动时根据实体类自动更新表结构（新增字段、索引等，不删除现有字段或表），对应 "update"参数
+ * {@link  SchemaAction#UPDATE}
+ */
+public class SchemaMigrator implements SchemaStrategy {
 
-public class SchemaUpdate {
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaMigrator.class);
 
-    private Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaUpdate.class);
-
-    public void execute(Connection con, Set<Class<?>> codeTables) throws SQLException {
+    @Override
+    public void doExecute(Connection con, Set<Class<?>> codeTables) throws SQLException {
         TableConfiguration tableConfiguration = new TableConfiguration();
         tableConfiguration.register(codeTables);
 
@@ -23,12 +28,16 @@ public class SchemaUpdate {
         for (String table : tables) {
             databaseMetadata.getOrCreateTableMetadata(table);
         }
-
         List<String> sqls = createDdlSqls(tableConfiguration.getTables(), databaseMetadata.getTables());
 
         for (String sql : sqls) {
             logger.info("执行schema --> {}", sql);
             con.createStatement().execute(sql);
+        }
+        try {
+            con.close();
+        } catch (Exception e) {
+            logger.error("关闭数据库连接失败", e);
         }
     }
 

@@ -7,11 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 随机权重对象
+ * 随机权重池
  *
  * @author Carson
  */
-public abstract class RandomWeightObject<E> {
+public abstract class RandomWeightPool<E> {
 
     /**
      * 权重列表
@@ -23,7 +23,7 @@ public abstract class RandomWeightObject<E> {
      */
     private final List<E> randomList;
 
-    public RandomWeightObject(Collection<E> randomList) {
+    public RandomWeightPool(Collection<E> randomList) {
         this.randomList = new ArrayList<>(randomList);
         Iterator<E> iterator = this.randomList.iterator();
         while (iterator.hasNext()) {
@@ -64,6 +64,9 @@ public abstract class RandomWeightObject<E> {
      * @return 随机结果
      */
     public List<E> randomList(int count, boolean remove) {
+        if (remove && count > randomList.size()) {
+            throw new IllegalArgumentException("count cannot larger than pool's size");
+        }
         List<E> results = new ArrayList<>(count);
         List<Integer> indexs = RandomUtil.randomIndexList(weights, count, remove);
         indexs.forEach(i -> results.add(randomList.get(i)));

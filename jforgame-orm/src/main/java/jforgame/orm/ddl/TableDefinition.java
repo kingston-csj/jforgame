@@ -26,6 +26,10 @@ class TableDefinition {
         columns.put(column.getName(), column);
     }
 
+    public Map<String, ColumnDefinition> getColumns() {
+        return columns;
+    }
+
     public String sqlCreateString() {
         StringBuilder buf = new StringBuilder("create table ")
                 .append(' ')

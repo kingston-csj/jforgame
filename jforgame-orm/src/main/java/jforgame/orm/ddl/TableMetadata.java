@@ -6,12 +6,17 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 class TableMetadata {
 
     private final String catalog;
     private final String schema;
     private final String name;
+    /**
+     * 所有列的信息
+     * 字段名通常不区分大小写，无论操作系统， 这里统一用小写存储
+     */
     private final Map<String, ColumnMetadata> columns = new HashMap<>();
     private final Map<String, IndexMetadata> indexes = new HashMap<>();
 
@@ -48,6 +53,14 @@ class TableMetadata {
 
     public IndexMetadata getIndexMetadata(String indexName) {
         return indexes.get(indexName.toLowerCase(Locale.ROOT));
+    }
+
+    public Map<String, ColumnMetadata> getColumns() {
+        return columns;
+    }
+
+    public Set<String> getColumnNames() {
+        return columns.keySet();
     }
 
     private void addIndex(ResultSet rs) throws SQLException {

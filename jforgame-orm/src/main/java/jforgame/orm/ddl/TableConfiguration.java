@@ -39,7 +39,12 @@ class TableConfiguration {
                         columnDef.setName(f.getName());
                     }
                     columnDef.setPrimary(f.getAnnotation(Id.class) != null);
-                    columnDef.setNullable(column.nullable());
+                    // 主键，值不能为空
+                    if (f.isAnnotationPresent(Id.class)) {
+                        columnDef.setNullable(false);
+                    } else {
+                        columnDef.setNullable(column.nullable());
+                    }
                     columnDef.setJdbcType(f.getType(), column.columnDefinition());
                     tableDefinition.addColumn(columnDef);
                 });

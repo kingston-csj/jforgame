@@ -23,9 +23,9 @@
   ├── jforgame-runtime --应用运行时监控数据，包括内存，线程，类等等
   ├── jforgame-socket-parent     --Tcp socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
       ├── jforgame-socket-api    --服务端/客户端基础API接口
-      ├── jforgame-socket-netty  --netty版实现，包含简易WebSocket
-      ├── jforgame-socket-mina   --mina版实现
-  ├── jforgame-orm     --使用自定义精心定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
+      ├── jforgame-socket-netty  --netty版实现，包含WebSocket服务端与客户端
+      ├── jforgame-socket-mina   --mina版实现， 不包WebSocket
+  ├── jforgame-orm     --专门为游戏服务器定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── jforgame-spring-boot-starter-data    --以springboot的starter模式封装对配置数据的读取，支持csv，excel等文件格式。支持配置数据热更新,支持二级缓存。       
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
@@ -34,8 +34,7 @@
       ├── jforgame-codec-struct     --普通javabean，反射实现  
   ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
-  |    ├──  db包，使用独立线程，异步处理玩家及公共数据的持久化  
-  |    ├──  monitor包，系统监控模块，包括使用jmx对程序进行监控  
+  |    ├──  db包，基于commons-persist和orm实现异步处理玩家及公共数据的持久化  
   |    ├──  listener包，事件驱动模型  
   |    ├──  doctor包，采用Groovy执行任意动态代码，或JDK的instrument机制修改类方法体 
   |    ├──  cross包，跨服赛事的通信基础 
@@ -88,7 +87,7 @@
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
   如果您发现bug，或者有任何疑问，请提交issue !!  
-  mysql合服工程，基于jforgame的分布式五子棋源代码，私聊获取。  
+  mysql合服工程，基于jforgame的分布式五子棋源代码(cocos+h5客户端)，私聊获取。  
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
   定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  
