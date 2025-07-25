@@ -20,6 +20,7 @@ public class DynamicClassLoader extends ClassLoader {
 
     /**
      * loading class data and its className
+     *
      * @param directoryPath the directory path you want to scan
      */
     public DynamicClassLoader(String directoryPath) {
@@ -50,8 +51,10 @@ public class DynamicClassLoader extends ClassLoader {
                 throw new ClassNotFoundException(name);
             }
             try {
-                c = super.defineClass(name, data, 0, data.length);
-                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                // 这里指定app classloader，不能用上下文加载器,因为如果在springmvc接口触发热更时,这里的classloader是tomcat的TomcatEmbeddedWebappClassLoader
+                // 转由app classloader加载,应用程序才可以直接使用, 否则会报 ClassNotFoundException
+                // 不能用DynamicClassLoader本身
+                ClassLoader loader = ClassLoader.getSystemClassLoader();
                 Method method = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, Integer.TYPE, Integer.TYPE);
                 method.setAccessible(true);
                 method.invoke(loader, name, data, 0, data.length);

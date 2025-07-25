@@ -144,6 +144,9 @@
 ### jforgame-spring-boot-starter-data
     ResourceAutoConfiguration类dataConversionService组件增加ConditionalOnMissingBean注解，允许用户自定义
 
+### jforgame-hotswap
+    修复无法热更新类的bug
+
 
 
 

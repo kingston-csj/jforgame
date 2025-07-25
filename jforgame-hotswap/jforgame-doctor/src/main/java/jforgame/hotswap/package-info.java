@@ -1,6 +1,6 @@
 /**
  * 注意：
- * 如果熱更工具用於jdk17+或以上版本，請在啓動命令增加
- * VM參數：-Djdk.attach.allowAttachSelf
+ * 如果热更工具用于jdk17或以上版本，请在启动添加 VM參數：
+ * -Djdk.attach.allowAttachSelf  --add-opens java.base/java.lang=ALL-UNNAMED
  */
 package jforgame.hotswap;
