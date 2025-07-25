@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Trie树，又称字典树或前缀树，是一种在算法中常用的数据结构。它主要用于解决通过前缀来联想完整单词的问题
  * 可用于脏词检测，好友模糊查询等场景
+ * @since 2.4.0
  */
 public class TrieDictionary {
 

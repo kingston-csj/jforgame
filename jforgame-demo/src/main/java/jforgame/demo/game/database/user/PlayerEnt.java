@@ -1,10 +1,8 @@
 package jforgame.demo.game.database.user;
 
-import jforgame.orm.converter.support.JpaObjectConverter;
 import jforgame.orm.entity.BaseEntity;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.lang.reflect.Modifier;
@@ -12,12 +10,9 @@ import java.util.Arrays;
 
 /**
  * 玩家实体
- *
  */
 @Entity(name = "playerent")
 public class PlayerEnt extends BaseEntity<Long> {
-
-    private static final long serialVersionUID = 8913056963732639062L;
 
     @Id
     @Column

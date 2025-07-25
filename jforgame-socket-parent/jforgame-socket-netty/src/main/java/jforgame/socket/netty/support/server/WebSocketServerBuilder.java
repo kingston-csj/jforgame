@@ -1,17 +1,12 @@
 package jforgame.socket.netty.support.server;
 
-import io.netty.handler.ssl.SslContext;
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.SelfSignedCertificate;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.support.ChannelIoHandler;
 import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.message.MessageFactory;
 
-import javax.net.ssl.SSLException;
 import java.io.File;
-import java.security.cert.CertificateException;
 
 public class WebSocketServerBuilder {
 
@@ -24,9 +19,9 @@ public class WebSocketServerBuilder {
     private MessageCodec messageCodec;
     private ChainedMessageDispatcher socketIoDispatcher;
     private String websocketPath = "/ws";
-    private SslContext sslContext;
-    private boolean enableSsl = false; // 默认不启用SSL
-    private boolean useSelfSignedCert = true; // 是否使用自签名证书
+//    private SslContext sslContext;
+//    private boolean enableSsl = false; // 默认不启用SSL
+//    private boolean useSelfSignedCert = true; // 是否使用自签名证书
     private String certDomain; // 证书域名
     private File certChainFile; // 证书链文件
     private File privateKeyFile; // 私钥文件
@@ -135,37 +130,37 @@ public class WebSocketServerBuilder {
         }
 
         // 配置SSL上下文
-        if (enableSsl) {
-            if (sslContext == null) {
-                try {
-                    if (useSelfSignedCert) {
-                        // 使用自签名证书
-                        SelfSignedCertificate ssc = certDomain != null ?
-                                new SelfSignedCertificate(certDomain) :
-                                new SelfSignedCertificate();
-                        sslContext = SslContextBuilder
-                                .forServer(ssc.certificate(), ssc.privateKey())
-                                .build();
-                    } else {
-                        // 使用正式证书
-                        if (certChainFile == null || privateKeyFile == null) {
-                            throw new IllegalArgumentException("certChainFile and privateKeyFile must not null when using formal certificate");
-                        }
-                        SslContextBuilder builder = SslContextBuilder.forServer(certChainFile, privateKeyFile);
-                        if (keyPassword != null) {
-                            builder.keyManager(certChainFile, privateKeyFile, keyPassword);
-                        }
-                        sslContext = builder.build();
-                    }
-                } catch (CertificateException | SSLException e) {
-                    throw new RuntimeException("Failed to initialize SSL context", e);
-                }
-            }
-        }
+//        if (enableSsl) {
+//            if (sslContext == null) {
+//                try {
+//                    if (useSelfSignedCert) {
+//                        // 使用自签名证书
+//                        SelfSignedCertificate ssc = certDomain != null ?
+//                                new SelfSignedCertificate(certDomain) :
+//                                new SelfSignedCertificate();
+//                        sslContext = SslContextBuilder
+//                                .forServer(ssc.certificate(), ssc.privateKey())
+//                                .build();
+//                    } else {
+//                        // 使用正式证书
+//                        if (certChainFile == null || privateKeyFile == null) {
+//                            throw new IllegalArgumentException("certChainFile and privateKeyFile must not null when using formal certificate");
+//                        }
+//                        SslContextBuilder builder = SslContextBuilder.forServer(certChainFile, privateKeyFile);
+//                        if (keyPassword != null) {
+//                            builder.keyManager(certChainFile, privateKeyFile, keyPassword);
+//                        }
+//                        sslContext = builder.build();
+//                    }
+//                } catch (CertificateException | SSLException e) {
+//                    throw new RuntimeException("Failed to initialize SSL context", e);
+//                }
+//            }
+//        }
 
         // 创建并配置服务器实例
         WebSocketServer socketServer = new WebSocketServer();
-        socketServer.sslContext = sslContext;
+//        socketServer.sslContext = sslContext;
         socketServer.nodeConfig = hostPort;
         socketServer.messageCodec = messageCodec;
         socketServer.messageFactory = messageFactory;

@@ -6,6 +6,7 @@ import java.util.Collection;
 /**
  * tire树节点
  * 每一个节点代表一个字符，节点下面包含多个子节点
+ * @since 2.4.0
  */
 public class TrieNode {
 

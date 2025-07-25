@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * websocket帧聚合器，处理大数据请求，将客户端多个帧为一个完整的帧
+ * @since 2.4.0
  */
 public class WebSocketFrameAggregator extends MessageToMessageDecoder<WebSocketFrame> {
     private final int maxFrameSize;

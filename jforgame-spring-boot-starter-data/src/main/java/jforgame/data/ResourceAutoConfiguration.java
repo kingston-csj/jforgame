@@ -30,6 +30,7 @@ public class ResourceAutoConfiguration {
     }
 
     @Bean(name = {"dataConversionService"})
+    @ConditionalOnMissingBean(name = "dataConversionService")
     public ConversionService createConversionService() {
         DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
         conversionService.addConverter(new JsonToListConvertor());

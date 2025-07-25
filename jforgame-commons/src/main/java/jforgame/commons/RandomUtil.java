@@ -10,6 +10,7 @@ import java.util.function.Function;
 /**
  * 随机工具类
  * Created by Carson
+ * @since 2.4.0
  */
 public class RandomUtil {
 

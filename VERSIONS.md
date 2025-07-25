@@ -114,7 +114,7 @@
 
 ### jforgame-commons
 
-    引入eventbus ;DateUtil新增若干方法
+    引入eventbus;DateUtil新增若干方法
 
 ### jforgame-spring-boot-starter-data
 
@@ -124,11 +124,7 @@
 
     websocket增加客户端工具
 
-
-## V2.4.0()
-
-### jforgame-orm
-    新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
+## V2.4.0(近期计划)
 
 ### jforgame-commons
 
@@ -145,13 +141,23 @@
 
     消息处理器使用方法句柄代替传统反射，大幅提升性能
 
+### jforgame-spring-boot-starter-data
+    ResourceAutoConfiguration类dataConversionService组件增加ConditionalOnMissingBean注解，允许用户自定义
+
+
+
+
+## V2.5.0(计划)
+
+### jforgame-orm （继续孵化，完善功能）
+    新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
 
 
 ## V3.1.0（计划） api变动！！
 
-### jforgame-commons 新增util包，容纳所有工具类, Pair, Triple放到ds包下
+### jforgame-commons 新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
 
-### jforgame-data Container#init()更名为afterLoad()
+### jforgame-data Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
 
 
 

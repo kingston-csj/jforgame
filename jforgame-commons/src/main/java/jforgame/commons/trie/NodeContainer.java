@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * 节点容器（包含所有孩子节点）
+ * @since 2.4.0
  */
 interface NodeContainer {
 

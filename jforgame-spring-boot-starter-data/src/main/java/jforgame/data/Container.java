@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Container<K extends Serializable & Comparable<K>, V> {
 
@@ -40,6 +42,16 @@ public class Container<K extends Serializable & Comparable<K>, V> {
 
     }
 
+    /**
+     * 数据校验
+     * 该接口会在所有数据加载完成后调用
+     * 可以在此接口中关联其他配置表进行校验
+     * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
+     */
+    public void validate() {
+
+    }
+
     public List<V> getRecordsBy(String name, Object index) {
         String key = indexKey(name, index);
         return indexMapper.getOrDefault(key, Collections.EMPTY_LIST);
@@ -47,6 +59,15 @@ public class Container<K extends Serializable & Comparable<K>, V> {
 
     public List<V> getAllRecords() {
         return new ArrayList<>(data.values());
+    }
+
+    /**
+     * 获取所有主键id
+     *
+     * @return
+     */
+    public Set<K> getAllKeys() {
+        return new TreeSet<>(data.keySet());
     }
 
     public V getRecord(K id) {

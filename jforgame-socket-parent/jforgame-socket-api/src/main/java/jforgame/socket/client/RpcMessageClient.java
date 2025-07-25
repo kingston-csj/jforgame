@@ -4,6 +4,9 @@ import jforgame.socket.share.IdSession;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 为请求回调提供简易的API
+ */
 public class RpcMessageClient {
 
     private static final AtomicInteger idFactory = new AtomicInteger(100);

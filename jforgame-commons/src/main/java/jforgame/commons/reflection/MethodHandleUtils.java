@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 高性能反射调用工具，使用 MethodHandle 替代传统反射
+ * @since 2.4.0
  */
 public final class MethodHandleUtils {
     // 方法调用器缓存（类 -> 方法签名 -> 方法调用器）

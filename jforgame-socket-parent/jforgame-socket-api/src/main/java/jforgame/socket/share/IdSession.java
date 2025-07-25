@@ -37,7 +37,7 @@ public interface IdSession extends Closeable {
     /**
      * session message before close session
      * the message will be wrapped to {@link SocketDataFrame}
-     *
+     * @since 2.2.2
      * @param packet message to send
      */
     void sendAndClose(Object packet) throws IOException;

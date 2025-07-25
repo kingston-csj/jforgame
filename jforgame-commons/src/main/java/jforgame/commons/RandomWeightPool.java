@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 随机权重池
- *
+ * @since 2.4.0
  * @author Carson
  */
 public abstract class RandomWeightPool<E> {

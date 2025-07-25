@@ -13,6 +13,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 处理客户端请求回调服务
+ * 包括同步和异步两种方式
+ */
 public class CallBackService {
 
     private static volatile CallBackService self;

@@ -31,6 +31,7 @@ import java.net.URI;
 
 /**
  * WebSocket客户端实现
+ * @since 2.3.0
  */
 public class WebSocketClient extends AbstractSocketClient {
 

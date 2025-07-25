@@ -2,7 +2,11 @@ package jforgame.data;
 
 import jforgame.commons.ClassScanner;
 import jforgame.data.annotation.DataTable;
+import jforgame.data.exception.DataValidateException;
 import jforgame.data.reader.DataReader;
+import jforgame.data.validate.CustomValidator;
+import jforgame.data.validate.DataValidator;
+import jforgame.data.validate.ForeignKeyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
@@ -13,6 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,9 +43,16 @@ public class DataManager implements DataRepository {
 
     private final ConcurrentMap<Class, Container> data = new ConcurrentHashMap<>();
 
+    /**
+     * 数据校验器，用于检查数据的完整性
+     */
+    private final List<DataValidator> validators = new LinkedList<>();
+
     public DataManager(ResourceProperties properties, DataReader dataReader) {
         this.properties = properties;
         this.dataReader = dataReader;
+        this.validators.add(new ForeignKeyValidator(this));
+        this.validators.add(new CustomValidator(this));
     }
 
     public void init() {
@@ -54,11 +66,39 @@ public class DataManager implements DataRepository {
         }
         Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getTableScanPath(), DataTable.class);
         classSet.forEach(this::registerContainer);
+        dataCheck(classSet);
     }
+
+    /**
+     * 数据完整性检查，包括外键约束检查
+     *
+     * @param classSet 需要检查的类集合
+     */
+    private void dataCheck(Set<Class<?>> classSet) {
+        logger.info("开始数据完整性检查...");
+        for (DataValidator validator : validators) {
+            try {
+                for (Class<?> clazz : classSet) {
+                    try {
+                        validator.check(clazz);
+                    } catch (Exception e) {
+                        logger.error("数据完整性检查失败，类: {}", clazz.getSimpleName(), e);
+                        throw new DataValidateException("数据完整性检查失败: " + clazz.getSimpleName(), e);
+                    }
+                }
+            } catch (Exception e) {
+                logger.error("数据完整性检查失败", e);
+                throw new IllegalStateException("数据完整性检查失败", e);
+            }
+        }
+        logger.info("数据完整性检查完成");
+    }
+
 
     /**
      * 根据领域类注册容器
      * 会自动加载对应的配置文件
+     *
      * @param table
      */
     public void registerContainer(Class<?> table) {
@@ -136,6 +176,7 @@ public class DataManager implements DataRepository {
 
     /**
      * 返回已加载的所有配置领域类
+     *
      * @return
      */
     public Set<Class> getAllTables() {

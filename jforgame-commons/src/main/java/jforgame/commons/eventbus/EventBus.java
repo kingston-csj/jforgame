@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 /**
  * 事件总线
  * 推荐使用单例模式获取实例
+ * @since 2.3.0
  */
 public class EventBus {
 

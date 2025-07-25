@@ -1,5 +1,8 @@
 package jforgame.socket.client;
 
+/**
+ * 请求对应的回调接口
+ */
 public interface RequestCallback<T> {
 
     /**

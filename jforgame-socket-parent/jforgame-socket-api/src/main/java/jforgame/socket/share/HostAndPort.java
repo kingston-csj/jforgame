@@ -1,5 +1,8 @@
 package jforgame.socket.share;
 
+/**
+ * socket连接的主机与端口
+ */
 public class HostAndPort {
 
     /**
@@ -19,6 +22,7 @@ public class HostAndPort {
 
         return hostPort;
     }
+
     public static HostAndPort valueOf(int port) {
         HostAndPort hostPort = new HostAndPort();
         hostPort.host = "localhost";

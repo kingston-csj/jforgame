@@ -6,6 +6,10 @@ import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 
+/**
+ * 抽象的socket客户端
+ * 提供更多的连接细节，参数配置
+ */
 public abstract class AbstractSocketClient implements SocketClient {
 
     protected SocketIoDispatcher ioDispatcher;
