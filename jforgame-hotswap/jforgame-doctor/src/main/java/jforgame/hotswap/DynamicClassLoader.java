@@ -3,6 +3,7 @@ package jforgame.hotswap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -48,8 +49,16 @@ public class DynamicClassLoader extends ClassLoader {
             if (data == null) {
                 throw new ClassNotFoundException(name);
             }
-            c = super.defineClass(name, data, 0, data.length);
-            logger.error("loaded new class {}", name);
+            try {
+                c = super.defineClass(name, data, 0, data.length);
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+                Method method = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, Integer.TYPE, Integer.TYPE);
+                method.setAccessible(true);
+                method.invoke(loader, name, data, 0, data.length);
+                logger.error("loaded new class {}", name);
+            } catch (Exception e) {
+                logger.error("load class {} failed", name, e);
+            }
         }
         return c;
     }
