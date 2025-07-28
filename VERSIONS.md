@@ -143,6 +143,7 @@
 
 ### jforgame-spring-boot-starter-data
     ResourceAutoConfiguration类dataConversionService组件增加ConditionalOnMissingBean注解，允许用户自定义
+    引入DataValidator数据完整性验证，目前包括主键及自定义验证规则
 
 ### jforgame-hotswap
     修复无法热更新类的bug

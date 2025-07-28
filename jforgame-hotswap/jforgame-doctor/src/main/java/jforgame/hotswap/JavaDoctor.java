@@ -43,12 +43,10 @@ public class JavaDoctor {
 
         fixData = bou.toByteArray();
 
-        redefineClasses(filePath, classBytes);
-
-        return true;
+        return redefineClasses(filePath, classBytes);
     }
 
-    private static void redefineClasses(String path, Map<String, byte[]> classBytes) {
+    private static boolean redefineClasses(String path, Map<String, byte[]> classBytes) {
         try {
             // 拿到当前jvm的进程id
             String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
@@ -60,9 +58,12 @@ public class JavaDoctor {
             logger.error("hot swap finished --> {}", log);
             if (exception != null) {
                 logger.error("hot swap failed ", exception);
+                return false;
             }
+            return true;
         } catch (Throwable e) {
             logger.error("", e);
+            return false;
         }
     }
 
