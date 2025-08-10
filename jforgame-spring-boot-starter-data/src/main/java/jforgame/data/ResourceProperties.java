@@ -26,6 +26,11 @@ public class ResourceProperties {
      */
     private String containerScanPath;
 
+    /**
+     * 通用常量表表名，默认为common.csv/common.xlsx
+     */
+    private String commonTableName = "common";
+
     public String getLocation() {
         return location;
     }
@@ -56,5 +61,13 @@ public class ResourceProperties {
 
     public void setContainerScanPath(String containerScanPath) {
         this.containerScanPath = containerScanPath;
+    }
+
+    public String getCommonTableName() {
+        return commonTableName;
+    }
+
+    public void setCommonTableName(String commonTableName) {
+        this.commonTableName = commonTableName;
     }
 }

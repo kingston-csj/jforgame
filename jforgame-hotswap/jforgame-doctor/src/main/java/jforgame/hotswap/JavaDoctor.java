@@ -27,6 +27,9 @@ public class JavaDoctor {
         DynamicClassLoader classLoader = new DynamicClassLoader(filePath);
         Map<String, byte[]> classBytes = classLoader.getClassBytes();
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
+            // 这里使用loadClass, 严格遵循双类委派机制
+            // 对于已经加载的类，不重复加载
+            // 只加载新的类
             classLoader.loadClass(entry.getKey());
         }
 

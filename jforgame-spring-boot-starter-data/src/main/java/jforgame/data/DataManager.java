@@ -2,6 +2,8 @@ package jforgame.data;
 
 import jforgame.commons.ClassScanner;
 import jforgame.data.annotation.DataTable;
+import jforgame.data.common.CommonContainer;
+import jforgame.data.common.CommonData;
 import jforgame.data.exception.DataValidateException;
 import jforgame.data.reader.DataReader;
 import jforgame.data.validate.CustomValidator;
@@ -64,7 +66,12 @@ public class DataManager implements DataRepository {
                 containerDefinitions.put(name, (Class<? extends Container>) c);
             });
         }
+
         Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getTableScanPath(), DataTable.class);
+        // 默认加载common表
+        classSet.add(CommonData.class);
+        containerDefinitions.put(properties.getCommonTableName(), CommonContainer.class);
+
         classSet.forEach(this::registerContainer);
         dataCheck(classSet);
     }
@@ -110,6 +117,10 @@ public class DataManager implements DataRepository {
         }
         TableDefinition definition = new TableDefinition(table);
         String tableName = definition.getResourceTable();
+        // 特殊处理common表
+        if (CommonData.class == table) {
+            tableName = properties.getCommonTableName();
+        }
         tableDefinitions.put(tableName, definition);
 
         reload(tableName);
@@ -124,16 +135,22 @@ public class DataManager implements DataRepository {
         }
         try {
             Resource resource = new FileSystemResource(properties.getLocation() + table + properties.getSuffix());
-            List<?> records = null;
-            try {
-                records = dataReader.read(resource.getInputStream(), definition.getClazz());
-            } catch (IOException e) {
-                throw new IllegalStateException(String.format("cannot read %s data file", table));
-            }
+            List<?> records = new LinkedList<>();
             Container container = new Container<>();
             if (containerDefinitions.containsKey(table)) {
                 container = containerDefinitions.get(table).newInstance();
             }
+            try {
+                records = dataReader.read(resource.getInputStream(), definition.getClazz());
+            } catch (IOException e) {
+                if (table.equals(properties.getCommonTableName())) {
+                    // 允许项目不使用common表相关功能
+                    logger.info("common表配置为空");
+                } else {
+                    throw new IllegalStateException(String.format("cannot read %s data file", table));
+                }
+            }
+
             container.inject(definition, records);
             // 二级缓存数据
             container.init();
