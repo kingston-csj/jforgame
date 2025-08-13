@@ -156,6 +156,15 @@
 ### jforgame-orm （继续孵化，完善功能）
     新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
 
+### jforgame-doctor
+    修复JavaDoctor#hotSwap()返回值有误
+
+### jforgame-data
+    增加通用配置项，参考CommonData类，CommonConfig注解相关，通过注解直接引用策划配置项
+
+### jforgame-commons
+    新增DigestUtil，ZipUtil两个工具类
+
 
 ## V3.1.0（计划） api变动！！
 
