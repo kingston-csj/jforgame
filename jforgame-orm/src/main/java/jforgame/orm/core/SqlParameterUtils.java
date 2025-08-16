@@ -1,16 +1,16 @@
 package jforgame.orm.core;
 
+import jforgame.commons.StringUtil;
+import jforgame.orm.converter.AttributeConversionException;
+import jforgame.orm.entity.StatefulEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import jforgame.commons.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jforgame.orm.entity.StatefulEntity;
 
 /**
  * SQL参数工具类
@@ -54,7 +54,7 @@ class SqlParameterUtils {
                 updateValues.add(value);
             } catch (Exception e) {
                 logger.error("Failed to get field value for property: {}", property, e);
-                updateValues.add(null);
+                throw new AttributeConversionException(e);
             }
         }
 
@@ -65,7 +65,7 @@ class SqlParameterUtils {
                 whereValues.add(value);
             } catch (Exception e) {
                 logger.error("Failed to get query property value: {}", property, e);
-                whereValues.add(null);
+                throw new RuntimeException(e);
             }
         }
 

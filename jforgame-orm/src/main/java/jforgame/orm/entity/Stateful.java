@@ -48,7 +48,7 @@ public abstract class Stateful {
     public abstract boolean isSoftDeleted();
 
     /**
-     * 标记实体为新增状态（准备插入数据库）
+     * 标记实体为新增状态（准备插入到数据库）
      */
     public abstract void markAsNew();
 

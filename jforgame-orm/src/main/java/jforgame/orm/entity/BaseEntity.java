@@ -9,17 +9,18 @@ import java.io.Serializable;
  * 基本实体类
  * 所有需要持久化的实体类都应该继承该类
  * 特别注意以下几个钩子方法一定需要接入
- * 1. {@link #afterLoad()} 当实体从数据库加载完成后，应该调用该方法，主要是用于标记实体为持久化状态，用于自动识别实体是更新还是插入状态， 与 beforeSave配合使用
- * 2. {@link #beforeSave()} 当实体准备持久化前，应该调用该方法，主要是用于自动识别实体是更新还是插入状态， 与 afterLoad配合使用
- * 3. {@link #afterSave()} 当实体持久化完成后，应该调用该方法，用于重置初实体为普通状态
+ * 1. {@link #afterLoad()} 当实体从数据库加载完成后，应该调用该方法，主要是用于标记实体为持久化状态，用于自动识别实体是更新还是插入状态
+ * 2. {@link #beforeSave()} 当实体准备持久化前，应该调用该方法，主要是用于自动识别实体是更新还是插入状态
+ * 3. {@link #afterSave()} 当实体持久化完成后，应该调用该方法，用于重置实体为普通状态
  */
 public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> extends StatefulEntity
         implements Entity<Id> {
 
     /**
      * 实体的主键属性，不能是基本类型，只能是包装类型，或者是String类型
+     * entity id
      *
-     * @return 实体的id
+     * @return
      */
     public abstract Id getId();
 
@@ -61,7 +62,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
      * 当entity持久化之后，应该调用该方法
      */
     public final void afterSave() {
-        // 存储过一次，肯定是持久化过的
+        // 存储过一次，肯定是持久化过的，如果是执行删除操作，无法重新保存
         markPersistent();
         this.statusRef.set(DbStatus.NORMAL);
         this.modifiedColumns.clear();

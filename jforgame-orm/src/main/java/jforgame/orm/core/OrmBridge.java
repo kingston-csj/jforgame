@@ -23,7 +23,7 @@ public class OrmBridge {
      */
     private Map<String, String> columnToPropertyOverride = new HashMap<>();
     /**
-     * 实体所有的主键字段
+     * 实体所有的主键字段，包括复合主键
      */
     private final Set<String> uniqueProperties = new HashSet<>();
 
@@ -44,7 +44,7 @@ public class OrmBridge {
     }
 
     /**
-     * 查询实体的语主键组合
+     * 返回实体的复合主键列表
      *
      * @return 实体所有的主键字段
      */

@@ -1,9 +1,5 @@
 package jforgame.orm;
 
-import java.util.Set;
-
-import javax.sql.DataSource;
-
 import jforgame.commons.ClassScanner;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.core.OrmProperties;
@@ -13,10 +9,16 @@ import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.ddl.SchemaValidator;
 import jforgame.orm.entity.BaseEntity;
 
+import javax.sql.DataSource;
+import java.util.Set;
+
+/**
+ * OrmEngine执行入口
+ */
 public class OrmEngine {
 
     /**
-     * 启动OrmEngine
+     * 启动引擎
      */
     public static void run(OrmProperties properties, DataSource dataSource) throws Exception {
         // 初始化orm框架
@@ -40,4 +42,5 @@ public class OrmEngine {
             new SchemaValidator().doExecute(dataSource.getConnection(), codeTables);
         }
     }
+
 }

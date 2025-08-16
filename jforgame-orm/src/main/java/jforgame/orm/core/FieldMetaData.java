@@ -1,6 +1,6 @@
 package jforgame.orm.core;
 
-import jforgame.orm.converter.ConvertorFactory;
+import jforgame.orm.converter.ConverterFactory;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Convert;
@@ -27,7 +27,7 @@ public class FieldMetaData {
         metadata.field = field;
         Convert annotation = field.getAnnotation(Convert.class);
         if (annotation != null) {
-            AttributeConverter convert = ConvertorFactory.getAttributeConverter(annotation.converter());
+            AttributeConverter convert = ConverterFactory.getAttributeConverter(annotation.converter());
             metadata.converter = convert;
         }
         return metadata;

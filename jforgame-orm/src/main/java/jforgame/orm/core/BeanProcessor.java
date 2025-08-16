@@ -1,6 +1,6 @@
 package jforgame.orm.core;
 
-import jforgame.orm.converter.ConvertorFactory;
+import jforgame.orm.converter.ConverterFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,7 +134,7 @@ public class BeanProcessor {
                     Field field = target.getClass().getDeclaredField(prop.getName());
                     Convert annotation = field.getAnnotation(Convert.class);
                     if (annotation != null) {
-                        AttributeConverter convert = ConvertorFactory.getAttributeConverter(annotation.converter());
+                        AttributeConverter convert = ConverterFactory.getAttributeConverter(annotation.converter());
                         value = convert.convertToEntityAttribute(value);
                     }
                 } catch (Exception e) {

@@ -118,7 +118,7 @@ public abstract class StatefulEntity extends Stateful {
 
     /**
      * 标记为已经持久化
-     * 当一个实体从数据库中加载出来，意味着这个实体已经存在于数据库中
+     * 当一个实体从数据库中加载出来，意识着这个实体已经存在于数据库中
      */
     protected void markPersistent() {
         persistent.compareAndSet(false, true);
