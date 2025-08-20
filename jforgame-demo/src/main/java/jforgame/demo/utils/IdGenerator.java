@@ -22,7 +22,7 @@ public class IdGenerator {
 
         long serverId = ServerConfig.getInstance().getServerId();
         return (serverId << 48)
-                | (((System.currentTimeMillis() / 1000) & 0xFFFFFFFF) << 16)
+                | ((System.currentTimeMillis() / 1000) << 16)
                 | (generator.getAndIncrement() & 0xFFFF);
     }
 

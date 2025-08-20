@@ -43,7 +43,7 @@ public class CallBackService {
             if (self == null) {
                 CallBackService newObj = new CallBackService();
                 self = newObj;
-                self.service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("common-scheduler"));
+                self.service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("socket-client-timer"));
 
                 self.timer = self.service.scheduleAtFixedRate(
                         () -> {
@@ -65,12 +65,12 @@ public class CallBackService {
      * 定时异常过期的回调
      */
     public void scanExpiredRequest() {
-        List<RequestResponseFuture> rfList = new LinkedList();
+        List<RequestResponseFuture> rfList = new LinkedList<>();
         Iterator<Map.Entry<Integer, RequestResponseFuture>> it = mapper.entrySet().iterator();
 
         RequestResponseFuture rf;
         while (it.hasNext()) {
-            Map.Entry<String, RequestResponseFuture> next = (Map.Entry) it.next();
+            Map.Entry<Integer, RequestResponseFuture> next = it.next();
             rf = next.getValue();
             if (rf.isTimeout()) {
                 it.remove();
