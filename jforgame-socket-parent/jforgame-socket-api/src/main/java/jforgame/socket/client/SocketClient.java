@@ -9,10 +9,23 @@ import java.io.IOException;
  */
 public interface SocketClient {
 
+    /**
+     * 打开一个会话
+     * @return 会话
+     * @throws IOException 连接失败
+     */
     IdSession openSession() throws IOException;
 
+    /**
+     * 关闭会话
+     * @throws IOException 关闭失败
+     */
     void close() throws IOException;
 
+    /**
+     * 获取会话
+     * @return 会话
+     */
     IdSession getSession();
 
 }

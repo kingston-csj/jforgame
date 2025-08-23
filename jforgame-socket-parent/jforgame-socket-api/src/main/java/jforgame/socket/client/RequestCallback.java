@@ -6,12 +6,17 @@ package jforgame.socket.client;
 public interface RequestCallback<T> {
 
     /**
-     * 请求方接受回调消息的业务处理
+     * 回调成功的处理
      *
      * @param callBack 回调的响应消息
      */
     void onSuccess(T callBack);
 
+    /**
+     * 回调失败的处理
+     *
+     * @param error 错误信息
+     */
     void onError(Throwable error);
 
 }

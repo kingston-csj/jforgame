@@ -8,8 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The annotation type is used in ordinal java bean
- * to specify module and cmd of the given message.
+ * 在一个普通的消息类上添加此注解，以绑定消息的类型
  */
 @Documented
 @Target(ElementType.TYPE)
@@ -17,21 +16,20 @@ import java.lang.annotation.Target;
 public @interface MessageMeta {
 
 	/**
-	 * indicate the message pipeline direction,
-	 * some from client to server, or from server to server
-	 * @return source meta of the message
+	 * 标记该消息的来源，例如客户端，或者服务器内部节点
+	 * 由业务层自行定义
 	 */
 	byte source() default 0;
 
 	/**
-	 * module of the message
-	 * @return module meta of the message
+	 * 消息模块
+	 * 由业务层自行定义
 	 */
 	short module() default 0;
 
 	/**
-	 * cmd of the message
-	 * @return cmd of the message
+	 * 消息类型
+	 * 由业务层自行定义
 	 */
 	int cmd() default 0;
 

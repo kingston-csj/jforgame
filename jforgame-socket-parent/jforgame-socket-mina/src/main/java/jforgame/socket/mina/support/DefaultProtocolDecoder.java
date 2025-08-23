@@ -18,70 +18,77 @@ import org.slf4j.LoggerFactory;
  * The message head including the length of the data frame and the message id meta.
  * If you want to contain other message meta, like the index of message, you need to store it in the message body.
  * The message body including just the bytes of message which needs to be decoded by {@link MessageCodec}
+ *
  * @see MessageCodec#decode(Class, byte[])
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
-	private final Logger logger = LoggerFactory.getLogger("socketserver");
+    private final Logger logger = LoggerFactory.getLogger("socketserver");
+    /**
+     * 最大的协议数据长度
+     */
+    private final int maxProtocolBytes;
+    /**
+     * 消息工厂
+     */
+    private MessageFactory messageFactory;
+    /**
+     * 消息解码器
+     */
+    private MessageCodec messageCodec;
 
-	private final int maxProtocolBytes;
+    public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
+        this(messageFactory, messageCodec, 4096);
+    }
 
-	private MessageFactory messageFactory;
+    public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec, int maxProtocolBytes) {
+        this.messageFactory = messageFactory;
+        this.messageCodec = messageCodec;
+        this.maxProtocolBytes = maxProtocolBytes;
+    }
 
-	private MessageCodec messageCodec;
+    @Override
+    protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
+        if (in.remaining() < DefaultMessageHeader.SIZE) {
+            return false;
+        }
+        in.mark();
 
-	public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
-		this(messageFactory, messageCodec, 4096);
-	}
+        // ----------------protocol pattern-------------------------
+        //      header(12bytes)     | body
+        // msgLength = 12+len(body) | body
+        // msgLength | index | cmd  | body
+        byte[] header = new byte[DefaultMessageHeader.SIZE];
+        in.get(header);
+        DefaultMessageHeader headerMeta = new DefaultMessageHeader();
+        headerMeta.read(header);
 
-	public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec, int maxProtocolBytes) {
-		this.messageFactory = messageFactory;
-		this.messageCodec = messageCodec;
-		this.maxProtocolBytes = maxProtocolBytes;
-	}
+        int length = headerMeta.getMsgLength();
+        if (length > maxProtocolBytes) {
+            logger.error("message data frame [{}] too large, close session now", length);
+            session.close(true);
+            return true;
+        }
 
-	@Override
-	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
-		if (in.remaining() < DefaultMessageHeader.SIZE) {
-			return false;
-		}
-		in.mark();
+        int cmd = headerMeta.getCmd();
+        int bodySize = length - DefaultMessageHeader.SIZE;
+        if (in.remaining() < bodySize) {
+            in.reset();
+            return false;
+        }
 
-		// ----------------protocol pattern-------------------------
-		//      header(12bytes)     | body
-		// msgLength = 12+len(body) | body
-		// msgLength | index | cmd  | body
-		byte[] header = new byte[DefaultMessageHeader.SIZE];
-		in.get(header);
-		DefaultMessageHeader headerMeta = new DefaultMessageHeader();
-		headerMeta.read(header);
+        byte[] body = new byte[bodySize];
+        in.get(body);
 
-		int length = headerMeta.getMsgLength();
-		if (length > maxProtocolBytes) {
-			logger.error("message data frame [{}] too large, close session now", length);
-			session.close(true);
-			return true;
-		}
+        // 流量统计
+        TrafficStatistic.addReceivedBytes(cmd, length);
+        TrafficStatistic.addReceivedNumber(cmd);
 
-		int cmd = headerMeta.getCmd();
-		int bodySize = length - DefaultMessageHeader.SIZE;
-		if (in.remaining() < bodySize) {
-			in.reset();
-			return false;
-		}
+        Class<?> msgClazz = messageFactory.getMessage(cmd);
+        Object msg = messageCodec.decode(msgClazz, body);
 
-		byte[] body = new byte[bodySize];
-		in.get(body);
-
-		// 流量统计
-		TrafficStatistic.addReceivedBytes(cmd, length);
-		TrafficStatistic.addReceivedNumber(cmd);
-
-		Class<?> msgClazz = messageFactory.getMessage(cmd);
-		Object msg = messageCodec.decode(msgClazz, body);
-
-		out.write(new RequestDataFrame(headerMeta, msg));
-		return true;
-	}
+        out.write(new RequestDataFrame(headerMeta, msg));
+        return true;
+    }
 
 }

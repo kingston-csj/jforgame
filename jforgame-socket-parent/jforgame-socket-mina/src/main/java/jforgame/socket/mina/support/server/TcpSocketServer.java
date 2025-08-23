@@ -23,9 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
+/**
+ * TCP协议的Socket服务器
+ */
 public class TcpSocketServer implements ServerNode {
 
     private final Logger logger = LoggerFactory.getLogger(TcpSocketServer.class);
@@ -88,7 +89,7 @@ public class TcpSocketServer implements ServerNode {
             acceptor.unbind();
             acceptor.dispose();
         }
-        logger.error("---------> socket server stop successfully");
+        logger.info("---------> socket server stop successfully");
     }
 
 }

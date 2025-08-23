@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * 通用的消息处理注册器，用于注册消息处理方法
+ */
 public class CommonMessageHandlerRegister extends DefaultMessageHandlerRegister {
 
     private final Logger logger = LoggerFactory.getLogger(getClass().getName());

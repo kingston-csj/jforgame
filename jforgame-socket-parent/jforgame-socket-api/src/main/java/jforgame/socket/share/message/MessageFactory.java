@@ -2,41 +2,48 @@ package jforgame.socket.share.message;
 
 import java.util.Collection;
 
+/**
+ * 消息工厂，用于注册和获取消息类
+ */
 public interface MessageFactory {
 
-
     /**
-     * binding  messageId and messageClass
-     * if messageId repeated, an IllegalStateException exception thrown
+     * 注册消息类
      *
-     * @param cmd cmd of the message
-     * @param clazz class type of the message
+     * @param cmd   消息id
+     * @param clazz 消息类
      */
     void registerMessage(int cmd, Class<?> clazz);
 
     /**
-     * return message class of the appointed messageId
+     * 通过消息号获取消息类
      *
-     * @param cmd cmd of the message
-     * @return target message class of the cmd
+     * @param cmd 消息id
+     * @return 消息类
      */
     Class<?> getMessage(int cmd);
 
     /**
-     * return id of the message
+     * 通过消息类获取消息号
      *
-     * @param clazz target message class
-     * @return cmd of the message class
+     * @param clazz 消息类
+     * @return 消息号
      */
     int getMessageId(Class<?> clazz);
 
+    /**
+     * 检查是否包含指定的消息类
+     *
+     * @param clazz 消息类
+     * @return 是否包含
+     */
     boolean contains(Class<?> clazz);
 
-
     /**
-     * return all registered class
+     * 获取所有已注册的消息类
+     *
+     * @return 所有已注册的消息类
      * @since 1.2.0
-     * @return a copied view  of the registered class
      */
     Collection<Class<?>> registeredClassTypes();
 

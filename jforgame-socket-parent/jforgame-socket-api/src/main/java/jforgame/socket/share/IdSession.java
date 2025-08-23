@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
- * A socket session abstraction. Allows sending messages over a socket connection and closing it.
- * The implements can be netty or mina.
+ * 会话接口，用于表示一个套接字连接会话。
+ * 该接口定义了会话的基本操作，如发送消息、关闭会话、获取会话属性等。
+ * 实现该接口的类可以是Netty或Mina等网络框架的会话类。
  */
 public interface IdSession extends Closeable {
 
@@ -37,8 +38,9 @@ public interface IdSession extends Closeable {
     /**
      * session message before close session
      * the message will be wrapped to {@link SocketDataFrame}
-     * @since 2.2.2
+     *
      * @param packet message to send
+     * @since 2.2.2
      */
     void sendAndClose(Object packet) throws IOException;
 

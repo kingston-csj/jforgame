@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A method whose type is meta-annotated with this
- * is used to be a logic handler
+ * 用于标记一个方法为请求处理方法
+ * 类似于springMVC的@RequestMapping注解
  */
 @Documented
 @Target(ElementType.METHOD)

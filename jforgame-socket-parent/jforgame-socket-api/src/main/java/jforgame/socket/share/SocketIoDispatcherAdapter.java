@@ -1,7 +1,7 @@
 package jforgame.socket.share;
 
 /**
- * SocketIoDispatcher adapter implements all the interface methods.
+ * 用于适配SocketIoDispatcher接口的默认实现
  */
 public class SocketIoDispatcherAdapter implements SocketIoDispatcher {
     @Override

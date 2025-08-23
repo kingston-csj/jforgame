@@ -5,6 +5,9 @@ import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.RequestDataFrame;
 
+/**
+ * 默认的消息参数转换器
+ */
 public class DefaultMessageParameterConverter implements MessageParameterConverter {
 
     private MessageFactory messageFactory;
@@ -16,7 +19,7 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
     @Override
     public Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object frame) {
         assert frame instanceof RequestDataFrame;
-        RequestDataFrame dataFrame = (RequestDataFrame)frame;
+        RequestDataFrame dataFrame = (RequestDataFrame) frame;
         Object message = dataFrame.getMessage();
         Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
         // 方法签名如果有两个参数，则为  method(IdSession session, Object message);

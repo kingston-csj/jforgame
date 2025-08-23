@@ -25,7 +25,7 @@ public class MessageTask extends BaseGameTask {
     private int msgIndex;
 
     /**
-     * message executor
+     * 消息执行器
      */
     private MessageExecutor methodExecutor;
 
@@ -34,7 +34,7 @@ public class MessageTask extends BaseGameTask {
      */
     private MethodCaller methodCaller;
     /**
-     * arguments passed to the method
+     * 实际传递到消息执行者的具体参数
      */
     private Object[] params;
 

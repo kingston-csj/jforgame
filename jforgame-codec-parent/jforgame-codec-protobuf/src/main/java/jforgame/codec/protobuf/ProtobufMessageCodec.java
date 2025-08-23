@@ -1,7 +1,9 @@
 package jforgame.codec.protobuf;
 
 import com.baidu.bjf.remoting.protobuf.Codec;
+import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
 import com.baidu.bjf.remoting.protobuf.ProtobufProxy;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import jforgame.codec.MessageCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * 
+ * protobuf 消息编码解码器
+ * 使用该编码器，服务端与客户端通过protobuf方式进行通信
+ * 对于一个消息类，服务器仅需在消息类上添加{@link ProtobufClass}注解即可
+ * 服务器可以通过{@link ProtobufIDLGenerator}生成对应的.proto文件
  */
 public class ProtobufMessageCodec implements MessageCodec {
 

@@ -1,8 +1,14 @@
 package jforgame.socket.client;
 
+import jforgame.socket.share.IdSession;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * 客户端请求响应Future，用于处理客户端的响应数据
+ * 如果客户端是通过{@link RpcMessageClient#request(IdSession, Object)}同步的方式发送请求，则响应数据会以{@link #waitResponseMessage(long)}的方式返回给调用者;
+ * 若客户端是通过{@link RpcMessageClient#callBack(IdSession, Object, RequestCallback)} 异步的方式发送请求，则响应数据会以{@link #putResponseMessage(Object)}的方式返回给调用者;
+ */
 public class RequestResponseFuture {
 
     private final int correlationId;

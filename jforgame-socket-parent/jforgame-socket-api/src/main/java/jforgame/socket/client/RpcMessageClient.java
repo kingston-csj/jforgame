@@ -5,7 +5,7 @@ import jforgame.socket.share.IdSession;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 为请求回调提供简易的API
+ * 为请求回调提供简易的API，主要用于跨服通信
  */
 public class RpcMessageClient {
 
@@ -14,12 +14,11 @@ public class RpcMessageClient {
     private static final int CALL_BACK_TIME_OUT = 5000;
 
     /**
-     * send a message to an appointed session and then register a callback
-     * when response arrives, the callback will be invoked.
-     * If no response arrives, a CallbackTimeoutException exception will be thrown.
-     * @param session target session
-     * @param request request message
-     * @param callBack response callback
+     * 往指定会话发送一个消息，并注册一个回调，当响应 arrives, 回调将被调用。
+     * 如果没有响应 arrives, 一个 CallbackTimeoutException 异常将被抛出。
+     * @param session target session 目标会话
+     * @param request request message 请求消息
+     * @param callBack response callback 响应回调
      * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
      */
     public static void callBack(IdSession session, Object request, RequestCallback callBack) throws CallbackTimeoutException {
@@ -30,12 +29,12 @@ public class RpcMessageClient {
     }
 
     /**
-     * send a message to an appointed session, a response message will be returned as a return value.
-     * If no response arrives, a CallbackTimeoutException exception will be thrown.
-     * @param session socket session
-     * @param request traceable message
-     * @return response message
-     * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown
+     * 往指定会话发送一个消息，并阻塞等待响应消息返回。
+     * 如果没有响应 arrives, 一个 CallbackTimeoutException 异常将被抛出。
+     * @param session socket session 目标会话
+     * @param request traceable message 请求消息
+     * @return response message 响应消息
+     * @throws CallbackTimeoutException when callback is timeout, an exception will be thrown 当回调超时，将抛出异常
      */
     public static Object request(IdSession session, Object request) throws CallbackTimeoutException {
         int index = idFactory.getAndIncrement();

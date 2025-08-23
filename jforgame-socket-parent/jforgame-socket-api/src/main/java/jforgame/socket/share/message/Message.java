@@ -3,16 +3,15 @@ package jforgame.socket.share.message;
 import jforgame.socket.share.annotation.MessageMeta;
 
 /**
- * socket message base interface.
- * remember this interface is optional.
- * you can use your own way to collection all message class and binding its cmd.
+ * 通信消息基础接口
+ * 该接口是可选的，你可以使用自己的方式来收集所有的消息类并绑定其cmd
  * @see MessageFactory
  */
 public interface Message {
 
     /**
-     * messageMeta, module of message
-     * @return module of message
+     * 消息模块，每一个消息绑定一个业务模块，可以极大提高业务逻辑的清晰度，也可以方便对模块作切面控制，例如：功能开关
+     * @return 消息模块
      */
     default short getModule() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
@@ -23,8 +22,10 @@ public interface Message {
     }
 
     /**
-     * messageMeta, subType of module
-     * @return cmd of message
+     * 消息cmd，每个消息都有一个唯一的cmd，用于在通信中识别消息类型
+     * 消息类型不可重复
+     * 每一个消息都会绑定到一个唯一的方法执行者
+     * @return 消息cmd
      */
     default int getCmd() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);

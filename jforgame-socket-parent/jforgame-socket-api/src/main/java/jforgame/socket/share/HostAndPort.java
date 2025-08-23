@@ -6,12 +6,12 @@ package jforgame.socket.share;
 public class HostAndPort {
 
     /**
-     * ip address
+     * 主机地址
      */
     private String host;
 
     /**
-     * socket port
+     * socket连接的端口
      */
     private int port;
 

@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+
+/**
+ * 默认的消息注册工厂
+ */
 public class DefaultMessageFactory implements MessageFactory {
 
 
@@ -19,12 +23,6 @@ public class DefaultMessageFactory implements MessageFactory {
         if (id2Clazz.containsKey(cmd)) {
             throw new IllegalStateException("message meta [" + cmd + "] duplicate！！");
         }
-//        MessageMeta meta = clazz.getAnnotation(MessageMeta.class);
-//        if (meta == null) {
-//            throw new RuntimeException("messages[" + clazz.getSimpleName() + "] missed MessageMeta annotation");
-//        }
-//        Logger logger = LoggerFactory.getLogger(DefaultMessageFactory.class);
-//        logger.debug("register message {} {} ", cmd, clazz.getSimpleName());
         id2Clazz.put(cmd, clazz);
         clazz2Id.put(clazz, cmd);
     }

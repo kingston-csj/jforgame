@@ -10,10 +10,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * This class provides a mixed thread executor group
- * when accepting a task, the thread executor will dispatch it into
- * a binding thread according to {@link BaseGameTask#getDispatchKey()}
- *
+ * 基于线程组的线程模型，该模型会预定义一组线程，每个线程会绑定一个任务队列。当接收一个新任务的时候，会根据{@link BaseGameTask#getDispatchKey()}绑定到一个具体的线程，
+ * 该线程会从自己的任务队列中取出任务并执行。
  */
 public class DispatchThreadModel implements ThreadModel {
 
@@ -70,6 +68,7 @@ public class DispatchThreadModel implements ThreadModel {
     /**
      * when receiving a task, the executor will calculate the thread index based on the {@link BaseGameTask#getDispatchKey()}
      * for example, if the executor group has N threads, the task will be dispatched to the thread which index is (dispatchKey() % N)
+     *
      * @param task command task
      */
     @Override

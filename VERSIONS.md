@@ -164,6 +164,8 @@
 
 ### jforgame-commons
     新增DigestUtil，ZipUtil两个工具类
+### jforgame-socket
+    完善API文档
 
 
 ## V3.1.0（计划） api变动！！

@@ -4,6 +4,9 @@ import jforgame.socket.share.message.MessageHeader;
 
 import java.nio.ByteBuffer;
 
+/**
+ * 默认的消息头
+ */
 public class DefaultMessageHeader implements MessageHeader {
 
     /**
@@ -29,6 +32,7 @@ public class DefaultMessageHeader implements MessageHeader {
      */
     private int cmd;
 
+    @Override
     public byte[] write() {
         ByteBuffer allocate = ByteBuffer.allocate(SIZE);
         allocate.putInt(msgLength);
@@ -39,6 +43,7 @@ public class DefaultMessageHeader implements MessageHeader {
         return ret;
     }
 
+    @Override
     public void read(byte[] bytes) {
         if (bytes == null || bytes.length != SIZE) {
             throw new IllegalArgumentException("invalid byte array, size must be " + SIZE);
@@ -52,26 +57,32 @@ public class DefaultMessageHeader implements MessageHeader {
         allocate.clear();
     }
 
+    @Override
     public int getMsgLength() {
         return msgLength;
     }
 
+    @Override
     public void setMsgLength(int msgLength) {
         this.msgLength = msgLength;
     }
 
+    @Override
     public int getIndex() {
         return index;
     }
 
+    @Override
     public void setIndex(int index) {
         this.index = index;
     }
 
+    @Override
     public int getCmd() {
         return cmd;
     }
 
+    @Override
     public void setCmd(int cmd) {
         this.cmd = cmd;
     }

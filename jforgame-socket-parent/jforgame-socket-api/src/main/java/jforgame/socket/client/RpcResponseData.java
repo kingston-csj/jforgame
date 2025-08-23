@@ -1,5 +1,9 @@
 package jforgame.socket.client;
 
+
+/**
+ * rpc 响应数据
+ */
 public class RpcResponseData {
 
     private int index;

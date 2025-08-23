@@ -5,25 +5,33 @@ package jforgame.socket.share;
  */
 public interface SocketIoDispatcher {
 
-	/**
-	 *
-	 * @param session socket session
-	 */
-	void onSessionCreated(IdSession session);
-
-	 /**
-     * message entrance, in which io thread dispatch messages
+    /**
+     * 会话创建时调用
+     *
      * @param session socket session
-     * @param frame request message {@link jforgame.socket.share.message.RequestDataFrame}
      */
-	void dispatch(IdSession session, Object frame);
-	
-	/**
-	 * fire session close event
-	 * @param session  socket session
-	 */
-	void onSessionClosed(IdSession session);
+    void onSessionCreated(IdSession session);
 
+    /**
+     * 消息分发
+     *
+     * @param session 会话
+     * @param frame   请求消息 {@link jforgame.socket.share.message.RequestDataFrame}
+     */
+    void dispatch(IdSession session, Object frame);
 
-	void exceptionCaught(IdSession session, Throwable cause);
+    /**
+     * 会话关闭时调用
+     *
+     * @param session socket session
+     */
+    void onSessionClosed(IdSession session);
+
+    /**
+     * 会话异常时调用
+     *
+     * @param session socket session
+     * @param cause   异常
+     */
+    void exceptionCaught(IdSession session, Throwable cause);
 }

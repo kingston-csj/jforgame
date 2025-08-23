@@ -1,16 +1,17 @@
 package jforgame.socket.share;
 
-import java.lang.reflect.Method;
-
+/**
+ * 消息参数转换器，用于将消息参数转换为被{@link jforgame.socket.share.annotation.RequestHandler}注解的方法的实参
+ */
 public interface MessageParameterConverter {
 
      /**
-      * 将各种参数转为被RequestMapper注解的方法的实参
+      * 将各种参数转为被{@link jforgame.socket.share.annotation.RequestHandler}注解的方法的实参
       *
-      * @param session socket session
-      * @param methodParams params of the message
-      * @param message request message
-      * @return object array for method invoke  {@link Method#invoke}
+      * @param session 会话
+      * @param methodParams 方法参数
+      * @param message 具体的消息对象
+      * @return 转化后的方法实参
       */
      Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object message);
 

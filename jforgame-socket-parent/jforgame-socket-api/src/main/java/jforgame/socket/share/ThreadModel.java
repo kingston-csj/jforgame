@@ -3,24 +3,25 @@ package jforgame.socket.share;
 import jforgame.socket.share.task.BaseGameTask;
 
 /**
- * when nio socket server receive a full message from a client,
- * it will be wrapped to a task and passed to the {@link ThreadModel} to execute in independent thread.
- * By using an appropriate threading model, you can reduce the focus on thread concurrency issues and achieve better execution performance.
- * It's important to decide how to choose a dispatch key {@link BaseGameTask#getDispatchKey()}
+ * 处理系统任务的线程模型
+ * 当socket服务器接收来自客户端的消息包，
+ * 会将消息包封装为一个任务，然后分配到具体的线程执行
+ * 合理使用线程模型可以提高系统的并发性能，尽可能抑制并发的出现
+ *
+ * @author kinson
  */
 public interface ThreadModel {
 
-
     /**
-     * Executes the given command asynchronously
-     * task with the same {@link BaseGameTask#getDispatchKey()} will then dispatch to a same thread worker
+     * 接收新任务
+     *
      * @param task command task
      */
     void accept(BaseGameTask task);
 
 
     /**
-     * shutdown the thread group, do not accept new task
+     * 关闭线程模型，不接受新任务
      */
     void shutDown();
 }

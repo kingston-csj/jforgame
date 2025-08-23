@@ -1,5 +1,8 @@
 package jforgame.socket.share.message;
 
+/**
+ * 套接字数据帧，用于标识客户端一个完整的消息包
+ */
 public class SocketDataFrame {
 
     /**

@@ -4,7 +4,7 @@ package jforgame.socket.share.message;
  * 私有协议栈——消息包头定义
  * 这里用接口定义，用户可根据需要，对指定字段（例如cmd）的类型进行修改
  * 例如：网络io可将cmd定义为short型，应用程序统一以int接收。
- * 这样可节省部分网络浏览，同时，这列对象属于“短命小对象”，对gc英雄很小
+ * 这样可节省部分网络IO，同时，这类对象属于“短命小对象”，对gc影响很小
  */
 public interface MessageHeader {
 

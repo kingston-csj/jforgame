@@ -7,8 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Indicates that an annotation type is used to
- * be a message router of  business module
+ * 消息路由注解，用于标记一个类为消息路由类
  */
 @Documented
 @Target(ElementType.TYPE)
@@ -16,8 +15,9 @@ import java.lang.annotation.Target;
 public @interface MessageRoute {
 
     /**
-     * module of the message
-     * @return module of the message
+     * 对应的模块号
+     * {@see MessageMeta#module()}
+     * 可选项，默认值为0
      */
     short module() default 0;
 }
