@@ -56,7 +56,7 @@
 
 ### jforgame-socket
 
-    修改私有协议栈格式，消息头增加一个int字段，保存客户端的消息序号。
+    修改私有协议栈格式，消息头增加一个index字段，保存客户端的消息序号。
     删除Traceable接口，客户端回调id直接使用上面的消息序号。
     注：消息序号不是每个项目都需要，在每个消息增加这样的字段，会导致每个消息多出4个字段的长度。一开始设计是拒绝的，但底层设计不应过于严格，应尽量宽容。
        就像消息类型cmd字段，其实在很多项目里直接申明为short（3w+）也足够用。当然，int的长度允许业务为各种类型进行分段分类。还是那个词，宽容！
@@ -124,7 +124,7 @@
 
     websocket增加客户端工具
 
-## V2.4.0(近期计划)
+## V2.4.0
 
 ### jforgame-commons
 
@@ -151,9 +151,9 @@
 
 
 
-## V2.5.0(计划)
+## V2.5.0(近期计划)
 
-### jforgame-orm （继续孵化，完善功能）
+### jforgame-orm
     新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
 
 ### jforgame-doctor
@@ -164,6 +164,7 @@
 
 ### jforgame-commons
     新增DigestUtil，ZipUtil两个工具类
+    LruHashMap优化
 ### jforgame-socket
     完善API文档
 

@@ -1,7 +1,5 @@
 package jforgame.commons.persist;
 
-import java.sql.SQLException;
-
 /**
  * 数据持久化服务
  */

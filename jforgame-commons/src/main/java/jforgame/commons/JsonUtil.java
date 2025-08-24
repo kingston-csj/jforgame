@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public final class JsonUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     private static final TypeFactory typeFactory = TypeFactory.defaultInstance();
 

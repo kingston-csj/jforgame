@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * 基础的持久化容器，提供了一些基础的功能
+ */
 public abstract class BasePersistContainer implements PersistContainer {
 
     protected static final Logger logger = LoggerFactory.getLogger(BasePersistContainer.class);
