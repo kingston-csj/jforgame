@@ -142,32 +142,36 @@
     消息处理器使用方法句柄代替传统反射，大幅提升性能
 
 ### jforgame-spring-boot-starter-data
+
     ResourceAutoConfiguration类dataConversionService组件增加ConditionalOnMissingBean注解，允许用户自定义
     引入DataValidator数据完整性验证，目前包括主键及自定义验证规则
 
 ### jforgame-hotswap
+
     修复无法热更新类的bug
-
-
-
 
 ## V2.5.0(近期计划)
 
 ### jforgame-orm
+
     新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
 
 ### jforgame-doctor
+
     修复JavaDoctor#hotSwap()返回值有误
 
 ### jforgame-data
+
     增加通用配置项，参考CommonData类，CommonConfig注解相关，通过注解直接引用策划配置项
 
 ### jforgame-commons
-    新增DigestUtil，ZipUtil两个工具类
-    LruHashMap优化
-### jforgame-socket
-    完善API文档
 
+    新增DigestUtil，ZipUtil, TypeUtil几个工具类
+    LruHashMap优化
+
+### jforgame-socket
+
+    完善API文档
 
 ## V3.1.0（计划） api变动！！
 

@@ -1,6 +1,8 @@
 package jforgame.orm.core;
 
+import jforgame.commons.util.TypeUtil;
 import jforgame.orm.converter.ConverterFactory;
+import jforgame.orm.converter.support.ObjectToJsonJpaConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,9 @@ import java.util.Map;
 /**
  * 该工具类拷贝自Apache的DbUtil工具库。
  * 这里增加了若干拓展，支持数据库字符串到java的Enum类的转化
- * 支持引用对象对数据库的转换 {@link AttributeConverter}
+ * 支持引用对象对数据库的转换 {@link AttributeConverter},
+ * 如果一个字段的类型不是基本类型，或者字符串，默认会使用 {@link ObjectToJsonJpaConverter} 转换器
+ * 除非该字段显式使用 {@link Convert} 注解指定了其他的转换器
  */
 public class BeanProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanProcessor.class);
@@ -106,8 +110,9 @@ public class BeanProcessor {
     private void callSetter(Object target, PropertyDescriptor prop, Object value)
             throws SQLException {
         Method setter = prop.getWriteMethod();
+        Class<?> clazzType = target.getClass();
         if (setter == null) {
-            logger.info("实体[{}]字段[{}]没有对应的setter方法", target.getClass().getName(), prop.getName());
+            logger.info("实体[{}]字段[{}]没有对应的setter方法", clazzType.getName(), prop.getName());
             return;
         }
         Class<?>[] params = setter.getParameterTypes();
@@ -131,55 +136,28 @@ public class BeanProcessor {
                     value = Enum.valueOf(c, (String) value);
                 }
                 try {
-                    Field field = target.getClass().getDeclaredField(prop.getName());
-                    Convert annotation = field.getAnnotation(Convert.class);
-                    if (annotation != null) {
-                        AttributeConverter convert = ConverterFactory.getAttributeConverter(annotation.converter());
+                    Field field = clazzType.getDeclaredField(prop.getName());
+                    // 不是基本类型， 或者字符串，自动转换
+                    if (!TypeUtil.isPrimitiveOrString(field.getType())) {
+                        AttributeConverter convert = ConverterFactory.getAttributeConverter(ObjectToJsonJpaConverter.class);
+                        Convert annotation = field.getAnnotation(Convert.class);
+                        if (annotation != null) {
+                            convert = ConverterFactory.getAttributeConverter(annotation.converter());
+                        }
                         value = convert.convertToEntityAttribute(value);
                     }
                 } catch (Exception e) {
                     logger.error("", e);
                 }
             }
-            if (isCompatibleType(value, params[0])) {
-                setter.invoke(target, new Object[]{value});
+            if (TypeUtil.isCompatibleType(value, params[0])) {
+                setter.invoke(target, value);
             } else {
                 throw new SQLException("Cannot set " + prop.getName() + ": incompatible types, cannot convert " + value.getClass().getName() + " to " + params[0].getName());
             }
         } catch (Exception e) {
             throw new SQLException("Cannot set " + prop.getName() + ": " + e.getMessage());
         }
-    }
-
-    private boolean isCompatibleType(Object value, Class<?> type) {
-        if ((value == null) || (type.isInstance(value))) {
-            return true;
-        }
-        if ((type.equals(Integer.TYPE)) && ((value instanceof Integer))) {
-            return true;
-        }
-        if ((type.equals(Long.TYPE)) && ((value instanceof Long))) {
-            return true;
-        }
-        if ((type.equals(Double.TYPE)) && ((value instanceof Double))) {
-            return true;
-        }
-        if ((type.equals(Float.TYPE)) && ((value instanceof Float))) {
-            return true;
-        }
-        if ((type.equals(Short.TYPE)) && ((value instanceof Short))) {
-            return true;
-        }
-        if ((type.equals(Byte.TYPE)) && ((value instanceof Byte))) {
-            return true;
-        }
-        if ((type.equals(Character.TYPE)) && ((value instanceof Character))) {
-            return true;
-        }
-        if ((type.equals(Boolean.TYPE)) && ((value instanceof Boolean))) {
-            return true;
-        }
-        return false;
     }
 
     private <T> T newInstance(Class<T> c)
@@ -212,7 +190,7 @@ public class BeanProcessor {
             if ((null == columnName) || (columnName.isEmpty())) {
                 columnName = rsmd.getColumnName(col);
             }
-            String propertyName = (String) this.columnToPropertyOverrides.get(columnName);
+            String propertyName = this.columnToPropertyOverrides.get(columnName);
             if (propertyName == null) {
                 propertyName = columnName;
             }

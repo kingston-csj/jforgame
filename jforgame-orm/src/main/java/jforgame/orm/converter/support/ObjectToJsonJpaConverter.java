@@ -11,10 +11,13 @@ import jforgame.commons.StringUtil;
 import jforgame.orm.converter.AttributeConversionException;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Convert;
 import java.io.IOException;
 
 /**
  * 将对象属性转换为json字符串进行编解码
+ * 如果一个字段的类型不是基本类型，或者字符串，默认会使用这个转换器
+ * 除非该字段显式使用 {@link Convert} 注解指定了其他的转换器
  */
 public class ObjectToJsonJpaConverter implements AttributeConverter<Object, String> {
 

@@ -1,6 +1,7 @@
 package jforgame.orm.ddl;
 
 import jforgame.commons.StringUtil;
+import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,25 +30,30 @@ class TableConfiguration {
     }
 
     private void fillColumns(Class<?> entity, TableDefinition tableDefinition) {
-        Arrays.stream(entity.getDeclaredFields()).filter(e -> e.getAnnotation(Column.class) != null)
-                .forEach(f -> {
-                    Column column = f.getAnnotation(Column.class);
-                    ColumnDefinition columnDef = new ColumnDefinition();
-                    if (StringUtil.isNotEmpty(column.name())) {
-                        columnDef.setName(column.name());
-                    } else {
-                        columnDef.setName(f.getName());
-                    }
-                    columnDef.setPrimary(f.getAnnotation(Id.class) != null);
-                    // 主键，值不能为空
-                    if (f.isAnnotationPresent(Id.class)) {
-                        columnDef.setNullable(false);
-                    } else {
-                        columnDef.setNullable(column.nullable());
-                    }
-                    columnDef.setJdbcType(f.getType(), column.columnDefinition());
-                    tableDefinition.addColumn(columnDef);
-                });
+        Class<?> currClazz = entity;
+        // 遍历父类，将父类的字段也添加到表定义中
+        while (currClazz != StatefulEntity.class) {
+            Arrays.stream(currClazz.getDeclaredFields()).filter(e -> e.getAnnotation(Column.class) != null)
+                    .forEach(f -> {
+                        Column column = f.getAnnotation(Column.class);
+                        ColumnDefinition columnDef = new ColumnDefinition();
+                        if (StringUtil.isNotEmpty(column.name())) {
+                            columnDef.setName(column.name());
+                        } else {
+                            columnDef.setName(f.getName());
+                        }
+                        columnDef.setPrimary(f.getAnnotation(Id.class) != null);
+                        // 主键，值不能为空
+                        if (f.isAnnotationPresent(Id.class)) {
+                            columnDef.setNullable(false);
+                        } else {
+                            columnDef.setNullable(column.nullable());
+                        }
+                        columnDef.setJdbcType(f.getType(), column.columnDefinition());
+                        tableDefinition.addColumn(columnDef);
+                    });
+            currClazz = currClazz.getSuperclass();
+        }
     }
 
     public Map<String, TableDefinition> getTables() {

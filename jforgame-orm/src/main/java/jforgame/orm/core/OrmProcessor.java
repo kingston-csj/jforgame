@@ -2,6 +2,7 @@ package jforgame.orm.core;
 
 import jforgame.commons.ClassScanner;
 import jforgame.commons.StringUtil;
+import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,33 +46,39 @@ public enum OrmProcessor {
             bridge.setTableName(entity.name());
         }
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            String fieldName = field.getName();
-            if (field.getAnnotation(Id.class) != null) {
-                // 不能是基本类型
-                if (field.getType().isPrimitive()) {
-                    throw new OrmConfigException(clazz.getSimpleName() + " entity 主键字段不能是基本类型");
+        // 从当前类开始，遍历所有父类
+        Class<?> currClazz = clazz;
+        while (currClazz != StatefulEntity.class) {
+            Field[] fields = currClazz.getDeclaredFields();
+            for (Field field : fields) {
+                String fieldName = field.getName();
+                if (field.getAnnotation(Id.class) != null) {
+                    // 不能是基本类型
+                    if (field.getType().isPrimitive()) {
+                        throw new OrmConfigException(clazz.getSimpleName() + " entity 主键字段不能是基本类型");
+                    }
+                    bridge.addUniqueKey(fieldName);
                 }
-                bridge.addUniqueKey(fieldName);
-            }
-            Column column = field.getAnnotation(Column.class);
-            try {
-                if (column == null) {
-                    continue;
+                Column column = field.getAnnotation(Column.class);
+                try {
+                    if (column == null) {
+                        continue;
+                    }
+                    FieldMetaData metadata = FieldMetaData.valueOf(field);
+                    bridge.addFieldMetadata(fieldName, metadata);
+                    if (!StringUtil.isEmpty(column.name())) {
+                        bridge.addPropertyColumnOverride(fieldName, column.name());
+                    }
+                } catch (Exception e) {
+                    throw new OrmConfigException(e);
                 }
-                FieldMetaData metadata = FieldMetaData.valueOf(field);
-                bridge.addFieldMetadata(fieldName, metadata);
-                if (!StringUtil.isEmpty(column.name())) {
-                    bridge.addPropertyColumnOverride(fieldName, column.name());
-                }
-            } catch (Exception e) {
-                throw new OrmConfigException(e);
             }
-            //如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
-            if (bridge.getPrimaryKeyProperties().isEmpty()) {
-                throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
-            }
+            currClazz = currClazz.getSuperclass();
+        }
+
+        //如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
+        if (bridge.getPrimaryKeyProperties().isEmpty()) {
+            throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
         }
 
         return bridge;
