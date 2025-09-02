@@ -27,7 +27,7 @@
         <jackson.version.core>2.16.1</jackson.version.core>
         <juit.version>4.13.1</juit.version>
         <dom4j.version>2.1.3</dom4j.version>
-        <mina.version>2.0.22</mina.version>
+        <mina.version>2.0.27</mina.version>
         <guava.version>33.0.0-jre</guava.version>
         <netty.version>4.1.107.Final</netty.version>
         <mysql.version>8.0.30</mysql.version>
@@ -247,7 +247,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.4</version>
+                <version>3.18.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

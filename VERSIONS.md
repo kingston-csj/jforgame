@@ -163,21 +163,26 @@
 ### jforgame-data
 
     增加通用配置项，参考CommonData类，CommonConfig注解相关，通过注解直接引用策划配置项
+    org.apache.poi版本从4.1.1升到5.4.0， https://github.com/kingston-csj/jforgame/security/dependabot/34
 
 ### jforgame-commons
 
     新增DigestUtil，ZipUtil, TypeUtil几个工具类
-    LruHashMap优化
+    LruHashMap优化 
 
 ### jforgame-socket
 
     完善API文档
+### jforgame-socket-mina
+    mina版本从2.0.22升级到2.0.27， https://github.com/kingston-csj/jforgame/security/dependabot/33
 
 ## V3.1.0（计划） api变动！！
 
 ### jforgame-commons 新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
 
 ### jforgame-data Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
+
+### jforgame-socket ServerNode/ThreadModel相关接口迁移到server目录
 
 
 
