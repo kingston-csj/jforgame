@@ -33,6 +33,58 @@ public class TrieDictionary {
     }
 
     /**
+     * 删除单词节点
+     * @param word 要删除的单词
+     * @return 是否成功删除
+     */
+    public boolean deleteNode(String word) {
+        word = normalize(word);
+        if (word.isEmpty()) {
+            return false;
+        }
+        return deleteNodeRecursive(root, word, 0);
+    }
+
+    /**
+     * 递归删除单词节点
+     * @param node 当前节点
+     * @param word 要删除的单词
+     * @param index 当前处理的字符索引
+     * @return 是否成功删除
+     */
+    private boolean deleteNodeRecursive(TrieNode node, String word, int index) {
+        // 如果已经处理完所有字符
+        if (index >= word.length()) {
+            // 如果当前节点是叶子节点，则删除叶子标记
+            if (node.isLeaf()) {
+                node.setLeaf(false);
+                return true;
+            }
+            return false;
+        }
+
+        char currentChar = word.charAt(index);
+        TrieNode childNode = node.getChild(currentChar);
+        
+        if (childNode == null) {
+            // 单词不存在
+            return false;
+        }
+
+        // 递归删除下一个字符
+        boolean deleted = deleteNodeRecursive(childNode, word, index + 1);
+        
+        if (deleted) {
+            // 如果子节点被删除且当前子节点没有其他子节点且不是叶子节点，则删除当前子节点
+            if (!childNode.isLeaf() && childNode.getChildren().isEmpty()) {
+                node.removeChild(currentChar);
+            }
+        }
+        
+        return deleted;
+    }
+
+    /**
      * 指定字符串是否包含敏感字
      */
     public boolean containsWords(String word) {
@@ -43,6 +95,20 @@ public class TrieDictionary {
             }
         }
         return false;
+    }
+
+    /**
+     * 检查字典是否精确匹配某个单词
+     * 例如张无是敏感字，但是希望张无忌不是
+     * @param word 要检查的单词
+     * @return 是否精确匹配
+     */
+    public boolean containsExactWord(String word) {
+        word = normalize(word);
+        if (word.isEmpty()) {
+            return false;
+        }
+        return root.hasExactWord(word, 0);
     }
 
     /**

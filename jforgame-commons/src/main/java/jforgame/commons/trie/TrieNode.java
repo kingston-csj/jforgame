@@ -50,9 +50,18 @@ public class TrieNode {
         child.addChild(cs, index + 1);
     }
 
+    /**
+     * 删除子节点
+     * @param character 要删除的字符
+     * @return 被删除是否存在
+     */
+    public boolean removeChild(char character) {
+        return children.remove(character) != null;
+    }
+
     public int hasPrefix(CharSequence cs, int idx) {
         if (idx >= cs.length()) {
-            if (val != 0 && isLeaf()) {
+            if (isLeaf()) {
                 return idx;
             } else {
                 return -1;
@@ -66,11 +75,29 @@ public class TrieNode {
         }
         if (findIndex != -1) {
             return findIndex;
-        } else if (val != 0 && isLeaf()) {
+        } else if (isLeaf()) {
             return idx;
         } else {
             return -1;
         }
+    }
+
+    /**
+     * 检查是否精确匹配单词
+     * @param cs 要检查的字符串
+     * @param idx 当前处理的字符索引
+     * @return 是否精确匹配
+     */
+    public boolean hasExactWord(CharSequence cs, int idx) {
+        if (idx >= cs.length()) {
+            return isLeaf();
+        }
+        char val = cs.charAt(idx);
+        TrieNode child = children.get(val);
+        if (child == null) {
+            return false;
+        }
+        return child.hasExactWord(cs, idx + 1);
     }
 
     public TrieNode getChild(char c) {

@@ -20,6 +20,14 @@ interface NodeContainer {
      */
     void add(TrieNode node);
 
+    /**
+     * 删除子节点
+     *
+     * @param character 要删除的字符
+     * @return 被删除的节点，如果不存在则返回null
+     */
+    TrieNode remove(Character character);
+
     TrieNode get(Character character);
 
     int size();
@@ -44,6 +52,11 @@ class MapNodeContainer implements NodeContainer {
     @Override
     public void add(TrieNode node) {
         container.put(node.val, node);
+    }
+
+    @Override
+    public TrieNode remove(Character character) {
+        return container.remove(character);
     }
 
     public ListNodeContainer transform() {
@@ -79,6 +92,17 @@ class ListNodeContainer implements NodeContainer {
     @Override
     public void add(TrieNode node) {
         container.add(node);
+    }
+
+    @Override
+    public TrieNode remove(Character character) {
+        for (int i = 0; i < container.size(); i++) {
+            TrieNode node = container.get(i);
+            if (character == node.val) {
+                return container.remove(i);
+            }
+        }
+        return null;
     }
 
     public MapNodeContainer transform() {
