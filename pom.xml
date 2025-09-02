@@ -35,7 +35,7 @@
         <groovy.version>2.4.21</groovy.version>
         <log4j.version>2.23.1</log4j.version>
         <spring-boot.version>2.6.3</spring-boot.version>
-        <poi.version>4.1.1</poi.version>
+        <poi.version>5.4.0</poi.version>
         <hikari.version>4.0.3</hikari.version>
         <oshi.version>6.6.0</oshi.version>
     </properties>
