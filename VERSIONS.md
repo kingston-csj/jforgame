@@ -168,7 +168,7 @@
 ### jforgame-commons
 
     新增DigestUtil，ZipUtil, TypeUtil几个工具类
-    LruHashMap优化 
+    LruHashMap优化; 修复QueueContainerGroup运行异常
 
 ### jforgame-socket
 

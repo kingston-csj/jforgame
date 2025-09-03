@@ -25,6 +25,7 @@ interface NodeContainer {
      *
      * @param character 要删除的字符
      * @return 被删除的节点，如果不存在则返回null
+     * @since 2.5.0
      */
     TrieNode remove(Character character);
 

@@ -36,6 +36,7 @@ public class TrieDictionary {
      * 删除单词节点
      * @param word 要删除的单词
      * @return 是否成功删除
+     * @since 2.5.0
      */
     public boolean deleteNode(String word) {
         word = normalize(word);
@@ -102,6 +103,7 @@ public class TrieDictionary {
      * 例如张无是敏感字，但是希望张无忌不是
      * @param word 要检查的单词
      * @return 是否精确匹配
+     * @since 2.5.0
      */
     public boolean containsExactWord(String word) {
         word = normalize(word);

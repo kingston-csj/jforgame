@@ -54,6 +54,7 @@ public class TrieNode {
      * 删除子节点
      * @param character 要删除的字符
      * @return 被删除是否存在
+     * @since 2.5.0
      */
     public boolean removeChild(char character) {
         return children.remove(character) != null;
@@ -87,6 +88,7 @@ public class TrieNode {
      * @param cs 要检查的字符串
      * @param idx 当前处理的字符索引
      * @return 是否精确匹配
+     * @since 2.5.0
      */
     public boolean hasExactWord(CharSequence cs, int idx) {
         if (idx >= cs.length()) {
