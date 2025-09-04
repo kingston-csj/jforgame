@@ -10,7 +10,7 @@ import java.io.IOException;
 public interface SocketClient {
 
     /**
-     * 打开一个会话
+     * 打开一个会话，该方法会阻塞，直到连接成功，确保返回的IdSession是可用的
      * @return 会话
      * @throws IOException 连接失败
      */

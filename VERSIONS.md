@@ -168,11 +168,13 @@
 ### jforgame-commons
 
     新增DigestUtil，ZipUtil, TypeUtil几个工具类
-    LruHashMap优化; 修复QueueContainerGroup运行异常
+    LruHashMap优化; 修复QueueContainerGroup运行异常。
 
 ### jforgame-socket
 
     完善API文档
+### jforgame-socket-netty
+    修复WebSocketClient.openSession()方法，确保返回的IdSession是可用的
 ### jforgame-socket-mina
     mina版本从2.0.22升级到2.0.27， https://github.com/kingston-csj/jforgame/security/dependabot/33
 
