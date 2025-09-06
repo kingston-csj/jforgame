@@ -49,6 +49,7 @@
         <module>jforgame-spring-boot-starter-data</module>
         <module>jforgame-orm</module>
         <module>jforgame-demo</module>
+        <module>jforgame-actor</module>
     </modules>
     <issueManagement>
         <system>GitHub Issues</system>
