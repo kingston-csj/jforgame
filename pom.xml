@@ -6,7 +6,7 @@
 
     <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-parent</artifactId>
-    <version>2.5.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>jforgame-parent</name>
     <description>jforgame is a lightweight online game framework developed in Java.
@@ -16,7 +16,7 @@
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
-        <revision>2.5.0</revision>
+        <revision>2.6.0</revision>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -335,68 +335,68 @@
                 </configuration>
             </plugin>
 
-                        <plugin>
-                            <groupId>org.sonatype.central</groupId>
-                            <artifactId>central-publishing-maven-plugin</artifactId>
-                            <version>0.4.0</version>
-                            <extensions>true</extensions>
-                            <configuration>
-                                <publishingServerId>central</publishingServerId>
-                                <tokenAuth>true</tokenAuth>
-                                <checksums>required</checksums>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-source-plugin</artifactId>
-                            <version>2.2.1</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-sources</id>
-                                    <goals>
-                                        <goal>jar-no-fork</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.9.1</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-javadocs</id>
-                                    <goals>
-                                        <goal>jar</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-gpg-plugin</artifactId>
-                            <version>1.5</version>
-                            <executions>
-                                <execution>
-                                    <id>sign-artifacts</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>sign</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.sonatype.plugins</groupId>
-                            <artifactId>nexus-staging-maven-plugin</artifactId>
-                            <version>1.6.7</version>
-                            <extensions>true</extensions>
-                            <configuration>
-                                <serverId>ossrh</serverId>
-                                <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                                <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                            </configuration>
-                        </plugin>
+<!--                        <plugin>-->
+<!--                            <groupId>org.sonatype.central</groupId>-->
+<!--                            <artifactId>central-publishing-maven-plugin</artifactId>-->
+<!--                            <version>0.4.0</version>-->
+<!--                            <extensions>true</extensions>-->
+<!--                            <configuration>-->
+<!--                                <publishingServerId>central</publishingServerId>-->
+<!--                                <tokenAuth>true</tokenAuth>-->
+<!--                                <checksums>required</checksums>-->
+<!--                            </configuration>-->
+<!--                        </plugin>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.apache.maven.plugins</groupId>-->
+<!--                            <artifactId>maven-source-plugin</artifactId>-->
+<!--                            <version>2.2.1</version>-->
+<!--                            <executions>-->
+<!--                                <execution>-->
+<!--                                    <id>attach-sources</id>-->
+<!--                                    <goals>-->
+<!--                                        <goal>jar-no-fork</goal>-->
+<!--                                    </goals>-->
+<!--                                </execution>-->
+<!--                            </executions>-->
+<!--                        </plugin>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.apache.maven.plugins</groupId>-->
+<!--                            <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--                            <version>2.9.1</version>-->
+<!--                            <executions>-->
+<!--                                <execution>-->
+<!--                                    <id>attach-javadocs</id>-->
+<!--                                    <goals>-->
+<!--                                        <goal>jar</goal>-->
+<!--                                    </goals>-->
+<!--                                </execution>-->
+<!--                            </executions>-->
+<!--                        </plugin>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.apache.maven.plugins</groupId>-->
+<!--                            <artifactId>maven-gpg-plugin</artifactId>-->
+<!--                            <version>1.5</version>-->
+<!--                            <executions>-->
+<!--                                <execution>-->
+<!--                                    <id>sign-artifacts</id>-->
+<!--                                    <phase>verify</phase>-->
+<!--                                    <goals>-->
+<!--                                        <goal>sign</goal>-->
+<!--                                    </goals>-->
+<!--                                </execution>-->
+<!--                            </executions>-->
+<!--                        </plugin>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.sonatype.plugins</groupId>-->
+<!--                            <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                            <version>1.6.7</version>-->
+<!--                            <extensions>true</extensions>-->
+<!--                            <configuration>-->
+<!--                                <serverId>ossrh</serverId>-->
+<!--                                <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>-->
+<!--                                <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                            </configuration>-->
+<!--                        </plugin>-->
         </plugins>
     </build>
 
