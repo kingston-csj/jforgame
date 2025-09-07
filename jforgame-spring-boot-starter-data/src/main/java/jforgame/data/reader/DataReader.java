@@ -12,7 +12,7 @@ public interface DataReader {
      *
      * @param is 文件流 {@link ClassPathResource#getInputStream()}
      * @param clazz 配置类class
-     * @param <E>
+     * @param <E> 配置类class
      * @return 记录集合
      */
     <E> List<E> read(InputStream is, Class<E> clazz);

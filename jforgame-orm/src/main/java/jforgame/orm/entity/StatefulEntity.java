@@ -60,7 +60,7 @@ public abstract class StatefulEntity extends Stateful {
     /**
      * 是否需要保存所有字段
      * 当saveAll为true 或 modifiedColumns为空时，需要保存所有字段
-     * @return
+     * @return 是否需要保存所有字段
      */
     public boolean isSaveAll() {
         return saveAll.get() || modifiedColumns.isEmpty();

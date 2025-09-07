@@ -106,7 +106,7 @@ public class DataManager implements DataRepository {
      * 根据领域类注册容器
      * 会自动加载对应的配置文件
      *
-     * @param table
+     * @param table　配置表对应的类
      */
     public void registerContainer(Class<?> table) {
         if (table == null) {
@@ -194,7 +194,7 @@ public class DataManager implements DataRepository {
     /**
      * 返回已加载的所有配置领域类
      *
-     * @return
+     * @return 所有已加载的配置类列表
      */
     public Set<Class> getAllTables() {
         return data.keySet();

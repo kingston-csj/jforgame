@@ -42,11 +42,11 @@ public class SchemaMigrator implements SchemaStrategy {
     }
 
     /**
-     * 生产ddl的sql语句列表
+     * 生成ddl的sql语句列表
      *
      * @param tablesDef      代码的表定义
      * @param tablesMetadata 数据库的表schema
-     * @return
+     * @return 变更ddl对应的sql列表
      */
     public List<String> createDdlSqls(Map<String, TableDefinition> tablesDef, Map<String, TableMetadata> tablesMetadata) {
         List<String> result = new ArrayList<>();

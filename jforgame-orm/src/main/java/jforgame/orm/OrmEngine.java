@@ -19,6 +19,9 @@ public class OrmEngine {
 
     /**
      * 启动引擎
+     * @param properties 配置类
+     * @param dataSource 数据库源
+     * @throws Exception sql异常
      */
     public static void run(OrmProperties properties, DataSource dataSource) throws Exception {
         // 初始化orm框架

@@ -67,9 +67,11 @@ public class OrmTemplate {
     /**
      * 查询返回bean实体列表
      *
-     * @param sql
-     * @param entity
-     * @return
+     * @param sql    查询语句
+     * @param entity 　实体类
+     * @param <T>    实体类
+     * @return 符合条件的实例列表
+     * @throws SQLException sql异常
      */
     @SuppressWarnings("unchecked")
     public <T> List<T> queryMany(String sql, Class<?> entity) throws SQLException {
@@ -94,8 +96,9 @@ public class OrmTemplate {
     /**
      * 查询返回一个map
      *
-     * @param sql
-     * @return
+     * @param sql 　查询语句
+     * @return 查询结果map
+     * @throws SQLException sql异常
      */
     public Map<String, Object> queryMap(String sql) throws SQLException {
         Map<String, Object> result = new HashMap<>();
@@ -126,8 +129,9 @@ public class OrmTemplate {
     /**
      * 查询返回map列表
      *
-     * @param sql
-     * @return
+     * @param sql 查询语句
+     * @return 查证map列表
+     * @throws SQLException sql异常
      */
     public List<Map<String, Object>> queryMapList(String sql) throws SQLException {
         List<Map<String, Object>> result = new ArrayList<>();
@@ -162,6 +166,7 @@ public class OrmTemplate {
      * @param sql 要执行的sql语句
      * @return 执行结果
      * @see Statement#execute(String)
+     * @throws SQLException sql异常
      */
     public boolean executeSql(String sql) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
@@ -181,9 +186,10 @@ public class OrmTemplate {
     /**
      * 执行update语句（防止sql注入!!!）
      *
-     * @param sql
-     * @return
+     * @param sql 需要执行的sql语句
+     * @return 受影响的行数
      * @see Statement#executeUpdate(String)
+     * @throws SQLException sql异常
      */
     public int executeUpdate(String sql) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
@@ -200,6 +206,13 @@ public class OrmTemplate {
         }
     }
 
+    /**
+     * 对entity执行插入动作
+     *
+     * @param entity 需要插入的实体
+     * @return 受影响的行数
+     * @throws SQLException sql异常
+     */
     public int executeInsert(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
@@ -221,6 +234,13 @@ public class OrmTemplate {
         }
     }
 
+    /**
+     * 对entity执行更新动作
+     *
+     * @param entity 需要更新的实体
+     * @return 受影响的行数
+     * @throws SQLException sql异常
+     */
     public int executeUpdate(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
@@ -242,6 +262,13 @@ public class OrmTemplate {
         }
     }
 
+    /**
+     * 对entity执行删除动作
+     *
+     * @param entity 需要删除的实体
+     * @return 受影响的行数
+     *@throws SQLException sql异常
+     */
     public int executeDelete(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());

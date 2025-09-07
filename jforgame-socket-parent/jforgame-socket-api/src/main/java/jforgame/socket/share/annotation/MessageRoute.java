@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 public @interface MessageRoute {
 
     /**
-     * 对应的模块号
-     * {@see MessageMeta#module()}
-     * 可选项，默认值为0
+     * 对应的模块号(可选项)
+     * 优先使用该参数，而不是{@link  MessageMeta#module()}，避免同一模块下的协议都重复申明
+     * @return 模块号
      */
     short module() default 0;
 }

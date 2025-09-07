@@ -20,7 +20,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
      * 实体的主键属性，不能是基本类型，只能是包装类型，或者是String类型
      * entity id
      *
-     * @return
+     * @return 实体id
      */
     public abstract Id getId();
 

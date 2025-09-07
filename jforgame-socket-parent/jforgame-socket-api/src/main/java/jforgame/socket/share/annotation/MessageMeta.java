@@ -16,20 +16,23 @@ import java.lang.annotation.Target;
 public @interface MessageMeta {
 
 	/**
-	 * 标记该消息的来源，例如客户端，或者服务器内部节点
+	 * 标记该消息的来源，例如客户端，或者服务器内部节点(可选参数)
 	 * 由业务层自行定义
+	 * @return 消息来源
 	 */
 	byte source() default 0;
 
 	/**
-	 * 消息模块
+	 * 消息模块号(可选参数)
 	 * 由业务层自行定义
+	 * @return 消息模块号
 	 */
 	short module() default 0;
 
 	/**
 	 * 消息类型
 	 * 由业务层自行定义
+	 * @return 消息类型
 	 */
 	int cmd() default 0;
 

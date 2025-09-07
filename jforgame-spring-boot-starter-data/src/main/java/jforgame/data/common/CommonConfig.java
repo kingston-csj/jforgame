@@ -17,12 +17,13 @@ public @interface CommonConfig {
     /**
      * 配置表字段key值
      *
-     * @return
+     * @return common配置表对应的key
      */
     String value() default "";
 
     /**
      * 配置表字段解析器，将字符串转化为非基本类型
+     * @return 对于的自定义参数转换器
      */
     Class<? extends ConfigValueParser> parser() default NullInjectParser.class;
 }

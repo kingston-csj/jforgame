@@ -6,7 +6,7 @@ import jforgame.commons.SplitUtil;
 
 /**
  * 将字符串转换为int数组，分隔符为逗号
- * 例如："1,2,3,4,5" -> [1,2,3,4,5]
+ * 例如："1,2,3,4,5" 转化为 [1,2,3,4,5]
  */
 public class IntArrayConfigValueParser implements ConfigValueParser<int[]> {
 

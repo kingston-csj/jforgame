@@ -17,7 +17,7 @@ public @interface ForeignKey {
     /**
      * 约束参考主体
      *
-     * @return
+     * @return 该字段参考的目标配置表对应的class
      */
     Class<?> refer();
 

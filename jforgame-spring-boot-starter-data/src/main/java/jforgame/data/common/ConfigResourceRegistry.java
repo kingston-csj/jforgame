@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * 通用常量配置仓库, 遍历所有带{@link org.springframework.stereotype.Service}注解的spring bean，
- * (注意：其他{@link org.springframework.stereotype.Component}注解的bean<br>不</br>处理)
+ * (注意：其他{@link org.springframework.stereotype.Component} 注解的bean"不"处理)
  * 将通用常量配置{@link CommonData}注入到bean中带{@link CommonConfig}注解的字段
  * 其中，{@link CommonConfig#value()}并且与{@link CommonData#getKey()}为相同的字符串
  * 该字段会优化按{@link ConfigValueParser}属性进行转换，然后按{@link org.springframework.core.convert.ConversionService}进行转换

@@ -64,7 +64,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     /**
      * 获取所有主键id
      *
-     * @return
+     * @return 该配置表所有主键的集合
      */
     public Set<K> getAllKeys() {
         return new TreeSet<>(data.keySet());
