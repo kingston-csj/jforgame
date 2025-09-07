@@ -37,7 +37,6 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
 
     /**
      * 供子类使用的加载完成钩子
-     * 避免子类无意覆盖了afterLoad方法
      */
     protected void onAfterLoad() {
 
@@ -53,7 +52,6 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
 
     /**
      * 供子类使用的持久化前钩子
-     * 避免子类无意覆盖了beforeSave方法
      */
     protected void onBeforeSave() {
     }
@@ -72,7 +70,6 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
 
     /**
      * 供子类使用的持久化后钩子
-     * 避免子类无意覆盖了afterSave方法
      */
     protected void onAfterSave() {
 

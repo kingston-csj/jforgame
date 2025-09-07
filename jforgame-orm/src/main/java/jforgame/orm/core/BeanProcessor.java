@@ -30,7 +30,7 @@ import java.util.Map;
  * 该工具类拷贝自Apache的DbUtil工具库。
  * 这里增加了若干拓展，支持数据库字符串到java的Enum类的转化
  * 支持引用对象对数据库的转换 {@link AttributeConverter},
- * 如果一个字段的类型不是基本类型，或者字符串，默认会使用 {@link ObjectToJsonJpaConverter} 转换器
+ * 如果一个javabean的字段类型既不是基本类型，也不是字符串，默认会使用 {@link ObjectToJsonJpaConverter} 转换器
  * 除非该字段显式使用 {@link Convert} 注解指定了其他的转换器
  */
 public class BeanProcessor {

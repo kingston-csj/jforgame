@@ -159,8 +159,8 @@ public class OrmTemplate {
     /**
      * 执行特定的sql语句（防止sql注入!!!）
      *
-     * @param sql
-     * @return
+     * @param sql 要执行的sql语句
+     * @return 执行结果
      * @see Statement#execute(String)
      */
     public boolean executeSql(String sql) throws SQLException {

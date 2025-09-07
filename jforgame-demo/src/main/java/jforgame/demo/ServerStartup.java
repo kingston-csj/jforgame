@@ -1,8 +1,11 @@
 package jforgame.demo;
 
+import jforgame.codec.MessageCodec;
+import jforgame.codec.protobuf.ProtobufMessageCodec;
 import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
+import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.socket.GameServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,10 @@ public class ServerStartup {
 //            p2.setId(111L);
 //            p2.setName("robot33");
 //            AsyncDbService.getInstance().saveToDb(p2);
+            MessageCodec codec = new ProtobufMessageCodec();
+            for (int i = 0; i < 10; i++) {
+                codec.encode(new ReqHello());
+            }
 
 //			CrossDemoGameService.sayHello();
         } catch (Exception e) {

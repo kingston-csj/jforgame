@@ -10,6 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ConverterFactory {
 
+    /**
+     * 转换器缓存
+     */
     private static final Map<Class<?>, AttributeConverter<Object, Object>> converters = new ConcurrentHashMap<>();
 
     public static AttributeConverter<Object, Object> getAttributeConverter(Class<?> clazz) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * 将对象属性转换为json字符串并进行压缩编码
+ * 对一些字段数据比较大的，例如玩家背包数据，推荐使用这个转换器，因为json的压缩率是非常高的。
  */
 public class ObjectToJsonZipJpaConverter extends ObjectToJsonJpaConverter {
 

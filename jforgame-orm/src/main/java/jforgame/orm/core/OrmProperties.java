@@ -12,11 +12,13 @@ public class OrmProperties {
      * update:启动时根据实体类自动更新表结构（新增字段、索引等，不删除现有字段或表）
      * validate:启动时校验实体类与表结构是否一致，不一致则抛出异常，不做任何修改
      * none:不做任何操作
+     * 默认为update
      */
     private String ddlAuto = "update";
 
     /**
-     * 实体类路径
+     * 实体类package路径, 不支持多个路径。
+     * 例如：com.jforgame.orm.entity
      */
     private String entityPath;
 
