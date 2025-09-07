@@ -1,7 +1,7 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
 
 /**
- * 共享Actor
+ * 共享Actor，对于一些无逻辑主体，例如登录队列，所提供的虚拟Actor组件
  */
 public class SharedActor {
 
@@ -16,7 +16,7 @@ public class SharedActor {
 
 
     /**
-     * 共享邮箱
+     * 根据key获取共享Actor
      *
      * @param key
      * @return

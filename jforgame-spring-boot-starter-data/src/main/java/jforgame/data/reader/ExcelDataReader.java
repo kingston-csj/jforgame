@@ -200,7 +200,9 @@ public class ExcelDataReader implements DataReader, ApplicationContextAware {
         if (cell == null) {
             return "";
         }
-        if (cell.getCellTypeEnum() != CellType.STRING) {
+        // 统一转换为字符串
+        // 转换器会自动转换为业务需要的类型
+        if (cell.getCellType() != CellType.STRING) {
             cell.setCellType(CellType.STRING);
         }
         return cell.getStringCellValue();

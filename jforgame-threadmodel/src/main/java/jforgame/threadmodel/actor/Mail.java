@@ -1,10 +1,12 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
+
+import jforgame.threadmodel.BaseTask;
 
 /**
  * 邮件抽象基类
  * 所有投递到Actor邮箱的消息都应该继承此类
  */
-public abstract class Mail implements Runnable {
+public abstract class Mail extends BaseTask {
 
 
     /**
@@ -25,7 +27,7 @@ public abstract class Mail implements Runnable {
      * 负责执行具体的业务逻辑
      */
     @Override
-    public abstract void run();
+    public abstract void action();
 
 
     /**

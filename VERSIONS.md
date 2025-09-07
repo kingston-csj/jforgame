@@ -180,11 +180,16 @@
 
 ## V3.1.0（计划） api变动！！
 
-### jforgame-commons 新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
+### jforgame-commons 
+    新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
 
-### jforgame-data Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
+### jforgame-data 
+    Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
 
-### jforgame-socket ServerNode/ThreadModel相关接口迁移到server目录
+### jforgame-socket 
+    ServerNode迁移到server目录
+    ThreadModel相关接口迁移到threadmodel新模块
+
 
 
 

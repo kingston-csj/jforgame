@@ -1,4 +1,4 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Actor抽象基类，提供默认实现
+ * Actor基类，提供默认实现
  * 由于java不支持多继承，继承该类后，便无法继承其他类，
  * 若需要继承其他类，建议采用组合模式，把该类作为一个属性
  */
@@ -43,14 +43,14 @@ public class AbsActor implements Actor {
     /**
      * 所属的actor系统
      */
-    private ActorSystem actorSystem;
+    private ActorThreadModel actorSystem;
 
-    public AbsActor(ActorSystem actorSystem) {
+    public AbsActor(ActorThreadModel actorSystem) {
         this.actorName = getClass().getSimpleName();
         this.actorSystem = actorSystem;
     }
 
-    public AbsActor(ActorSystem actorSystem, String actorName) {
+    public AbsActor(ActorThreadModel actorSystem, String actorName) {
         this.actorSystem = actorSystem;
         this.actorName = actorName;
     }
@@ -76,7 +76,7 @@ public class AbsActor implements Actor {
         Mailbox mailBox = getMailBox();
         mailBox.receive(message);
         if (queued.compareAndSet(false, true)) {
-            actorSystem.submit(this);
+            actorSystem.accept(this);
         }
     }
 
@@ -103,7 +103,7 @@ public class AbsActor implements Actor {
             // 如果还有任务，重新加入队列
             if (!mailBox.mails.isEmpty()) {
                 if (queued.compareAndSet(false, true)) {
-                    actorSystem.submit(this);
+                    actorSystem.accept(this);
                 }
             }
         } catch (Exception e) {

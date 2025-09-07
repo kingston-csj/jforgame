@@ -1,11 +1,14 @@
 package jforgame.data;
 
+import jforgame.data.common.CommonValueAutoInjectHandler;
+import jforgame.data.common.ConfigResourceRegistry;
 import jforgame.data.convertor.JsonToArrayConvertor;
 import jforgame.data.convertor.JsonToListConvertor;
 import jforgame.data.convertor.JsonToMapConvertor;
 import jforgame.data.reader.CsvDataReader;
 import jforgame.data.reader.DataReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -45,5 +48,16 @@ public class ResourceAutoConfiguration {
         DataManager dataManager = new DataManager(properties, dataReader);
         dataManager.init();
         return dataManager;
+    }
+
+    @Bean(name = {"commonValueAutoInjectService"})
+    @ConditionalOnMissingBean(name = "commonValueAutoInjectService")
+    public CommonValueAutoInjectHandler createCommonValueAutoInjectHandler(DataManager dataManager, @Qualifier("dataConversionService") ConversionService conversionService) {
+        return new CommonValueAutoInjectHandler(dataManager, conversionService);
+    }
+
+    @Bean
+    public ConfigResourceRegistry createConfigResourceRegistry(CommonValueAutoInjectHandler autoInjectHandler) {
+        return new ConfigResourceRegistry();
     }
 }

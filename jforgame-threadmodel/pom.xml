@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jforgame-actor</artifactId>
+    <artifactId>jforgame-threadmodel</artifactId>
 
     <dependencies>
         <dependency>

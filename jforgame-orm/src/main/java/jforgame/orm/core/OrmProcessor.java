@@ -48,7 +48,7 @@ public enum OrmProcessor {
 
         // 从当前类开始，遍历所有父类
         Class<?> currClazz = clazz;
-        while (currClazz != StatefulEntity.class) {
+        while (currClazz != StatefulEntity.class && currClazz != Object.class) {
             Field[] fields = currClazz.getDeclaredFields();
             for (Field field : fields) {
                 String fieldName = field.getName();

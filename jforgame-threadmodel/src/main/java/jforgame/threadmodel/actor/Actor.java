@@ -1,4 +1,4 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
 
 import java.util.Objects;
 

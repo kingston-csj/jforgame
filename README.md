@@ -20,6 +20,7 @@
   ``` git
   jforgame
   ├── jforgame-commons --基础公共服务  
+  ├── jforgame-threadmodel --线程模型，分为actor和按关键字分发两种实现。推荐actor，可避免线程“冷热不均”
   ├── jforgame-runtime --应用运行时监控数据，包括内存，线程，类等等
   ├── jforgame-socket-parent     --Tcp socket通信，包括io网关模块，消息路由，会话管理，包含netty和mina版本      
       ├── jforgame-socket-api    --服务端/客户端基础API接口

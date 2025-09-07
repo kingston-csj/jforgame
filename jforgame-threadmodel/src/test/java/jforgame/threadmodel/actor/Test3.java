@@ -1,4 +1,4 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class Test3 {
     }
 
     public void run() {
-        ActorSystem actorSystem = new ActorSystem();
+        ActorThreadModel actorSystem = new ActorThreadModel();
         Player player = new Player(actorSystem, 100, 20, "孙悟空");
         Player player2 = new Player(actorSystem, 150, 15, "猪八戒");
         Monster monster = new Monster(actorSystem, 300, 25, "牛魔大王");
@@ -37,10 +37,12 @@ public class Test3 {
                     if (!player2.isDead()) {
                         tmpPlayers.add(player2);
                     }
-                    // 随机杀一个
-                    int index = (int) (Math.random() * tmpPlayers.size());
-                    Player target = tmpPlayers.get(index);
-                    scene.tell(new Attack(m, target));
+                    if (!tmpPlayers.isEmpty()) {
+                        // 随机杀一个
+                        int index = (int) (Math.random() * tmpPlayers.size());
+                        Player target = tmpPlayers.get(index);
+                        scene.tell(new Attack(m, target));
+                    }
                 }
             }
             try {
@@ -55,7 +57,7 @@ public class Test3 {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        actorSystem.shutdown();
+        actorSystem.shutDown();
     }
 
     class Creature {
@@ -80,7 +82,7 @@ public class Test3 {
 
         Actor actor;
 
-        public Player(ActorSystem actorSystem, int hp, int atk, String name) {
+        public Player(ActorThreadModel actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
             this.actor = new AbsActor(actorSystem);
         }
@@ -90,7 +92,7 @@ public class Test3 {
     class Monster extends Creature {
         Actor actor;
 
-        public Monster(ActorSystem actorSystem, int hp, int atk, String name) {
+        public Monster(ActorThreadModel actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
             this.actor = new AbsActor(actorSystem);
         }
@@ -105,7 +107,7 @@ public class Test3 {
 
         private List<Monster> monsters;
 
-        public Scene(ActorSystem actorSystem, List<Player> players, List<Monster> monsters) {
+        public Scene(ActorThreadModel actorSystem, List<Player> players, List<Monster> monsters) {
             super(actorSystem);
             this.players = players;
             this.monsters = monsters;
@@ -129,7 +131,7 @@ public class Test3 {
         }
 
         @Override
-        public void run() {
+        public void action() {
             if (target.isDead()) {
                 return;
             }

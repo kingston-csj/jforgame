@@ -1,4 +1,4 @@
-package jforgame.actor;
+package jforgame.threadmodel.actor;
 
 public class Test2 {
 
@@ -7,13 +7,13 @@ public class Test2 {
     }
 
     public void run() {
-        ActorSystem actorSystem = new ActorSystem();
+        ActorThreadModel actorSystem = new ActorThreadModel();
         Player player = new Player(actorSystem);
 
         for (int i = 0; i < 10; i++) {
             player.tell(new SimpleMail("hello", i) {
                 @Override
-                public void run() {
+                public void action() {
                     System.out.println(getType() + " " + getContent()[0]);
                 }
             });
@@ -23,12 +23,12 @@ public class Test2 {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        actorSystem.shutdown();
+        actorSystem.shutDown();
     }
 
     class Player extends AbsActor {
 
-        public Player(ActorSystem actorSystem) {
+        public Player(ActorThreadModel actorSystem) {
             super(actorSystem);
         }
     }
