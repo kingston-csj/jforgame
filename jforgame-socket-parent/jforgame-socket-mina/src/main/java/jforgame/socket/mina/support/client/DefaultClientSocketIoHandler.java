@@ -6,7 +6,9 @@ import jforgame.socket.mina.support.DefaultSocketIoHandler;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.RequestDataFrame;
 import org.apache.mina.core.session.IoSession;
-
+/**
+ * 默认的客户端SocketIoHandler
+ */
 public class DefaultClientSocketIoHandler extends DefaultSocketIoHandler {
     public DefaultClientSocketIoHandler(SocketIoDispatcher messageDispatcher) {
         super(messageDispatcher);

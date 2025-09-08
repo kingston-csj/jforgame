@@ -12,8 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+/**
+ * 文件工具类
+ */
 public final class FileUtils {
-
 
     private FileUtils() {
 

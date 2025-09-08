@@ -1,5 +1,7 @@
 package jforgame.commons;
-
+/**
+ * 字符串工具类
+ */
 public final class StringUtil {
 
     private StringUtil() {

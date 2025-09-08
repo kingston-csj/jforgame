@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * WebSocket客户端
+ */
 public class WebSocketClient extends AbstractSocketClient {
 
     private final EventLoopGroup group = new NioEventLoopGroup(1);

@@ -21,29 +21,71 @@ public class DigestUtil {
     private static final Base64.Encoder ENCODER = Base64.getEncoder();
 
 
+    /**
+     * 计算MD5摘要并返回16进制字符串
+     *
+     * @param bytes 输入字节数组
+     * @return 16进制表示的MD5摘要字符串
+     */
     public static String md5Hex(byte[] bytes) {
         return digestAsHexString("MD5", bytes);
     }
 
+    /**
+     * 计算MD5摘要并返回16进制字符串
+     *
+     * @param data 输入字符串
+     * @return 16进制表示的MD5摘要字符串
+     */
     public static String md5Hex(String data) {
         Objects.requireNonNull(data);
         return md5Hex(data.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * 计算MD5摘要并返回16进制字符串
+     *
+     * @param inputStream 输入流
+     * @return 16进制表示的MD5摘要字符串
+     * @throws IOException 如果读取输入流时发生IO异常
+     */
     public static String md5Hex(InputStream inputStream) throws IOException {
         return digestAsHexString("MD5", inputStream);
     }
 
+    /**
+     * 计算摘要并返回16进制字符串
+     *
+     * @param algorithm 摘要算法名称
+     * @param bytes     输入字节数组
+     * @return 16进制表示的摘要字符串
+     */
     private static String digestAsHexString(String algorithm, byte[] bytes) {
         char[] hexDigest = digestAsHexChars(algorithm, bytes);
         return new String(hexDigest);
     }
 
+    /**
+     * 计算摘要并返回16进制字符串
+     *
+     * @param algorithm 摘要算法名称
+     * @param inputStream 输入流
+     * @return 16进制表示的摘要字符串
+     * @throws IOException 如果读取输入流时发生IO异常
+     */
     private static String digestAsHexString(String algorithm, InputStream inputStream) throws IOException {
         char[] hexDigest = digestAsHexChars(algorithm, inputStream);
         return new String(hexDigest);
     }
 
+    /**
+     * 计算摘要并返回16进制字符数组
+     *
+     * @param algorithm 摘要算法名称
+     * @param inputStream 输入流
+     * @return 16进制表示的摘要字符数组
+     * @throws IOException 如果读取输入流时发生IO异常
+     */
     private static char[] digestAsHexChars(String algorithm, InputStream inputStream) throws IOException {
         byte[] digest = digest(algorithm, inputStream);
         return encodeHex(digest);
@@ -66,10 +108,23 @@ public class DigestUtil {
         return chars;
     }
 
+    /**
+     * 计算MD5摘要并返回字节数组
+     *
+     * @param bytes 输入字节数组
+     * @return MD5摘要字节数组
+     */
     public static byte[] md5Digest(byte[] bytes) {
         return digest("MD5", bytes);
     }
 
+    /**
+     * 计算MD5摘要并返回字节数组
+     *
+     * @param inputStream 输入流
+     * @return MD5摘要字节数组
+     * @throws IOException 如果读取输入流时发生IO异常
+     */
     public static byte[] md5Digest(InputStream inputStream) throws IOException {
         return digest("MD5", inputStream);
     }

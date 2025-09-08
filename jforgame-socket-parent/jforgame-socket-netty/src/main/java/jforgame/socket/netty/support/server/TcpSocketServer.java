@@ -22,7 +22,9 @@ import java.util.List;
 public class TcpSocketServer implements ServerNode {
 
     private static final Logger logger = LoggerFactory.getLogger("socketserver");
-
+    /**
+     * 节点配置，支持绑定多个端口
+     */
     protected List<HostAndPort> nodesConfig;
     protected ChannelInitializer<SocketChannel> childChannelInitializer;
 
@@ -30,9 +32,13 @@ public class TcpSocketServer implements ServerNode {
     // 避免使用默认线程数参数
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
-
+    /**
+     * 是否使用epoll
+     */
     boolean useEpollForLinux;
-
+    /**
+     * 是否使用池化缓冲区
+     */
     boolean usePooledBuff;
 
     @Override

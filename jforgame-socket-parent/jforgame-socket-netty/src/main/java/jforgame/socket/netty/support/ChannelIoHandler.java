@@ -12,7 +12,9 @@ import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.RequestDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ * 通道io处理器，把netty各种事件都转发给框架内置的消息分发器
+ */
 @ChannelHandler.Sharable
 public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
 

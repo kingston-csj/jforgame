@@ -8,8 +8,15 @@ import jforgame.socket.share.message.MessageFactory;
 
 import java.io.File;
 
+/**
+ * websocket服务器构建器
+ */
 public class WebSocketServerBuilder {
 
+    /**
+     * 创建新的构建器
+     * @return 构建器
+     */
     public static WebSocketServerBuilder newBuilder() {
         return new WebSocketServerBuilder();
     }
@@ -205,6 +212,7 @@ public class WebSocketServerBuilder {
         WebSocketServer socketServer = new WebSocketServer();
 //        socketServer.sslContext = sslContext;
         socketServer.nodeConfig = hostPort;
+        socketServer.maxProtocolBytes = maxProtocolBytes;
         socketServer.messageCodec = messageCodec;
         socketServer.messageFactory = messageFactory;
         socketServer.messageIoHandler = new ChannelIoHandler(socketIoDispatcher);

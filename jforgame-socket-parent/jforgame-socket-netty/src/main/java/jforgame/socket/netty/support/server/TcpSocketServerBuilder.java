@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * tcp服务器构建器
+ */
 public class TcpSocketServerBuilder {
 
     public static TcpSocketServerBuilder newBuilder() {

@@ -8,7 +8,10 @@ import org.apache.mina.filter.codec.ProtocolCodecFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * TCP服务器构建器
+ * 此类用于构建TCP服务器，提供了设置服务器参数、绑定端口、构建服务器等操作。
+ */
 public class TcpSocketServerBuilder {
 
     public static TcpSocketServerBuilder newBuilder() {

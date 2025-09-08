@@ -12,7 +12,13 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Netty会话
+ * 此类封装了Netty的Channel对象，提供了会话相关的操作方法。
+ * 会话是指客户端与服务器之间的一次通信，会话中包含了客户端与服务器的连接信息、会话属性等。
+ * 会话的生命周期从客户端连接到服务器开始，到客户端断开连接或服务器主动关闭会话结束。
+ * 会话还可以包含一些扩展属性，用于存储会话相关的信息。
+ */
 public class NSession implements IdSession {
 
     private static Logger logger = LoggerFactory.getLogger(IdSession.class);

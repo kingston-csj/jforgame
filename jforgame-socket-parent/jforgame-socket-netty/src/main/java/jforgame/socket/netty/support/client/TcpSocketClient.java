@@ -21,7 +21,9 @@ import jforgame.socket.share.message.MessageFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-
+/**
+ * TCP客户端
+ */
 public class TcpSocketClient extends AbstractSocketClient {
 
     private final EventLoopGroup group = new NioEventLoopGroup(1);
