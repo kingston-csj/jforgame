@@ -48,8 +48,8 @@
         <module>jforgame-hotswap</module>
         <module>jforgame-spring-boot-starter-data</module>
         <module>jforgame-orm</module>
-<!--        <module>jforgame-demo</module>-->
-<!--        <module>jforgame-threadmodel</module>-->
+        <module>jforgame-demo</module>
+        <module>jforgame-threadmodel</module>
     </modules>
     <issueManagement>
         <system>GitHub Issues</system>

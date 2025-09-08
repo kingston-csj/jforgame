@@ -95,7 +95,8 @@ public class ActorThreadModel implements ThreadModel {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ActorSystem Statistics:\n");
-        sb.append("Root Queue Size: ").append(threadPool.getTaskCount()).append("\n");
+        sb.append("Root Queue Current Task Size: ").append(threadPool.getQueue().size()).append("\n");
+        sb.append("Root Queue finished Task Size: ").append(threadPool.getTaskCount()).append("\n");
         sb.append("Shared Queue Workers: ").append(sharedActor.getWorkerSize()).append("\n");
 
         Actor[] boxGroup = sharedActor.getGroup();
