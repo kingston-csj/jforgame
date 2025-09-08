@@ -8,6 +8,10 @@ import jforgame.threadmodel.BaseTask;
  */
 public abstract class Mail extends BaseTask {
 
+    /**
+     * 邮件创建时间
+     */
+    protected final long createdTime;
 
     /**
      * 发送者（可选，用于追踪）
@@ -20,6 +24,7 @@ public abstract class Mail extends BaseTask {
     protected Actor receiver;
 
     public Mail() {
+        this.createdTime = System.currentTimeMillis();
     }
 
     /**
@@ -56,6 +61,13 @@ public abstract class Mail extends BaseTask {
      */
     public Actor getReceiver() {
         return receiver;
+    }
+
+    /**
+     * 获取邮件创建时间
+     */
+    public long getCreatedTime() {
+        return createdTime;
     }
 
 
