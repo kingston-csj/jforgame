@@ -61,7 +61,9 @@ public class ActorThreadModel implements ThreadModel {
         threadPool = new ThreadPoolExecutor(coreSize, coreSize, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), threadFactory);
         Actor[] actorGroup = new Actor[sharedGroupSize];
         for (int i = 0; i < sharedGroupSize; i++) {
-            actorGroup[i] = new AbsActor(this, "shared-actor");
+            ActorProps props = ActorProps.create("shared-actor-" + i)
+                .withMailbox(MailboxType.BOUNDED, 1024);
+            actorGroup[i] = new AbsActor(this, props);
         }
         sharedActor = new SharedActor(actorGroup);
     }

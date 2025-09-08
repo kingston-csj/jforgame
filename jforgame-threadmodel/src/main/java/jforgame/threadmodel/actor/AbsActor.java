@@ -28,7 +28,7 @@ public class AbsActor implements Actor {
     /**
      * 绑定的邮箱
      */
-    private Mailbox mailBox = new Mailbox();
+    private Mailbox mailBox;
 
     /**
      * actor名称
@@ -46,13 +46,20 @@ public class AbsActor implements Actor {
     private ActorThreadModel actorSystem;
 
     public AbsActor(ActorThreadModel actorSystem) {
-        this.actorName = getClass().getSimpleName();
-        this.actorSystem = actorSystem;
+        this(actorSystem, ActorProps.create());
     }
 
     public AbsActor(ActorThreadModel actorSystem, String actorName) {
+        this(actorSystem, ActorProps.create(actorName));
+    }
+    
+    /**
+     * 使用配置创建Actor
+     */
+    public AbsActor(ActorThreadModel actorSystem, ActorProps props) {
         this.actorSystem = actorSystem;
-        this.actorName = actorName;
+        this.actorName = props.getActorName() != null ? props.getActorName() : getClass().getSimpleName();
+        this.mailBox = MailboxFactory.create(props.getMailboxType(), props.getMailboxCapacity());
     }
 
     @Override
@@ -82,6 +89,15 @@ public class AbsActor implements Actor {
 
 
     /**
+     * 处理邮件的默认实现
+     * 子类可以重写此方法来处理具体的业务逻辑
+     */
+    public void receive(Mail mail) {
+        // 默认调用邮件的action方法
+        mail.action();
+    }
+
+    /**
      * 负责遍历和调度Mailbox中的Mail, 原子性执行，不会出现并发问题
      */
     @Override
@@ -95,9 +111,9 @@ public class AbsActor implements Actor {
         try {
             // 限制单次处理任务数量，防止饥饿
             int processedCount = 0;
-            Runnable mail;
-            while ((mail = mailBox.mails.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
-                mail.run();
+            Mail mail;
+            while ((mail = (Mail) mailBox.mails.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
+                receive(mail); // 调用receive方法处理邮件
                 processedCount++;
             }
             // 如果还有任务，重新加入队列
