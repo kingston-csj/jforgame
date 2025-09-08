@@ -19,6 +19,12 @@ public class WebSocketServerBuilder {
     private MessageCodec messageCodec;
     private ChainedMessageDispatcher socketIoDispatcher;
     private String websocketPath = "/ws";
+
+    /**
+     * 最大协议字节数（包头+包体）
+     */
+    int maxProtocolBytes = 512 * 1024;
+
 //    private SslContext sslContext;
 //    private boolean enableSsl = false; // 默认不启用SSL
 //    private boolean useSelfSignedCert = true; // 是否使用自签名证书
@@ -33,33 +39,70 @@ public class WebSocketServerBuilder {
      */
     private int idleMilliSeconds;
 
+    /**
+     * 设置消息分发器
+     * @param socketIoDispatcher 消息分发器
+     * @return this
+     */
     public WebSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }
-
+    /**
+     * 设置消息工厂
+     * @param messageFactory 消息工厂
+     * @return this
+     */
     public WebSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
         return this;
     }
-
+    /**
+     * 设置消息编码器
+     * @param messageCodec 消息编码器
+     * @return this
+     */
     public WebSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
         this.messageCodec = messageCodec;
         return this;
     }
-
+    /**
+     * 设置websocket路径
+     * @param websocketPath websocket路径
+     * @return this
+     */
     public WebSocketServerBuilder setWebsocketPath(String websocketPath) {
         this.websocketPath = websocketPath;
         return this;
     }
 
+    /**
+     * 绑定端口
+     * @param hostPort 端口
+     * @return this
+     */
     public WebSocketServerBuilder bindingPort(HostAndPort hostPort) {
         this.hostPort = hostPort;
         return this;
     }
 
+    /**
+     * 设置连接空闲时间，单位毫秒
+     * @param idleMilliSeconds 连接空闲时间，单位毫秒
+     * @return this
+     */
     public WebSocketServerBuilder setIdleMilliSeconds(int idleMilliSeconds) {
         this.idleMilliSeconds = idleMilliSeconds;
+        return this;
+    }
+
+    /**
+     * 设置最大协议字节数（包头+包体）
+     * @param maxProtocolBytes 最大协议字节数
+     * @return this
+     */
+    public WebSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
+        this.maxProtocolBytes = maxProtocolBytes;
         return this;
     }
 

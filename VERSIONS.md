@@ -150,7 +150,7 @@
 
     修复无法热更新类的bug
 
-## V2.5.0(近期计划)
+## V2.5.0
 
 ### jforgame-orm
 
@@ -178,6 +178,12 @@
 ### jforgame-socket-mina
     mina版本从2.0.22升级到2.0.27， https://github.com/kingston-csj/jforgame/security/dependabot/33
 
+
+## V2.6.0(近期计划)
+### jforgame-socket-netty
+    WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
+
+
 ## V3.1.0（计划） api变动！！
 
 ### jforgame-commons 
@@ -189,6 +195,7 @@
 ### jforgame-socket 
     ServerNode迁移到server目录
     ThreadModel相关接口迁移到threadmodel新模块
+    netty/mina 包路径去掉support层
 
 
 

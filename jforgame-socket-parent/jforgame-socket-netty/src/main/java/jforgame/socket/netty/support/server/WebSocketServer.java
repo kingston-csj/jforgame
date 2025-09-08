@@ -53,6 +53,12 @@ public class WebSocketServer implements ServerNode {
 
 
     /**
+     * 最大协议字节数（二进制为包头+包体, 文本为json字符串长度）
+     */
+    int maxProtocolBytes = 512 * 1024;
+
+
+    /**
      * In the server side, the connection will be closed if it is idle for a certain period of time.
      */
     int idleMilliSeconds;
@@ -93,9 +99,9 @@ public class WebSocketServer implements ServerNode {
             }
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
-            pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(512 * 1024));
-            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath));
-            pipeline.addLast("webSocketFrameAggregator", new WebSocketFrameAggregator(512 * 1024));
+            pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(64 * 1024));
+            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath, null, false, maxProtocolBytes));
+            pipeline.addLast("webSocketFrameAggregator", new WebSocketFrameAggregator(maxProtocolBytes));
             // WebSocketFrame vs Message codec
             pipeline.addLast("socketFrameToMessage", new WebSocketFrameToSocketDataCodec(messageCodec, messageFactory));
 
@@ -109,7 +115,6 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast(messageIoHandler);
         }
     }
-
 
 
 }

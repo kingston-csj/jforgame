@@ -23,6 +23,9 @@ import java.util.List;
  */
 public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
+    /**
+     * 最大协议字节数（包头+包体）
+     */
     private int maxProtocolBytes;
 
     private final Logger logger = LoggerFactory.getLogger("socketserver");

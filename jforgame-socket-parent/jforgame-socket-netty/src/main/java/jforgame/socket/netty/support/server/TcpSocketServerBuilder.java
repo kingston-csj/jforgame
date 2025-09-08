@@ -27,6 +27,9 @@ public class TcpSocketServerBuilder {
 
     List<HostAndPort> ipPortNodes = new ArrayList<>();
 
+    /**
+     * 最大协议字节数（包头+包体）
+     */
     int maxProtocolBytes = 4096;
 
     MessageFactory messageFactory;
@@ -64,62 +67,132 @@ public class TcpSocketServerBuilder {
     boolean usePooledBuff = false;
 
 
+    /**
+     * 设置消息分发器
+     *
+     * @param socketIoDispatcher 消息分发器
+     * @return this
+     */
     public TcpSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }
 
+    /**
+     * 设置消息工厂
+     *
+     * @param messageFactory 消息工厂
+     * @return this
+     */
     public TcpSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
         return this;
     }
 
+    /**
+     * 设置消息编码器
+     *
+     * @param messageCodec 消息编码器
+     * @return this
+     */
     public TcpSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
         this.messageCodec = messageCodec;
         return this;
     }
 
+    /**
+     * 设置绑定端口
+     *
+     * @param node 端口节点
+     * @return this
+     */
     public TcpSocketServerBuilder bindingPort(HostAndPort node) {
         this.ipPortNodes.add(node);
         return this;
     }
 
+    /**
+     * 设置最大协议字节数
+     *
+     * @param maxProtocolBytes 最大协议字节数
+     * @return this
+     */
     public TcpSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
         this.maxProtocolBytes = maxProtocolBytes;
         return this;
     }
 
+    /**
+     * 设置空闲时间，单位秒
+     *
+     * @param idleTime 空闲时间
+     * @return this
+     */
     public TcpSocketServerBuilder setIdleTime(int idleTime) {
         this.idleTime = idleTime;
         return this;
     }
 
-
+    /**
+     * 设置是否使用epoll
+     *
+     * @param useEpollForLinux 是否使用epoll
+     * @return this
+     */
     public TcpSocketServerBuilder setUseEpollForLinux(boolean useEpollForLinux) {
         this.useEpollForLinux = useEpollForLinux;
         return this;
     }
 
+    /**
+     * 设置是否使用池化缓冲区
+     *
+     * @param usePooledBuff 是否使用池化缓冲区
+     * @return this
+     */
     public TcpSocketServerBuilder setUsePooledBuff(boolean usePooledBuff) {
         this.usePooledBuff = usePooledBuff;
         return this;
     }
 
+    /**
+     * 设置扩展通道处理器
+     *
+     * @param extChannelHandler 扩展通道处理器
+     * @return this
+     */
     public TcpSocketServerBuilder setExtChannelHandler(ExtendedChannelHandler extChannelHandler) {
         this.extChannelHandler = extChannelHandler;
         return this;
     }
 
+    /**
+     * 设置自定义私有协议栈解码器
+     *
+     * @param protocolDecoder 自定义私有协议栈解码器
+     * @return this
+     */
     public TcpSocketServerBuilder setProtocolDecoder(ByteToMessageDecoder protocolDecoder) {
         this.protocolDecoder = protocolDecoder;
         return this;
     }
 
+    /**
+     * 设置自定义私有协议栈编码器
+     *
+     * @param protocolEncoder 自定义私有协议栈编码器
+     * @return this
+     */
     public TcpSocketServerBuilder setProtocolEncoder(MessageToByteEncoder<Object> protocolEncoder) {
         this.protocolEncoder = protocolEncoder;
         return this;
     }
 
+    /**
+     * 构建服务端
+     *
+     * @return TcpSocketServer tcp服务器
+     */
     public TcpSocketServer build() {
         TcpSocketServer socketServer = new TcpSocketServer();
         if (socketIoDispatcher == null) {
