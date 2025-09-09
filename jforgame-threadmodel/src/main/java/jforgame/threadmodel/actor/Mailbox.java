@@ -13,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class Mailbox {
 
-    BlockingQueue<Mail> mails;
+    protected BlockingQueue<Mail> mails;
 
     public Mailbox() {
         this.mails = new ArrayBlockingQueue<>(512);
