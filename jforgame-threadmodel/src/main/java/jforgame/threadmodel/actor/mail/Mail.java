@@ -1,6 +1,7 @@
-package jforgame.threadmodel.actor;
+package jforgame.threadmodel.actor.mail;
 
 import jforgame.threadmodel.BaseTask;
+import jforgame.threadmodel.actor.Actor;
 
 /**
  * 邮件抽象基类

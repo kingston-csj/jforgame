@@ -1,5 +1,8 @@
-package jforgame.threadmodel.actor;
+package jforgame.threadmodel.actor.mailbox;
 
+
+import jforgame.threadmodel.actor.ActorThreadModel;
+import jforgame.threadmodel.actor.mail.Mail;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -34,6 +37,14 @@ public class Mailbox {
      */
     public int getTaskSize() {
         return mails.size();
+    }
+
+    public boolean isEmpty() {
+        return mails.isEmpty();
+    }
+
+    public Mail poll() {
+        return mails.poll();
     }
 
 }

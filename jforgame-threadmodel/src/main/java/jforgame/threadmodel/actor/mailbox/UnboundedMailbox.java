@@ -1,6 +1,6 @@
 package jforgame.threadmodel.actor.mailbox;
 
-import jforgame.threadmodel.actor.Mail;
+import jforgame.threadmodel.actor.mail.Mail;
 import jforgame.threadmodel.actor.config.MailboxConfig;
 
 import java.util.concurrent.BlockingQueue;
@@ -8,8 +8,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * 无界邮箱实现
+ * @author wupeng0528
  */
-public class UnboundedMailbox extends jforgame.threadmodel.actor.Mailbox {
+public class UnboundedMailbox extends Mailbox {
     
     private final MailboxConfig config;
     

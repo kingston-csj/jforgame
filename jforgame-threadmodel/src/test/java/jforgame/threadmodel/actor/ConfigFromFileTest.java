@@ -1,7 +1,7 @@
 package jforgame.threadmodel.actor;
 
-import jforgame.threadmodel.actor.config.ActorConfigLoader;
 import jforgame.threadmodel.actor.config.ActorSystemConfig;
+import jforgame.threadmodel.actor.mail.SimpleMail;
 
 public class ConfigFromFileTest {
 
@@ -12,17 +12,15 @@ public class ConfigFromFileTest {
     public void run() throws InterruptedException {
         ActorSystemConfig config = ActorConfigLoader.loadFromClasspath("akka-actor.properties");
         
-        ConfigurableActorSystem actorSystem = new ConfigurableActorSystem(config);
+        ActorThreadModel actorSystem = new ActorThreadModel(config);
         
         System.out.println("=== Actor System Configuration ===");
-        System.out.println("Default Dispatcher Core Pool Size: " + config.getDefaultDispatcher().getCorePoolSize());
-        System.out.println("Default Dispatcher Max Pool Size: " + config.getDefaultDispatcher().getMaxPoolSize());
-        System.out.println("Default Mailbox Type: " + config.getDefaultMailbox().getMailboxType());
-        System.out.println("Default Mailbox Capacity: " + config.getDefaultMailbox().getMailboxCapacity());
-        System.out.println("Bounded Mailbox Type: " + config.getMailboxConfig("bounded-mailbox").getMailboxType());
-        System.out.println("Bounded Mailbox Capacity: " + config.getMailboxConfig("bounded-mailbox").getMailboxCapacity());
-        System.out.println("Priority Mailbox Type: " + config.getMailboxConfig("priority-mailbox").getMailboxType());
-        System.out.println("Priority Mailbox Capacity: " + config.getMailboxConfig("priority-mailbox").getMailboxCapacity());
+        System.out.println("Default Mailbox Type: " + config.getDefaultMailbox().getType());
+        System.out.println("Default Mailbox Capacity: " + config.getDefaultMailbox().getCapacity());
+        System.out.println("Bounded Mailbox Type: " + config.getMailboxConfig("bounded-mailbox").getType());
+        System.out.println("Bounded Mailbox Capacity: " + config.getMailboxConfig("bounded-mailbox").getCapacity());
+        System.out.println("Priority Mailbox Type: " + config.getMailboxConfig("priority-mailbox").getType());
+        System.out.println("Priority Mailbox Capacity: " + config.getMailboxConfig("priority-mailbox").getCapacity());
         System.out.println("====================================");
         
         testDifferentActorTypes(actorSystem);
@@ -35,7 +33,7 @@ public class ConfigFromFileTest {
         actorSystem.shutDown();
     }
 
-    private void testDifferentActorTypes(ConfigurableActorSystem actorSystem) {
+    private void testDifferentActorTypes(ActorThreadModel actorSystem) {
         Actor playerActor = actorSystem.createActor("/player/player-123");
         Actor systemActor = actorSystem.createActor("/system/monitor");
         Actor priorityActor = actorSystem.createActor("/priority/emergency");

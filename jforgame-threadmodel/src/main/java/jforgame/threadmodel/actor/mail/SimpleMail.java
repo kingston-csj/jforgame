@@ -1,4 +1,4 @@
-package jforgame.threadmodel.actor;
+package jforgame.threadmodel.actor.mail;
 
 /**
  * actor基本任务

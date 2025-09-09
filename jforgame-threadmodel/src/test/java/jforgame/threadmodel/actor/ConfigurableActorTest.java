@@ -3,8 +3,7 @@ package jforgame.threadmodel.actor;
 import jforgame.threadmodel.actor.config.ActorSystemConfig;
 import jforgame.threadmodel.actor.config.MailboxConfig;
 import jforgame.threadmodel.actor.mail.PriorityMail;
-
-import java.time.Duration;
+import jforgame.threadmodel.actor.mail.SimpleMail;
 
 public class ConfigurableActorTest {
 
@@ -14,36 +13,35 @@ public class ConfigurableActorTest {
 
     public void run() throws InterruptedException {
         ActorSystemConfig config = createCustomConfig();
-        
-        ConfigurableActorSystem actorSystem = new ConfigurableActorSystem(config);
-        
+
+        ActorThreadModel actorSystem = new ActorThreadModel(config);
+
         // 测试不同类型的Actor
         testPlayerActor(actorSystem);
         testPriorityActor(actorSystem);
         testSystemActor(actorSystem);
-        
+
         Thread.sleep(2000);
-        
+
         System.out.println(actorSystem.toString());
-        
+
         actorSystem.shutDown();
     }
 
     private ActorSystemConfig createCustomConfig() {
         ActorSystemConfig config = new ActorSystemConfig();
-        
+
         MailboxConfig customBoundedMailbox = new MailboxConfig();
-        customBoundedMailbox.setMailboxType("akka.dispatch.BoundedMailbox");
-        customBoundedMailbox.setMailboxCapacity(100);
-        customBoundedMailbox.setMailboxPushTimeout(Duration.ofSeconds(5));
+        customBoundedMailbox.setType(MailboxConfig.TYPE_BOUNDED);
+        customBoundedMailbox.setCapacity(100);
         config.getMailboxes().put("custom-bounded-mailbox", customBoundedMailbox);
-        
+
         return config;
     }
 
-    private void testPlayerActor(ConfigurableActorSystem actorSystem) {
+    private void testPlayerActor(ActorThreadModel actorSystem) {
         Actor playerActor = actorSystem.createActor("/player/player-001");
-        
+
         for (int i = 0; i < 20; i++) {
             final int msgId = i;
             playerActor.tell(new SimpleMail("player-action", msgId) {
@@ -60,23 +58,23 @@ public class ConfigurableActorTest {
         }
     }
 
-    private void testPriorityActor(ConfigurableActorSystem actorSystem) {
+    private void testPriorityActor(ActorThreadModel actorSystem) {
         Actor priorityActor = actorSystem.createActor("/priority/urgent-handler");
-        
+
         priorityActor.tell(new PriorityMail("normal-task", PriorityMail.NORMAL_PRIORITY, "Normal priority task") {
             @Override
             public void action() {
                 System.out.println("Processing: " + getContent()[0] + " (Priority: " + getPriority() + ")");
             }
         });
-        
+
         priorityActor.tell(new PriorityMail("high-task", PriorityMail.HIGH_PRIORITY, "High priority task") {
             @Override
             public void action() {
                 System.out.println("Processing: " + getContent()[0] + " (Priority: " + getPriority() + ")");
             }
         });
-        
+
         priorityActor.tell(new PriorityMail("low-task", PriorityMail.LOW_PRIORITY, "Low priority task") {
             @Override
             public void action() {
@@ -85,9 +83,9 @@ public class ConfigurableActorTest {
         });
     }
 
-    private void testSystemActor(ConfigurableActorSystem actorSystem) {
+    private void testSystemActor(ActorThreadModel actorSystem) {
         Actor systemActor = actorSystem.createActor("/system/logger");
-        
+
         for (int i = 0; i < 5; i++) {
             final String logMsg = "System log " + i;
             systemActor.tell(new SimpleMail("log", logMsg) {

@@ -1,5 +1,8 @@
 package jforgame.threadmodel.actor;
 
+import jforgame.threadmodel.actor.mail.Mail;
+import jforgame.threadmodel.actor.mailbox.Mailbox;
+
 import java.util.Objects;
 
 /**

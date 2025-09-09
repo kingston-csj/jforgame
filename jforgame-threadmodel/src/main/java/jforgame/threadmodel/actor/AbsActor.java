@@ -1,16 +1,17 @@
 package jforgame.threadmodel.actor;
 
+import jforgame.threadmodel.actor.config.ActorDeploymentConfig;
+import jforgame.threadmodel.actor.config.ActorSystemConfig;
+import jforgame.threadmodel.actor.config.MailboxConfig;
+import jforgame.threadmodel.actor.mail.Mail;
+import jforgame.threadmodel.actor.mailbox.Mailbox;
+import jforgame.threadmodel.actor.mailbox.MailboxFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Actor基类，提供默认实现
- * 由于java不支持多继承，继承该类后，便无法继承其他类，
- * 若需要继承其他类，建议采用组合模式，把该类作为一个属性
- */
 public class AbsActor implements Actor {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -28,12 +29,12 @@ public class AbsActor implements Actor {
     /**
      * 绑定的邮箱
      */
-    private Mailbox mailBox = new Mailbox();
+    private Mailbox mailBox;
 
     /**
-     * actor名称
+     * actor名称/路径
      */
-    private final String actorName;
+    private final String actorPath;
 
     /**
      * 当前任务是否在parent队列里
@@ -45,21 +46,26 @@ public class AbsActor implements Actor {
      */
     private ActorThreadModel actorSystem;
 
-    public AbsActor(ActorThreadModel actorSystem) {
-        this.actorName = getClass().getSimpleName();
-        this.actorSystem = actorSystem;
-    }
 
-    public AbsActor(ActorThreadModel actorSystem, String actorName) {
+    public AbsActor(ActorThreadModel actorSystem, String actorPath, ActorSystemConfig systemConfig) {
         this.actorSystem = actorSystem;
-        this.actorName = actorName;
+        this.actorPath = actorPath;
+
+        // 根据路径获取部署配置
+        ActorDeploymentConfig deploymentConfig = systemConfig.getDeploymentConfig(actorPath);
+        // 根据配置创建邮箱
+        String mailboxName = deploymentConfig.getMailbox();
+        MailboxConfig mailboxConfig = systemConfig.getMailboxConfig(mailboxName);
+        this.mailBox = MailboxFactory.createMailbox(mailboxConfig);
+
+        logger.info("Created actor [{}] with mailbox type [{}] and capacity [{}]",
+                actorPath, mailboxConfig.getType(), mailboxConfig.getCapacity());
     }
 
     @Override
     public String getModel() {
-        return actorName;
+        return actorPath;
     }
-
 
     @Override
     public Mailbox getMailBox() {
@@ -73,13 +79,15 @@ public class AbsActor implements Actor {
             return;
         }
         message.setSender(sender);
+        message.setReceiver(this);
+
         Mailbox mailBox = getMailBox();
         mailBox.receive(message);
+
         if (queued.compareAndSet(false, true)) {
             actorSystem.accept(this);
         }
     }
-
 
     /**
      * 负责遍历和调度Mailbox中的Mail, 原子性执行，不会出现并发问题
@@ -89,31 +97,34 @@ public class AbsActor implements Actor {
         // 防止任务一直占线
         int size = mailBox.getTaskSize();
         if (size > THRESHOLD) {
-            logger.warn("[{}]任务堆积严重，任务数量[{}]", actorName, size);
+            logger.warn("[{}]任务堆积严重，任务数量[{}]", actorPath, size);
         }
 
         try {
             // 限制单次处理任务数量，防止饥饿
             int processedCount = 0;
             Runnable mail;
-            while ((mail = mailBox.mails.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
+            while ((mail = mailBox.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
                 mail.run();
                 processedCount++;
             }
             // 如果还有任务，重新加入队列
-            if (!mailBox.mails.isEmpty()) {
+            if (!mailBox.isEmpty()) {
                 if (queued.compareAndSet(false, true)) {
                     actorSystem.accept(this);
                 }
             }
         } catch (Exception e) {
-            logger.error("[{}]任务执行异常", actorName, e);
+            logger.error("[{}]任务执行异常", actorPath, e);
         } finally {
             // 只有在没有更多任务时才标记为未排队
-            if (mailBox.mails.isEmpty()) {
+            if (mailBox.isEmpty()) {
                 queued.compareAndSet(true, false);
             }
         }
     }
 
+    public String getActorPath() {
+        return actorPath;
+    }
 }

@@ -1,22 +1,21 @@
 package jforgame.threadmodel.actor.mailbox;
 
-import jforgame.threadmodel.actor.Mail;
+import jforgame.threadmodel.actor.mail.Mail;
 import jforgame.threadmodel.actor.config.MailboxConfig;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * 有界邮箱实现
+ * @author wupeng0528
  */
-public class BoundedMailbox extends jforgame.threadmodel.actor.Mailbox {
+public class BoundedMailbox extends Mailbox {
     
     private final MailboxConfig config;
     
     public BoundedMailbox(MailboxConfig config) {
-        super(createBoundedQueue(config.getMailboxCapacity()));
+        super(createBoundedQueue(config.getCapacity()));
         this.config = config;
     }
     
@@ -33,7 +32,7 @@ public class BoundedMailbox extends jforgame.threadmodel.actor.Mailbox {
     }
     
     /**
-     * 处理队列满的情况
+     * 处理队列满的情况(预留)
      */
     private void handleQueueFull(Mail mail) {
         // 可以根据配置决定策略：
@@ -42,7 +41,7 @@ public class BoundedMailbox extends jforgame.threadmodel.actor.Mailbox {
         // 3. 阻塞等待
         // 4. 抛出异常
         
-        throw new IllegalStateException("BoundedMailbox queue is full, capacity: " + config.getMailboxCapacity());
+        throw new IllegalStateException("BoundedMailbox queue is full, capacity: " + config.getCapacity());
     }
     
     public MailboxConfig getConfig() {
