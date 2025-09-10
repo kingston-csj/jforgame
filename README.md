@@ -55,7 +55,9 @@
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。）;  
   6. 启动客户端，入口为ClientStartup类;  
   （如果导入项目所有模块，还需要设置好工作区间。例如idea设置：run->EditConfirations->Workingdirectory,设置为，**\jforgame\jforgame-demo。)  
-  7. 作为组件导入
+  7. 项目demo
+
+  导入组件
   ```
     <dependency>
         <groupId>io.github.jforgame</groupId>
@@ -80,10 +82,38 @@
     .start();
   ```  
 
+  消息协议
+  ```
+  @MessageMeta(module = Modules.LOGIN, cmd = LoginDataPool.REQ_LOGIN)
+  public class ReqAccountLogin implements Message {
+
+    /**
+     * 账号流水号
+     */
+    private long accountId;
+
+    private String password;
+    
+    }
+  ```
+
+  消息路由+处理器
+  ```
+  @MessageRoute
+  public class LoginController {
+
+	@RequestHandler
+	public void reqAccountLogin(IdSession session, ReqAccountLogin request) {
+        GameContext.loginManager.handleAccountLogin(session, request.getAccountId(), request.getPassword());
+	}
+  }
+  ```
+  就是这么简单，写业务只需要依样画葫芦，撸起袖子就是干！！
+
   ## 本栏目详细教程   
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
   [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
-
+  [API云文档(持续更新)](https://www.yuque.com/jforgame/game)
 
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
