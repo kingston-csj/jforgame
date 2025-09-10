@@ -56,6 +56,7 @@ public class MessageTask extends BaseGameTask {
         MessageExecutor methodExecutor = MessageExecuteUnit.valueOf(method, null, handler);
         msgTask.params = params;
         msgTask.methodExecutor = methodExecutor;
+        msgTask.methodCaller = MethodHandleUtils.getCaller(method);
 
         return msgTask;
     }

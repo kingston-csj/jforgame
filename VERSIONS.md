@@ -180,6 +180,8 @@
 
 
 ## V2.6.0(近期计划)
+### jforgame-socket
+    修复MessageTask构造函数初始化问题
 ### jforgame-socket-netty
     WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
 

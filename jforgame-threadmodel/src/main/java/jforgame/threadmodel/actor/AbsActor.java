@@ -58,8 +58,10 @@ public class AbsActor implements Actor {
         MailboxConfig mailboxConfig = systemConfig.getMailboxConfig(mailboxName);
         this.mailBox = MailboxFactory.createMailbox(mailboxConfig);
 
-        logger.info("Created actor [{}] with mailbox type [{}] and capacity [{}]",
-                actorPath, mailboxConfig.getType(), mailboxConfig.getCapacity());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Created actor [{}] with mailbox type [{}] and capacity [{}]",
+                    actorPath, mailboxConfig.getType(), mailboxConfig.getCapacity());
+        }
     }
 
     @Override
