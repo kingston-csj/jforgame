@@ -154,7 +154,7 @@
 
 ### jforgame-orm
 
-    新增orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
+    发布jforgame-orm工具，轻量级，专门为游戏服务器打造的orm工具，支持mysql, sqllite等关系型数据库
 
 ### jforgame-doctor
 
@@ -182,9 +182,13 @@
 ## V2.6.0(近期计划)
 ### jforgame-socket
     修复MessageTask构造函数初始化问题
+
 ### jforgame-socket-netty
     WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
 
+### jforgame-data
+    修复ExcelDataReader,CsvDataReader配置读取规则不统一。
+    配置bean支持继承关系，子类可以继承父类的配置字段
 
 ## V3.1.0（计划） api变动！！
 
@@ -198,6 +202,7 @@
     ServerNode迁移到server目录
     ThreadModel相关接口迁移到threadmodel新模块
     netty/mina 包路径去掉support层
+    MessageTask更名为RequestTask
 
 
 

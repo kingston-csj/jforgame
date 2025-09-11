@@ -41,39 +41,55 @@ public class TableDefinition {
             this.resourceTable = dataTable.name();
         }
 
-        Arrays.stream(clazz.getDeclaredFields()).filter(f -> f.getAnnotation(Id.class) != null)
-                .forEach(f -> {
-                    IdMeta indexMeta = new FieldIdMeta(f);
-                    String key = indexMeta.getName();
-                    if (idMeta != null) {
-                        throw new RuntimeException(String.format("%s类主键重复-->%s", clazz.getName(), key));
-                    }
-                    idMeta = indexMeta;
-                });
+        Class curr = clazz;
+        while (curr != Object.class) {
+            Arrays.stream(curr.getDeclaredFields()).filter(f -> f.getAnnotation(Id.class) != null)
+                    .forEach(f -> {
+                        IdMeta indexMeta = new FieldIdMeta(f);
+                        String key = indexMeta.getName();
+                        if (idMeta != null) {
+                            throw new RuntimeException(String.format("%s类主键重复-->%s", clazz.getName(), key));
+                        }
+                        idMeta = indexMeta;
+                    });
+            curr = curr.getSuperclass();
+        }
+
 
         if (idMeta == null) {
             throw new RuntimeException(String.format("%s类主键不存在", clazz.getName()));
         }
-        Arrays.stream(clazz.getDeclaredFields()).filter(f -> f.getAnnotation(Index.class) != null)
-                .forEach(f -> {
-                    IndexMeta indexMeta = new FieldIndexMeta(f);
-                    String key = indexMeta.getName();
-                    if (indexMetaMap.put(key, indexMeta) != null) {
-                        throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
-                    }
-                    indexMetaMap.put(key, indexMeta);
-                });
 
-        Arrays.stream(clazz.getDeclaredMethods()).filter(m -> m.getAnnotation(Index.class) != null)
-                .forEach(m -> {
-                    Index index = m.getAnnotation(Index.class);
-                    IndexMeta indexMeta = new MethodIndexMeta(index, m);
-                    String key = indexMeta.getName();
-                    if (indexMetaMap.put(key, indexMeta) != null) {
-                        throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
-                    }
-                    indexMetaMap.put(key, indexMeta);
-                });
+        curr = clazz;
+        while (curr != Object.class) {
+            Arrays.stream(clazz.getDeclaredFields()).filter(f -> f.getAnnotation(Index.class) != null)
+                    .forEach(f -> {
+                        IndexMeta indexMeta = new FieldIndexMeta(f);
+                        String key = indexMeta.getName();
+                        if (indexMetaMap.put(key, indexMeta) != null) {
+                            throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
+                        }
+                        indexMetaMap.put(key, indexMeta);
+                    });
+            curr = curr.getSuperclass();
+        }
+
+
+        curr = clazz;
+        while (curr != Object.class) {
+            Arrays.stream(clazz.getDeclaredMethods()).filter(m -> m.getAnnotation(Index.class) != null)
+                    .forEach(m -> {
+                        Index index = m.getAnnotation(Index.class);
+                        IndexMeta indexMeta = new MethodIndexMeta(index, m);
+                        String key = indexMeta.getName();
+                        if (indexMetaMap.put(key, indexMeta) != null) {
+                            throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
+                        }
+                        indexMetaMap.put(key, indexMeta);
+                    });
+            curr = curr.getSuperclass();
+        }
+
     }
 
     IdMeta getIdMeta() {

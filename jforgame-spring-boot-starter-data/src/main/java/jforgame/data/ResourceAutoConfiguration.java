@@ -5,8 +5,8 @@ import jforgame.data.common.ConfigResourceRegistry;
 import jforgame.data.convertor.JsonToArrayConvertor;
 import jforgame.data.convertor.JsonToListConvertor;
 import jforgame.data.convertor.JsonToMapConvertor;
-import jforgame.data.reader.CsvDataReader;
 import jforgame.data.reader.DataReader;
+import jforgame.data.reader.ExcelDataReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,10 +26,12 @@ public class ResourceAutoConfiguration {
     public ResourceAutoConfiguration() {
     }
 
+    // 明确指定要注入的ConversionService Bean名称
     @Bean
     @ConditionalOnMissingBean
-    public DataReader createDataReader() {
-        return new CsvDataReader();
+    public DataReader createDataReader(
+            @Qualifier("dataConversionService") ConversionService dataConversionService) {
+        return new ExcelDataReader(dataConversionService);
     }
 
     @Bean(name = {"dataConversionService"})

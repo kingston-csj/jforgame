@@ -25,7 +25,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 不细心观察，很难看出，这两段代码，仅仅只有导入的包路径有一个单词的差异。其他地方无需改动一行代码！！
 
 ### 1.2.socket/websocket切换，仅有几个字母的差异
-一个游戏项目，立项的时候定位选择了socket作为网络通信方式，后来，项目经理决定增加小程序版本。由于小游戏不支持原生socket，项目经理问了，要多久搞得来。你嘴里说着，怕是没个把月，调研不出来，整个底层都要改个透。转身，一行代码搞定！（压力给到客户端了）  
+游戏立项时选了socket作为通信方式，本来顺风顺水，结果项目经理突然蹦出一句 “要做小程序版”。我当场瞳孔地震：小游戏哪能跑原生socket啊！当着面只能装难：“领导，这活儿麻烦了，底层全得扒了重改，没个把月摸不清门道……” 转头回到工位，手指翻飞敲了一行代码就搞定了，嘴角疯狂上扬：得，这下该客户端的兄弟头疼怎么对接了！  
 使用netty构建的socket服务器  
 ```
 		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
@@ -70,7 +70,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 ```
 
 ### 2.2.强大的客户端通信API
-提供三种方式处理跨服通信，总有一种，符合您的口味~~  
+提供四种方式处理跨服通信，总有一种，符合您的口味~~  
 #### 请求-阻塞模式
   ```
     ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
@@ -81,22 +81,38 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 #### callback模式
   ```
     RpcMessageClient.callBack(session, new ReqHello(), new RequestCallback() {
-    @Override
-    public void onSuccess(Object callBack) {
-        System.err.println("rpc 消息异步调用");
-        ResHello response = (ResHello) callBack;
-        System.err.println(response);
-    }
-
-    @Override
-    public void onError(Throwable error) {
-        System.out.println("----onError");
-        error.printStackTrace();
-    }
-});
+        @Override
+        public void onSuccess(Object callBack) {
+            System.err.println("rpc 消息异步调用");
+            ResHello response = (ResHello) callBack;
+            System.err.println(response);
+        }
+    
+        @Override
+        public void onError(Throwable error) {
+            System.out.println("----onError");
+            error.printStackTrace();
+        }
+    });
 ```
+
+#### future模式
+  ```
+    // future可以实现嵌套调用，避免“回调地狱”
+    RpcMessageClient.future(session, new ReqHello()).thenCompose(o -> {
+        ResHello response2 = (ResHello) o;
+        System.out.println("rpc 消息future调用");
+        System.out.println(response2);
+        return RpcMessageClient.future(session, new ReqHello());
+    }).thenAccept(o -> {
+        System.out.println("rpc 消息future调用，继续处理");
+        ResHello response3 = (ResHello) o;
+        System.out.println(response3);
+    });
+```
+
 #### 方法注解
-你甚至可以采用游戏服务器处理客户端消息的方式  
+您甚至可以采用游戏服务器处理客户端消息的方式  
 ```
     // 发送方
     session.send(new ReqHello());
