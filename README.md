@@ -112,8 +112,7 @@
 
   ## 本栏目详细教程   
   [从零开始搭建游戏服务器框架](https://blog.csdn.net/littleschemer/category_9269220.html)  
-  [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)
-  [API云文档(持续更新)](https://www.yuque.com/jforgame/game)
+  [漫谈游戏服务器](https://blog.csdn.net/littleschemer/category_12576391.html)    
 
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
