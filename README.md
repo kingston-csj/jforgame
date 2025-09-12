@@ -116,12 +116,17 @@
 
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
-  如果您发现bug，或者有任何疑问，请提交issue !!  
+  如果您发现bug，或者有任何疑问，请提交issue !! bug会被及时修复，并及时发布新的补丁release
   mysql合服工程，基于jforgame的分布式五子棋源代码(cocos+h5客户端)，私聊获取。  
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
   定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  
   ![](/screenshots/zsxq.jpg "知识星球")
+
+  ## 特别鸣谢
+  感谢网友[CarsonQizhao](https://github.com/CarsonQizhao)提供的commons多个优秀的工具类;  
+  感谢网友[wupeng0528](https://github.com/wupeng0528)为threadmodel模块引入Akka风格的Actor配置系统;    
+  以及其他所有参与项目的网友（包括并不限于提出issue，在聊天讨论提出建议或bug），万分感谢！！ 
 
    ## 免责申明
    本项目只用于学习研究，禁止用于非法获利和商业活动。如产生法律纠纷与作者无关！！

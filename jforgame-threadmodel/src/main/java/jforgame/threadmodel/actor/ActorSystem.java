@@ -18,9 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 负责actor调度
  * 如果选择将创建的actor注册到该容器，需要自行管理actor的生命周期，请及时调用{@link #removeActor(String)}，避免内存泄露
  */
-public class ActorThreadModel implements ThreadModel {
+public class ActorSystem implements ThreadModel {
 
-    private static final Logger logger = LoggerFactory.getLogger(ActorThreadModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(ActorSystem.class);
 
     final AtomicBoolean running = new AtomicBoolean(true);
 
@@ -35,16 +35,14 @@ public class ActorThreadModel implements ThreadModel {
 
     private final SharedActor sharedActor;
 
-    public ActorThreadModel() {
+    public ActorSystem() {
         this(new ActorSystemConfig());
     }
 
-    public ActorThreadModel(ActorSystemConfig systemConfig) {
+    public ActorSystem(ActorSystemConfig systemConfig) {
         this.systemConfig = systemConfig;
-
         // 根据配置创建线程池
-        NamedThreadFactory threadFactory = new NamedThreadFactory("configurable-actor-system");
-
+        NamedThreadFactory threadFactory = new NamedThreadFactory("actor-system");
         this.threadPool = new ThreadPoolExecutor(
                 systemConfig.getCorePoolSize(),
                 systemConfig.getMaxPoolSize(),

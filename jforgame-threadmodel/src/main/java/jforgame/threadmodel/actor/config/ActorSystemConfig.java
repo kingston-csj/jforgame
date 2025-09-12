@@ -43,6 +43,10 @@ public class ActorSystemConfig {
      */
     private Map<String, ActorDeploymentConfig> deployments;
 
+    public static final String MAILBOX_DEFAULT = "default-mailbox";
+    public static final String MAILBOX_BOUNDED = "bounded-mailbox";
+    public static final String MAILBOX_PRIORITY = "priority-mailbox";
+
 
     public ActorSystemConfig() {
         this.defaultMailbox = new MailboxConfig();
@@ -61,17 +65,17 @@ public class ActorSystemConfig {
         MailboxConfig boundedMailbox = new MailboxConfig();
         boundedMailbox.setType(MailboxConfig.TYPE_BOUNDED);
         boundedMailbox.setCapacity(512);
-        mailboxes.put("bounded-mailbox", boundedMailbox);
+        mailboxes.put(MAILBOX_BOUNDED, boundedMailbox);
 
         // 优先级邮箱配置
         MailboxConfig priorityMailbox = new MailboxConfig();
         priorityMailbox.setType(MailboxConfig.TYPE_PRIORITY);
         priorityMailbox.setCapacity(1000);
-        mailboxes.put("priority-mailbox", priorityMailbox);
+        mailboxes.put(MAILBOX_PRIORITY, priorityMailbox);
 
         // 默认Actor部署配置
         ActorDeploymentConfig defaultDeployment = new ActorDeploymentConfig();
-        defaultDeployment.setMailbox("default-mailbox");
+        defaultDeployment.setMailbox(MAILBOX_DEFAULT);
         deployments.put("default", defaultDeployment);
 
         // 玩家Actor部署配置
@@ -113,6 +117,26 @@ public class ActorSystemConfig {
     }
 
     /**
+     * 注册自定义部署配置，亦可覆盖默认的部署配置
+     *
+     * @param actorPath 部署配置名称
+     * @param config    部署配置
+     */
+    public void registerDeploymentConfig(String actorPath, ActorDeploymentConfig config) {
+        deployments.put(actorPath, config);
+    }
+
+    /**
+     * 注册自定义邮箱配置
+     *
+     * @param mailboxName 邮箱名称
+     * @param config      邮箱配置
+     */
+    public void registerMailboxConfig(String mailboxName, MailboxConfig config) {
+        mailboxes.put(mailboxName, config);
+    }
+
+    /**
      * 简单的模式匹配
      */
     private boolean matchPattern(String path, String pattern) {
@@ -137,25 +161,6 @@ public class ActorSystemConfig {
         return defaultMailbox;
     }
 
-    public void setDefaultMailbox(MailboxConfig defaultMailbox) {
-        this.defaultMailbox = defaultMailbox;
-    }
-
-    public Map<String, MailboxConfig> getMailboxes() {
-        return mailboxes;
-    }
-
-    public void setMailboxes(Map<String, MailboxConfig> mailboxes) {
-        this.mailboxes = mailboxes;
-    }
-
-    public Map<String, ActorDeploymentConfig> getDeployments() {
-        return deployments;
-    }
-
-    public void setDeployments(Map<String, ActorDeploymentConfig> deployments) {
-        this.deployments = deployments;
-    }
 
     public int getCorePoolSize() {
         return corePoolSize;

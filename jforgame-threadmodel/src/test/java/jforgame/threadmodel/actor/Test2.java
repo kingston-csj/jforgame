@@ -11,7 +11,7 @@ public class Test2 {
     }
 
     public void run() {
-        ActorThreadModel actorSystem = new ActorThreadModel();
+        ActorSystem actorSystem = new ActorSystem();
         Player player = new Player(actorSystem);
 
         for (int i = 0; i < 10; i++) {
@@ -32,7 +32,7 @@ public class Test2 {
 
     class Player extends AbsActor {
 
-        public Player(ActorThreadModel actorSystem) {
+        public Player(ActorSystem actorSystem) {
             super(actorSystem, "player", actorSystemConfig);
         }
     }

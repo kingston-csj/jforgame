@@ -12,7 +12,7 @@ public class ConfigFromFileTest {
     public void run() throws InterruptedException {
         ActorSystemConfig config = ActorConfigLoader.loadFromClasspath("akka-actor.properties");
         
-        ActorThreadModel actorSystem = new ActorThreadModel(config);
+        ActorSystem actorSystem = new ActorSystem(config);
         
         System.out.println("=== Actor System Configuration ===");
         System.out.println("Default Mailbox Type: " + config.getDefaultMailbox().getType());
@@ -33,7 +33,7 @@ public class ConfigFromFileTest {
         actorSystem.shutDown();
     }
 
-    private void testDifferentActorTypes(ActorThreadModel actorSystem) {
+    private void testDifferentActorTypes(ActorSystem actorSystem) {
         Actor playerActor = actorSystem.createActor("/player/player-123");
         Actor systemActor = actorSystem.createActor("/system/monitor");
         Actor priorityActor = actorSystem.createActor("/priority/emergency");

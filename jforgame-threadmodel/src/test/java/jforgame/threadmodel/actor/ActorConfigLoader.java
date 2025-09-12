@@ -45,13 +45,13 @@ public class ActorConfigLoader {
         MailboxConfig boundedMailbox = new MailboxConfig();
         boundedMailbox.setType(MailboxConfig.TYPE_BOUNDED);
         boundedMailbox.setCapacity(getIntProperty(properties, "actor.bounded-mailbox.mailbox-capacity", 512));
-        config.getMailboxes().put("bounded-mailbox", boundedMailbox);
+        config.registerMailboxConfig("bounded-mailbox", boundedMailbox);
 
         // 解析优先级邮箱配置
         MailboxConfig priorityMailbox = new MailboxConfig();
         priorityMailbox.setType(MailboxConfig.TYPE_PRIORITY);
         priorityMailbox.setCapacity(getIntProperty(properties, "actor.priority-mailbox.mailbox-capacity", 1000));
-        config.getMailboxes().put("priority-mailbox", priorityMailbox);
+        config.registerMailboxConfig("priority-mailbox", priorityMailbox);
 
         return config;
     }

@@ -11,7 +11,7 @@ public class Test1 {
     }
 
     public void run() {
-        ActorThreadModel actorSystem = new ActorThreadModel();
+        ActorSystem actorSystem = new ActorSystem();
         Player player = new Player();
         player.actor = new AbsActor(actorSystem, "player", actorSystemConfig);
 

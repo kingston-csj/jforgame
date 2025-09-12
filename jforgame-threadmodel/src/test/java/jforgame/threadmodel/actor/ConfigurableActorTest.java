@@ -14,7 +14,7 @@ public class ConfigurableActorTest {
     public void run() throws InterruptedException {
         ActorSystemConfig config = createCustomConfig();
 
-        ActorThreadModel actorSystem = new ActorThreadModel(config);
+        ActorSystem actorSystem = new ActorSystem(config);
 
         // 测试不同类型的Actor
         testPlayerActor(actorSystem);
@@ -34,12 +34,12 @@ public class ConfigurableActorTest {
         MailboxConfig customBoundedMailbox = new MailboxConfig();
         customBoundedMailbox.setType(MailboxConfig.TYPE_BOUNDED);
         customBoundedMailbox.setCapacity(100);
-        config.getMailboxes().put("custom-bounded-mailbox", customBoundedMailbox);
+        config.registerMailboxConfig("custom-bounded-mailbox", customBoundedMailbox);
 
         return config;
     }
 
-    private void testPlayerActor(ActorThreadModel actorSystem) {
+    private void testPlayerActor(ActorSystem actorSystem) {
         Actor playerActor = actorSystem.createActor("/player/player-001");
 
         for (int i = 0; i < 20; i++) {
@@ -58,7 +58,7 @@ public class ConfigurableActorTest {
         }
     }
 
-    private void testPriorityActor(ActorThreadModel actorSystem) {
+    private void testPriorityActor(ActorSystem actorSystem) {
         Actor priorityActor = actorSystem.createActor("/priority/urgent-handler");
 
         priorityActor.tell(new PriorityMail("normal-task", PriorityMail.NORMAL_PRIORITY, "Normal priority task") {
@@ -83,7 +83,7 @@ public class ConfigurableActorTest {
         });
     }
 
-    private void testSystemActor(ActorThreadModel actorSystem) {
+    private void testSystemActor(ActorSystem actorSystem) {
         Actor systemActor = actorSystem.createActor("/system/logger");
 
         for (int i = 0; i < 5; i++) {

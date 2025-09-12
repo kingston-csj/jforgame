@@ -2,6 +2,7 @@ package jforgame.threadmodel.actor.config;
 
 /**
  * 邮箱配置类
+ *
  * @author wupeng0528
  */
 public class MailboxConfig {

@@ -21,10 +21,13 @@ public abstract class BaseGameTask implements Runnable {
      */
     protected long dispatchKey;
 
+    /**
+     * 任务真正执行
+     */
     public abstract void action();
 
     @Override
-    public void run() {
+    public final void run() {
         this.startTime = System.currentTimeMillis();
         action();
         this.endTime = System.currentTimeMillis();

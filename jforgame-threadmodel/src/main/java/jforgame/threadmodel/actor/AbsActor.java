@@ -12,6 +12,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Actor抽象基类，提供默认实现
+ * 由于java不支持多继承，继承该类后，便无法继承其他类，
+ * 若需要继承其他类，建议采用组合模式，把该类作为一个属性
+ */
 public class AbsActor implements Actor {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,10 +49,10 @@ public class AbsActor implements Actor {
     /**
      * 所属的actor系统
      */
-    private ActorThreadModel actorSystem;
+    private ActorSystem actorSystem;
 
 
-    public AbsActor(ActorThreadModel actorSystem, String actorPath, ActorSystemConfig systemConfig) {
+    public AbsActor(ActorSystem actorSystem, String actorPath, ActorSystemConfig systemConfig) {
         this.actorSystem = actorSystem;
         this.actorPath = actorPath;
 

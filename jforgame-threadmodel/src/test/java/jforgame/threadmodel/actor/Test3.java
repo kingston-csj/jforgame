@@ -15,7 +15,7 @@ public class Test3 {
     }
 
     public void run() {
-        ActorThreadModel actorSystem = new ActorThreadModel();
+        ActorSystem actorSystem = new ActorSystem();
         Player player = new Player(actorSystem, 100, 20, "孙悟空");
         Player player2 = new Player(actorSystem, 150, 15, "猪八戒");
         Monster monster = new Monster(actorSystem, 300, 25, "牛魔大王");
@@ -87,7 +87,7 @@ public class Test3 {
 
         Actor actor;
 
-        public Player(ActorThreadModel actorSystem, int hp, int atk, String name) {
+        public Player(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
             this.actor = new AbsActor(actorSystem, "player", actorSystemConfig);
         }
@@ -97,7 +97,7 @@ public class Test3 {
     class Monster extends Creature {
         Actor actor;
 
-        public Monster(ActorThreadModel actorSystem, int hp, int atk, String name) {
+        public Monster(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
             this.actor = new AbsActor(actorSystem, "monster", actorSystemConfig);
         }
@@ -112,7 +112,7 @@ public class Test3 {
 
         private List<Monster> monsters;
 
-        public Scene(ActorThreadModel actorSystem, List<Player> players, List<Monster> monsters) {
+        public Scene(ActorSystem actorSystem, List<Player> players, List<Monster> monsters) {
             super(actorSystem, "scene", actorSystemConfig);
             this.players = players;
             this.monsters = monsters;
