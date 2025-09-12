@@ -13,9 +13,14 @@ import java.util.Map;
  */
 public class DefaultMessageFactory implements MessageFactory {
 
-
+    /**
+     * 消息id到消息类的映射
+     */
     private final Map<Integer, Class<?>> id2Clazz = new HashMap<>();
 
+    /**
+     * 消息类到消息id的映射
+     */
     private final Map<Class<?>, Integer> clazz2Id = new HashMap<>();
 
     @Override

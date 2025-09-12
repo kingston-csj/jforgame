@@ -21,6 +21,7 @@ import jforgame.socket.share.message.MessageFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
 /**
  * TCP客户端
  */
@@ -30,6 +31,12 @@ public class TcpSocketClient extends AbstractSocketClient {
 
     public TcpSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.ioDispatcher = messageDispatcher;
+        this.messageFactory = messageFactory;
+        this.messageCodec = messageCodec;
+        this.targetAddress = hostPort;
+    }
+
+    public TcpSocketClient(MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
         this.targetAddress = hostPort;

@@ -4,6 +4,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.SocketIoDispatcherAdapter;
 import jforgame.socket.share.message.MessageFactory;
 
 /**
@@ -12,7 +13,12 @@ import jforgame.socket.share.message.MessageFactory;
  */
 public abstract class AbstractSocketClient implements SocketClient {
 
-    protected SocketIoDispatcher ioDispatcher;
+    /**
+     * 啥事都不做的io dispatcher，当客户端不需要捕捉SocketIoDispatcher的各种IO事件旰，可使用该对象
+     */
+    public static final SocketIoDispatcher EMPTY_DISPATCHER = new SocketIoDispatcherAdapter();
+
+    protected SocketIoDispatcher ioDispatcher = EMPTY_DISPATCHER;
 
     protected MessageFactory messageFactory;
 

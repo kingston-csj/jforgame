@@ -22,50 +22,63 @@ import jforgame.socket.share.message.RequestDataFrame;
  */
 public class ClientStartup {
 
-	public static void main(String[] args) throws Exception {
-		int serverPort = ServerConfig.getInstance().getServerPort();
-		HostAndPort hostPort = new HostAndPort();
-		hostPort.setHost("127.0.0.1");
-		hostPort.setPort(serverPort);
+    public static void main(String[] args) throws Exception {
+        int serverPort = ServerConfig.getInstance().getServerPort();
+        HostAndPort hostPort = new HostAndPort();
+        hostPort.setHost("127.0.0.1");
+        hostPort.setPort(serverPort);
 
-		SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
-			@Override
-			public void dispatch(IdSession session, Object frame) {
-				RequestDataFrame dataFrame = (RequestDataFrame) frame;
-				Object message = dataFrame.getMessage();
-				System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
-			}
-			@Override
-			public void exceptionCaught(IdSession session, Throwable cause) {
-					cause.printStackTrace();
-			}
-		};
+        SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
+            @Override
+            public void dispatch(IdSession session, Object frame) {
+                RequestDataFrame dataFrame = (RequestDataFrame) frame;
+                Object message = dataFrame.getMessage();
+                System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
+            }
 
-		SocketClient socketClient = new WebSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new JsonCodec(), hostPort, "ws");
-		IdSession session = socketClient.openSession();
+            @Override
+            public void exceptionCaught(IdSession session, Throwable cause) {
+                cause.printStackTrace();
+            }
+        };
 
-		ClientPlayer robot = new ClientPlayer(session);
-		robot.login();
-		robot.selectedPlayer(10000L);
+        SocketClient socketClient = new WebSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new JsonCodec(), hostPort, "ws");
+        IdSession session = socketClient.openSession();
 
-		ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
-		System.out.println("rpc 消息同步调用");
-		System.out.println(response);
+        ClientPlayer robot = new ClientPlayer(session);
+        robot.login();
+        robot.selectedPlayer(10000L);
 
-		RpcMessageClient.callBack(session, new ReqHello(), new RequestCallback() {
-			@Override
-			public void onSuccess(Object callBack) {
-				System.err.println("rpc 消息异步调用");
-				ResHello response = (ResHello) callBack;
-				System.err.println(response);
-			}
+        ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
+        System.out.println("rpc 消息同步调用");
+        System.out.println(response);
 
-			@Override
-			public void onError(Throwable error) {
-				System.out.println("----onError");
-				error.printStackTrace();
-			}
-		});
-	}
+        RpcMessageClient.callBack(session, new ReqHello(), new RequestCallback() {
+            @Override
+            public void onSuccess(Object callBack) {
+                System.err.println("rpc 消息异步调用");
+                ResHello response = (ResHello) callBack;
+                System.err.println(response);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                System.out.println("----onError");
+                error.printStackTrace();
+            }
+        });
+
+        // future可以实现嵌套调用，避免“回调地狱”
+        RpcMessageClient.future(session, new ReqHello()).thenCompose(o -> {
+            ResHello response2 = (ResHello) o;
+            System.out.println("rpc 消息future调用");
+            System.out.println(response2);
+            return RpcMessageClient.future(session, new ReqHello());
+        }).thenAccept(o -> {
+            System.out.println("rpc 消息future调用，继续处理");
+            ResHello response3 = (ResHello) o;
+            System.out.println(response3);
+        });
+    }
 
 }

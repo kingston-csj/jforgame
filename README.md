@@ -126,6 +126,7 @@
   ## 特别鸣谢
   感谢网友[CarsonQizhao](https://github.com/CarsonQizhao)提供的commons多个优秀的工具类;  
   感谢网友[wupeng0528](https://github.com/wupeng0528)为threadmodel模块引入Akka风格的Actor配置系统;    
+  感谢网友[fagarine](https://github.com/fagarine)解决hotswap在jdk17环境不生效的问题;    
   以及其他所有参与项目的网友（包括并不限于提出issue，在聊天讨论提出建议或bug），万分感谢！！ 
 
    ## 免责申明

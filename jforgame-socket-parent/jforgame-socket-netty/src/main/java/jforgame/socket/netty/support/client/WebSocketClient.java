@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 /**
  * WebSocket客户端
  */
@@ -51,6 +52,13 @@ public class WebSocketClient extends AbstractSocketClient {
     public WebSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory,
                            MessageCodec messageCodec, HostAndPort hostPort, String wsPath) {
         this.ioDispatcher = messageDispatcher;
+        this.messageFactory = messageFactory;
+        this.messageCodec = messageCodec;
+        this.targetAddress = hostPort;
+        this.wsPath = wsPath;
+    }
+
+    public WebSocketClient(MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort, String wsPath) {
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
         this.targetAddress = hostPort;

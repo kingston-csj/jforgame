@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Netty会话
  * 此类封装了Netty的Channel对象，提供了会话相关的操作方法。
@@ -75,26 +76,12 @@ public class NSession implements IdSession {
 
     @Override
     public String getRemoteIP() {
-        if (null == channel) {
-            return "";
-        }
-        final InetSocketAddress remote = (InetSocketAddress) channel.remoteAddress();
-        if (remote != null) {
-            return remote.getAddress().getHostAddress();
-        }
-        return "";
+        return ChannelUtils.parseRemoteIP(channel);
     }
 
     @Override
     public int getRemotePort() {
-        if (null == channel) {
-            return -1;
-        }
-        final InetSocketAddress remote = (InetSocketAddress) channel.remoteAddress();
-        if (remote != null) {
-            return remote.getPort();
-        }
-        return -1;
+        return ChannelUtils.parseRemotePort(channel);
     }
 
     @Override
@@ -104,26 +91,12 @@ public class NSession implements IdSession {
 
     @Override
     public String getLocalIP() {
-        if (null == channel) {
-            return "";
-        }
-        final InetSocketAddress local = (InetSocketAddress) channel.localAddress();
-        if (local != null) {
-            return local.getAddress().getHostAddress();
-        }
-        return "";
+        return ChannelUtils.parseLocalIP(channel);
     }
 
     @Override
     public int getLocalPort() {
-        if (null == channel) {
-            return -1;
-        }
-        final InetSocketAddress local = (InetSocketAddress) channel.localAddress();
-        if (local != null) {
-            return local.getPort();
-        }
-        return -1;
+        return ChannelUtils.parseLocalPort(channel);
     }
 
     @Override

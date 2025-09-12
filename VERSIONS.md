@@ -182,6 +182,7 @@
 ## V2.6.0(近期计划)
 ### jforgame-socket
     修复MessageTask构造函数初始化问题
+    RpcMessageClient增加future请求模式
 
 ### jforgame-socket-netty
     WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
@@ -200,9 +201,10 @@
 
 ### jforgame-socket 
     ServerNode迁移到server目录
+    WebSocketJsonFrame移到socket-api模块
     ThreadModel相关接口迁移到threadmodel新模块
     netty/mina 包路径去掉support层
-    MessageTask更名为RequestTask
+    MessageTask更名为RequestTask，去掉dispatchKey字段
 
 
 

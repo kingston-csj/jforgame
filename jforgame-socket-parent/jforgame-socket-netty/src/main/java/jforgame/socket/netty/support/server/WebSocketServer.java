@@ -71,7 +71,7 @@ public class WebSocketServer implements ServerNode {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(new WebSocketChannelInitializer());
 
-            logger.info("socket server is listening at " + nodeConfig.getPort() + "......");
+            logger.info("socket server is listening at {}......", nodeConfig.getPort());
             serverBootstrap.bind(new InetSocketAddress(nodeConfig.getPort())).sync();
         } catch (Exception e) {
             logger.error("", e);
