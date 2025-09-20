@@ -17,6 +17,7 @@ public class QueueContainerGroup extends BasePersistContainer {
             QueueContainer work = new QueueContainer(name, savingStrategy);
             group[i] = work;
         }
+        this.name = name + "-group";
     }
 
     @Override

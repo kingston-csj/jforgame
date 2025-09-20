@@ -5,7 +5,7 @@
  * 在框架里不适合设计得太拘束，应该往宽松的方向设计。当然，你也可以使用大部分接口的默认实现，这对于实现一个游戏
  * 网络框架已足矣。
  * 如果你需要增加消息的加解密，或者其他扩展，可优先选择后门钩子 {@link jforgame.socket.netty.support.server.ExtendedChannelHandler}
- *
+ * 或者使用类覆盖的方式替换框架本身的类定义
  */
 package jforgame.socket.netty.support;
 

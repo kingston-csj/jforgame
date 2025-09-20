@@ -28,20 +28,20 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 游戏立项时选了socket作为通信方式，本来顺风顺水，结果项目经理突然蹦出一句 “要做小程序版”。我当场瞳孔地震：小游戏哪能跑原生socket啊！当着面只能装难：“领导，这活儿麻烦了，底层全得扒了重改，没个把月摸不清门道……” 转头回到工位，手指翻飞敲了一行代码就搞定了，嘴角疯狂上扬：得，这下该客户端的兄弟头疼怎么对接了！  
 使用netty构建的socket服务器  
 ```
-		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-				.setMessageFactory(GameMessageFactory.getInstance())
-				.setMessageCodec(new StructMessageCodec())
-				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-				.build();
+    socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+            .setMessageFactory(GameMessageFactory.getInstance())
+            .setMessageCodec(new StructMessageCodec())
+            .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+            .build();
 ```
 
 使用netty构建的websocket服务器(两个英文字母的差异)
 ```
-		websocketServer = WepSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-				.setMessageFactory(GameMessageFactory.getInstance())
-				.setMessageCodec(new StructMessageCodec())
-				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-				.build();
+    websocketServer = WepSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+            .setMessageFactory(GameMessageFactory.getInstance())
+            .setMessageCodec(new StructMessageCodec())
+            .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+            .build();
 ```
 
 ### 1.3.消息编解码的切换
@@ -116,10 +116,10 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 ```
     // 发送方
     session.send(new ReqHello());
-    // 接收方
-
+    
+    // 接收方  
 	@RequestHandler
-	public void reqSelectPlayer(IdSession session, ResHello response) {
+	public void onResHello(IdSession session, ResHello response) {
         // 处理逻辑
 	}
 ```

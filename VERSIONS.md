@@ -180,6 +180,8 @@
 
 
 ## V2.6.0(近期计划)
+### jforgame-commons
+    修复QueueContainerGroup#name字段显示为空。
 ### jforgame-socket
     修复MessageTask构造函数初始化问题
     RpcMessageClient增加future请求模式

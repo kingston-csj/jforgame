@@ -7,6 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 为请求回调提供简易的API，主要用于跨服通信
+ * 提供三种调用方式
+ * 1. 回调调用{@link #callBack(IdSession, Object, RequestCallback)}，当响应 arrives, 回调将被调用。
+ * 2. 同步调用{@link #request(IdSession, Object)}，请求阻塞，直到返回响应消息。
+ * 3. future调用{@link #future(IdSession, Object)}，返回CompletableFuture。特别适用于嵌套请求。
  */
 public class RpcMessageClient {
 

@@ -2,6 +2,12 @@ package jforgame.codec;
 
 /**
  * 私有协议栈消息解码器
+ * 这里只是对消息体本身进行编码解码，不包含消息头
+ * 常见的消息编码解码方式有：
+ * 1. json
+ * 2. protobuf
+ * 3. messagepack
+ * 4. struct(自定义，基于bean结构体)
  */
 public interface MessageCodec {
 

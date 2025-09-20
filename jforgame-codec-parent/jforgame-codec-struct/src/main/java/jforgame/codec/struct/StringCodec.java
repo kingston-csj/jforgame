@@ -2,6 +2,9 @@ package jforgame.codec.struct;
 
 import java.nio.ByteBuffer;
 
+/**
+ * 字符串编码解码（使用utf8编码）
+ */
 public class StringCodec extends Codec {
 
 	@Override

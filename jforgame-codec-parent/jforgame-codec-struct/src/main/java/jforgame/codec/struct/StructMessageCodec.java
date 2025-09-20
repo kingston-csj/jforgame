@@ -6,6 +6,13 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 
+/**
+ * 基于bean结构体的消息体编码解码
+ * 1. 支持基本类型
+ * 2. 支持数组类型
+ * 3. 支持集合类型
+ * 4. 支持自定义类型
+ */
 public class StructMessageCodec implements MessageCodec {
 
     private static final Logger logger = LoggerFactory.getLogger(StructMessageCodec.class);

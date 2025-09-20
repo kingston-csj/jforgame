@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  * 若需包含其他消息元数据（如消息序号 index of message），需将其存储在消息体中。
  * 消息体仅包含待编码的消息字节流，具体编码需通过 {@link MessageCodec} 接口的 {@link MessageCodec#encode (Object)} 方法实现。
  * 注意：此类标注了 {@link io.netty.channel.ChannelHandler.Sharable} 注解，因此可在不同的通道流水线（channel pipeline）中共享该编码器实例。
+ * 如果使用共享对象，请确保{@link #messageCodec}实例线程安全
  */
 @ChannelHandler.Sharable
 public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {

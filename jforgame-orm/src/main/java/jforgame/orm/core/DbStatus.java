@@ -1,7 +1,7 @@
 package jforgame.orm.core;
 
 /**
- * 数遍库实体状态
+ * 数据库实体状态
  */
 public enum DbStatus {
 

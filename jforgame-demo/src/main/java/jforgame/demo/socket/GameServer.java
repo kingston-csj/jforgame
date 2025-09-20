@@ -1,5 +1,6 @@
 package jforgame.demo.socket;
 
+import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.ClassScanner;
 import jforgame.commons.TimeUtil;
 import jforgame.demo.ServerConfig;
@@ -18,6 +19,7 @@ import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.redis.RedisCluster;
 import jforgame.orm.ddl.SchemaUpdate;
+import jforgame.socket.netty.support.server.TcpSocketServerBuilder;
 import jforgame.socket.netty.support.server.WebSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.ServerNode;
@@ -109,17 +111,17 @@ public class GameServer {
 //			crossServer.start();
 //		}
 
-//		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-//				.setMessageFactory(GameMessageFactory.getInstance())
-//				.setMessageCodec(new StructMessageCodec())
-//				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-//				.build();
+		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+				.setMessageFactory(GameMessageFactory.getInstance())
+				.setMessageCodec(new StructMessageCodec())
+				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+				.build();
 
-        socketServer = WebSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-                .setMessageFactory(GameMessageFactory.getInstance())
-                .setMessageCodec(new JsonCodec())
-                .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-                .build();
+//        socketServer = WebSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+//                .setMessageFactory(GameMessageFactory.getInstance())
+//                .setMessageCodec(new JsonCodec())
+//                .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+//                .build();
 
         socketServer.start();
         // 启动http服务

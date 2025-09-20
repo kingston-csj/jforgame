@@ -9,6 +9,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 消息体编码解码基类，同时管理所有类型的字段编解码器
+ * 除了基础类型的编码解码，还支持集合类型的编码解码，暂不支持Map类型
+ * 本工具对于整数的编解码，并没有使用不定长编码，而是使用固定长度编码
+ * 如果业务有特殊需要，可以自行实现整数的不定长编解码方式，并通过{@link #replace(Class, Codec)}接口替换。
+ */
 public abstract class Codec {
 
 	private static final Map<Class<?>, Codec> class2Serializers = new ConcurrentHashMap<>();

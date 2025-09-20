@@ -12,6 +12,8 @@
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 不停机热更代码，不停机热更配置，运维，运营不掉线
   * 喜欢Go语言，这里也支持  --> [Go版游戏服务器](https://github.com/kingston-csj/gforgame)  
+  * 基于springboot的jforgame实操项目  --> [mmorpg游戏服务器](https://github.com/kingston-csj/mmorpg)  
+  * 基于spring框架，请看这里  --> [mmorpg游戏服务器](https://github.com/kingston-csj/mmorpg)  
   * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
   * 除了做游戏，也可以用来开发其他网络应用，例如实时聊天  --> [仿QQ聊天应用](https://github.com/kingston-csj/im)  
 
@@ -45,6 +47,9 @@
   |    ├──  tools包，简化项目开发的辅助小工具  
   |    └──  utils包，各种工具类    
   ```
+jforgame采用组件化的方式，每个模块都是一个独立的组件，用户可以根据自己的需求选择导入目标模块。 
+例如：如果只需要使用socket通信，那么只需要导入jforgame-socket-netty模块或者jforgame-socket-mina。
+
 
   ## 快速开始  
   1. 各模块demo教程 --> [wiki](https://github.com/kingston-csj/jforgame/wiki/Examples)  
@@ -62,12 +67,12 @@
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-socket-netty</artifactId>
-        <version>2.3.0</version>
+        <version>latest</version>
     </dependency>
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-codec-struct</artifactId>
-        <version>2.3.0</version>
+        <version>latest</version>
     </dependency>
   ```  
  
@@ -121,6 +126,7 @@
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
   定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  
+  (加入星主游戏开发微信群，随时随地交流提问~~)  
   ![](/screenshots/zsxq.jpg "知识星球")
 
   ## 特别鸣谢
