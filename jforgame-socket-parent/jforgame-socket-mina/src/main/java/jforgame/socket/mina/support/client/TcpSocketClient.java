@@ -12,11 +12,13 @@ import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
 /**
  * TCP客户端
  * 此类封装了Mina的NioSocketConnector对象，提供了TCP客户端的连接、发送消息、关闭连接等操作。
@@ -25,7 +27,18 @@ public class TcpSocketClient extends AbstractSocketClient {
 
     private final AttributeKey USER_SESSION = new AttributeKey(DefaultSocketIoHandler.class, "GameSession");
 
+    private final ProtocolCodecFactory protocolCodecFactory;
+
     public TcpSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
+        this.ioDispatcher = messageDispatcher;
+        this.messageFactory = messageFactory;
+        this.messageCodec = messageCodec;
+        this.targetAddress = hostPort;
+        this.protocolCodecFactory = new DefaultProtocolCodecFactory(messageFactory, messageCodec);
+    }
+
+    public TcpSocketClient(ProtocolCodecFactory protocolCodecFactory, SocketIoDispatcher messageDispatcher, MessageFactory messageFactory, MessageCodec messageCodec, HostAndPort hostPort) {
+        this.protocolCodecFactory = protocolCodecFactory;
         this.ioDispatcher = messageDispatcher;
         this.messageFactory = messageFactory;
         this.messageCodec = messageCodec;
@@ -37,7 +50,7 @@ public class TcpSocketClient extends AbstractSocketClient {
         try {
             NioSocketConnector connector = new NioSocketConnector();
             connector.getFilterChain().addLast("codec",
-                    new ProtocolCodecFilter(new DefaultProtocolCodecFactory(messageFactory, messageCodec)));
+                    new ProtocolCodecFilter(protocolCodecFactory));
             connector.setHandler(new DefaultClientSocketIoHandler(ioDispatcher));
 
             ConnectFuture future = connector.connect(new InetSocketAddress(targetAddress.getHost(), targetAddress.getPort()));

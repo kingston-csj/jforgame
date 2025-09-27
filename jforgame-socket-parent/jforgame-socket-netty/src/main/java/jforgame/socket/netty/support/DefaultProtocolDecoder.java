@@ -17,8 +17,7 @@ import java.util.List;
  * 协议栈解码器
  * 此类提供默认的私有协议栈解码器。
  * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
- * 消息头包括数据帧的长度和消息的ID元数据。
- * 如果您想包含其他消息元数据，如消息的索引，您需要将其存储在消息体中。
+ * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
  * 消息体包括需要由{@link MessageCodec}解码的字节消息。
  *
  * @see MessageCodec#decode(Class, byte[])

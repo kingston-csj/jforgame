@@ -91,18 +91,18 @@ public class WebSocketClient extends AbstractSocketClient {
                         protected void initChannel(SocketChannel ch) {
                             ChannelPipeline pipeline = ch.pipeline();
 
-                            // 1. SSL 处理器（如需，放在最前面）
+                            // SSL 处理器（如需，放在最前面）
                             if (sslContext != null) {
                                 pipeline.addLast(sslContext.newHandler(ch.alloc()));
                             }
 
-                            // 2. HTTP 基础处理器（WebSocket 基于 HTTP 握手）
+                            // HTTP 基础处理器（WebSocket 基于 HTTP 握手）
                             pipeline.addLast(
                                     new HttpClientCodec(),
                                     new HttpObjectAggregator(512 * 1024)
                             );
 
-                            // 3. WebSocket 协议处理器（核心，负责握手和帧处理）
+                            // WebSocket 协议处理器（核心，负责握手和帧处理）
                             WebSocketClientProtocolHandler wsHandler = new WebSocketClientProtocolHandler(
                                     WebSocketClientHandshakerFactory.newHandshaker(
                                             websocketUri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()
@@ -113,11 +113,11 @@ public class WebSocketClient extends AbstractSocketClient {
                             );
                             pipeline.addLast(wsHandler);
 
-                            // 4. 关键：添加 HandshakeCompletionListener 到 pipeline 中
+                            // 添加 HandshakeCompletionListener 到 pipeline 中
                             // 必须放在 WebSocketClientProtocolHandler 之后，才能收到它发出的 HandshakeComplete 事件
                             pipeline.addLast(new HandshakeCompletionListener());
 
-                            // 5. 业务处理器（编解码器、消息分发器等，放在最后）
+                            // 业务处理器（编解码器、消息分发器等，放在最后）
                             pipeline.addLast(new WebSocketFrameToSocketDataCodec(messageCodec, messageFactory));
                             pipeline.addLast((new CallbackHandler()));
                             pipeline.addLast(new ChannelIoHandler(ioDispatcher));
