@@ -52,10 +52,10 @@ public class AbsActor implements Actor {
     private ActorSystem actorSystem;
 
 
-    public AbsActor(ActorSystem actorSystem, String actorPath, ActorSystemConfig systemConfig) {
+    public AbsActor(ActorSystem actorSystem, String actorPath) {
         this.actorSystem = actorSystem;
         this.actorPath = actorPath;
-
+        ActorSystemConfig systemConfig = actorSystem.getSystemConfig();
         // 根据路径获取部署配置
         ActorDeploymentConfig deploymentConfig = systemConfig.getDeploymentConfig(actorPath);
         // 根据配置创建邮箱

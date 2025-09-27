@@ -56,7 +56,8 @@ public class TcpSocketServerBuilder {
     private ServerIdleHandler serverIdleHandler;
 
     /**
-     * In the server side, the connection will be closed if it is idle for a certain period of time.
+     * 若某连接在指定的时间段内没有数据传输，则关闭该连接，单位为毫秒。
+     * 默认为0，代表不启用
      */
     private int idleTime;
 

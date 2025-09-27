@@ -1,10 +1,8 @@
 package jforgame.threadmodel.actor;
 
-import jforgame.threadmodel.actor.config.ActorSystemConfig;
 import jforgame.threadmodel.actor.mail.SimpleMail;
 
 public class Test2 {
-    private static ActorSystemConfig actorSystemConfig = new ActorSystemConfig();
 
     public static void main(String[] args) {
         new Test2().run();
@@ -33,7 +31,7 @@ public class Test2 {
     class Player extends AbsActor {
 
         public Player(ActorSystem actorSystem) {
-            super(actorSystem, "player", actorSystemConfig);
+            super(actorSystem, "player");
         }
     }
 }

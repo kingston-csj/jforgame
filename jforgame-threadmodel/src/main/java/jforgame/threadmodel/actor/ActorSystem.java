@@ -55,7 +55,7 @@ public class ActorSystem implements ThreadModel {
         // 创建共享Actor组
         Actor[] actorGroup = new Actor[2]; // 默认2个共享Actor
         for (int i = 0; i < actorGroup.length; i++) {
-            actorGroup[i] = new AbsActor(this, "/system/shared-actor-" + i, systemConfig);
+            actorGroup[i] = new AbsActor(this, "/system/shared-actor-" + i);
         }
         sharedActor = new SharedActor(actorGroup);
 
@@ -68,7 +68,7 @@ public class ActorSystem implements ThreadModel {
             throw new IllegalArgumentException("Actor already exists: " + actorPath);
         }
 
-        AbsActor actor = new AbsActor(this, actorPath, systemConfig);
+        AbsActor actor = new AbsActor(this, actorPath);
         actors.put(actorPath, actor);
         logger.debug("Created actor: {}", actorPath);
         return actor;
@@ -98,7 +98,7 @@ public class ActorSystem implements ThreadModel {
      */
     public Actor getOrCreateActor(String actorPath) {
         return actors.computeIfAbsent(actorPath, path -> {
-            AbsActor actor = new AbsActor(this, path, systemConfig);
+            AbsActor actor = new AbsActor(this, path);
             logger.debug("Auto-created actor: {}", path);
             return actor;
         });

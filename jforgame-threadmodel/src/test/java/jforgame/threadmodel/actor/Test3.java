@@ -1,6 +1,5 @@
 package jforgame.threadmodel.actor;
 
-import jforgame.threadmodel.actor.config.ActorSystemConfig;
 import jforgame.threadmodel.actor.mail.SimpleMail;
 
 import java.util.LinkedList;
@@ -8,7 +7,6 @@ import java.util.List;
 
 public class Test3 {
 
-    private static ActorSystemConfig actorSystemConfig = new ActorSystemConfig();
 
     public static void main(String[] args) {
         new Test3().run();
@@ -89,7 +87,7 @@ public class Test3 {
 
         public Player(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
-            this.actor = new AbsActor(actorSystem, "player", actorSystemConfig);
+            this.actor = new AbsActor(actorSystem, "player");
         }
 
     }
@@ -99,7 +97,7 @@ public class Test3 {
 
         public Monster(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
-            this.actor = new AbsActor(actorSystem, "monster", actorSystemConfig);
+            this.actor = new AbsActor(actorSystem, "monster");
         }
     }
 
@@ -113,7 +111,7 @@ public class Test3 {
         private List<Monster> monsters;
 
         public Scene(ActorSystem actorSystem, List<Player> players, List<Monster> monsters) {
-            super(actorSystem, "scene", actorSystemConfig);
+            super(actorSystem, "scene");
             this.players = players;
             this.monsters = monsters;
         }
