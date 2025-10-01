@@ -187,6 +187,9 @@
     RpcMessageClient增加future请求模式
     TcpSocketClient增加构造函数
 
+### jforgame-orm
+    优化SqlFactory的sql语句
+
 ### jforgame-socket-netty
     WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
 

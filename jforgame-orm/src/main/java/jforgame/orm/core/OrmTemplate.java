@@ -58,7 +58,7 @@ public class OrmTemplate {
                 }
             }
         } catch (Exception e) {
-            logger.error("DbUtils queryOne failed", e);
+            logger.error("OrmTemplate queryOne failed", e);
             throw new SQLException(e);
         }
         return null;
@@ -87,7 +87,7 @@ public class OrmTemplate {
                 result.add((T) bean);
             }
         } catch (Exception e) {
-            logger.error("DbUtils queryMany failed", e);
+            logger.error("OrmTemplate queryMany failed", e);
             throw new SQLException(e);
         }
         return result;
@@ -120,7 +120,7 @@ public class OrmTemplate {
                 break;
             }
         } catch (Exception e) {
-            logger.error("DbUtils queryMap failed", e);
+            logger.error("OrmTemplate queryMap failed", e);
             throw new SQLException(e);
         }
         return result;
@@ -154,7 +154,7 @@ public class OrmTemplate {
                 result.add(map);
             }
         } catch (Exception e) {
-            logger.error("DbUtils queryMapList failed", e);
+            logger.error("OrmTemplate queryMapList failed", e);
             throw new SQLException(e);
         }
         return result;
@@ -178,7 +178,7 @@ public class OrmTemplate {
             statement.execute(sql);
             return true;
         } catch (Exception e) {
-            logger.error("DbUtils executeSql failed", e);
+            logger.error("OrmTemplate executeSql failed", e);
             throw new SQLException(e);
         }
     }
@@ -201,7 +201,7 @@ public class OrmTemplate {
 
             return statement.executeUpdate(sql);
         } catch (Exception e) {
-            logger.error("DbUtils executeSql failed", e);
+            logger.error("OrmTemplate executeSql failed", e);
             throw new SQLException(e);
         }
     }
@@ -229,7 +229,7 @@ public class OrmTemplate {
                 return stmt.executeUpdate();
             }
         } catch (Exception e) {
-            logger.error("DbUtils executeSql failed", e);
+            logger.error("OrmTemplate executeSql failed", e);
             throw new SQLException(e);
         }
     }
@@ -257,7 +257,7 @@ public class OrmTemplate {
                 return stmt.executeUpdate();
             }
         } catch (Exception e) {
-            logger.error("DbUtils executeSql failed", e);
+            logger.error("OrmTemplate executeSql failed", e);
             throw new SQLException(e);
         }
     }
@@ -285,7 +285,7 @@ public class OrmTemplate {
                 return stmt.executeUpdate();
             }
         } catch (Exception e) {
-            logger.error("DbUtils executeSql failed", e);
+            logger.error("OrmTemplate executeSql failed", e);
             throw new SQLException(e);
         }
     }

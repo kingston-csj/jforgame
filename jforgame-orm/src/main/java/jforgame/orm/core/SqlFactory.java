@@ -16,8 +16,6 @@ import jforgame.orm.entity.StatefulEntity;
  */
 class SqlFactory {
 
-    private static final Logger logger = LoggerFactory.getLogger(SqlFactory.class);
-
     // SQL常量
     private static final String INSERT_INTO = "INSERT INTO ";
     private static final String UPDATE = "UPDATE ";
@@ -66,44 +64,29 @@ class SqlFactory {
             updateColumns.add(wrapColumn(column) + EQUALS + "?");
         }
 
+        return UPDATE + bridge.getTableName() + SET +
+                String.join(COMMA + SPACE, updateColumns) +
+                WHERE + createWhereClause(bridge);
+    }
+
+    private static String createWhereClause(OrmBridge bridge) {
         // 构建WHERE子句
         List<String> whereColumns = new ArrayList<>();
         for (String property : bridge.getPrimaryKeyProperties()) {
             String column = getColumnName(property, bridge);
             whereColumns.add(wrapColumn(column) + EQUALS + "?");
         }
-
-        StringBuilder sql = new StringBuilder();
-        sql.append(UPDATE).append(bridge.getTableName()).append(SET);
-        sql.append(String.join(COMMA + SPACE, updateColumns));
-        sql.append(WHERE).append(WHERE_1_EQ_1);
-        for (String whereColumn : whereColumns) {
-            sql.append(AND).append(whereColumn);
-        }
-
-        return sql.toString();
+        return String.join(AND, whereColumns);
     }
 
     /**
      * 创建删除SQL（参数化版本）
      */
     public static String createDeletePreparedSql(OrmBridge bridge) {
-        List<String> whereColumns = new ArrayList<>();
-
-        for (String property : bridge.getPrimaryKeyProperties()) {
-            String column = getColumnName(property, bridge);
-            whereColumns.add(wrapColumn(column) + EQUALS + "?");
-        }
-
-        StringBuilder sql = new StringBuilder();
-        sql.append(DELETE_FROM).append(bridge.getTableName());
-        sql.append(WHERE).append(WHERE_1_EQ_1);
-        for (String whereColumn : whereColumns) {
-            sql.append(AND).append(whereColumn);
-        }
-
-        return sql.toString();
+        return DELETE_FROM + bridge.getTableName() +
+                WHERE + createWhereClause(bridge);
     }
+
 
     // ==================== 私有辅助方法 ====================
 

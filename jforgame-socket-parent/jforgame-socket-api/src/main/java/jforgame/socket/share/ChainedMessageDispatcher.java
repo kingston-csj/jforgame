@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 该类提供了一个 {@link SocketIoDispatcher}的骨架实现，
- * 以链式的处理方式增强了 {@link  SocketIoDispatcher#dispatch(IdSession, Object)} 方法，
+ * 以责任链式的处理方式增强了 {@link  SocketIoDispatcher#dispatch(IdSession, Object)} 方法，
  * 每个ChainedMessageDispatcher可能有多个消息处理器节点，当消息传递到一个消息处理器时，消息处理器可以选择将消息传递给下一个节点，或者停止消息传递。
  *
  * @see MessageHandler#messageReceived(IdSession, Object)
@@ -17,8 +17,16 @@ public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 消息处理器链
+     */
     protected List<MessageHandler> dispatchChain = new ArrayList<>();
 
+    /**
+     * 添加一个消息处理器
+     *
+     * @param handler 消息处理器
+     */
     public void addMessageHandler(MessageHandler handler) {
         this.dispatchChain.add(handler);
     }
