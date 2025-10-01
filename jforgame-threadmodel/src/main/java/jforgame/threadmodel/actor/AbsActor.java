@@ -115,18 +115,17 @@ public class AbsActor implements Actor {
                 mail.run();
                 processedCount++;
             }
-            // 如果还有任务，重新加入队列
-            if (!mailBox.isEmpty()) {
+        } catch (Exception e) {
+            logger.error("[{}]任务执行异常", getModel(), e);
+        } finally {
+            // 无条件重置queued状态
+            queued.set(false);
+
+            // 如果还有消息，重新提交
+            if (!mailBox.isEmpty() && actorSystem.running.get()) {
                 if (queued.compareAndSet(false, true)) {
                     actorSystem.accept(this);
                 }
-            }
-        } catch (Exception e) {
-            logger.error("[{}]任务执行异常", actorPath, e);
-        } finally {
-            // 只有在没有更多任务时才标记为未排队
-            if (mailBox.isEmpty()) {
-                queued.compareAndSet(true, false);
             }
         }
     }
