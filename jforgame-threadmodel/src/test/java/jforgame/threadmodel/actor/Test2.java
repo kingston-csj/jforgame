@@ -28,7 +28,7 @@ public class Test2 {
         actorSystem.shutDown();
     }
 
-    class Player extends AbsActor {
+    class Player extends BaseActor {
 
         public Player(ActorSystem actorSystem) {
             super(actorSystem, "player");

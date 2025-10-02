@@ -87,7 +87,7 @@ public class Test3 {
 
         public Player(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
-            this.actor = new AbsActor(actorSystem, "player");
+            this.actor = new BaseActor(actorSystem, "player");
         }
 
     }
@@ -97,14 +97,14 @@ public class Test3 {
 
         public Monster(ActorSystem actorSystem, int hp, int atk, String name) {
             super(hp, atk, name);
-            this.actor = new AbsActor(actorSystem, "monster");
+            this.actor = new BaseActor(actorSystem, "monster");
         }
     }
 
     /**
      * 战斗场景
      */
-    class Scene extends AbsActor {
+    class Scene extends BaseActor {
 
         private List<Player> players;
 

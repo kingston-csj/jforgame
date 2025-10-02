@@ -11,7 +11,7 @@ public class Test1 {
     public void run() {
         ActorSystem actorSystem = new ActorSystem();
         Player player = new Player();
-        player.actor = new AbsActor(actorSystem, "player");
+        player.actor = new BaseActor(actorSystem, "player");
 
         for (int i = 0; i < 10; i++) {
             player.actor.tell(new SimpleMail("hello", i) {
