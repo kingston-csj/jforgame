@@ -55,11 +55,9 @@ public class ActorSystem implements ThreadModel {
         // 创建共享Actor组
         Actor[] actorGroup = new Actor[2]; // 默认2个共享Actor
         for (int i = 0; i < actorGroup.length; i++) {
-            actorGroup[i] = new AbsActor(this, "/system/shared-actor-" + i);
+            actorGroup[i] = new BaseActor(this, "/system/shared-actor-" + i);
         }
         sharedActor = new SharedActor(actorGroup);
-
-        logger.info("ConfigurableActorSystem initialized with config: {}", systemConfig);
     }
 
 
@@ -68,9 +66,8 @@ public class ActorSystem implements ThreadModel {
             throw new IllegalArgumentException("Actor already exists: " + actorPath);
         }
 
-        AbsActor actor = new AbsActor(this, actorPath);
+        BaseActor actor = new BaseActor(this, actorPath);
         actors.put(actorPath, actor);
-        logger.debug("Created actor: {}", actorPath);
         return actor;
     }
 
@@ -85,9 +82,6 @@ public class ActorSystem implements ThreadModel {
      */
     public void removeActor(String actorPath) {
         Actor removed = actors.remove(actorPath);
-        if (removed != null) {
-            logger.debug("Removed actor: {}", actorPath);
-        }
     }
 
     /**
@@ -97,11 +91,7 @@ public class ActorSystem implements ThreadModel {
      * @return actor
      */
     public Actor getOrCreateActor(String actorPath) {
-        return actors.computeIfAbsent(actorPath, path -> {
-            AbsActor actor = new AbsActor(this, path);
-            logger.debug("Auto-created actor: {}", path);
-            return actor;
-        });
+        return actors.computeIfAbsent(actorPath, path -> new BaseActor(this, path));
     }
 
     /**
@@ -122,7 +112,7 @@ public class ActorSystem implements ThreadModel {
     @Override
     public void shutDown() {
         if (running.compareAndSet(true, false)) {
-            logger.info("开始关闭ConfigurableActorSystem...");
+            logger.info("开始关闭ActorSystem...");
             try {
                 // 清空Actor注册表
                 actors.clear();
@@ -133,9 +123,9 @@ public class ActorSystem implements ThreadModel {
                     threadPool.shutdownNow();
                 }
 
-                logger.info("ConfigurableActorSystem关闭完成");
+                logger.info("ActorSystem关闭完成");
             } catch (Exception e) {
-                logger.error("ConfigurableActorSystem关闭异常", e);
+                logger.error("ActorSystem关闭异常", e);
             }
         }
     }
@@ -162,7 +152,7 @@ public class ActorSystem implements ThreadModel {
 
         Actor[] boxGroup = sharedActor.getGroup();
         for (int i = 0; i < boxGroup.length; i++) {
-            sb.append("Shared Worker[").append(i).append("]: ").append(boxGroup[i].getMailBox().getTaskSize()).append("\n");
+            sb.append("Shared Worker[").append(i).append("]: ").append(boxGroup[i].getMailbox().getTaskSize()).append("\n");
         }
         return sb.toString();
     }

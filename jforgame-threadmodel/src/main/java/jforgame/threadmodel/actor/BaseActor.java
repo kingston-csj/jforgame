@@ -13,11 +13,11 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Actor抽象基类，提供默认实现
+ * Actor基类，提供默认实现
  * 由于java不支持多继承，继承该类后，便无法继承其他类，
  * 若需要继承其他类，建议采用组合模式，把该类作为一个属性
  */
-public class AbsActor implements Actor {
+public class BaseActor implements Actor {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -49,10 +49,10 @@ public class AbsActor implements Actor {
     /**
      * 所属的actor系统
      */
-    private ActorSystem actorSystem;
+    private final ActorSystem actorSystem;
 
 
-    public AbsActor(ActorSystem actorSystem, String actorPath) {
+    public BaseActor(ActorSystem actorSystem, String actorPath) {
         this.actorSystem = actorSystem;
         this.actorPath = actorPath;
         ActorSystemConfig systemConfig = actorSystem.getSystemConfig();
@@ -75,7 +75,7 @@ public class AbsActor implements Actor {
     }
 
     @Override
-    public Mailbox getMailBox() {
+    public Mailbox getMailbox() {
         return mailBox;
     }
 
@@ -88,7 +88,7 @@ public class AbsActor implements Actor {
         message.setSender(sender);
         message.setReceiver(this);
 
-        Mailbox mailBox = getMailBox();
+        Mailbox mailBox = getMailbox();
         mailBox.receive(message);
 
         if (queued.compareAndSet(false, true)) {

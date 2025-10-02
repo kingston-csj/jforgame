@@ -13,7 +13,7 @@ public interface Actor extends Runnable {
     /**
      * 绑定的邮箱
      */
-    Mailbox getMailBox();
+    Mailbox getMailbox();
 
     /**
      * 发送消息到当前Actor
@@ -31,7 +31,7 @@ public interface Actor extends Runnable {
     default void tell(Mail message, Actor sender) {
         Objects.requireNonNull(message);
         message.setSender(sender);
-        Mailbox mailBox = getMailBox();
+        Mailbox mailBox = getMailbox();
         if (mailBox != null) {
             mailBox.receive(message);
         }
