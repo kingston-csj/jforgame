@@ -34,4 +34,12 @@ public abstract class BaseTask implements Runnable {
     public String getName() {
         return getClass().getSimpleName();
     }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
 }

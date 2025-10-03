@@ -2,8 +2,8 @@ package jforgame.demo.socket;
 
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.demo.game.logger.LoggerUtils;
-import jforgame.socket.share.DispatchThreadModel;
-import jforgame.socket.share.task.BaseGameTask;
+import jforgame.threadmodel.dispatch.BaseDispatchTask;
+import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MonitorGameExecutor extends DispatchThreadModel {
 
-    private ConcurrentMap<Thread, BaseGameTask> currentTasks = new ConcurrentHashMap<>();
+    private ConcurrentMap<Thread, Runnable> currentTasks = new ConcurrentHashMap<>();
 
     private final long MONITOR_INTERVAL = 5000L;
 
@@ -25,19 +25,29 @@ public class MonitorGameExecutor extends DispatchThreadModel {
     }
 
     @Override
-    public void accept(BaseGameTask task) {
+    public void accept(Runnable task) {
         if (task == null) {
             throw new NullPointerException("task is null");
         }
-        super.accept(new BaseGameTask() {
+
+        BaseDispatchTask target = (BaseDispatchTask) task;
+
+        // 代理任务
+        BaseDispatchTask wrapper = new BaseDispatchTask() {
             @Override
             public void action() {
                 Thread t = Thread.currentThread();
                 currentTasks.put(t, task);
-                task.action();
-                currentTasks.remove(t);
+                try {
+                    target.action();
+                } finally {
+                    // 防止执行异常，一直显示超时
+                    currentTasks.remove(t);
+                }
             }
-        });
+        };
+        wrapper.setDispatchKey(target.getDispatchKey());
+        super.accept(wrapper);
     }
 
     @Override
@@ -50,19 +60,20 @@ public class MonitorGameExecutor extends DispatchThreadModel {
 
         @Override
         public void run() {
-            while (running.get()){
+            while (running.get()) {
                 try {
                     Thread.sleep(MONITOR_INTERVAL);
                 } catch (InterruptedException e) {
                 }
 
-                for (Map.Entry<Thread, BaseGameTask> entry : currentTasks.entrySet()) {
+                for (Map.Entry<Thread, Runnable> entry : currentTasks.entrySet()) {
                     Thread t = entry.getKey();
-                    BaseGameTask task = entry.getValue();
-                    if (task != null) {
+                    Runnable task = entry.getValue();
+                    BaseDispatchTask dispatchTask = (BaseDispatchTask) task;
+                    if (dispatchTask != null) {
                         long now = System.currentTimeMillis();
-                        if (now - task.getStartTime() > MAX_EXEC_TIME) {
-                            LoggerUtils.error("[{}]执行任务超时", task.getName());
+                        if (now - dispatchTask.getStartTime() > MAX_EXEC_TIME) {
+                            LoggerUtils.error("[{}]执行任务超时", dispatchTask.getName());
                         }
                     }
                 }

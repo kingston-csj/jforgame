@@ -1,21 +1,22 @@
-package jforgame.socket.share.task;
+package jforgame.socket.support;
 
 import jforgame.commons.reflection.MethodCaller;
 import jforgame.commons.reflection.MethodHandleUtils;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.MessageExecutor;
-import jforgame.socket.support.MessageExecuteUnit;
+import jforgame.threadmodel.dispatch.BaseDispatchTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 
 /**
- * 将用户的消息请求封装成一个命令
+ * 若线程模型采用{@link jforgame.threadmodel.dispatch.DispatchThreadModel}
+ * 使用该类将用户的消息请求封装成一个命令
  */
-public class MessageTask extends BaseGameTask {
+public class ClientRequestTask extends BaseDispatchTask {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessageTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientRequestTask.class);
 
     private IdSession session;
 
@@ -38,8 +39,8 @@ public class MessageTask extends BaseGameTask {
      */
     private Object[] params;
 
-    public static MessageTask valueOf(IdSession session, long dispatchKey, MessageExecutor methodExecutor, Object[] params) {
-        MessageTask msgTask = new MessageTask();
+    public static ClientRequestTask valueOf(IdSession session, long dispatchKey, MessageExecutor methodExecutor, Object[] params) {
+        ClientRequestTask msgTask = new ClientRequestTask();
         msgTask.dispatchKey = dispatchKey;
         msgTask.session = session;
         msgTask.methodExecutor = methodExecutor;
@@ -48,9 +49,9 @@ public class MessageTask extends BaseGameTask {
         return msgTask;
     }
 
-    public static MessageTask valueOf(IdSession session, long dispatchKey, Object handler,
-                                      Method method, Object[] params) {
-        MessageTask msgTask = new MessageTask();
+    public static ClientRequestTask valueOf(IdSession session, long dispatchKey, Object handler,
+                                            Method method, Object[] params) {
+        ClientRequestTask msgTask = new ClientRequestTask();
         msgTask.dispatchKey = dispatchKey;
         msgTask.session = session;
         MessageExecutor methodExecutor = MessageExecuteUnit.valueOf(method, null, handler);

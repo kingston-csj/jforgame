@@ -11,9 +11,9 @@ import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.RequestDataFrame;
-import jforgame.socket.share.task.BaseGameTask;
-import jforgame.socket.share.task.MessageTask;
+import jforgame.socket.support.ClientRequestTask;
 import jforgame.socket.support.DefaultMessageParameterConverter;
+import jforgame.threadmodel.dispatch.BaseDispatchTask;
 
 import java.io.IOException;
 
@@ -39,7 +39,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
             Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
             int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-            MessageTask task = MessageTask.valueOf(session, sessionId, cmdExecutor, params);
+            ClientRequestTask task = ClientRequestTask.valueOf(session, sessionId, cmdExecutor, params);
             task.setMsgIndex(((RequestDataFrame) frame).getHeader().getIndex());
             // 丢到任务消息队列，不在io线程进行业务处理
             GameServer.getMonitorGameExecutor().accept(task);
@@ -61,7 +61,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
         if (playerId > 0) {
             logger.info("角色[{}]close session", playerId);
             PlayerEnt player = GameContext.playerManager.get(playerId);
-            BaseGameTask closeTask = new BaseGameTask() {
+            BaseDispatchTask closeTask = new BaseDispatchTask() {
                 @Override
                 public void action() {
                     GameContext.playerManager.playerLogout(playerId);

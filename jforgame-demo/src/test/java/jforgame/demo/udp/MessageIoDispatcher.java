@@ -11,7 +11,7 @@ import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.RequestDataFrame;
-import jforgame.socket.share.task.MessageTask;
+import jforgame.socket.support.ClientRequestTask;
 import jforgame.socket.support.DefaultMessageParameterConverter;
 
 import java.util.Collections;
@@ -40,7 +40,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
             Object controller = cmdExecutor.getHandler();
 
-            MessageTask task = MessageTask.valueOf(session, session.hashCode(), controller, cmdExecutor.getMethod(), params);
+            ClientRequestTask task = ClientRequestTask.valueOf(session, session.hashCode(), controller, cmdExecutor.getMethod(), params);
             task.setMsgIndex(((RequestDataFrame) frame).getHeader().getIndex());
             // 丢到任务消息队列，不在io线程进行业务处理
             GameServer.getMonitorGameExecutor().accept(task);
