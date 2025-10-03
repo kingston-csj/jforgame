@@ -1,6 +1,6 @@
 package jforgame.orm;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.core.OrmProperties;
 import jforgame.orm.ddl.SchemaAction;

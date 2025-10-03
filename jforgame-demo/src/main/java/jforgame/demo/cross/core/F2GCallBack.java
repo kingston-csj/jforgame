@@ -1,6 +1,6 @@
 package jforgame.demo.cross.core;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.Modules;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;

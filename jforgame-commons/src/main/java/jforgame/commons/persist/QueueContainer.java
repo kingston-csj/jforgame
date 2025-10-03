@@ -1,7 +1,7 @@
 package jforgame.commons.persist;
 
 
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.TimeUtil;
 import jforgame.commons.ds.ConcurrentHashSet;
 import jforgame.commons.thread.NamedThreadFactory;
 

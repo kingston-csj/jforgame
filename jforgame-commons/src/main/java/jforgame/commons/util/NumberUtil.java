@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.commons.util;
 
 /**
  * This utils is used for number convert, you can convert number typed string to target number type

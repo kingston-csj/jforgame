@@ -1,6 +1,6 @@
 package jforgame.data;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.data.annotation.DataTable;
 import jforgame.data.common.CommonContainer;
 import jforgame.data.common.CommonData;

@@ -1,6 +1,6 @@
 package jforgame.demo.cross.core;
 
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.TimeUtil;
 import jforgame.socket.mina.MSession;
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;

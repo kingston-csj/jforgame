@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 import jforgame.orm.converter.AttributeConversionException;
 
 import javax.persistence.AttributeConverter;

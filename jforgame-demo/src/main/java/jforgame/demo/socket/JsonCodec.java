@@ -1,7 +1,7 @@
 package jforgame.demo.socket;
 
 import jforgame.codec.MessageCodec;
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 
 import java.nio.charset.StandardCharsets;
 

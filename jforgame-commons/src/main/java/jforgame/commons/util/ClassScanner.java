@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.commons.util;
 
 import java.io.File;
 import java.io.IOException;

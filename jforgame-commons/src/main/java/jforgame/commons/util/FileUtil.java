@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.commons.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 /**
  * 文件工具类
  */
-public final class FileUtils {
+public final class FileUtil {
 
-    private FileUtils() {
+    private FileUtil() {
 
     }
 

@@ -1,6 +1,6 @@
 package jforgame.orm.ddl;
 
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;

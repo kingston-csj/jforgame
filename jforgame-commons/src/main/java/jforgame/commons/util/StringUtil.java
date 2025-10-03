@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.commons.util;
 /**
  * 字符串工具类
  */

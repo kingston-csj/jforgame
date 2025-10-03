@@ -1,6 +1,6 @@
 package jforgame.demo.client;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.login.message.req.ReqAccountLogin;
 import jforgame.demo.game.login.message.req.ReqSelectPlayer;
 import jforgame.demo.game.player.message.req.ReqCreateNewPlayer;

@@ -1,6 +1,6 @@
 package jforgame.runtime;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.runtime.memory.MemoryStatsVo;
 import jforgame.runtime.memory.MemoryStats;
 

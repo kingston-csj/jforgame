@@ -1,6 +1,6 @@
 package jforgame.demo.game.cron;
 
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.demo.game.database.server.ServerRecordPool;
 import org.quartz.CronExpression;
 import org.slf4j.Logger;

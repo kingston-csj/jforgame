@@ -1,7 +1,7 @@
 package jforgame.demo.game.logger;
 
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

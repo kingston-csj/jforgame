@@ -1,6 +1,6 @@
 package jforgame.runtime;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.runtime.thread.BusyThreadInfo;
 import jforgame.runtime.thread.ThreadProfile;
 import jforgame.runtime.thread.ThreadStats;

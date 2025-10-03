@@ -1,6 +1,6 @@
 package jforgame.demo.game.cross.ladder.service;
 
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.cross.core.CrossTransportManager;
 import jforgame.demo.game.GameContext;

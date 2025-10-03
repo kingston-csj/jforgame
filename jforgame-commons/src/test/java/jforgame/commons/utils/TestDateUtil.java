@@ -1,6 +1,6 @@
 package jforgame.commons.utils;
 
-import jforgame.commons.DateUtil;
+import jforgame.commons.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

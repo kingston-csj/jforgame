@@ -1,7 +1,7 @@
 package jforgame.demo.doctor;
 
 import groovy.lang.GroovyClassLoader;
-import jforgame.commons.FileUtils;
+import jforgame.commons.util.FileUtil;
 import jforgame.hotswap.JavaDoctor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public enum HotswapManager {
         String simpleName = classFullName.substring(classFullName.lastIndexOf(".") + 1, classFullName.length());
         try {
             String filePath = getFilePath("groovy" + File.separator + simpleName + ".java");
-            String clazzFile = FileUtils.readFullText(filePath);
+            String clazzFile = FileUtil.readFullText(filePath);
             @SuppressWarnings("resource")
             Class<?> clazz = new GroovyClassLoader().parseClass(clazzFile, classFullName);
             clazz.newInstance();

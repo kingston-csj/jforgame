@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 import jforgame.demo.db.DbUtils;
 
 /**

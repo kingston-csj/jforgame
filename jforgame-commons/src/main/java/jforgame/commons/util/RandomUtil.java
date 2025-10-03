@@ -1,4 +1,4 @@
-package jforgame.commons;
+package jforgame.commons.util;
 
 
 import java.util.ArrayList;

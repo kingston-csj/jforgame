@@ -1,6 +1,6 @@
 package jforgame.demo.socket.filter;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.message.RequestDataFrame;

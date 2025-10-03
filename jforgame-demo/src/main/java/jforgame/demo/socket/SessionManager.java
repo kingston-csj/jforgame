@@ -1,6 +1,6 @@
 package jforgame.demo.socket;
 
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.socket.share.IdSession;
 
 import java.util.concurrent.ConcurrentHashMap;

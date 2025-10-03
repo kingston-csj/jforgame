@@ -1,7 +1,7 @@
 package jforgame.demo.socket.filter;
 
-import jforgame.commons.NumberUtil;
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.NumberUtil;
+import jforgame.commons.util.TimeUtil;
 import jforgame.demo.FireWall;
 import jforgame.demo.ServerConfig;
 import jforgame.socket.share.MessageHandler;

@@ -1,7 +1,7 @@
 package jforgame.orm.core;
 
-import jforgame.commons.ClassScanner;
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.ClassScanner;
+import jforgame.commons.util.StringUtil;
 import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;

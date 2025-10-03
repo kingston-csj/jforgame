@@ -3,7 +3,7 @@ package jforgame.demo.cross.core;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.TimeUtil;
 import jforgame.socket.netty.NSession;
 
 public class NSessionPlus extends NSession {

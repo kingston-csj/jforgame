@@ -1,7 +1,7 @@
 package jforgame.orm.converter.support;
 
 import com.fasterxml.jackson.databind.JavaType;
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 import jforgame.commons.util.ZipUtil;
 import jforgame.orm.converter.AttributeConversionException;
 

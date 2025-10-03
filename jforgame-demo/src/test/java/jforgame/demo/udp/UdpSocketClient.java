@@ -12,7 +12,7 @@ import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.Codec;
 import jforgame.codec.struct.StructMessageCodec;
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
@@ -24,7 +24,6 @@ import jforgame.socket.share.message.MessageFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 

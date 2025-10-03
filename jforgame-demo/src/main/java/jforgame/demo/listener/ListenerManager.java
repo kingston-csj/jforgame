@@ -1,6 +1,6 @@
 package jforgame.demo.listener;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.listener.annotation.EventHandler;
 import jforgame.demo.listener.annotation.Listener;

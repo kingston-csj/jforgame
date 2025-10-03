@@ -2,7 +2,7 @@ package jforgame.demo.cross.core;
 
 import io.netty.channel.Channel;
 import jforgame.codec.struct.StructMessageCodec;
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.database.config.ConfigDataPool;

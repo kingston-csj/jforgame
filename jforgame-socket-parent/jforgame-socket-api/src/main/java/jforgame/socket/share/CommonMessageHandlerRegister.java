@@ -1,6 +1,6 @@
 package jforgame.socket.share;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestHandler;

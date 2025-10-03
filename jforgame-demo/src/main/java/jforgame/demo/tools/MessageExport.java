@@ -1,6 +1,6 @@
 package jforgame.demo.tools;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.demo.ServerScanPaths;
 import jforgame.socket.share.message.Message;
 

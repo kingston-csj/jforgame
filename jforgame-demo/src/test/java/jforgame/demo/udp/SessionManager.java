@@ -1,6 +1,6 @@
 package jforgame.demo.udp;
 
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.TimeUtil;
 import jforgame.demo.game.core.SchedulerManager;
 import jforgame.socket.share.IdSession;
 

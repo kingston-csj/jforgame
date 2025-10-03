@@ -1,8 +1,8 @@
 package jforgame.data.common;
 
 
-import jforgame.commons.NumberUtil;
-import jforgame.commons.SplitUtil;
+import jforgame.commons.util.NumberUtil;
+import jforgame.commons.util.SplitUtil;
 
 /**
  * 将字符串转换为int数组，分隔符为逗号

@@ -1,6 +1,6 @@
 package jforgame.data.convertor;
 
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.ConditionalGenericConverter;
 

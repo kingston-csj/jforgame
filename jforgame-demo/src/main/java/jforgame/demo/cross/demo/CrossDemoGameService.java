@@ -1,6 +1,6 @@
 package jforgame.demo.cross.demo;
 
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.cross.core.CallBackCommands;
 import jforgame.demo.cross.core.F2GCallBack;

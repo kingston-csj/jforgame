@@ -1,6 +1,6 @@
 package jforgame.orm.core;
 
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 import jforgame.orm.converter.AttributeConversionException;
 import jforgame.orm.entity.StatefulEntity;
 import org.slf4j.Logger;

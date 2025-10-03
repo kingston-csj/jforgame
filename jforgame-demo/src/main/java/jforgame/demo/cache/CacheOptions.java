@@ -1,6 +1,6 @@
 package jforgame.demo.cache;
 
-import jforgame.commons.TimeUtil;
+import jforgame.commons.util.TimeUtil;
 
 /**
  * 缓存相关配置

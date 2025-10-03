@@ -2,17 +2,15 @@
 package jforgame.demo.client;
 
 import jforgame.codec.struct.StructMessageCodec;
-import jforgame.commons.JsonUtil;
+import jforgame.commons.util.JsonUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
 import jforgame.demo.socket.GameMessageFactory;
-import jforgame.demo.socket.JsonCodec;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.netty.support.client.TcpSocketClient;
-import jforgame.socket.netty.support.client.WebSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;

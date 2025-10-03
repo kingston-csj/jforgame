@@ -1,6 +1,6 @@
 package jforgame.orm.ddl;
 
-import jforgame.commons.StringUtil;
+import jforgame.commons.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;

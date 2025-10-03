@@ -3,7 +3,7 @@ package jforgame.demo.game.player;
 import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.socket.SessionManager;
-import jforgame.commons.NumberUtil;
+import jforgame.commons.util.NumberUtil;
 import jforgame.demo.cache.BaseCacheService;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.accout.entity.AccountEnt;

@@ -1,6 +1,6 @@
 package jforgame.demo.game.database.config;
 
-import jforgame.commons.ClassScanner;
+import jforgame.commons.util.ClassScanner;
 import jforgame.demo.game.logger.LoggerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
