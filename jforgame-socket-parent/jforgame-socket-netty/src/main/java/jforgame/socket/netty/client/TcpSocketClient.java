@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.client;
+package jforgame.socket.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,9 +13,9 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
-import jforgame.socket.netty.support.ChannelIoHandler;
-import jforgame.socket.netty.support.DefaultProtocolDecoder;
-import jforgame.socket.netty.support.DefaultProtocolEncoder;
+import jforgame.socket.netty.ChannelIoHandler;
+import jforgame.socket.netty.DefaultProtocolDecoder;
+import jforgame.socket.netty.DefaultProtocolEncoder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;

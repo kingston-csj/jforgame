@@ -10,7 +10,7 @@ import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.netty.support.client.TcpSocketClient;
+import jforgame.socket.netty.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;

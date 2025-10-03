@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.client;
+package jforgame.socket.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -21,8 +21,8 @@ import io.netty.handler.ssl.SslContext;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
-import jforgame.socket.netty.support.ChannelIoHandler;
-import jforgame.socket.netty.support.server.WebSocketFrameToSocketDataCodec;
+import jforgame.socket.netty.ChannelIoHandler;
+import jforgame.socket.netty.server.WebSocketFrameToSocketDataCodec;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;

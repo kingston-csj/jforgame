@@ -1,4 +1,4 @@
-package jforgame.socket.share;
+package jforgame.socket.share.server;
 
 /**
  * 服务节点，用于表示一个对外提供服务的节点，可以是一个socket服务器节点，也可以是一个http服务器节点

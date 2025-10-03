@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.server;
+package jforgame.socket.netty.server;
 
 import io.netty.channel.ChannelHandler;
 

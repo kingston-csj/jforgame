@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.server;
+package jforgame.socket.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -12,7 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.ServerNode;
+import jforgame.socket.share.server.ServerNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

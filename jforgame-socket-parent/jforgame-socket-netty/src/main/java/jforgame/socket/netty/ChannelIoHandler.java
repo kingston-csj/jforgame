@@ -1,12 +1,10 @@
-package jforgame.socket.netty.support;
+package jforgame.socket.netty;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.commons.util.JsonUtil;
-import jforgame.socket.netty.ChannelUtils;
-import jforgame.socket.netty.NSession;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.RequestDataFrame;

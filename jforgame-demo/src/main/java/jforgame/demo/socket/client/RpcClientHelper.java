@@ -6,7 +6,7 @@ import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.CallbackTimeoutException;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.mina.support.client.TcpSocketClient;
+import jforgame.socket.mina.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;

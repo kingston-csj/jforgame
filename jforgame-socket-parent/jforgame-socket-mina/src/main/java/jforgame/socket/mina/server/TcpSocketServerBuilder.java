@@ -1,4 +1,4 @@
-package jforgame.socket.mina.support.server;
+package jforgame.socket.mina.server;
 
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.ChainedMessageDispatcher;

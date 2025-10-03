@@ -10,7 +10,7 @@ import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.MessageIoDispatcher;
-import jforgame.socket.netty.support.client.TcpSocketClient;
+import jforgame.socket.netty.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
 import org.apache.commons.pool2.BasePooledObjectFactory;

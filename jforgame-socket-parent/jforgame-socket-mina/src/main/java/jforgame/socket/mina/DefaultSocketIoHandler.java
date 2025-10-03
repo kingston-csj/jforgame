@@ -1,6 +1,5 @@
-package jforgame.socket.mina.support;
+package jforgame.socket.mina;
 
-import jforgame.socket.mina.MSession;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.SocketIoDispatcher;
 import org.apache.mina.core.service.IoHandlerAdapter;

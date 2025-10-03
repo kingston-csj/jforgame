@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.server;
+package jforgame.socket.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -16,9 +16,9 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
-import jforgame.socket.netty.support.ChannelIoHandler;
+import jforgame.socket.netty.ChannelIoHandler;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.ServerNode;
+import jforgame.socket.share.server.ServerNode;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;

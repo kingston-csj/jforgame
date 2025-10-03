@@ -1,4 +1,4 @@
-package jforgame.socket.netty.support.server;
+package jforgame.socket.netty.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +10,7 @@ import io.netty.util.ReferenceCounted;
 import jforgame.codec.MessageCodec;
 import jforgame.commons.util.JsonUtil;
 import jforgame.commons.util.NumberUtil;
-import jforgame.socket.netty.WebSocketJsonFrame;
+import jforgame.socket.share.WebSocketJsonFrame;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.MessageHeader;
 import jforgame.socket.share.message.RequestDataFrame;

@@ -1,39 +1,40 @@
-package jforgame.socket.mina.support;
+package jforgame.socket.netty;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.share.TrafficStatistic;
 import jforgame.socket.share.message.MessageFactory;
 import jforgame.socket.share.message.RequestDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
-import org.apache.mina.core.buffer.IoBuffer;
-import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
-import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
- * 协议栈编码器
- * 此类提供默认的私有协议栈编码器。
+ * 协议栈解码器
+ * 此类提供默认的私有协议栈解码器。
  * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
  * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
- * 消息体仅包含待编码的消息字节流，具体编码需通过 {@link MessageCodec} 接口的 {@link MessageCodec#encode (Object)} 方法实现。
+ * 消息体包括需要由{@link MessageCodec}解码的字节消息。
+ *
+ * @see MessageCodec#decode(Class, byte[])
  */
-public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
+public class DefaultProtocolDecoder extends ByteToMessageDecoder {
+
+    /**
+     * 最大协议字节数（包头+包体）
+     */
+    private int maxProtocolBytes;
 
     private final Logger logger = LoggerFactory.getLogger("socketserver");
-    /**
-     * 最大的协议数据长度
-     */
-    private final int maxProtocolBytes;
-    /**
-     * 消息工厂
-     */
-    private MessageFactory messageFactory;
-    /**
-     * 消息解码器
-     */
-    private MessageCodec messageCodec;
+
+    private final MessageFactory messageFactory;
+
+    private final MessageCodec messageCodec;
+
 
     public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
         this(messageFactory, messageCodec, 4096);
@@ -45,48 +46,48 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
         this.maxProtocolBytes = maxProtocolBytes;
     }
 
-    @Override
-    protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
-        if (in.remaining() < DefaultMessageHeader.SIZE) {
-            return false;
-        }
-        in.mark();
+    public void setMaxProtocolBytes(int maxProtocolBytes) {
+        this.maxProtocolBytes = maxProtocolBytes;
+    }
 
+    @Override
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+        if (in.readableBytes() < DefaultMessageHeader.SIZE) {
+            return;
+        }
+        in.markReaderIndex();
         // ----------------protocol pattern-------------------------
         //      header(12bytes)     | body
         // msgLength = 12+len(body) | body
         // msgLength | index | cmd  | body
         byte[] header = new byte[DefaultMessageHeader.SIZE];
-        in.get(header);
+        in.readBytes(header);
         DefaultMessageHeader headerMeta = new DefaultMessageHeader();
         headerMeta.read(header);
 
         int length = headerMeta.getMsgLength();
         if (length > maxProtocolBytes) {
             logger.error("message data frame [{}] too large, close session now", length);
-            session.close(true);
-            return true;
+            ctx.close();
+            return;
         }
-
-        int cmd = headerMeta.getCmd();
         int bodySize = length - DefaultMessageHeader.SIZE;
-        if (in.remaining() < bodySize) {
-            in.reset();
-            return false;
+        if (in.readableBytes() < bodySize) {
+            in.resetReaderIndex();
+            return;
         }
-
+        int cmd = headerMeta.getCmd();
         byte[] body = new byte[bodySize];
-        in.get(body);
+        in.readBytes(body);
 
         // 流量统计
         TrafficStatistic.addReceivedBytes(cmd, length);
         TrafficStatistic.addReceivedNumber(cmd);
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);
-        Object msg = messageCodec.decode(msgClazz, body);
 
-        out.write(new RequestDataFrame(headerMeta, msg));
-        return true;
+        Object message = messageCodec.decode(msgClazz, body);
+        out.add(new RequestDataFrame(headerMeta, message));
     }
 
 }

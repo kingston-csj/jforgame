@@ -1,4 +1,4 @@
-package jforgame.socket.netty;
+package jforgame.socket.share;
 
 /**
  * 当使用WebSocket传输文本格式的消息时，定义一个消息帧类

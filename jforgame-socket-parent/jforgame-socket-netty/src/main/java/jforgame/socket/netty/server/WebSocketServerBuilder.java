@@ -1,7 +1,7 @@
-package jforgame.socket.netty.support.server;
+package jforgame.socket.netty.server;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.netty.support.ChannelIoHandler;
+import jforgame.socket.netty.ChannelIoHandler;
 import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.message.MessageFactory;

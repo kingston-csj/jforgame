@@ -1,11 +1,11 @@
-package jforgame.socket.mina.support.server;
+package jforgame.socket.mina.server;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.mina.support.DefaultProtocolCodecFactory;
-import jforgame.socket.mina.support.DefaultSocketIoHandler;
+import jforgame.socket.mina.DefaultProtocolCodecFactory;
+import jforgame.socket.mina.DefaultSocketIoHandler;
 import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.ServerNode;
+import jforgame.socket.share.server.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;
