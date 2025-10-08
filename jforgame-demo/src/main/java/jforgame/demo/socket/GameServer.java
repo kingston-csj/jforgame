@@ -19,7 +19,7 @@ import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.redis.RedisCluster;
 import jforgame.orm.ddl.SchemaUpdate;
-import jforgame.socket.netty.server.TcpSocketServerBuilder;
+import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.server.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;

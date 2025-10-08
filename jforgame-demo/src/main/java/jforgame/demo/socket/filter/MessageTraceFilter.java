@@ -1,9 +1,9 @@
 package jforgame.demo.socket.filter;
 
 import jforgame.commons.util.JsonUtil;
-import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.share.MessageHandler;
+import jforgame.socket.share.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +17,8 @@ public class MessageTraceFilter implements MessageHandler {
     private boolean debug = true;
 
     @Override
-    public boolean messageReceived(IdSession session, Object frame) throws Exception {
-        RequestDataFrame dataFrame = (RequestDataFrame) frame;
-        Object message = dataFrame.getMessage();
+    public boolean messageReceived(IdSession session, RequestContext context) throws Exception {
+        Object message = context.getRequest();
         if (debug && traceRequest(message)) {
             logger.error("<<<<<<<<<<[{}]{}={}", session, message.getClass().getSimpleName(), JsonUtil.object2String(message));
         }

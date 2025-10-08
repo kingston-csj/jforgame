@@ -10,7 +10,7 @@ public class SocketIoDispatcherAdapter implements SocketIoDispatcher {
     }
 
     @Override
-    public void dispatch(IdSession session, Object frame) {
+    public void dispatch(IdSession session, RequestContext context) {
 
     }
 

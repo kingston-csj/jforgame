@@ -2,8 +2,8 @@ package jforgame.socket.support;
 
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.MessageParameterConverter;
+import jforgame.socket.share.RequestContext;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.RequestDataFrame;
 
 /**
  * 默认的消息参数转换器
@@ -17,10 +17,8 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
     }
 
     @Override
-    public Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, Object frame) {
-        assert frame instanceof RequestDataFrame;
-        RequestDataFrame dataFrame = (RequestDataFrame) frame;
-        Object message = dataFrame.getMessage();
+    public Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, RequestContext context) {
+        Object message = context.getRequest();
         Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
         // 方法签名如果有两个参数，则为  method(IdSession session, Object message);
         //        如果有三个参数，则为  method(IdSession session, int index, Object message);
@@ -43,7 +41,7 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
             if (result.length == 3) {
                 if (i == 1) {
                     if (int.class.isAssignableFrom(param)) {
-                        result[i] = dataFrame.getHeader().getIndex();
+                        result[i] = context.getHeader().getIndex();
                     } else {
                         throw new IllegalArgumentException("2nd argument must be int");
                     }

@@ -7,6 +7,7 @@ import jforgame.demo.ServerConfig;
 import jforgame.socket.share.MessageHandler;
 import jforgame.demo.socket.model.FloodRecord;
 import jforgame.socket.share.IdSession;
+import jforgame.socket.share.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +21,8 @@ public class FloodFilter implements MessageHandler {
     private static final String KEY_FLOOD = "FLOOD";
 
     @Override
-    public boolean messageReceived(IdSession session, Object message)
-            throws Exception {
+    public boolean messageReceived(IdSession session, RequestContext context) throws Exception {
+        Object message = context.getRequest();
         FloodRecord record = getFloodRecordBy(session);
 
         // 基础思路：玩家XX秒内累计洪水记录超过Y次，则判定为嫌疑人

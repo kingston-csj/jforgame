@@ -15,10 +15,10 @@ public interface SocketIoDispatcher {
     /**
      * 消息分发
      *
-     * @param session 会话
-     * @param frame   请求消息 {@link jforgame.socket.share.message.RequestDataFrame}
+     * @param session socket session
+     * @param context 请求消息上下文
      */
-    void dispatch(IdSession session, Object frame);
+    void dispatch(IdSession session, RequestContext context);
 
     /**
      * 会话关闭时调用

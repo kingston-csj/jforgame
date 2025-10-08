@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.commons.util.JsonUtil;
 import jforgame.socket.share.IdSession;
+import jforgame.socket.share.RequestContext;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.RequestDataFrame;
 import org.slf4j.Logger;
@@ -44,14 +45,17 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext context, Object frame) throws Exception {
         assert frame instanceof RequestDataFrame;
-        RequestDataFrame dataFrame = (RequestDataFrame) frame;
+        RequestDataFrame requestDataFrame = (RequestDataFrame) frame;
         if (logger.isDebugEnabled()) {
-            logger.debug("receive pact, content is {}", JsonUtil.object2String(dataFrame.getMessage()));
+            logger.debug("receive pact, content is {}", JsonUtil.object2String(requestDataFrame.getMessage()));
         }
 
         final Channel channel = context.channel();
         IdSession session = ChannelUtils.getSessionBy(channel);
-        messageDispatcher.dispatch(session, frame);
+        RequestContext requestContext = new RequestContext();
+        requestContext.setRequest(requestDataFrame.getMessage());
+        requestContext.setHeader(requestDataFrame.getHeader());
+        messageDispatcher.dispatch(session, requestContext);
     }
 
     @Override

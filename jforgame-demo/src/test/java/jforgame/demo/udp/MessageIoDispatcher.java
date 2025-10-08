@@ -7,12 +7,9 @@ import jforgame.socket.share.CommonMessageHandlerRegister;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.MessageHandlerRegister;
-import jforgame.socket.share.MessageParameterConverter;
 import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.RequestDataFrame;
 import jforgame.socket.support.ClientRequestTask;
-import jforgame.socket.support.DefaultMessageParameterConverter;
 
 import java.util.Collections;
 
@@ -22,14 +19,11 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
     MessageFactory messageFactory = GameMessageFactory.getInstance();
 
-    private MessageParameterConverter msgParameterConverter= new DefaultMessageParameterConverter(messageFactory);
-
     public MessageIoDispatcher() {
         LoginRouter router = new LoginRouter();
         this.handlerRegister = new CommonMessageHandlerRegister(Collections.singletonList(router), messageFactory);
-        MessageHandler messageHandler = (session, frame) -> {
-            RequestDataFrame dataFrame = (RequestDataFrame)frame;
-            Object message = dataFrame.getMessage();
+        MessageHandler messageHandler = (session, context) -> {
+            Object message = context.getRequest();
             int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
             MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
             if (cmdExecutor == null) {
@@ -37,11 +31,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
                 return true;
             }
 
-            Object[] params = msgParameterConverter.convertToMethodParams(session, cmdExecutor.getParams(), dataFrame);
-            Object controller = cmdExecutor.getHandler();
-
-            ClientRequestTask task = ClientRequestTask.valueOf(session, session.hashCode(), controller, cmdExecutor.getMethod(), params);
-            task.setMsgIndex(((RequestDataFrame) frame).getHeader().getIndex());
+            ClientRequestTask task = ClientRequestTask.valueOf(session, session.hashCode(), context);
             // 丢到任务消息队列，不在io线程进行业务处理
             GameServer.getMonitorGameExecutor().accept(task);
             return true;

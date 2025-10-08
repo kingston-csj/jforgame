@@ -18,6 +18,7 @@ import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
+import jforgame.socket.share.RequestContext;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.SocketIoDispatcherAdapter;
 import jforgame.socket.share.message.MessageFactory;
@@ -96,8 +97,8 @@ public class UdpSocketClient extends AbstractSocketClient {
             System.out.println("----------i=" + i);
             UdpSocketClient socketClient = new UdpSocketClient(new SocketIoDispatcherAdapter() {
                 @Override
-                public void dispatch(IdSession session, Object message) {
-                    System.out.println("receive package ---------" + JsonUtil.object2String(message));
+                public void dispatch(IdSession session, RequestContext context) {
+                    System.out.println("receive package ---------" + JsonUtil.object2String(context.getRequest()));
                 }
 
             }, GameMessageFactory.getInstance(), messageCodec, HostAndPort.valueOf(8088));

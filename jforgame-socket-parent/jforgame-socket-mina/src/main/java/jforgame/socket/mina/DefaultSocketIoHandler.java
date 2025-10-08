@@ -1,7 +1,9 @@
 package jforgame.socket.mina;
 
 import jforgame.socket.share.IdSession;
+import jforgame.socket.share.RequestContext;
 import jforgame.socket.share.SocketIoDispatcher;
+import jforgame.socket.share.message.RequestDataFrame;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
@@ -32,10 +34,15 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
     }
 
     @Override
-    public void messageReceived(IoSession session, Object message) throws Exception {
+    public void messageReceived(IoSession session, Object frame) throws Exception {
+        assert frame instanceof RequestDataFrame;
+        RequestDataFrame requestDataFrame = (RequestDataFrame) frame;
         IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
         //交由消息分发器处理
-        messageDispatcher.dispatch(userSession, message);
+        RequestContext requestContext = new RequestContext();
+        requestContext.setRequest(requestDataFrame.getMessage());
+        requestContext.setHeader(requestDataFrame.getHeader());
+        messageDispatcher.dispatch(userSession, requestContext);
     }
 
     @Override

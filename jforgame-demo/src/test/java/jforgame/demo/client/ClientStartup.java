@@ -10,12 +10,12 @@ import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.RequestCallback;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
-import jforgame.socket.netty.client.TcpSocketClient;
+import jforgame.socket.mina.client.TcpSocketClient;
 import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.IdSession;
+import jforgame.socket.share.RequestContext;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.SocketIoDispatcherAdapter;
-import jforgame.socket.share.message.RequestDataFrame;
 
 /**
  * 客户端模拟器启动程序
@@ -29,12 +29,11 @@ public class ClientStartup {
         hostPort.setPort(serverPort);
 
         SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
-            @Override
-            public void dispatch(IdSession session, Object frame) {
-                RequestDataFrame dataFrame = (RequestDataFrame) frame;
-                Object message = dataFrame.getMessage();
-                System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
-            }
+                @Override
+                public void dispatch(IdSession session, RequestContext context) {
+                    Object message = context.getRequest();
+                    System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
+                }
 
             @Override
             public void exceptionCaught(IdSession session, Throwable cause) {
