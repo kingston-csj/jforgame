@@ -10,7 +10,7 @@ public class CommonContainer extends Container<Integer, CommonData> {
     private Map<String, CommonData> map = new HashMap<>();
 
     @Override
-    public void init() {
+    public void afterLoad() {
         data.forEach((k, v) -> {
             map.put(v.getKey(), v);
         });

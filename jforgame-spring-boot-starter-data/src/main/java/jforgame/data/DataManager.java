@@ -57,6 +57,11 @@ public class DataManager implements DataRepository {
         this.validators.add(new CustomValidator(this));
     }
 
+    /**
+     * 初始化数据
+     * 会扫描配置路径下所有的容器类和配置表类
+     * 并加载配置表数据到内存中
+     */
     public void init() {
         if (!StringUtils.isEmpty(properties.getContainerScanPath())) {
             Set<Class<?>> containers = ClassScanner.listAllSubclasses(properties.getContainerScanPath(), Container.class);
@@ -153,7 +158,7 @@ public class DataManager implements DataRepository {
 
             container.inject(definition, records);
             // 二级缓存数据
-            container.init();
+            container.afterLoad();
 
             data.put(definition.getClazz(), container);
         } catch (Exception e) {
@@ -172,7 +177,7 @@ public class DataManager implements DataRepository {
         if (!data.containsKey(clazz)) {
             return null;
         }
-        return (E) data.get(clazz).getRecord(id);
+        return (E) data.get(clazz).getRecordById(id);
     }
 
     @Override
@@ -188,7 +193,7 @@ public class DataManager implements DataRepository {
         if (!data.containsKey(clazz)) {
             return Collections.EMPTY_LIST;
         }
-        return data.get(clazz).getRecordsBy(name, index);
+        return data.get(clazz).getRecordsByIndex(name, index);
     }
 
     /**

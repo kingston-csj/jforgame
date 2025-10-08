@@ -38,7 +38,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     /**
      * 初始化二级缓存
      */
-    public void init() {
+    public void afterLoad() {
 
     }
 
@@ -52,11 +52,16 @@ public class Container<K extends Serializable & Comparable<K>, V> {
 
     }
 
-    public List<V> getRecordsBy(String name, Object index) {
+    public List<V> getRecordsByIndex(String name, Object index) {
         String key = indexKey(name, index);
         return indexMapper.getOrDefault(key, Collections.EMPTY_LIST);
     }
 
+    /**
+     * 获取所有记录
+     *
+     * @return 该配置表所有记录的集合(引用拷贝)
+     */
     public List<V> getAllRecords() {
         return new ArrayList<>(data.values());
     }
@@ -70,7 +75,13 @@ public class Container<K extends Serializable & Comparable<K>, V> {
         return new TreeSet<>(data.keySet());
     }
 
-    public V getRecord(K id) {
+    /**
+     * 根据id获取记录
+     *
+     * @param id 主键id
+     * @return 记录
+     */
+    public V getRecordById(K id) {
         return data.get(id);
     }
 
