@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 public class MessageExecuteUnit implements MessageExecutor {
 
     /**
-     * 对应消息路由的指定方法
+     * 对应消息路由的指定方法 {@link jforgame.socket.share.annotation.RequestHandler}
      * @see jforgame.socket.share.annotation.MessageRoute
      */
     private Method method;

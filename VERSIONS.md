@@ -179,7 +179,7 @@
     mina版本从2.0.22升级到2.0.27， https://github.com/kingston-csj/jforgame/security/dependabot/33
 
 
-## V2.6.0(近期计划)
+## V2.6.0
 ### jforgame-commons
     修复QueueContainerGroup#name字段显示为空。
 ### jforgame-socket
@@ -197,13 +197,16 @@
     修复ExcelDataReader,CsvDataReader配置读取规则不统一。
     配置bean支持继承关系，子类可以继承父类的配置字段
 
-## V3.1.0（计划） api变动！！
+## V3.0.0 api变动！！
 
 ### jforgame-commons 
     新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
 
 ### jforgame-data 
     Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
+
+### jforgame-orm
+    移除SchemaUpdate冗余类
 
 ### jforgame-threadmodel
     新增线程模型模块，包含两种实现：1.基于关键字分发模型；2.基于Actor模型
