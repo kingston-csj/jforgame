@@ -26,6 +26,7 @@ public final class FileUtil {
      *
      * @param fileName targetFileName
      * @return text content of the file
+     * @throws IOException if an I/O error occurs when opening the file
      */
     public static String readFullText(String fileName) throws IOException {
         File file = new File(fileName);

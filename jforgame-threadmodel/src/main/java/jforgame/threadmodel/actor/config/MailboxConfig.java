@@ -51,6 +51,8 @@ public class MailboxConfig {
 
     /**
      * 判断是否为有界邮箱
+     *
+     * @return 是否为有界邮箱
      */
     public boolean isBounded() {
         return capacity > 0;
@@ -58,6 +60,8 @@ public class MailboxConfig {
 
     /**
      * 判断是否为优先级邮箱
+     *
+     * @return 是否为优先级邮箱
      */
     public boolean isPriority() {
         return type == TYPE_PRIORITY;

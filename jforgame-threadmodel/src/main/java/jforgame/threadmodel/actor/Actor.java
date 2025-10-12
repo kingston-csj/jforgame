@@ -12,11 +12,14 @@ public interface Actor extends Runnable {
 
     /**
      * 绑定的邮箱
+     * @return 邮箱
      */
     Mailbox getMailbox();
 
     /**
      * 发送消息到当前Actor
+     *
+     * @param message 邮件消息
      */
     default void tell(Mail message) {
         tell(message, null);
@@ -40,6 +43,7 @@ public interface Actor extends Runnable {
 
     /**
      * 获取Actor模型名称，例如player, monster, guild等
+     * @return Actor模型名称
      */
     default String getModel() {
         return getClass().getSimpleName();

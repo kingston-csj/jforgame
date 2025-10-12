@@ -18,8 +18,8 @@ public class SharedActor {
     /**
      * 根据key获取共享Actor
      *
-     * @param key
-     * @return
+     * @param key 共享Actor的key
+     * @return 共享Actor
      */
     public Actor getSharedActor(long key) {
         int index = Math.abs((int) (key % group.length));
@@ -28,6 +28,7 @@ public class SharedActor {
 
     /**
      * 获取工作线程数量
+     * @return 工作线程数量
      */
     public int getWorkerSize() {
         return group.length;
@@ -35,6 +36,7 @@ public class SharedActor {
 
     /**
      * 获取邮箱组
+     * @return 邮箱组
      */
     public Actor[] getGroup() {
         return group;

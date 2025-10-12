@@ -15,17 +15,35 @@ import java.util.concurrent.BlockingQueue;
  * 需要注意的是，同一个actor的邮箱在同一时刻只会被一个线程执行，但在不同时刻，有可能在不同的线程执行
  */
 public class Mailbox {
-
+    /**
+     * 邮箱中的任务队列
+     */
     protected BlockingQueue<Mail> mails;
 
-    public Mailbox() {
-        this.mails = new ArrayBlockingQueue<>(512);
+    /**
+     * 创建一个指定大小的邮箱
+     *
+     * @param size 邮箱大小
+     */
+    public Mailbox(int size) {
+        this.mails = new ArrayBlockingQueue<>(size);
     }
 
+
+    /**
+     * 创建一个自定义任务队列的邮箱
+     *
+     * @param mails 任务队列
+     */
     public Mailbox(BlockingQueue<Mail> mails) {
         this.mails = mails;
     }
 
+    /**
+     * 接收一封邮件
+     *
+     * @param mail 邮件
+     */
     public void receive(Mail mail) {
         if (!this.mails.offer(mail)) {
             throw new IllegalStateException("mail box queue is full");
@@ -34,15 +52,27 @@ public class Mailbox {
 
     /**
      * 获取当前邮件数量
+     *
+     * @return 当前邮件数量
      */
     public int getTaskSize() {
         return mails.size();
     }
 
+    /**
+     * 判断邮箱是否为空
+     *
+     * @return 是否为空
+     */
     public boolean isEmpty() {
         return mails.isEmpty();
     }
 
+    /**
+     * 从邮箱中取出一封邮件
+     *
+     * @return 邮件
+     */
     public Mail poll() {
         return mails.poll();
     }

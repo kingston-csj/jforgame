@@ -154,7 +154,9 @@ public class DigestUtil {
 
 
     /**
-     * 将字节数组转为Base64编码
+     * 将字节数组转为Base64编码字符串
+     * @param data 输入字节数组
+     * @return Base64编码后的字符串
      */
     public static String encodeBase64(byte[] data) {
         return ENCODER.encodeToString(data);
@@ -162,6 +164,8 @@ public class DigestUtil {
 
     /**
      * 将字符串进行Base64解码
+     * @param data Base64编码后的字符串
+     * @return 解码后的字节数组
      */
     public static byte[] decodeBase64(String data) {
         return DECODER.decode(data);

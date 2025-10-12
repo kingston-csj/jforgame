@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>jforgame-threadmodel</artifactId>
+    <name>jforgame-threadmodel</name>
     <description>jforgame thread model, including actor and dispatch</description>
     <dependencies>
         <dependency>

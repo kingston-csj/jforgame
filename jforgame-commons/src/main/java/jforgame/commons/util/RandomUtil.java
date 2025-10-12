@@ -10,6 +10,7 @@ import java.util.function.Function;
 /**
  * 随机工具类
  * Created by Carson
+ *
  * @since 2.4.0
  */
 public class RandomUtil {
@@ -17,16 +18,29 @@ public class RandomUtil {
     /**
      * 返回0（包括）至Integer.MAX_VALUE(不包括)之间随机的一个数
      *
-     * @return
+     * @return 随机数
      */
     public static int nextInt() {
         return ThreadLocalRandom.current().nextInt();
     }
 
+    /**
+     * 返回0（包括）至n(不包括)之间随机的一个数
+     *
+     * @param n 随机数上限（不包括）
+     * @return 随机数
+     */
     public static int nextInt(int n) {
         return ThreadLocalRandom.current().nextInt(n);
     }
 
+    /**
+     * 返回min（包括）至max(不包括)之间随机的一个数
+     *
+     * @param min 随机数下限（包括）
+     * @param max 随机数上限（不包括）
+     * @return 随机数
+     */
     public static int randomValue(int min, int max) {
         if (min > max) {
             throw new IllegalArgumentException("min > max");

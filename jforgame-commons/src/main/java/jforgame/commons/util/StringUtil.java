@@ -1,4 +1,5 @@
 package jforgame.commons.util;
+
 /**
  * 字符串工具类
  */
@@ -18,8 +19,8 @@ public final class StringUtil {
     /**
      * 将单词的第一个字母大写
      *
-     * @param word
-     * @return
+     * @param word 输入单词
+     * @return 首字母大写后的单词
      */
     public static String firstLetterToUpperCase(String word) {
         StringBuilder sb = new StringBuilder(word);
@@ -30,8 +31,8 @@ public final class StringUtil {
     /**
      * 将单词的第一个字母小写
      *
-     * @param word
-     * @return
+     * @param word 输入单词
+     * @return 首字母小写后的单词
      */
     public static String firstLetterToLowerCase(String word) {
         StringBuilder sb = new StringBuilder(word);

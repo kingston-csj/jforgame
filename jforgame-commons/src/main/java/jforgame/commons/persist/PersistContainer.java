@@ -14,7 +14,7 @@ public interface PersistContainer {
     /**
      * 接收实体
      *
-     * @param entity
+     * @param entity 实体对象
      */
     void receive(Entity<?> entity);
 
@@ -26,7 +26,7 @@ public interface PersistContainer {
     /**
      * 当前等待入库的队列大小
      *
-     * @return size
+     * @return size 队列大小
      */
     int size();
 

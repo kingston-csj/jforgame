@@ -11,9 +11,10 @@ public interface DataRepository {
 
     /**
      * 查询配置容器
-     * @param tableClass 配置类
+     *
+     * @param tableClass     配置类
      * @param containerClass Container子类
-     * @param  <T> Container子类
+     * @param <T>            Container子类
      * @return containerClass container类
      */
     <T extends Container> T queryContainer(Class<?> tableClass, Class<T> containerClass);
@@ -21,8 +22,9 @@ public interface DataRepository {
     /**
      * 根据主键读取指定文件的配置数据
      *
-     * @param clazz　配置类
-     * @param id　配置表主键
+     * @param clazz 　配置类
+     * @param <E>   配置类泛型
+     * @param id    　配置表主键
      * @return 指定id记录
      */
     <E> E queryById(Class<E> clazz, Serializable id);
@@ -30,7 +32,8 @@ public interface DataRepository {
     /**
      * 读取指定文件的所有配置数据
      *
-     * @param clazz　配置类
+     * @param clazz 　配置类
+     * @param <E>   配置类泛型
      * @return 所有记录
      */
     <E> List<E> queryAll(Class<E> clazz);
@@ -40,6 +43,7 @@ public interface DataRepository {
      * 根据索引读取指定文件的配置数据
      *
      * @param clazz 配置类class
+     * @param <E>   配置类泛型
      * @param index 索引名称
      * @return 指定索引所有数据
      */

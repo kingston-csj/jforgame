@@ -96,6 +96,9 @@ public class ActorSystemConfig {
 
     /**
      * 根据Actor路径获取部署配置
+     *
+     * @param actorPath Actor路径
+     * @return 部署配置
      */
     public ActorDeploymentConfig getDeploymentConfig(String actorPath) {
         // 精确匹配
@@ -149,6 +152,9 @@ public class ActorSystemConfig {
 
     /**
      * 获取邮箱配置
+     *
+     * @param mailboxName 邮箱名称
+     * @return 邮箱配置
      */
     public MailboxConfig getMailboxConfig(String mailboxName) {
         if ("default".equals(mailboxName)) {

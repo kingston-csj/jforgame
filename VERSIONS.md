@@ -220,6 +220,11 @@
     SocketIoDispatcher#dispatch()参数由RequestDataFrame变更为RequestContext，整合请求的所有上下文信息
 
 
+## V4.0.0 api变动！！(计划)
+
+### jforgame-commons
+    新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
+    DateUtil#getChinaWeekDay重命名为getChineseWeekDay  
 
 
 

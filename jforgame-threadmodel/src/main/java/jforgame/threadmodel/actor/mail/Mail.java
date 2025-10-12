@@ -37,7 +37,8 @@ public abstract class Mail extends BaseTask {
 
 
     /**
-     * 设置目标
+     * 设置目标接收者
+     * @param sender 发送者
      */
     public void setSender(Actor sender) {
         this.sender = sender;
@@ -45,6 +46,7 @@ public abstract class Mail extends BaseTask {
 
     /**
      * 获取目标
+     * @return 发送者
      */
     public Actor getSender() {
         return sender;
@@ -52,6 +54,7 @@ public abstract class Mail extends BaseTask {
 
     /**
      * 设置发送者
+     * @param receiver 接收者
      */
     public void setReceiver(Actor receiver) {
         this.receiver = receiver;
@@ -59,6 +62,7 @@ public abstract class Mail extends BaseTask {
 
     /**
      * 获取发送者
+     * @return 接收者
      */
     public Actor getReceiver() {
         return receiver;
@@ -66,6 +70,7 @@ public abstract class Mail extends BaseTask {
 
     /**
      * 获取邮件创建时间
+     * @return 邮件创建时间
      */
     public long getCreatedTime() {
         return createdTime;

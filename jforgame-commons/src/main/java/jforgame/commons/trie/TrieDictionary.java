@@ -87,6 +87,8 @@ public class TrieDictionary {
 
     /**
      * 指定字符串是否包含敏感字
+     * @param word 要检查的字符串
+     * @return 是否包含敏感字
      */
     public boolean containsWords(String word) {
         word = normalize(word);
@@ -115,7 +117,7 @@ public class TrieDictionary {
 
     /**
      * 将敏感字替换成字符'*',如果有的话
-     *
+     * @param content 要处理的字符串
      * @return 转换后的字符串
      */
     public String replaceWords(String content) {

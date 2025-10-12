@@ -33,6 +33,7 @@ public final class ClassScanner {
      * 扫描目录下的所有class文件
      *
      * @param scanPackage 搜索的包根路径
+     * @return 所有的class列表
      */
     public static Set<Class<?>> listClasses(String scanPackage) {
         return listClasses(scanPackage, EMPTY_FILTER);
@@ -52,8 +53,9 @@ public final class ClassScanner {
      * 返回所有带制定注解的class列表
      *
      * @param scanPackage 搜索的包根路径
-     * @param annotation  target annotation of the class
-     * @return
+     * @param <A> 注解类型参数，用于指定要查找的注解类型
+     * @param annotation  目标注解类型
+     * @return 所有带指定注解的class列表
      */
     public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage, Class<A> annotation) {
         return listClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);

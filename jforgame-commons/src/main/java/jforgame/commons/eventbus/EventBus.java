@@ -39,8 +39,8 @@ public class EventBus {
 
     /**
      * 同步处理事件
-     *
-     * @param event
+     * 该方法会同步执行所有订阅了该事件的监听方法
+     * @param event 事件对象
      */
     public void post(BaseEvent event) {
         Class<? extends BaseEvent> eventType = event.getClass();
@@ -58,7 +58,8 @@ public class EventBus {
     /**
      * 异步处理事件
      *
-     * @param event
+     * 该方法会异步执行所有订阅了该事件的监听方法
+     * @param event 事件对象
      */
     public void asyncPost(BaseEvent event) {
         this.executor.execute(() -> {

@@ -130,7 +130,7 @@ public class LazyCacheMap<K, V> {
 
     /**
      * 获取所有的记录
-     * @return
+     * @return 所有记录
      */
     public List<V> getAllRecords() {
         this.readLock.lock();

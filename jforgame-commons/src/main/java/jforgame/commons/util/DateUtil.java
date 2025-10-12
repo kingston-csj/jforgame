@@ -35,12 +35,12 @@ public final class DateUtil {
 
 
     /**
-     * Adds to a date
+     * 向指定日期添加指定的时间量
      *
-     * @param date          the date, not null
-     * @param calendarField the calendar field to add to
-     * @param amount        the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date          要添加时间的日期对象，不能为空
+     * @param calendarField 要添加的时间字段，如Calendar.DAY_OF_MONTH, Calendar.HOUR_OF_DAY 等
+     * @param amount        要添加的时间量，可能为负数
+     * @return 新的日期对象，包含添加的时间量
      */
     private static Date add(final Date date, final int calendarField, final int amount) {
         final Calendar c = Calendar.getInstance();
@@ -50,84 +50,86 @@ public final class DateUtil {
     }
 
     /**
-     * Adds days to a date
+     * 向指定日期添加指定的天数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加天的日期对象，不能为空
+     * @param amount 要添加的天数，可能为负数
+     * @return 新的日期对象，包含添加的天数
      */
     public static Date addDays(final Date date, final int amount) {
         return add(date, Calendar.DAY_OF_MONTH, amount);
     }
 
     /**
-     * Adds hours to a date
+     * 向指定日期添加指定的小时数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加小时的日期对象，不能为空
+     * @param amount 要添加的小时数，可能为负数
+     * @return 新的日期对象，包含添加的小时数
      */
     public static Date addHours(final Date date, final int amount) {
         return add(date, Calendar.HOUR_OF_DAY, amount);
     }
 
     /**
-     * Adds milliseconds to a date
+     * 向指定日期添加指定的毫秒数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加毫秒的日期对象，不能为空
+     * @param amount 要添加的毫秒数，可能为负数
+     * @return 新的日期对象，包含添加的毫秒数
      */
     public static Date addMilliseconds(final Date date, final int amount) {
         return add(date, Calendar.MILLISECOND, amount);
     }
 
     /**
-     * Adds minutes to a date
+     * 向指定日期添加指定的分钟数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加分钟的日期对象，不能为空
+     * @param amount 要添加的分钟数，可能为负数
+     * @return 新的日期对象，包含添加的分钟数
      */
     public static Date addMinutes(final Date date, final int amount) {
         return add(date, Calendar.MINUTE, amount);
     }
 
     /**
-     * Adds months to a date
+     * 向指定日期添加指定的月份数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加月份的日期对象，不能为空
+     * @param amount 要添加的月份数，可能为负数
+     * @return 新的日期对象，包含添加的月份数
      */
     public static Date addMonths(final Date date, final int amount) {
         return add(date, Calendar.MONTH, amount);
     }
 
     /**
-     * Adds seconds to a date
+     * 向指定日期添加指定的秒数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加秒的日期对象，不能为空
+     * @param amount 要添加的秒数，可能为负数
+     * @return 新的日期对象，包含添加的秒数
      */
     public static Date addSeconds(final Date date, final int amount) {
         return add(date, Calendar.SECOND, amount);
     }
 
     /**
-     * Adds weeks to a date
+     * 向指定日期添加指定的周数
      *
-     * @param date   the date, not null
-     * @param amount the amount to add, may be negative
-     * @return the new {@link Date} with the amount added
+     * @param date   要添加周的日期对象，不能为空
+     * @param amount 要添加的周数，可能为负数
+     * @return 新的日期对象，包含添加的周数
      */
     public static Date addWeeks(final Date date, final int amount) {
         return add(date, Calendar.WEEK_OF_YEAR, amount);
     }
 
     /**
-     * get the Chinese customary week, where Monday is the first day and Sunday is the seventh day
+     * 获取中国传统的周几，其中星期一为第一天，星期日为第七天
+     *
+     * @return 中国传统的周几，范围为1到7
      */
     public static int getChinaWeekDay() {
         int standardDay = getWeekDay();
@@ -139,7 +141,11 @@ public final class DateUtil {
     }
 
     /**
-     * get days between two dates
+     * 获取两个日期之间的天数差
+     *
+     * @param startDate 开始日期，不能为空
+     * @param endDate   结束日期，不能为空
+     * @return 两个日期之间的天数差，可能为负数
      */
     public static int getDiffDays(Date startDate, Date endDate) {
         Objects.requireNonNull(startDate);
@@ -150,7 +156,9 @@ public final class DateUtil {
     }
 
     /**
-     * get the day of the week in western countries
+     * 获取指定日期的周几，其中星期一为第一天，星期日为第七天
+     *
+     * @return 周几，范围为1到7
      */
     public static int getWeekDay() {
         Calendar cal = new GregorianCalendar();
@@ -163,7 +171,7 @@ public final class DateUtil {
     );
 
     /**
-     * parse date string to Date object
+     * 解析日期字符串为 Date 对象
      * 日期格式可以是 yyyy-MM-dd 或 yyyy-MM-dd HH:mm:ss
      *
      * @param dateString 日期字符串
@@ -191,11 +199,11 @@ public final class DateUtil {
     }
 
     /**
-     * tell if two timestamps are on the same day
+     * 检查两个时间戳是否在同一天
      *
-     * @param t1 date1
-     * @param t2 date2
-     * @return true if they are on the same day
+     * @param t1 时间戳1
+     * @param t2 时间戳2
+     * @return 如果它们在同一天则返回 true，否则返回 false
      */
     public static boolean isSameDay(Date t1, Date t2) {
         if (t1 == null || t2 == null) {
@@ -210,17 +218,24 @@ public final class DateUtil {
                 cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
     }
 
+    /**
+     * 检查两个时间戳是否在同一天
+     *
+     * @param t1 时间戳1
+     * @param t2 时间戳2
+     * @return 如果它们在同一天则返回 true，否则返回 false
+     */
     public static boolean isSameDay(long t1, long t2) {
         return isSameDay(new Date(t1), new Date(t2));
     }
 
     /**
-     * tell if two timestamps are in the same week
-     * warming: the first day of the week is Monday
+     * 检查两个时间戳是否在同一周
+     * 警告：每周的第一天被视为周一
      *
-     * @param t1 date1
-     * @param t2 date2
-     * @return true if they are in the same week
+     * @param t1 时间戳1
+     * @param t2 时间戳2
+     * @return 如果它们在同一周则返回 true，否则返回 false
      */
     public static boolean isSameWeek(Date t1, Date t2) {
         if (t1 == null || t2 == null) {
@@ -246,7 +261,12 @@ public final class DateUtil {
 
         return year1 == year2 && week1 == week2;
     }
-
+    /**
+     * 检查指定时间戳是否为今天
+     *
+     * @param time 时间戳
+     * @return 如果是今天则返回 true，否则返回 false
+     */
     public static boolean isToday(long time) {
         Instant instant = Instant.ofEpochMilli(time);
         ZoneId zoneId = ZoneId.systemDefault();
