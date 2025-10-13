@@ -12,7 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.server.ServerNode;
+import jforgame.socket.server.ServerNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

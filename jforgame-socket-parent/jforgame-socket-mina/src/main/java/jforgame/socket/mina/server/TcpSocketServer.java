@@ -5,7 +5,7 @@ import jforgame.socket.mina.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.DefaultSocketIoHandler;
 import jforgame.socket.share.ChainedMessageDispatcher;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.server.ServerNode;
+import jforgame.socket.server.ServerNode;
 import jforgame.socket.share.message.MessageFactory;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.buffer.SimpleBufferAllocator;

@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jforgame.demo.ServerConfig;
-import jforgame.socket.share.server.ServerNode;
+import jforgame.socket.server.ServerNode;
 
 /**
  * http简单服务器，用于非spring环境

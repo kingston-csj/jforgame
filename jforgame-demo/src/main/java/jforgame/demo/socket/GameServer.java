@@ -21,7 +21,7 @@ import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.server.ServerNode;
+import jforgame.socket.server.ServerNode;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

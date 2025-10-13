@@ -219,6 +219,11 @@
     MessageTask更名为ClientRequestTask，去掉dispatchKey字段
     SocketIoDispatcher#dispatch()参数由RequestDataFrame变更为RequestContext，整合请求的所有上下文信息
 
+## V3.1.0
+
+### jforgame-socket
+    调整ServerNode的类路径(API类路径变动！！)
+
 
 ## V4.0.0 api变动！！(计划)
 

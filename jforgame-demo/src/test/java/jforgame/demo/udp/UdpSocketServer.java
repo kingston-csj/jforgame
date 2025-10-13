@@ -13,7 +13,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.server.ServerNode;
+import jforgame.socket.server.ServerNode;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
