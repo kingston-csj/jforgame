@@ -35,6 +35,7 @@ public class AsyncDbService implements DbService {
      *
      * @param entity
      */
+    @Override
     public void saveToDb(Entity<?> entity) {
         if (entity instanceof PlayerEnt) {
             playerWorker.receive(entity);
@@ -48,6 +49,7 @@ public class AsyncDbService implements DbService {
      *
      * @param entity
      */
+    @Override
     public void deleteFromDb(Entity<?> entity) {
         BaseEntity baseEntity = (BaseEntity) entity;
         baseEntity.markAsSoftDeleted();
@@ -66,7 +68,10 @@ public class AsyncDbService implements DbService {
         saveToDb(entity);
     }
 
-
+    /**
+     * 关闭数据库服务
+     */
+    @Override
     public void shutDown() {
         playerWorker.shutdownGraceful();
         commonWorker.shutdownGraceful();
