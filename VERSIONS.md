@@ -1,11 +1,11 @@
 ﻿# 版本发布规则
 
-先说下，对于发布的工具，我们还是要遵循基本的版本规则，采用常用的三段式。即
+对于发布的工具，遵循基本的版本规则，采用常用的三段式。即
 主版本号(Major version).次版本号(Minor version).修订号(Revision number)，如:1.2.3
 
-*主版本号: 版本的主要变更,通常添加新特性（无法向下兼容时）会增加主版本号，如从1升级到2.  
-*次版本号: 版本的次要变更,修复bug或增加小特性会增加次版本号,尽量向下兼容，如从2.1升级到2.2.  
-*修订号:版本的微小变更,通常修复bug或优化功能会增加修订号,如从2.2.1升级到2.2.2.
+*主版本号: 版本的主要变更，通常添加重大特性，或者代码重构（无法向下兼容），会增加主版本号，如从1.x升级到2.x.  
+*次版本号: 版本的次要变更，修复bug或增加小特性会增加次版本号，尽量向下兼容，如从2.1升级到2.2.  
+*修订号: 版本的微小变更，通常修复bug或优化功能会增加修订号，如从2.2.1升级到2.2.2.
 
 # 版本更新说明
 
@@ -124,7 +124,7 @@
 
     websocket增加客户端工具
 
-## V2.4.0
+## V2.4.0(2025-7-28)
 
 ### jforgame-commons
 
@@ -150,7 +150,7 @@
 
     修复无法热更新类的bug
 
-## V2.5.0
+## V2.5.0(2025-9-7)
 
 ### jforgame-orm
 
@@ -173,45 +173,60 @@
 ### jforgame-socket
 
     完善API文档
+
 ### jforgame-socket-netty
+
     修复WebSocketClient.openSession()方法，确保返回的IdSession是可用的
+
 ### jforgame-socket-mina
+
     mina版本从2.0.22升级到2.0.27， https://github.com/kingston-csj/jforgame/security/dependabot/33
 
+## V2.6.0(2025-10-12)
 
-## V2.6.0
 ### jforgame-commons
+
     修复QueueContainerGroup#name字段显示为空。
+
 ### jforgame-socket
+
     修复MessageTask构造函数初始化问题
     RpcMessageClient增加future请求模式
     TcpSocketClient增加构造函数
 
 ### jforgame-orm
+
     优化SqlFactory的sql语句
 
 ### jforgame-socket-netty
+
     WebSocketServerBuilder增加maxProtocolBytes参数，用于设置最大协议字节数
 
 ### jforgame-data
+
     修复ExcelDataReader,CsvDataReader配置读取规则不统一。
     配置bean支持继承关系，子类可以继承父类的配置字段
 
-## V3.0.0 api变动！！
+## V3.0.0 api变动！！(2025-10-12)
 
-### jforgame-commons 
+### jforgame-commons
+
     新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
 
-### jforgame-data 
+### jforgame-data
+
     Container#init()更名为afterLoad(), getRecordsBy()更名为getRecordsByIndex(), getRecord()更名为getRecordById()
 
 ### jforgame-orm
+
     移除SchemaUpdate冗余类
 
 ### jforgame-threadmodel
+
     新增线程模型模块，包含两种实现：1.基于关键字分发模型；2.基于Actor模型
 
-### jforgame-socket 
+### jforgame-socket
+
     ServerNode迁移到server目录
     WebSocketJsonFrame移到socket-api模块
     ThreadModel相关接口迁移到threadmodel新模块
@@ -222,14 +237,14 @@
 ## V3.1.0
 
 ### jforgame-socket
+
     调整ServerNode的类路径(API类路径变动！！)
 
+### jforgame-threadmodel
+
+    新增方法ThreadModel#isShutdown()，用于判断线程池是否已关闭
 
 ## V4.0.0 api变动！！(计划)
-
-### jforgame-commons
-    新增util包，容纳所有工具类, Pair, Triple放到ds包下, FileUtils更名为FileUtil
-    DateUtil#getChinaWeekDay重命名为getChineseWeekDay  
 
 
 

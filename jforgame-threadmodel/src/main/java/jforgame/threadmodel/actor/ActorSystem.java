@@ -138,6 +138,10 @@ public class ActorSystem implements ThreadModel {
         return actors;
     }
 
+    @Override
+    public boolean isShutdown() {
+        return !running.get();
+    }
 
     /**
      * 获取统计信息

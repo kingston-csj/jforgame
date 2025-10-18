@@ -94,4 +94,10 @@ public class DispatchThreadModel implements ThreadModel {
         running.compareAndSet(true, false);
     }
 
+    @Override
+    public boolean isShutdown() {
+        return !running.get();
+    }
+
+
 }

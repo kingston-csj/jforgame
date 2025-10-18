@@ -11,6 +11,7 @@ import jforgame.threadmodel.actor.ActorSystem;
  * 使用按关键字分发模型，可将不同的任务分发到不同的线程执行 {@link jforgame.threadmodel.dispatch.DispatchThreadModel}，
  * 但无论使用哪种hash算法，都无法避免线程“冷热不均”问题;
  * 使用actor模型，可有效避免线程“冷热不均”问题 {@link ActorSystem}
+ * @since 3.0.0
  */
 public interface ThreadModel {
 
@@ -26,4 +27,11 @@ public interface ThreadModel {
      * 关闭线程模型，不接收新任务
      */
     void shutDown();
+
+    /**
+     * 线程池是否已关闭
+     *
+     * @return true 如果线程池已关闭
+     */
+    boolean isShutdown();
 }

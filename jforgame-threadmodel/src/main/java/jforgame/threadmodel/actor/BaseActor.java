@@ -82,7 +82,7 @@ public class BaseActor implements Actor {
     @Override
     public void tell(Mail message, Actor sender) {
         Objects.requireNonNull(message);
-        if (!actorSystem.running.get()) {
+        if (actorSystem.isShutdown()) {
             return;
         }
         message.setSender(sender);

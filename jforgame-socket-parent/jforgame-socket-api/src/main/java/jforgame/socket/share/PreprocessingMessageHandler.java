@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 对客户端发送的消息进行预处理
  * 包括：绑定消息处理器， 将相关参数转化为处理器的方法入参
+ * @since 3.0.0
  */
 public class PreprocessingMessageHandler implements MessageHandler {
 
