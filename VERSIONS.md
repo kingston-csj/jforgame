@@ -242,7 +242,11 @@
 
 ### jforgame-threadmodel
 
-    新增方法ThreadModel#isShutdown()，用于判断线程池是否已关闭
+    ThreadModel新增方法isShutdown()，用于判断线程池是否已关闭
+
+### jforgame-data
+
+    DataRepository新增方法queryByUniqueIndex(), 用于根据唯一索引查询单个记录
 
 ## V4.0.0 api变动！！(计划)
 

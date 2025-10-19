@@ -5,6 +5,9 @@ import jforgame.data.Container;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 通用数据容器
+ */
 public class CommonContainer extends Container<Integer, CommonData> {
 
     private Map<String, CommonData> map = new HashMap<>();

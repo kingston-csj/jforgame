@@ -196,6 +196,14 @@ public class DataManager implements DataRepository {
         return data.get(clazz).getRecordsByIndex(name, index);
     }
 
+    @Override
+    public <E> E queryByUniqueIndex(Class<E> clazz, String name, Object index) {
+        if (!data.containsKey(clazz)) {
+            return null;
+        }
+        return (E) data.get(clazz).getUniqueRecordByIndex(name, index);
+    }
+
     /**
      * 返回已加载的所有配置领域类
      *

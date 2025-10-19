@@ -40,7 +40,7 @@ public interface DataRepository {
 
 
     /**
-     * 根据索引读取指定文件的配置数据
+     * 根据索引读取指定文件的配置数据列表
      *
      * @param clazz 配置类class
      * @param <E>   配置类泛型
@@ -48,6 +48,16 @@ public interface DataRepository {
      * @return 指定索引所有数据
      */
     <E> List<E> queryByIndex(Class<E> clazz, String name, Object index);
+
+    /**
+     * 根据唯一索引读取指定文件的配置数据
+     *
+     * @param clazz 配置类class
+     * @param <E>   配置类泛型
+     * @param index 索引名称
+     * @return 索引数据
+     */
+    <E> E queryByUniqueIndex(Class<E> clazz, String name, Object index);
 
     /**
      * 表格数据重载
