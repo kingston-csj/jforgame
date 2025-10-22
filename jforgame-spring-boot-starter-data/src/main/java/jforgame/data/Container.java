@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +43,10 @@ public class Container<K extends Serializable & Comparable<K>, V> {
         records.forEach(row -> {
             @SuppressWarnings("unchecked")
             K id = (K) definition.getIdMeta().getValue(row);
-            data.put(id, row);
+            V prev = data.put(id, row);
+            if (prev != null) {
+                throw new IllegalStateException("配置表[" + definition.getResourceTable() + "]主键重复，id为：" + id);
+            }
 
             for (Map.Entry<String, IndexMeta> entry : definition.getIndexMetaMap().entrySet()) {
                 IndexMeta indexMeta = entry.getValue();
@@ -55,7 +59,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
                     }
                     keys.add(key);
                 }
-                indexMapper.putIfAbsent(key, new ArrayList<>());
+                indexMapper.putIfAbsent(key, new LinkedList<>());
                 indexMapper.get(key).add(row);
             }
         });

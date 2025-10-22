@@ -2,7 +2,7 @@ package jforgame.data;
 
 import java.lang.reflect.Field;
 
-interface IdMeta {
+interface ColumnMeta {
 
     String getName();
 
@@ -11,13 +11,13 @@ interface IdMeta {
 }
 
 
-class FieldIdMeta implements IdMeta {
+class FieldColumnMeta implements ColumnMeta {
 
     private final Field field;
 
     private final String name;
 
-    FieldIdMeta(Field field) {
+    FieldColumnMeta(Field field) {
         this.field = field;
         this.field.setAccessible(true);
         name = field.getName();

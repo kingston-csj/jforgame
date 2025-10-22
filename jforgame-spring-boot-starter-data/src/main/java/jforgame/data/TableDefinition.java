@@ -14,7 +14,7 @@ public class TableDefinition {
     /**
      * 表格唯一主键
      */
-    private IdMeta idMeta;
+    private ColumnMeta idMeta;
 
     /**
      * 表格索引列
@@ -45,10 +45,10 @@ public class TableDefinition {
         while (curr != Object.class) {
             Arrays.stream(curr.getDeclaredFields()).filter(f -> f.getAnnotation(Id.class) != null)
                     .forEach(f -> {
-                        IdMeta indexMeta = new FieldIdMeta(f);
+                        ColumnMeta indexMeta = new FieldColumnMeta(f);
                         String key = indexMeta.getName();
                         if (idMeta != null) {
-                            throw new RuntimeException(String.format("%s类主键重复-->%s", clazz.getName(), key));
+                            throw new RuntimeException(String.format("%s类存在多个主键字段-->%s", clazz.getName(), key + "和" + idMeta.getName()));
                         }
                         idMeta = indexMeta;
                     });
@@ -67,7 +67,7 @@ public class TableDefinition {
                         IndexMeta indexMeta = new FieldIndexMeta(f);
                         String key = indexMeta.getName();
                         if (indexMetaMap.put(key, indexMeta) != null) {
-                            throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
+                            throw new RuntimeException(String.format("%s类索引字段重复-->%s", clazz.getName(), key + "和" + indexMetaMap.get(key).getName()));
                         }
                         indexMetaMap.put(key, indexMeta);
                     });
@@ -83,7 +83,7 @@ public class TableDefinition {
                         IndexMeta indexMeta = new MethodIndexMeta(index, m);
                         String key = indexMeta.getName();
                         if (indexMetaMap.put(key, indexMeta) != null) {
-                            throw new RuntimeException(String.format("%s类索引重复-->%s", clazz.getName(), key));
+                            throw new RuntimeException(String.format("%s类索引字段重复-->%s", clazz.getName(), key + "和" + indexMetaMap.get(key).getName()));
                         }
                         indexMetaMap.put(key, indexMeta);
                     });
@@ -92,7 +92,7 @@ public class TableDefinition {
 
     }
 
-    IdMeta getIdMeta() {
+    ColumnMeta getIdMeta() {
         return idMeta;
     }
 
