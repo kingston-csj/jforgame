@@ -9,18 +9,19 @@ import jforgame.data.exception.DataValidateException;
  */
 public class CustomValidator implements DataValidator {
 
-    DataRepository dataManager;
+    DataRepository dataRepository;
 
     public CustomValidator(DataRepository dataRepository) {
-        this.dataManager = dataRepository;
+        this.dataRepository = dataRepository;
     }
 
     @Override
     public void check(Class<?> clazz) throws DataValidateException {
-        Container container = dataManager.queryContainer(clazz, Container.class);
+        Container container = dataRepository.queryContainer(clazz, Container.class);
         if (container == null) {
             return;
         }
         container.validate();
+        container.validate(dataRepository);
     }
 }

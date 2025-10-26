@@ -1,28 +1,15 @@
 package jforgame.data;
 
-import jforgame.data.common.CommonContainer;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * 配置表容器，对于每一张配置表，都会创建一个对应的容器类
- * 容器类负责管理配置表的所有记录，以及根据索引快速查找记录
- * 如果需要实现自己的数据源，可以继承该类并重写 {@link #validate()}校验方法
- * 如果需要实现自己的二级缓存，可以继承该类并重写 {@link #afterLoad()}方法
- *
- * @param <K> 配置表的主键类型，必须实现 {@link Serializable} 和 {@link Comparable} 接口
- * @param <V> 配置表的记录类型
- * @see CommonContainer
- */
 public class Container<K extends Serializable & Comparable<K>, V> {
 
     protected final Map<K, V> data = new HashMap<>();
@@ -32,12 +19,6 @@ public class Container<K extends Serializable & Comparable<K>, V> {
      */
     protected final Map<String, List<V>> indexMapper = new HashMap<>();
 
-    /**
-     * 配置表注入
-     *
-     * @param definition 配置表定义
-     * @param records    配置表记录
-     */
     public void inject(TableDefinition definition, List<V> records) {
         Set<String> keys = new HashSet<>();
         records.forEach(row -> {
@@ -59,7 +40,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
                     }
                     keys.add(key);
                 }
-                indexMapper.putIfAbsent(key, new LinkedList<>());
+                indexMapper.putIfAbsent(key, new ArrayList<>());
                 indexMapper.get(key).add(row);
             }
         });
@@ -76,32 +57,32 @@ public class Container<K extends Serializable & Comparable<K>, V> {
      * 数据校验
      * 该接口会在所有数据加载完成后调用
      * 可以在此接口中关联其他配置表进行校验
-     *
+     * 该方法缺少参数，在验证的时候无法关联其他配置表进行校验
+     * 使用{@link #validate(DataRepository)}替代
      * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
      */
+    @Deprecated
     public void validate() {
 
     }
 
     /**
-     * 根据索引获取记录列表
+     * 数据校验
+     * 该接口会在所有数据加载完成后调用
+     * 可以在此接口中关联其他配置表进行校验
      *
-     * @param name  索引名称
-     * @param index 索引值
-     * @return 索引对应的记录列表
+     * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
      */
+    public void validate(DataRepository dataRepository) {
+
+    }
+
+
     public List<V> getRecordsByIndex(String name, Object index) {
         String key = indexKey(name, index);
         return indexMapper.getOrDefault(key, Collections.EMPTY_LIST);
     }
 
-    /**
-     * 根据索引获取唯一记录
-     *
-     * @param name  索引名称
-     * @param index 索引值
-     * @return 索引对应的唯一记录
-     */
     public V getUniqueRecordByIndex(String name, Object index) {
         String key = indexKey(name, index);
         List<V> records = indexMapper.get(key);

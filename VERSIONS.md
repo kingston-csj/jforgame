@@ -248,9 +248,10 @@
 
     DataRepository新增方法queryByUniqueIndex(), 用于根据唯一索引查询单个记录
     Container#inject()方法增加主键检查
+    Container增加#validate(DataRepository dataRepository)方法，允许容器进行关联数据校验
 
 ## V4.0.0 api变动！！(计划)
-
+    Container去掉#validate()无参方法
 
 
 
