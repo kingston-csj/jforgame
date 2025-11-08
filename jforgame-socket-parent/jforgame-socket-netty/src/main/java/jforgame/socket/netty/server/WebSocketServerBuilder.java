@@ -15,6 +15,7 @@ public class WebSocketServerBuilder {
 
     /**
      * 创建新的构建器
+     *
      * @return 构建器
      */
     public static WebSocketServerBuilder newBuilder() {
@@ -32,13 +33,20 @@ public class WebSocketServerBuilder {
      */
     int maxProtocolBytes = 512 * 1024;
 
-//    private SslContext sslContext;
+    //    private SslContext sslContext;
 //    private boolean enableSsl = false; // 默认不启用SSL
 //    private boolean useSelfSignedCert = true; // 是否使用自签名证书
     private String certDomain; // 证书域名
     private File certChainFile; // 证书链文件
     private File privateKeyFile; // 私钥文件
     private String keyPassword; // 私钥密码
+
+    /**
+     * websocket帧数据类型，默认是文本格式
+     * 0 - TEXT
+     * 1 - BINARY
+     */
+    private int frameType = WebSocketServer.FRAME_TYPE_TEXT;
 
     /**
      * In the server side, the connection will be closed if it is idle for a certain period of time.
@@ -48,6 +56,7 @@ public class WebSocketServerBuilder {
 
     /**
      * 设置消息分发器
+     *
      * @param socketIoDispatcher 消息分发器
      * @return this
      */
@@ -55,8 +64,10 @@ public class WebSocketServerBuilder {
         this.socketIoDispatcher = socketIoDispatcher;
         return this;
     }
+
     /**
      * 设置消息工厂
+     *
      * @param messageFactory 消息工厂
      * @return this
      */
@@ -64,8 +75,10 @@ public class WebSocketServerBuilder {
         this.messageFactory = messageFactory;
         return this;
     }
+
     /**
      * 设置消息编码器
+     *
      * @param messageCodec 消息编码器
      * @return this
      */
@@ -73,8 +86,10 @@ public class WebSocketServerBuilder {
         this.messageCodec = messageCodec;
         return this;
     }
+
     /**
      * 设置websocket路径
+     *
      * @param websocketPath websocket路径
      * @return this
      */
@@ -85,6 +100,7 @@ public class WebSocketServerBuilder {
 
     /**
      * 绑定端口
+     *
      * @param hostPort 端口
      * @return this
      */
@@ -95,6 +111,7 @@ public class WebSocketServerBuilder {
 
     /**
      * 设置连接空闲时间，单位毫秒
+     *
      * @param idleMilliSeconds 连接空闲时间，单位毫秒
      * @return this
      */
@@ -105,6 +122,7 @@ public class WebSocketServerBuilder {
 
     /**
      * 设置最大协议字节数（包头+包体）
+     *
      * @param maxProtocolBytes 最大协议字节数
      * @return this
      */
@@ -112,6 +130,21 @@ public class WebSocketServerBuilder {
         this.maxProtocolBytes = maxProtocolBytes;
         return this;
     }
+
+    /**
+     * 设置websocket帧数据类型
+     *
+     * @param frameType 帧数据类型，0 - TEXT, 1 - BINARY
+     * @return this
+     */
+    public WebSocketServerBuilder setFrameType(int frameType) {
+        if (frameType != WebSocketServer.FRAME_TYPE_TEXT && frameType != WebSocketServer.FRAME_TYPE_BINARY) {
+            throw new IllegalArgumentException("frameType must be 0 or 1");
+        }
+        this.frameType = frameType;
+        return this;
+    }
+
 
 //    /**
 //     * 启动自签名证书
@@ -218,6 +251,7 @@ public class WebSocketServerBuilder {
         socketServer.messageIoHandler = new ChannelIoHandler(socketIoDispatcher);
         socketServer.socketIoDispatcher = socketIoDispatcher;
         socketServer.websocketPath = websocketPath;
+        socketServer.frameType = frameType;
         socketServer.idleMilliSeconds = idleMilliSeconds;
 
         return socketServer;

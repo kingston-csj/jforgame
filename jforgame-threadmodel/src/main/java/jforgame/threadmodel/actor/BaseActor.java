@@ -101,14 +101,14 @@ public class BaseActor implements Actor {
      */
     @Override
     public void run() {
-        // 防止任务一直占线
         int size = mailBox.getTaskSize();
         if (size > THRESHOLD) {
             logger.warn("[{}]任务堆积严重，任务数量[{}]", actorPath, size);
         }
 
         try {
-            // 限制单次处理任务数量，防止饥饿
+            // 防止任务一直占线
+            // 限制单次处理任务数量，防止其他actor饥饿
             int processedCount = 0;
             Runnable mail;
             while ((mail = mailBox.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
@@ -116,7 +116,7 @@ public class BaseActor implements Actor {
                 processedCount++;
             }
         } catch (Exception e) {
-            logger.error("[{}]任务执行异常", getModel(), e);
+            logger.error("[{}]任务执行异常", actorPath, e);
         } finally {
             // 无条件重置queued状态
             queued.set(false);

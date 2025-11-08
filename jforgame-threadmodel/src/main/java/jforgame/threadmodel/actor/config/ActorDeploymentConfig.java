@@ -2,6 +2,7 @@ package jforgame.threadmodel.actor.config;
 
 /**
  * Actor部署配置类
+ *
  * @author wupeng0528
  */
 public class ActorDeploymentConfig {

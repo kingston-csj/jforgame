@@ -42,7 +42,8 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
             .setMessageCodec(new StructMessageCodec())
             .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
             .build();
-```
+```  
+需要注意的是，原生mina并不支持websocket，如果需要使用websocket，请选择jforgame-socket-netty模块。  
 
 ### 1.3.消息编解码的切换
 消息编解码，涉及客户端通信，一般是选择双方都易于接受的方式。最简单的方式，就是使用json，虽然通信数据有点冗长，但开发前摇最短。  

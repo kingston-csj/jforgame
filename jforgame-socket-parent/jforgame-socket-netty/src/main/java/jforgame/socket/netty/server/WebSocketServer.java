@@ -65,6 +65,20 @@ public class WebSocketServer implements ServerNode {
 
     SslContext sslContext;
 
+    /**
+     * websocket帧数据类型--文本帧
+     */
+    public static int FRAME_TYPE_TEXT = 0;
+    /**
+     * websocket帧数据类型--二进制帧
+     */
+    public static int FRAME_TYPE_BINARY = 1;
+
+    /**
+     * websocket帧数据类型
+     */
+    int frameType;
+
     @Override
     public void start() throws Exception {
         try {
@@ -103,7 +117,7 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath, null, false, maxProtocolBytes));
             pipeline.addLast("webSocketFrameAggregator", new WebSocketFrameAggregator(maxProtocolBytes));
             // WebSocketFrame vs Message codec
-            pipeline.addLast("socketFrameToMessage", new WebSocketFrameToSocketDataCodec(messageCodec, messageFactory));
+            pipeline.addLast("socketFrameToMessage", new WebSocketFrameToSocketDataCodec(frameType, messageCodec, messageFactory));
 
             if (idleMilliSeconds > 0) {
                 // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler

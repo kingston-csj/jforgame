@@ -2,6 +2,8 @@ package jforgame.threadmodel.actor.mail;
 
 /**
  * 支持优先级的邮件实现
+ *
+ * @author wupeng0528
  */
 public abstract class PriorityMail extends SimpleMail {
 

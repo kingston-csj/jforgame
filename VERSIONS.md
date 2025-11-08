@@ -240,6 +240,10 @@
 
     调整ServerNode的类路径(API类路径变动！！)
 
+### jforgame-socket-netty
+
+    WebSocketServer增加参数fameType参数，用于设置websocket帧类型
+
 ### jforgame-threadmodel
 
     ThreadModel新增方法isShutdown()，用于判断线程池是否已关闭
@@ -251,7 +255,10 @@
     Container增加#validate(DataRepository dataRepository)方法，允许容器进行关联数据校验
 
 ## V4.0.0 api变动！！(计划)
+
     Container去掉#validate()无参方法
+    StructMessageCodec更名为BeanAutoCodec 
+    ProtobufMessageCodec更名为ProtobufCodec
 
 
 

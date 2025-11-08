@@ -10,6 +10,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * 优先级邮箱实现
+ *
  * @author wupeng0528
  */
 public class PriorityMailbox extends Mailbox {
