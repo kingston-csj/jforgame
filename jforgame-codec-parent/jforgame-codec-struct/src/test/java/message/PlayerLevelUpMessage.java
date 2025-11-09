@@ -1,3 +1,5 @@
+package message;
+
 public class PlayerLevelUpMessage extends PlayerMessage {
 
     private int afterLevel;

@@ -9,58 +9,64 @@ import java.util.List;
 import java.util.Set;
 
 /**
-* 
-* 集合属性序列化
-* 注：由于集合元素bean没有像Message一样注册id，
-* 因此集合的元素不能是父类或抽象类
-*/
+ * 集合属性序列化
+ * 注：由于集合元素bean没有像Message一样注册id，
+ * 因此集合的元素不能是父类或抽象类
+ * 集合长度不能超过Short.MAX_VALUE，即最多65535
+ */
 public class CollectionCodec extends Codec {
 
-	@Override
-	@SuppressWarnings("all")
-	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
-		int size = ByteBuffUtil.readShort(in);
-		int modifier = type.getModifiers();
-		Collection<Object> result = null;
+    @Override
+    @SuppressWarnings("all")
+    public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+        int size = ByteBuffUtil.readShort(in);
+        if (size < 0) {
+            throw new RuntimeException("Collection size less than zero!");
+        }
+        int modifier = type.getModifiers();
+        Collection<Object> result = null;
 
-		if (Modifier.isAbstract(modifier) || Modifier.isInterface(modifier)) {
-			if (List.class.isAssignableFrom(type)) {
-				result = new ArrayList<>();
-			} else if (Set.class.isAssignableFrom(type)) {
-				result = new HashSet<>();
-			}
-		} else {
-			try {
-				result = (Collection)type.newInstance();
-			}catch(Exception e) {
-				result = new ArrayList<>();
-			}
-		}
+        if (Modifier.isAbstract(modifier) || Modifier.isInterface(modifier)) {
+            if (List.class.isAssignableFrom(type)) {
+                result = new ArrayList<>();
+            } else if (Set.class.isAssignableFrom(type)) {
+                result = new HashSet<>();
+            }
+        } else {
+            try {
+                result = (Collection) type.newInstance();
+            } catch (Exception e) {
+                result = new ArrayList<>();
+            }
+        }
 
-		for (int i=0; i<size; i++) {
-			Codec fieldCodec = getSerializer(wrapper);
-			Object eleValue = fieldCodec.decode(in, wrapper, null);
-			result.add(eleValue);
-		}
+        for (int i = 0; i < size; i++) {
+            Codec fieldCodec = getSerializer(wrapper);
+            Object eleValue = fieldCodec.decode(in, wrapper, null);
+            result.add(eleValue);
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
-		if (value == null) {
-			ByteBuffUtil.writeShort(out, (short)0);
-			return;
-		}
-		Collection<Object> collection = (Collection)value;
-		int size = collection.size();
-		ByteBuffUtil.writeShort(out, (short)size);
+    @Override
+    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+        if (value == null) {
+            ByteBuffUtil.writeShort(out, (short) 0);
+            return;
+        }
+        Collection<Object> collection = (Collection) value;
+        int size = collection.size();
+        if (size > Short.MAX_VALUE) {
+            throw new RuntimeException("Collection size less than zero or exceed max short value!");
+        }
+        ByteBuffUtil.writeShort(out, (short) size);
 
-		for (Object elem:collection) {
-			Class<?> clazz = elem.getClass();
-			Codec fieldCodec = getSerializer(clazz);
-			fieldCodec.encode(out, elem, wrapper);
-		}
-	}
+        for (Object elem : collection) {
+            Class<?> clazz = elem.getClass();
+            Codec fieldCodec = getSerializer(clazz);
+            fieldCodec.encode(out, elem, wrapper);
+        }
+    }
 
 }

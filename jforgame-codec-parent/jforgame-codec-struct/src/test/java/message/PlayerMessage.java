@@ -1,3 +1,5 @@
+package message;
+
 public class PlayerMessage {
 
     private long playerId;

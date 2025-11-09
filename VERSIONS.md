@@ -254,11 +254,18 @@
     Container#inject()方法增加主键检查
     Container增加#validate(DataRepository dataRepository)方法，允许容器进行关联数据校验
 
+### jforgame-codec-struct
+    增加MapCodec，以支持字典字段
+
 ## V4.0.0 api变动！！(计划)
 
     Container去掉#validate()无参方法
+
+### jforgame-codec-struct
+
     StructMessageCodec更名为BeanAutoCodec 
     ProtobufMessageCodec更名为ProtobufCodec
+    ArrayCodec/CollectionCodec容器元素支持继承关系
 
 
 

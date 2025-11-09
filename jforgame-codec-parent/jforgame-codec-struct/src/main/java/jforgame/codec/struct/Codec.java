@@ -37,6 +37,7 @@ public abstract class Codec {
 		register(String.class, new StringCodec());
 		register(List.class, new CollectionCodec());
 		register(Set.class, new CollectionCodec());
+		register(Map.class, new MapCodec());
 		register(Object[].class, new ArrayCodec());
 	}
 
