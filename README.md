@@ -6,14 +6,13 @@
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
   * 支持socket/webSocket接入，完美适配手游/页游/H5/小游戏服务端架构  
-  * 通信协议支持protobuf或普通javabean，为客户端提供多种选择  
+  * 通信协议支持json/protobuf或普通javabean，为客户端提供多种选择  
   * 强大的客户端异步/同步api，轻松实现跨进程通信
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 不停机热更代码，不停机热更配置，运维，运营不掉线
   * 喜欢Go语言，这里也支持  --> [Go版游戏服务器](https://github.com/kingston-csj/gforgame)  
   * 基于springboot的jforgame实操项目  --> [mmorpg游戏服务器](https://github.com/kingston-csj/mmorpg)  
-  * 基于spring框架，请看这里  --> [mmorpg游戏服务器](https://github.com/kingston-csj/mmorpg)  
   * 有独立http管理后台网站，为游戏运维/运营提供支持  --> [后台管理系统](https://github.com/kingston-csj/gamekeeper)  
   * 除了做游戏，也可以用来开发其他网络应用，例如实时聊天  --> [仿QQ聊天应用](https://github.com/kingston-csj/im)  
 
@@ -121,8 +120,11 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
 
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
-  如果您发现bug，或者有任何疑问，请提交issue !! bug会被及时修复，并及时发布新的补丁release
+  如果您发现bug，或者有任何疑问，请提交issue !! bug会被及时修复，并及时发布新的补丁release。
+  承诺：持续迭代，永久维护！！
+
   mysql合服工程，基于jforgame的分布式五子棋源代码(cocos+h5客户端)，私聊获取。  
+  与jforgame配套的c#版本的网络框架，兼容websocket/socket,兼容json/struct，私聊获取。
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
   定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  

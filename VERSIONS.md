@@ -265,7 +265,7 @@
 
     StructMessageCodec更名为BeanAutoCodec 
     ProtobufMessageCodec更名为ProtobufCodec
-    ArrayCodec/CollectionCodec容器元素支持继承关系
+    ArrayCodec/CollectionCodec/MapCodec容器元素支持继承关系
 
 
 

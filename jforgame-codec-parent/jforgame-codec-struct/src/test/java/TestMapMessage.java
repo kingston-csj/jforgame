@@ -2,6 +2,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
 import message.ItemVo;
 import message.PlayerBackpack2;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TestMapMessage {
@@ -23,5 +24,7 @@ public class TestMapMessage {
 
         PlayerBackpack2 newMsg = (PlayerBackpack2) messageCodec.decode(PlayerBackpack2.class, encode);
         System.out.println(newMsg);
+        Assert.assertEquals(backpack.getItems().size(), newMsg.getItems().size());
+        Assert.assertEquals(9, newMsg.getItems().get("uid_9").getCount());
     }
 }
