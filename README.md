@@ -121,7 +121,7 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
   ## 一起交流  
   欢迎star/fork，欢迎学习/使用，期待一起贡献代码！！
   如果您发现bug，或者有任何疑问，请提交issue !! bug会被及时修复，并及时发布新的补丁release。
-  承诺：持续迭代，永久维护！！
+  承诺：持续迭代，永久维护！！  
 
   mysql合服工程，基于jforgame的分布式五子棋源代码(cocos+h5客户端)，私聊获取。  
   与jforgame配套的c#版本的网络框架，兼容websocket/socket,兼容json/struct，私聊获取。

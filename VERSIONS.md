@@ -254,6 +254,11 @@
     Container#inject()方法增加主键检查
     Container增加#validate(DataRepository dataRepository)方法，允许容器进行关联数据校验
 
+### jforgame-commons
+
+    FileUtil新增checkAndCreateDirectory()方法，用于检查并创建目录
+
+
 ### jforgame-codec-struct
     增加MapCodec，以支持字典字段
 
