@@ -14,7 +14,7 @@ public class JavaDoctorHotSwapTest {
 		JavaDoctor.setAgentPath("D:\\jforgame-hotswap-agent.jar");
 		new PlayerService().say("jforgame");
 		HotswapManager.INSTANCE.reloadClass("hotswap");
-//		Person.sayHi();
+		Person.sayHi();
 		new PlayerService().say("jforgame");
 	}
 

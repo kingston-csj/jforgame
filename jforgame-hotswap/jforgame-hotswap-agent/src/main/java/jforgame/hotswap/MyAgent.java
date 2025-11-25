@@ -13,16 +13,19 @@ public class MyAgent {
     // 目标类全限定名
     private static final String TARGET_CLASS = "jforgame.hotswap.JavaDoctor";
 
+    // 缓存JavaDoctor的类加载器（JVM生命周期内唯一，无需重复获取）
+    private static volatile ClassLoader CACHED_HOST_CLASS_LOADER = null;
+
     public static void agentmain(String args, Instrumentation inst) {
-        ClassLoader hostClassLoader = null;
+        ClassLoader classLoader = null;
         try {
             // ========== 核心：多方式兜底获取宿主类加载器 ==========
-            hostClassLoader = getHostClassLoader(inst);
-            if (hostClassLoader == null) {
+            classLoader = getHostClassLoader(inst);
+            if (classLoader == null) {
                 throw new RuntimeException("cannot get host class loader");
             }
             // 1. 用宿主类加载器加载JavaDoctor
-            Class<?> javaDoctorClass = hostClassLoader.loadClass(TARGET_CLASS);
+            Class<?> javaDoctorClass = classLoader.loadClass(TARGET_CLASS);
 
             // 2. 读取fixData字段
             Field fixDataField = javaDoctorClass.getDeclaredField("fixData");
@@ -51,7 +54,7 @@ public class MyAgent {
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String className = entry.getKey();
                 try {
-                    Class<?> targetClass = hostClassLoader.loadClass(className);
+                    Class<?> targetClass = classLoader.loadClass(className);
                     ClassDefinition clazzDef = new ClassDefinition(targetClass, entry.getValue());
                     inst.redefineClasses(clazzDef);
                     sb.append(className).append(";");
@@ -79,7 +82,7 @@ public class MyAgent {
         } catch (Exception e) {
             try {
                 // 异常赋值到exception字段供宿主程序感知
-                Class<?> javaDoctorClass = hostClassLoader.loadClass(TARGET_CLASS);
+                Class<?> javaDoctorClass = classLoader.loadClass(TARGET_CLASS);
                 Field exceptionField = javaDoctorClass.getDeclaredField("exception");
                 exceptionField.setAccessible(true);
                 exceptionField.set(null, e);
@@ -89,13 +92,15 @@ public class MyAgent {
         }
     }
 
-    /**
-     * 多方式兜底获取宿主类加载器（保留核心修复逻辑）
-     */
     private static ClassLoader getHostClassLoader(Instrumentation inst) {
+        // 1. 优先用缓存（JVM内只获取一次）
+        if (CACHED_HOST_CLASS_LOADER != null) {
+            return CACHED_HOST_CLASS_LOADER;
+        }
+
         ClassLoader classLoader = null;
 
-        // 方式1：从Instrumentation已加载的类中提取（最优）
+        // 2. 方式1（最优）：从Instrumentation已加载的类中提取
         try {
             for (Class<?> clazz : inst.getAllLoadedClasses()) {
                 if (TARGET_CLASS.equals(clazz.getName())) {
@@ -107,22 +112,14 @@ public class MyAgent {
             e.printStackTrace();
         }
 
-        // 方式2：线程上下文类加载器（兜底）
+        // 3. 方式3（最终兜底）：获取SystemClassLoader（即AppClassLoader）
         if (classLoader == null) {
-            try {
-                classLoader = Thread.currentThread().getContextClassLoader();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            classLoader = ClassLoader.getSystemClassLoader();
         }
 
-        // 方式3：系统类加载器（最终兜底）
-        if (classLoader == null) {
-            try {
-                classLoader = ClassLoader.getSystemClassLoader();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        // 缓存获取到的类加载器（后续无需重复遍历）
+        if (classLoader != null) {
+            CACHED_HOST_CLASS_LOADER = classLoader;
         }
 
         return classLoader;
