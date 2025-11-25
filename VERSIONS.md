@@ -257,7 +257,9 @@
 ### jforgame-commons
 
     FileUtil新增checkAndCreateDirectory()方法，用于检查并创建目录
+### jforgame-hotswap
 
+    修复linux+jdk17热更新失败
 
 ### jforgame-codec-struct
     增加MapCodec，以支持字典字段

@@ -56,7 +56,7 @@ public class JavaDoctor {
             VirtualMachine vm = VirtualMachine.attach(pid);
             log = "empty";
             exception = null;
-            logger.error("hot swap directory [{}]，total {} files", path, classBytes.size());
+            logger.error("hot swap directory [{}]，total {} files ", path, classBytes.size());
             vm.loadAgent(agentPath);
             logger.error("hot swap finished --> {}", log);
             if (exception != null) {
