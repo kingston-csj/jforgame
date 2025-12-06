@@ -85,6 +85,10 @@ public abstract class Codec {
 				if (Modifier.isFinal(modifier) || Modifier.isStatic(modifier) || Modifier.isTransient(modifier)) {
 					continue;
 				}
+				// 忽略服务器字段
+				if (field.isAnnotationPresent(FieldIgnore.class)) {
+					continue;
+				}
 				field.setAccessible(true);
 				Class<?> type = field.getType();
 				Codec codec = Codec.getSerializer(type);

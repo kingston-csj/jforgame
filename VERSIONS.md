@@ -264,6 +264,14 @@
 ### jforgame-codec-struct
     增加MapCodec，以支持字典字段
 
+
+## V3.2.0
+
+### jforgame-codec-struct
+
+    增加FieldIgnore注解，用于忽略字段序列化
+
+
 ## V4.0.0 api变动！！(计划)
 
     Container去掉#validate()无参方法
