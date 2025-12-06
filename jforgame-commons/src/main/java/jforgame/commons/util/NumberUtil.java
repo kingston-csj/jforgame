@@ -109,7 +109,7 @@ public final class NumberUtil {
             return defaultValue;
         }
         if (object.getClass() == Double.class) {
-            return (long) object;
+            return (double) object;
         }
         try {
             return Double.parseDouble(object.toString());

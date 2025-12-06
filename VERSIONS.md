@@ -271,6 +271,9 @@
 
     增加FieldIgnore注解，用于忽略字段序列化
 
+### jforgame-commons
+    修复NumberUtil#doubleValue()方法内部错误
+
 
 ## V4.0.0 api变动！！(计划)
 
