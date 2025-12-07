@@ -274,6 +274,10 @@
 ### jforgame-commons
     修复NumberUtil#doubleValue()方法内部错误
 
+### jforgame-socket-api
+
+    新增Response类，作为客户端响应消息的基类
+
 
 ## V4.0.0 api变动！！(计划)
 
