@@ -273,6 +273,7 @@
 
 ### jforgame-commons
     修复NumberUtil#doubleValue()方法内部错误
+    增加schedule.parser包，用于解析游戏常用的自定义格式时间表达式
 
 ### jforgame-socket-api
 

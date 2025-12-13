@@ -1,4 +1,4 @@
-package message;
+package jforgame.codec.struct.message;
 
 import java.util.HashMap;
 import java.util.Map;

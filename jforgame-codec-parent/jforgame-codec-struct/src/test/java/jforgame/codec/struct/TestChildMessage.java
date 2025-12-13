@@ -1,6 +1,7 @@
+package jforgame.codec.struct;
+
 import jforgame.codec.MessageCodec;
-import jforgame.codec.struct.StructMessageCodec;
-import message.PlayerLevelUpMessage;
+import jforgame.codec.struct.message.PlayerLevelUpMessage;
 import org.junit.Assert;
 import org.junit.Test;
 

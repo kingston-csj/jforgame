@@ -14,6 +14,7 @@ public class FieldCodecMeta {
 
     private Codec codec;
     /**
+     * 由于java是假泛型，需要存储集合元素的类型
      * collection类型里的元素
      */
     private Class<?> wrapper;
@@ -32,7 +33,7 @@ public class FieldCodecMeta {
             meta.wrapper = type.getComponentType();
         }  // 处理 Map 类型（Key 固定为 String，只存储 Value 类型）
         else if (Map.class.isAssignableFrom(type)) {
-            // 泛型参数：[0]是Key（忽略，强制为String），[1]是Value类型
+            // 泛型参数：[0]是Key（忽略，强制为String，兼容json格式），[1]是Value类型
             Type[] actualTypes = ((ParameterizedType) field.getGenericType()).getActualTypeArguments();
             meta.wrapper = (Class<?>) actualTypes[1]; // 只存 Value 类型
         }

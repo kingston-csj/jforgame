@@ -1,11 +1,12 @@
+package jforgame.codec.struct;
+
 import jforgame.codec.MessageCodec;
-import jforgame.codec.struct.StructMessageCodec;
-import message.ItemVo;
-import message.PlayerBackpack2;
+import jforgame.codec.struct.message.ItemVo;
+import jforgame.codec.struct.message.PlayerBackpack2;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestMapMessage {
+public class TestMapCodec {
 
     private MessageCodec messageCodec = new StructMessageCodec();
 

@@ -1,4 +1,4 @@
-package message;
+package jforgame.codec.struct.message;
 
 public class ItemVo {
 
