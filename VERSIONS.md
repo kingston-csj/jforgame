@@ -279,6 +279,8 @@
 
     新增Response类，作为客户端响应消息的基类
 
+### jforgame-data
+    DataManager注册表容器，key统一使用表名小写
 
 ## V4.0.0 api变动！！(计划)
 

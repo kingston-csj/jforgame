@@ -39,8 +39,14 @@ public class DataManager implements DataRepository {
 
     private final DataReader dataReader;
 
+    /**
+     * 配置表定义, key统一为表名称小写
+     */
     private final Map<String, TableDefinition> tableDefinitions = new HashMap<>();
 
+    /**
+     * 配置容器定义, key统一为表名称小写
+     */
     private final Map<String, Class<? extends Container>> containerDefinitions = new HashMap<>();
 
     private final ConcurrentMap<Class, Container> data = new ConcurrentHashMap<>();
@@ -122,6 +128,8 @@ public class DataManager implements DataRepository {
         }
         TableDefinition definition = new TableDefinition(table);
         String tableName = definition.getResourceTable();
+        // 统一使用小写
+        tableName = tableName.toLowerCase();
         // 特殊处理common表
         if (CommonData.class == table) {
             tableName = properties.getCommonTableName();
@@ -133,6 +141,7 @@ public class DataManager implements DataRepository {
 
     @Override
     public void reload(String table) {
+        // 统一使用小写
         table = table.toLowerCase();
         TableDefinition definition = tableDefinitions.get(table);
         if (definition == null) {

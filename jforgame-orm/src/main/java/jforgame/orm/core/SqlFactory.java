@@ -1,14 +1,11 @@
 package jforgame.orm.core;
 
+import jforgame.orm.entity.StatefulEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jforgame.orm.entity.StatefulEntity;
 
 /**
  * SQL工厂类 - 负责生成各种SQL语句
@@ -28,7 +25,6 @@ class SqlFactory {
     private static final String EQUALS = " = ";
     private static final String COMMA = ",";
     private static final String SPACE = " ";
-    private static final String WHERE_1_EQ_1 = "1=1";
 
     /**
      * 创建插入SQL（参数化版本）
