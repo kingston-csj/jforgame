@@ -33,7 +33,7 @@
         <mysql.version>8.0.30</mysql.version>
         <quartz.version>2.3.2</quartz.version>
         <groovy.version>2.4.21</groovy.version>
-        <log4j.version>2.23.1</log4j.version>
+        <log4j.version>2.25.3</log4j.version>
         <spring-boot.version>2.6.3</spring-boot.version>
         <poi.version>5.4.0</poi.version>
         <hikari.version>4.0.3</hikari.version>
