@@ -33,13 +33,17 @@ class SubscriberRegistry {
 
     private Map<Class<? extends BaseEvent>, Subscriber> findAllSubscribers(Object listener) {
         Map<Class<? extends BaseEvent>, Subscriber> methodsInListener = new HashMap<>();
-        Class<?> clazz = listener.getClass();
-        for (Method method : getAnnotatedMethods(clazz)) {
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            @SuppressWarnings("unchecked")
-            Class<? extends BaseEvent> eventType = (Class<? extends BaseEvent>) parameterTypes[0];
-            methodsInListener.put(eventType, new Subscriber(listener, method));
+        for (Class<?> clazz = listener.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (method.isAnnotationPresent(Subscribe.class)) {
+                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    @SuppressWarnings("unchecked")
+                    Class<? extends BaseEvent> eventType = (Class<? extends BaseEvent>) parameterTypes[0];
+                    methodsInListener.put(eventType, new Subscriber(listener, method));
+                }
+            }
         }
+
         return methodsInListener;
     }
 

@@ -22,7 +22,7 @@ public class EventBus {
     private SubscriberRegistry registry;
 
 
-    public EventBus () {
+    public EventBus() {
         // 异步执行的需求很少，一条线程就够了
         this.executor = Executors.newSingleThreadExecutor(new NamedThreadFactory("EventBus-Async-Thread"));
         this.registry = new SubscriberRegistry();
@@ -40,19 +40,22 @@ public class EventBus {
     /**
      * 同步处理事件
      * 该方法会同步执行所有订阅了该事件的监听方法
+     * 需要注意的是：如果发布了一个子类事件，那么监听其父类事件的所有监听方法都会被执行
+     * 例如：发布PlayerLoginEvent,那么监听PlayerEvent(PlayerLoginEvent父类)的监听方法也会被执行
      * @param event 事件对象
      */
     public void post(BaseEvent event) {
-        Class<? extends BaseEvent> eventType = event.getClass();
-        Set<Subscriber> subscribers = registry.getSubscribersForEvent(eventType);
-
-        subscribers.forEach((subscriber) -> {
-            try {
-                subscriber.handleEvent(event);
-            } catch (Exception e) {
-                logger.error("", e);
-            }
-        });
+        for (Class<?> clazz = event.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
+            @SuppressWarnings("unchecked")
+            Set<Subscriber> subscribers = registry.getSubscribersForEvent((Class<? extends BaseEvent>) clazz);
+            subscribers.forEach((subscriber) -> {
+                try {
+                    subscriber.handleEvent(event);
+                } catch (Exception e) {
+                    logger.error("", e);
+                }
+            });
+        }
     }
 
     /**
