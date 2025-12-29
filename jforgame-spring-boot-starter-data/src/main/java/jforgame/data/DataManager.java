@@ -148,7 +148,7 @@ public class DataManager implements DataRepository {
             throw new IllegalStateException(table + " not found");
         }
         try {
-            Resource resource = new FileSystemResource(properties.getLocation() + table + properties.getSuffix());
+            Resource resource = new FileSystemResource(properties.getLocation() + definition.getResourceTable() + properties.getSuffix());
             List<?> records = new LinkedList<>();
             Container container = new Container<>();
             if (containerDefinitions.containsKey(table)) {
