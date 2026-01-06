@@ -275,6 +275,7 @@
     修复NumberUtil#doubleValue()方法内部错误
     增加schedule.parser包，用于解析游戏常用的自定义格式时间表达式
     EventBus事件监听支持类继承关系，事件分发支持事件继承关系
+    修改MethodHandleUtils#createMethodCaller抛出的异常类型
 
 ### jforgame-socket-api
 
@@ -282,6 +283,7 @@
 
 ### jforgame-data
     DataManager修复非小写表名读取失败问题
+    修改ForeignKeyValidator触发的提示内容
 
 ## V4.0.0 api变动！！(计划)
 

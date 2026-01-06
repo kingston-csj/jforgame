@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 高性能反射调用工具，使用 MethodHandle 替代传统反射
+ *
  * @since 2.4.0
  */
 public final class MethodHandleUtils {
@@ -161,6 +162,9 @@ public final class MethodHandleUtils {
                     try {
                         return methodHandle.invokeWithArguments(args);
                     } catch (Throwable e) {
+                        if (e instanceof RuntimeException) {
+                            throw (RuntimeException) e;
+                        }
                         throw new RuntimeException(e);
                     }
                 };
@@ -169,6 +173,9 @@ public final class MethodHandleUtils {
                     try {
                         return methodHandle.bindTo(target).invokeWithArguments(args);
                     } catch (Throwable e) {
+                        if (e instanceof RuntimeException) {
+                            throw (RuntimeException) e;
+                        }
                         throw new RuntimeException(e);
                     }
                 };

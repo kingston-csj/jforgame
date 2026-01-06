@@ -2,6 +2,7 @@ package jforgame.data.validate;
 
 import jforgame.data.Container;
 import jforgame.data.DataRepository;
+import jforgame.data.annotation.DataTable;
 import jforgame.data.annotation.ForeignKey;
 import jforgame.data.exception.DataValidateException;
 import jforgame.data.exception.ForeignKeyConstraintException;
@@ -107,7 +108,7 @@ public class ForeignKeyValidator implements DataValidator {
         if (foreignKeyValue == null) {
             String errorMsg = String.format("外键约束违反 - 类: %s, 记录ID: %s, 字段: %s, 外键值: null, 引用表: %s",
                     record.getClass().getSimpleName(), getRecordId(record), field.getName(),
-                    referencedClass.getSimpleName());
+                    getTableName(referencedClass));
             throw new ForeignKeyConstraintException(errorMsg);
         }
 
@@ -117,9 +118,16 @@ public class ForeignKeyValidator implements DataValidator {
         if (!referencedIds.contains(foreignKeyValue)) {
             String errorMsg = String.format("外键约束违反 - 类: %s, 记录ID: %s, 字段: %s, 外键值: %s, 引用表: %s",
                     record.getClass().getSimpleName(), getRecordId(record), field.getName(),
-                    foreignKeyValue, referencedClass.getSimpleName());
+                    foreignKeyValue, getTableName(referencedClass));
             throw new ForeignKeyConstraintException(errorMsg);
         }
+    }
+
+    private String getTableName(Class<?> tableClass) {
+        if (tableClass.isAnnotationPresent(DataTable.class)) {
+            return tableClass.getAnnotation(DataTable.class).name();
+        }
+        return tableClass.getSimpleName();
     }
 
     /**
