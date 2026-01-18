@@ -14,14 +14,16 @@ import jforgame.demo.game.admin.http.HttpServer;
 import jforgame.demo.game.core.CronSchedulerHelper;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.redis.RedisCluster;
+import jforgame.demo.tools.protocol.diy.TypeScriptProtocolGenerator;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
-import jforgame.socket.share.HostAndPort;
 import jforgame.socket.server.ServerNode;
+import jforgame.socket.share.HostAndPort;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,11 +112,11 @@ public class GameServer {
 //			crossServer.start();
 //		}
 
-		socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-				.setMessageFactory(GameMessageFactory.getInstance())
-				.setMessageCodec(new StructMessageCodec())
-				.setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-				.build();
+        socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
+                .setMessageFactory(GameMessageFactory.getInstance())
+                .setMessageCodec(new StructMessageCodec())
+                .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
+                .build();
 
 //        socketServer = WebSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
 //                .setMessageFactory(GameMessageFactory.getInstance())
@@ -143,6 +145,12 @@ public class GameServer {
         GameContext.playerManager.loadAllPlayerProfiles();
         // 跨服天梯
 //		LadderFightManager.getInstance().init();
+
+        try {
+            new TypeScriptProtocolGenerator().export();
+        } catch (Exception e) {
+            LoggerUtils.error("导出客户端协议异常", e);
+        }
     }
 
     public void shutdown() {

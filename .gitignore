@@ -51,6 +51,8 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+jforgame-demo/game_protocol
+
 
 
 # temp ignore

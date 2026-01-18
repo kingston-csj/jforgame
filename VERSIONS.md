@@ -291,7 +291,7 @@
 
 ### jforgame-codec-struct
 
-    StructMessageCodec更名为BeanAutoCodec 
+    StructMessageCodec更名为StructCodec 
     ProtobufMessageCodec更名为ProtobufCodec
     ArrayCodec/CollectionCodec/MapCodec容器元素支持继承关系
 

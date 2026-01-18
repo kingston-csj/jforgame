@@ -1,8 +1,7 @@
-package jforgame.demo.game.login.message.res;
+package jforgame.demo.game.login.message;
 
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.login.LoginDataPool;
-import jforgame.demo.game.login.message.vo.PlayerLoginVo;
 import jforgame.socket.share.annotation.MessageMeta;
 import jforgame.socket.share.message.Message;
 

@@ -1,7 +1,7 @@
 package jforgame.demo.game.player.controller;
 
 import jforgame.demo.game.GameContext;
-import jforgame.demo.game.player.message.req.ReqCreateNewPlayer;
+import jforgame.demo.game.player.message.ReqCreateNewPlayer;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestHandler;

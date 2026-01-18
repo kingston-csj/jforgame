@@ -1,8 +1,8 @@
 package jforgame.demo.game.login.controller;
 
 import jforgame.demo.game.GameContext;
-import jforgame.demo.game.login.message.req.ReqAccountLogin;
-import jforgame.demo.game.login.message.req.ReqSelectPlayer;
+import jforgame.demo.game.login.message.ReqAccountLogin;
+import jforgame.demo.game.login.message.ReqSelectPlayer;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.annotation.MessageRoute;
 import jforgame.socket.share.annotation.RequestHandler;

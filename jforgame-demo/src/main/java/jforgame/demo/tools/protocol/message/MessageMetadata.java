@@ -1,4 +1,4 @@
-package jforgame.demo.tools;
+package jforgame.demo.tools.protocol.message;
 
 import jforgame.socket.share.message.Message;
 

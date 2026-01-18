@@ -6,7 +6,9 @@
   ## 项目特点  
   * 搭配框架博客栏目教程，快速理解项目模块原理  
   * 支持socket/webSocket接入，完美适配手游/页游/H5/小游戏服务端架构  
-  * 通信协议支持json/protobuf或普通javabean，为客户端提供多种选择  
+  * 配套c#版本的网络框架，兼容websocket/socket,兼容json/struct。
+  * 通信协议支持json/protobuf或普通javabean，为客户端提供多种选择 
+  * 一键导出csharp/typescript等客户端语言的通信协议，参考CSharpProtocolGenerator工具
   * 强大的客户端异步/同步api，轻松实现跨进程通信
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
@@ -124,7 +126,7 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
   承诺：持续迭代，永久维护！！  
 
   mysql合服工程，基于jforgame的分布式五子棋源代码(cocos+h5客户端)，私聊获取。  
-  与jforgame配套的c#版本的网络框架，兼容websocket/socket,兼容json/struct，私聊获取。  
+  
   合作/咨询：+Q 641711541  
   我刚开通了知识星球，快来瞧一瞧吧~~  
   定时更新基础业务模块开发，付费用户可向星主索取整套可运行源码~~  

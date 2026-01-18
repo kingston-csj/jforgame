@@ -1,14 +1,14 @@
-package jforgame.demo.tools;
+package jforgame.demo.tools.protocol.protobuf;
+
+import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
+import jforgame.commons.util.ClassScanner;
+import jforgame.socket.share.message.Message;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Set;
-
-import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
-import jforgame.commons.util.ClassScanner;
-import jforgame.socket.share.message.Message;
 
 /**
  * 导出.proto文件(供客户端用)

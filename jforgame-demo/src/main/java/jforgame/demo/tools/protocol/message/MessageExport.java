@@ -1,4 +1,4 @@
-package jforgame.demo.tools;
+package jforgame.demo.tools.protocol.message;
 
 import jforgame.commons.util.ClassScanner;
 import jforgame.demo.ServerScanPaths;
