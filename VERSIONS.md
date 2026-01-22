@@ -285,6 +285,11 @@
     DataManager修复非小写表名读取失败问题
     修改ForeignKeyValidator触发的提示内容
 
+
+## V3.3.0
+### jforgame-data
+    修复TableDefinition采用继承关系的类数据源索引重复验证异常
+
 ## V4.0.0 api变动！！(计划)
 
     Container去掉#validate()无参方法

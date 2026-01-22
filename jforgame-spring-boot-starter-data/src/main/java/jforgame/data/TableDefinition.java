@@ -62,7 +62,7 @@ public class TableDefinition {
 
         curr = clazz;
         while (curr != Object.class) {
-            Arrays.stream(clazz.getDeclaredFields()).filter(f -> f.getAnnotation(Index.class) != null)
+            Arrays.stream(curr.getDeclaredFields()).filter(f -> f.getAnnotation(Index.class) != null)
                     .forEach(f -> {
                         IndexMeta indexMeta = new FieldIndexMeta(f);
                         String key = indexMeta.getName();
@@ -77,7 +77,7 @@ public class TableDefinition {
 
         curr = clazz;
         while (curr != Object.class) {
-            Arrays.stream(clazz.getDeclaredMethods()).filter(m -> m.getAnnotation(Index.class) != null)
+            Arrays.stream(curr.getDeclaredMethods()).filter(m -> m.getAnnotation(Index.class) != null)
                     .forEach(m -> {
                         Index index = m.getAnnotation(Index.class);
                         IndexMeta indexMeta = new MethodIndexMeta(index, m);
