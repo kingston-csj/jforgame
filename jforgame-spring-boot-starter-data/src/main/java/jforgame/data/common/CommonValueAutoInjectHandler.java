@@ -62,7 +62,7 @@ public class CommonValueAutoInjectHandler implements InitializingBean {
                     CommonContainer commonContainer = dataManager.queryContainer(CommonData.class, CommonContainer.class);
                     CommonData commonDataValue = commonContainer.getConfigValueByKey(fieldName);
                     if (commonDataValue == null) {
-                        throw new IllegalStateException(bean.getClass().getSimpleName() + " commonValue为空,key =" + field.getName());
+                        throw new IllegalStateException(bean.getClass().getSimpleName() + " commonValue为空,key =" + annotation.value());
                     }
                     Object property = commonDataValue.getValue();
                     if (annotation.parser() != NullInjectParser.class) {
