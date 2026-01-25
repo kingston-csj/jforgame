@@ -23,8 +23,6 @@
         <maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <jackson.version>2.16.1</jackson.version>
-        <jackson.version.annotations>2.16.1</jackson.version.annotations>
-        <jackson.version.core>2.16.1</jackson.version.core>
         <juit.version>4.13.1</juit.version>
         <dom4j.version>2.1.3</dom4j.version>
         <mina.version>2.0.27</mina.version>
@@ -239,12 +237,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version.annotations}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${jackson.version.core}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

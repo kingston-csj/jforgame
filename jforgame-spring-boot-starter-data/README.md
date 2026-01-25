@@ -1,6 +1,6 @@
 ### Ⅰ. 简介
 
-- jforgame-spring-boot-starter-data是一个用来解析测配配置的组件，支持csv/excel格式
+- jforgame-spring-boot-starter-data是一个用来解析测配配置的组件，支持csv/excel/json格式
   一个普通的java类就代表一份csv/excel配置，类的每个实例代表文件的每一行记录
 - 无需申明配置的字段类型，自动根据javabean的定义进行转换
 - 支持二级缓存，无需任何额外代码解决配置热更缓存一致性问题
@@ -22,7 +22,7 @@
 
   ![Image](../screenshots/config_export.jpg "配置格式")
 
-- Csv对应的Java类
+- Excel对应的Java类
 
   ![image](../screenshots/csv_bean.jpg "配置对应的java实体")
 
@@ -65,14 +65,19 @@
       // 查询type=1的所有分组数据
       List<ItemData> itemDataList = GameContext.dataManager.queryByIndex(ItemData.class, "type", 1);
   ```
-  3. 获取二级缓存数据
+  3. 获取唯一索引数据
+  ```
+      // 查询type=1的所有分组数据
+      HeroLevelData heroLevelData = GameContext.dataManager.queryByUniqueIndex(HeroLevelData.class, "index_id_level", "1_1");
+  ```
+  4. 获取二级缓存数据
   ```
       // 获取二级缓存数据
       QuestContainer container = GameContext.dataManager.queryContainer(QuestData.class, QuestContainer.class);
       Reward rewards = container.getRewardBy(1);
       System.out.println(JsonUtil.object2String(rewards));
   ```
-  4. 配置热更
+  5. 配置热更
   ```
       for (String table : tables) {
           try {
