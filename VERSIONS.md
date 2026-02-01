@@ -290,6 +290,7 @@
 ### jforgame-data
     修复TableDefinition采用继承关系的类数据源索引重复验证异常
     增加JsonDataReader，用于读取json数据源
+    修复Container读取的数据记录无序
 
 ## V4.0.0 api变动！！(计划)
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,8 @@ import java.util.TreeSet;
 
 public class Container<K extends Serializable & Comparable<K>, V> {
 
-    protected final Map<K, V> data = new HashMap<>();
+    // 使用LinkedHashMap，保证记录的顺序为配置文件从上到下的顺序
+    protected final Map<K, V> data = new LinkedHashMap<>();
 
     /**
      * key is name@index and value is list of elements
