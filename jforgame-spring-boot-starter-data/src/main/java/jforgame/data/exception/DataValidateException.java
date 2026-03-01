@@ -1,7 +1,7 @@
 package jforgame.data.exception;
 
 /**
- * 外键约束异常
+ * 配置校验异常
  */
 public class DataValidateException extends Exception {
     public DataValidateException(String message) {

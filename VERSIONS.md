@@ -295,6 +295,7 @@
 ## V4.0.0 api变动！！(计划)
 
     Container去掉#validate()无参方法
+    Container#validate(DataRepository dataRepository)签名增加DataValidator异常
 
 ### jforgame-codec-struct
 

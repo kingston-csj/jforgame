@@ -4,7 +4,6 @@ import jforgame.commons.util.ClassScanner;
 import jforgame.data.annotation.DataTable;
 import jforgame.data.common.CommonContainer;
 import jforgame.data.common.CommonData;
-import jforgame.data.exception.DataValidateException;
 import jforgame.data.reader.DataReader;
 import jforgame.data.validate.CustomValidator;
 import jforgame.data.validate.DataValidator;
@@ -84,6 +83,7 @@ public class DataManager implements DataRepository {
         containerDefinitions.put(properties.getCommonTableName(), CommonContainer.class);
 
         classSet.forEach(this::registerContainer);
+        // 数据校验
         dataCheck(classSet);
     }
 
@@ -95,18 +95,13 @@ public class DataManager implements DataRepository {
     private void dataCheck(Set<Class<?>> classSet) {
         logger.info("开始数据完整性检查...");
         for (DataValidator validator : validators) {
-            try {
-                for (Class<?> clazz : classSet) {
-                    try {
-                        validator.check(clazz);
-                    } catch (Exception e) {
-                        logger.error("数据完整性检查失败，类: {}", clazz.getSimpleName(), e);
-                        throw new DataValidateException("数据完整性检查失败: " + clazz.getSimpleName(), e);
-                    }
+            for (Class<?> clazz : classSet) {
+                try {
+                    validator.check(clazz);
+                } catch (Exception e) {
+                    logger.error("数据完整性检查失败，类: {}", clazz.getSimpleName(), e);
+                    throw new IllegalStateException("数据完整性检查失败: " + clazz.getSimpleName(), e);
                 }
-            } catch (Exception e) {
-                logger.error("数据完整性检查失败", e);
-                throw new IllegalStateException("数据完整性检查失败", e);
             }
         }
         logger.info("数据完整性检查完成");
@@ -117,7 +112,7 @@ public class DataManager implements DataRepository {
      * 根据领域类注册容器
      * 会自动加载对应的配置文件
      *
-     * @param table　配置表对应的类
+     * @param table 　配置表对应的类
      */
     public void registerContainer(Class<?> table) {
         if (table == null) {

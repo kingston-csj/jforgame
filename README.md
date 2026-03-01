@@ -9,7 +9,7 @@
   * 配套c#版本的网络框架，兼容websocket/socket,兼容json/struct。
   * 通信协议支持json/protobuf或普通javabean，为客户端提供多种选择 
   * 一键导出csharp/typescript等客户端语言的通信协议，参考CSharpProtocolGenerator工具
-  * 强大的客户端异步/同步api，轻松实现跨进程通信
+  * 内置跨进程通信，强大的客户端异步/同步api，轻松实现跨服业务
   * 使用自定义的轻量级orm工具库，支持多数据源，自动建表增加字段，支持表字段全量/增量更新
   * 框架提供多种组件，可以直接二次开发业务逻辑  
   * 不停机热更代码，不停机热更配置，运维，运营不掉线

@@ -48,7 +48,7 @@ public class ForeignKeyValidator implements DataValidator {
                 try {
                     checkForeignKeyField(record, field);
                 } catch (Exception e) {
-                    String errorMsg = String.format("外键检查失败 - 类: %s, 记录ID: %s, 字段: %s",
+                    String errorMsg = String.format("配置外键检查失败 - 类: %s, 记录ID: %s, 字段: %s",
                             clazz.getSimpleName(), getRecordId(record), field.getName());
                     logger.error(errorMsg, e);
                     throw new ForeignKeyConstraintException(errorMsg, e);
