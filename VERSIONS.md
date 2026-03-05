@@ -292,6 +292,13 @@
     增加JsonDataReader，用于读取json数据源
     修复Container读取的数据记录无序
 
+### jforgame-threadmodel
+    增加拥有线程监控能力的增强版线程模型MonitoredDispatchThreadModel
+
+### jforgame-commons
+    jackson版本从2.16.1 升级到 2.18.6
+
+
 ## V4.0.0 api变动！！(计划)
 
     Container去掉#validate()无参方法

@@ -33,7 +33,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
             ClientRequestTask task = ClientRequestTask.valueOf(session, session.hashCode(), context);
             // 丢到任务消息队列，不在io线程进行业务处理
-            GameServer.getMonitorGameExecutor().accept(task);
+            GameServer.getThreadModel().accept(task);
             return true;
         };
 

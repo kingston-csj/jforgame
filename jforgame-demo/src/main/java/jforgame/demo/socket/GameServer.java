@@ -24,6 +24,7 @@ import jforgame.orm.entity.BaseEntity;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.server.ServerNode;
 import jforgame.socket.share.HostAndPort;
+import jforgame.threadmodel.dispatch.DispatchThreadModel;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,13 +44,13 @@ public class GameServer {
 
     private ServerNode crossServer;
 
-    private MonitorGameExecutor gameExecutor = new MonitorGameExecutor();
+    private DispatchThreadModel gameExecutor = new DispatchThreadModel();
 
     public static GameServer getInstance() {
         return self;
     }
 
-    public static MonitorGameExecutor getMonitorGameExecutor() {
+    public static DispatchThreadModel getThreadModel() {
         return self.gameExecutor;
     }
 
