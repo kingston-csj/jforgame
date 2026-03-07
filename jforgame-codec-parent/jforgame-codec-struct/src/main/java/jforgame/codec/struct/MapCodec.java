@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Map 编解码器（Key 强制为 String 类型，后续大版本升级再做改造）
+ * Map 编解码器（Key 强制为 String 类型，兼容json格式）
+ * 元素Value不可以是父类或抽象类
+ *
+ * @see jforgame.codec.struct.CollectionSerializeMode
+ * @see jforgame.codec.struct.MapCodec2
  */
 public class MapCodec extends Codec {
 

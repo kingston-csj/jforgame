@@ -35,7 +35,7 @@
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
       ├── jforgame-codec-api        --消息编解码API接口
       ├── jforgame-codec-protobuf   --protobuf实现
-      ├── jforgame-codec-struct     --普通javabean，反射实现  
+      ├── jforgame-codec-struct     --普通javabean，反射实现，启用高级版本可支持集合元素类型异构  
   ├── jforgame-demo  --游戏基础组件以及业务逻辑模块  
   |    ├──  cache包，使用guava cache库，用于支持系统的缓存框架    
   |    ├──  db包，基于commons-persist和orm实现异步处理玩家及公共数据的持久化  
@@ -103,7 +103,7 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
     }
   ```
 
-  消息路由+处理器
+  消息路由
   ```
   @MessageRoute
   public class LoginController {

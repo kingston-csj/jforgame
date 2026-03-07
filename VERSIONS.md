@@ -17,6 +17,7 @@
 
 ### jforgame-codec-parent  消息编解码,protobuf+struct
 
+
 ## V1.1.0(2024-03-29)
 
 ### jforgame-hotswap 新增代码热更模块
@@ -234,7 +235,7 @@
     MessageTask更名为ClientRequestTask，去掉dispatchKey字段
     SocketIoDispatcher#dispatch()参数由RequestDataFrame变更为RequestContext，整合请求的所有上下文信息
 
-## V3.1.0
+## V3.1.0(2025-12-1)
 
 ### jforgame-socket
 
@@ -265,7 +266,7 @@
     增加MapCodec，以支持字典字段
 
 
-## V3.2.0
+## V3.2.0(2026-1-11)
 
 ### jforgame-codec-struct
 
@@ -286,7 +287,7 @@
     修改ForeignKeyValidator触发的提示内容
 
 
-## V3.3.0
+## V3.3.0(2026-3-1)
 ### jforgame-data
     修复TableDefinition采用继承关系的类数据源索引重复验证异常
     增加JsonDataReader，用于读取json数据源
@@ -298,17 +299,18 @@
 ### jforgame-commons
     jackson版本从2.16.1 升级到 2.18.6
 
+### jforgame-socket-struct
+    StructMessageCodec增加集合元素类型异构模式
+
+
 
 ## V4.0.0 api变动！！(计划)
-
     Container去掉#validate()无参方法
     Container#validate(DataRepository dataRepository)签名增加DataValidator异常
 
 ### jforgame-codec-struct
-
     StructMessageCodec更名为StructCodec 
     ProtobufMessageCodec更名为ProtobufCodec
-    ArrayCodec/CollectionCodec/MapCodec容器元素支持继承关系
 
 
 

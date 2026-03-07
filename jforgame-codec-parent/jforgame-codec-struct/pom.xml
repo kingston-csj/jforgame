@@ -19,5 +19,17 @@
             <artifactId>jforgame-codec-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-codec-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-commons</artifactId>
+            <version>${project.parent.version}</version>
+            <!-- 不强制引用 -->
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

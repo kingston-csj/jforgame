@@ -13,6 +13,9 @@ import java.util.Set;
  * 注：由于集合元素bean没有像Message一样注册id，
  * 因此集合的元素不能是父类或抽象类
  * 集合长度不能超过Short.MAX_VALUE，即最多65535
+ *
+ * @see jforgame.codec.struct.CollectionSerializeMode
+ * @see jforgame.codec.struct.CollectionCodec
  */
 public class CollectionCodec extends Codec {
 

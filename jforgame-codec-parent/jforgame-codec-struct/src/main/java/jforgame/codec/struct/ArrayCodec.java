@@ -8,6 +8,9 @@ import java.nio.ByteBuffer;
  * 注：由于数组元素bean没有像Message一样注册id，
  * 因此数组的元素不能是父类或抽象类
  * 数组长度不能超过Short.MAX_VALUE，即最多65535
+ *
+ * @see jforgame.codec.struct.CollectionSerializeMode
+ * @see jforgame.codec.struct.ArrayCodec2
  */
 public class ArrayCodec extends Codec {
 

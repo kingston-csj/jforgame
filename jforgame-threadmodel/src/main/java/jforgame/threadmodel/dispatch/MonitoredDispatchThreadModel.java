@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 
 /**
  * 对{@link DispatchThreadModel}进行增强，使之拥有监控线程的能力
- * 当业务线程因为死锁，死循环，耗时过长等情况时，会被监控线程检测，并自动打印对应线程的堆栈信息
+ * 当业务线程因为死锁，死循环，耗时过长等情况时，会被监控线程检测，并自动打印对应线程的堆栈信息|
+ * @since 3.3.0
  */
 public class MonitoredDispatchThreadModel extends DispatchThreadModel {
 
