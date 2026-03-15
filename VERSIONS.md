@@ -287,7 +287,7 @@
     修改ForeignKeyValidator触发的提示内容
 
 
-## V3.3.0(2026-3-1)
+## V3.3.0(2026-3-14)
 ### jforgame-data
     修复TableDefinition采用继承关系的类数据源索引重复验证异常
     增加JsonDataReader，用于读取json数据源
@@ -303,6 +303,9 @@
     StructMessageCodec增加集合元素类型异构模式
 
 
+## V3.4.0(2026-3-14)
+### jforgame-commons
+修复DelayContainer和QueueContainer并发修改bug
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法

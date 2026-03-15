@@ -181,6 +181,10 @@ public final class DateUtil {
         if (dateString == null || dateString.isEmpty()) {
             return null;
         }
+        dateString = dateString.trim();
+        if (dateString.isEmpty()) {
+            return null;
+        }
         for (DateTimeFormatter formatter : FORMATTERS) {
             try {
                 LocalDateTime localDateTime = LocalDateTime.parse(dateString, formatter);

@@ -46,14 +46,12 @@ public class DelayContainer extends BasePersistContainer {
             logger.info("db closed, received entity: {}", key);
             return;
         }
-        if (pool.containsKey(key)) {
-            return;
-        }
         Runnable task = () -> {
             try {
                 savingStrategy.doSave(entity);
                 pool.remove(key);
             } catch (Exception e) {
+                pool.remove(key);
                 receive(entity);
                 // 重复放入持久化队列，很容易造成异常日志爆炸了，这里控制下日志频率
                 if (System.currentTimeMillis() - lastErrorTime > 5 * TimeUtil.MILLIS_PER_MINUTE) {
@@ -66,7 +64,10 @@ public class DelayContainer extends BasePersistContainer {
         node.key = key;
         node.task = task;
 
-        pool.put(key, node);
+        Node existing = pool.putIfAbsent(key, node);
+        if (existing != null) {
+            return;
+        }
 
         service.schedule(node, delaySeconds, TimeUnit.SECONDS);
     }
