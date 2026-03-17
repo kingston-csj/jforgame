@@ -97,8 +97,20 @@ public class LazyCacheMap<K, V> {
         if (eleAlive < aliveTime) {
             return target.value;
         }
-        remove(key);
+        removeIfSameElement(key, target);
         return null;
+    }
+
+    private void removeIfSameElement(K key, Element<V> expected) {
+        this.writeLock.lock();
+        try {
+            Element<V> current = this.data.get(key);
+            if (current == expected) {
+                this.data.remove(key);
+            }
+        } finally {
+            this.writeLock.unlock();
+        }
     }
 
     public int size() {

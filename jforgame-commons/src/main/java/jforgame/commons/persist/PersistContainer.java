@@ -6,7 +6,7 @@ package jforgame.commons.persist;
  * 主要有四种类型：
  * 1. 基于队列的持久化容器，见{@link QueueContainer}
  * 2. 基于延迟的持久化容器，见{@link DelayContainer}
- * 3. 基于时间周期性调度(cron)的持久化容器， 需要引入quartz库，因此不默认提供， 可自行实现
+ * 3. 基于时间周期性调度(cron)的持久化容器， 需要引入quartz库，见{@link CronContainer}
  * 4. 以上3种的自由组合，参考{@link QueueContainerGroup}
  */
 public interface PersistContainer {
