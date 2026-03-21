@@ -29,6 +29,11 @@ public class ActorSystemConfig {
     private int systemSharedActorCount = 2;
 
     /**
+     * ActorSystem 线程池队列容量（<=0 表示无界）
+     */
+    private int queueCapacity = 0;
+
+    /**
      * 默认邮箱配置
      */
     private MailboxConfig defaultMailbox;
@@ -157,7 +162,7 @@ public class ActorSystemConfig {
      * @return 邮箱配置
      */
     public MailboxConfig getMailboxConfig(String mailboxName) {
-        if ("default".equals(mailboxName)) {
+        if (mailboxName == null || "default".equals(mailboxName) || MAILBOX_DEFAULT.equals(mailboxName)) {
             return defaultMailbox;
         }
         return mailboxes.getOrDefault(mailboxName, defaultMailbox);
@@ -198,6 +203,14 @@ public class ActorSystemConfig {
 
     public void setSystemSharedActorCount(int systemSharedActorCount) {
         this.systemSharedActorCount = systemSharedActorCount;
+    }
+
+    public int getQueueCapacity() {
+        return queueCapacity;
+    }
+
+    public void setQueueCapacity(int queueCapacity) {
+        this.queueCapacity = queueCapacity;
     }
 
 }

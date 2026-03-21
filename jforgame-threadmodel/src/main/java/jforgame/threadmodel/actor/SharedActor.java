@@ -22,7 +22,9 @@ public class SharedActor {
      * @return 共享Actor
      */
     public Actor getSharedActor(long key) {
-        int index = Math.abs((int) (key % group.length));
+        // Math.abs + 强转在极值上有坑（abs(Integer.MIN_VALUE) 仍为负
+        // 所以这里使用 floorMod 来替代取余操作
+        int index = Math.floorMod(Long.hashCode(key), group.length);
         return group[index];
     }
 

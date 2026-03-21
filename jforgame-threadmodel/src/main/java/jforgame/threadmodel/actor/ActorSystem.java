@@ -43,17 +43,20 @@ public class ActorSystem implements ThreadModel {
         this.systemConfig = systemConfig;
         // 根据配置创建线程池
         NamedThreadFactory threadFactory = new NamedThreadFactory("actor-system");
+        int queueCapacity = systemConfig.getQueueCapacity();
+        LinkedBlockingQueue<Runnable> queue = queueCapacity > 0 ? new LinkedBlockingQueue<>(queueCapacity) : new LinkedBlockingQueue<>();
         this.threadPool = new ThreadPoolExecutor(
                 systemConfig.getCorePoolSize(),
                 systemConfig.getMaxPoolSize(),
                 systemConfig.getKeepAliveSeconds(),
                 TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(),
+                queue,
                 threadFactory
         );
 
         // 创建共享Actor组
-        Actor[] actorGroup = new Actor[2]; // 默认2个共享Actor
+        int sharedActorCount = Math.max(1, systemConfig.getSystemSharedActorCount());
+        Actor[] actorGroup = new Actor[sharedActorCount];
         for (int i = 0; i < actorGroup.length; i++) {
             actorGroup[i] = new BaseActor(this, "/system/shared-actor-" + i);
         }
@@ -62,12 +65,11 @@ public class ActorSystem implements ThreadModel {
 
 
     public Actor createActor(String actorPath) {
-        if (actors.containsKey(actorPath)) {
+        BaseActor actor = new BaseActor(this, actorPath);
+        Actor old = actors.putIfAbsent(actorPath, actor);
+        if (old != null) {
             throw new IllegalArgumentException("Actor already exists: " + actorPath);
         }
-
-        BaseActor actor = new BaseActor(this, actorPath);
-        actors.put(actorPath, actor);
         return actor;
     }
 
@@ -106,7 +108,9 @@ public class ActorSystem implements ThreadModel {
 
     @Override
     public void accept(Runnable task) {
-        threadPool.submit(task);
+        // 这里不要使用submit()方法，因为submit 会额外创建 FutureTask ，在大量消息投递场景下会产生不必要的分配
+        // ActorSystem 这类 fire-and-forget 更适合 execute
+        threadPool.execute(task);
     }
 
     @Override
@@ -151,7 +155,7 @@ public class ActorSystem implements ThreadModel {
         StringBuilder sb = new StringBuilder();
         sb.append("ActorSystem Statistics:\n");
         sb.append("Root Queue Current Task Size: ").append(threadPool.getQueue().size()).append("\n");
-        sb.append("Root Queue finished Task Size: ").append(threadPool.getTaskCount()).append("\n");
+        sb.append("Root Queue finished Task Size: ").append(threadPool.getCompletedTaskCount()).append("\n");
         sb.append("Shared Queue Workers: ").append(sharedActor.getWorkerSize()).append("\n");
 
         Actor[] boxGroup = sharedActor.getGroup();

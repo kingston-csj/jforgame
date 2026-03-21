@@ -11,6 +11,8 @@ public class MailboxFactory {
                 return new BoundedMailbox(config);
             case MailboxConfig.TYPE_UNBOUNDED:
                 return new UnboundedMailbox(config);
+            case MailboxConfig.TYPE_PRIORITY:
+                return new PriorityMailbox(config);
             default:
                 // 默认使用无界邮箱
                 return new UnboundedMailbox(config);

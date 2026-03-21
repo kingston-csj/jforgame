@@ -308,6 +308,11 @@
 修复DelayContainer和QueueContainer并发修改bug
 增加CronContainer基于cron表达式的持久化容器
 
+### jforgame-threadmodel
+ActorSystemConfig增加queueCapacity字段，用于配置线程池队列
+ActorSystem优化accept()方法性能
+
+
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法
     Container#validate(DataRepository dataRepository)签名增加DataValidator异常
