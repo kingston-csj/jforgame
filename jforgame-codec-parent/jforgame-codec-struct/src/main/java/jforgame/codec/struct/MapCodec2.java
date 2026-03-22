@@ -24,6 +24,9 @@ public class MapCodec2 extends Codec {
     public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
         // 读取 Map 大小（short 类型）
         int size = ByteBuffUtil.readShort(in);
+        if (size < 0) {
+            throw new RuntimeException("Map size less than zero!");
+        }
         Map<String, Object> result = new HashMap<>(size);
         if (valueType == null) {
             throw new IllegalArgumentException("MapCodec: valueType is null");
@@ -66,6 +69,9 @@ public class MapCodec2 extends Codec {
 
         Map<String, Object> map = (Map<String, Object>) target;
         int size = map.size();
+        if (size > Short.MAX_VALUE) {
+            throw new RuntimeException("Map size less than zero or exceed max short value!");
+        }
         ByteBuffUtil.writeShort(out, (short) size);
         if (size == 0) {
             return;
@@ -101,6 +107,10 @@ public class MapCodec2 extends Codec {
             String key = entry.getKey();
             Object value = entry.getValue();
             Class<?> eleType = wrapper;
+
+            if (value == null) {
+                throw new IllegalStateException("Map value is null, key: " + key);
+            }
 
             // 编码 value
             getSerializer(String.class).encode(out, key, null);

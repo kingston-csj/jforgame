@@ -18,6 +18,9 @@ public class MapCodec extends Codec {
     public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
         // 读取 Map 大小（short 类型）
         int size = ByteBuffUtil.readShort(in);
+        if (size < 0) {
+            throw new RuntimeException("Map size less than zero!");
+        }
         Map<String, Object> result = new HashMap<>(size);
         if (valueType == null) {
             throw new IllegalArgumentException("MapCodec: valueType is null");
@@ -49,6 +52,9 @@ public class MapCodec extends Codec {
 
         Map<String, Object> map = (Map<String, Object>) target;
         int size = map.size();
+        if (size > Short.MAX_VALUE) {
+            throw new RuntimeException("Map size less than zero or exceed max short value!");
+        }
         ByteBuffUtil.writeShort(out, (short) size);
 
         // 循环编码键值对（Key 强制为 String）
@@ -57,10 +63,16 @@ public class MapCodec extends Codec {
             Object value = entry.getValue();
             // 编码 Key
             getSerializer(String.class).encode(out, key, null);
-
-            // 编码 Value（根据实际类型获取编解码器）
-            Class<?> valueType = value != null ? value.getClass() : Object.class;
-            Codec valueCodec = getSerializer(valueType);
+            if (value == null) {
+                throw new IllegalStateException("Map value is null, key: " + key);
+            }
+            if (wrapper == null) {
+                throw new IllegalArgumentException("MapCodec: valueType is null");
+            }
+            if (value.getClass() != wrapper) {
+                throw new IllegalStateException("MapCodec only supports strict homogeneous values, value type: " + value.getClass().getName() + ", wrapper: " + wrapper.getName());
+            }
+            Codec valueCodec = getSerializer(wrapper);
             valueCodec.encode(out, value, null);
         }
     }

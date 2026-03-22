@@ -31,7 +31,7 @@
 
     增加websocket简易实现  
 
-### jforgame-socket-struct
+### jforgame-codec-struct
 
     消息javabean支持继承关系，允许编解码父类字段
 
@@ -311,6 +311,9 @@
 ### jforgame-threadmodel
 ActorSystemConfig增加queueCapacity字段，用于配置线程池队列
 ActorSystem优化accept()方法性能
+
+### jforgame-codec-struct
+内部增加一些运行期异常检测
 
 
 ## V4.0.0 api变动！！(计划)

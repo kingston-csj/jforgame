@@ -37,10 +37,13 @@ public class CollectionCodec extends Codec {
             }
         } else {
             try {
-                result = (Collection) type.newInstance();
+                result = (Collection) type.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 result = new ArrayList<>();
             }
+        }
+        if (result == null) {
+            result = new ArrayList<>();
         }
 
         for (int i = 0; i < size; i++) {
@@ -66,6 +69,12 @@ public class CollectionCodec extends Codec {
         ByteBuffUtil.writeShort(out, (short) size);
 
         for (Object elem : collection) {
+            if (elem == null) {
+                throw new IllegalStateException("Collection element is null");
+            }
+            if (elem.getClass() != wrapper) {
+                throw new IllegalStateException("CollectionCodec only supports strict homogeneous elements, element type: " + elem.getClass().getName() + ", wrapper: " + wrapper.getName());
+            }
             Class<?> clazz = elem.getClass();
             Codec fieldCodec = getSerializer(clazz);
             fieldCodec.encode(out, elem, wrapper);

@@ -77,7 +77,11 @@ public class ArrayCodec2 extends Codec {
         if (!TypeUtil.isPrimitiveOrString(wrapper)) {
             Set<Class<?>> elemType = new HashSet<>();
             for (int i = 0; i < size; i++) {
-                Class<?> clazz = Array.get(value, i).getClass();
+                Object elem = Array.get(value, i);
+                if (elem == null) {
+                    throw new IllegalStateException("Array element is null");
+                }
+                Class<?> clazz = elem.getClass();
                 elemType.add(clazz);
             }
             // 集合元素类型不一致，写入状态码：1
@@ -96,6 +100,9 @@ public class ArrayCodec2 extends Codec {
 
         for (int i = 0; i < size; i++) {
             Object elem = Array.get(value, i);
+            if (elem == null) {
+                throw new IllegalStateException("Array element is null");
+            }
             Class<?> clazz = elem.getClass();
             Class<?> eleType = wrapper;
             if (status == 1) {

@@ -44,6 +44,12 @@ public class ArrayCodec extends Codec {
         ByteBuffUtil.writeShort(out, (short) size);
         for (int i = 0; i < size; i++) {
             Object elem = Array.get(value, i);
+            if (elem == null) {
+                throw new IllegalStateException("Array element is null");
+            }
+            if (elem.getClass() != wrapper) {
+                throw new IllegalStateException("ArrayCodec only supports strict homogeneous elements, element type: " + elem.getClass().getName() + ", wrapper: " + wrapper.getName());
+            }
             Class<?> clazz = elem.getClass();
             Codec fieldCodec = Codec.getSerializer(clazz);
             fieldCodec.encode(out, elem, wrapper);
