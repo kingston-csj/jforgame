@@ -52,11 +52,6 @@ public class SchemaCreator implements SchemaStrategy {
         } finally {
             // 恢复自动提交设置
             con.setAutoCommit(autoCommit);
-            try {
-                con.close();
-            } catch (Exception e) {
-                logger.error("关闭数据库连接失败", e);
-            }
         }
     }
 

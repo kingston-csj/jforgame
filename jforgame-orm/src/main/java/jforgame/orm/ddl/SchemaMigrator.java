@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,12 +33,9 @@ public class SchemaMigrator implements SchemaStrategy {
 
         for (String sql : sqls) {
             logger.info("执行schema --> {}", sql);
-            con.createStatement().execute(sql);
-        }
-        try {
-            con.close();
-        } catch (Exception e) {
-            logger.error("关闭数据库连接失败", e);
+            try (Statement stmt = con.createStatement()) {
+                stmt.execute(sql);
+            }
         }
     }
 

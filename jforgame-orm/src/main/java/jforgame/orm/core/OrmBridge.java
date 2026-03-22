@@ -49,7 +49,9 @@ public class OrmBridge {
      * @return 实体所有的主键字段
      */
     public List<String> getPrimaryKeyProperties() {
-        return new ArrayList<>(this.uniqueProperties);
+        List<String> result = new ArrayList<>(this.uniqueProperties);
+        Collections.sort(result);
+        return result;
     }
 
     public void addUniqueKey(String id) {
@@ -82,7 +84,9 @@ public class OrmBridge {
     }
 
     public List<String> listAllProperties() {
-        return new ArrayList<>(this.fieldMetadataMap.keySet());
+        List<String> result = new ArrayList<>(this.fieldMetadataMap.keySet());
+        Collections.sort(result);
+        return result;
     }
 
 }

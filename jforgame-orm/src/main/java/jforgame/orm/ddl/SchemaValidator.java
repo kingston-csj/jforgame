@@ -44,12 +44,6 @@ public class SchemaValidator implements SchemaStrategy {
         validateSchemaConsistency(tableConfiguration.getTables(), databaseMetadata.getTables());
 
         logger.info("数据库schema验证完成，所有表结构一致");
-
-        try {
-            con.close();
-        } catch (Exception e) {
-            logger.error("关闭数据库连接失败", e);
-        }
     }
 
     /**

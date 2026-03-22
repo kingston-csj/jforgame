@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -39,14 +38,16 @@ class SqlParameterUtils {
         List<Object> whereValues = new ArrayList<>();
 
         // 获取SET子句的参数
-        for (Map.Entry<String, FieldMetaData> entry : bridge.getFieldMetadataMap().entrySet()) {
-            String property = entry.getKey();
+        for (String property : bridge.listAllProperties()) {
             if (!saveAll && !columns.contains(property)) {
                 continue;
             }
 
             try {
-                FieldMetaData metadata = entry.getValue();
+                FieldMetaData metadata = bridge.getFieldMetadataMap().get(property);
+                if (metadata == null) {
+                    throw new IllegalStateException("FieldMetaData is null, property: " + property);
+                }
                 Object value = metadata.getField().get(entity);
                 if (metadata.getConverter() != null) {
                     value = metadata.getConverter().convertToDatabaseColumn(value);
@@ -102,6 +103,9 @@ class SqlParameterUtils {
         for (String property : properties) {
             try {
                 FieldMetaData metadata = bridge.getFieldMetadataMap().get(property);
+                if (metadata == null) {
+                    throw new IllegalStateException("FieldMetaData is null, property: " + property);
+                }
                 Object value = metadata.getField().get(entity);
                 if (metadata.getConverter() != null) {
                     value = metadata.getConverter().convertToDatabaseColumn(value);
@@ -109,7 +113,7 @@ class SqlParameterUtils {
                 values.add(value);
             } catch (Exception e) {
                 logger.error("Failed to get field value for property: {}", property, e);
-                values.add(null);
+                throw new AttributeConversionException(e);
             }
         }
         return values;

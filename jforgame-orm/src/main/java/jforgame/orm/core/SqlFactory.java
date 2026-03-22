@@ -4,7 +4,6 @@ import jforgame.orm.entity.StatefulEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -50,14 +49,17 @@ class SqlFactory {
         List<String> updateColumns = new ArrayList<>();
 
         // 构建SET子句
-        for (Map.Entry<String, FieldMetaData> entry : bridge.getFieldMetadataMap().entrySet()) {
-            String property = entry.getKey();
+        for (String property : bridge.listAllProperties()) {
             if (!saveAll && !columns.contains(property)) {
                 continue;
             }
 
             String column = getColumnName(property, bridge);
             updateColumns.add(wrapColumn(column) + EQUALS + "?");
+        }
+
+        if (updateColumns.isEmpty()) {
+            return "";
         }
 
         return UPDATE + bridge.getTableName() + SET +

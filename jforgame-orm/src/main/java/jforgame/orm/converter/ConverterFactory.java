@@ -18,7 +18,7 @@ public class ConverterFactory {
     public static AttributeConverter<Object, Object> getAttributeConverter(Class<?> clazz) {
         return converters.computeIfAbsent(clazz, c -> {
             try {
-                return (AttributeConverter) clazz.newInstance();
+                return (AttributeConverter) c.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

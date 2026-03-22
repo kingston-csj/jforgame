@@ -315,6 +315,9 @@ ActorSystem优化accept()方法性能
 ### jforgame-codec-struct
 内部增加一些运行期异常检测
 
+### jforgame-orm
+SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
+
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法

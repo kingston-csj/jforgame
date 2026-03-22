@@ -163,7 +163,7 @@ public class BeanProcessor {
     private <T> T newInstance(Class<T> c)
             throws SQLException {
         try {
-            return c.newInstance();
+            return c.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new SQLException("Cannot create " + c.getName() + ": " + e.getMessage());
         }

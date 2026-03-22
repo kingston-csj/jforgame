@@ -10,6 +10,7 @@ import jforgame.orm.ddl.SchemaValidator;
 import jforgame.orm.entity.BaseEntity;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Set;
 
 /**
@@ -34,15 +35,24 @@ public class OrmEngine {
     }
 
     private static void executeDdlSchema(DataSource dataSource, Set<Class<?>> codeTables, String ddlAuto) throws Exception {
+        if (SchemaAction.NONE.name().equalsIgnoreCase(ddlAuto)) {
+            return;
+        }
         if (SchemaAction.UPDATE.name().equalsIgnoreCase(ddlAuto)) {
             // 数据库自动更新schema（增量更新）
-            new SchemaMigrator().doExecute(dataSource.getConnection(), codeTables);
+            try (Connection con = dataSource.getConnection()) {
+                new SchemaMigrator().doExecute(con, codeTables);
+            }
         } else if (SchemaAction.CREATE.name().equalsIgnoreCase(ddlAuto)) {
             // 清空数据库并重新建表
-            new SchemaCreator().doExecute(dataSource.getConnection(), codeTables);
+            try (Connection con = dataSource.getConnection()) {
+                new SchemaCreator().doExecute(con, codeTables);
+            }
         } else if (SchemaAction.VALIDATE.name().equalsIgnoreCase(ddlAuto)) {
             // 校验表结构
-            new SchemaValidator().doExecute(dataSource.getConnection(), codeTables);
+            try (Connection con = dataSource.getConnection()) {
+                new SchemaValidator().doExecute(con, codeTables);
+            }
         }
     }
 
