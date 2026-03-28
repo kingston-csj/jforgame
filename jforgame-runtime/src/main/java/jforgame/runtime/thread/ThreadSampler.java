@@ -17,21 +17,31 @@ public class ThreadSampler {
     private static HotspotThreadMBean hotspotThreadMBean;
     private static boolean hotspotThreadMBeanEnable = true;
 
-    private Map<ThreadVo, Long> lastCpuTimes = new HashMap<>();
+    private Map<Long, Long> lastCpuTimesById = new HashMap<>();
+
+    private Map<String, Long> lastInternalThreadCpuTimes = new HashMap<>();
 
     private long lastSampleTimeNanos;
 
+    static {
+        try {
+            if (threadMXBean.isThreadCpuTimeSupported() && !threadMXBean.isThreadCpuTimeEnabled()) {
+                threadMXBean.setThreadCpuTimeEnabled(true);
+            }
+        } catch (Throwable ignored) {
+        }
+    }
 
     public List<ThreadVo> sample(Collection<ThreadVo> originThreads) {
         List<ThreadVo> threads = new ArrayList<>(originThreads);
 
         // Sample CPU
-        if (lastCpuTimes.isEmpty()) {
+        if (lastCpuTimesById.isEmpty() && lastInternalThreadCpuTimes.isEmpty()) {
             lastSampleTimeNanos = System.nanoTime();
             for (ThreadVo thread : threads) {
                 if (thread.getId() > 0) {
                     long cpu = threadMXBean.getThreadCpuTime(thread.getId());
-                    lastCpuTimes.put(thread, cpu);
+                    lastCpuTimesById.put(thread.getId(), cpu);
                     thread.setTime(cpu / 1000000);
                 }
             }
@@ -44,7 +54,7 @@ public class ThreadSampler {
                     ThreadVo thread = createThreadVO(key);
                     thread.setTime(entry.getValue() / 1000000);
                     threads.add(thread);
-                    lastCpuTimes.put(thread, entry.getValue());
+                    lastInternalThreadCpuTimes.put(key, entry.getValue());
                 }
             }
 
@@ -56,32 +66,36 @@ public class ThreadSampler {
 
         // Resample
         long newSampleTimeNanos = System.nanoTime();
-        Map<ThreadVo, Long> newCpuTimes = new HashMap<ThreadVo, Long>(threads.size());
-        for (ThreadVo thread : threads) {
+        Map<Long, Long> newCpuTimesById = new HashMap<>(threads.size());
+        for (ThreadVo thread : originThreads) {
             if (thread.getId() > 0) {
                 long cpu = threadMXBean.getThreadCpuTime(thread.getId());
-                newCpuTimes.put(thread, cpu);
+                newCpuTimesById.put(thread.getId(), cpu);
             }
         }
         // internal threads
+        Map<String, Long> newInternalCpuTimes = new HashMap<>();
         Map<String, Long> newInternalThreadCpuTimes = getInternalThreadCpuTimes();
         if (newInternalThreadCpuTimes != null) {
             for (Map.Entry<String, Long> entry : newInternalThreadCpuTimes.entrySet()) {
                 ThreadVo threadVO = createThreadVO(entry.getKey());
                 threads.add(threadVO);
-                newCpuTimes.put(threadVO, entry.getValue());
+                newInternalCpuTimes.put(entry.getKey(), entry.getValue());
             }
         }
 
         // Compute delta time
         final Map<ThreadVo, Long> deltas = new HashMap<ThreadVo, Long>(threads.size());
-        for (ThreadVo thread : newCpuTimes.keySet()) {
-            Long t = lastCpuTimes.get(thread);
-            if (t == null) {
-                t = 0L;
+        for (ThreadVo thread : threads) {
+            long time1;
+            long time2;
+            if (thread.getId() > 0) {
+                time1 = lastCpuTimesById.getOrDefault(thread.getId(), 0L);
+                time2 = newCpuTimesById.getOrDefault(thread.getId(), 0L);
+            } else {
+                time1 = lastInternalThreadCpuTimes.getOrDefault(thread.getName(), 0L);
+                time2 = newInternalCpuTimes.getOrDefault(thread.getName(), 0L);
             }
-            long time1 = t;
-            long time2 = newCpuTimes.get(thread);
             if (time1 == -1) {
                 time1 = time2;
             } else if (time2 == -1) {
@@ -105,7 +119,13 @@ public class ThreadSampler {
 
         for (ThreadVo thread : threads) {
             //nanos to mills
-            long timeMills = newCpuTimes.get(thread) / 1000000;
+            long cpuTimeNanos;
+            if (thread.getId() > 0) {
+                cpuTimeNanos = newCpuTimesById.getOrDefault(thread.getId(), 0L);
+            } else {
+                cpuTimeNanos = newInternalCpuTimes.getOrDefault(thread.getName(), 0L);
+            }
+            long timeMills = cpuTimeNanos / 1000000;
             long deltaTime = deltas.get(thread) / 1000000;
             double cpu = cpuUsages.get(thread);
 
@@ -113,7 +133,8 @@ public class ThreadSampler {
             thread.setTime(timeMills);
             thread.setDeltaTime(deltaTime);
         }
-        lastCpuTimes = newCpuTimes;
+        lastCpuTimesById = newCpuTimesById;
+        lastInternalThreadCpuTimes = newInternalCpuTimes;
         lastSampleTimeNanos = newSampleTimeNanos;
 
         return threads;

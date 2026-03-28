@@ -318,6 +318,9 @@ ActorSystem优化accept()方法性能
 ### jforgame-orm
 SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 
+### jforgame-runtime
+修复 ThreadSampler对“JVM 内部线程”CPU统计不准的问题
+
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法
@@ -326,6 +329,7 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 ### jforgame-codec-struct
     StructMessageCodec更名为StructCodec 
     ProtobufMessageCodec更名为ProtobufCodec
+    MapCodec/MapCodec2 key支持除String以外的其他基本类型
 
 
 
