@@ -27,6 +27,9 @@ public class DiskFileSystemVo implements Comparable<DiskFileSystemVo> {
     }
 
     public double usage() {
+        if (size <= 0) {
+            return 0D;
+        }
         return ((double) (size - available)) / size;
     }
 

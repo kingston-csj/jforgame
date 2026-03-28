@@ -320,6 +320,7 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 
 ### jforgame-runtime
 修复 ThreadSampler对“JVM 内部线程”CPU统计不准的问题
+修复DiskFileSystemVo#usage()磁盘空间为0时异常
 
 
 ## V4.0.0 api变动！！(计划)
