@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 在 Java 中实现 LruHashMap 非常简便 —— 其所需的全部核心功能已由 LinkedHashMap 提供，
  * 我们只需对 LinkedHashMap 进行适当配置即可实现 LruHashMap 的功能。
  * 注意：本类是线程安全的。
+ * 由于LinkedHashMap构造函数当accessOrder=true时，会自动将最近访问的元素移动到链表尾部，涉及到写操作，因此该类的大部分操作其实都是串行的，效率较低。
  */
 @ThreadSafe
 public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
@@ -55,11 +56,11 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
     @Override
     public V get(Object key) {
-        readLock.lock();
+        writeLock.lock();
         try {
             return super.get(key);
         } finally {
-            readLock.unlock();
+            writeLock.unlock();
         }
     }
 

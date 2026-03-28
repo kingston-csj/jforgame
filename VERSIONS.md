@@ -307,6 +307,7 @@
 ### jforgame-commons
 修复DelayContainer和QueueContainer并发修改bug
 增加CronContainer基于cron表达式的持久化容器
+修复LruHashMap#get()读写锁问题
 
 ### jforgame-threadmodel
 ActorSystemConfig增加queueCapacity字段，用于配置线程池队列
