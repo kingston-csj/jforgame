@@ -127,7 +127,7 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置空闲时间，单位秒
+     * 设置空闲时间，单位毫秒
      *
      * @param idleTime 空闲时间
      * @return this

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -265,6 +266,7 @@ public final class DateUtil {
 
         return year1 == year2 && week1 == week2;
     }
+
     /**
      * 检查指定时间戳是否为今天
      *
@@ -277,6 +279,34 @@ public final class DateUtil {
         LocalDate date = instant.atZone(zoneId).toLocalDate();
         LocalDate today = LocalDate.now();
         return date.isEqual(today);
+    }
+
+    /**
+     * 计算指定时间戳与今天相差的天数
+     * 如果是今天，返回1， 昨天=2，前天=3...
+     * 注意， 如果指定时间戳比当前时间戳大，统一返回-1!
+     *
+     * @param timestamp 毫秒时间戳
+     * @return 今天=1，昨天=2，前天=3... 未来时间返回-1
+     */
+    public static int getDayDiffFromToday(long timestamp) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        // 今天日期
+        LocalDate today = LocalDate.now(zoneId);
+
+        LocalDate targetDate = new Date(timestamp)
+                .toInstant()
+                .atZone(zoneId)
+                .toLocalDate();
+
+        // 未来时间返回 -1
+        if (targetDate.isAfter(today)) {
+            return -1;
+        }
+        // 计算天数差
+        long days = ChronoUnit.DAYS.between(targetDate, today);
+        // 规则：今天=1，昨天=2...
+        return (int) days + 1;
     }
 
 }
