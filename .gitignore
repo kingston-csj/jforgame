@@ -48,6 +48,9 @@ bin/
 ### VS Code ###
 .vscode/
 
+### Trae ###
+.trae/
+
 ### Mac OS ###
 .DS_Store
 

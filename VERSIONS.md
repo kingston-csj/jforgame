@@ -324,6 +324,10 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 修复 ThreadSampler对“JVM 内部线程”CPU统计不准的问题
 修复DiskFileSystemVo#usage()磁盘空间为0时异常
 
+## V3.5.0(2026-3-14)
+### jforgame-logger
+新增日志系统，自动适配各种日志框架，为生产g运营/监控提供日志服务
+
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法

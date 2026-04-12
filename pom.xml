@@ -40,6 +40,7 @@
 
     <modules>
         <module>jforgame-commons</module>
+        <module>jforgame-logger</module>
         <module>jforgame-runtime</module>
         <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>

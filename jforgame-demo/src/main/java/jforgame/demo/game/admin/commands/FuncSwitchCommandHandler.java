@@ -6,7 +6,8 @@ import jforgame.demo.game.admin.http.HttpCommandHandler;
 import jforgame.demo.game.admin.http.HttpCommandParams;
 import jforgame.demo.game.admin.http.HttpCommandResponse;
 import jforgame.demo.game.admin.http.HttpCommands;
-import jforgame.demo.game.logger.LoggerSystem;
+import jforgame.demo.game.logger.LoggerBusiness;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.socket.NetGateKeeper;
 
 @CommandHandler(cmd=HttpCommands.FUNC_SWITCH)
@@ -23,7 +24,7 @@ public class FuncSwitchCommandHandler extends HttpCommandHandler {
 			NetGateKeeper.getInstance().closeProtocol(messageId);
 		}
 
-		LoggerSystem.HTTP_COMMAND.getLogger().info("收到后台命令，切换功能{}开关为{}", messageId, open);
+		LoggerUtils.info(LoggerBusiness.MONITOR, "type", "switchFunc", "id", messageId, "status", open);
 		return HttpCommandResponse.valueOfSucc();
 	}
 

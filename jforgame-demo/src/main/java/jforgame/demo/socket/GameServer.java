@@ -14,6 +14,7 @@ import jforgame.demo.game.admin.http.HttpServer;
 import jforgame.demo.game.core.CronSchedulerHelper;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
+import jforgame.demo.game.logger.LoggerBusiness;
 import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.listener.ListenerManager;
 import jforgame.demo.redis.RedisCluster;
@@ -146,6 +147,8 @@ public class GameServer {
         GameContext.playerManager.loadAllPlayerProfiles();
         // 跨服天梯
 //		LadderFightManager.getInstance().init();
+
+        LoggerUtils.info(LoggerBusiness.MONITOR, "type", "start", "id", "game");
 
         try {
             new TypeScriptProtocolGenerator().export();

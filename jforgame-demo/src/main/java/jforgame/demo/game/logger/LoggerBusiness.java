@@ -24,6 +24,12 @@ public enum LoggerBusiness {
 
     GOLD,
 
+    EXCEPTION,
+
+    HTTP_COMMAND,
+
+    MONITOR,
+
 
     ;
 
