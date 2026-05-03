@@ -303,7 +303,7 @@
     StructMessageCodec增加集合元素类型异构模式
 
 
-## V3.4.0(2026-3-14)
+## V3.4.0(2026-5-3)
 ### jforgame-commons
 修复DelayContainer和QueueContainer并发修改bug
 增加CronContainer基于cron表达式的持久化容器
@@ -326,7 +326,7 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 
 ## V3.5.0(2026-3-14)
 ### jforgame-logger
-新增日志系统，自动适配各种日志框架，为生产g运营/监控提供日志服务
+新增日志系统，自动适配各种日志框架，为生产运营/监控提供日志服务
 
 
 ## V4.0.0 api变动！！(计划)
