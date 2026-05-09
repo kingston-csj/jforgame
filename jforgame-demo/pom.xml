@@ -62,7 +62,11 @@
             <artifactId>jforgame-runtime</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-logger</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -75,6 +79,7 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
+
 
         <!-- 网关相关 -->
         <dependency>
@@ -185,12 +190,7 @@
             <artifactId>javaparser-core</artifactId>
             <version>3.25.7</version>
         </dependency>
-        <dependency>
-            <groupId>io.github.jforgame</groupId>
-            <artifactId>jforgame-logger</artifactId>
-            <version>3.4.0</version>
-            <scope>compile</scope>
-        </dependency>
+
 
 
     </dependencies>
