@@ -328,6 +328,9 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 ### jforgame-logger
 新增日志系统，自动适配各种日志框架，为生产运营/监控提供日志服务
 
+### jforgame-socket-api
+优化RpcMessageClient#request()内部逻辑
+
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法

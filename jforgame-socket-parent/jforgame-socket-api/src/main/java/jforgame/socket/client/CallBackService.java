@@ -36,22 +36,22 @@ public class CallBackService {
     }
 
     public static CallBackService getInstance() {
-        if (self != null) {
-            return self;
-        }
-        synchronized (CallBackService.class) {
-            if (self == null) {
-                CallBackService newObj = new CallBackService();
-                self = newObj;
-                self.service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("socket-client-timer"));
+        if (self == null) {
+            synchronized (CallBackService.class) {
+                if (self == null) {
+                    self = new CallBackService();
+                    // 定时器任务，1 个线程足够！
+                    self.service = Executors.newSingleThreadScheduledExecutor(
+                            new NamedThreadFactory("socket-client-timer"));
 
-                self.timer = self.service.scheduleAtFixedRate(
-                        () -> {
-                            try {
-                                newObj.scanExpiredRequest();
-                            } catch (Exception e) {
-                            }
-                        }, 3000, 1000, TimeUnit.MILLISECONDS);
+                    self.timer = self.service.scheduleAtFixedRate(
+                            () -> {
+                                try {
+                                    self.scanExpiredRequest();
+                                } catch (Exception ignore) {
+                                }
+                            }, 3000, 1000, TimeUnit.MILLISECONDS);
+                }
             }
         }
         return self;
