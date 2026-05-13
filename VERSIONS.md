@@ -331,6 +331,8 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 ### jforgame-socket-api
 优化RpcMessageClient#request()内部逻辑
 
+### jforgame-socket-netty
+websocket服务器对wspath带参数进行容错
 
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法

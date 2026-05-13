@@ -1,12 +1,11 @@
 package jforgame.socket.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
@@ -17,8 +16,8 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.ChannelIoHandler;
-import jforgame.socket.share.HostAndPort;
 import jforgame.socket.server.ServerNode;
+import jforgame.socket.share.HostAndPort;
 import jforgame.socket.share.SocketIoDispatcher;
 import jforgame.socket.share.message.MessageFactory;
 import org.slf4j.Logger;
@@ -114,7 +113,23 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(64 * 1024));
-            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath, null, false, maxProtocolBytes));
+            // 规范化ws的url, 过滤 ?后面的参数
+            pipeline.addLast("normalizationUrl", new ChannelDuplexHandler() {
+                @Override
+                public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                    if (msg instanceof FullHttpRequest) {
+                        FullHttpRequest req = (FullHttpRequest) msg;
+                        String uri = req.uri();
+                        int idx = uri.indexOf('?');
+                        if (idx > 0) {
+                            req.setUri(uri.substring(0, idx));
+                        }
+                    }
+                    super.channelRead(ctx, msg);
+                }
+            });
+
+            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(websocketPath, null, true, maxProtocolBytes));
             pipeline.addLast("webSocketFrameAggregator", new WebSocketFrameAggregator(maxProtocolBytes));
             // WebSocketFrame vs Message codec
             pipeline.addLast("socketFrameToMessage", new WebSocketFrameToSocketDataCodec(frameType, messageCodec, messageFactory));
