@@ -334,6 +334,9 @@ SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 ### jforgame-socket-netty
 websocket服务器对wspath带参数进行容错
 
+### jforgame-socket-mina
+版本从2.0.27升至2.0.28
+
 ## V4.0.0 api变动！！(计划)
     Container去掉#validate()无参方法
     Container#validate(DataRepository dataRepository)签名增加DataValidator异常
