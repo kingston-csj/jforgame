@@ -3,6 +3,7 @@ package jforgame.orm.core;
 import jforgame.commons.util.TypeUtil;
 import jforgame.orm.converter.ConverterFactory;
 import jforgame.orm.converter.support.ObjectToJsonJpaConverter;
+import jforgame.orm.entity.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,12 @@ public class BeanProcessor {
         this.columnToPropertyOverrides = columnToPropertyOverrides;
     }
 
+    /**
+     * 将resultSet转为实体bean
+     * 如果type是BaseEntity类型，会自动执行 {@link BaseEntity#afterLoad()}钩子
+     * @param rs jdbc ResultSet对象
+     * @param type 返回的实例类型
+     */
     public <T> T toBean(ResultSet rs, Class<T> type)
             throws SQLException {
         PropertyDescriptor[] props = propertyDescriptors(type);
@@ -70,6 +77,12 @@ public class BeanProcessor {
         return createBean(rs, type, props, columnToProperty);
     }
 
+    /**
+     * 将resultSet转为实体bean列表
+     * 如果type是BaseEntity类型，会对每个元素自动执行 {@link BaseEntity#afterLoad()}钩子
+     * @param rs jdbc ResultSet对象
+     * @param type 返回的实例类型
+     */
     public <T> List<T> toBeanList(ResultSet rs, Class<T> type)
             throws SQLException {
         List<T> results = new ArrayList<>();
@@ -102,6 +115,9 @@ public class BeanProcessor {
                 }
                 callSetter(bean, prop, value);
             }
+        }
+        if (bean instanceof BaseEntity) {
+            ((BaseEntity<?>) bean).afterLoad();
         }
         return bean;
     }

@@ -13,10 +13,9 @@
 
 ### jforgame-commons 基本工具类
 
-### jforgame-socket-parent  网络框架,netty+mina
+### jforgame-socket-parent 网络框架,netty+mina
 
-### jforgame-codec-parent  消息编解码,protobuf+struct
-
+### jforgame-codec-parent 消息编解码,protobuf+struct
 
 ## V1.1.0(2024-03-29)
 
@@ -29,7 +28,7 @@
 
 ### jforgame-socket-netty
 
-    增加websocket简易实现  
+    增加websocket简易实现
 
 ### jforgame-codec-struct
 
@@ -37,7 +36,7 @@
 
 ### jforgame-parent
 
-    所有子模块取消对log4j的全局依赖,log层只绑定sl4j接口  
+    所有子模块取消对log4j的全局依赖,log层只绑定sl4j接口
 
 ## V1.2.0(2024-06-16)
 
@@ -258,13 +257,14 @@
 ### jforgame-commons
 
     FileUtil新增checkAndCreateDirectory()方法，用于检查并创建目录
+
 ### jforgame-hotswap
 
     修复linux+jdk17热更新失败
 
 ### jforgame-codec-struct
-    增加MapCodec，以支持字典字段
 
+    增加MapCodec，以支持字典字段
 
 ## V3.2.0(2026-1-11)
 
@@ -273,6 +273,7 @@
     增加FieldIgnore注解，用于忽略字段序列化
 
 ### jforgame-commons
+
     修复NumberUtil#doubleValue()方法内部错误
     增加schedule.parser包，用于解析游戏常用的自定义格式时间表达式
     EventBus事件监听支持类继承关系，事件分发支持事件继承关系
@@ -283,70 +284,94 @@
     新增Response类，作为客户端响应消息的基类
 
 ### jforgame-data
+
     DataManager修复非小写表名读取失败问题
     修改ForeignKeyValidator触发的提示内容
 
-
 ## V3.3.0(2026-3-14)
+
 ### jforgame-data
+
     修复TableDefinition采用继承关系的类数据源索引重复验证异常
     增加JsonDataReader，用于读取json数据源
     修复Container读取的数据记录无序
 
 ### jforgame-threadmodel
+
     增加拥有线程监控能力的增强版线程模型MonitoredDispatchThreadModel
 
 ### jforgame-commons
+
     jackson版本从2.16.1 升级到 2.18.6
 
 ### jforgame-socket-struct
+
     StructMessageCodec增加集合元素类型异构模式
 
-
 ## V3.4.0(2026-5-3)
+
 ### jforgame-commons
+
 修复DelayContainer和QueueContainer并发修改bug
 增加CronContainer基于cron表达式的持久化容器
 修复LruHashMap#get()读写锁问题
 DateUtil增加getDayDiffFromToday()来计算指定时间戳与今天相差的天数
 
 ### jforgame-threadmodel
+
 ActorSystemConfig增加queueCapacity字段，用于配置线程池队列
 ActorSystem优化accept()方法性能
 
 ### jforgame-codec-struct
+
 内部增加一些运行期异常检测
 
 ### jforgame-orm
+
 SchemaStrategy#doExecute()改为由业务代码自行关闭连接库连接
 
 ### jforgame-runtime
+
 修复 ThreadSampler对“JVM 内部线程”CPU统计不准的问题
 修复DiskFileSystemVo#usage()磁盘空间为0时异常
 
 ## V3.5.0(2026-3-14)
+
 ### jforgame-logger
+
 新增日志系统，自动适配各种日志框架，为生产运营/监控提供日志服务
 
 ### jforgame-socket-api
+
 优化RpcMessageClient#request()内部逻辑
 
 ### jforgame-socket-netty
+
 websocket服务器对wspath带参数进行容错
 
 ### jforgame-socket-mina
+
 版本从2.0.27升至2.0.28
 
+### jforgame-orm
+BeanProcessor#toBean和toBeanList方法内部自动执行BaseEntity#afterLoad()钩子    
+
 ## V4.0.0 api变动！！(计划)
+
     Container去掉#validate()无参方法
     Container#validate(DataRepository dataRepository)签名增加DataValidator异常
+### jforgame-socket-api
+    jforgame-socket-api更名为jforgame-socket-core
+    CommonMessageHandlerRegister移动到support包下
+    MessageExecuteUnit更名为MessageHandlerMethod
+    去掉share目录
 
 ### jforgame-codec-struct
-    StructMessageCodec更名为StructCodec 
+
+    StructMessageCodec更名为StructCodec
     ProtobufMessageCodec更名为ProtobufCodec
     MapCodec/MapCodec2 key支持除String以外的其他基本类型
 
+### jforgame-spring-boot-starter-data
 
-
-
-
+    拆分为jforgame-data业务模块和jforgame-spring-boot-starter-data装配模块

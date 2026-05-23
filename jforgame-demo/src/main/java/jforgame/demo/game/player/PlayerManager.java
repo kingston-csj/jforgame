@@ -137,11 +137,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
     @Override
     public PlayerEnt load(Long playerId) throws Exception {
         String sql = "SELECT * FROM playerent where Id = ? ";
-        PlayerEnt player = DbUtils.queryOne(DbUtils.DB_USER, sql, PlayerEnt.class, String.valueOf(playerId));
-        if (player != null) {
-            player.afterLoad();
-        }
-        return player;
+        return DbUtils.queryOne(DbUtils.DB_USER, sql, PlayerEnt.class, playerId);
     }
 
     public PlayerEnt getOnlinePlayer(long playerId) {

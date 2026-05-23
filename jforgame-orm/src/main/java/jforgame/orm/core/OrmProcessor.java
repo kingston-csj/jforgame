@@ -38,13 +38,7 @@ public enum OrmProcessor {
 
     private OrmBridge createBridge(Class<?> clazz) {
         OrmBridge bridge = new OrmBridge();
-        Entity entity = clazz.getAnnotation(Entity.class);
-        //没有设置tablename,则用entity名首字母小写
-        if (entity.name().isEmpty()) {
-            bridge.setTableName(StringUtil.firstLetterToLowerCase(clazz.getSimpleName()));
-        } else {
-            bridge.setTableName(entity.name());
-        }
+        bridge.setTableName(OrmNamingUtils.resolveTableName(clazz));
 
         // 从当前类开始，遍历所有父类
         Class<?> currClazz = clazz;

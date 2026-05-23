@@ -1,10 +1,10 @@
 package jforgame.orm.ddl;
 
 import jforgame.commons.util.StringUtil;
+import jforgame.orm.core.OrmNamingUtils;
 import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,11 +17,7 @@ class TableConfiguration {
 
     public void register(Set<Class<?>> codeTables) {
         for (Class<?> entity : codeTables) {
-            String tableName = entity.getSimpleName();
-            Entity annotation = entity.getAnnotation(Entity.class);
-            if (StringUtil.isNotEmpty(annotation.name())) {
-                tableName = annotation.name();
-            }
+            String tableName = OrmNamingUtils.resolveTableName(entity);
             TableDefinition tableDefinition = new TableDefinition();
             tableDefinition.setTableName(tableName);
             tables.put(tableName, tableDefinition);

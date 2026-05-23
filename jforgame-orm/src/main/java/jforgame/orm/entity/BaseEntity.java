@@ -77,10 +77,8 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + getId().hashCode();
-        return result;
+        Id id = getId();
+        return id != null ? id.hashCode() : System.identityHashCode(this);
     }
 
     @Override
@@ -95,7 +93,12 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
             return false;
         }
         BaseEntity other = (BaseEntity) obj;
-        return getId().equals(other.getId());
+        Id id = getId();
+        Object otherId = other.getId();
+        if (id == null || otherId == null) {
+            return false;
+        }
+        return id.equals(otherId);
     }
 
 }

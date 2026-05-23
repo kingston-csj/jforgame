@@ -13,11 +13,6 @@ public class DefaultCacheContainer<K, V extends BaseEntity> extends AbstractCach
 
 	@Override
 	public V loadFromDb(K k) throws Exception {
-		V entity = persistable.load(k);
-		if (entity != null) {
-			entity.afterLoad();
-		}
-		return entity;
+		return persistable.load(k);
 	}
-
 }

@@ -37,16 +37,22 @@ public class OrmTemplate {
         return dataSource;
     }
 
-    public <T> T queryOne(String sql, Class<?> entity, String id) throws SQLException {
+    public <T> T queryOne(String sql, Class<T> entity, Object id) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
             throw new SQLException("sql argument is null");
         }
         if (entity == null) {
             throw new SQLException("entity argument is null");
         }
+        if (id == null) {
+            throw new SQLException("id argument is null");
+        }
         OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity);
         if (bridge == null) {
             throw new SQLException(entity.getName() + " bridge is null");
+        }
+        if (bridge.getPrimaryKeyProperties().size() != 1) {
+            throw new SQLException(entity.getName() + " queryOne only supports single primary key entity");
         }
 
         try (Connection connection = dataSource.getConnection();
@@ -54,7 +60,7 @@ public class OrmTemplate {
             statement.setObject(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    return (T) new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
+                    return new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
                 }
             }
         } catch (Exception e) {
@@ -74,8 +80,12 @@ public class OrmTemplate {
      * @throws SQLException sql异常
      */
     @SuppressWarnings("unchecked")
-    public <T> List<T> queryMany(String sql, Class<?> entity) throws SQLException {
+    public <T> List<T> queryMany(String sql, Class<T> entity) throws SQLException {
         List<T> result = new ArrayList<>();
+        OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity);
+        if (bridge == null) {
+            throw new SQLException(entity.getName() + " bridge is null");
+        }
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
@@ -83,7 +93,7 @@ public class OrmTemplate {
 
             Object bean = null;
             while (resultSet.next()) {
-                bean = new BeanProcessor().toBean(resultSet, entity);
+                bean = new BeanProcessor(bridge.getColumnToPropertyOverride()).toBean(resultSet, entity);
                 result.add((T) bean);
             }
         } catch (Exception e) {

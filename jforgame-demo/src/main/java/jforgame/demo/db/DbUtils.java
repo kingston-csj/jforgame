@@ -59,7 +59,7 @@ public class DbUtils {
     /**
      * 查询返回一个bean实体
      */
-    public static <T> T queryOne(String alias, String sql, Class<?> entity, String id) throws SQLException {
+    public static <T> T queryOne(String alias, String sql, Class<T> entity, Object id) throws SQLException {
         OrmTemplate OrmTemplate = getConnection(alias);
         return OrmTemplate.queryOne(sql, entity, id);
     }
@@ -73,7 +73,7 @@ public class DbUtils {
      * @param entity
      * @return
      */
-    public static <T> List<T> queryMany(String alias, String sql, Class<?> entity) throws SQLException {
+    public static <T> List<T> queryMany(String alias, String sql, Class<T> entity) throws SQLException {
         OrmTemplate OrmTemplate = getConnection(alias);
         return OrmTemplate.queryMany(sql, entity);
     }
