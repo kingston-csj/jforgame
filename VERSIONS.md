@@ -355,6 +355,7 @@ websocket服务器对wspath带参数进行容错
 
 ### jforgame-orm
 BeanProcessor#toBean和toBeanList方法内部自动执行BaseEntity#afterLoad()钩子    
+修复BeanProcessor#toBean()没有处理对象继承的属性
 
 ## V4.0.0 api变动！！(计划)
 

@@ -151,19 +151,15 @@ public class BeanProcessor {
                     Class c = params[0].asSubclass(Enum.class);
                     value = Enum.valueOf(c, (String) value);
                 }
-                try {
-                    Field field = clazzType.getDeclaredField(prop.getName());
-                    // 不是基本类型， 或者字符串，自动转换
-                    if (!TypeUtil.isPrimitiveOrString(field.getType())) {
-                        AttributeConverter convert = ConverterFactory.getAttributeConverter(ObjectToJsonJpaConverter.class);
-                        Convert annotation = field.getAnnotation(Convert.class);
-                        if (annotation != null) {
-                            convert = ConverterFactory.getAttributeConverter(annotation.converter());
-                        }
-                        value = convert.convertToEntityAttribute(value);
+                Field field = findFieldInHierarchy(clazzType, prop.getName());
+                // 不是基本类型， 或者字符串，自动转换
+                if (!TypeUtil.isPrimitiveOrString(field.getType())) {
+                    AttributeConverter convert = ConverterFactory.getAttributeConverter(ObjectToJsonJpaConverter.class);
+                    Convert annotation = field.getAnnotation(Convert.class);
+                    if (annotation != null) {
+                        convert = ConverterFactory.getAttributeConverter(annotation.converter());
                     }
-                } catch (Exception e) {
-                    logger.error("", e);
+                    value = convert.convertToEntityAttribute(value);
                 }
             }
             if (TypeUtil.isCompatibleType(value, params[0])) {
@@ -174,6 +170,18 @@ public class BeanProcessor {
         } catch (Exception e) {
             throw new SQLException("Cannot set " + prop.getName() + ": " + e.getMessage());
         }
+    }
+
+    private Field findFieldInHierarchy(Class<?> clazzType, String fieldName) throws NoSuchFieldException {
+        Class<?> current = clazzType;
+        while (current != null && current != Object.class) {
+            try {
+                return current.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException ignore) {
+                current = current.getSuperclass();
+            }
+        }
+        throw new NoSuchFieldException("Field not found in class hierarchy: " + fieldName);
     }
 
     private <T> T newInstance(Class<T> c)
