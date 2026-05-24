@@ -40,7 +40,7 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
             }
             if (result.length == 3) {
                 if (i == 1) {
-                    if (int.class.isAssignableFrom(param)) {
+                    if (int.class.isAssignableFrom(param) || Integer.class.isAssignableFrom(param)) {
                         result[i] = context.getHeader().getIndex();
                     } else {
                         throw new IllegalArgumentException("2nd argument must be int");

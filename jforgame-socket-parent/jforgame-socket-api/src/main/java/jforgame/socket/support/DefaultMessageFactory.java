@@ -3,9 +3,9 @@ package jforgame.socket.support;
 import jforgame.socket.share.message.MessageFactory;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -16,12 +16,12 @@ public class DefaultMessageFactory implements MessageFactory {
     /**
      * 消息id到消息类的映射
      */
-    private final Map<Integer, Class<?>> id2Clazz = new HashMap<>();
+    private final Map<Integer, Class<?>> id2Clazz = new ConcurrentHashMap<>();
 
     /**
      * 消息类到消息id的映射
      */
-    private final Map<Class<?>, Integer> clazz2Id = new HashMap<>();
+    private final Map<Class<?>, Integer> clazz2Id = new ConcurrentHashMap<>();
 
     @Override
     public void registerMessage(int cmd, Class<?> clazz) {

@@ -59,6 +59,7 @@ public class CallBackService {
 
     public void closeTimer() {
         self.timer.cancel(true);
+        self.service.shutdown();
     }
 
     /**
@@ -94,19 +95,17 @@ public class CallBackService {
         if (future == null) {
             return;
         }
-        RequestCallback callback = future.getRequestCallback();
-        if (callback != null) {
-            // 异步回调
-            callback.onSuccess(message.getResponse());
-            return;
-        }
-        // 同步回调
         String errorText = message.getErrorText();
         if (errorText != null && !errorText.isEmpty()) {
-            Throwable t = new RuntimeException(errorText);
-            future.setCause(t);
+            future.setCause(new RuntimeException(errorText));
         }
         future.putResponseMessage(message.getResponse());
+
+        RequestCallback callback = future.getRequestCallback();
+        if (callback != null) {
+            // 执行回调
+            future.executeRequestCallback();
+        }
     }
 
 }
