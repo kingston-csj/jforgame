@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>jforgame-socket-api</module>
+        <module>jforgame-socket-core</module>
         <module>jforgame-socket-netty</module>
         <module>jforgame-socket-mina</module>
     </modules>

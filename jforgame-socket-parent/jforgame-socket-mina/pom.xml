@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.jforgame</groupId>
-            <artifactId>jforgame-socket-api</artifactId>
+            <artifactId>jforgame-socket-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

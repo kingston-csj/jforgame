@@ -5,16 +5,20 @@ import jforgame.commons.reflection.MethodHandleUtils;
 import jforgame.socket.share.IdSession;
 import jforgame.socket.share.RequestContext;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 请求执行器，复用 ClientRequestTask / ClientRequestMail 的公共执行逻辑。
  */
 public final class ClientRequestExecutor {
 
+
+    private static final Logger logger = LoggerFactory.getLogger(ClientRequestExecutor.class);
+
     private ClientRequestExecutor() {
     }
 
-    public static void execute(IdSession session, RequestContext requestContext, Logger logger) {
+    public static void execute(IdSession session, RequestContext requestContext) {
         try {
             MethodCaller methodCaller = MethodHandleUtils.getCaller(requestContext.getMethodExecutor().getMethod());
             Object response = methodCaller.invoke(requestContext.getMethodExecutor().getHandler(), requestContext.getParams());
@@ -29,8 +33,4 @@ public final class ClientRequestExecutor {
         }
     }
 
-    public static String describe(RequestContext requestContext) {
-        return "[" + requestContext.getMethodExecutor().getHandler().getClass().getName()
-                + "@" + requestContext.getMethodExecutor().getMethod().getName() + "]";
-    }
 }

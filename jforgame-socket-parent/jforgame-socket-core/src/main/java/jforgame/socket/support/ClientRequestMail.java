@@ -33,6 +33,6 @@ public class ClientRequestMail extends Mail {
 
     @Override
     public void action() {
-        ClientRequestExecutor.execute(session, requestContext, logger);
+        ClientRequestExecutor.execute(session, requestContext);
     }
 }
