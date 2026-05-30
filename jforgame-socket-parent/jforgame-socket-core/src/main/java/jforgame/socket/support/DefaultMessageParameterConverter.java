@@ -1,9 +1,9 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.MessageParameterConverter;
-import jforgame.socket.share.RequestContext;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.MessageParameterConverter;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.protocol.message.MessageFactory;
 
 /**
  * 默认的消息参数转换器

@@ -2,8 +2,8 @@ package jforgame.demo.game.login.message;
 
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.login.LoginDataPool;
-import jforgame.socket.share.annotation.MessageMeta;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.protocol.annotation.MessageMeta;
+import jforgame.socket.protocol.message.Message;
 
 /**
  * 请求－账号登录

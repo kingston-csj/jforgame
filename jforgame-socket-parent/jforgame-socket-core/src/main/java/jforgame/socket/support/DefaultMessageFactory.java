@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.protocol.message.MessageFactory;
 
 import java.util.Collection;
 import java.util.HashSet;

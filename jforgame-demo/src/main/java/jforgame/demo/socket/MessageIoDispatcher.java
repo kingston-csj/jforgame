@@ -2,14 +2,14 @@ package jforgame.demo.socket;
 
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.socket.share.ChainedMessageDispatcher;
-import jforgame.socket.share.CommonMessageHandlerRegister;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.MessageHandler;
-import jforgame.socket.share.MessageHandlerRegister;
-import jforgame.socket.share.PreprocessingMessageHandler;
-import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.RequestScheduler;
+import jforgame.socket.dispatch.ChainedMessageDispatcher;
+import jforgame.socket.support.CommonMessageHandlerRegister;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.MessageHandler;
+import jforgame.socket.registry.MessageHandlerRegister;
+import jforgame.socket.dispatch.PreprocessingMessageHandler;
+import jforgame.socket.protocol.message.MessageFactory;
+import jforgame.socket.dispatch.RequestScheduler;
 import jforgame.socket.support.RequestSchedulers;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 

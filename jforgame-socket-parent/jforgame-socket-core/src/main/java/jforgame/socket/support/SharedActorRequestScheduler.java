@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.RequestDispatchKeyResolver;
+import jforgame.socket.dispatch.RequestDispatchKeyResolver;
 import jforgame.threadmodel.actor.ActorSystem;
 
 /**

@@ -1,7 +1,7 @@
 package jforgame.socket.mina;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.SocketDataFrame;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.protocol.message.SocketDataFrame;
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.session.IoSession;

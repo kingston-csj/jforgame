@@ -23,10 +23,10 @@ import jforgame.socket.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.netty.ChannelIoHandler;
 import jforgame.socket.netty.server.WebSocketFrameToSocketDataCodec;
-import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.net.HostAndPort;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.protocol.message.MessageFactory;
 
 import java.io.IOException;
 import java.net.URI;

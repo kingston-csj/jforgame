@@ -4,10 +4,10 @@ import jforgame.commons.util.NumberUtil;
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.FireWall;
 import jforgame.demo.ServerConfig;
-import jforgame.socket.share.MessageHandler;
+import jforgame.socket.dispatch.MessageHandler;
 import jforgame.demo.socket.model.FloodRecord;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

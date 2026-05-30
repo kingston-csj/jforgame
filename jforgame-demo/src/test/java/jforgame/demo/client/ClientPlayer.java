@@ -4,8 +4,8 @@ import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.login.message.ReqAccountLogin;
 import jforgame.demo.game.login.message.ReqSelectPlayer;
 import jforgame.demo.game.player.message.ReqCreateNewPlayer;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.protocol.message.Message;
 
 /**
  * 使用socket构建的机器人

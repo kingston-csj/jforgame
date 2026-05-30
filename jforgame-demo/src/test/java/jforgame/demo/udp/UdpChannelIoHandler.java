@@ -6,10 +6,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.netty.ChannelUtils;
 import jforgame.socket.netty.NSession;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.protocol.message.RequestDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

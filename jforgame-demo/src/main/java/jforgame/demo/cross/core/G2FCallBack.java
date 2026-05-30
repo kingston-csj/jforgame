@@ -3,8 +3,8 @@ package jforgame.demo.cross.core;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.Modules;
-import jforgame.socket.share.annotation.MessageMeta;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.protocol.annotation.MessageMeta;
+import jforgame.socket.protocol.message.Message;
 
 import java.util.Base64;
 import java.util.HashMap;

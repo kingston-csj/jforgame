@@ -2,13 +2,13 @@ package jforgame.demo.udp;
 
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.GameServer;
-import jforgame.socket.share.ChainedMessageDispatcher;
-import jforgame.socket.share.CommonMessageHandlerRegister;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.MessageHandler;
-import jforgame.socket.share.MessageHandlerRegister;
-import jforgame.socket.share.message.MessageExecutor;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.dispatch.ChainedMessageDispatcher;
+import jforgame.socket.support.CommonMessageHandlerRegister;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.MessageHandler;
+import jforgame.socket.registry.MessageHandlerRegister;
+import jforgame.socket.protocol.message.MessageExecutor;
+import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.support.ClientRequestTask;
 
 import java.util.Collections;

@@ -1,9 +1,9 @@
 package jforgame.socket.mina;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.protocol.message.RequestDataFrame;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;

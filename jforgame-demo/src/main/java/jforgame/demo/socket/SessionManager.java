@@ -1,7 +1,7 @@
 package jforgame.demo.socket;
 
 import jforgame.commons.util.NumberUtil;
-import jforgame.socket.share.IdSession;
+import jforgame.socket.session.IdSession;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

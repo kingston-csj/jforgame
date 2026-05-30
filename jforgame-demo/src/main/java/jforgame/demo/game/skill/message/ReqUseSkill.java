@@ -2,8 +2,8 @@ package jforgame.demo.game.skill.message;
 
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.skill.SkillDataPool;
-import jforgame.socket.share.annotation.MessageMeta;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.protocol.annotation.MessageMeta;
+import jforgame.socket.protocol.message.Message;
 
 @MessageMeta(module=Modules.SKILL, cmd=SkillDataPool.REQ_USE_SKILL)
 public class ReqUseSkill implements Message {

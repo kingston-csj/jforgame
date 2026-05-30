@@ -8,7 +8,7 @@ import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
 import jforgame.demo.socket.GameSocketFactory;
-import jforgame.socket.share.IdSession;
+import jforgame.socket.session.IdSession;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;

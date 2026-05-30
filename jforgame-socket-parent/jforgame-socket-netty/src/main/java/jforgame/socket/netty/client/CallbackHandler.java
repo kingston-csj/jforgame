@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import jforgame.socket.client.CallBackService;
 import jforgame.socket.client.RpcResponseData;
-import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.protocol.message.RequestDataFrame;
 
 /**
  * 回调处理器，用于绑定请求与响应的关系

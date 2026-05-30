@@ -1,6 +1,6 @@
 package jforgame.socket.client;
 
-import jforgame.socket.share.IdSession;
+import jforgame.socket.session.IdSession;
 
 import java.io.IOException;
 

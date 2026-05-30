@@ -5,7 +5,7 @@ import jforgame.socket.client.SocketClient;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.netty.client.TcpSocketClient;
 import jforgame.socket.server.ServerNode;
-import jforgame.socket.share.HostAndPort;
+import jforgame.socket.net.HostAndPort;
 
 /**
  * 游戏服 socket 默认装配，屏蔽重复的 messageFactory / codec / dispatcher 组装逻辑。

@@ -17,9 +17,9 @@ import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.ChannelIoHandler;
 import jforgame.socket.server.ServerNode;
-import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.net.HostAndPort;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.protocol.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,8 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import jforgame.commons.util.FileUtil;
-import jforgame.socket.share.message.Message;
-import jforgame.socket.share.message.Response;
+import jforgame.socket.protocol.message.Message;
+import jforgame.socket.protocol.message.Response;
 
 import java.io.File;
 import java.io.FileWriter;

@@ -1,7 +1,7 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.MessageHandlerRegister;
-import jforgame.socket.share.message.MessageExecutor;
+import jforgame.socket.registry.MessageHandlerRegister;
+import jforgame.socket.protocol.message.MessageExecutor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

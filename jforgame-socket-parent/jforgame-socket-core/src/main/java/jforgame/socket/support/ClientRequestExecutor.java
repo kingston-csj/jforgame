@@ -2,8 +2,8 @@ package jforgame.socket.support;
 
 import jforgame.commons.reflection.MethodCaller;
 import jforgame.commons.reflection.MethodHandleUtils;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -12,10 +12,10 @@ import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructMessageCodec;
 import jforgame.demo.socket.GameMessageFactory;
-import jforgame.socket.share.HostAndPort;
+import jforgame.socket.net.HostAndPort;
 import jforgame.socket.server.ServerNode;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.protocol.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

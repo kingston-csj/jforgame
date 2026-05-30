@@ -2,7 +2,7 @@ package jforgame.demo.tools.protocol.protobuf;
 
 import com.baidu.bjf.remoting.protobuf.ProtobufIDLGenerator;
 import jforgame.commons.util.ClassScanner;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.protocol.message.Message;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

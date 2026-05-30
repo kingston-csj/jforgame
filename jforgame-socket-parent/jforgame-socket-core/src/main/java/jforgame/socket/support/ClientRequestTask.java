@@ -1,7 +1,7 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 
 /**
@@ -21,7 +21,6 @@ public class ClientRequestTask extends BaseDispatchTask {
         task.requestContext = context;
         return task;
     }
-
 
     @Override
     public void action() {

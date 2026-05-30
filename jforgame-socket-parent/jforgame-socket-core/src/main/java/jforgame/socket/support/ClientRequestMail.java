@@ -1,19 +1,14 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.session.IdSession;
 import jforgame.threadmodel.actor.mail.Mail;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 若线程模型采用{@link jforgame.threadmodel.actor.ActorSystem}
  * 使用该类将用户的消息请求封装成一个邮件，当actor被调度时，会执行该邮件的action方法
  */
 public class ClientRequestMail extends Mail {
-
-
-    private static final Logger logger = LoggerFactory.getLogger(ClientRequestMail.class);
 
     private IdSession session;
 

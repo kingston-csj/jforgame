@@ -1,6 +1,6 @@
 package jforgame.demo.udp;
 
-import jforgame.socket.share.annotation.MessageMeta;
+import jforgame.socket.protocol.annotation.MessageMeta;
 
 @MessageMeta(cmd = 55557)
 public class ResWelcome extends UdpMessage {

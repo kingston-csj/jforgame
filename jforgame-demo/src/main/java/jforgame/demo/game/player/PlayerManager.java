@@ -18,7 +18,7 @@ import jforgame.demo.game.player.model.PlayerProfile;
 import jforgame.demo.listener.EventDispatcher;
 import jforgame.demo.listener.EventType;
 import jforgame.demo.utils.IdGenerator;
-import jforgame.socket.share.IdSession;
+import jforgame.socket.session.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,9 @@
 package jforgame.socket.mina;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.share.TrafficStatistic;
-import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.share.message.RequestDataFrame;
+import jforgame.socket.monitoring.TrafficStatistic;
+import jforgame.socket.protocol.message.MessageFactory;
+import jforgame.socket.protocol.message.RequestDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;

@@ -1,9 +1,9 @@
 package jforgame.socket.mina.server;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.share.ChainedMessageDispatcher;
-import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.dispatch.ChainedMessageDispatcher;
+import jforgame.socket.net.HostAndPort;
+import jforgame.socket.protocol.message.MessageFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 
 import java.util.ArrayList;

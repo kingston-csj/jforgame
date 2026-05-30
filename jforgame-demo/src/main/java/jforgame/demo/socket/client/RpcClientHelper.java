@@ -7,11 +7,11 @@ import jforgame.socket.client.CallbackTimeoutException;
 import jforgame.socket.client.RpcMessageClient;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.mina.client.TcpSocketClient;
-import jforgame.socket.share.HostAndPort;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.SocketIoDispatcher;
-import jforgame.socket.share.SocketIoDispatcherAdapter;
-import jforgame.socket.share.message.MessageFactory;
+import jforgame.socket.net.HostAndPort;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.dispatch.SocketIoDispatcherAdapter;
+import jforgame.socket.protocol.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

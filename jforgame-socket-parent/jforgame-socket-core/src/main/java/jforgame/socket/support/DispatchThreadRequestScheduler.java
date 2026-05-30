@@ -1,9 +1,9 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestContext;
-import jforgame.socket.share.RequestDispatchKeyResolver;
-import jforgame.socket.share.RequestScheduler;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.dispatch.RequestDispatchKeyResolver;
+import jforgame.socket.dispatch.RequestScheduler;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**

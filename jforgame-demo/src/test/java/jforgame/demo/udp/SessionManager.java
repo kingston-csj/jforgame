@@ -2,7 +2,7 @@ package jforgame.demo.udp;
 
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.game.core.SchedulerManager;
-import jforgame.socket.share.IdSession;
+import jforgame.socket.session.IdSession;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

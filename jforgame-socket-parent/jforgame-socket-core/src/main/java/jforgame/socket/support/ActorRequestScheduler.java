@@ -1,9 +1,9 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.RequestActorSelector;
-import jforgame.socket.share.RequestContext;
-import jforgame.socket.share.RequestScheduler;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.RequestActorSelector;
+import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.dispatch.RequestScheduler;
 import jforgame.threadmodel.actor.Actor;
 
 /**

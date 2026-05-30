@@ -2,9 +2,9 @@ package jforgame.demo.game.player.controller;
 
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.player.message.ReqCreateNewPlayer;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.annotation.MessageRoute;
-import jforgame.socket.share.annotation.RequestHandler;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.protocol.annotation.MessageRoute;
+import jforgame.socket.protocol.annotation.RequestHandler;
 
 @MessageRoute
 public class PlayerController {

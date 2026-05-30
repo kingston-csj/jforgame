@@ -1,8 +1,8 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.RequestActorSelector;
-import jforgame.socket.share.RequestDispatchKeyResolver;
-import jforgame.socket.share.RequestScheduler;
+import jforgame.socket.dispatch.RequestActorSelector;
+import jforgame.socket.dispatch.RequestDispatchKeyResolver;
+import jforgame.socket.dispatch.RequestScheduler;
 import jforgame.threadmodel.actor.ActorSystem;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 

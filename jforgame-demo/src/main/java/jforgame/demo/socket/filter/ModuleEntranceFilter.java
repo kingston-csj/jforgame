@@ -2,9 +2,9 @@ package jforgame.demo.socket.filter;
 
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.demo.socket.NetGateKeeper;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.MessageHandler;
-import jforgame.socket.share.RequestContext;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.dispatch.MessageHandler;
+import jforgame.socket.dispatch.RequestContext;
 
 /**
  * 功能模块请求过滤器

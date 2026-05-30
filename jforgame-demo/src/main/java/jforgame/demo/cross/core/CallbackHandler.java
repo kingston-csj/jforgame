@@ -1,8 +1,8 @@
 package jforgame.demo.cross.core;
 
 import jforgame.demo.cross.demo.HelloCallbackHandler;
-import jforgame.socket.share.IdSession;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.session.IdSession;
+import jforgame.socket.protocol.message.Message;
 
 import java.util.HashMap;
 import java.util.Map;

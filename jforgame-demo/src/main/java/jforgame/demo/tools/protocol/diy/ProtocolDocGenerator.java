@@ -7,8 +7,8 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import jforgame.commons.util.ClassScanner;
 import jforgame.commons.util.FileUtil;
 import jforgame.demo.socket.GameMessageFactory;
-import jforgame.socket.share.annotation.MessageMeta;
-import jforgame.socket.share.message.Message;
+import jforgame.socket.protocol.annotation.MessageMeta;
+import jforgame.socket.protocol.message.Message;
 
 import java.io.File;
 import java.io.IOException;

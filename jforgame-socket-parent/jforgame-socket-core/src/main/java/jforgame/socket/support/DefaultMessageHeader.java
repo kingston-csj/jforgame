@@ -1,6 +1,6 @@
 package jforgame.socket.support;
 
-import jforgame.socket.share.message.MessageHeader;
+import jforgame.socket.protocol.message.MessageHeader;
 
 import java.nio.ByteBuffer;
 
