@@ -8,37 +8,31 @@ import jforgame.socket.share.IdSession;
 import jforgame.socket.share.MessageHandler;
 import jforgame.socket.share.MessageHandlerRegister;
 import jforgame.socket.share.PreprocessingMessageHandler;
-import jforgame.socket.share.message.MessageExecutor;
 import jforgame.socket.share.message.MessageFactory;
-import jforgame.socket.support.ClientRequestTask;
+import jforgame.socket.share.RequestScheduler;
+import jforgame.socket.support.RequestSchedulers;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 
 import java.io.IOException;
 
 public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
-    private MessageHandlerRegister handlerRegister;
-
-    MessageFactory messageFactory = GameMessageFactory.getInstance();
+    private final MessageHandlerRegister handlerRegister;
 
     public MessageIoDispatcher(String scanPath) {
+        this(scanPath, GameMessageFactory.getInstance(),
+                RequestSchedulers.dispatch(GameServer.getThreadModel(),
+                        (session, context) -> ((Number) session.getAttribute(SessionProperties.DISTRIBUTE_KEY)).longValue()));
+    }
+
+    public MessageIoDispatcher(String scanPath, MessageFactory messageFactory, RequestScheduler requestScheduler) {
         this.handlerRegister = new CommonMessageHandlerRegister(scanPath, messageFactory);
         // 客户端请求消息预处理
         addMessageHandler(new PreprocessingMessageHandler(messageFactory, handlerRegister));
 
         MessageHandler messageHandler = (session, context) -> {
-            Object message = context.getRequest();
-            int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
-            MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
-            if (cmdExecutor == null) {
-                logger.error("message executor missed,  cmd={}", cmd);
-                return true;
-            }
-
-            int sessionId = (int) session.getAttribute(SessionProperties.DISTRIBUTE_KEY);
-            ClientRequestTask task = ClientRequestTask.valueOf(session, sessionId, context);
-            // 丢到任务消息队列，不在io线程进行业务处理
-            GameServer.getThreadModel().accept(task);
+            // 预处理阶段已经完成路由匹配和方法绑定，这里只负责调度到业务线程模型
+            requestScheduler.schedule(session, context);
             return true;
         };
 

@@ -1,6 +1,5 @@
 package jforgame.demo.socket;
 
-import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.util.ClassScanner;
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.ServerConfig;
@@ -22,9 +21,7 @@ import jforgame.demo.tools.protocol.diy.TypeScriptProtocolGenerator;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
-import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.server.ServerNode;
-import jforgame.socket.share.HostAndPort;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
@@ -114,11 +111,7 @@ public class GameServer {
 //			crossServer.start();
 //		}
 
-        socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
-                .setMessageFactory(GameMessageFactory.getInstance())
-                .setMessageCodec(new StructMessageCodec())
-                .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
-                .build();
+        socketServer = GameSocketFactory.createTcpServer(ServerConfig.getInstance().getServerPort(), ServerScanPaths.MESSAGE_PATH);
 
 //        socketServer = WebSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
 //                .setMessageFactory(GameMessageFactory.getInstance())

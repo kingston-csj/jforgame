@@ -1,17 +1,13 @@
 package jforgame.demo.cross.core;
 
 import io.netty.channel.Channel;
-import jforgame.codec.struct.StructMessageCodec;
 import jforgame.commons.util.NumberUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
-import jforgame.demo.socket.GameMessageFactory;
-import jforgame.demo.socket.MessageIoDispatcher;
-import jforgame.socket.netty.client.TcpSocketClient;
-import jforgame.socket.share.HostAndPort;
+import jforgame.demo.socket.GameSocketFactory;
 import jforgame.socket.share.IdSession;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -151,7 +147,7 @@ class C2SSessionFactory extends BasePooledObjectFactory<NSessionPlus> {
 
     @Override
     public NSessionPlus create() throws Exception {
-        jforgame.socket.client.SocketClient clientFactory = new TcpSocketClient(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH), GameMessageFactory.getInstance(), new StructMessageCodec(), HostAndPort.valueOf(ip, port));
+        jforgame.socket.client.SocketClient clientFactory = GameSocketFactory.createTcpClient(ip, port, ServerScanPaths.MESSAGE_PATH);
         IdSession session = clientFactory.openSession();
         return new NSessionPlus((Channel) session.getRawSession());
     }
