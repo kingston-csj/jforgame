@@ -19,6 +19,7 @@
         <module>jforgame-codec-api</module>
         <module>jforgame-codec-struct</module>
         <module>jforgame-codec-protobuf</module>
+        <module>jfogame-codec-json</module>
     </modules>
 
 </project>
