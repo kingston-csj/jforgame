@@ -3,7 +3,8 @@ package jforgame.socket.dispatch;
 import jforgame.socket.session.IdSession;
 
 /**
- * 请求调度器，用于将客户端请求消息投递到具体线程模型。
+ * 请求调度器，用于将客户端请求消息<br>投递</br>到具体线程模型。
+ * @since v4.0.0
  */
 @FunctionalInterface
 public interface RequestScheduler {

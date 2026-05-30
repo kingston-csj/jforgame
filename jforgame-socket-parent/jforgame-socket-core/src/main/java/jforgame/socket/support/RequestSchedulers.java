@@ -2,8 +2,9 @@ package jforgame.socket.support;
 
 import jforgame.socket.dispatch.RequestActorSelector;
 import jforgame.socket.dispatch.RequestDispatchKeyResolver;
+import jforgame.socket.dispatch.RequestExecutionInterceptor;
+import jforgame.socket.dispatch.RequestResponseSender;
 import jforgame.socket.dispatch.RequestScheduler;
-import jforgame.threadmodel.actor.ActorSystem;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**
@@ -16,22 +17,34 @@ import jforgame.threadmodel.dispatch.DispatchThreadModel;
  * 而是关心“这个请求该投到哪”：
  * 是按分发键进入 {@link DispatchThreadModel}，
  * 还是根据业务规则选择目标 Actor，
- * 或者退化为按 key 路由到共享 Actor。
  */
 public final class RequestSchedulers {
 
     private RequestSchedulers() {
     }
 
-    public static RequestScheduler dispatch(DispatchThreadModel threadModel, RequestDispatchKeyResolver dispatchKeyResolver) {
-        return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver);
+    public static RequestScheduler dispatch(DispatchThreadModel threadModel,
+                                            RequestDispatchKeyResolver dispatchKeyResolver,
+                                            RequestExecutionInterceptor... interceptors) {
+        return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver, interceptors);
     }
 
-    public static RequestScheduler actor(RequestActorSelector actorSelector) {
-        return new ActorRequestScheduler(actorSelector);
+    public static RequestScheduler dispatch(DispatchThreadModel threadModel,
+                                            RequestDispatchKeyResolver dispatchKeyResolver,
+                                            RequestResponseSender responseSender,
+                                            RequestExecutionInterceptor... interceptors) {
+        return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver, responseSender, interceptors);
     }
 
-    public static RequestScheduler sharedActor(ActorSystem actorSystem, RequestDispatchKeyResolver dispatchKeyResolver) {
-        return new SharedActorRequestScheduler(actorSystem, dispatchKeyResolver);
+    public static RequestScheduler actor(RequestActorSelector actorSelector,
+                                         RequestExecutionInterceptor... interceptors) {
+        return new ActorRequestScheduler(actorSelector, interceptors);
     }
+
+    public static RequestScheduler actor(RequestActorSelector actorSelector,
+                                         RequestResponseSender responseSender,
+                                         RequestExecutionInterceptor... interceptors) {
+        return new ActorRequestScheduler(actorSelector, responseSender, interceptors);
+    }
+
 }
