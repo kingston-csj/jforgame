@@ -1,8 +1,8 @@
 ### Ⅰ. 简介
 
-- jforgame-spring-boot-starter-data 是 `jforgame-data` 的 Spring Boot starter 装配模块
+- jforgame-data-spring-boot-starter 是 `jforgame-data` 的 Spring Boot starter 装配模块
 - `jforgame-data` 负责配置数据解析、容器装载、通用常量注入和数据校验等核心能力
-- `jforgame-spring-boot-starter-data` 负责 Spring Boot 环境下的自动装配、属性绑定和默认 Bean 注册
+- `jforgame-data-spring-boot-starter` 负责 Spring Boot 环境下的自动装配、属性绑定和默认 Bean 注册
 - starter 中的 `ResourceProperties` 负责读取 `jforgame.data.*` 配置，并转换成 `jforgame-data` 中的普通配置对象 `ResourceOptions`
 - 组件支持 csv/excel/json 格式
   一个普通的java类就代表一份csv/excel配置，类的每个实例代表文件的每一行记录
@@ -12,13 +12,13 @@
 ### Ⅱ. 模块关系
 
 - 如果你不使用 Spring Boot，可直接依赖 `jforgame-data`，并自行创建 `ResourceOptions`、`DataReader`、`DataManager`
-- 如果你使用 Spring Boot，直接依赖 `jforgame-spring-boot-starter-data` 即可
+- 如果你使用 Spring Boot，直接依赖 `jforgame-data-spring-boot-starter` 即可
 - 两者的职责边界如下：
 
 | 模块 | 作用 |
 | --- | --- |
 | `jforgame-data` | 功能模块，提供配置读取、缓存装载、热更校验等核心能力 |
-| `jforgame-spring-boot-starter-data` | 装配模块，负责 `ResourceProperties` 配置绑定、`ResourceOptions` 转换和自动注入 |
+| `jforgame-data-spring-boot-starter` | 装配模块，负责 `ResourceProperties` 配置绑定、`ResourceOptions` 转换和自动注入 |
 
 
 ### Ⅲ. 自动映射
@@ -51,7 +51,7 @@
   ```
     <dependency>
         <groupId>io.github.jforgame</groupId>
-        <artifactId>jforgame-spring-boot-starter-data</artifactId>
+        <artifactId>jforgame-data-spring-boot-starter</artifactId>
         <version>2.0.0</version>
     </dependency>
   ```    

@@ -5,7 +5,7 @@
 ## 模块定位
 
 - 不依赖 Spring Boot，只依赖 Spring Framework 基础能力
-- 不负责自动装配，自动装配由 `jforgame-spring-boot-starter-data` 提供
+- 不负责自动装配，自动装配由 `jforgame-data-spring-boot-starter` 提供
 - 运行期配置通过 `ResourceOptions` 表达，而不是 `@ConfigurationProperties` 绑定对象
 
 ## 配置对象

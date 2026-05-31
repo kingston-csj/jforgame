@@ -33,7 +33,7 @@ jforgame
 ├── jforgame-socket-mina   -- Mina implementation (without WebSocket support)
 ├── jforgame-orm     -- Game-server-oriented custom ORM library for conversion between database table records and POJO objects
 ├── jforgame-data -- Configuration data module, providing CSV/Excel/JSON loading, validation, hot reload and secondary cache support
-├── jforgame-spring-boot-starter-data -- Spring Boot starter for jforgame-data, responsible for property binding and auto-configuration
+├── jforgame-data-spring-boot-starter -- Spring Boot starter for jforgame-data, responsible for property binding and auto-configuration
 ├── jforgame-hotswap  -- Supports business code hot replacement
 ├── jforgame-codec-parent         -- Codec component for Socket communication
 ├── jforgame-codec-api        -- Codec API interfaces

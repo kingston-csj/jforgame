@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>jforgame-data-spring-boot-starter</artifactId>
-    <name>jforgame-spring-boot-starter-data</name>
+    <name>jforgame-data-spring-boot-starter</name>
     <description>jforgame-data, including csv and excel pattern</description>
 
     <dependencies>

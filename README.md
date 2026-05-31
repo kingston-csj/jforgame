@@ -31,7 +31,7 @@
       ├── jforgame-socket-mina   --mina版实现， 不包WebSocket
   ├── jforgame-orm     --专门为游戏服务器定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
   ├── jforgame-data    --配置数据功能模块，提供csv/excel/json读取、数据校验、热更新和二级缓存能力       
-  ├── jforgame-spring-boot-starter-data    --jforgame-data 的 Spring Boot starter，负责属性绑定和自动装配       
+  ├── jforgame-data-spring-boot-starter    --jforgame-data 的 Spring Boot starter，负责属性绑定和自动装配       
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
       ├── jforgame-codec-api        --消息编解码API接口
