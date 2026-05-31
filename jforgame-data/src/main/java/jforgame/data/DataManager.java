@@ -28,13 +28,13 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * 数据读取对外暴露的唯一API
  * 对所有的配置数据作统一管理，不再一个配置文件对应一个配置容器
- * 如果需要实现二级缓存，只需继承{@link Container}即可，参考{@link ResourceProperties#getContainerScanPath()}参数
+ * 如果需要实现二级缓存，只需继承{@link Container}即可，参考{@link ResourceOptions#getContainerScanPath()}参数
  */
 public class DataManager implements DataRepository {
 
     private final Logger logger = LoggerFactory.getLogger(DataManager.class.getName());
 
-    private final ResourceProperties properties;
+    private final ResourceOptions options;
 
     private final DataReader dataReader;
 
@@ -55,8 +55,8 @@ public class DataManager implements DataRepository {
      */
     private final List<DataValidator> validators = new LinkedList<>();
 
-    public DataManager(ResourceProperties properties, DataReader dataReader) {
-        this.properties = properties;
+    public DataManager(ResourceOptions options, DataReader dataReader) {
+        this.options = options;
         this.dataReader = dataReader;
         this.validators.add(new ForeignKeyValidator(this));
         this.validators.add(new CustomValidator(this));
@@ -68,8 +68,8 @@ public class DataManager implements DataRepository {
      * 并加载配置表数据到内存中
      */
     public void init() {
-        if (!StringUtils.isEmpty(properties.getContainerScanPath())) {
-            Set<Class<?>> containers = ClassScanner.listAllSubclasses(properties.getContainerScanPath(), Container.class);
+        if (!StringUtils.isEmpty(options.getContainerScanPath())) {
+            Set<Class<?>> containers = ClassScanner.listAllSubclasses(options.getContainerScanPath(), Container.class);
             containers.forEach(c -> {
                 // container命名必须以配置文件名+Container,例如配置表为common.csv，则对应的Container命名为CommonContainer
                 String name = c.getSimpleName().replace("Container", "").toLowerCase();
@@ -77,10 +77,10 @@ public class DataManager implements DataRepository {
             });
         }
 
-        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(properties.getTableScanPath(), DataTable.class);
+        Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(options.getTableScanPath(), DataTable.class);
         // 默认加载common表
         classSet.add(CommonData.class);
-        containerDefinitions.put(properties.getCommonTableName(), CommonContainer.class);
+        containerDefinitions.put(options.getCommonTableName(), CommonContainer.class);
 
         classSet.forEach(this::registerContainer);
         // 数据校验
@@ -127,7 +127,7 @@ public class DataManager implements DataRepository {
         tableName = tableName.toLowerCase();
         // 特殊处理common表
         if (CommonData.class == table) {
-            tableName = properties.getCommonTableName();
+            tableName = options.getCommonTableName();
         }
         tableDefinitions.put(tableName, definition);
 
@@ -143,7 +143,7 @@ public class DataManager implements DataRepository {
             throw new IllegalStateException(table + " not found");
         }
         try {
-            Resource resource = new FileSystemResource(properties.getLocation() + definition.getResourceTable() + properties.getSuffix());
+            Resource resource = new FileSystemResource(options.getLocation() + definition.getResourceTable() + options.getSuffix());
             List<?> records = new LinkedList<>();
             Container container = new Container<>();
             if (containerDefinitions.containsKey(table)) {
@@ -152,7 +152,7 @@ public class DataManager implements DataRepository {
             try {
                 records = dataReader.read(resource.getInputStream(), definition.getClazz());
             } catch (IOException e) {
-                if (table.equals(properties.getCommonTableName())) {
+                if (table.equals(options.getCommonTableName())) {
                     // 允许项目不使用common表相关功能
                     logger.info("common表配置为空");
                 } else {

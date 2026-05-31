@@ -1,4 +1,4 @@
-﻿  ## 中文 | [English](README_EN.md)  
+  ## 中文 | [English](README_EN.md)  
 
   ## 项目介绍　　
   jforgame，是一个用java编写的轻量级高性能手游服务端框架。项目提供各种支持快速二次开发的组件，以及对生产环境的服务进行管理的工具。同时，为了使用户能够快速上手，项目提供了若干常用业务功能作为演示。
@@ -30,7 +30,8 @@
       ├── jforgame-socket-netty  --netty版实现，包含WebSocket服务端与客户端
       ├── jforgame-socket-mina   --mina版实现， 不包WebSocket
   ├── jforgame-orm     --专门为游戏服务器定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
-  ├── jforgame-spring-boot-starter-data    --以springboot的starter模式封装对配置数据的读取，支持csv，excel等文件格式。支持配置数据热更新,支持二级缓存。       
+  ├── jforgame-data    --配置数据功能模块，提供csv/excel/json读取、数据校验、热更新和二级缓存能力       
+  ├── jforgame-spring-boot-starter-data    --jforgame-data 的 Spring Boot starter，负责属性绑定和自动装配       
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
       ├── jforgame-codec-api        --消息编解码API接口

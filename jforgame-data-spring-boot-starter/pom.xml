@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>jforgame-data-spring-boot-starter</artifactId>
+    <name>jforgame-spring-boot-starter-data</name>
+    <description>jforgame-data, including csv and excel pattern</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-data</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

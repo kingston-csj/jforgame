@@ -1,6 +1,6 @@
 package jforgame.data.common;
 
-import jforgame.data.ResourceProperties;
+import jforgame.data.ResourceOptions;
 import jforgame.data.event.ConfigReloadEvent;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ConfigResourceRegistry implements ApplicationContextAware, Applicat
     private CommonValueAutoInjectHandler systemValueAutoInjectHandler;
 
     @Autowired
-    ResourceProperties resourceProperties;
+    ResourceOptions resourceOptions;
 
     private ApplicationContext applicationContext;
 
@@ -56,7 +56,7 @@ public class ConfigResourceRegistry implements ApplicationContextAware, Applicat
     @Override
     public void onApplicationEvent(ConfigReloadEvent event) {
         // 如果是通用常量表，则重新注入静态配置二级缓存
-        if (resourceProperties.getCommonTableName().equalsIgnoreCase(event.getSource().toString())) {
+        if (resourceOptions.getCommonTableName().equalsIgnoreCase(event.getSource().toString())) {
             autoInjectStaticConfig();
         }
     }

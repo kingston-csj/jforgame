@@ -7,8 +7,8 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>jforgame-spring-boot-starter-data</artifactId>
-    <name>jforgame-spring-boot-starter-data</name>
+    <artifactId>jforgame-data</artifactId>
+    <name>jforgame-data</name>
     <description>jforgame-data, including csv and excel pattern</description>
 
     <dependencies>
@@ -18,8 +18,8 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
             <scope>provided</scope>
         </dependency>
 

@@ -1,5 +1,7 @@
-package jforgame.data;
+package jforgame.data.autoconfigure;
 
+import jforgame.data.DataManager;
+import jforgame.data.ResourceOptions;
 import jforgame.data.common.CommonValueAutoInjectHandler;
 import jforgame.data.common.ConfigResourceRegistry;
 import jforgame.data.convertor.JsonToArrayConvertor;
@@ -7,7 +9,6 @@ import jforgame.data.convertor.JsonToListConvertor;
 import jforgame.data.convertor.JsonToMapConvertor;
 import jforgame.data.reader.DataReader;
 import jforgame.data.reader.ExcelDataReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,12 +21,6 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 @Configuration
 @EnableConfigurationProperties({ResourceProperties.class})
 public class ResourceAutoConfiguration {
-    @Autowired
-    private ResourceProperties properties;
-
-    public ResourceAutoConfiguration() {
-    }
-
     // 明确指定要注入的ConversionService Bean名称
     @Bean
     @ConditionalOnMissingBean
@@ -44,10 +39,16 @@ public class ResourceAutoConfiguration {
         return conversionService;
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    public ResourceOptions createResourceOptions(ResourceProperties properties) {
+        return properties.toResourceOptions();
+    }
+
     @Bean(name = {"dataManager"})
     @DependsOn({"dataConversionService"})
-    public DataManager createDataManager(ResourceProperties properties, DataReader dataReader) {
-        DataManager dataManager = new DataManager(properties, dataReader);
+    public DataManager createDataManager(ResourceOptions resourceOptions, DataReader dataReader) {
+        DataManager dataManager = new DataManager(resourceOptions, dataReader);
         dataManager.init();
         return dataManager;
     }

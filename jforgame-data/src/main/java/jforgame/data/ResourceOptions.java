@@ -1,9 +1,10 @@
 package jforgame.data;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-@ConfigurationProperties(prefix = "jforgame.data", ignoreInvalidFields = true)
-public class ResourceProperties {
+/**
+ * 数据资源加载配置。
+ * 这是一个普通的配置对象，不依赖 Spring Boot 的配置绑定能力。
+ */
+public class ResourceOptions {
 
     /**
      * 资源根目录
@@ -19,7 +20,6 @@ public class ResourceProperties {
      * 配置实体{@link jforgame.data.annotation.DataTable}扫描路径
      */
     private String tableScanPath;
-
 
     /**
      * 配置容器{@link Container}子类的扫描路径

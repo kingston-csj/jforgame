@@ -4,7 +4,6 @@ import jforgame.commons.util.ClassScanner;
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
-import jforgame.demo.ServerVersion;
 import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
@@ -70,8 +69,6 @@ public class GameServer {
     private void frameworkInit() throws Exception {
 
         GameContext.init();
-        // 加载服务版本号
-        ServerVersion.load();
         // 读取服务器配置
         ServerConfig config = ServerConfig.getInstance();
         // 初始化orm框架
