@@ -1,7 +1,8 @@
 package jforgame.socket.mina;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.monitoring.TrafficStatistic;
+import jforgame.socket.monitoring.DefaultTrafficObserver;
+import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.RequestDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
@@ -34,6 +35,8 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
      * 消息解码器
      */
     private MessageCodec messageCodec;
+
+    private final MessageTrafficObserver trafficObserver = DefaultTrafficObserver.INSTANCE;
 
     public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
         this(messageFactory, messageCodec, 4096);
@@ -78,9 +81,7 @@ public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
         byte[] body = new byte[bodySize];
         in.get(body);
 
-        // 流量统计
-        TrafficStatistic.addReceivedBytes(cmd, length);
-        TrafficStatistic.addReceivedNumber(cmd);
+        trafficObserver.onInbound(cmd, length);
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);
         Object msg = messageCodec.decode(msgClazz, body);

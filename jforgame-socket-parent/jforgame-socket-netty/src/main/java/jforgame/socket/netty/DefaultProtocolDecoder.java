@@ -4,7 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import jforgame.codec.MessageCodec;
-import jforgame.socket.monitoring.TrafficStatistic;
+import jforgame.socket.monitoring.DefaultTrafficObserver;
+import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.RequestDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
@@ -34,6 +35,8 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
     private final MessageFactory messageFactory;
 
     private final MessageCodec messageCodec;
+
+    private final MessageTrafficObserver trafficObserver = DefaultTrafficObserver.INSTANCE;
 
 
     public DefaultProtocolDecoder(MessageFactory messageFactory, MessageCodec messageCodec) {
@@ -80,9 +83,7 @@ public class DefaultProtocolDecoder extends ByteToMessageDecoder {
         byte[] body = new byte[bodySize];
         in.readBytes(body);
 
-        // 流量统计
-        TrafficStatistic.addReceivedBytes(cmd, length);
-        TrafficStatistic.addReceivedNumber(cmd);
+        trafficObserver.onInbound(cmd, length);
 
         Class<?> msgClazz = messageFactory.getMessage(cmd);
 

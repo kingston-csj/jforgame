@@ -1,7 +1,8 @@
 package jforgame.socket.mina;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.monitoring.TrafficStatistic;
+import jforgame.socket.monitoring.DefaultTrafficObserver;
+import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.SocketDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
@@ -30,6 +31,8 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
     private final int WRITE_BUFF_SIZE = 1024;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final MessageTrafficObserver trafficObserver = DefaultTrafficObserver.INSTANCE;
 
     public DefaultProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
         this.messageFactory = messageFactory;
@@ -79,9 +82,7 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
         // 回到buff字节数组头部
         buffer.flip();
 
-        // 流量统计
-        TrafficStatistic.addSentBytes(cmd, msgLength);
-        TrafficStatistic.addSentNumber(cmd);
+        trafficObserver.onOutbound(cmd, msgLength);
         return buffer;
     }
 

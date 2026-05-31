@@ -5,7 +5,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
-import jforgame.socket.monitoring.TrafficStatistic;
+import jforgame.socket.monitoring.DefaultTrafficObserver;
+import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.SocketDataFrame;
 import jforgame.socket.support.DefaultMessageHeader;
@@ -29,6 +30,8 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
     private final MessageFactory messageFactory;
 
     private final MessageCodec messageCodec;
+
+    private final MessageTrafficObserver trafficObserver = DefaultTrafficObserver.INSTANCE;
 
     public DefaultProtocolEncoder(MessageFactory messageFactory, MessageCodec messageCodec) {
         this.messageFactory = messageFactory;
@@ -57,9 +60,7 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
             // 写入包体
             out.writeBytes(body);
 
-            // 流量统计
-            TrafficStatistic.addSentBytes(cmd, msgLength);
-            TrafficStatistic.addSentNumber(cmd);
+            trafficObserver.onOutbound(cmd, msgLength);
         } catch (Exception e) {
             logger.error("wrote message {} failed", cmd, e);
         }
