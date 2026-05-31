@@ -57,7 +57,7 @@ public class CallBackService {
         return self;
     }
 
-    public void closeTimer() {
+    public void shutdown() {
         self.timer.cancel(true);
         self.service.shutdown();
     }

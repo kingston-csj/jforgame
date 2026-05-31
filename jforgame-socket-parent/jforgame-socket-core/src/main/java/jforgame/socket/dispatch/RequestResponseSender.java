@@ -5,7 +5,7 @@ import jforgame.socket.session.IdSession;
 /**
  * 请求响应发送器。
  * <p>
- * 用于定义处理方法返回响应对象后，框架应如何将结果下发给客户端或网关。
+ * 用于定义路由方法返回响应对象后，框架应如何将结果下发给客户端或网关。
  */
 @FunctionalInterface
 public interface RequestResponseSender {

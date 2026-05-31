@@ -21,7 +21,6 @@ public class CustomValidator implements DataValidator {
         if (container == null) {
             return;
         }
-        container.validate();
         container.validate(dataRepository);
     }
 }

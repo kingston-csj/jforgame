@@ -1,5 +1,7 @@
 package jforgame.data;
 
+import jforgame.data.exception.DataValidateException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,23 +61,10 @@ public class Container<K extends Serializable & Comparable<K>, V> {
      * 数据校验
      * 该接口会在所有数据加载完成后调用
      * 可以在此接口中关联其他配置表进行校验
-     * 该方法缺少参数，在验证的时候无法关联其他配置表进行校验
-     * 使用{@link #validate(DataRepository)}替代
-     * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
-     */
-    @Deprecated
-    public void validate() {
-
-    }
-
-    /**
-     * 数据校验
-     * 该接口会在所有数据加载完成后调用
-     * 可以在此接口中关联其他配置表进行校验
      *
      * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
      */
-    public void validate(DataRepository dataRepository) {
+    public void validate(DataRepository dataRepository) throws DataValidateException {
 
     }
 
