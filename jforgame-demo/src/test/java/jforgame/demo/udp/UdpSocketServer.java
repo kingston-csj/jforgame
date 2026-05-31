@@ -10,7 +10,7 @@ import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructCodec;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.net.HostAndPort;
 import jforgame.socket.server.ServerNode;
@@ -71,7 +71,7 @@ public class UdpSocketServer implements ServerNode {
     public static void main(String[] args) throws Exception {
         UdpSocketServer udpSocketServer = new UdpSocketServer();
         udpSocketServer.messageFactory = GameMessageFactory.getInstance();
-        udpSocketServer.messageCodec = new StructMessageCodec();
+        udpSocketServer.messageCodec = new StructCodec();
         udpSocketServer.socketIoDispatcher = new MessageIoDispatcher();
 
         udpSocketServer.start();

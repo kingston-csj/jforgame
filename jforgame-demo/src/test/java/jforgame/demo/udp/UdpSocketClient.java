@@ -11,7 +11,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.Codec;
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructCodec;
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.AbstractSocketClient;
@@ -91,7 +91,7 @@ public class UdpSocketClient extends AbstractSocketClient {
     private static AtomicLong idFactory = new AtomicLong(1000);
 
     public static void main(String[] args) throws Exception {
-        MessageCodec messageCodec = new StructMessageCodec();
+        MessageCodec messageCodec = new StructCodec();
         GameMessageFactory.getInstance().registeredClassTypes().forEach(Codec::getSerializer);
         for (int i = 0; i < 10; i++) {
             System.out.println("----------i=" + i);

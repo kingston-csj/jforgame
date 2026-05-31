@@ -1,7 +1,7 @@
 
 package jforgame.demo.client;
 
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructCodec;
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.game.hello.ReqHello;
@@ -41,7 +41,7 @@ public class ClientStartup {
             }
         };
 
-        SocketClient socketClient = new TcpSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructMessageCodec(), hostPort);
+        SocketClient socketClient = new TcpSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructCodec(), hostPort);
         IdSession session = socketClient.openSession();
 
         ClientPlayer robot = new ClientPlayer(session);

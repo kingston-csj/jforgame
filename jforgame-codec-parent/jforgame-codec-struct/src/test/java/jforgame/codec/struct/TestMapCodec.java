@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class TestMapCodec {
 
-    private MessageCodec messageCodec = new StructMessageCodec();
+    private MessageCodec messageCodec = new StructCodec();
 
     @Test
     public void test() throws Exception {

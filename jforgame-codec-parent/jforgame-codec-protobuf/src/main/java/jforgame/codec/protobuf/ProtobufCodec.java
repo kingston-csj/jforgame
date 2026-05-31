@@ -16,9 +16,9 @@ import java.io.IOException;
  * 对于一个消息类，服务器仅需在消息类上添加{@link ProtobufClass}注解即可
  * 服务器可以通过{@link ProtobufIDLGenerator}生成对应的.proto文件
  */
-public class ProtobufMessageCodec implements MessageCodec {
+public class ProtobufCodec implements MessageCodec {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProtobufMessageCodec.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProtobufCodec.class);
 
 	@Override
 	public Object decode(Class<?> msgClazz, byte[] body) {

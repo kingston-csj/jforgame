@@ -1,7 +1,7 @@
 package jforgame.demo.socket.client;
 
 import jforgame.codec.MessageCodec;
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructCodec;
 import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.client.CallbackTimeoutException;
 import jforgame.socket.client.RpcMessageClient;
@@ -28,7 +28,7 @@ public class RpcClientHelper {
 
     private static MessageFactory messageFactory = GameMessageFactory.getInstance();
 
-    private static MessageCodec messageCodec = new StructMessageCodec();
+    private static MessageCodec messageCodec = new StructCodec();
 
     private static final Logger logger = LoggerFactory.getLogger(RpcClientHelper.class.getName());
 

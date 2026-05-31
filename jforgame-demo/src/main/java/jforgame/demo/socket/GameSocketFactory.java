@@ -1,6 +1,6 @@
 package jforgame.demo.socket;
 
-import jforgame.codec.struct.StructMessageCodec;
+import jforgame.codec.struct.StructCodec;
 import jforgame.socket.client.SocketClient;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.netty.client.TcpSocketClient;
@@ -19,7 +19,7 @@ public final class GameSocketFactory {
         return TcpSocketServerBuilder.newBuilder()
                 .bindingPort(HostAndPort.valueOf(port))
                 .setMessageFactory(GameMessageFactory.getInstance())
-                .setMessageCodec(new StructMessageCodec())
+                .setMessageCodec(new StructCodec())
                 .setSocketIoDispatcher(new MessageIoDispatcher(scanPath))
                 .build();
     }
@@ -28,7 +28,7 @@ public final class GameSocketFactory {
         return new TcpSocketClient(
                 new MessageIoDispatcher(scanPath),
                 GameMessageFactory.getInstance(),
-                new StructMessageCodec(),
+                new StructCodec(),
                 HostAndPort.valueOf(ip, port)
         );
     }

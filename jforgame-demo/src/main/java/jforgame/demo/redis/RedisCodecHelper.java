@@ -1,7 +1,7 @@
 package jforgame.demo.redis;
 
 import jforgame.codec.MessageCodec;
-import jforgame.codec.protobuf.ProtobufMessageCodec;
+import jforgame.codec.protobuf.ProtobufCodec;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class RedisCodecHelper {
 
-    private static MessageCodec serializer = new ProtobufMessageCodec();
+    private static MessageCodec serializer = new ProtobufCodec();
 
     /***
      * @param o 必须有字段加上protobuf注解
