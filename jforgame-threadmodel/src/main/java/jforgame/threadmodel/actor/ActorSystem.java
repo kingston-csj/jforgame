@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -65,6 +66,7 @@ public class ActorSystem implements ThreadModel {
 
 
     public Actor createActor(String actorPath) {
+        ensureRunning();
         BaseActor actor = new BaseActor(this, actorPath);
         Actor old = actors.putIfAbsent(actorPath, actor);
         if (old != null) {
@@ -84,6 +86,9 @@ public class ActorSystem implements ThreadModel {
      */
     public void removeActor(String actorPath) {
         Actor removed = actors.remove(actorPath);
+        if (removed instanceof BaseActor) {
+            ((BaseActor) removed).deactivate();
+        }
     }
 
     /**
@@ -93,6 +98,7 @@ public class ActorSystem implements ThreadModel {
      * @return actor
      */
     public Actor getOrCreateActor(String actorPath) {
+        ensureRunning();
         return actors.computeIfAbsent(actorPath, path -> new BaseActor(this, path));
     }
 
@@ -108,9 +114,14 @@ public class ActorSystem implements ThreadModel {
 
     @Override
     public void accept(Runnable task) {
+        ensureRunning();
         // 这里不要使用submit()方法，因为submit 会额外创建 FutureTask ，在大量消息投递场景下会产生不必要的分配
         // ActorSystem 这类 fire-and-forget 更适合 execute
-        threadPool.execute(task);
+        try {
+            threadPool.execute(task);
+        } catch (RejectedExecutionException e) {
+            throw new IllegalStateException("ActorSystem has been shutdown", e);
+        }
     }
 
     @Override
@@ -145,6 +156,12 @@ public class ActorSystem implements ThreadModel {
     @Override
     public boolean isShutdown() {
         return !running.get();
+    }
+
+    private void ensureRunning() {
+        if (isShutdown()) {
+            throw new IllegalStateException("ActorSystem has been shutdown");
+        }
     }
 
     /**

@@ -77,4 +77,11 @@ public class Mailbox {
         return mails.poll();
     }
 
+    /**
+     * 清空邮箱
+     */
+    public void clear() {
+        mails.clear();
+    }
+
 }

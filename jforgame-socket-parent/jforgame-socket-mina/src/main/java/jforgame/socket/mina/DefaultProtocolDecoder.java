@@ -5,7 +5,7 @@ import jforgame.socket.monitoring.DefaultTrafficObserver;
 import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.RequestDataFrame;
-import jforgame.socket.support.DefaultMessageHeader;
+import jforgame.socket.protocol.message.DefaultMessageHeader;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;

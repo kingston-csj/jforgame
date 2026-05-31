@@ -6,6 +6,7 @@ import jforgame.socket.session.IdSession;
  * 请求执行拦截器
  * 用于扩展一次请求在业务线程中的执行过程，可在方法调用前后追加日志、监控、鉴权，
  * 或在异常发生时进行统一处理。
+ * @since 4.0.0
  */
 public interface RequestExecutionInterceptor {
 

@@ -9,7 +9,7 @@ import jforgame.socket.monitoring.DefaultTrafficObserver;
 import jforgame.socket.monitoring.MessageTrafficObserver;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.protocol.message.SocketDataFrame;
-import jforgame.socket.support.DefaultMessageHeader;
+import jforgame.socket.protocol.message.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

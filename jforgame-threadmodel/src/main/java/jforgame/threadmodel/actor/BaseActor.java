@@ -47,6 +47,11 @@ public class BaseActor implements Actor {
     private AtomicBoolean queued = new AtomicBoolean(false);
 
     /**
+     * actor是否仍然处于可接收消息状态
+     */
+    private final AtomicBoolean active = new AtomicBoolean(true);
+
+    /**
      * 所属的actor系统
      */
     private final ActorSystem actorSystem;
@@ -82,7 +87,7 @@ public class BaseActor implements Actor {
     @Override
     public void tell(Mail message, Actor sender) {
         Objects.requireNonNull(message);
-        if (actorSystem.isShutdown()) {
+        if (actorSystem.isShutdown() || !active.get()) {
             return;
         }
         message.setSender(sender);
@@ -101,6 +106,10 @@ public class BaseActor implements Actor {
      */
     @Override
     public void run() {
+        if (!active.get()) {
+            queued.set(false);
+            return;
+        }
         int size = mailBox.getTaskSize();
         if (size > THRESHOLD) {
             logger.warn("[{}]任务堆积严重，任务数量[{}]", actorPath, size);
@@ -122,7 +131,7 @@ public class BaseActor implements Actor {
             queued.set(false);
 
             // 如果还有消息，重新提交
-            if (!mailBox.isEmpty() && actorSystem.running.get()) {
+            if (active.get() && !mailBox.isEmpty() && actorSystem.running.get()) {
                 if (queued.compareAndSet(false, true)) {
                     actorSystem.accept(this);
                 }
@@ -132,5 +141,15 @@ public class BaseActor implements Actor {
 
     public String getActorPath() {
         return actorPath;
+    }
+
+    void deactivate() {
+        if (active.compareAndSet(true, false)) {
+            mailBox.clear();
+        }
+    }
+
+    boolean isActive() {
+        return active.get();
     }
 }

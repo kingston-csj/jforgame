@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 请求执行支持类，负责串联默认调用流程、响应发送和拦截器链。
+ * @since 4.0.0
  */
 final class RequestExecutionSupport {
 
@@ -35,7 +36,7 @@ final class RequestExecutionSupport {
             Object response = methodCaller.invoke(requestContext.getMethodExecutor().getHandler(), requestContext.getParams());
             if (response != null) {
                 requestContext.setResponse(response);
-                responseSender.send(session, requestContext, response);
+                responseSender.send(session, requestContext);
             }
 
             for (RequestExecutionInterceptor interceptor : interceptors) {

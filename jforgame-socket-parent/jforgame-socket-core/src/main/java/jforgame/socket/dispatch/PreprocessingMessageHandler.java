@@ -2,9 +2,8 @@ package jforgame.socket.dispatch;
 
 import jforgame.socket.session.IdSession;
 import jforgame.socket.registry.MessageHandlerRegister;
-import jforgame.socket.protocol.message.MessageExecutor;
+import jforgame.socket.registry.MessageExecutor;
 import jforgame.socket.protocol.message.MessageFactory;
-import jforgame.socket.support.DefaultMessageParameterConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

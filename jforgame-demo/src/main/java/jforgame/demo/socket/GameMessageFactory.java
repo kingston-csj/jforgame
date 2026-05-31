@@ -4,7 +4,7 @@ import jforgame.commons.util.ClassScanner;
 import jforgame.demo.ServerScanPaths;
 import jforgame.socket.protocol.annotation.MessageMeta;
 import jforgame.socket.protocol.message.MessageFactory;
-import jforgame.socket.support.DefaultMessageFactory;
+import jforgame.socket.protocol.message.DefaultMessageFactory;
 
 import java.util.Collection;
 import java.util.Set;

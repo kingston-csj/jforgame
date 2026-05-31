@@ -1,6 +1,6 @@
 package jforgame.socket.dispatch;
 
-import jforgame.socket.protocol.message.MessageExecutor;
+import jforgame.socket.registry.MessageExecutor;
 import jforgame.socket.protocol.message.MessageHeader;
 
 /**

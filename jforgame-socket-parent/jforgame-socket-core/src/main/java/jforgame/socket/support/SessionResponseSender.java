@@ -12,7 +12,7 @@ public class SessionResponseSender implements RequestResponseSender {
     public static final SessionResponseSender INSTANCE = new SessionResponseSender();
 
     @Override
-    public void send(IdSession session, RequestContext requestContext, Object response) {
-        session.send(requestContext.getHeader().getIndex(), response);
+    public void send(IdSession session, RequestContext requestContext) {
+        session.send(requestContext.getHeader().getIndex(), requestContext.getRequest());
     }
 }

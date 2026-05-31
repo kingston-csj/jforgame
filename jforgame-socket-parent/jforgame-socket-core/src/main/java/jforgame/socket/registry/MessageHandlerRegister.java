@@ -1,7 +1,5 @@
 package jforgame.socket.registry;
 
-import jforgame.socket.protocol.message.MessageExecutor;
-
 /**
  * 消息处理注册器，用于注册消息处理方法
  */

@@ -1,8 +1,7 @@
-package jforgame.socket.support;
+package jforgame.socket.registry;
 
 import jforgame.socket.protocol.annotation.MessageRoute;
 import jforgame.socket.protocol.annotation.RequestHandler;
-import jforgame.socket.protocol.message.MessageExecutor;
 
 import java.lang.reflect.Method;
 

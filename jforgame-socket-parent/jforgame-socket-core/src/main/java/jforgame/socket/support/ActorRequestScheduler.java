@@ -1,10 +1,10 @@
 package jforgame.socket.support;
 
+import jforgame.socket.dispatch.RequestResponseSender;
 import jforgame.socket.session.IdSession;
 import jforgame.socket.dispatch.RequestActorSelector;
 import jforgame.socket.dispatch.RequestContext;
 import jforgame.socket.dispatch.RequestExecutionInterceptor;
-import jforgame.socket.dispatch.RequestResponseSender;
 import jforgame.socket.dispatch.RequestScheduler;
 import jforgame.threadmodel.actor.Actor;
 import jforgame.threadmodel.actor.mail.Mail;

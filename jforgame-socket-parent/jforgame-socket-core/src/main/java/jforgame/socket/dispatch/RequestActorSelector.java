@@ -6,6 +6,7 @@ import jforgame.threadmodel.actor.Actor;
 /**
  * 请求 Actor 选择器。
  * 用于根据会话和请求上下文选择最终投递的目标 Actor。
+ * @since 4.0.0
  */
 @FunctionalInterface
 public interface RequestActorSelector {

@@ -1,13 +1,13 @@
 package jforgame.socket.support;
 
-import jforgame.socket.session.IdSession;
 import jforgame.socket.dispatch.RequestContext;
 import jforgame.socket.dispatch.RequestDispatchKeyResolver;
 import jforgame.socket.dispatch.RequestExecutionInterceptor;
 import jforgame.socket.dispatch.RequestResponseSender;
 import jforgame.socket.dispatch.RequestScheduler;
-import jforgame.threadmodel.dispatch.DispatchThreadModel;
+import jforgame.socket.session.IdSession;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
+import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**
  * 基于 DispatchThreadModel 的请求调度器。

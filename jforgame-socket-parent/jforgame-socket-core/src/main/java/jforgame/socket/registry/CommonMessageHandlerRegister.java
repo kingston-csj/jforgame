@@ -1,10 +1,9 @@
-package jforgame.socket.support;
+package jforgame.socket.registry;
 
 import jforgame.commons.util.ClassScanner;
 import jforgame.socket.protocol.annotation.MessageMeta;
 import jforgame.socket.protocol.annotation.MessageRoute;
 import jforgame.socket.protocol.annotation.RequestHandler;
-import jforgame.socket.protocol.message.MessageExecutor;
 import jforgame.socket.protocol.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package jforgame.socket.protocol.message;
+package jforgame.socket.registry;
 
 import java.lang.reflect.Method;
 /**

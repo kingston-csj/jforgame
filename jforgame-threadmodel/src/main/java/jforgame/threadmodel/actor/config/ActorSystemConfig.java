@@ -112,12 +112,21 @@ public class ActorSystemConfig {
             return config;
         }
 
-        // 模式匹配
+        // 模式匹配，按最长前缀优先，避免依赖Map遍历顺序
+        ActorDeploymentConfig bestMatch = null;
+        int bestPrefixLength = -1;
         for (Map.Entry<String, ActorDeploymentConfig> entry : deployments.entrySet()) {
             String pattern = entry.getKey();
             if (matchPattern(actorPath, pattern)) {
-                return entry.getValue();
+                int prefixLength = getPatternPrefixLength(pattern);
+                if (prefixLength > bestPrefixLength) {
+                    bestPrefixLength = prefixLength;
+                    bestMatch = entry.getValue();
+                }
             }
+        }
+        if (bestMatch != null) {
+            return bestMatch;
         }
 
         // 返回默认配置
@@ -153,6 +162,13 @@ public class ActorSystemConfig {
             return path.startsWith(prefix);
         }
         return path.equals(pattern);
+    }
+
+    private int getPatternPrefixLength(String pattern) {
+        if (pattern.endsWith("/*")) {
+            return pattern.length() - 2;
+        }
+        return pattern.length();
     }
 
     /**

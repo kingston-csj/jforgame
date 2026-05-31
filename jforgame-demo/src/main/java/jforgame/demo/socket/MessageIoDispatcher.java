@@ -3,14 +3,14 @@ package jforgame.demo.socket;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.socket.dispatch.ChainedMessageDispatcher;
-import jforgame.socket.support.CommonMessageHandlerRegister;
+import jforgame.socket.registry.CommonMessageHandlerRegister;
 import jforgame.socket.session.IdSession;
 import jforgame.socket.dispatch.MessageHandler;
 import jforgame.socket.registry.MessageHandlerRegister;
 import jforgame.socket.dispatch.PreprocessingMessageHandler;
 import jforgame.socket.protocol.message.MessageFactory;
 import jforgame.socket.dispatch.RequestScheduler;
-import jforgame.socket.support.RequestSchedulers;
+import jforgame.socket.dispatch.RequestSchedulers;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
 
     public MessageIoDispatcher(String scanPath) {
         this(scanPath, GameMessageFactory.getInstance(),
-                RequestSchedulers.dispatch(GameServer.getThreadModel(),
+                RequestSchedulers.newDispatchScheduler(GameServer.getThreadModel(),
                         (session, context) -> ((Number) session.getAttribute(SessionProperties.DISTRIBUTE_KEY)).longValue()));
     }
 

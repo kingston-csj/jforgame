@@ -1,8 +1,6 @@
-package jforgame.socket.support;
+package jforgame.socket.dispatch;
 
 import jforgame.socket.session.IdSession;
-import jforgame.socket.dispatch.MessageParameterConverter;
-import jforgame.socket.dispatch.RequestContext;
 import jforgame.socket.protocol.message.MessageFactory;
 
 /**
