@@ -47,7 +47,6 @@ jforgame
 |    ├── cross -- Basic communication foundation for cross-server matches/events
 |    ├── game/gm -- In-game GM command system
 |    ├── game/admin -- Operation & maintenance backend commands
-|    ├── redis -- Cross-server communication (e.g., cross-server leaderboards)
 |    ├── tools -- Helper utilities to simplify development
 |    └── utils -- General utility classes
 ```

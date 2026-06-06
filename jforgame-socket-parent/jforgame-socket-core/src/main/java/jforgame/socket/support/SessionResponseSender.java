@@ -13,6 +13,6 @@ public class SessionResponseSender implements RequestResponseSender {
 
     @Override
     public void send(IdSession session, RequestContext requestContext) {
-        session.send(requestContext.getHeader().getIndex(), requestContext.getRequest());
+        session.send(requestContext.getHeader().getIndex(), requestContext.getResponse());
     }
 }

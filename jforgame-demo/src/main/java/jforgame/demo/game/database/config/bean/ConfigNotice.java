@@ -13,7 +13,7 @@ public class ConfigNotice {
 
 	@Column
 	@Id
-	private Integer id;
+	private int id;
 	@Column
 	/** 所属模块 */
 	private String module;

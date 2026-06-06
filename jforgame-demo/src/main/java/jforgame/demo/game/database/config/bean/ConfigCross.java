@@ -1,7 +1,12 @@
 package jforgame.demo.game.database.config.bean;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity()
 public class ConfigCross {
 
+    @Id
     private int id;
 
     private String ip;

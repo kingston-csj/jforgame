@@ -10,7 +10,7 @@ public class ConfigActivity {
 
     @Column
     @Id
-    private Integer id;
+    private int id;
     /**
      * 活动类型
      */

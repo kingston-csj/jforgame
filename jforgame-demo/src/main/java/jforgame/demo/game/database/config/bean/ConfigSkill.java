@@ -9,7 +9,7 @@ public class ConfigSkill {
 
 	@Id
 	@Column
-	private Integer id;
+	private int id;
 
 	@Column
 	private String name;

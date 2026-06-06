@@ -16,7 +16,7 @@ public class PlayerEnt extends BaseEntity<Long> {
 
     @Id
     @Column
-    private Long id;
+    private long id;
 
     @Column
     private long accountId;

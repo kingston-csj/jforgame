@@ -12,7 +12,7 @@ public class ConfigConstant {
 
     @Column
     @Id
-    private Integer id;
+    private int id;
     @Column
     private int intValue;
     @Column

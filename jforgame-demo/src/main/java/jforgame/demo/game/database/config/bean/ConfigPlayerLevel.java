@@ -16,7 +16,7 @@ public class ConfigPlayerLevel {
 	 */
 	@Id
 	@Column
-	private Integer level;
+	private int level;
 	
 	/**
 	 * 升到下一级别需要的经验

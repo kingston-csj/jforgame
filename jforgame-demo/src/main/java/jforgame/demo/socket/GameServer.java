@@ -7,16 +7,12 @@ import jforgame.demo.ServerScanPaths;
 import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
-import jforgame.demo.game.admin.http.HttpCommandManager;
-import jforgame.demo.game.admin.http.HttpServer;
 import jforgame.demo.game.core.CronSchedulerHelper;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.logger.LoggerBusiness;
 import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.listener.ListenerManager;
-import jforgame.demo.redis.RedisCluster;
-import jforgame.demo.tools.protocol.diy.TypeScriptProtocolGenerator;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
@@ -90,10 +86,6 @@ public class GameServer {
         ConfigDataPool.getInstance().loadAllConfigs();
         // 读取系统参数
         loadSystemRecords();
-        // Redis cache
-        RedisCluster.INSTANCE.init();
-        // http admin commands
-        HttpCommandManager.getInstance().initialize(ServerScanPaths.HTTP_ADMIN_PATH);
 
         GameContext.gmManager.init();
 
@@ -117,9 +109,6 @@ public class GameServer {
 //                .build();
 
         socketServer.start();
-        // 启动http服务
-        httpServer = new HttpServer();
-        httpServer.start();
     }
 
     private void loadSystemRecords() throws Exception {
@@ -139,12 +128,6 @@ public class GameServer {
 //		LadderFightManager.getInstance().init();
 
         LoggerUtils.info(LoggerBusiness.MONITOR, "type", "start", "id", "game");
-
-        try {
-            new TypeScriptProtocolGenerator().export();
-        } catch (Exception e) {
-            LoggerUtils.error("导出客户端协议异常", e);
-        }
     }
 
     public void shutdown() {

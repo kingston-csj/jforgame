@@ -1,14 +1,13 @@
 package jforgame.demo;
 
-import java.net.SocketException;
-
+import jforgame.demo.utils.IpAddrUtil;
 import jforgame.demo.utils.XmlUtils;
-import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jforgame.demo.utils.IpAddrUtil;
+import java.net.SocketException;
 
 @Root(name = "server")
 public class ServerConfig {
@@ -47,10 +46,6 @@ public class ServerConfig {
 	/** 对外跨服端口 */
 	@Element(required = true)
 	private int crossPort;
-
-	/** redis server url {http:port} */
-	@Element(required = true)
-	private String redisUrl;
 
 	@Element(required = true)
 	private FireWall fireWall;
@@ -112,10 +107,6 @@ public class ServerConfig {
 
 	public void setWhiteIpPattern(String[] whiteIpPattern) {
 		this.whiteIpPattern = whiteIpPattern;
-	}
-
-	public String getRedisUrl() {
-		return redisUrl;
 	}
 
 	public String getMatchUrl() {
