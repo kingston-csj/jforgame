@@ -2,7 +2,7 @@ package jforgame.demo.tools.protocol.message;
 
 import jforgame.commons.util.ClassScanner;
 import jforgame.demo.ServerScanPaths;
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.message.Message;
 
 import java.util.stream.Collectors;
 

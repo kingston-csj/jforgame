@@ -2,9 +2,9 @@ package jforgame.socket.netty.server;
 
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.ChannelIoHandler;
-import jforgame.socket.dispatch.ChainedMessageDispatcher;
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.protocol.message.MessageFactory;
+import jforgame.socket.core.dispatch.ChainedMessageDispatcher;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.protocol.message.MessageFactory;
 
 import java.io.File;
 

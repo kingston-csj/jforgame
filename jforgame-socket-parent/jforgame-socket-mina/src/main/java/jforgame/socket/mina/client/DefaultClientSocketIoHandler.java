@@ -1,10 +1,10 @@
 package jforgame.socket.mina.client;
 
-import jforgame.socket.client.CallBackService;
-import jforgame.socket.client.RpcResponseData;
+import jforgame.socket.core.client.CallBackService;
+import jforgame.socket.core.client.RpcResponseData;
 import jforgame.socket.mina.DefaultSocketIoHandler;
-import jforgame.socket.dispatch.SocketIoDispatcher;
-import jforgame.socket.protocol.message.RequestDataFrame;
+import jforgame.socket.core.dispatch.SocketIoDispatcher;
+import jforgame.socket.core.protocol.message.RequestDataFrame;
 import org.apache.mina.core.session.IoSession;
 /**
  * 默认的客户端SocketIoHandler

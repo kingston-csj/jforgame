@@ -11,12 +11,12 @@ import io.netty.util.ReferenceCounted;
 import jforgame.codec.MessageCodec;
 import jforgame.commons.util.JsonUtil;
 import jforgame.commons.util.NumberUtil;
-import jforgame.socket.net.WebSocketJsonFrame;
-import jforgame.socket.protocol.message.MessageFactory;
-import jforgame.socket.protocol.message.MessageHeader;
-import jforgame.socket.protocol.message.RequestDataFrame;
-import jforgame.socket.protocol.message.SocketDataFrame;
-import jforgame.socket.protocol.message.DefaultMessageHeader;
+import jforgame.socket.core.net.WebSocketJsonFrame;
+import jforgame.socket.core.protocol.message.MessageFactory;
+import jforgame.socket.core.protocol.message.MessageHeader;
+import jforgame.socket.core.protocol.message.RequestDataFrame;
+import jforgame.socket.core.protocol.message.SocketDataFrame;
+import jforgame.socket.core.protocol.message.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

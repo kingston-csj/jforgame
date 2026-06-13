@@ -7,8 +7,8 @@ import jforgame.demo.cross.core.F2GCallBack;
 import jforgame.demo.cross.core.G2FCallBack;
 import jforgame.demo.cross.core.C2SSessionPoolFactory;
 import jforgame.demo.cross.core.NSessionPlus;
-import jforgame.socket.client.RequestCallback;
-import jforgame.socket.client.RpcMessageClient;
+import jforgame.socket.core.client.RequestCallback;
+import jforgame.socket.core.client.RpcMessageClient;
 
 public class CrossDemoGameService {
 

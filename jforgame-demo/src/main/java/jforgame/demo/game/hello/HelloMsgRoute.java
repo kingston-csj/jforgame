@@ -1,8 +1,8 @@
 package jforgame.demo.game.hello;
 
-import jforgame.socket.session.IdSession;
-import jforgame.socket.protocol.annotation.MessageRoute;
-import jforgame.socket.protocol.annotation.RequestHandler;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.protocol.annotation.MessageRoute;
+import jforgame.socket.core.protocol.annotation.RequestHandler;
 
 @MessageRoute
 public class HelloMsgRoute {

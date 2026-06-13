@@ -2,8 +2,8 @@ package jforgame.demo.game.player.message;
 
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.login.LoginDataPool;
-import jforgame.socket.protocol.annotation.MessageMeta;
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.annotation.MessageMeta;
+import jforgame.socket.core.protocol.message.Message;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
 package jforgame.demo.socket.filter;
 
 import jforgame.commons.util.JsonUtil;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.dispatch.MessageHandler;
-import jforgame.socket.dispatch.RequestContext;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.dispatch.MessageHandler;
+import jforgame.socket.core.dispatch.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

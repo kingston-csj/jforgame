@@ -1,6 +1,6 @@
 package jforgame.demo.udp;
 
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.message.Message;
 
 public class UdpMessage implements Message {
 

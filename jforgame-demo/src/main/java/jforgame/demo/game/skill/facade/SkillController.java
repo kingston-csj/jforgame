@@ -1,8 +1,8 @@
 package jforgame.demo.game.skill.facade;
 
 import jforgame.demo.game.skill.message.ReqUseSkill;
-import jforgame.socket.protocol.annotation.MessageRoute;
-import jforgame.socket.protocol.annotation.RequestHandler;
+import jforgame.socket.core.protocol.annotation.MessageRoute;
+import jforgame.socket.core.protocol.annotation.RequestHandler;
 
 @MessageRoute
 public class SkillController {

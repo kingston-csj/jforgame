@@ -1,9 +1,9 @@
 package jforgame.demo.cross.core;
 
-import jforgame.socket.session.IdSession;
-import jforgame.socket.protocol.annotation.MessageRoute;
-import jforgame.socket.protocol.annotation.RequestHandler;
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.protocol.annotation.MessageRoute;
+import jforgame.socket.core.protocol.annotation.RequestHandler;
+import jforgame.socket.core.protocol.message.Message;
 
 @MessageRoute
 public class CallbackController {

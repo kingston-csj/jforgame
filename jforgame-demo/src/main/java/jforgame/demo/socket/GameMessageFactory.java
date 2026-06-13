@@ -2,9 +2,9 @@ package jforgame.demo.socket;
 
 import jforgame.commons.util.ClassScanner;
 import jforgame.demo.ServerScanPaths;
-import jforgame.socket.protocol.annotation.MessageMeta;
-import jforgame.socket.protocol.message.MessageFactory;
-import jforgame.socket.protocol.message.DefaultMessageFactory;
+import jforgame.socket.core.protocol.annotation.MessageMeta;
+import jforgame.socket.core.protocol.message.MessageFactory;
+import jforgame.socket.core.protocol.message.DefaultMessageFactory;
 
 import java.util.Collection;
 import java.util.Set;

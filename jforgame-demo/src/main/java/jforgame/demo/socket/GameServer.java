@@ -16,7 +16,7 @@ import jforgame.demo.listener.ListenerManager;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
-import jforgame.socket.server.ServerNode;
+import jforgame.socket.core.server.ServerNode;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;

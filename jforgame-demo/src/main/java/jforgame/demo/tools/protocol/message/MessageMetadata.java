@@ -1,6 +1,6 @@
 package jforgame.demo.tools.protocol.message;
 
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.message.Message;
 
 public class MessageMetadata implements Comparable<MessageMetadata> {
 

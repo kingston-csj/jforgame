@@ -3,7 +3,7 @@ package jforgame.demo.cross.demo;
 import jforgame.demo.cross.core.G2FCallBack;
 import jforgame.demo.cross.core.CallBackCommands;
 import jforgame.demo.cross.core.CallbackHandler;
-import jforgame.socket.session.IdSession;
+import jforgame.socket.core.session.IdSession;
 
 public class HelloCallbackHandler extends CallbackHandler {
 

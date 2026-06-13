@@ -1,11 +1,11 @@
 package jforgame.demo.socket;
 
 import jforgame.codec.struct.StructCodec;
-import jforgame.socket.client.SocketClient;
+import jforgame.socket.core.client.SocketClient;
 import jforgame.socket.mina.server.TcpSocketServerBuilder;
 import jforgame.socket.netty.client.TcpSocketClient;
-import jforgame.socket.server.ServerNode;
-import jforgame.socket.net.HostAndPort;
+import jforgame.socket.core.server.ServerNode;
+import jforgame.socket.core.net.HostAndPort;
 
 /**
  * 游戏服 socket 默认装配，屏蔽重复的 messageFactory / codec / dispatcher 组装逻辑。

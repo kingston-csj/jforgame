@@ -1,7 +1,7 @@
 package jforgame.demo.udp;
 
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.session.IdSession;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.session.IdSession;
 
 public class Player {
 

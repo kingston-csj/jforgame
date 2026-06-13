@@ -11,8 +11,8 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.server.ServerNode;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.server.ServerNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

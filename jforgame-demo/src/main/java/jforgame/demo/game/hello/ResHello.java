@@ -1,6 +1,6 @@
 package jforgame.demo.game.hello;
 
-import jforgame.socket.protocol.annotation.MessageMeta;
+import jforgame.socket.core.protocol.annotation.MessageMeta;
 
 @MessageMeta(cmd = 999)
 public class ResHello {

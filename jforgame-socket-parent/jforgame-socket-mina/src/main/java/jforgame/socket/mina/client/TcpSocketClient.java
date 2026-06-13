@@ -1,14 +1,14 @@
 package jforgame.socket.mina.client;
 
 import jforgame.codec.MessageCodec;
-import jforgame.socket.client.AbstractSocketClient;
+import jforgame.socket.core.client.AbstractSocketClient;
 import jforgame.socket.mina.MSession;
 import jforgame.socket.mina.DefaultProtocolCodecFactory;
 import jforgame.socket.mina.DefaultSocketIoHandler;
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.dispatch.SocketIoDispatcher;
-import jforgame.socket.protocol.message.MessageFactory;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.dispatch.SocketIoDispatcher;
+import jforgame.socket.core.protocol.message.MessageFactory;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;

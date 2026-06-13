@@ -3,8 +3,8 @@ package jforgame.demo.game.gm.message;
 import com.baidu.bjf.remoting.protobuf.annotation.Protobuf;
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.gm.GmConstant;
-import jforgame.socket.protocol.annotation.MessageMeta;
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.annotation.MessageMeta;
+import jforgame.socket.core.protocol.message.Message;
 
 /**
  * gm 执行命令

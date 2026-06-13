@@ -16,10 +16,10 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.netty.ChannelIoHandler;
-import jforgame.socket.server.ServerNode;
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.dispatch.SocketIoDispatcher;
-import jforgame.socket.protocol.message.MessageFactory;
+import jforgame.socket.core.server.ServerNode;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.dispatch.SocketIoDispatcher;
+import jforgame.socket.core.protocol.message.MessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

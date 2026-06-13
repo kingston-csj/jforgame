@@ -3,8 +3,8 @@ package jforgame.socket.netty;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.protocol.message.SocketDataFrame;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.protocol.message.SocketDataFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

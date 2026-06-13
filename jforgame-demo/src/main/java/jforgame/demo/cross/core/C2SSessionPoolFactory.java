@@ -8,7 +8,8 @@ import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigCross;
 import jforgame.demo.game.database.config.storage.ConfigCrossStorage;
 import jforgame.demo.socket.GameSocketFactory;
-import jforgame.socket.session.IdSession;
+import jforgame.socket.core.client.SocketClient;
+import jforgame.socket.core.session.IdSession;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -147,7 +148,7 @@ class C2SSessionFactory extends BasePooledObjectFactory<NSessionPlus> {
 
     @Override
     public NSessionPlus create() throws Exception {
-        jforgame.socket.client.SocketClient clientFactory = GameSocketFactory.createTcpClient(ip, port, ServerScanPaths.MESSAGE_PATH);
+        SocketClient clientFactory = GameSocketFactory.createTcpClient(ip, port, ServerScanPaths.MESSAGE_PATH);
         IdSession session = clientFactory.openSession();
         return new NSessionPlus((Channel) session.getRawSession());
     }

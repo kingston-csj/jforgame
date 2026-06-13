@@ -7,15 +7,15 @@ import jforgame.demo.ServerConfig;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
 import jforgame.demo.socket.GameMessageFactory;
-import jforgame.socket.client.RequestCallback;
-import jforgame.socket.client.RpcMessageClient;
-import jforgame.socket.client.SocketClient;
+import jforgame.socket.core.client.RequestCallback;
+import jforgame.socket.core.client.RpcMessageClient;
+import jforgame.socket.core.client.SocketClient;
 import jforgame.socket.mina.client.TcpSocketClient;
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.dispatch.RequestContext;
-import jforgame.socket.dispatch.SocketIoDispatcher;
-import jforgame.socket.dispatch.SocketIoDispatcherAdapter;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.dispatch.RequestContext;
+import jforgame.socket.core.dispatch.SocketIoDispatcher;
+import jforgame.socket.core.dispatch.SocketIoDispatcherAdapter;
 
 /**
  * 客户端模拟器启动程序

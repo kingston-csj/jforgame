@@ -2,8 +2,8 @@ package jforgame.demo.cross.core;
 
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.Modules;
-import jforgame.socket.protocol.annotation.MessageMeta;
-import jforgame.socket.protocol.message.Message;
+import jforgame.socket.core.protocol.annotation.MessageMeta;
+import jforgame.socket.core.protocol.message.Message;
 
 /**
  * 跨服回调响应方

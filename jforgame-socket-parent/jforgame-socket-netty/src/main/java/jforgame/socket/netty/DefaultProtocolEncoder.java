@@ -5,11 +5,11 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import jforgame.codec.MessageCodec;
-import jforgame.socket.monitoring.DefaultTrafficObserver;
-import jforgame.socket.monitoring.MessageTrafficObserver;
-import jforgame.socket.protocol.message.MessageFactory;
-import jforgame.socket.protocol.message.SocketDataFrame;
-import jforgame.socket.protocol.message.DefaultMessageHeader;
+import jforgame.socket.core.monitoring.DefaultTrafficObserver;
+import jforgame.socket.core.monitoring.MessageTrafficObserver;
+import jforgame.socket.core.protocol.message.MessageFactory;
+import jforgame.socket.core.protocol.message.SocketDataFrame;
+import jforgame.socket.core.protocol.message.DefaultMessageHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

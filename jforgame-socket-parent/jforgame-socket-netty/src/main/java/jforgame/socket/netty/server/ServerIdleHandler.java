@@ -6,8 +6,8 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
 import jforgame.socket.netty.ChannelUtils;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.dispatch.SocketIoDispatcher;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.dispatch.SocketIoDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

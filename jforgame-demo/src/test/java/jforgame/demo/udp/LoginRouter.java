@@ -1,9 +1,9 @@
 package jforgame.demo.udp;
 
-import jforgame.socket.net.HostAndPort;
-import jforgame.socket.session.IdSession;
-import jforgame.socket.protocol.annotation.MessageRoute;
-import jforgame.socket.protocol.annotation.RequestHandler;
+import jforgame.socket.core.net.HostAndPort;
+import jforgame.socket.core.session.IdSession;
+import jforgame.socket.core.protocol.annotation.MessageRoute;
+import jforgame.socket.core.protocol.annotation.RequestHandler;
 
 @MessageRoute
 public class LoginRouter {

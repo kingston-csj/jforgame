@@ -2,8 +2,8 @@ package jforgame.demo.client;
 
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.game.player.message.ReqAccountLogin;
-import jforgame.socket.protocol.message.Message;
-import jforgame.socket.session.IdSession;
+import jforgame.socket.core.protocol.message.Message;
+import jforgame.socket.core.session.IdSession;
 
 /**
  * 使用socket构建的机器人

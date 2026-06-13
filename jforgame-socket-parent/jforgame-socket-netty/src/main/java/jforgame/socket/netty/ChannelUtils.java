@@ -3,7 +3,7 @@ package jforgame.socket.netty;
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
-import jforgame.socket.session.IdSession;
+import jforgame.socket.core.session.IdSession;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
