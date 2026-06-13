@@ -1,4 +1,4 @@
-package jforgame.demo.game.login.message;
+package jforgame.demo.game.player.message;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 

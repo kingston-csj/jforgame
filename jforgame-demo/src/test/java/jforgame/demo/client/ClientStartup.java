@@ -46,7 +46,6 @@ public class ClientStartup {
 
         ClientPlayer robot = new ClientPlayer(session);
         robot.login();
-        robot.selectedPlayer(10000L);
 
         ResHello response = (ResHello) RpcMessageClient.request(session, new ReqHello());
         System.out.println("rpc 消息同步调用");

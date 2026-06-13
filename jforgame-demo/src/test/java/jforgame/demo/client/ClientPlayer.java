@@ -1,11 +1,9 @@
 package jforgame.demo.client;
 
 import jforgame.commons.util.JsonUtil;
-import jforgame.demo.game.login.message.ReqAccountLogin;
-import jforgame.demo.game.login.message.ReqSelectPlayer;
-import jforgame.demo.game.player.message.ReqCreateNewPlayer;
-import jforgame.socket.session.IdSession;
+import jforgame.demo.game.player.message.ReqAccountLogin;
 import jforgame.socket.protocol.message.Message;
+import jforgame.socket.session.IdSession;
 
 /**
  * 使用socket构建的机器人
@@ -20,25 +18,12 @@ public class ClientPlayer {
         this.session = session;
     }
 
-    public void createNew() {
-        ReqCreateNewPlayer req = new ReqCreateNewPlayer();
-        req.setName("Happy");
-        this.sendMessage(req);
-    }
-
     public void login() {
         ReqAccountLogin request = new ReqAccountLogin();
-        request.setPassword("admin");
-        request.setAccountId(123L);
+        request.setPlayerId(123L);
         this.sendMessage(request);
     }
 
-
-    public void selectedPlayer(long playerId) {
-        ReqSelectPlayer request = new ReqSelectPlayer();
-        request.setPlayerId(playerId);
-        this.sendMessage(request);
-    }
 
     /**
      * 发送消息

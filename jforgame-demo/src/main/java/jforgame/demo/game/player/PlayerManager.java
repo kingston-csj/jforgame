@@ -1,12 +1,10 @@
 package jforgame.demo.game.player;
 
-import jforgame.demo.db.AsyncDbService;
-import jforgame.demo.game.GameContext;
-import jforgame.demo.socket.SessionManager;
 import jforgame.commons.util.NumberUtil;
 import jforgame.demo.cache.BaseCacheService;
+import jforgame.demo.db.AsyncDbService;
 import jforgame.demo.db.DbUtils;
-import jforgame.demo.game.accout.entity.AccountEnt;
+import jforgame.demo.game.GameContext;
 import jforgame.demo.game.core.MessagePusher;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.user.PlayerEnt;
@@ -17,6 +15,7 @@ import jforgame.demo.game.player.model.AccountProfile;
 import jforgame.demo.game.player.model.PlayerProfile;
 import jforgame.demo.listener.EventDispatcher;
 import jforgame.demo.listener.EventType;
+import jforgame.demo.socket.SessionManager;
 import jforgame.demo.utils.IdGenerator;
 import jforgame.socket.session.IdSession;
 import org.slf4j.Logger;
@@ -66,37 +65,6 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
 
     private void addPlayerProfile(PlayerProfile baseInfo) {
         playerProfiles.put(baseInfo.getId(), baseInfo);
-
-        long accountId = baseInfo.getAccountId();
-        // 必须将account加载并缓存
-        AccountEnt account = GameContext.accountManager.get(accountId);
-        accountProfiles.putIfAbsent(accountId, new AccountProfile());
-        AccountProfile accountProfile = accountProfiles.get(accountId);
-        accountProfile.addPlayerProfile(baseInfo);
-    }
-
-    public AccountProfile getAccountProfiles(long accountId) {
-        AccountProfile accountProfile = accountProfiles.get(accountId);
-        if (accountProfile != null) {
-            return accountProfile;
-        }
-        AccountEnt account = GameContext.accountManager.get(accountId);
-        if (account != null) {
-            accountProfile = new AccountProfile();
-            accountProfile.setAccountId(accountId);
-            accountProfiles.putIfAbsent(accountId, accountProfile);
-        }
-        return accountProfile;
-    }
-
-    public void addAccountProfile(AccountEnt accountEnt) {
-        long accountId = accountEnt.getId();
-        if (accountProfiles.containsKey(accountId)) {
-            throw new RuntimeException("账号重复-->" + accountId);
-        }
-        AccountProfile accountProfile = new AccountProfile();
-        accountProfile.setAccountId(accountId);
-        accountProfiles.put(accountId, accountProfile);
     }
 
     public List<PlayerProfile> getPlayersBy(long accountId) {
@@ -107,7 +75,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         return account.getPlayers();
     }
 
-    public void createNewPlayer(IdSession session, String name) {
+    private void createNewPlayer(IdSession session, String name) {
         PlayerEnt player = new PlayerEnt();
         player.setId(IdGenerator.getNextId());
         player.setName(name);
@@ -127,8 +95,25 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         ResCreateNewPlayer response = new ResCreateNewPlayer();
         response.setPlayerId(playerId);
         MessagePusher.pushMessage(session, response);
+    }
 
-        GameContext.loginManager.handleSelectPlayer(session, playerId);
+    public void handleAccountLogin(IdSession session, long playerId) {
+        PlayerEnt player = GameContext.playerManager.get(playerId);
+        if (player != null) {
+            //绑定session与玩家id
+            session.setAttribute(IdSession.ID, playerId);
+            //加入在线列表
+            GameContext.playerManager.add2Online(player);
+
+            player.setLevel(999);
+            GameContext.playerManager.save(player);
+
+            SessionManager.INSTANCE.registerNewPlayer(playerId, session);
+            //检查日重置
+            GameContext.playerManager.checkDailyReset(player);
+        } else {
+            createNewPlayer(session, "" + playerId);
+        }
     }
 
     /**

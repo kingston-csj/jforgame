@@ -1,4 +1,4 @@
-package jforgame.demo.game.login.message;
+package jforgame.demo.game.player.message;
 
 import jforgame.demo.game.Modules;
 import jforgame.demo.game.login.LoginDataPool;

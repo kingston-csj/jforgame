@@ -132,11 +132,23 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
   (加入星主游戏开发微信群，随时随地交流提问~~)  
   ![](/screenshots/zsxq.jpg "知识星球")
 
-  ## 特别鸣谢
-  感谢网友[CarsonQizhao](https://github.com/CarsonQizhao)提供的commons多个优秀的工具类;  
-  感谢网友[wupeng0528](https://github.com/wupeng0528)为threadmodel模块引入Akka风格的Actor配置系统;    
-  感谢网友[fagarine](https://github.com/fagarine)解决hotswap在jdk17环境不生效的问题;    
-  以及其他所有参与项目的网友（包括并不限于提出issue，在聊天讨论提出建议或bug），万分感谢！！ 
+
+   ##  贡献代码
+    - 非常欢迎大家一起来维护这个项目，提交代码的时候请按以下规范
+    ```
+    feat[模块]：新增功能
+    fix[模块]：修复缺陷/BUG
+    test[模块]：新增/调整测试用例
+    doc[模块]：补充、更新文档
+    refactor[模块]：代码重构/结构调整
+    clean[模块]：移除废弃工具方法与冗余代码
+    ```
+
+   ## 特别鸣谢
+   感谢网友[CarsonQizhao](https://github.com/CarsonQizhao)提供的commons多个优秀的工具类;  
+   感谢网友[wupeng0528](https://github.com/wupeng0528)为threadmodel模块引入Akka风格的Actor配置系统;    
+   感谢网友[fagarine](https://github.com/fagarine)解决hotswap在jdk17环境不生效的问题;    
+   以及其他所有参与项目的网友（包括并不限于提出issue，在聊天讨论提出建议或bug），万分感谢！！ 
 
    ## 免责申明
    本项目只用于学习研究，禁止用于非法获利和商业活动。如产生法律纠纷与作者无关！！

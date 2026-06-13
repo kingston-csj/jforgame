@@ -1,23 +1,13 @@
 package jforgame.demo.game.login.controller;
 
 import jforgame.demo.game.GameContext;
-import jforgame.demo.game.login.message.ReqAccountLogin;
-import jforgame.demo.game.login.message.ReqSelectPlayer;
-import jforgame.socket.session.IdSession;
+import jforgame.demo.game.player.message.ReqAccountLogin;
 import jforgame.socket.protocol.annotation.MessageRoute;
 import jforgame.socket.protocol.annotation.RequestHandler;
+import jforgame.socket.session.IdSession;
 
 @MessageRoute
 public class LoginController {
 
-	@RequestHandler
-	public void reqAccountLogin(IdSession session, ReqAccountLogin request) {
-        GameContext.loginManager.handleAccountLogin(session, request.getAccountId(), request.getPassword());
-	}
-
-	@RequestHandler
-	public void reqSelectPlayer(IdSession session, ReqSelectPlayer request) {
-        GameContext.loginManager.handleSelectPlayer(session, request.getPlayerId());
-	}
 
 }
