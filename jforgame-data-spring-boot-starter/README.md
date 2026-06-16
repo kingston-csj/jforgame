@@ -52,7 +52,7 @@
     <dependency>
         <groupId>io.github.jforgame</groupId>
         <artifactId>jforgame-data-spring-boot-starter</artifactId>
-        <version>2.0.0</version>
+        <version>latest</version>
     </dependency>
   ```    
 - 项目配置（application.yml文件）

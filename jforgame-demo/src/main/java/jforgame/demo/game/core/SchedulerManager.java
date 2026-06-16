@@ -12,8 +12,7 @@ public class SchedulerManager {
 
     private static SchedulerManager instance = new SchedulerManager();
 
-    private static ScheduledExecutorService service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("common-scheduler"));
-
+    ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new NamedThreadFactory("game-scheduler-thread"));
 
     public static SchedulerManager getInstance() {
         return instance;

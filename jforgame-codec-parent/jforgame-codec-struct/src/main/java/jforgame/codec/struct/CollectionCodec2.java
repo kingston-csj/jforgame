@@ -38,13 +38,10 @@ public class CollectionCodec2 extends Codec {
             }
         } else {
             try {
-                result = (Collection) type.getDeclaredConstructor().newInstance();
+                result = (Collection) type.newInstance();
             } catch (Exception e) {
                 result = new ArrayList<>();
             }
-        }
-        if (result == null) {
-            result = new ArrayList<>();
         }
         if (size == 0) {
             return result;
@@ -80,13 +77,13 @@ public class CollectionCodec2 extends Codec {
         }
         Collection<Object> collection = (Collection) value;
         int size = collection.size();
+        ByteBuffUtil.writeShort(out, (short) size);
         if (size == 0) {
             return;
         }
         if (size > Short.MAX_VALUE) {
             throw new RuntimeException("Collection size less than zero or exceed max short value!");
         }
-        ByteBuffUtil.writeShort(out, (short) size);
         byte status = 0;
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
         // 基本类型，写入状态码：0
