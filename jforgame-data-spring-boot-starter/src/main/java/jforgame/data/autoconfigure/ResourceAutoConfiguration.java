@@ -21,7 +21,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 @Configuration
 @EnableConfigurationProperties({ResourceProperties.class})
 public class ResourceAutoConfiguration {
-    // 明确指定要注入的ConversionService Bean名称
+    // Explicitly specify the name of the ConversionService Bean to inject
     @Bean
     @ConditionalOnMissingBean
     public DataReader createDataReader(

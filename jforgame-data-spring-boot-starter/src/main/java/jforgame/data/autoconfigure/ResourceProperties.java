@@ -8,28 +8,28 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ResourceProperties {
 
     /**
-     * 资源根目录
+     * Resource root directory
      */
     private String location = "csv/";
 
     /**
-     * 文件后缀(默认)
+     * File suffix (default)
      */
     private String suffix = ".csv";
 
     /**
-     * 配置实体{@link jforgame.data.annotation.DataTable}扫描路径
+     * Configuration entity {@link jforgame.data.annotation.DataTable} scan path
      */
     private String tableScanPath;
 
 
     /**
-     * 配置容器{@link Container}子类的扫描路径
+     * Configuration container {@link Container} subclass scan path
      */
     private String containerScanPath;
 
     /**
-     * 通用常量表表名，默认为common.csv/common.xlsx
+     * Common constant table name, default is common.csv/common.xlsx
      */
     private String commonTableName = "common";
 
