@@ -1,7 +1,7 @@
 /**
- * 参考hibernate的自动建表工具
- * 综合 update 和 validate 的策略
- * 借鉴 update策略：自动建表，自动增加字段，不删除字段
- * 借鉴 validate策略：当表字段代码与数据库不一致时，给予报错提示
+ * Reference Hibernate's automatic table creation tool.
+ * Combines update and validate strategies.
+ * Draws from update strategy: auto create tables, auto add fields, do not delete fields.
+ * Draws from validate strategy: give error when table field code is inconsistent with database.
  */
 package jforgame.orm.ddl;

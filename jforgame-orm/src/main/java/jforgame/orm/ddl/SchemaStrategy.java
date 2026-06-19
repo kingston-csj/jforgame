@@ -5,14 +5,14 @@ import java.sql.SQLException;
 import java.util.Set;
 
 /**
- * 数据库表结构变更策略
- * {@link  SchemaAction}
+ * Database table structure change strategy.
+ * {@link SchemaAction}
  */
 public interface SchemaStrategy {
 
     /**
-     * 具体的执行动态
-     * @param con 数据库连接，注意，这里遵循“谁创建，谁关闭（ownership原则）”，方法内部不会自动关闭conn，请确保客户端代码自动关闭
+     * Specific execution logic.
+     * @param con database connection. Note: follows the "who creates, who closes" ownership principle. This method will not automatically close the connection. Make sure the client code closes it.
      * @param codeTables
      * @throws SQLException
      */

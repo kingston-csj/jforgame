@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 数据库schema
+ * Database schema
  */
 class DatabaseMetadata {
 
@@ -28,20 +28,20 @@ class DatabaseMetadata {
         DatabaseMetaData databaseMetaData = conn.getMetaData();
         String[] types = {"TABLE"};
 
-        // 获取当前连接的数据库schema
+        // Get the database schema for the current connection
         String catalog = conn.getCatalog();
         String schema = conn.getSchema();
 
-        // 如果catalog为null，尝试从URL中获取数据库名
+        // If catalog is null, try to get database name from URL
         if (catalog == null) {
             String url = conn.getMetaData().getURL();
-            // 从JDBC URL中提取数据库名
-            // 格式通常是: jdbc:mysql://host:port/database_name
+            // Extract database name from JDBC URL
+            // Format is usually: jdbc:mysql://host:port/database_name
             if (url.contains("/")) {
                 String[] parts = url.split("/");
                 if (parts.length > 1) {
                     String lastPart = parts[parts.length - 1];
-                    // 移除可能的参数部分
+                    // Remove possible parameter part
                     if (lastPart.contains("?")) {
                         lastPart = lastPart.split("\\?")[0];
                     }
@@ -61,15 +61,15 @@ class DatabaseMetadata {
     public TableMetadata getTableMetadata(String table) {
         return tables.computeIfAbsent(table, k -> {
             try {
-                // 同样需要指定正确的catalog和schema
+                // Similarly need to specify correct catalog and schema
                 String catalog = null;
                 String schema = null;
 
-                // 尝试从连接获取catalog
+                // Try to get catalog from connection
                 try {
                     catalog = metaData.getConnection().getCatalog();
                 } catch (Exception e) {
-                    // 忽略异常，使用null
+                    // Ignore exception, use null
                 }
 
                 ResultSet rs = metaData.getTables(catalog, schema, "%", types);

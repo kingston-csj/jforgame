@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 提供所有数据表CRUD接口，以及执行任意sql的接口
- * 数据库相关方法
- * 注意：此类的所有crud方法都会自动关闭数据库连接，避免用在事务环境！！
- * 游戏领域不需要事务，如果需要事务，不要使用此类方法！！
+ * Provides all data table CRUD interfaces and arbitrary sql execution interface.
+ * Database related methods.
+ * Note: All CRUD methods in this class will automatically close database connections. Avoid using in transaction environment!!
+ * Game domain does not require transactions. If transactions are needed, do not use these methods!!
  */
 public class OrmTemplate {
 
@@ -71,13 +71,13 @@ public class OrmTemplate {
     }
 
     /**
-     * 查询返回bean实体列表
+     * Query and return bean entity list
      *
-     * @param sql    查询语句
-     * @param entity 　实体类
-     * @param <T>    实体类
-     * @return 符合条件的实例列表
-     * @throws SQLException sql异常
+     * @param sql    query statement
+     * @param entity entity class
+     * @param <T>    entity class
+     * @return list of matching instances
+     * @throws SQLException sql exception
      */
     @SuppressWarnings("unchecked")
     public <T> List<T> queryMany(String sql, Class<T> entity) throws SQLException {
@@ -104,13 +104,13 @@ public class OrmTemplate {
     }
 
     /**
-     * 查询返回一个map
+     * Query and return a map
      *
-     * @param sql 　查询语句
-     * @return 查询结果map
-     * @throws SQLException sql异常
+     * @param sql query statement
+     * @return query result map
+     * @throws SQLException sql exception
      */
-    public Map<String, Object> queryMap(String sql) throws SQLException {
+    public Map<String, Object> selectOne(String sql) throws SQLException {
         Map<String, Object> result = new HashMap<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -137,13 +137,13 @@ public class OrmTemplate {
     }
 
     /**
-     * 查询返回map列表
+     * Query and return map list
      *
-     * @param sql 查询语句
-     * @return 查证map列表
-     * @throws SQLException sql异常
+     * @param sql query statement
+     * @return query result map list
+     * @throws SQLException sql exception
      */
-    public List<Map<String, Object>> queryMapList(String sql) throws SQLException {
+    public List<Map<String, Object>> selectAll(String sql) throws SQLException {
         List<Map<String, Object>> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -171,12 +171,12 @@ public class OrmTemplate {
     }
 
     /**
-     * 执行特定的sql语句（防止sql注入!!!）
+     * Execute specific sql statement (prevent sql injection!!!)
      *
-     * @param sql 要执行的sql语句
-     * @return 执行结果
+     * @param sql sql statement to execute
+     * @return execution result
      * @see Statement#execute(String)
-     * @throws SQLException sql异常
+     * @throws SQLException sql exception
      */
     public boolean executeSql(String sql) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
@@ -194,12 +194,12 @@ public class OrmTemplate {
     }
 
     /**
-     * 执行update语句（防止sql注入!!!）
+     * Execute update statement (prevent sql injection!!!)
      *
-     * @param sql 需要执行的sql语句
-     * @return 受影响的行数
+     * @param sql sql statement to execute
+     * @return number of affected rows
      * @see Statement#executeUpdate(String)
-     * @throws SQLException sql异常
+     * @throws SQLException sql exception
      */
     public int executeUpdate(String sql) throws SQLException {
         if (StringUtil.isEmpty(sql)) {
@@ -217,22 +217,22 @@ public class OrmTemplate {
     }
 
     /**
-     * 对entity执行插入动作
+     * Execute insert on entity
      *
-     * @param entity 需要插入的实体
-     * @return 受影响的行数
-     * @throws SQLException sql异常
+     * @param entity entity to insert
+     * @return number of affected rows
+     * @throws SQLException sql exception
      */
     public int executeInsert(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
-            // 获取参数化SQL
+            // Get parameterized SQL
             String sql = SqlFactory.createInsertPreparedSql(bridge);
-            // 获取参数值
+            // Get parameter values
             List<Object> parameters = SqlParameterUtils.getInsertParameters(entity, bridge);
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                // 设置参数
+                // Set parameters
                 for (int i = 0; i < parameters.size(); i++) {
                     stmt.setObject(i + 1, parameters.get(i));
                 }
@@ -245,22 +245,22 @@ public class OrmTemplate {
     }
 
     /**
-     * 对entity执行更新动作
+     * Execute update on entity
      *
-     * @param entity 需要更新的实体
-     * @return 受影响的行数
-     * @throws SQLException sql异常
+     * @param entity entity to update
+     * @return number of affected rows
+     * @throws SQLException sql exception
      */
     public int executeUpdate(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
-            // 获取参数化SQL
+            // Get parameterized SQL
             String sql = SqlFactory.createUpdatePreparedSql(entity, bridge);
-            // 获取参数值
+            // Get parameter values
             List<Object> parameters = SqlParameterUtils.getUpdateParameters(entity, bridge);
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                // 设置参数
+                // Set parameters
                 for (int i = 0; i < parameters.size(); i++) {
                     stmt.setObject(i + 1, parameters.get(i));
                 }
@@ -273,22 +273,22 @@ public class OrmTemplate {
     }
 
     /**
-     * 对entity执行删除动作
+     * Execute delete on entity
      *
-     * @param entity 需要删除的实体
-     * @return 受影响的行数
-     *@throws SQLException sql异常
+     * @param entity entity to delete
+     * @return number of affected rows
+     * @throws SQLException sql exception
      */
     public int executeDelete(StatefulEntity entity) throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             OrmBridge bridge = OrmProcessor.INSTANCE.getOrmBridge(entity.getClass());
-            // 获取参数化SQL
+            // Get parameterized SQL
             String sql = SqlFactory.createDeletePreparedSql(bridge);
-            // 获取参数值
+            // Get parameter values
             List<Object> parameters = SqlParameterUtils.getDeleteParameters(entity, bridge);
 
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                // 设置参数
+                // Set parameters
                 for (int i = 0; i < parameters.size(); i++) {
                     stmt.setObject(i + 1, parameters.get(i));
                 }

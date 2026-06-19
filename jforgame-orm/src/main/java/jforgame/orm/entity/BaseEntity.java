@@ -6,29 +6,29 @@ import jforgame.orm.core.DbStatus;
 import java.io.Serializable;
 
 /**
- * 基本实体类
- * 所有需要持久化的实体类都应该继承该类
- * 特别注意以下几个钩子方法一定需要接入，最好的方式是封装在底层，而不是由业务代码保证
- * 1. {@link #afterLoad()} 当实体从数据库加载完成后，应该调用该方法，主要是用于标记实体为持久化状态，用于自动识别实体是更新还是插入状态
- * 2. {@link #beforeSave()} 当实体准备持久化前，应该调用该方法，主要是用于自动识别实体是更新还是插入状态
- * 3. {@link #afterSave()} 当实体持久化完成后，应该调用该方法，用于重置实体为普通状态
+ * Base entity class.
+ * All entity classes that need to be persisted should inherit from this class.
+ * Special attention to the following hook methods that must be properly integrated. The best way is to encapsulate them in the underlying layer, not guaranteed by business code.
+ * 1. {@link #afterLoad()} When an entity is loaded from the database, this method should be called. Mainly used to mark the entity as persistent state, for automatically identifying whether the entity should be updated or inserted.
+ * 2. {@link #beforeSave()} When an entity is about to be persisted, this method should be called. Mainly used to automatically identify whether the entity should be updated or inserted.
+ * 3. {@link #afterSave()} When an entity is persisted, this method should be called. Used to reset the entity to normal state.
  */
 public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> extends StatefulEntity
         implements Entity<Id> {
 
     /**
-     * 实体的主键属性，不能是基本类型，只能是包装类型，或者是String类型
+     * The primary key property of the entity. Cannot be a primitive type, can only be a wrapper type or String type.
      * entity id
      *
-     * @return 实体id
+     * @return entity id
      */
     public abstract Id getId();
 
     /**
-     * 从数据库加载完成的钩子
-     * 当entity从数据库加载完成后，应该调用该方法
-     * 该方法会标记entity为持久化状态，用于自动识别entity是更新还是插入状态
-     * 如果是new出来的实例，千万不要调用该方法，否则会导致插入失败
+     * Hook after loading from database.
+     * When an entity is loaded from the database, this method should be called.
+     * This method will mark the entity as persistent state, for automatically identifying whether the entity should be updated or inserted.
+     * If it is a newly instantiated instance, do NOT call this method, otherwise it will cause insert failure.
      */
     public final void afterLoad() {
         markPersistent();
@@ -36,14 +36,14 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
     }
 
     /**
-     * 供子类使用的加载完成钩子
+     * Hook for subclass use after loading.
      */
     protected void onAfterLoad() {
 
     }
 
     /**
-     * 在entity持久化之前，应该调用该方法
+     * Before an entity is persisted, this method should be called.
      */
     public final void beforeSave() {
         autoChangedStatus();
@@ -51,16 +51,16 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
     }
 
     /**
-     * 供子类使用的持久化前钩子
+     * Hook for subclass use before persisting.
      */
     protected void onBeforeSave() {
     }
 
     /**
-     * 当entity持久化之后，应该调用该方法
+     * After an entity is persisted, this method should be called.
      */
     public final void afterSave() {
-        // 存储过一次，肯定是持久化过的，如果是执行删除操作，无法重新保存
+        // Has been persisted once, definitely persistent. If delete operation was executed, cannot be saved again.
         markPersistent();
         this.statusRef.set(DbStatus.NORMAL);
         this.modifiedColumns.clear();
@@ -69,7 +69,7 @@ public abstract class BaseEntity<Id extends Comparable<Id> & Serializable> exten
     }
 
     /**
-     * 供子类使用的持久化后钩子
+     * Hook for subclass use after persisting.
      */
     protected void onAfterSave() {
 

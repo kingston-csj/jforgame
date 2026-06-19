@@ -3,27 +3,27 @@ package jforgame.orm.core;
 import java.util.*;
 
 /**
- * 对象与数据库表记录之间的桥梁
+ * Bridge between object and database table record
  */
 public class OrmBridge {
     /**
-     * 对应的数据库表名称
+     * Corresponding database table name
      */
     private String tableName;
     /**
-     * 缓存所有表字段及其对应的元数据
+     * Cache of all table fields and their corresponding metadata
      */
     private final Map<String, FieldMetaData> fieldMetadataMap = new HashMap<>();
     /**
-     * 被覆写的property与表column的映射
+     * Mapping of overridden property to table column
      */
     private Map<String, String> propertyToColumnOverride = new HashMap<>();
     /**
-     * 被覆写的表column与property的映射
+     * Mapping of overridden table column to property
      */
     private Map<String, String> columnToPropertyOverride = new HashMap<>();
     /**
-     * 实体所有的主键字段，包括复合主键
+     * All primary key fields of the entity, including composite primary keys
      */
     private final Set<String> uniqueProperties = new HashSet<>();
 
@@ -44,9 +44,9 @@ public class OrmBridge {
     }
 
     /**
-     * 返回实体的复合主键列表
+     * Return composite primary key list of the entity
      *
-     * @return 实体所有的主键字段
+     * @return all primary key fields of the entity
      */
     public List<String> getPrimaryKeyProperties() {
         List<String> result = new ArrayList<>(this.uniqueProperties);

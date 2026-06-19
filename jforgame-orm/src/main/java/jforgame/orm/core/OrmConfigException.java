@@ -1,7 +1,7 @@
 package jforgame.orm.core;
 
 /**
- * orm配置异常
+ * Orm configuration exception
  */
 public class OrmConfigException extends RuntimeException {
 

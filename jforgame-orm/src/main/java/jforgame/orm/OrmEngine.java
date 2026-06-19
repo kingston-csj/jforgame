@@ -14,23 +14,23 @@ import java.sql.Connection;
 import java.util.Set;
 
 /**
- * OrmEngine执行入口
+ * OrmEngine entry point
  */
 public class OrmEngine {
 
     /**
-     * 启动引擎
-     * @param properties 配置类
-     * @param dataSource 数据库源
-     * @throws Exception sql异常
+     * Start the engine
+     * @param properties configuration properties
+     * @param dataSource database data source
+     * @throws Exception sql exception
      */
     public static void run(OrmProperties properties, DataSource dataSource) throws Exception {
-        // 初始化orm框架
+        // Initialize orm framework
         OrmProcessor.INSTANCE.initOrmBridges(properties.getEntityPath());
-        // 获取所有实体类
+        // Get all entity classes
         Set<Class<?>> codeTables = ClassScanner.listAllSubclasses(properties.getEntityPath(), BaseEntity.class);
 
-        // 根据配置的DDL策略执行相应的操作
+        // Execute DDL schema operations according to the configured strategy
         executeDdlSchema(dataSource, codeTables, properties.getDdlAuto());
     }
 
@@ -39,17 +39,17 @@ public class OrmEngine {
             return;
         }
         if (SchemaAction.UPDATE.name().equalsIgnoreCase(ddlAuto)) {
-            // 数据库自动更新schema（增量更新）
+            // Auto update database schema (incremental update)
             try (Connection con = dataSource.getConnection()) {
                 new SchemaMigrator().doExecute(con, codeTables);
             }
         } else if (SchemaAction.CREATE.name().equalsIgnoreCase(ddlAuto)) {
-            // 清空数据库并重新建表
+            // Drop all tables and recreate
             try (Connection con = dataSource.getConnection()) {
                 new SchemaCreator().doExecute(con, codeTables);
             }
         } else if (SchemaAction.VALIDATE.name().equalsIgnoreCase(ddlAuto)) {
-            // 校验表结构
+            // Validate table structure
             try (Connection con = dataSource.getConnection()) {
                 new SchemaValidator().doExecute(con, codeTables);
             }

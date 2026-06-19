@@ -15,12 +15,12 @@ import java.util.Set;
 public enum OrmProcessor {
 
     /**
-     * 枚举单例
+     * Enum singleton
      */
     INSTANCE;
 
     /**
-     * entity与对应bridge的映射关系
+     * Mapping between entity and its corresponding bridge
      */
     private final Map<Class<?>, OrmBridge> classOrmMapper = new HashMap<>();
 
@@ -40,16 +40,16 @@ public enum OrmProcessor {
         OrmBridge bridge = new OrmBridge();
         bridge.setTableName(OrmNamingUtils.resolveTableName(clazz));
 
-        // 从当前类开始，遍历所有父类
+        // Start from current class, traverse all parent classes
         Class<?> currClazz = clazz;
         while (currClazz != StatefulEntity.class && currClazz != Object.class) {
             Field[] fields = currClazz.getDeclaredFields();
             for (Field field : fields) {
                 String fieldName = field.getName();
                 if (field.getAnnotation(Id.class) != null) {
-//                    // 不能是基本类型
+//                    // Cannot be primitive type
 //                    if (field.getType().isPrimitive()) {
-//                        throw new OrmConfigException(clazz.getSimpleName() + " entity 主键字段不能是基本类型");
+//                        throw new OrmConfigException(clazz.getSimpleName() + " entity primary key field cannot be primitive type");
 //                    }
                     bridge.addUniqueKey(fieldName);
                 }
@@ -70,9 +70,9 @@ public enum OrmProcessor {
             currClazz = currClazz.getSuperclass();
         }
 
-        //如果实体没有主键的话，一旦涉及更新，会影响整张表数据，后果是灾难性的
+        // If the entity has no primary key, once update is involved, it will affect the entire table data, which is catastrophic
         if (bridge.getPrimaryKeyProperties().isEmpty()) {
-            throw new OrmConfigException(clazz.getSimpleName() + " entity 没有查询索引主键字段");
+            throw new OrmConfigException(clazz.getSimpleName() + " entity has no indexed primary key field");
         }
 
         return bridge;

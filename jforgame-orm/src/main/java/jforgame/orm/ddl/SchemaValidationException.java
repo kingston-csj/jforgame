@@ -1,8 +1,8 @@
 package jforgame.orm.ddl;
 
 /**
- * 数据库schema验证异常
- * 当数据库schema与代码定义不一致时抛出此异常
+ * Database schema validation exception.
+ * Thrown when database schema is inconsistent with code definitions.
  */
 public class SchemaValidationException extends RuntimeException {
 

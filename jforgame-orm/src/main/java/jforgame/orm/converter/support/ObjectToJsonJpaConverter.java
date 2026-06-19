@@ -15,11 +15,11 @@ import javax.persistence.Convert;
 import java.io.IOException;
 
 /**
- * 将对象属性转换为json字符串进行编解码
- * 如果一个javabean的字段类型既不是基本类型，也不是字符串，默认会使用这个转换器
- * 除非该字段显式使用 {@link Convert} 注解指定了其他的转换器
- * 需要注意的是，当该转换器修饰的字段是一个泛型类型时，例如Map(Key, Object)，这里的Key不能是基本类型，只能是字符串，因为jackson记录的类型里，泛型信息被擦除了
- * 如果修饰的属性是一个普通的javabean对象，这个javabean内部可以使用泛型，key可以是基本类型。但建议还是使用String，因为json标准，key本来就是字符串。
+ * Convert object properties to json string for encoding and decoding.
+ * If a javabean field type is neither a primitive type nor a String, this converter will be used by default.
+ * Unless the field explicitly uses {@link Convert} annotation to specify another converter.
+ * Note: When the field modified by this converter is a generic type, such as Map(Key, Object), the Key here cannot be a primitive type, can only be String, because the generic information in the type recorded by jackson is erased.
+ * If the modified property is a normal javabean object, the internal javabean can use generics, and key can be a primitive type. But it is still recommended to use String, because the json standard, key itself is a string.
  */
 public class ObjectToJsonJpaConverter implements AttributeConverter<Object, String> {
 
@@ -29,7 +29,7 @@ public class ObjectToJsonJpaConverter implements AttributeConverter<Object, Stri
 
     static {
         MAPPER = new ObjectMapper();
-        // 这里要写入类和属性的完整类型信息，反序列化即使使用Object.class也能解析
+        // Write complete type information for class and property here, so that deserialization can parse even when using Object.class
         MAPPER.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);

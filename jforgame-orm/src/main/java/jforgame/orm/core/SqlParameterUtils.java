@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * SQL参数工具类
- * 用于获取参数化查询的参数值
+ * SQL parameter utility class.
+ * Used to get parameter values for parameterized queries.
  */
 class SqlParameterUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(SqlParameterUtils.class);
 
     /**
-     * 获取插入SQL的参数值
+     * Get parameter values for insert SQL
      */
     public static List<Object> getInsertParameters(StatefulEntity entity, OrmBridge bridge) {
         List<String> properties = bridge.listAllProperties();
@@ -28,7 +28,7 @@ class SqlParameterUtils {
     }
 
     /**
-     * 获取更新SQL的参数值
+     * Get parameter values for update SQL
      */
     public static List<Object> getUpdateParameters(StatefulEntity entity, OrmBridge bridge) {
         Set<String> columns = entity.getAllModifiedColumns();
@@ -37,7 +37,7 @@ class SqlParameterUtils {
         List<Object> updateValues = new ArrayList<>();
         List<Object> whereValues = new ArrayList<>();
 
-        // 获取SET子句的参数
+        // Get parameters for SET clause
         for (String property : bridge.listAllProperties()) {
             if (!saveAll && !columns.contains(property)) {
                 continue;
@@ -59,7 +59,7 @@ class SqlParameterUtils {
             }
         }
 
-        // 获取WHERE子句的参数
+        // Get parameters for   WHERE clause
         for (String property : bridge.getPrimaryKeyProperties()) {
             try {
                 Object value = getMethodValue(entity, property);
@@ -70,7 +70,7 @@ class SqlParameterUtils {
             }
         }
 
-        // 合并参数：先SET参数，后WHERE参数
+        // Merge parameters: SET parameters first, then WHERE parameters
         List<Object> allParameters = new ArrayList<>(updateValues);
         allParameters.addAll(whereValues);
 
@@ -78,7 +78,7 @@ class SqlParameterUtils {
     }
 
     /**
-     * 获取删除SQL的参数值
+     * Get parameter values for delete SQL
      */
     public static List<Object> getDeleteParameters(StatefulEntity entity, OrmBridge bridge) {
         List<Object> whereValues = new ArrayList<>();
@@ -96,7 +96,7 @@ class SqlParameterUtils {
     }
 
     /**
-     * 获取字段值列表
+     * Get field values list
      */
     private static List<Object> getFieldValues(StatefulEntity entity, List<String> properties, OrmBridge bridge) {
         List<Object> values = new ArrayList<>();

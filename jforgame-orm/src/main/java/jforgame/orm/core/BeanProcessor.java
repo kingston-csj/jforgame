@@ -28,11 +28,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 该工具类拷贝自Apache的DbUtil工具库。
- * 这里增加了若干拓展，支持数据库字符串到java的Enum类的转化
- * 支持引用对象对数据库的转换 {@link AttributeConverter},
- * 如果一个javabean的字段类型既不是基本类型，也不是字符串，默认会使用 {@link ObjectToJsonJpaConverter} 转换器
- * 除非该字段显式使用 {@link Convert} 注解指定了其他的转换器
+ * This utility class is copied from Apache's DbUtil library.
+ * Extended to support database String to Java Enum conversion.
+ * Supports conversion to/from database using {@link AttributeConverter}.
+ * If a javabean field type is neither primitive nor String, the {@link ObjectToJsonJpaConverter} will be used by default,
+ * unless the field explicitly specifies another converter using the {@link Convert} annotation.
  */
 public class BeanProcessor {
     private static final Logger logger = LoggerFactory.getLogger(BeanProcessor.class);
@@ -62,10 +62,10 @@ public class BeanProcessor {
     }
 
     /**
-     * 将resultSet转为实体bean
-     * 如果type是BaseEntity类型，会自动执行 {@link BaseEntity#afterLoad()}钩子
-     * @param rs jdbc ResultSet对象
-     * @param type 返回的实例类型
+     * Convert resultSet to entity bean.
+     * If type is BaseEntity, {@link BaseEntity#afterLoad()} hook will be called automatically.
+     * @param rs jdbc ResultSet object
+     * @param type the type of instance to return
      */
     public <T> T toBean(ResultSet rs, Class<T> type)
             throws SQLException {
@@ -78,10 +78,10 @@ public class BeanProcessor {
     }
 
     /**
-     * 将resultSet转为实体bean列表
-     * 如果type是BaseEntity类型，会对每个元素自动执行 {@link BaseEntity#afterLoad()}钩子
-     * @param rs jdbc ResultSet对象
-     * @param type 返回的实例类型
+     * Convert resultSet to entity bean list.
+     * If type is BaseEntity, {@link BaseEntity#afterLoad()} hook will be called automatically for each element.
+     * @param rs jdbc ResultSet object
+     * @param type the type of instance to return
      */
     public <T> List<T> toBeanList(ResultSet rs, Class<T> type)
             throws SQLException {
@@ -128,7 +128,7 @@ public class BeanProcessor {
         Method setter = prop.getWriteMethod();
         Class<?> clazzType = target.getClass();
         if (setter == null) {
-            logger.info("实体[{}]字段[{}]没有对应的setter方法", clazzType.getName(), prop.getName());
+            logger.info("Entity [{}] has no setter method for field [{}]", clazzType.getName(), prop.getName());
             return;
         }
         Class<?>[] params = setter.getParameterTypes();
@@ -152,7 +152,7 @@ public class BeanProcessor {
                     value = Enum.valueOf(c, (String) value);
                 }
                 Field field = findFieldInHierarchy(clazzType, prop.getName());
-                // 不是基本类型， 或者字符串，自动转换
+                // If not primitive type or String, auto convert
                 if (!TypeUtil.isPrimitiveOrString(field.getType())) {
                     AttributeConverter convert = ConverterFactory.getAttributeConverter(ObjectToJsonJpaConverter.class);
                     Convert annotation = field.getAnnotation(Convert.class);

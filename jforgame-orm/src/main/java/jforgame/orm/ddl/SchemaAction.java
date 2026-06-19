@@ -3,20 +3,20 @@ package jforgame.orm.ddl;
 public enum SchemaAction {
 
     /**
-     * 不做任何操作, 对应 "none"
+     * Do nothing, corresponds to "none"
      */
     NONE,
     /**
-     * 启动时校验实体类与表结构是否一致，不一致则抛出异常，不做任何修改，对应 "validate"
+     * Validate consistency between entity classes and table structure on startup, throw exception if inconsistent, do not modify anything, corresponds to "validate"
      */
     VALIDATE,
 
     /**
-     * 启动时根据实体类自动更新表结构（新增字段、索引等，不删除现有字段或表），对应 "update"
+     * Auto update table structure based on entity classes on startup (add fields, indexes, etc., do not delete existing fields or tables), corresponds to "update"
      */
     UPDATE,
     /**
-     * 每次启动时删除所有现有表，然后根据实体类重新创建表结构，对应 "create"
+     * Drop all existing tables on every startup, then recreate table structure based on entity classes, corresponds to "create"
      */
     CREATE,
 }

@@ -8,8 +8,9 @@ import jforgame.orm.converter.AttributeConversionException;
 import java.io.IOException;
 
 /**
- * 将对象属性转换为json字符串并进行压缩编码
- * 对一些字段数据比较大的，例如玩家背包数据，推荐使用这个转换器，因为json的压缩率是非常高的。
+ * Converts object property to json string and compresses it.
+ * For fields with large data volume, such as player backpack data, it is recommended to use this converter,
+ * because json compression ratio is very high.
  */
 public class ObjectToJsonZipJpaConverter extends ObjectToJsonJpaConverter {
 

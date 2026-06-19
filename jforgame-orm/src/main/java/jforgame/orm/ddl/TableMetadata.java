@@ -14,8 +14,8 @@ class TableMetadata {
     private final String schema;
     private final String name;
     /**
-     * 所有列的信息
-     * 字段名通常不区分大小写，无论操作系统， 这里统一用小写存储
+     * All column information.
+     * Field names are usually case-insensitive. Regardless of operating system, store uniformly in lowercase here.
      */
     private final Map<String, ColumnMetadata> columns = new HashMap<>();
     private final Map<String, IndexMetadata> indexes = new HashMap<>();

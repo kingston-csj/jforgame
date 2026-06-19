@@ -5,14 +5,14 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 
 /**
- * 数据库表字段schema
- */
+     * Database table field schema
+     */
 class ColumnMetadata {
 
     private final String name;
     private final String typeName;
     /**
-     * 完整的类型名称，包含长度信息
+     * Full type name including length information
      */
     private final String fullTypeName;
     private final int columnSize;
@@ -28,10 +28,10 @@ class ColumnMetadata {
         typeCode = rs.getInt("DATA_TYPE");
         typeName = new StringTokenizer(rs.getString("TYPE_NAME"), "() ").nextToken();
         
-        // 构建完整的类型名称，包含长度信息
+        // Build full type name including length information
         String baseTypeName = rs.getString("TYPE_NAME");
         if (columnSize > 0) {
-            // 对于整数类型和长文本类型，忽略长度信息
+            // For integer types and long text types, ignore length information
             if (isIntegerType(typeCode) || isLongTextType(baseTypeName)) {
                 fullTypeName = baseTypeName;
             } else if (decimalDigits > 0) {
@@ -77,12 +77,12 @@ class ColumnMetadata {
     }
 
     /**
-     * 判断是否为整数类型
-     * @param typeCode SQL类型代码
-     * @return 是否为整数类型
+     * Check if it is an integer type
+     * @param typeCode SQL type code
+     * @return whether it is an integer type
      */
     private boolean isIntegerType(int typeCode) {
-        // 根据 java.sql.Types 定义判断整数类型
+        // Determine integer type based on java.sql.Types definition
         return typeCode == java.sql.Types.TINYINT ||
                typeCode == java.sql.Types.SMALLINT ||
                typeCode == java.sql.Types.INTEGER ||
@@ -90,9 +90,9 @@ class ColumnMetadata {
     }
 
     /**
-     * 判断是否为长文本类型
-     * @param typeName 类型名称
-     * @return 是否为长文本类型
+     * Check if it is a long text type
+     * @param typeName type name
+     * @return whether it is a long text type
      */
     private boolean isLongTextType(String typeName) {
         String lowerTypeName = typeName.toLowerCase();

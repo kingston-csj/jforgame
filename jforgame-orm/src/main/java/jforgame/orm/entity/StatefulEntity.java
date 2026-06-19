@@ -9,27 +9,27 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * 拥有各种db状态的数据库实体对象
+ * Database entity object with various db states.
  */
 public abstract class StatefulEntity extends Stateful {
 
     /**
-     * 是否已经持久化
+     * Whether it has been persisted.
      */
     private final AtomicBoolean persistent = new AtomicBoolean(false);
 
     /**
-     * 当次需要持久化的字段列表(增量更新)
+     * List of fields that need to be persisted in this operation (incremental update).
      */
     protected Set<String> modifiedColumns = new HashSet<>();
 
     /**
-     * 是否需要保存所有字段
+     * Whether all fields need to be saved.
      */
     protected AtomicBoolean saveAll = new AtomicBoolean();
 
     /**
-     * 当前实体对象的db状态 - 使用 AtomicReference 替代 volatile
+     * Current db status of the entity object - using AtomicReference instead of volatile.
      */
     protected AtomicReference<DbStatus> statusRef = new AtomicReference<>(DbStatus.NORMAL);
 
@@ -38,10 +38,10 @@ public abstract class StatefulEntity extends Stateful {
     }
 
     /**
-     * 以增量模式添加需要更新的字段
-     * 只针对状态为 Status#UPDATE 的实体对象
-     * 注意，使用此方法时， 切记参数必须与数据库表的字段名 一致，否则数据保存不全
-     * @param column 需要更新的字段名，必须与数据库表的字段名 一致
+     * Add fields that need to be updated in incremental mode.
+     * Only applies to entities with Status#UPDATE state.
+     * Note: When using this method, make sure the parameters exactly match the database table field names, otherwise data may not be saved completely.
+     * @param column Field name that needs to be updated. Must match the database table field name exactly.
      */
     public void addModifiedColumn(String... column) {
         if (column == null || column.length == 0) {
@@ -51,16 +51,16 @@ public abstract class StatefulEntity extends Stateful {
     }
 
     /**
-     * 强制保存所有字段，例如在玩家登出的时候，为了保险起见，推荐保存所有字段
+     * Force save all fields, e.g., when player logs out. It is recommended to save all fields for safety.
      */
     public void forceSaveAll() {
         saveAll.compareAndSet(false, true);
     }
 
     /**
-     * 是否需要保存所有字段
-     * 当saveAll为true 或 modifiedColumns为空时，需要保存所有字段
-     * @return 是否需要保存所有字段
+     * Whether all fields need to be saved.
+     * When saveAll is true or modifiedColumns is empty, all fields need to be saved.
+     * @return whether all fields need to be saved
      */
     public boolean isSaveAll() {
         return saveAll.get() || modifiedColumns.isEmpty();
@@ -93,20 +93,20 @@ public abstract class StatefulEntity extends Stateful {
 
     @Override
     public void markAsNew() {
-        // 使用 CAS 设置插入状态
+        // Use CAS to set INSERT state
         this.statusRef.set(DbStatus.INSERT);
     }
 
     @Override
     public final void markAsModified() {
-        // 只有 NORMAL 状态才可以变更为 UPDATE
+        // Only NORMAL state can change to UPDATE
         this.statusRef.compareAndSet(DbStatus.NORMAL, DbStatus.UPDATE);
     }
 
     @Override
     public final void markAsSoftDeleted() {
-        // 如果当前是 INSERT 状态，则设置为 NORMAL
-        // 否则设置为 DELETE 状态
+        // If current is INSERT state, set to NORMAL
+        // Otherwise set to DELETE state
         this.statusRef.updateAndGet(currentStatus -> {
             if (currentStatus == DbStatus.INSERT) {
                 return DbStatus.NORMAL;
@@ -117,29 +117,29 @@ public abstract class StatefulEntity extends Stateful {
     }
 
     /**
-     * 标记为已经持久化
-     * 当一个实体从数据库中加载出来，意识着这个实体已经存在于数据库中
+     * Mark as already persisted.
+     * When an entity is loaded from the database, it means this entity already exists in the database.
      */
     protected void markPersistent() {
         persistent.compareAndSet(false, true);
     }
 
     /**
-     * 是否数据库已有对应的实体
+     * Whether there is a corresponding entity in the database.
      *
-     * @return 是否数据库已有对应的实体
+     * @return whether there is a corresponding entity in the database.
      */
     public boolean existedInDb() {
         return persistent.get();
     }
 
     /**
-     * 自动变更状db状态
+     * Auto change db status.
      */
     public void autoChangedStatus() {
-        // 删除状态只能手动设置
+        // Delete status can only be set manually
         if (!isSoftDeleted()) {
-            // 如果已经存在于数据库，则表示修改记录
+            // If it already exists in the database, it means modify record
             if (existedInDb()) {
                 markAsModified();
             } else {

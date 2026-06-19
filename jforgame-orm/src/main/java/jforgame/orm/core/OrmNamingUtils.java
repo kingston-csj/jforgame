@@ -5,7 +5,7 @@ import jforgame.commons.util.StringUtil;
 import javax.persistence.Entity;
 
 /**
- * ORM 命名规则工具，统一运行期与 DDL 生成期的默认命名。
+ * ORM naming utility, unifies default naming for runtime and DDL generation.
  */
 public final class OrmNamingUtils {
 

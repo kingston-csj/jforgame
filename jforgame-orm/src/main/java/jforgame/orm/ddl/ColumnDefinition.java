@@ -22,7 +22,7 @@ class ColumnDefinition {
         java2jdbc.put(Double.TYPE, "double");
         java2jdbc.put(Long.class, "bigint");
         java2jdbc.put(Long.TYPE, "bigint");
-        // 字符串，默认按最大的，避免溢出
+        // String, default to largest size to avoid overflow
         java2jdbc.put(String.class, "longtext");
     }
 
@@ -36,7 +36,7 @@ class ColumnDefinition {
 
     private boolean nullable;
     /**
-     * 字段注释
+     * Field comment
      */
     private String comment;
 

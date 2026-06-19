@@ -1,24 +1,24 @@
 package jforgame.orm.core;
 
 /**
- * 数据库实体状态
+ * Database entity status
  */
 public enum DbStatus {
 
     /**
-     * 无需入库
+     * No need to persist
      */
     NORMAL,
     /**
-     * 需要更新
+     * Needs update
      */
     UPDATE,
     /**
-     * 需要插入
+     * Needs insert
      */
     INSERT,
     /**
-     * 需要删除，当实体执行删除操作后，便无法重新插入到数据库了
+     * Needs delete. Once an entity is deleted, it cannot be re-inserted into the database.
      */
     DELETE,
 

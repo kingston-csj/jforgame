@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 转换器工厂
- * 用于创始并缓存转换器实例
+ * Converter factory
+ * Used to create and cache converter instances
  */
 public class ConverterFactory {
 
     /**
-     * 转换器缓存
+     * Converter cache
      */
     private static final Map<Class<?>, AttributeConverter<Object, Object>> converters = new ConcurrentHashMap<>();
 

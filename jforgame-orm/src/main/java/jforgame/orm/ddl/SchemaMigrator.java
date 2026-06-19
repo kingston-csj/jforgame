@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 启动时根据实体类自动更新表结构（新增字段、索引等，不删除现有字段或表），对应 "update"参数
- * {@link  SchemaAction#UPDATE}
+ * Auto update table structure based on entity classes on startup (add fields, indexes, etc., do not delete existing fields or tables), corresponds to "update" parameter.
+ * {@link SchemaAction#UPDATE}
  */
 public class SchemaMigrator implements SchemaStrategy {
 
@@ -32,7 +32,7 @@ public class SchemaMigrator implements SchemaStrategy {
         List<String> sqls = createDdlSqls(tableConfiguration.getTables(), databaseMetadata.getTables());
 
         for (String sql : sqls) {
-            logger.info("执行schema --> {}", sql);
+            logger.info("Executing schema --> {}", sql);
             try (Statement stmt = con.createStatement()) {
                 stmt.execute(sql);
             }
@@ -40,11 +40,11 @@ public class SchemaMigrator implements SchemaStrategy {
     }
 
     /**
-     * 生成ddl的sql语句列表
+     * Generate DDL SQL statements list
      *
-     * @param tablesDef      代码的表定义
-     * @param tablesMetadata 数据库的表schema
-     * @return 变更ddl对应的sql列表
+     * @param tablesDef      table definitions in code
+     * @param tablesMetadata database table schemas
+     * @return list of DDL SQL statements for changes
      */
     public List<String> createDdlSqls(Map<String, TableDefinition> tablesDef, Map<String, TableMetadata> tablesMetadata) {
         List<String> result = new ArrayList<>();
@@ -52,10 +52,10 @@ public class SchemaMigrator implements SchemaStrategy {
             TableDefinition tableDef = entry.getValue();
             String tableName = entry.getKey();
             if (!tablesMetadata.containsKey(tableName)) {
-                // 数据库不存在，建表
+                // Table does not exist in database, create it
                 result.add(tableDef.sqlCreateString());
             } else {
-                // 数据库已存在，查看是否有字段新增,不处理删除的字段
+                // Table exists in database, check if there are new fields. Do not handle deleted fields
                 Iterator<String> it = tableDef.sqlAlterStrings(tablesMetadata.get(tableName));
                 while (it.hasNext()) {
                     result.add(it.next());

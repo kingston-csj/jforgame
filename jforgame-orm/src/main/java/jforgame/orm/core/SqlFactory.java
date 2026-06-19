@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * SQL工厂类 - 负责生成各种SQL语句
- * 使用参数化绑定以防止SQL注入
+ * SQL factory class - responsible for generating various SQL statements.
+ * Uses parameterized binding to prevent SQL injection.
  */
 class SqlFactory {
 
-    // SQL常量
+    // SQL constants
     private static final String INSERT_INTO = "INSERT INTO ";
     private static final String UPDATE = "UPDATE ";
     private static final String DELETE_FROM = "DELETE FROM ";
@@ -26,7 +26,7 @@ class SqlFactory {
     private static final String SPACE = " ";
 
     /**
-     * 创建插入SQL（参数化版本）
+     * Create insert SQL (parameterized version)
      */
     public static String createInsertPreparedSql(OrmBridge bridge) {
         List<String> properties = bridge.listAllProperties();
@@ -40,7 +40,7 @@ class SqlFactory {
     }
 
     /**
-     * 创建更新SQL（参数化版本）
+     * Create update SQL (parameterized version)
      */
     public static String createUpdatePreparedSql(StatefulEntity entity, OrmBridge bridge) {
         Set<String> columns = entity.getAllModifiedColumns();
@@ -48,7 +48,7 @@ class SqlFactory {
 
         List<String> updateColumns = new ArrayList<>();
 
-        // 构建SET子句
+        // Build SET clause
         for (String property : bridge.listAllProperties()) {
             if (!saveAll && !columns.contains(property)) {
                 continue;
@@ -68,7 +68,7 @@ class SqlFactory {
     }
 
     private static String createWhereClause(OrmBridge bridge) {
-        // 构建WHERE子句
+        // Build WHERE clause
         List<String> whereColumns = new ArrayList<>();
         for (String property : bridge.getPrimaryKeyProperties()) {
             String column = getColumnName(property, bridge);
@@ -78,7 +78,7 @@ class SqlFactory {
     }
 
     /**
-     * 创建删除SQL（参数化版本）
+     * Create delete SQL (parameterized version)
      */
     public static String createDeletePreparedSql(OrmBridge bridge) {
         return DELETE_FROM + bridge.getTableName() +
@@ -86,10 +86,10 @@ class SqlFactory {
     }
 
 
-    // ==================== 私有辅助方法 ====================
+    // ==================== Private helper methods ====================
 
     /**
-     * 获取列名列表
+     * Get column name list
      */
     private static List<String> getColumnNames(List<String> properties, OrmBridge bridge) {
         List<String> columns = new ArrayList<>();
@@ -100,7 +100,7 @@ class SqlFactory {
     }
 
     /**
-     * 获取单个列名
+     * Get single column name
      */
     private static String getColumnName(String property, OrmBridge bridge) {
         String override = bridge.getOverrideProperty(property);
@@ -108,7 +108,7 @@ class SqlFactory {
     }
 
     /**
-     * 包装列名
+     * Wrap column names
      */
     private static List<String> wrapColumns(List<String> columns) {
         List<String> wrapped = new ArrayList<>();
@@ -119,14 +119,14 @@ class SqlFactory {
     }
 
     /**
-     * 包装单个列名
+     * Wrap single column name
      */
     private static String wrapColumn(String column) {
         return COLUMN_WRAPPER + column + COLUMN_WRAPPER;
     }
 
     /**
-     * 创建占位符列表
+     * Create placeholder list
      */
     private static List<String> createPlaceholders(int count) {
         List<String> placeholders = new ArrayList<>();

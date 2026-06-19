@@ -10,22 +10,22 @@ import java.util.Set;
 import org.slf4j.Logger;
 
 /**
- * 验证数据库schema与代码定义的一致性
- * 比较数据库的DDL和代码的DDL，若有差异则抛出异常
- * 这里验证比较复杂，实现较为简单，不验证主键、外键等复杂的约束
- * 只验证代码与数据表数量差异，字段类型、字段长度、是否允许为空等简单定义
+ * Validate consistency between database schema and code definitions.
+ * Compares database DDL with code DDL. Throws exception if there are differences.
+ * This validation is complex and the implementation is relatively simple. Does not validate complex constraints like primary keys, foreign keys, etc.
+ * Only validates differences in number of tables between code and database, and simple definitions like field types, field lengths, nullability, etc.
  */
 public class SchemaValidator implements SchemaStrategy {
 
     private Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaValidator.class);
 
     /**
-     * 执行验证策略：比较数据库schema与代码定义的一致性
+     * Execute validation strategy: Compare consistency between database schema and code definitions
      *
-     * @param con        数据库连接
-     * @param codeTables 代码中定义的表类集合
-     * @throws SQLException              SQL异常
-     * @throws SchemaValidationException 当数据库schema与代码定义不一致时抛出
+     * @param con        database connection
+     * @param codeTables set of table classes defined in code
+     * @throws SQLException              SQL exception
+     * @throws SchemaValidationException thrown when database schema is inconsistent with code definitions
      */
     @Override
     public void doExecute(Connection con, Set<Class<?>> codeTables) throws SQLException {
@@ -35,82 +35,82 @@ public class SchemaValidator implements SchemaStrategy {
         DatabaseSchema databaseMetadata = new DatabaseSchema(con);
         List<String> tables = databaseMetadata.getTables(con);
 
-        // 获取数据库中所有表的元数据
+        // Get metadata of all tables in database
         for (String table : tables) {
             databaseMetadata.getOrCreateTableMetadata(table);
         }
 
-        // 验证schema一致性
+        // Validate schema consistency
         validateSchemaConsistency(tableConfiguration.getTables(), databaseMetadata.getTables());
 
-        logger.info("数据库schema验证完成，所有表结构一致");
+        logger.info("Database schema validation completed, all table structures are consistent");
     }
 
     /**
-     * 验证数据库schema与代码定义的一致性
+     * Validate consistency between database schema and code definitions
      *
-     * @param codeTablesDef          代码中的表定义
-     * @param databaseTablesMetadata 数据库中的表元数据
-     * @throws SchemaValidationException 当schema不一致时抛出异常
+     * @param codeTablesDef          table definitions in code
+     * @param databaseTablesMetadata table metadata in database
+     * @throws SchemaValidationException thrown when schema is inconsistent
      */
     private void validateSchemaConsistency(Map<String, TableDefinition> codeTablesDef,
                                            Map<String, TableMetadata> databaseTablesMetadata)
             throws SchemaValidationException {
         List<String> validationErrors = new ArrayList<>();
 
-        // 检查代码中定义的表是否在数据库中存在
+        // Check if tables defined in code exist in database
         for (Map.Entry<String, TableDefinition> entry : codeTablesDef.entrySet()) {
             String tableName = entry.getKey();
             TableDefinition codeTableDef = entry.getValue();
 
             if (!databaseTablesMetadata.containsKey(tableName)) {
-                validationErrors.add("表 '" + tableName + "' 在代码中定义但数据库中不存在");
+                validationErrors.add("Table '" + tableName + "' is defined in code but does not exist in database");
                 continue;
             }
 
-            // 验证表结构一致性
+            // Validate table structure consistency
             TableMetadata dbTableMetadata = databaseTablesMetadata.get(tableName);
             validateTableStructure(tableName, codeTableDef, dbTableMetadata, validationErrors);
         }
 
-        // 检查数据库中是否存在代码中未定义的表
+        // Check if there are tables in database that are not defined in code
         for (String dbTableName : databaseTablesMetadata.keySet()) {
             if (!codeTablesDef.containsKey(dbTableName)) {
-                validationErrors.add("表 '" + dbTableName + "' 在数据库中存在但代码中未定义");
+                validationErrors.add("Table '" + dbTableName + "' exists in database but is not defined in code");
             }
         }
 
-        // 如果有验证错误，抛出异常
+        // If there are validation errors, throw exception
         if (!validationErrors.isEmpty()) {
-            String errorMessage = "数据库schema验证失败:\n" + String.join("\n", validationErrors);
+            String errorMessage = "Database schema validation failed:\n" + String.join("\n", validationErrors);
             logger.error(errorMessage);
             throw new SchemaValidationException(errorMessage);
         }
     }
 
     /**
-     * 验证单个表的结构一致性
+     * Validate single table structure consistency
      *
-     * @param tableName        表名
-     * @param codeTableDef     代码中的表定义
-     * @param dbTableMetadata  数据库中的表元数据
-     * @param validationErrors 验证错误列表
+     * @param tableName        table name
+     * @param codeTableDef     table definition in code
+     * @param dbTableMetadata  table metadata in database
+     * @param validationErrors validation error list
      */
     private void validateTableStructure(String tableName, TableDefinition codeTableDef,
                                         TableMetadata dbTableMetadata, List<String> validationErrors) {
-        // 验证字段定义
+        // Validate field definitions
         validateColumns(tableName, codeTableDef, dbTableMetadata, validationErrors);
     }
 
         /**
-     * 验证字段定义一致性
+     * Validate field definition consistency
      */
     private void validateColumns(String tableName, TableDefinition codeTableDef, 
                                TableMetadata dbTableMetadata, List<String> validationErrors) {
         Map<String, ColumnDefinition> codeColumns = codeTableDef.getColumns();
         Map<String, ColumnMetadata> dbColumns = dbTableMetadata.getColumns();
 
-        // 创建小写映射，统一以小写进行验证
+        // Create lowercase mapping, validate uniformly using lowercase
         Map<String, ColumnDefinition> codeColumnsLower = new java.util.HashMap<>();
         for (Map.Entry<String, ColumnDefinition> entry : codeColumns.entrySet()) {
             codeColumnsLower.put(entry.getKey().toLowerCase(), entry.getValue());
@@ -121,36 +121,36 @@ public class SchemaValidator implements SchemaStrategy {
             dbColumnsLower.put(entry.getKey().toLowerCase(), entry.getValue());
         }
 
-        // 检查代码中定义的字段是否在数据库中存在
+        // Check if fields defined in code exist in database
         for (Map.Entry<String, ColumnDefinition> entry : codeColumnsLower.entrySet()) {
             String columnNameLower = entry.getKey();
             ColumnDefinition codeColumn = entry.getValue();
 
             if (!dbColumnsLower.containsKey(columnNameLower)) {
-                validationErrors.add("表 '" + tableName + "' 的字段 '" + codeColumn.getName() + "' 在代码中定义但数据库中不存在");
+                validationErrors.add("Table '" + tableName + "' field '" + codeColumn.getName() + "' is defined in code but does not exist in database");
                 continue;
             }
 
-            // 验证字段类型和属性
+            // Validate field type and properties
             ColumnMetadata dbColumn = dbColumnsLower.get(columnNameLower);
             if (!isTypeCompatible(codeColumn.getJdbcType(), dbColumn.getFullTypeName(), dbColumn.getTypeCode())) {
-                validationErrors.add("表 '" + tableName + "' 的字段 '" + codeColumn.getName() + "' 类型不匹配: 代码中为 '" + 
-                                  codeColumn.getJdbcType() + "', 数据库中为 '" + dbColumn.getFullTypeName() + "'");
+                validationErrors.add("Table '" + tableName + "' field '" + codeColumn.getName() + "' type mismatch: in code is '" + 
+                                  codeColumn.getJdbcType() + "', in database is '" + dbColumn.getFullTypeName() + "'");
             }
 
-            // 比较可空性：代码中的isNullable()与数据库中的getNullable()
+            // Compare nullability: code's isNullable() vs database's getNullable()
             boolean codeNullable = codeColumn.isNullable();
             boolean dbNullable = "YES".equalsIgnoreCase(dbColumn.getNullable());
             if (codeNullable != dbNullable) {
-                validationErrors.add("表 '" + tableName + "' 的字段 '" + codeColumn.getName() + "' 可空性不匹配: 代码中为 " + 
-                                  codeNullable + ", 数据库中为 " + dbNullable);
+                validationErrors.add("Table '" + tableName + "' field '" + codeColumn.getName() + "' nullability mismatch: in code is " + 
+                                  codeNullable + ", in database is " + dbNullable);
             }
         }
 
-        // 检查数据库中是否存在代码中未定义的字段
+        // Check if there are fields in database that are not defined in code
         for (String dbColumnNameLower : dbColumnsLower.keySet()) {
             if (!codeColumnsLower.containsKey(dbColumnNameLower)) {
-                // 找到原始字段名用于错误信息
+                // Find original field name for error message
                 String originalDbColumnName = null;
                 for (Map.Entry<String, ColumnMetadata> entry : dbColumns.entrySet()) {
                     if (entry.getKey().toLowerCase().equals(dbColumnNameLower)) {
@@ -158,43 +158,43 @@ public class SchemaValidator implements SchemaStrategy {
                         break;
                     }
                 }
-                validationErrors.add("表 '" + tableName + "' 的字段 '" + originalDbColumnName + "' 在数据库中存在但代码中未定义");
+                validationErrors.add("Table '" + tableName + "' field '" + originalDbColumnName + "' exists in database but is not defined in code");
             }
         }
     }
 
         /**
-     * 判断两个类型是否兼容
+     * Check if two types are compatible
      *
-     * @param codeType   代码中的类型
-     * @param dbType     数据库中的类型
-     * @param dbTypeCode 数据库中的类型代码
-     * @return 是否兼容
+     * @param codeType   type in code
+     * @param dbType     type in database
+     * @param dbTypeCode type code in database
+     * @return whether compatible
      */
     private boolean isTypeCompatible(String codeType, String dbType, int dbTypeCode) {
-        // 提取基础类型（去掉默认值信息）
+        // Extract base type (remove default value information)
         String codeBaseType = extractBaseType(codeType);
         String dbBaseType = extractBaseType(dbType);
         
-        // 对于整数类型，忽略长度信息进行比较
+        // For integer types, ignore length information for comparison
         if (isIntegerType(dbTypeCode)) {
             return codeBaseType.equalsIgnoreCase(dbBaseType);
         }
         
-        // 对于长文本类型，忽略长度信息进行比较
+        // For long text types, ignore length information for comparison
         if (isLongTextType(codeBaseType) || isLongTextType(dbBaseType)) {
             return codeBaseType.equalsIgnoreCase(dbBaseType);
         }
         
-        // 对于其他类型，进行基础类型比较（忽略大小写）
+        // For other types, compare base types (case insensitive)
         return codeBaseType.equalsIgnoreCase(dbBaseType);
     }
 
     /**
-     * 判断是否为整数类型
+     * Check if it is an integer type
      *
-     * @param typeCode SQL类型代码
-     * @return 是否为整数类型
+     * @param typeCode SQL type code
+     * @return whether it is an integer type
      */
     private boolean isIntegerType(int typeCode) {
         return typeCode == java.sql.Types.TINYINT ||
@@ -204,10 +204,10 @@ public class SchemaValidator implements SchemaStrategy {
     }
 
     /**
-     * 判断是否为长文本类型
+     * Check if it is a long text type
      *
-     * @param typeName 类型名称
-     * @return 是否为长文本类型
+     * @param typeName type name
+     * @return whether it is a long text type
      */
     private boolean isLongTextType(String typeName) {
         String lowerTypeName = typeName.toLowerCase();
@@ -220,20 +220,20 @@ public class SchemaValidator implements SchemaStrategy {
     }
 
     /**
-     * 提取基础类型名称（去掉长度信息和默认值信息）
+     * Extract base type name (remove length information and default value information)
      *
-     * @param fullType 完整类型名称
-     * @return 基础类型名称
+     * @param fullType full type name
+     * @return base type name
      */
     private String extractBaseType(String fullType) {
-        // 去掉默认值信息（如 "bigint DEFAULT '0'" -> "bigint"）
+        // Remove default value information (e.g., "bigint DEFAULT '0'" -> "bigint")
         String typeWithoutDefault = fullType;
         int defaultIndex = fullType.toUpperCase().indexOf(" DEFAULT ");
         if (defaultIndex > 0) {
             typeWithoutDefault = fullType.substring(0, defaultIndex).trim();
         }
         
-        // 去掉长度信息（如 "varchar(256)" -> "varchar"）
+        // Remove length information (e.g., "varchar(256)" -> "varchar")
         int parenIndex = typeWithoutDefault.indexOf('(');
         if (parenIndex > 0) {
             return typeWithoutDefault.substring(0, parenIndex);

@@ -27,7 +27,7 @@ class TableConfiguration {
 
     private void fillColumns(Class<?> entity, TableDefinition tableDefinition) {
         Class<?> currClazz = entity;
-        // 遍历父类，将父类的字段也添加到表定义中
+        // Traverse parent classes, add parent class fields to table definition as well
         while (currClazz != StatefulEntity.class) {
             Arrays.stream(currClazz.getDeclaredFields()).filter(e -> e.getAnnotation(Column.class) != null)
                     .forEach(f -> {
@@ -39,7 +39,7 @@ class TableConfiguration {
                             columnDef.setName(f.getName());
                         }
                         columnDef.setPrimary(f.getAnnotation(Id.class) != null);
-                        // 主键，值不能为空
+                        // Primary key, value cannot be null
                         if (f.isAnnotationPresent(Id.class)) {
                             columnDef.setNullable(false);
                         } else {
