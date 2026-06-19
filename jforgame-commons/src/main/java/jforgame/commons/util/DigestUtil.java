@@ -10,11 +10,11 @@ import java.util.Base64;
 import java.util.Objects;
 
 /**
- * 数据编解码工具
- * 提供诸如MD5、Base64等常用编码和解码功能。
+ * Data encoding and decoding utility
+ * Provides common encoding and decoding functions such as MD5, Base64, etc.
  */
 public class DigestUtil {
-    // 定义16进制字符数组
+    // Define hexadecimal character array
     private static final char[] HEX_CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     private static final Base64.Decoder DECODER = Base64.getDecoder();
@@ -22,20 +22,20 @@ public class DigestUtil {
 
 
     /**
-     * 计算MD5摘要并返回16进制字符串
+     * Calculates MD5 digest and returns a hexadecimal string
      *
-     * @param bytes 输入字节数组
-     * @return 16进制表示的MD5摘要字符串
+     * @param bytes the input byte array
+     * @return the MD5 digest as a hexadecimal string
      */
     public static String md5Hex(byte[] bytes) {
         return digestAsHexString("MD5", bytes);
     }
 
     /**
-     * 计算MD5摘要并返回16进制字符串
+     * Calculates MD5 digest and returns a hexadecimal string
      *
-     * @param data 输入字符串
-     * @return 16进制表示的MD5摘要字符串
+     * @param data the input string
+     * @return the MD5 digest as a hexadecimal string
      */
     public static String md5Hex(String data) {
         Objects.requireNonNull(data);
@@ -43,22 +43,22 @@ public class DigestUtil {
     }
 
     /**
-     * 计算MD5摘要并返回16进制字符串
+     * Calculates MD5 digest and returns a hexadecimal string
      *
-     * @param inputStream 输入流
-     * @return 16进制表示的MD5摘要字符串
-     * @throws IOException 如果读取输入流时发生IO异常
+     * @param inputStream the input stream
+     * @return the MD5 digest as a hexadecimal string
+     * @throws IOException if an I/O error occurs while reading the input stream
      */
     public static String md5Hex(InputStream inputStream) throws IOException {
         return digestAsHexString("MD5", inputStream);
     }
 
     /**
-     * 计算摘要并返回16进制字符串
+     * Calculates digest and returns a hexadecimal string
      *
-     * @param algorithm 摘要算法名称
-     * @param bytes     输入字节数组
-     * @return 16进制表示的摘要字符串
+     * @param algorithm the digest algorithm name
+     * @param bytes     the input byte array
+     * @return the digest as a hexadecimal string
      */
     private static String digestAsHexString(String algorithm, byte[] bytes) {
         char[] hexDigest = digestAsHexChars(algorithm, bytes);
@@ -66,12 +66,12 @@ public class DigestUtil {
     }
 
     /**
-     * 计算摘要并返回16进制字符串
+     * Calculates digest and returns a hexadecimal string
      *
-     * @param algorithm 摘要算法名称
-     * @param inputStream 输入流
-     * @return 16进制表示的摘要字符串
-     * @throws IOException 如果读取输入流时发生IO异常
+     * @param algorithm   the digest algorithm name
+     * @param inputStream the input stream
+     * @return the digest as a hexadecimal string
+     * @throws IOException if an I/O error occurs while reading the input stream
      */
     private static String digestAsHexString(String algorithm, InputStream inputStream) throws IOException {
         char[] hexDigest = digestAsHexChars(algorithm, inputStream);
@@ -79,12 +79,12 @@ public class DigestUtil {
     }
 
     /**
-     * 计算摘要并返回16进制字符数组
+     * Calculates digest and returns a hexadecimal character array
      *
-     * @param algorithm 摘要算法名称
-     * @param inputStream 输入流
-     * @return 16进制表示的摘要字符数组
-     * @throws IOException 如果读取输入流时发生IO异常
+     * @param algorithm   the digest algorithm name
+     * @param inputStream the input stream
+     * @return the digest as a hexadecimal character array
+     * @throws IOException if an I/O error occurs while reading the input stream
      */
     private static char[] digestAsHexChars(String algorithm, InputStream inputStream) throws IOException {
         byte[] digest = digest(algorithm, inputStream);
@@ -109,21 +109,21 @@ public class DigestUtil {
     }
 
     /**
-     * 计算MD5摘要并返回字节数组
+     * Calculates MD5 digest and returns a byte array
      *
-     * @param bytes 输入字节数组
-     * @return MD5摘要字节数组
+     * @param bytes the input byte array
+     * @return the MD5 digest as a byte array
      */
     public static byte[] md5Digest(byte[] bytes) {
         return digest("MD5", bytes);
     }
 
     /**
-     * 计算MD5摘要并返回字节数组
+     * Calculates MD5 digest and returns a byte array
      *
-     * @param inputStream 输入流
-     * @return MD5摘要字节数组
-     * @throws IOException 如果读取输入流时发生IO异常
+     * @param inputStream the input stream
+     * @return the MD5 digest as a byte array
+     * @throws IOException if an I/O error occurs while reading the input stream
      */
     public static byte[] md5Digest(InputStream inputStream) throws IOException {
         return digest("MD5", inputStream);
@@ -154,18 +154,18 @@ public class DigestUtil {
 
 
     /**
-     * 将字节数组转为Base64编码字符串
-     * @param data 输入字节数组
-     * @return Base64编码后的字符串
+     * Converts a byte array to a Base64 encoded string
+     * @param data the input byte array
+     * @return the Base64 encoded string
      */
     public static String encodeBase64(byte[] data) {
         return ENCODER.encodeToString(data);
     }
 
     /**
-     * 将字符串进行Base64解码
-     * @param data Base64编码后的字符串
-     * @return 解码后的字节数组
+     * Decodes a Base64 encoded string
+     * @param data the Base64 encoded string
+     * @return the decoded byte array
      */
     public static byte[] decodeBase64(String data) {
         return DECODER.decode(data);

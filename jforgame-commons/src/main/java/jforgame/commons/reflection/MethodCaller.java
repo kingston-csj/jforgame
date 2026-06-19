@@ -1,21 +1,21 @@
 package jforgame.commons.reflection;
 
 /**
- * 方法调用接口
- * 该接口提供一个非直接调用方法的方式，
- * 例如：反射，方法句柄，asm等技术
+ * Method invocation interface
+ * This interface provides a non-direct method invocation approach,
+ * such as reflection, method handle, asm, etc.
  * @since 2.4.0
  */
 @FunctionalInterface
 public interface MethodCaller {
 
     /**
-     * 调用方法
+     * Invokes a method
      *
-     * @param target 目标对象
-     * @param params 参数
-     * @return 方法返回值
-     * @throws Exception 异常
+     * @param target the target object
+     * @param params the parameters
+     * @return the method return value
+     * @throws Exception exception
      */
     Object invoke(Object target, Object[] params) throws Exception;
 

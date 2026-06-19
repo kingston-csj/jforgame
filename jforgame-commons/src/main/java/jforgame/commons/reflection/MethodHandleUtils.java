@@ -9,27 +9,27 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 高性能反射调用工具，使用 MethodHandle 替代传统反射
+ * High-performance reflection invocation tool, using MethodHandle instead of traditional reflection
  *
  * @since 2.4.0
  */
 public final class MethodHandleUtils {
-    // 方法调用器缓存（类 -> 方法签名 -> 方法调用器）
+    // Method caller cache (class -> method signature -> method caller)
     private static final Map<Class<?>, Map<String, MethodCaller>> METHOD_CALLER_CACHE = new ConcurrentHashMap<>();
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
 
     private MethodHandleUtils() {
-        // 私有构造函数，防止实例化
+        // Private constructor to prevent instantiation
     }
 
     /**
-     * 调用对象的方法
+     * Invokes a method on an object
      *
-     * @param target     目标对象
-     * @param methodName 方法名
-     * @param args       参数列表
-     * @return 方法返回值
-     * @throws ReflectiveOperationException 反射调用异常
+     * @param target     the target object
+     * @param methodName the method name
+     * @param args       the argument list
+     * @return the method return value
+     * @throws ReflectiveOperationException reflection invocation exception
      */
     public static Object invoke(Object target, String methodName, Object... args) throws ReflectiveOperationException {
         if (target == null) {
@@ -39,26 +39,26 @@ public final class MethodHandleUtils {
     }
 
     /**
-     * 调用静态方法
+     * Invokes a static method
      *
-     * @param clazz      目标类
-     * @param methodName 方法名
-     * @param args       参数列表
-     * @return 方法返回值
-     * @throws ReflectiveOperationException 反射调用异常
+     * @param clazz      the target class
+     * @param methodName the method name
+     * @param args       the argument list
+     * @return the method return value
+     * @throws ReflectiveOperationException reflection invocation exception
      */
     public static Object invokeStatic(Class<?> clazz, String methodName, Object... args) throws ReflectiveOperationException {
         return invokeInternal(clazz, null, methodName, args);
     }
 
     /**
-     * 获取方法调用器（用于重复调用同一方法）
+     * Gets a method caller (for repeated invocation of the same method)
      *
-     * @param clazz          目标类
-     * @param methodName     方法名
-     * @param parameterTypes 参数类型
-     * @return 方法调用器
-     * @throws NoSuchMethodException 方法不存在异常
+     * @param clazz          the target class
+     * @param methodName     the method name
+     * @param parameterTypes the parameter types
+     * @return the method caller
+     * @throws NoSuchMethodException method not found exception
      */
     public static MethodCaller getCaller(Class<?> clazz, String methodName, Class<?>... parameterTypes) throws NoSuchMethodException {
         String methodSignature = generateMethodSignature(methodName, parameterTypes);
@@ -66,7 +66,7 @@ public final class MethodHandleUtils {
                 .computeIfAbsent(methodSignature, k -> createMethodCaller(clazz, methodName, parameterTypes));
     }
 
-    // 内部调用实现
+    // Internal invocation implementation
     private static Object invokeInternal(Class<?> clazz, Object target, String methodName, Object[] args) throws ReflectiveOperationException {
         Class<?>[] parameterTypes = getParameterTypes(args);
         MethodCaller caller = getCaller(clazz, methodName, parameterTypes);
@@ -77,17 +77,17 @@ public final class MethodHandleUtils {
         }
     }
 
-    // 创建方法调用器
+    // Create method caller
     private static MethodCaller createMethodCaller(Class<?> clazz, String methodName, Class<?>[] parameterTypes) {
         try {
-            // 获取方法
+            // Get the method
             Method method = findMethod(clazz, methodName, parameterTypes);
             method.setAccessible(true);
 
-            // 创建 MethodHandle
+            // Create MethodHandle
             MethodHandle methodHandle = LOOKUP.unreflect(method);
 
-            // 处理静态方法
+            // Handle static methods
             if (Modifier.isStatic(method.getModifiers())) {
                 return (target, args) -> {
                     try {
@@ -110,13 +110,13 @@ public final class MethodHandleUtils {
         }
     }
 
-    // 查找方法（支持自动装箱/拆箱和子类匹配）
+    // Find method (supports auto boxing/unboxing and subclass matching)
     private static Method findMethod(Class<?> clazz, String methodName, Class<?>[] parameterTypes) throws NoSuchMethodException {
-        // 先尝试精确匹配
+        // First try exact match
         try {
             return clazz.getMethod(methodName, parameterTypes);
         } catch (NoSuchMethodException e) {
-            // 再尝试模糊匹配（支持装箱/拆箱和子类）
+            // Then try fuzzy match (supports boxing/unboxing and subclass)
             for (Method method : clazz.getMethods()) {
                 if (method.getName().equals(methodName) && isMethodCompatible(method, parameterTypes)) {
                     return method;
@@ -127,19 +127,19 @@ public final class MethodHandleUtils {
     }
 
     /**
-     * 通过反射 Method 对象获取方法调用器
+     * Gets a method caller through a reflection Method object
      *
-     * @param method 反射 Method 对象
-     * @return 方法调用器
+     * @param method the reflection Method object
+     * @return the method caller
      */
     public static MethodCaller getCaller(Method method) {
-        // 生成唯一的缓存键（类名 + 方法签名）
+        // Generate unique cache key (class name + method signature)
         String methodSignature = generateMethodSignature(method);
         return METHOD_CALLER_CACHE.computeIfAbsent(method.getDeclaringClass(), k -> new ConcurrentHashMap<>())
                 .computeIfAbsent(methodSignature, k -> createMethodCaller(method));
     }
 
-    // 生成方法签名（用于缓存键）
+    // Generate method signature (for cache key)
     private static String generateMethodSignature(Method method) {
         StringBuilder sb = new StringBuilder(method.getName()).append("(");
         Class<?>[] parameterTypes = method.getParameterTypes();
@@ -150,13 +150,13 @@ public final class MethodHandleUtils {
         return sb.append(")").toString();
     }
 
-    // 基于 Method 对象创建方法调用器
+    // Create method caller based on Method object
     private static MethodCaller createMethodCaller(Method method) {
         try {
             method.setAccessible(true);
             MethodHandle methodHandle = LOOKUP.unreflect(method);
 
-            // 处理静态方法
+            // Handle static methods
             if (Modifier.isStatic(method.getModifiers())) {
                 return (target, args) -> {
                     try {
@@ -185,7 +185,7 @@ public final class MethodHandleUtils {
         }
     }
 
-    // 判断方法是否兼容参数类型
+    // Check if method is compatible with parameter types
     private static boolean isMethodCompatible(Method method, Class<?>[] parameterTypes) {
         Class<?>[] methodParamTypes = method.getParameterTypes();
         if (methodParamTypes.length != parameterTypes.length) {
@@ -200,13 +200,13 @@ public final class MethodHandleUtils {
         return true;
     }
 
-    // 判断类型是否兼容（支持装箱/拆箱）
+    // Check if types are compatible (supports boxing/unboxing)
     private static boolean isAssignableFrom(Class<?> targetType, Class<?> sourceType) {
         if (targetType.isAssignableFrom(sourceType)) {
             return true;
         }
 
-        // 处理基本类型和包装类型的关系
+        // Handle primitive type and wrapper type relationship
         if (targetType.isPrimitive()) {
             return boxedType(targetType).isAssignableFrom(sourceType);
         } else if (sourceType.isPrimitive()) {
@@ -216,7 +216,7 @@ public final class MethodHandleUtils {
         return false;
     }
 
-    // 获取基本类型的包装类型
+    // Get the wrapper type of primitive type
     private static Class<?> boxedType(Class<?> primitiveType) {
         if (primitiveType == int.class) return Integer.class;
         if (primitiveType == long.class) return Long.class;
@@ -229,7 +229,7 @@ public final class MethodHandleUtils {
         return primitiveType;
     }
 
-    // 生成方法签名
+    // Generate method signature
     private static String generateMethodSignature(String methodName, Class<?>[] parameterTypes) {
         StringBuilder sb = new StringBuilder(methodName).append("(");
         for (int i = 0; i < parameterTypes.length; i++) {
@@ -239,7 +239,7 @@ public final class MethodHandleUtils {
         return sb.append(")").toString();
     }
 
-    // 获取参数类型数组
+    // Get parameter type array
     private static Class<?>[] getParameterTypes(Object[] args) {
         if (args == null) {
             return new Class<?>[0];

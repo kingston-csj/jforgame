@@ -3,12 +3,12 @@ package jforgame.commons.eventbus;
 import java.lang.reflect.Method;
 
 /**
- * 具体事件订阅者
+ * Specific event subscriber
  */
 class Subscriber {
 
     /**
-     * 事件处理者
+     * Event handler
      */
     private Object listener;
 

@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标识一个容器组件为非线程安全的
+ * Marks a container component as not thread-safe
  */
 @Documented
 @Target(ElementType.TYPE)

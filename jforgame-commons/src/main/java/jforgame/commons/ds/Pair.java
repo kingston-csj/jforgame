@@ -1,7 +1,7 @@
 package jforgame.commons.ds;
 
 /**
- * 两个对象组合起来的点对，一般用于需要返回两个返回值的方法
+ * A pair of two objects combined, generally used for methods that need to return two values
  */
 public class Pair<F, S> {
 

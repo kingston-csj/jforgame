@@ -2,29 +2,29 @@ package jforgame.commons.util;
 
 
 /**
- * 类型工具类
+ * Type utility class
  */
 public class TypeUtil {
 
     /**
-     * 判断类型是否为基本类型或字符串
+     * Checks if the type is a primitive type or String
      *
-     * @param clazz 要判断的类型
-     * @return 如果是基本类型或字符串则返回true，否则返回false
+     * @param clazz the type to check
+     * @return true if it is a primitive type or String, otherwise false
      */
     public static boolean isPrimitiveOrString(Class<?> clazz) {
         if (clazz == null) {
             return false;
         }
-        // 判断是否为基本类型
+        // Check if it is a primitive type
         if (clazz.isPrimitive()) {
             return true;
         }
-        // 判断是否为基本类型的包装类
+        // Check if it is a wrapper type of primitive type
         if (isWrapperType(clazz)) {
             return true;
         }
-        // 判断是否为字符串类型
+        // Check if it is a String type
         if (clazz == String.class) {
             return true;
         }
@@ -32,7 +32,7 @@ public class TypeUtil {
     }
 
     /**
-     * 判断是否为基本类型的包装类
+     * Checks if it is a wrapper type of primitive type
      */
     private static boolean isWrapperType(Class<?> clazz) {
         return clazz == Integer.class
@@ -47,16 +47,16 @@ public class TypeUtil {
 
 
     /**
-     * 判断值是否与类型兼容
-     * 例如：
-     * 1. 类型为 Integer，值为 1 时，返回 true
-     * 2. 类型为 Integer，值为 1L 时，返回 true
-     * 3. 类型为 Integer，值为 "1" 时，返回 true
-     * 4. 类型为 Integer，值为 "1.0" 时，返回 false
+     * Checks if a value is compatible with a type
+     * Examples:
+     * 1. Type is Integer, value is 1, returns true
+     * 2. Type is Integer, value is 1L, returns true
+     * 3. Type is Integer, value is "1", returns true
+     * 4. Type is Integer, value is "1.0", returns false
      *
-     * @param value 值
-     * @param type  类型
-     * @return 如果值与类型兼容则返回true，否则返回false
+     * @param value the value
+     * @param type  the type
+     * @return true if the value is compatible with the type, otherwise false
      */
     public static boolean isCompatibleType(Object value, Class<?> type) {
         if ((value == null) || (type.isInstance(value))) {

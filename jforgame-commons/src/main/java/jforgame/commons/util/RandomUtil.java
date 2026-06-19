@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 /**
- * 随机工具类
+ * Random utility class
  * Created by Carson
  *
  * @since 2.4.0
@@ -16,30 +16,30 @@ import java.util.function.Function;
 public class RandomUtil {
 
     /**
-     * 返回0（包括）至Integer.MAX_VALUE(不包括)之间随机的一个数
+     * Returns a random number between 0 (inclusive) and Integer.MAX_VALUE (exclusive)
      *
-     * @return 随机数
+     * @return a random number
      */
     public static int nextInt() {
         return ThreadLocalRandom.current().nextInt();
     }
 
     /**
-     * 返回0（包括）至n(不包括)之间随机的一个数
+     * Returns a random number between 0 (inclusive) and n (exclusive)
      *
-     * @param n 随机数上限（不包括）
-     * @return 随机数
+     * @param n the upper bound (exclusive) of the random number
+     * @return a random number
      */
     public static int nextInt(int n) {
         return ThreadLocalRandom.current().nextInt(n);
     }
 
     /**
-     * 返回min（包括）至max(不包括)之间随机的一个数
+     * Returns a random number between min (inclusive) and max (exclusive)
      *
-     * @param min 随机数下限（包括）
-     * @param max 随机数上限（不包括）
-     * @return 随机数
+     * @param min the lower bound (inclusive) of the random number
+     * @param max the upper bound (exclusive) of the random number
+     * @return a random number
      */
     public static int randomValue(int min, int max) {
         if (min > max) {
@@ -53,10 +53,10 @@ public class RandomUtil {
 
 
     /**
-     * 根据权重随机一个索引
+     * Randomly selects an index based on weights
      *
-     * @param probs 权重列表
-     * @return 索引
+     * @param probs the list of weights
+     * @return the selected index
      */
     public static int randomIndex(List<Integer> probs) {
         if (probs == null || probs.isEmpty()) {
@@ -64,27 +64,27 @@ public class RandomUtil {
         }
         int sum = probs.stream().reduce(0, Integer::sum);
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        // 生成一个在 [0, sum) 范围内的随机数
+        // Generate a random number in the range [0, sum)
         int randomValue = random.nextInt(sum);
         int accumulated = 0;
-        // 遍历概率列表，通过累计概率来判断随机数落在哪个区间，从而确定索引
+        // Iterate through the probability list, determine which interval the random number falls in by accumulating probabilities, thus determining the index
         for (int i = 0; i < probs.size(); i++) {
             accumulated += probs.get(i);
             if (randomValue < accumulated) {
                 return i;
             }
         }
-        // 理论不会跑到这里，语法需求
+        // Theoretically should not reach here, syntax requirement
         throw new IllegalArgumentException("randomIndex out of range");
     }
 
     /**
-     * 根据权重随机一个索引列表
+     * Randomly selects a list of indices based on weights
      *
-     * @param probabilityList 权重列表
-     * @param count           随机数量
-     * @param remove          被挑中后是否移除
-     * @return 索引列表
+     * @param probabilityList the list of weights
+     * @param count           the number of random selections
+     * @param remove          whether to remove the selected element from the list
+     * @return the list of selected indices
      */
     public static List<Integer> randomIndexList(List<Integer> probabilityList, int count, boolean remove) {
         if (probabilityList == null || probabilityList.isEmpty()) {
@@ -118,12 +118,12 @@ public class RandomUtil {
     }
 
     /**
-     * 随机一个对象
+     * Randomly selects one object
      *
-     * @param objects  对象列表
-     * @param function 对象权重函数
-     * @param <E>      对象类型
-     * @return 随机对象
+     * @param objects  the list of objects
+     * @param function the weight function for each object
+     * @param <E>      the object type
+     * @return the randomly selected object
      */
     public static <E> E randomOne(Collection<E> objects, Function<E, Integer> function) {
         int totalWeight = 0;

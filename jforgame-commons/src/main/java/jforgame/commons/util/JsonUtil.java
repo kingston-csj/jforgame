@@ -17,8 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 基于jackson的json工具
- * 注意：在反序列化的时候，会忽略没申明的字段
+ * JSON utility based on Jackson
+ * Note: During deserialization, undeclared fields will be ignored
  */
 public final class JsonUtil {
 

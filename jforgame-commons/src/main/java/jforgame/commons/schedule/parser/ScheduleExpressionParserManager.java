@@ -5,46 +5,46 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * 调度表达式解析器管理器
- * 用于游戏业务的时间调度场景（活动开始/结束、任务触发等），管理多类型解析器链，分发解析请求。
+ * Schedule expression parser manager
+ * Used for game business time scheduling scenarios (activity start/end, task trigger, etc.), manages multi-type parser chains and dispatches parsing requests.
  */
 public class ScheduleExpressionParserManager {
 
     /**
-     * 解析链,默认只有一个,就是quartz本身的Cron表达式解析器
-     * 可根据需要,添加开服时间解析器,合服时间解析器等等
+     * Parser chain, default has only one, which is the quartz Cron expression parser itself
+     * Can add server opening time parser, server merging time parser, etc. as needed
      */
     private static List<ScheduleExpressionParser> parserChain = new CopyOnWriteArrayList<>();
 
     static {
-        // 默认解析器
+        // Default parser
         parserChain.add(new QuartzScheduleExpressionParser());
     }
 
     /**
-     * 添加解析器到链表的最前面
+     * Adds a parser to the front of the chain
      *
-     * @param parser
+     * @param parser the parser to add
      */
     public static void addParserBefore(ScheduleExpressionParser parser) {
         parserChain.add(0, parser);
     }
 
     /**
-     * 添加解析器到链表的最后面
+     * Adds a parser to the end of the chain
      *
-     * @param parser
+     * @param parser the parser to add
      */
     public static void addParserAfter(ScheduleExpressionParser parser) {
         parserChain.add(parser);
     }
 
     /**
-     * 按照解析链,逐一解析表达式,如果表达式符合规则,则按当前节点解析器进行解析
+     * Parses the expression one by one according to the parser chain, if the expression matches the rule, it will be parsed by the current node parser
      *
-     * @param expression 表达式,可以是cron表达式,也可以是开服时间等自定义cron表达式
-     * @param date       开始时间
-     * @return 下次执行时间 如果解析失败,或者没有下次执行时间,返回null
+     * @param expression the expression, can be a cron expression or a custom cron expression such as server opening time
+     * @param date       the start time
+     * @return the next execution time, returns null if parsing fails or there is no next execution time
      */
     public static Date getNextTriggerTimeAfter(String expression, Date date) {
         for (ScheduleExpressionParser parser : parserChain) {

@@ -3,36 +3,36 @@ package jforgame.commons.schedule.parser;
 import java.util.Date;
 
 /**
- * 时间表达式解析器
- * 背景：无论是spring表达式，还是cron表达式，均不支持自定义格式的表达式。
- * 使用该类，可以拓展游戏常用的自定义格式时间表达式，例如开服时间表达式、合服时间表达式等。
- * 统一管理游戏业务所有基于一次性/周期性表达式的时间解析器。
- * 主要是整合cron表达式，以及游戏业务自定义的表达式。
+ * Time expression parser
+ * Background: Neither Spring expressions nor cron expressions support custom format expressions.
+ * Using this class, you can extend custom format time expressions commonly used in games, such as server opening time expressions, server merging time expressions, etc.
+ * Unified management of all one-time/periodic expression-based time parsers for game business.
+ * Mainly integrates cron expressions and custom expressions for game business.
  */
 public interface ScheduleExpressionParser {
 
     /**
-     * 是否不本解析器允许的格式
+     * Checks if the expression is a valid format for this parser
      *
-     * @param expression
-     * @return
+     * @param expression the expression to check
+     * @return true if valid, false otherwise
      */
     boolean isValidExpression(String expression);
 
     /**
-     * 计算距离参考时间起的下一次日期
+     * Calculates the next date after the reference time
      *
-     * @param expression cron表达式
-     * @param date       参考日期
-     * @return
+     * @param expression cron expression
+     * @param date       reference date
+     * @return the next trigger time
      */
     Date getNextTriggerTimeAfter(String expression, Date date);
 
     /**
-     * 是否周期性表达式
+     * Checks if the expression is a periodic expression
      *
-     * @param expression cron表达式
-     * @return
+     * @param expression cron expression
+     * @return true if periodic, false otherwise
      */
     boolean isPeriodicExpression(String expression);
 }

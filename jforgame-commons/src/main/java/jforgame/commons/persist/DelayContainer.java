@@ -12,23 +12,23 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 以延迟执行的形式持久化
+ * Persistence in delayed execution form
  */
 public class DelayContainer extends BasePersistContainer {
 
     private static final ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new NamedThreadFactory("jforgame-persist-delay-service"));
 
     /**
-     * db容器器排队的任务池
+     * DB container queued task pool
      */
     private final ConcurrentMap<String, Node> pool = new ConcurrentHashMap<>();
 
     /**
-     * 上次错误日志打印的时间
+     * Last error log print time
      */
     private long lastErrorTime = 0;
     /**
-     * 延迟秒数
+     * Delay seconds
      */
     private final int delaySeconds;
 
@@ -42,7 +42,7 @@ public class DelayContainer extends BasePersistContainer {
     public void receive(Entity<?> entity) {
         String key = entity.getKey();
         if (!run.get()) {
-            // 小店已经打烊了，恕不招待
+            // Shop is closed, sorry no service
             logger.info("db closed, received entity: {}", key);
             return;
         }
@@ -53,7 +53,7 @@ public class DelayContainer extends BasePersistContainer {
             } catch (Exception e) {
                 pool.remove(key);
                 receive(entity);
-                // 重复放入持久化队列，很容易造成异常日志爆炸了，这里控制下日志频率
+                // Repeatedly putting into persistence queue can easily cause exception log explosion, control log frequency here
                 if (System.currentTimeMillis() - lastErrorTime > 5 * TimeUtil.MILLIS_PER_MINUTE) {
                     lastErrorTime = System.currentTimeMillis();
                     logger.error("save entity error, entity: {}, pool size: {}", entity, pool.size(), e);
@@ -77,7 +77,7 @@ public class DelayContainer extends BasePersistContainer {
         Iterator<Map.Entry<String, Node>> iterator = pool.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, Node> next = iterator.next();
-            // 直接执行
+            // Execute directly
             next.getValue().task.run();
             iterator.remove();
         }

@@ -18,29 +18,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 类扫描器
+ * Class scanner
  */
 public final class ClassScanner {
 
     private static final Logger logger = LoggerFactory.getLogger(ClassScanner.class);
 
     /**
-     * 默认过滤器（无实现）
+     * Default filter (no implementation)
      */
     private final static Predicate<Class<?>> EMPTY_FILTER = clazz -> true;
 
     /**
-     * 扫描目录下的所有class文件
+     * Scans all class files under the directory
      *
-     * @param scanPackage 搜索的包根路径
-     * @return 所有的class列表
+     * @param scanPackage the root package path to search
+     * @return the list of all classes
      */
     public static Set<Class<?>> listClasses(String scanPackage) {
         return listClasses(scanPackage, EMPTY_FILTER);
     }
 
     /**
-     * 返回所有的子类（不包括抽象类）
+     * Returns all subclasses (excluding abstract classes)
      *
      * @param scanPackage the path to scan
      * @param parent      parent class type
@@ -50,48 +50,48 @@ public final class ClassScanner {
     }
 
     /**
-     * 返回所有带制定注解的class列表
+     * Returns all classes with the specified annotation
      *
-     * @param scanPackage 搜索的包根路径
-     * @param <A> 注解类型参数，用于指定要查找的注解类型
-     * @param annotation  目标注解类型
-     * @return 所有带指定注解的class列表
+     * @param scanPackage the root package path to search
+     * @param <A>         annotation type parameter, used to specify the annotation type to find
+     * @param annotation  the target annotation type
+     * @return the list of all classes with the specified annotation
      */
     public static <A extends Annotation> Set<Class<?>> listClassesWithAnnotation(String scanPackage, Class<A> annotation) {
         return listClasses(scanPackage, clazz -> clazz.getAnnotation(annotation) != null);
     }
 
     /**
-     * 扫描目录下的所有class文件
+     * Scans all class files under the directory
      *
-     * @param pack   包路径
-     * @param filter 自定义类过滤器
+     * @param pack   the package path
+     * @param filter custom class filter
      * @return all the classes that meet filter rule
      */
     public static Set<Class<?>> listClasses(String pack, Predicate<Class<?>> filter) {
         Set<Class<?>> result = new LinkedHashSet<>();
-        // 是否循环迭代
+        // Whether to iterate recursively
         boolean recursive = true;
-        // 获取包的名字 并进行替换
+        // Get the package name and replace it
         String packageDirName = pack.replace('.', '/');
-        // 定义一个枚举的集合 并进行循环来处理这个目录下的things
+        // Define an enumeration set and loop to process things in this directory
         Enumeration<URL> dirs;
         try {
             dirs = Thread.currentThread().getContextClassLoader().getResources(packageDirName);
-            // 循环迭代下去
+            // Continue iterating
             while (dirs.hasMoreElements()) {
-                // 获取下一个元素
+                // Get the next element
                 URL url = dirs.nextElement();
-                // 得到协议的名称
+                // Get the protocol name
                 String protocol = url.getProtocol();
-                // 如果是以文件的形式保存在服务器上
+                // If it is saved on the server as a file
                 if ("file".equals(protocol)) {
-                    // 获取包的物理路径
+                    // Get the physical path of the package
                     String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
-                    // 以文件的方式扫描整个包下的文件 并添加到集合中
+                    // Scan all files under the package as files and add them to the collection
                     findAndAddClassesInPackageByFile(pack, filePath, recursive, result, filter);
                 } else if ("jar".equals(protocol)) {
-                    // 如果是jar包文件
+                    // If it is a jar package file
                     Set<Class<?>> jarClasses = findClassFromJar(url, pack, packageDirName, recursive, filter);
                     result.addAll(jarClasses);
                 }
@@ -106,36 +106,36 @@ public final class ClassScanner {
     private static Set<Class<?>> findClassFromJar(URL url, String packageName, String packageDirName, boolean recursive, Predicate<Class<?>> filter) {
         Set<Class<?>> result = new LinkedHashSet<>();
         try {
-            // 获取jar
+            // Get the jar
             JarFile jar = ((JarURLConnection) url.openConnection()).getJarFile();
-            // 从此jar包 得到一个枚举类
+            // Get an enumeration class from this jar package
             Enumeration<JarEntry> entries = jar.entries();
-            // 同样的进行循环迭代
+            // Similarly, iterate in a loop
             while (entries.hasMoreElements()) {
-                // 获取jar里的一个实体 可以是目录 和一些jar包里的其他文件 如META-INF等文件
+                // Get an entity in the jar, can be a directory and some other files in the jar package such as META-INF and other files
                 JarEntry entry = entries.nextElement();
                 String name = entry.getName();
-                // 如果是以/开头的
+                // If it starts with /
                 if (name.charAt(0) == '/') {
-                    // 获取后面的字符串
+                    // Get the subsequent string
                     name = name.substring(1);
                 }
-                // 如果前半部分和定义的包名相同
+                // If the first half is the same as the defined package name
                 if (name.startsWith(packageDirName)) {
                     int idx = name.lastIndexOf('/');
-                    // 如果以"/"结尾 是一个包
+                    // If it ends with "/" it is a package
                     if (idx != -1) {
-                        // 获取包名 把"/"替换成"."
+                        // Get the package name, replace "/" with "."
                         packageName = name.substring(0, idx).replace('/', '.');
                     }
-                    // 如果可以迭代下去 并且是一个包
+                    // If it can iterate further and is a package
                     if ((idx != -1) || recursive) {
-                        // 如果是一个.class文件 而且不是目录
+                        // If it is a .class file and not a directory
                         if (name.endsWith(".class") && !entry.isDirectory()) {
-                            // 去掉后面的".class" 获取真正的类名
+                            // Remove the trailing ".class" to get the real class name
                             String className = name.substring(packageName.length() + 1, name.length() - 6);
                             try {
-                                // 添加到classes
+                                // Add to classes
                                 Class<?> c = Class.forName(packageName + '.' + className);
                                 if (filter.test(c)) {
                                     result.add(c);
@@ -155,24 +155,24 @@ public final class ClassScanner {
 
     private static void findAndAddClassesInPackageByFile(String packageName, String packagePath, final boolean recursive, Set<Class<?>> classes, Predicate<Class<?>> filter) {
         File dir = new File(packagePath);
-        // 如果不存在或者 也不是目录就直接返回
+        // If it doesn't exist or is not a directory, return directly
         if (!dir.exists() || !dir.isDirectory()) {
             return;
         }
-        // 如果存在 就获取包下的所有文件 包括目录
-        // 自定义过滤规则 如果可以循环(包含子目录) 或则是以.class结尾的文件(编译好的java类文件)
+        // If it exists, get all files under the package including directories
+        // Custom filter rule: if it can loop (contains subdirectories) or is a file ending with .class (compiled java class file)
         File[] files = dir.listFiles(file -> (recursive && file.isDirectory()) || (file.getName().endsWith(".class")));
-        // 循环所有文件
+        // Loop through all files
         assert files != null;
         for (File file : files) {
-            // 如果是目录 则继续扫描
+            // If it is a directory, continue scanning
             if (file.isDirectory()) {
                 findAndAddClassesInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive, classes, filter);
             } else {
-                // 如果是java类文件 去掉后面的.class 只留下类名
+                // If it is a java class file, remove the trailing .class, leaving only the class name
                 String className = file.getName().substring(0, file.getName().length() - 6);
                 try {
-                    // 添加到集合中去
+                    // Add to the collection
                     Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(packageName + '.' + className);
                     if (filter.test(clazz)) {
                         classes.add(clazz);

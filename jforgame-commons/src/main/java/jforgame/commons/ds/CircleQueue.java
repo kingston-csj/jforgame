@@ -5,8 +5,8 @@ import jforgame.commons.thread.NotThreadSafe;
 import java.util.Arrays;
 
 /**
- * 循环队列，数据结构的环形。永远保存最新的N条记录。
- * @param <T> 泛型参数
+ * Circular queue, ring data structure. Always keeps the latest N records.
+ * @param <T> generic parameter
  */
 @NotThreadSafe
 public class CircleQueue<T>

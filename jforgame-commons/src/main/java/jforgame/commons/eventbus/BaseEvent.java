@@ -1,7 +1,7 @@
 package jforgame.commons.eventbus;
 
 /**
- * 事件基类
+ * Base event class
  */
 public interface BaseEvent {
 

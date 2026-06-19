@@ -7,19 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 随机权重池
+ * Random weight pool
  * @since 2.4.0
  * @author Carson
  */
 public abstract class RandomWeightPool<E> {
 
     /**
-     * 权重列表
+     * Weight list
      */
     private final List<Integer> weights = new ArrayList<>();
 
     /**
-     * 随机对象列表
+     * Random object list
      */
     private final List<E> randomList;
 
@@ -38,18 +38,18 @@ public abstract class RandomWeightPool<E> {
     }
 
     /**
-     * 指定权重
+     * Specifies the weight
      *
-     * @param element 元素
-     * @return 权重
+     * @param element the element
+     * @return the weight
      */
     public abstract int getWeight(E element);
 
 
     /**
-     * 随机一个结果
+     * Randomly selects one result
      *
-     * @return 随机结果
+     * @return the random result
      */
     public E randomOne() {
         int index = RandomUtil.randomIndex(weights);
@@ -57,11 +57,11 @@ public abstract class RandomWeightPool<E> {
     }
 
     /**
-     * 随机一个结果列表
+     * Randomly selects a list of results
      *
-     * @param count  数量
-     * @param remove 被随机的元素是否从列表中移除
-     * @return 随机结果
+     * @param count  the number of results
+     * @param remove whether to remove the randomly selected element from the list
+     * @return the random results
      */
     public List<E> randomList(int count, boolean remove) {
         if (remove && count > randomList.size()) {

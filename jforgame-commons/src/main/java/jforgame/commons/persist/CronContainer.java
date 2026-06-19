@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 以cron表达式（基于Quartz）的形式持久化
+ * Persistence in cron expression form (based on Quartz)
  *
  * @since 3.4.0
  */
@@ -31,10 +31,10 @@ public class CronContainer implements PersistContainer {
 
     private final String name;
 
-    // 存储待持久化的实体，以实体的唯一标识作为键
+    // Store entities waiting for persistence, using entity's unique identifier as key
     private volatile ConcurrentHashMap<String, Entity<?>> entityQueue = new ConcurrentHashMap<>();
 
-    // Quartz调度器
+    // Quartz scheduler
     private final Scheduler scheduler;
 
     private SavingStrategy savingStrategy;
@@ -45,7 +45,7 @@ public class CronContainer implements PersistContainer {
         this.name = name;
         this.savingStrategy = savingStrategy;
         try {
-            // 创建Quartz调度器实例并启动
+            // Create Quartz scheduler instance and start
             Properties props = new Properties();
             props.put("org.quartz.scheduler.instanceName", "jforgame-cron-container-" + name);
             props.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
@@ -57,7 +57,7 @@ public class CronContainer implements PersistContainer {
             scheduler = factory.getScheduler();
             scheduler.start();
 
-            // 创建定时任务并注册到调度器中，使用传入的cronExpression配置触发规则
+            // Create scheduled task and register to scheduler, using passed cronExpression to configure trigger rules
             JobDetail jobDetail = JobBuilder.newJob(CronPersistJob.class)
                     .withIdentity("cronPersistJob", name)
                     .build();
@@ -88,7 +88,7 @@ public class CronContainer implements PersistContainer {
     public void shutdownGraceful() {
         run.compareAndSet(true, false);
         try {
-            // 执行最后一次持久化操作
+            // Execute last persistence operation
             entityQueue.forEach((key, entity) -> {
                 try {
                     savingStrategy.doSave(entity);
@@ -96,7 +96,7 @@ public class CronContainer implements PersistContainer {
                     logger.error("Failed to save entity [{}] in CronContainer [{}]", key, name, e);
                 }
             });
-            // 关闭调度器，停止定时任务
+            // Close scheduler, stop scheduled task
             scheduler.shutdown(true);
             logger.info("Cron container [{}] close ok", name);
         } catch (SchedulerException e) {
@@ -109,7 +109,7 @@ public class CronContainer implements PersistContainer {
         return entityQueue.size();
     }
 
-    // 内部类实现Job接口，定义定时任务执行时的逻辑，会按照cronExpression配置的规则触发
+    // Inner class implements Job interface, defines logic when scheduled task executes, will trigger according to cronExpression configuration rules
     public static class CronPersistJob implements Job {
         @Override
         public void execute(JobExecutionContext context) {

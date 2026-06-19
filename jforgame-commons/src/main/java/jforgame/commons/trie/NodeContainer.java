@@ -8,23 +8,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 节点容器（包含所有孩子节点）
+ * Node container (contains all child nodes)
  * @since 2.4.0
  */
 interface NodeContainer {
 
     /**
-     * 添加子节点
+     * Adds a child node
      *
-     * @param node
+     * @param node the child node to add
      */
     void add(TrieNode node);
 
     /**
-     * 删除子节点
+     * Removes a child node
      *
-     * @param character 要删除的字符
-     * @return 被删除的节点，如果不存在则返回null
+     * @param character the character to remove
+     * @return the removed node, returns null if it doesn't exist
      * @since 2.5.0
      */
     TrieNode remove(Character character);
@@ -36,15 +36,15 @@ interface NodeContainer {
     Collection<TrieNode> getAll();
 
     /**
-     * 转换为另一种容器类型
+     * Converts to another container type
      *
-     * @return
+     * @return the converted container
      */
     NodeContainer transform();
 }
 
 /**
- * 基于Map的容器
+ * Map-based container
  */
 class MapNodeContainer implements NodeContainer {
 
@@ -84,7 +84,7 @@ class MapNodeContainer implements NodeContainer {
 }
 
 /**
- * 基于List的容器
+ * List-based container
  */
 class ListNodeContainer implements NodeContainer {
 

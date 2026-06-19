@@ -8,19 +8,19 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * LruHashMap 是 Java 中 LinkedHashMap 的扩展类，具有容量限制特性；
- * 当容量达到上限后，每次添加新元素时，会自动移除最近最少使用（LRU，Least Recently Used） 的条目。
- * 在 Java 中实现 LruHashMap 非常简便 —— 其所需的全部核心功能已由 LinkedHashMap 提供，
- * 我们只需对 LinkedHashMap 进行适当配置即可实现 LruHashMap 的功能。
- * 注意：本类是线程安全的。
- * 由于LinkedHashMap构造函数当accessOrder=true时，会自动将最近访问的元素移动到链表尾部，涉及到写操作，因此该类的大部分操作其实都是串行的，效率较低。
+ * LruHashMap is an extension class of LinkedHashMap in Java, with capacity limit feature;
+ * When capacity reaches the limit, each time adding a new element, it will automatically remove the Least Recently Used (LRU) entry.
+ * Implementing LruHashMap in Java is very simple - all core functions needed are provided by LinkedHashMap,
+ * we just need to configure LinkedHashMap properly to achieve LruHashMap functionality.
+ * Note: This class is thread-safe.
+ * Since LinkedHashMap constructor when accessOrder=true, will automatically move recently accessed elements to the tail of the linked list, involving write operations, therefore most operations of this class are actually serial, with lower efficiency.
  */
 @ThreadSafe
 public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
     private static final int DEFAULT_MAX_CAPACITY = 1000;
-    // 最小容量设置为8，兼顾实用性和哈希表实现特点
+    // Minimum capacity set to 8, balancing practicality and hash table implementation characteristics
     private static final int MIN_MAX_CAPACITY = 8;
 
     private final ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
@@ -35,7 +35,7 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
 
     public LruHashMap(int maxCapacity) {
         super(16, DEFAULT_LOAD_FACTOR, true);
-        // 初始化时校验最小值
+        // Validate minimum value during initialization
         this.maxCapacity = Math.max(maxCapacity, MIN_MAX_CAPACITY);
     }
 
@@ -107,9 +107,9 @@ public class LruHashMap<K, V> extends LinkedHashMap<K, V> {
     public void setMaxCapacity(int maxCapacity) {
         writeLock.lock();
         try {
-            // 设置时校验最小值
+            // Validate minimum value when setting
             this.maxCapacity = Math.max(maxCapacity, MIN_MAX_CAPACITY);
-            // 确保容量不超过新设置的最大值
+            // Ensure capacity does not exceed newly set maximum value
             while (size() > this.maxCapacity) {
                 Map.Entry<K, V> eldest = entrySet().iterator().next();
                 remove(eldest.getKey());

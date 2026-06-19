@@ -2,31 +2,31 @@ package jforgame.commons.persist;
 
 
 /**
- * 持久化容器
- * 主要有四种类型：
- * 1. 基于队列的持久化容器，见{@link QueueContainer}
- * 2. 基于延迟的持久化容器，见{@link DelayContainer}
- * 3. 基于时间周期性调度(cron)的持久化容器， 需要引入quartz库，见{@link CronContainer}
- * 4. 以上3种的自由组合，参考{@link QueueContainerGroup}
+ * Persistence container
+ * Mainly has four types:
+ * 1. Queue-based persistence container, see {@link QueueContainer}
+ * 2. Delay-based persistence container, see {@link DelayContainer}
+ * 3. Time periodic scheduling (cron) persistence container, requires quartz library, see {@link CronContainer}
+ * 4. Free combination of the above 3, refer to {@link QueueContainerGroup}
  */
 public interface PersistContainer {
 
     /**
-     * 接收实体
+     * Receive entity
      *
-     * @param entity 实体对象
+     * @param entity entity object
      */
     void receive(Entity<?> entity);
 
     /**
-     * 优雅退出，会保证所有等待队列的数据都会跑完
+     * Graceful shutdown, will ensure all data in waiting queue will be processed
      */
     void shutdownGraceful();
 
     /**
-     * 当前等待入库的队列大小
+     * Current waiting queue size for database
      *
-     * @return size 队列大小
+     * @return size queue size
      */
     int size();
 

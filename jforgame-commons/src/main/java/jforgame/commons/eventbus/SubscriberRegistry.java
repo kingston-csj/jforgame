@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * 订阅者注册表
+ * Subscriber registry
  */
 class SubscriberRegistry {
 

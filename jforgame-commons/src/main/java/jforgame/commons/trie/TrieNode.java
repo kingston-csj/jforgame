@@ -4,23 +4,23 @@ package jforgame.commons.trie;
 import java.util.Collection;
 
 /**
- * tire树节点
- * 每一个节点代表一个字符，节点下面包含多个子节点
+ * Trie tree node
+ * Each node represents a character, and the node contains multiple child nodes
  * @since 2.4.0
  */
 public class TrieNode {
 
     /**
-     * 当前节点的字符值
+     * Character value of the current node
      */
     char val;
     /**
-     * 所有孩子子节点，如果每个节点的孩子节点数比较少，这里会造成内存浪费，可以退化为数组
+     * All child nodes, if the number of child nodes of each node is relatively small, this will cause memory waste, can be degraded to array
      */
     NodeContainer children = new MapNodeContainer();
 
     /**
-     * 是否是叶子节点，即是否是脏词的最后一个字符
+     * Whether it is a leaf node, i.e., whether it is the last character of a dirty word
      */
     boolean isLeaf;
 
@@ -51,9 +51,9 @@ public class TrieNode {
     }
 
     /**
-     * 删除子节点
-     * @param character 要删除的字符
-     * @return 被删除是否存在
+     * Removes a child node
+     * @param character the character to remove
+     * @return whether the removed node exists
      * @since 2.5.0
      */
     public boolean removeChild(char character) {
@@ -84,10 +84,10 @@ public class TrieNode {
     }
 
     /**
-     * 检查是否精确匹配单词
-     * @param cs 要检查的字符串
-     * @param idx 当前处理的字符索引
-     * @return 是否精确匹配
+     * Checks if it exactly matches a word
+     * @param cs the string to check
+     * @param idx the current character index being processed
+     * @return whether it exactly matches
      * @since 2.5.0
      */
     public boolean hasExactWord(CharSequence cs, int idx) {

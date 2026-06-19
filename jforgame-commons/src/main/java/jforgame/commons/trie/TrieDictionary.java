@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Trie树，又称字典树或前缀树，是一种在算法中常用的数据结构。它主要用于解决通过前缀来联想完整单词的问题
- * 可用于脏词检测，好友模糊查询等场景
+ * Trie tree, also known as prefix tree, is a common data structure in algorithms. It is mainly used to solve the problem of associating complete words through prefixes.
+ * Can be used for dirty word detection, friend fuzzy query, etc.
  * @since 2.4.0
  */
 public class TrieDictionary {
 
     /**
-     * 阈值，当节点的孩子节点数量小于等于阈值时，将map容器转化为数组
+     * Threshold, when the number of child nodes is less than or equal to the threshold, convert map container to array
      */
     private static final int THRESHOLD = 3;
     /**
-     * 前缀根节点
+     * Prefix root node
      */
     private final TrieNode root;
 
@@ -33,9 +33,9 @@ public class TrieDictionary {
     }
 
     /**
-     * 删除单词节点
-     * @param word 要删除的单词
-     * @return 是否成功删除
+     * Deletes a word node
+     * @param word the word to delete
+     * @return whether the deletion was successful
      * @since 2.5.0
      */
     public boolean deleteNode(String word) {
@@ -47,16 +47,16 @@ public class TrieDictionary {
     }
 
     /**
-     * 递归删除单词节点
-     * @param node 当前节点
-     * @param word 要删除的单词
-     * @param index 当前处理的字符索引
-     * @return 是否成功删除
+     * Recursively deletes a word node
+     * @param node the current node
+     * @param word the word to delete
+     * @param index the current character index being processed
+     * @return whether the deletion was successful
      */
     private boolean deleteNodeRecursive(TrieNode node, String word, int index) {
-        // 如果已经处理完所有字符
+        // If all characters have been processed
         if (index >= word.length()) {
-            // 如果当前节点是叶子节点，则删除叶子标记
+            // If the current node is a leaf node, remove the leaf marker
             if (node.isLeaf()) {
                 node.setLeaf(false);
                 return true;
@@ -68,15 +68,15 @@ public class TrieDictionary {
         TrieNode childNode = node.getChild(currentChar);
         
         if (childNode == null) {
-            // 单词不存在
+            // Word does not exist
             return false;
         }
 
-        // 递归删除下一个字符
+        // Recursively delete the next character
         boolean deleted = deleteNodeRecursive(childNode, word, index + 1);
-        
+
         if (deleted) {
-            // 如果子节点被删除且当前子节点没有其他子节点且不是叶子节点，则删除当前子节点
+            // If the child node was deleted and the current child node has no other child nodes and is not a leaf node, delete the current child node
             if (!childNode.isLeaf() && childNode.getChildren().isEmpty()) {
                 node.removeChild(currentChar);
             }
@@ -86,9 +86,9 @@ public class TrieDictionary {
     }
 
     /**
-     * 指定字符串是否包含敏感字
-     * @param word 要检查的字符串
-     * @return 是否包含敏感字
+     * Checks if the specified string contains sensitive words
+     * @param word the string to check
+     * @return whether it contains sensitive words
      */
     public boolean containsWords(String word) {
         word = normalize(word);
@@ -101,10 +101,10 @@ public class TrieDictionary {
     }
 
     /**
-     * 检查字典是否精确匹配某个单词
-     * 例如张无是敏感字，但是希望张无忌不是
-     * @param word 要检查的单词
-     * @return 是否精确匹配
+     * Checks if the dictionary exactly matches a word
+     * For example, if "张无" is a sensitive word, but "张无忌" should not be
+     * @param word the word to check
+     * @return whether it exactly matches
      * @since 2.5.0
      */
     public boolean containsExactWord(String word) {
@@ -116,9 +116,9 @@ public class TrieDictionary {
     }
 
     /**
-     * 将敏感字替换成字符'*',如果有的话
-     * @param content 要处理的字符串
-     * @return 转换后的字符串
+     * Replaces sensitive words with character '*', if any
+     * @param content the string to process
+     * @return the converted string
      */
     public String replaceWords(String content) {
         String normalizedString = normalize(content);
@@ -146,9 +146,9 @@ public class TrieDictionary {
     }
 
     /**
-     * 字符串预处理，英文统一转小写（去掉特殊符合，只保留字母、数字、中文）
+     * String preprocessing, convert English to lowercase (remove special symbols, keep only letters, numbers, Chinese)
      *
-     * @return 转换后的字符串
+     * @return the converted string
      */
     private String normalize(String dirtyWord) {
         if (dirtyWord == null) {
@@ -176,8 +176,8 @@ public class TrieDictionary {
     }
 
     /**
-     * 整颗树构建成功后，对孩子节点运行重新构造
-     * 如果某节点的孩子节点数量少于阈值，则将map容器转化为数组
+     * After the entire tree is built, restructure the child nodes
+     * If the number of child nodes of a node is less than the threshold, convert the map container to array
      */
     public void rebuild() {
         rebuildChildren(root);
@@ -189,7 +189,7 @@ public class TrieDictionary {
                 node.children = node.children.transform();
             }
         }
-        // 递归处理子节点
+        // Recursively process child nodes
         node.children.getAll().forEach(this::rebuildChildren);
     }
 

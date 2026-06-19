@@ -1,13 +1,13 @@
 package jforgame.commons.persist;
 
 /**
- * 以队列组的形式持久化
- * 将若干的队列容器组合成一个队列组，根据实体id进行求模运算，类似于数据库的分表策略
+ * Persistence in queue group form
+ * Combine several queue containers into a queue group, perform modulo operation based on entity id, similar to database table partitioning strategy
  */
 public class QueueContainerGroup extends BasePersistContainer {
 
     /**
-     * 容器组
+     * Container group
      */
     private QueueContainer[] group;
 

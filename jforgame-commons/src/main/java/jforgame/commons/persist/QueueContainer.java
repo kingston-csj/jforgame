@@ -12,28 +12,28 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 以队列的形式持久化
+ * Persistence in queue form
  */
 public class QueueContainer extends BasePersistContainer {
 
     private final BlockingQueue<Entity<?>> queue = new LinkedBlockingDeque<>();
 
     /**
-     * 当前正在保存的队列，去重
+     * Current saving queue, deduplicated
      */
     private final Set<String> savingQueue = new ConcurrentHashSet<>();
 
     private static final NamedThreadFactory namedThreadFactory = new NamedThreadFactory("jforgame-persist-queue-service");
 
     /**
-     * 上次错误日志打印的时间
+     * Last error log print time
      */
     private long lastErrorTime = 0;
 
     public QueueContainer(String name, SavingStrategy savingStrategy) {
         this.name = name;
         this.savingStrategy = savingStrategy;
-        // 启动线程跑
+        // Start thread to run
         namedThreadFactory.newThread(this::run).start();
     }
 
@@ -41,7 +41,7 @@ public class QueueContainer extends BasePersistContainer {
     public void receive(Entity<?> entity) {
         String key = entity.getKey();
         if (!run.get()) {
-            // 小店已经打烊了，恕不招待
+            // Shop is closed, sorry no service
             logger.info("db closed, received entity: {}", key);
             return;
         }
@@ -62,19 +62,19 @@ public class QueueContainer extends BasePersistContainer {
                 savingQueue.remove(entity.getKey());
                 savingStrategy.doSave(entity);
             } catch (ConcurrentModificationException e1) {
-                // 有可能是并发抛错，重新放入队列
+                // Possibly concurrent error, put back into queue
                 if (entity != null) {
                     receive(entity);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (Exception e) {
-                // 其他异常，重复放入队列，还是无法解决问题，有问题的终究有问题
-                // 这里需要一个强通知操作，例如通知开发人员，起来修bug了
+                // Other exceptions, putting back into queue still can't solve the problem, problematic ones will still have problems
+                // Here needs a strong notification operation, for example notify developers to fix bug
                 if (entity != null) {
                     receive(entity);
                 }
-                // 重复放入持久化队列，很容易造成异常日志爆炸了，这里控制下日志频率
+                // Repeatedly putting into persistence queue can easily cause exception log explosion, control log frequency here
                 if (System.currentTimeMillis() - lastErrorTime > 5 * TimeUtil.MILLIS_PER_MINUTE) {
                     lastErrorTime = System.currentTimeMillis();
                     logger.error("save entity error, entity: {}, queue size: {}", entity, queue.size(), e);

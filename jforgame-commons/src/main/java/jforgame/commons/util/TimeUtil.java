@@ -3,7 +3,7 @@ package jforgame.commons.util;
 import java.text.SimpleDateFormat;
 
 /**
- * 时间工具类
+ * Time utility class
  */
 public final class TimeUtil {
 

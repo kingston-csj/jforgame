@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 /**
- * 文件工具类
+ * File utility class
  */
 public final class FileUtil {
 
@@ -56,7 +56,7 @@ public final class FileUtil {
      */
     public static String readFullText(InputStream inputStream) throws IOException {
         StringBuilder result = new StringBuilder();
-        // 指定读取文件时以UTF-8的格式读取
+        // Specify reading the file in UTF-8 format
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             String line;
@@ -68,10 +68,10 @@ public final class FileUtil {
     }
 
     /**
-     * 判断目录是否存在，若不存在则创建（支持多级目录）
+     * Checks if a directory exists, creates it if it doesn't (supports multi-level directories)
      *
-     * @param directoryPath 目录路径（绝对路径或相对路径）
-     * @return true：目录已存在或创建成功；false：创建失败（如权限不足等）
+     * @param directoryPath the directory path (absolute path or relative path)
+     * @return true: the directory already exists or was created successfully; false: creation failed (e.g., insufficient permissions)
      */
     public static boolean checkAndCreateDirectory(String directoryPath) {
         if (directoryPath == null || directoryPath.trim().isEmpty()) {
@@ -79,11 +79,11 @@ public final class FileUtil {
         }
 
         File directory = new File(directoryPath);
-        // 判断目录是否已存在
+        // Check if the directory already exists
         if (directory.exists()) {
             return directory.isDirectory();
         } else {
-            // 目录不存在，创建目录（支持创建多级目录）
+            // Directory does not exist, create it (supports creating multi-level directories)
             return directory.mkdirs();
         }
     }

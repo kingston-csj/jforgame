@@ -10,9 +10,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
 /**
- * 基于LinkedHashMap实现的一个有限队列缓存
- * 只当在添加元素的时候会检测超时元素或者超出容量的元素，满足条件则将其移除
- * aliveTime参数为true时为模拟lru规则
+ * A bounded queue cache based on LinkedHashMap implementation.
+ * Only checks for expired elements or elements exceeding capacity when adding elements,
+ * removes them if conditions are met.
+ * When aliveTime parameter is true, it simulates LRU rules.
  */
 @ThreadSafe
 public class LazyCacheMap<K, V> {
@@ -20,23 +21,23 @@ public class LazyCacheMap<K, V> {
     private LinkedHashMap<K, Element<V>> data;
 
     /**
-     * 缓存最大容量，添加新元素时，若当前长度超过容量，则会删除队首元素
+     * Maximum cache capacity, when adding new elements, if current length exceeds capacity, head element will be removed
      */
     private int capacity;
 
     /**
-     * 生存时长（毫秒数）
+     * Survival duration (milliseconds)
      */
     private long aliveTime;
 
     /**
-     * 是否使用lru规则，为true时表示当元素被查找命中时被重放到队尾
+     * Whether to use LRU rules, when true means element is moved to tail when accessed
      * {@link LinkedHashMap#accessOrder}}
      */
     private boolean useLru;
 
     /**
-     * 读写锁
+     * Read-write lock
      */
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
@@ -81,7 +82,7 @@ public class LazyCacheMap<K, V> {
     }
 
     public V get(K key) {
-        // 当使用lru，元素重放回队尾涉及到写操作，所以用写锁
+        // When using LRU, element repositioning to tail involves write operations, so use write lock
         Lock lock = this.useLru ? this.writeLock : this.readLock;
         Element<V> target = null;
         lock.lock();
@@ -141,8 +142,8 @@ public class LazyCacheMap<K, V> {
     }
 
     /**
-     * 获取所有的记录
-     * @return 所有记录
+     * Get all records
+     * @return all records
      */
     public List<V> getAllRecords() {
         this.readLock.lock();
@@ -163,7 +164,7 @@ public class LazyCacheMap<K, V> {
     static class Element<V> {
         V value;
         /**
-         * 元素添加时的时间戳
+         * Timestamp when element was added
          */
         long bornTime;
 

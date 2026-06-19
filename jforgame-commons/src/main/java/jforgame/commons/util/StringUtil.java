@@ -1,7 +1,7 @@
 package jforgame.commons.util;
 
 /**
- * 字符串工具类
+ * String utility class
  */
 public final class StringUtil {
 
@@ -17,10 +17,10 @@ public final class StringUtil {
     }
 
     /**
-     * 将单词的第一个字母大写
+     * Capitalizes the first letter of a word
      *
-     * @param word 输入单词
-     * @return 首字母大写后的单词
+     * @param word the input word
+     * @return the word with the first letter capitalized
      */
     public static String firstLetterToUpperCase(String word) {
         StringBuilder sb = new StringBuilder(word);
@@ -29,10 +29,10 @@ public final class StringUtil {
     }
 
     /**
-     * 将单词的第一个字母小写
+     * Lowercases the first letter of a word
      *
-     * @param word 输入单词
-     * @return 首字母小写后的单词
+     * @param word the input word
+     * @return the word with the first letter lowercased
      */
     public static String firstLetterToLowerCase(String word) {
         StringBuilder sb = new StringBuilder(word);

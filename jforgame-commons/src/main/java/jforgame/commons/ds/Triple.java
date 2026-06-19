@@ -1,7 +1,7 @@
 package jforgame.commons.ds;
 
 /**
- * 三元结构体
+ * Triple structure
  */
 public class Triple<F, S, T> {
 

@@ -3,23 +3,23 @@ package jforgame.commons.persist;
 import java.io.Serializable;
 
 /**
- * 数据表记录实体接口
+ * Data table record entity interface
  *
- * @param <ID> 主键类型
+ * @param <ID> primary key type
  */
 public interface Entity<ID extends Serializable & Comparable<ID>> {
 
     /**
-     * 获取实体主键
+     * Get entity primary key
      *
-     * @return 主键值
+     * @return primary key value
      */
     ID getId();
 
     /**
-     * 获取主键的字符串表示
+     * Get string representation of primary key
      *
-     * @return 主键的字符串表示
+     * @return string representation of primary key
      */
     default String getKey() {
         return getClass().getSimpleName() + "@" + getId().toString();

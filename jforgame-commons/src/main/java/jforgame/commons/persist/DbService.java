@@ -1,29 +1,29 @@
 package jforgame.commons.persist;
 
 /**
- * 数据持久化服务
+ * Data persistence service
  */
 public interface DbService {
 
     /**
-     * 数据实体持久化到数据库
-     * 该接口会保证无论表记录是否已存在于数据库
-     * 若存在则执行更新操作，否则执行插入动作
+     * Persist data entity to database
+     * This interface will ensure whether table record exists in database
+     * If exists, execute update operation, otherwise execute insert action
      *
-     * @param entity 待入库的实体
+     * @param entity entity to be persisted
      */
     void saveToDb(Entity<?> entity);
 
     /**
-     * 删除数据（游戏业务一般只作更新，不作删除，这个接口使用场景很少）
+     * Delete data (game business generally only updates, does not delete, this interface has few usage scenarios)
      *
-     * @param entity 待删除的实体
+     * @param entity entity to be deleted
      */
     void deleteFromDb(Entity<?> entity);
 
     /**
-     * 关闭服务
-     * 如果是异步持久化，需要保存所有缓存数据写入到数据库
+     * Close service
+     * If asynchronous persistence, need to save all cached data to database
      */
     void shutDown();
 

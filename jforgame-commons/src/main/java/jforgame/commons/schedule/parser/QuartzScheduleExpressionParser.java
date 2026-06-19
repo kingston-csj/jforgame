@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * 基于quartz的cron表达式解析器
+ * Cron expression parser based on quartz
  */
 public class QuartzScheduleExpressionParser implements ScheduleExpressionParser {
 
@@ -45,19 +45,19 @@ public class QuartzScheduleExpressionParser implements ScheduleExpressionParser 
         }
         cron.setTimeZone(TimeZone.getDefault());
 
-        // 获取当前时间作为起始点
+        // Get the current time as the starting point
         Date now = new Date();
 
-        // 获取第一个触发时间
+        // Get the first trigger time
         Date firstFireTime = cron.getNextValidTimeAfter(now);
         if (firstFireTime == null) {
-            // 没有触发时间（无效表达式或已过期）
+            // No trigger time (invalid expression or expired)
             return false;
         }
-        // 获取第二个触发时间
+        // Get the second trigger time
         Date secondFireTime = cron.getNextValidTimeAfter(firstFireTime);
 
-        // 如果有第二个触发时间，则为周期性
+        // If there is a second trigger time, it is periodic
         return secondFireTime != null;
     }
 

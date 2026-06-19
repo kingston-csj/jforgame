@@ -9,8 +9,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * 事件总线
- * 推荐使用单例模式获取实例
+ * Event bus
+ * Recommended to use singleton pattern to get instance
  * @since 2.3.0
  */
 public class EventBus {
@@ -23,26 +23,26 @@ public class EventBus {
 
 
     public EventBus() {
-        // 异步执行的需求很少，一条线程就够了
+        // Async execution needs are few, one thread is enough
         this.executor = Executors.newSingleThreadExecutor(new NamedThreadFactory("EventBus-Async-Thread"));
         this.registry = new SubscriberRegistry();
     }
 
     /**
-     * 从指定订阅者注册所有的事件监听
-     * 该方法会寻找订阅者类中所有被@Subscribe注解标记的方法，并注册到事件总线中
-     * @param subscriber 订阅者对象
+     * Register all event listeners from specified subscriber
+     * This method will find all methods marked with @Subscribe annotation in subscriber class, and register to event bus
+     * @param subscriber subscriber object
      */
     public void register(Object subscriber) {
         registry.register(subscriber);
     }
 
     /**
-     * 同步处理事件
-     * 该方法会同步执行所有订阅了该事件的监听方法
-     * 需要注意的是：如果发布了一个子类事件，那么监听其父类事件的所有监听方法都会被执行
-     * 例如：发布PlayerLoginEvent,那么监听PlayerEvent(PlayerLoginEvent父类)的监听方法也会被执行
-     * @param event 事件对象
+     * Synchronously process event
+     * This method will synchronously execute all listener methods subscribed to this event
+     * Note: If a subclass event is published, all listener methods listening to its parent class event will be executed
+     * For example: Publish PlayerLoginEvent, then listener methods listening to PlayerEvent (PlayerLoginEvent parent class) will also be executed
+     * @param event event object
      */
     public void post(BaseEvent event) {
         for (Class<?> clazz = event.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
@@ -59,10 +59,10 @@ public class EventBus {
     }
 
     /**
-     * 异步处理事件
+     * Asynchronously process event
      *
-     * 该方法会异步执行所有订阅了该事件的监听方法
-     * @param event 事件对象
+     * This method will asynchronously execute all listener methods subscribed to this event
+     * @param event event object
      */
     public void asyncPost(BaseEvent event) {
         this.executor.execute(() -> {

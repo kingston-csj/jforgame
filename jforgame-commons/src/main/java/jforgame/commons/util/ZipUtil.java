@@ -13,32 +13,32 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
- * ZIP工具类
- * 提供字符串、字节数组、文件的压缩和解压缩功能
+ * ZIP utility class
+ * Provides compression and decompression functions for strings, byte arrays, and files
  */
 public class ZipUtil {
 
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private static final String DEFAULT_ZIP_ENTRY_NAME = "data";
     private static final int DEFAULT_BUFFER_SIZE = 4096;
-    private static final int DEFAULT_COMPRESSION_LEVEL = 6; // 0-9, 6为默认值
+    private static final int DEFAULT_COMPRESSION_LEVEL = 6; // 0-9, 6 is the default value
 
     /**
-     * 压缩字符串并Base64编码
+     * Compresses a string and encodes it with Base64
      *
-     * @param input 要压缩的字符串
-     * @return Base64编码的压缩字符串
+     * @param input the string to compress
+     * @return the Base64 encoded compressed string
      */
     public static String compressString(String input) {
         return compressString(input, DEFAULT_COMPRESSION_LEVEL);
     }
 
     /**
-     * 压缩字符串并Base64编码（指定压缩级别）
+     * Compresses a string and encodes it with Base64 (with specified compression level)
      *
-     * @param input            要压缩的字符串
-     * @param compressionLevel 压缩级别 (0-9)
-     * @return Base64编码的压缩字符串
+     * @param input            the string to compress
+     * @param compressionLevel compression level (0-9)
+     * @return the Base64 encoded compressed string
      */
     public static String compressString(String input, int compressionLevel) {
         if (input == null) {
@@ -48,10 +48,10 @@ public class ZipUtil {
     }
 
     /**
-     * 解压缩Base64编码的字符串
+     * Decompresses a Base64 encoded string
      *
-     * @param compressed Base64编码的压缩字符串
-     * @return 解压缩后的字符串
+     * @param compressed the Base64 encoded compressed string
+     * @return the decompressed string
      */
     public static String decompressString(String compressed) {
         if (compressed == null) {
@@ -61,21 +61,21 @@ public class ZipUtil {
     }
 
     /**
-     * 压缩字节数组
+     * Compresses a byte array
      *
-     * @param input 要压缩的字节数组
-     * @return 压缩后的字节数组
+     * @param input the byte array to compress
+     * @return the compressed byte array
      */
     public static byte[] compressBytes(byte[] input) {
         return compressBytes(input, DEFAULT_COMPRESSION_LEVEL);
     }
 
     /**
-     * 压缩字节数组（指定压缩级别）
+     * Compresses a byte array (with specified compression level)
      *
-     * @param input            要压缩的字节数组
-     * @param compressionLevel 压缩级别 (0-9)
-     * @return 压缩后的字节数组
+     * @param input            the byte array to compress
+     * @param compressionLevel compression level (0-9)
+     * @return the compressed byte array
      */
     public static byte[] compressBytes(byte[] input, int compressionLevel) {
         if (input == null) {
@@ -92,15 +92,15 @@ public class ZipUtil {
 
             return baos.toByteArray();
         } catch (IOException e) {
-            throw new RuntimeException("压缩字节数组时发生IO异常", e);
+            throw new RuntimeException("IO exception occurred while compressing byte array", e);
         }
     }
 
     /**
-     * 解压缩字节数组
+     * Decompresses a byte array
      *
-     * @param compressed 压缩的字节数组
-     * @return 解压缩后的字节数组
+     * @param compressed the compressed byte array
+     * @return the decompressed byte array
      */
     public static byte[] decompressBytes(byte[] compressed) {
         if (compressed == null) {
@@ -113,7 +113,7 @@ public class ZipUtil {
 
             ZipEntry entry = zis.getNextEntry();
             if (entry == null) {
-                throw new RuntimeException("压缩数据中没有找到有效的Zip条目");
+                throw new RuntimeException("No valid Zip entry found in compressed data");
             }
 
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
@@ -124,32 +124,32 @@ public class ZipUtil {
 
             return baos.toByteArray();
         } catch (IOException e) {
-            throw new RuntimeException("解压缩字节数组时发生IO异常", e);
+            throw new RuntimeException("IO exception occurred while decompressing byte array", e);
         }
     }
 
     /**
-     * 压缩文件
+     * Compresses a file
      *
-     * @param sourceFile 源文件
-     * @param targetFile 目标压缩文件
-     * @throws RuntimeException 压缩异常
+     * @param sourceFile the source file
+     * @param targetFile the target compressed file
+     * @throws RuntimeException compression exception
      */
     public static void compressFile(File sourceFile, File targetFile) throws RuntimeException {
         compressFile(sourceFile, targetFile, DEFAULT_COMPRESSION_LEVEL);
     }
 
     /**
-     * 压缩文件（指定压缩级别）
+     * Compresses a file (with specified compression level)
      *
-     * @param sourceFile       源文件
-     * @param targetFile       目标压缩文件
-     * @param compressionLevel 压缩级别 (0-9)
-     * @throws RuntimeException 压缩异常
+     * @param sourceFile       the source file
+     * @param targetFile       the target compressed file
+     * @param compressionLevel compression level (0-9)
+     * @throws RuntimeException compression exception
      */
     public static void compressFile(File sourceFile, File targetFile, int compressionLevel) throws RuntimeException {
         if (sourceFile == null || targetFile == null) {
-            throw new RuntimeException("源文件或目标文件不能为空");
+            throw new RuntimeException("Source file or target file cannot be null");
         }
 
         try (FileInputStream fis = new FileInputStream(sourceFile);
@@ -167,24 +167,24 @@ public class ZipUtil {
             }
             zos.closeEntry();
         } catch (IOException e) {
-            throw new RuntimeException("压缩文件时发生IO异常", e);
+            throw new RuntimeException("IO exception occurred while compressing file", e);
         }
     }
 
     /**
-     * 解压缩文件
+     * Decompresses a file
      *
-     * @param sourceFile 源压缩文件
-     * @param targetDir  目标目录
-     * @throws RuntimeException 解压缩异常
+     * @param sourceFile the source compressed file
+     * @param targetDir  the target directory
+     * @throws RuntimeException decompression exception
      */
     public static void decompressFile(File sourceFile, File targetDir) throws RuntimeException {
         if (sourceFile == null || targetDir == null) {
-            throw new RuntimeException("源文件或目标目录不能为空");
+            throw new RuntimeException("Source file or target directory cannot be null");
         }
 
         if (!targetDir.exists() && !targetDir.mkdirs()) {
-            throw new RuntimeException("无法创建目标目录: " + targetDir.getAbsolutePath());
+            throw new RuntimeException("Unable to create target directory: " + targetDir.getAbsolutePath());
         }
 
         try (FileInputStream fis = new FileInputStream(sourceFile);
@@ -194,13 +194,13 @@ public class ZipUtil {
             while ((entry = zis.getNextEntry()) != null) {
                 File targetFile = new File(targetDir, entry.getName());
 
-                // 创建父目录
+                // Create parent directory
                 File parentDir = targetFile.getParentFile();
                 if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
-                    throw new RuntimeException("无法创建目录: " + parentDir.getAbsolutePath());
+                    throw new RuntimeException("Unable to create directory: " + parentDir.getAbsolutePath());
                 }
 
-                // 写入文件
+                // Write to file
                 try (FileOutputStream fos = new FileOutputStream(targetFile)) {
                     byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
                     int bytesRead;
@@ -211,16 +211,16 @@ public class ZipUtil {
                 zis.closeEntry();
             }
         } catch (IOException e) {
-            throw new RuntimeException("解压缩文件时发生IO异常", e);
+            throw new RuntimeException("IO exception occurred while decompressing file", e);
         }
     }
 
     /**
-     * 获取压缩比率
+     * Gets the compression ratio
      *
-     * @param original   原始字节数组
-     * @param compressed 压缩后的字节数组
-     * @return 压缩比率 (0.0-1.0)
+     * @param original   the original byte array
+     * @param compressed the compressed byte array
+     * @return the compression ratio (0.0-1.0)
      */
     public static double getCompressionRatio(byte[] original, byte[] compressed) {
         if (original == null || compressed == null || original.length == 0) {
