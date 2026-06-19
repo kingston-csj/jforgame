@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 日志工厂，根据应用程序所使用的日志框架，选择对应的日志实现
- * 如果是log4j，则使用{@link Log4JAppLogger}
- * 如果是log4j2，则使用{@link Log4J2AppLogger}
- * 如果是logback，则使用{@link LogbackAppLogger}
- * 如果以上都不是，则使用{@link Slf4JAppLogger}，但该日志无实际日志输出，只是保证程序不报错。
+ * Logger factory that selects the corresponding logger implementation based on the application's logging framework.
+ * If using log4j, uses {@link Log4JAppLogger}
+ * If using log4j2, uses {@link Log4J2AppLogger}
+ * If using logback, uses {@link LogbackAppLogger}
+ * If none of the above, uses {@link Slf4JAppLogger} (no actual log output, just ensures the program doesn't error)
  */
 public class LoggerBuilder {
 

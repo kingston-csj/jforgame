@@ -10,6 +10,10 @@ import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
+/**
+ * Log4j2 implementation of {@link AppLogger}
+ * Provides classified logging with separate files for each logger type
+ */
 public class Log4J2AppLogger implements AppLogger {
 
     private static final String LOG_PATH = jforgame.logger.LoggerConfig.LOG_PATH;
@@ -24,6 +28,10 @@ public class Log4J2AppLogger implements AppLogger {
         this.delegate = LogManager.getLogger(name);
     }
 
+    /**
+     * Ensures root logger has an appender configured
+     * Uses double-checked locking for thread safety
+     */
     private static void ensureRootAppender() {
         if (ROOT_APPENDER_READY) {
             return;
@@ -63,6 +71,12 @@ public class Log4J2AppLogger implements AppLogger {
         }
     }
 
+    /**
+     * Configures a dedicated appender for the specified logger
+     * Creates a rolling file appender with daily rotation
+     *
+     * @param name the logger name to configure
+     */
     private void configure(String name) {
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         synchronized (context) {

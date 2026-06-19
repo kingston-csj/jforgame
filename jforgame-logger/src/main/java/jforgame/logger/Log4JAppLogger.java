@@ -8,6 +8,10 @@ import org.slf4j.helpers.MessageFormatter;
 
 import java.util.Enumeration;
 
+/**
+ * Log4j (1.x) implementation of {@link AppLogger}
+ * Provides classified logging with separate files for each logger type
+ */
 public class Log4JAppLogger implements AppLogger {
 
     private static final String LOG_PATH = LoggerConfig.LOG_PATH;
@@ -23,6 +27,10 @@ public class Log4JAppLogger implements AppLogger {
         this.delegate = logger;
     }
 
+    /**
+     * Ensures root logger has an appender configured
+     * Uses double-checked locking for thread safety
+     */
     private static void ensureRootAppender() {
         if (ROOT_APPENDER_READY) {
             return;
@@ -48,6 +56,13 @@ public class Log4JAppLogger implements AppLogger {
         }
     }
 
+    /**
+     * Configures a dedicated appender for the specified logger
+     * Creates a daily rolling file appender
+     *
+     * @param name the logger name
+     * @param logger the logger instance to configure
+     */
     private synchronized void configure(String name, Logger logger) {
         String appenderName = "CLASSIFY_" + name;
         if (logger.getAppender(appenderName) != null) {

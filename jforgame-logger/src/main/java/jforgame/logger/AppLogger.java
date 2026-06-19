@@ -1,8 +1,8 @@
 package jforgame.logger;
 
 /**
- * 日志接口
- * 使用方式{@link LoggerUtil}
+ * Logger interface
+ * Usage: {@link LoggerUtil}
  */
 public interface AppLogger {
 

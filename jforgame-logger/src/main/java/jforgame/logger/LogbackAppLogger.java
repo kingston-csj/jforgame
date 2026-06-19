@@ -9,6 +9,11 @@ import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Logback implementation of {@link AppLogger}
+ * Provides classified logging with separate files for each logger type
+ * @see LoggerBuilder
+ */
 public class LogbackAppLogger implements AppLogger {
 
     private static final String LOG_PATH = LoggerConfig.LOG_PATH;
@@ -23,6 +28,13 @@ public class LogbackAppLogger implements AppLogger {
         this.delegate = logger;
     }
 
+    /**
+     * Configures a dedicated appender for the specified logger
+     * Creates a rolling file appender with time-based policy
+     *
+     * @param name the logger name
+     * @param logger the logger instance to configure
+     */
     private void configure(String name, Logger logger) {
         String appenderName = "CLASSIFY_" + name;
         synchronized (logger) {

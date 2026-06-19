@@ -4,10 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 日志工具类
- * 对使用{@link Logger#error(String)}记录的单行日志，会重定向输出到exception目录，该日志不带堆栈信息。
- * 对使用{@link #info}记录的日志，视为运营日志，会根据日志类型输出到对应的目录。所有参数会被格式化键值对，通过'|'进行分隔，方便第三方解析。
- * 对使用{@link #error(String, Exception)}记录的日志，会重定向输出到exception目录，该日志会带堆栈信息。
+ * Logger utility class
+ * Logs recorded using {@link Logger#error(String)} will be redirected to the exception directory without stack trace.
+ * Logs recorded using {@link #info} are treated as operational logs, output to corresponding directories based on log type.
+ * All parameters are formatted as key-value pairs separated by '|', convenient for third-party parsing.
+ * Logs recorded using {@link #error(String, Exception)} will be redirected to the exception directory with stack trace.
  */
 public class LoggerUtil {
 
@@ -28,10 +29,10 @@ public class LoggerUtil {
     }
 
     /**
-     * 根据logger自动对日志类型进行分类，每种类型一个独立目录
+     * Logs info message with automatic classification by logger type, each type has its own directory
      *
-     * @param logger 日志类型
-     * @param args   参数，个数必须是偶数
+     * @param logger the log type name
+     * @param args   parameters, must be even number (key-value pairs)
      */
     public static void info(String logger, Object... args) {
         logInternal(logger, args);
