@@ -1,7 +1,7 @@
 package jforgame.data.common;
 
 /**
- * 默认字符串转换器，不做任何处理
+ * Default string converter, does nothing
  */
 public class NullInjectParser implements ConfigValueParser {
 

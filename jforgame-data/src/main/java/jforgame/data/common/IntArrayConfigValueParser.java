@@ -5,8 +5,8 @@ import jforgame.commons.util.NumberUtil;
 import jforgame.commons.util.SplitUtil;
 
 /**
- * 将字符串转换为int数组，分隔符为逗号
- * 例如："1,2,3,4,5" 转化为 [1,2,3,4,5]
+ * Converts string to int array with comma separator
+ * For example: "1,2,3,4,5" converts to [1,2,3,4,5]
  */
 public class IntArrayConfigValueParser implements ConfigValueParser<int[]> {
 

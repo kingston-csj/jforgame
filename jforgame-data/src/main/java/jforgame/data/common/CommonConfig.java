@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 通用系统项，将与{@link CommonData#getKey()}相同名称的配置项注入到{@link org.springframework.stereotype.Service}的属性
+ * Common system item annotation, injects configuration items with the same name as {@link CommonData#getKey()} into properties of {@link org.springframework.stereotype.Service}
  */
 @Documented
 @Target(ElementType.FIELD)
@@ -15,15 +15,15 @@ import java.lang.annotation.Target;
 public @interface CommonConfig {
 
     /**
-     * 配置表字段key值
+     * Configuration table field key value
      *
-     * @return common配置表对应的key
+     * @return the key corresponding to the common configuration table
      */
     String value() default "";
 
     /**
-     * 配置表字段解析器，将字符串转化为非基本类型
-     * @return 对于的自定义参数转换器
+     * Configuration table field parser, converts string to non-primitive type
+     * @return the corresponding custom parameter converter
      */
     Class<? extends ConfigValueParser> parser() default NullInjectParser.class;
 }

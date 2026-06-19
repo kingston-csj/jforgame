@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- * 通用常量配置仓库, 遍历所有带{@link org.springframework.stereotype.Service}注解的spring bean，
- * (注意：其他{@link org.springframework.stereotype.Component} 注解的bean"不"处理)
- * 将通用常量配置{@link CommonData}注入到bean中带{@link CommonConfig}注解的字段
- * 其中，{@link CommonConfig#value()}并且与{@link CommonData#getKey()}为相同的字符串
- * 该字段会优化按{@link ConfigValueParser}属性进行转换，然后按{@link org.springframework.core.convert.ConversionService}进行转换
- * 若在程序运行期间，对通用常量表进行了热更新，则需要通过{@link ApplicationEventPublisher}发布事件{@link ConfigReloadEvent}，参数为配置表名称，
+ * Common constant configuration registry. Iterates through all Spring beans annotated with {@link org.springframework.stereotype.Service},
+ * (Note: beans annotated with other {@link org.springframework.stereotype.Component} are NOT processed)
+ * Injects common constant configuration {@link CommonData} into fields annotated with {@link CommonConfig} in beans.
+ * The {@link CommonConfig#value()} must match {@link CommonData#getKey()} as the same string.
+ * The field value will be converted according to the {@link ConfigValueParser} property first, then by {@link org.springframework.core.convert.ConversionService}.
+ * If the common constant table is hot-updated during runtime, publish event {@link ConfigReloadEvent} via {@link ApplicationEventPublisher} with the configuration table name as parameter.
  */
 @Order
 public class ConfigResourceRegistry implements ApplicationContextAware, ApplicationListener<ConfigReloadEvent> {
@@ -43,19 +43,19 @@ public class ConfigResourceRegistry implements ApplicationContextAware, Applicat
         for (Map.Entry<String, Object> entry : services.entrySet()) {
             systemValueAutoInjectHandler.tryInject(entry.getValue());
         }
-        // 对 CommonValueReloadListener实现类进行reload
+        // Reload all CommonValueReloadListener implementations
         for (Map.Entry<String, CommonValueReloadListener> entry : applicationContext.getBeansOfType(CommonValueReloadListener.class).entrySet()) {
             entry.getValue().afterReload();
         }
     }
 
     /**
-     * 服务运行期间，热更配置表，可通过 {@link ApplicationEventPublisher#publishEvent(Object)}发布事件
-     * 事件为 {@link ConfigReloadEvent}, 参数为配置表名称
+     * Hot-reload configuration table during service runtime. Publish event via {@link ApplicationEventPublisher#publishEvent(Object)}.
+     * The event is {@link ConfigReloadEvent} with configuration table name as parameter.
      */
     @Override
     public void onApplicationEvent(ConfigReloadEvent event) {
-        // 如果是通用常量表，则重新注入静态配置二级缓存
+        // If it's the common constant table, re-inject static configuration secondary cache
         if (resourceOptions.getCommonTableName().equalsIgnoreCase(event.getSource().toString())) {
             autoInjectStaticConfig();
         }

@@ -8,12 +8,12 @@ import java.util.List;
 public interface DataReader {
 
     /**
-     * 将输入流转为记录集合
+     * Converts input stream to record collection
      *
-     * @param is 文件流 {@link ClassPathResource#getInputStream()}
-     * @param clazz 配置类class
-     * @param <E> 配置类class
-     * @return 记录集合
+     * @param is    file stream {@link ClassPathResource#getInputStream()}
+     * @param clazz configuration class
+     * @param <E>   configuration class type
+     * @return record collection
      */
     <E> List<E> read(InputStream is, Class<E> clazz);
 }

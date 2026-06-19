@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 外键约束
+ * Foreign key constraint
  */
 @Documented
 @Target({ElementType.FIELD})
@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 public @interface ForeignKey {
 
     /**
-     * 约束参考主体
+     * Constraint reference target
      *
-     * @return 该字段参考的目标配置表对应的class
+     * @return the class of the target configuration table referenced by this field
      */
     Class<?> refer();
 

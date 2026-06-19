@@ -26,9 +26,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 数据读取对外暴露的唯一API
- * 对所有的配置数据作统一管理，不再一个配置文件对应一个配置容器
- * 如果需要实现二级缓存，只需继承{@link Container}即可，参考{@link ResourceOptions#getContainerScanPath()}参数
+ * The only externally exposed API for data reading
+ * Manages all configuration data uniformly, no longer one configuration file per configuration container
+ * To implement secondary cache, simply extend {@link Container}, refer to {@link ResourceOptions#getContainerScanPath()} parameter
  */
 public class DataManager implements DataRepository {
 
@@ -39,19 +39,19 @@ public class DataManager implements DataRepository {
     private final DataReader dataReader;
 
     /**
-     * 配置表定义, key统一为表名称小写
+     * Configuration table definitions, key is always lowercase table name
      */
     private final Map<String, TableDefinition> tableDefinitions = new HashMap<>();
 
     /**
-     * 配置容器定义, key统一为表名称小写
+     * Configuration container definitions, key is always lowercase table name
      */
     private final Map<String, Class<? extends Container>> containerDefinitions = new HashMap<>();
 
     private final ConcurrentMap<Class, Container> data = new ConcurrentHashMap<>();
 
     /**
-     * 数据校验器，用于检查数据的完整性
+     * Data validators for checking data integrity
      */
     private final List<DataValidator> validators = new LinkedList<>();
 
@@ -63,56 +63,56 @@ public class DataManager implements DataRepository {
     }
 
     /**
-     * 初始化数据
-     * 会扫描配置路径下所有的容器类和配置表类
-     * 并加载配置表数据到内存中
+     * Initialize data
+     * Scans all container classes and configuration table classes under the configured path
+     * Loads configuration table data into memory
      */
     public void init() {
         if (!StringUtils.isEmpty(options.getContainerScanPath())) {
             Set<Class<?>> containers = ClassScanner.listAllSubclasses(options.getContainerScanPath(), Container.class);
             containers.forEach(c -> {
-                // container命名必须以配置文件名+Container,例如配置表为common.csv，则对应的Container命名为CommonContainer
+                // Container naming must be configuration filename + Container, e.g., if configuration table is common.csv, the corresponding Container is CommonContainer
                 String name = c.getSimpleName().replace("Container", "").toLowerCase();
                 containerDefinitions.put(name, (Class<? extends Container>) c);
             });
         }
 
         Set<Class<?>> classSet = ClassScanner.listClassesWithAnnotation(options.getTableScanPath(), DataTable.class);
-        // 默认加载common表
+        // Load common table by default
         classSet.add(CommonData.class);
         containerDefinitions.put(options.getCommonTableName(), CommonContainer.class);
 
         classSet.forEach(this::registerContainer);
-        // 数据校验
+        // Data validation
         dataCheck(classSet);
     }
 
     /**
-     * 数据完整性检查，包括外键约束检查
+     * Data integrity check, including foreign key constraint checks
      *
-     * @param classSet 需要检查的类集合
+     * @param classSet the set of classes to check
      */
     private void dataCheck(Set<Class<?>> classSet) {
-        logger.info("开始数据完整性检查...");
+        logger.info("Starting data integrity check...");
         for (DataValidator validator : validators) {
             for (Class<?> clazz : classSet) {
                 try {
                     validator.check(clazz);
                 } catch (Exception e) {
-                    logger.error("数据完整性检查失败，类: {}", clazz.getSimpleName(), e);
-                    throw new IllegalStateException("数据完整性检查失败: " + clazz.getSimpleName(), e);
+                    logger.error("Data integrity check failed, class: {}", clazz.getSimpleName(), e);
+                    throw new IllegalStateException("Data integrity check failed: " + clazz.getSimpleName(), e);
                 }
             }
         }
-        logger.info("数据完整性检查完成");
+        logger.info("Data integrity check completed");
     }
 
 
     /**
-     * 根据领域类注册容器
-     * 会自动加载对应的配置文件
+     * Register container by domain class
+     * Automatically loads the corresponding configuration file
      *
-     * @param table 　配置表对应的类
+     * @param table the class corresponding to the configuration table
      */
     public void registerContainer(Class<?> table) {
         if (table == null) {
@@ -123,9 +123,9 @@ public class DataManager implements DataRepository {
         }
         TableDefinition definition = new TableDefinition(table);
         String tableName = definition.getResourceTable();
-        // 统一使用小写
+        // Use lowercase uniformly
         tableName = tableName.toLowerCase();
-        // 特殊处理common表
+        // Special handling for common table
         if (CommonData.class == table) {
             tableName = options.getCommonTableName();
         }
@@ -136,7 +136,7 @@ public class DataManager implements DataRepository {
 
     @Override
     public void reload(String table) {
-        // 统一使用小写
+        // Use lowercase uniformly
         table = table.toLowerCase();
         TableDefinition definition = tableDefinitions.get(table);
         if (definition == null) {
@@ -152,16 +152,16 @@ public class DataManager implements DataRepository {
             try {
                 records = dataReader.read(resource.getInputStream(), definition.getClazz());
             } catch (IOException e) {
-                if (table.equals(options.getCommonTableName())) {
-                    // 允许项目不使用common表相关功能
-                    logger.info("common表配置为空");
-                } else {
-                    throw new IllegalStateException(String.format("cannot read %s data file", table));
+                    if (table.equals(options.getCommonTableName())) {
+                        // Allow projects to not use common table functionality
+                        logger.info("Common table configuration is empty");
+                    } else {
+                        throw new IllegalStateException(String.format("cannot read %s data file", table));
+                    }
                 }
-            }
 
             container.inject(definition, records);
-            // 二级缓存数据
+            // Cache secondary data
             container.afterLoad();
 
             data.put(definition.getClazz(), container);
@@ -209,9 +209,9 @@ public class DataManager implements DataRepository {
     }
 
     /**
-     * 返回已加载的所有配置领域类
+     * Returns all loaded configuration domain classes
      *
-     * @return 所有已加载的配置类列表
+     * @return list of all loaded configuration classes
      */
     public Set<Class> getAllTables() {
         return data.keySet();

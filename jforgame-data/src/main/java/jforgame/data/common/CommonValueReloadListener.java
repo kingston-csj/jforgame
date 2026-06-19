@@ -1,13 +1,14 @@
 package jforgame.data.common;
 
 /**
- * 解析{@link CommonData}配置后，会对该接口进行回调，用于刷新通用常量相关的二级缓存
- * 但且仅当Service本身对{@link CommonConfig}注解的值进行二次解析，例如将string转成map后独立存储，需要实现该接口
+ * After parsing {@link CommonData} configuration, this interface will be called back to refresh secondary caches related to common constants
+ * Only implement this interface when the Service itself performs secondary parsing on values annotated with {@link CommonConfig}, 
+ * such as converting strings to maps and storing them independently
  */
 public interface CommonValueReloadListener {
 
     /**
-     * 监听配置发生变化
+     * Listen for configuration changes
      */
     void afterReload();
 }

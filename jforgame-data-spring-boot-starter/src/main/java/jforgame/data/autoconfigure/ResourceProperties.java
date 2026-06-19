@@ -10,12 +10,12 @@ public class ResourceProperties {
     /**
      * Resource root directory
      */
-    private String location = "csv/";
+    private String location = "excel/";
 
     /**
      * File suffix (default)
      */
-    private String suffix = ".csv";
+    private String suffix = ".xlsx";
 
     /**
      * Configuration entity {@link jforgame.data.annotation.DataTable} scan path

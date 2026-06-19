@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 基于excel文件的配置表读取器
+ * Configuration table reader based on Excel files
  */
 public class ExcelDataReader extends BaseDataReader implements DataReader {
 
@@ -30,17 +30,17 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
             Workbook workbook = WorkbookFactory.create(is);
             boolean hasColMeta = false;
             CellHeader[] header = null;
-            // 一行行的数据源
+            // Row by row data source
             List<CellColumn[]> records = new ArrayList<>();
 
             Sheet sheet = workbook.getSheetAt(0);
-            // 获取行
+            // Get rows
             Iterator<Row> rows = sheet.rowIterator();
 
-            // 导出类型
+            // Export type
             String[] exportHeader = new String[0];
 
-            // 第一行有效数据索引
+            // First valid data row index
             int firstDataIndex = 0;
             int index = 0;
             while (rows.hasNext()) {
@@ -64,14 +64,14 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
                 }
                 records.add(readExcelRow(header, exportHeader, row));
                 if (END.equalsIgnoreCase(firstCell)) {
-                    // 结束符号
+                    // End marker
                     break;
                 }
             }
 
             return readRecords(clazz, exportHeader, records, firstDataIndex);
         } catch (Exception e) {
-            logger.error(String.format("配置表[%s]解析异常", clazz.getSimpleName()), e);
+            logger.error(String.format("Configuration table [%s] parsing exception", clazz.getSimpleName()), e);
             throw new RuntimeException(e);
         }
     }
@@ -79,7 +79,7 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
 
     private String[] readExportHeader(Row row) {
         List<String> columns = new LinkedList<>();
-        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        // Read the last column index directly to prevent the first blank cell from being skipped
         int actualColumnCount = row.getLastCellNum();
         for (int i = 1; i < actualColumnCount; i++) {
             Cell cell = row.getCell(i);
@@ -87,7 +87,7 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
             if (!StringUtils.isEmpty(cellValue)) {
                 columns.add(cellValue);
             } else {
-                // 没填就是不导出
+                // Not filled means no export
                 columns.add(EXPORT_TYPE_NONE);
             }
         }
@@ -96,7 +96,7 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
 
     private CellHeader[] readHeader(Class clazz, Row row) throws NoSuchFieldException {
         List<CellHeader> columns = new ArrayList<>();
-        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        // Read the last column index directly to prevent the first blank cell from being skipped
         int actualColumnCount = row.getLastCellNum();
         for (int i = 1; i < actualColumnCount; i++) {
             Cell cell = row.getCell(i);
@@ -126,8 +126,8 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
         if (cell == null) {
             return "";
         }
-        // 统一转换为字符串
-        // 转换器会自动转换为业务需要的类型
+        // Convert to string uniformly
+        // Converter will automatically convert to the required business type
         if (cell.getCellType() != CellType.STRING) {
             cell.setCellType(CellType.STRING);
         }
@@ -136,16 +136,16 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
 
     private CellColumn[] readExcelRow(CellHeader[] headers, String[] exportHeader, Row row) {
         List<CellColumn> columns = new ArrayList<>();
-        // 直接读取最后一列的序号，防止第一列空白格被跳过
+        // Read the last column index directly to prevent the first blank cell from being skipped
         int actualColumnCount = row.getLastCellNum();
         for (int i = 1; i < actualColumnCount; i++) {
             Cell cell = row.getCell(i);
-            // 表头没配，多余的列不读
+            // Skip extra columns not configured in header
             if (i - 1 >= headers.length) {
                 continue;
             }
             String cellValue = getCellValue(cell);
-            // header不包含第1列，但record包含第1列，所以i-1
+            // header doesn't include column 1, but record includes column 1, so i-1
             String exportType = getExportType(exportHeader, i - 1);
             if (EXPORT_TYPE_BOTH.equalsIgnoreCase(exportType) || EXPORT_TYPE_SERVER.equalsIgnoreCase(exportType)) {
                 CellColumn column = new CellColumn();
@@ -153,7 +153,7 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
                 column.value = cellValue;
                 columns.add(column);
             } else {
-                // 空列占位
+                // Empty column placeholder
                 columns.add(null);
             }
         }

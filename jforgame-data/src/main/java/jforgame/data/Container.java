@@ -15,7 +15,7 @@ import java.util.TreeSet;
 
 public class Container<K extends Serializable & Comparable<K>, V> {
 
-    // 使用LinkedHashMap，保证记录的顺序为配置文件从上到下的顺序
+    // Use LinkedHashMap to preserve the order of records from top to bottom in the configuration file
     protected final Map<K, V> data = new LinkedHashMap<>();
 
     /**
@@ -30,7 +30,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
             K id = (K) definition.getIdMeta().getValue(row);
             V prev = data.put(id, row);
             if (prev != null) {
-                throw new IllegalStateException("配置表[" + definition.getResourceTable() + "]主键重复，id为：" + id);
+                throw new IllegalStateException("Configuration table [" + definition.getResourceTable() + "] primary key duplicate, id: " + id);
             }
 
             for (Map.Entry<String, IndexMeta> entry : definition.getIndexMetaMap().entrySet()) {
@@ -40,7 +40,7 @@ public class Container<K extends Serializable & Comparable<K>, V> {
                 String key = indexKey(index, val);
                 if (indexMeta.isUnique()) {
                     if (keys.contains(key)) {
-                        throw new IllegalStateException("配置表" + definition.getResourceTable() + "的唯一索引" + index + "重复，值为" + val);
+                        throw new IllegalStateException("Configuration table " + definition.getResourceTable() + " unique index " + index + " duplicate, value " + val);
                     }
                     keys.add(key);
                 }
@@ -51,18 +51,18 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     }
 
     /**
-     * 初始化二级缓存
+     * Initialize secondary cache
      */
     public void afterLoad() {
 
     }
 
     /**
-     * 数据校验
-     * 该接口会在所有数据加载完成后调用
-     * 可以在此接口中关联其他配置表进行校验
+     * Data validation
+     * This method is called after all data has been loaded
+     * Can associate other configuration tables for validation here
      *
-     * @throws RuntimeException 校验失败抛出异常，启服加载时会终止程序启动
+     * @throws RuntimeException throws exception if validation fails, which will terminate application startup
      */
     public void validate(DataRepository dataRepository) throws DataValidateException {
 
@@ -84,28 +84,28 @@ public class Container<K extends Serializable & Comparable<K>, V> {
     }
 
     /**
-     * 获取所有记录
+     * Gets all records
      *
-     * @return 该配置表所有记录的集合(引用拷贝)
+     * @return a reference copy of all records in this configuration table
      */
     public List<V> getAllRecords() {
         return new ArrayList<>(data.values());
     }
 
     /**
-     * 获取所有主键id
+     * Gets all primary key IDs
      *
-     * @return 该配置表所有主键的集合
+     * @return the set of all primary keys in this configuration table
      */
     public Set<K> getAllKeys() {
         return new TreeSet<>(data.keySet());
     }
 
     /**
-     * 根据id获取记录
+     * Gets record by ID
      *
-     * @param id 主键id
-     * @return 记录
+     * @param id the primary key ID
+     * @return the record
      */
     public V getRecordById(K id) {
         return data.get(id);

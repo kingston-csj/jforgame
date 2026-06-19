@@ -12,19 +12,19 @@ import java.util.Map;
 public class TableDefinition {
 
     /**
-     * 表格唯一主键
+     * Table unique primary key
      */
     private ColumnMeta idMeta;
 
     /**
-     * 表格索引列
+     * Table index columns
      */
     private final Map<String, IndexMeta> indexMetaMap = new HashMap<>();
 
     private Class clazz;
 
     /**
-     * 配置表名称（默认为类名小写）
+     * Configuration table name (default is lowercase class name)
      */
     private String resourceTable;
 
@@ -48,7 +48,7 @@ public class TableDefinition {
                         ColumnMeta indexMeta = new FieldColumnMeta(f);
                         String key = indexMeta.getName();
                         if (idMeta != null) {
-                            throw new RuntimeException(String.format("%s类存在多个主键字段-->%s", clazz.getName(), key + "和" + idMeta.getName()));
+                            throw new RuntimeException(String.format("%s class has multiple primary key fields-->%s", clazz.getName(), key + " and " + idMeta.getName()));
                         }
                         idMeta = indexMeta;
                     });
@@ -57,7 +57,7 @@ public class TableDefinition {
 
 
         if (idMeta == null) {
-            throw new RuntimeException(String.format("%s类主键不存在", clazz.getName()));
+            throw new RuntimeException(String.format("%s class primary key does not exist", clazz.getName()));
         }
 
         curr = clazz;
@@ -67,7 +67,7 @@ public class TableDefinition {
                         IndexMeta indexMeta = new FieldIndexMeta(f);
                         String key = indexMeta.getName();
                         if (indexMetaMap.put(key, indexMeta) != null) {
-                            throw new RuntimeException(String.format("%s类索引字段重复-->%s", clazz.getName(), key + "和" + indexMetaMap.get(key).getName()));
+                            throw new RuntimeException(String.format("%s class index field duplicate-->%s", clazz.getName(), key + " and " + indexMetaMap.get(key).getName()));
                         }
                         indexMetaMap.put(key, indexMeta);
                     });
@@ -83,7 +83,7 @@ public class TableDefinition {
                         IndexMeta indexMeta = new MethodIndexMeta(index, m);
                         String key = indexMeta.getName();
                         if (indexMetaMap.put(key, indexMeta) != null) {
-                            throw new RuntimeException(String.format("%s类索引字段重复-->%s", clazz.getName(), key + "和" + indexMetaMap.get(key).getName()));
+                            throw new RuntimeException(String.format("%s class index field duplicate-->%s", clazz.getName(), key + " and " + indexMetaMap.get(key).getName()));
                         }
                         indexMetaMap.put(key, indexMeta);
                     });

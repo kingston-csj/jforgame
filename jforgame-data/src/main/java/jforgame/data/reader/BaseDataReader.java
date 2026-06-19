@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 配置数据读取基类
+ * Base class for configuration data reading
  */
 public abstract class BaseDataReader {
 
@@ -24,35 +24,35 @@ public abstract class BaseDataReader {
 
 
     /**
-     * 导出类型--服务端与客户端均导入
+     * Export type -- import to both server and client
      */
     protected final static String EXPORT_TYPE_BOTH = "both";
 
     /**
-     * 导出类型--仅服务端
+     * Export type -- server only
      */
     protected final static String EXPORT_TYPE_SERVER = "server";
 
     /**
-     * 导出类型--仅客户端
+     * Export type -- client only
      */
     protected final static String EXPORT_TYPE_CLIENT = "client";
 
     /**
-     * 导出类型--服务端与客户端均 不 导入
+     * Export type -- import to neither server nor client
      */
     protected final static String EXPORT_TYPE_NONE = "none";
 
 
     /**
-     * 是否忽略无法识别的文件字段，以javabean为准。
-     * 例如假设csv文件有一个字段为name，但javabean没有同名字段，则忽略跳过；
-     * 若设置为不忽略，则报会异常
+     * Whether to ignore unrecognized file fields, using javabean as the source of truth.
+     * For example, if a csv file has a field named 'name' but the javabean doesn't have a field with the same name, it will be skipped;
+     * If set to not ignore, an exception will be thrown.
      */
     protected boolean ignoreUnknownFields = true;
 
     /**
-     * 数据转换，请使用jforgame-data提供的名为“dataConversionService”的组件
+     * Data conversion service, use the component named "dataConversionService" provided by jforgame-data
      */
     protected ConversionService dataConversionService;
 
@@ -61,12 +61,12 @@ public abstract class BaseDataReader {
     }
 
     /**
-     * 查找类及其父类中声明的字段。
+     * Finds a field declared in a class and its parent classes.
      *
-     * @param clazz     要查找的类
-     * @param fieldName 要查找的字段名
-     * @return 找到的字段
-     * @throws NoSuchFieldException 如果未找到字段
+     * @param clazz     the class to search in
+     * @param fieldName the field name to search for
+     * @return the found field
+     * @throws NoSuchFieldException if field not found
      */
     protected Field findFieldInClassHierarchy(Class<?> clazz, String fieldName) throws NoSuchFieldException {
         if (clazz == null || clazz.equals(Object.class)) {
@@ -80,14 +80,14 @@ public abstract class BaseDataReader {
     }
 
     /**
-     * 获取字段导出类型
+     * Gets field export type
      *
-     * @param header 表头
-     * @param index  列索引
-     * @return 导出类型
+     * @param header the header row
+     * @param index  the column index
+     * @return the export type
      */
     protected String getExportType(String[] header, int index) {
-        // 没有header列或字段缺失
+        // No header column or field missing
         if (header.length == 0 || header.length <= index) {
             return EXPORT_TYPE_BOTH;
         }
@@ -99,7 +99,7 @@ public abstract class BaseDataReader {
         for (int i = 0; i < rows.size(); i++) {
             CellColumn[] record = rows.get(i);
             E obj = clazz.newInstance();
-            // 每一行的字段索引
+            // Field index for each row
             for (int j = 0; j < record.length; j++) {
                 CellColumn column = record[j];
                 if (column == null) {
@@ -121,7 +121,7 @@ public abstract class BaseDataReader {
                             throw e;
                         }
                     } catch (Exception e) {
-                        logger.error(String.format("配置表[%s]第%d行字段[%s]转换异常", clazz.getSimpleName(), i + headerIndex + 1, colName), e);
+                        logger.error(String.format("Configuration table [%s] row %d field [%s] conversion exception", clazz.getSimpleName(), i + headerIndex + 1, colName), e);
                         throw e;
                     }
                 }
@@ -133,7 +133,7 @@ public abstract class BaseDataReader {
     }
 
     /**
-     * 设置是否忽略无法识别的文件字段
+     * Sets whether to ignore unrecognized file fields
      */
     public void setIgnoreUnknownFields(boolean ignoreUnknownFields) {
         this.ignoreUnknownFields = ignoreUnknownFields;

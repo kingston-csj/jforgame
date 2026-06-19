@@ -1,7 +1,7 @@
 package jforgame.data.exception;
 
 /**
- * 外键约束异常
+ * Foreign key constraint exception
  */
 public class ForeignKeyConstraintException extends DataValidateException {
     public ForeignKeyConstraintException(String message) {

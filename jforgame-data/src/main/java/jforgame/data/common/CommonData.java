@@ -5,8 +5,8 @@ import jforgame.data.annotation.Id;
 
 
 /**
- * 通用常量表
- * 如果配置表名字不叫"common"，可修改application.yml中 jforgame.data.commonTableName属性值
+ * Common constant table
+ * If the configuration table name is not "common", modify the jforgame.data.commonTableName property in application.yml
  */
 @DataTable(name = "common")
 public class CommonData {

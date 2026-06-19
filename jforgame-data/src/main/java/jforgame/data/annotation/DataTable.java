@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标记一个类代表配置表
+ * Marks a class as a configuration table
  */
 @Documented
 @Target({ElementType.TYPE})

@@ -1,33 +1,33 @@
 package jforgame.data;
 
 /**
- * 数据资源加载配置。
- * 这是一个普通的配置对象，不依赖 Spring Boot 的配置绑定能力。
+ * Data resource loading configuration.
+ * This is a plain configuration object, not dependent on Spring Boot's configuration binding capability.
  */
 public class ResourceOptions {
 
     /**
-     * 资源根目录
+     * Resource root directory
      */
     private String location = "csv/";
 
     /**
-     * 文件后缀(默认)
+     * File suffix (default)
      */
     private String suffix = ".csv";
 
     /**
-     * 配置实体{@link jforgame.data.annotation.DataTable}扫描路径
+     * Scan path for configuration entity {@link jforgame.data.annotation.DataTable}
      */
     private String tableScanPath;
 
     /**
-     * 配置容器{@link Container}子类的扫描路径
+     * Scan path for configuration container {@link Container} subclasses
      */
     private String containerScanPath;
 
     /**
-     * 通用常量表表名，默认为common.csv/common.xlsx
+     * Common constant table name, default is common.csv/common.xlsx
      */
     private String commonTableName = "common";
 

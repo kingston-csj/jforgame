@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 通用数据容器
+ * Common data container
  */
 public class CommonContainer extends Container<Integer, CommonData> {
 

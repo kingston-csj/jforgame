@@ -5,7 +5,7 @@ import jforgame.data.DataRepository;
 import jforgame.data.exception.DataValidateException;
 
 /**
- * 对于一些复杂的数据格式，例如奖励，消耗，可使用自定义验证器
+ * For complex data formats such as rewards and costs, custom validators can be used
  */
 public class CustomValidator implements DataValidator {
 

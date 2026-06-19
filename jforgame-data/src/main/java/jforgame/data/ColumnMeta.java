@@ -33,7 +33,7 @@ class FieldColumnMeta implements ColumnMeta {
         try {
             return field.get(obj);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException(obj.getClass().getName() + "无法访问" + field.getName() + "字段");
+            throw new IllegalStateException(obj.getClass().getName() + "cannot access field " + field.getName());
         }
     }
 }

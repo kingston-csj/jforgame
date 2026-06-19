@@ -7,28 +7,28 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * 索引元信息
+ * Index metadata
  */
 interface IndexMeta {
 
     String getName();
 
     /**
-     * 获取索引值
-     * @param obj 配置记录
-     * @return 索引值
+     * Gets index value
+     * @param obj configuration record
+     * @return index value
      */
     Object getValue(Object obj);
 
     /**
-     * 是否唯一索引
-     * @return
+     * Whether it is a unique index
+     * @return true if unique
      */
     boolean isUnique();
 }
 
 /**
- * 基于字段的索引元信息
+ * Field-based index metadata
  */
 class FieldIndexMeta implements IndexMeta {
 
@@ -60,7 +60,7 @@ class FieldIndexMeta implements IndexMeta {
         try {
             return field.get(obj);
         } catch (IllegalAccessException e) {
-            throw new IllegalStateException(obj.getClass().getName() + "无法访问" + field.getName() + "字段");
+            throw new IllegalStateException(obj.getClass().getName() + "cannot access field " + field.getName());
         }
     }
 
@@ -71,7 +71,7 @@ class FieldIndexMeta implements IndexMeta {
 }
 
 /**
- * 基于方法的索引元信息
+ * Method-based index metadata
  */
 class MethodIndexMeta implements IndexMeta {
 
@@ -101,7 +101,7 @@ class MethodIndexMeta implements IndexMeta {
         try {
             return method.invoke(obj);
         } catch (Exception e) {
-            throw new IllegalStateException(obj.getClass().getName() + "无法访问" + method.getName() + "方法");
+            throw new IllegalStateException(obj.getClass().getName() + "cannot access method " + method.getName());
         }
     }
 

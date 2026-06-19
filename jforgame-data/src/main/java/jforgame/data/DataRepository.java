@@ -4,65 +4,67 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 配置读取仓库（只读）
+ * Configuration reading repository (read-only)
  */
 public interface DataRepository {
 
 
     /**
-     * 查询配置容器
+     * Query configuration container
      *
-     * @param tableClass     配置类
-     * @param containerClass Container子类
-     * @param <T>            Container子类
-     * @return containerClass container类
+     * @param tableClass     configuration class
+     * @param containerClass Container subclass
+     * @param <T>            Container subclass type
+     * @return containerClass container
      */
     <T extends Container> T queryContainer(Class<?> tableClass, Class<T> containerClass);
 
     /**
-     * 根据主键读取指定文件的配置数据
+     * Read configuration data from specified file by primary key
      *
-     * @param clazz 　配置类
-     * @param <E>   配置类泛型
-     * @param id    　配置表主键
-     * @return 指定id记录
+     * @param clazz configuration class
+     * @param <E>   configuration class type
+     * @param id    configuration table primary key
+     * @return record with specified id
      */
     <E> E queryById(Class<E> clazz, Serializable id);
 
     /**
-     * 读取指定文件的所有配置数据
+     * Read all configuration data from specified file
      *
-     * @param clazz 　配置类
-     * @param <E>   配置类泛型
-     * @return 所有记录
+     * @param clazz configuration class
+     * @param <E>   configuration class type
+     * @return all records
      */
     <E> List<E> queryAll(Class<E> clazz);
 
 
     /**
-     * 根据索引读取指定文件的配置数据列表
+     * Read configuration data list from specified file by index
      *
-     * @param clazz 配置类class
-     * @param <E>   配置类泛型
-     * @param index 索引名称
-     * @return 指定索引所有数据
+     * @param clazz configuration class
+     * @param <E>   configuration class type
+     * @param name  index name
+     * @param index index value
+     * @return all data with specified index
      */
     <E> List<E> queryByIndex(Class<E> clazz, String name, Object index);
 
     /**
-     * 根据唯一索引读取指定文件的配置数据
+     * Read configuration data from specified file by unique index
      *
-     * @param clazz 配置类class
-     * @param <E>   配置类泛型
-     * @param index 索引名称
-     * @return 索引数据
+     * @param clazz configuration class
+     * @param <E>   configuration class type
+     * @param name  index name
+     * @param index index value
+     * @return indexed data
      */
     <E> E queryByUniqueIndex(Class<E> clazz, String name, Object index);
 
     /**
-     * 表格数据重载
+     * Reload table data
      *
-     * @param table 表名称
+     * @param table table name
      */
     void reload(String table);
 

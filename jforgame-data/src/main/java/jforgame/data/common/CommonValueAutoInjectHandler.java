@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 将通过配置表的常量注入到bean中带有{@link CommonConfig}注解的字段中
+ * Injects constants from the configuration table into fields annotated with {@link CommonConfig} in beans
  */
 public class CommonValueAutoInjectHandler implements InitializingBean {
 
@@ -28,7 +28,7 @@ public class CommonValueAutoInjectHandler implements InitializingBean {
 
     private Map<Class<?>, ConfigValueParser> parserTable = new HashMap<>();
 
-    // 自动注入Spring容器中所有ConfigValueParser类型的Bean（客户端自定义的）
+    // Auto inject all ConfigValueParser type beans in Spring container (client custom)
     @Autowired(required = false)
     private List<ConfigValueParser> customParsers;
 
@@ -45,7 +45,7 @@ public class CommonValueAutoInjectHandler implements InitializingBean {
             for (ConfigValueParser parser : customParsers) {
                 Class<? extends ConfigValueParser> parserClass = parser.getClass();
                 parserTable.put(parserClass, parser);
-                log.info("已注册自定义解析器：{}", parserClass.getSimpleName());
+                log.info("Registered custom parser: {}", parserClass.getSimpleName());
             }
         }
     }
@@ -62,7 +62,7 @@ public class CommonValueAutoInjectHandler implements InitializingBean {
                     CommonContainer commonContainer = dataManager.queryContainer(CommonData.class, CommonContainer.class);
                     CommonData commonDataValue = commonContainer.getConfigValueByKey(fieldName);
                     if (commonDataValue == null) {
-                        throw new IllegalStateException(bean.getClass().getSimpleName() + " commonValue为空,key =" + annotation.value());
+                        throw new IllegalStateException(bean.getClass().getSimpleName() + " commonValue is empty, key =" + annotation.value());
                     }
                     Object property = commonDataValue.getValue();
                     if (annotation.parser() != NullInjectParser.class) {

@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标记一个字段作为主键，有且唯一一个
+ * Marks a field as primary key, there must be exactly one
  */
 @Documented
 @Target({ElementType.FIELD})

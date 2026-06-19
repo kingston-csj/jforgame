@@ -1,7 +1,7 @@
 package jforgame.data.exception;
 
 /**
- * 配置校验异常
+ * Configuration validation exception
  */
 public class DataValidateException extends Exception {
     public DataValidateException(String message) {

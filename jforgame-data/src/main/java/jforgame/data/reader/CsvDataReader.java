@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 基于csv文件的配置表读取器
+ * Configuration table reader based on CSV files
  */
 public class CsvDataReader extends BaseDataReader implements DataReader {
 
@@ -29,16 +29,16 @@ public class CsvDataReader extends BaseDataReader implements DataReader {
             Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
             boolean hasColMeta = false;
             CellHeader[] header = null;
-            // 一行行的数据源
+            // Row by row data source
             List<CellColumn[]> rows = new ArrayList<>();
-            // 导出类型
+            // Export type
             String[] exportHeader = new String[0];
-            // 第一行有效数据索引
+            // First valid data row index
             int firstDataIndex = 0;
             int index = 0;
             for (CSVRecord record : records) {
                 index++;
-                // BEGIN前面的数据无效
+                // Data before BEGIN is invalid
                 if (BEGIN.equalsIgnoreCase(record.get(0))) {
                     header = readHeader(clazz, record);
                     hasColMeta = true;
@@ -56,7 +56,7 @@ public class CsvDataReader extends BaseDataReader implements DataReader {
                 }
                 rows.add(readCsvRow(header, exportHeader, record));
                 if (END.equalsIgnoreCase(record.get(0))) {
-                    // 结束符号
+                    // End marker
                     break;
                 }
             }
@@ -74,7 +74,7 @@ public class CsvDataReader extends BaseDataReader implements DataReader {
             if (!StringUtils.isEmpty(cellValue)) {
                 columns.add(cellValue);
             } else {
-                // 没填就是不导出
+                // Not filled means no export
                 columns.add(EXPORT_TYPE_NONE);
             }
         }
@@ -106,7 +106,7 @@ public class CsvDataReader extends BaseDataReader implements DataReader {
     private CellColumn[] readCsvRow(CellHeader[] headers, String[] exportHeader, CSVRecord record) {
         List<CellColumn> columns = new ArrayList<>();
         for (int i = 1; i < record.size(); i++) {
-            // header不包含第1列，但record包含第1列，所以i-1
+            // header doesn't include column 1, but record includes column 1, so i-1
             String exportType = getExportType(exportHeader, i - 1);
             if (EXPORT_TYPE_BOTH.equalsIgnoreCase(exportType) || EXPORT_TYPE_SERVER.equalsIgnoreCase(exportType)) {
                 CellColumn column = new CellColumn();
@@ -114,9 +114,9 @@ public class CsvDataReader extends BaseDataReader implements DataReader {
                 column.value = record.get(i);
                 columns.add(column);
             } else {
-                // 空列占位
-                columns.add(null);
-            }
+                    // Empty column placeholder
+                    columns.add(null);
+                }
         }
         return columns.toArray(new CellColumn[0]);
     }

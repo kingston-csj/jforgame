@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 使用json文件作为数据源
- * json文件每条记录的的key值类似excel的表头
+ * Uses JSON file as data source
+ * The key of each record in the JSON file is similar to the Excel header
  */
 public class JsonDataReader extends BaseDataReader implements DataReader {
 
@@ -31,11 +31,11 @@ public class JsonDataReader extends BaseDataReader implements DataReader {
         List<E> records = new LinkedList<>();
         try {
             String json = FileUtil.readFullText(is).trim();
-            // 去除开头的UTF-8 BOM字符（0xFEFF） 部分编辑器保存的时候会有该隐藏字符，需要先过滤
+            // Remove leading UTF-8 BOM character (0xFEFF). Some editors add this hidden character when saving, so it needs to be filtered first.
             if (StringUtil.isNotEmpty(json) && json.startsWith("\uFEFF")) {
-                json = json.substring(1); // 截取掉第一个隐藏的BOM字符
+                json = json.substring(1); // Remove the first hidden BOM character
             }
-            // 把json文件当作数据列表，每一行记录代表一行配置, key统一为string, value为Object
+            // Treat JSON file as a data list, each row represents one configuration record. Key is string, value is Object
             List<Map<String, Object>> dataList = objectMapper.readValue(json,
                     new TypeReference<List<Map<String, Object>>>() {}
             );
@@ -46,7 +46,7 @@ public class JsonDataReader extends BaseDataReader implements DataReader {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                // 如果entry.getValue()的值不是基本类型或string，则会通过ConversionService作进一步转换
+                // If entry.getValue() is not a primitive type or string, it will be further converted through ConversionService
                 for (Map.Entry<String, Object> entry : data.entrySet()) {
                     if (entry.getValue() == null || "null".equals(entry.getValue())) {
                         continue;
@@ -58,10 +58,11 @@ public class JsonDataReader extends BaseDataReader implements DataReader {
                         Object fieldVal = dataConversionService.convert(entry.getValue(), TypeDescriptor.valueOf(entry.getValue().getClass()), new TypeDescriptor(field));
                         field.set(record, fieldVal);
                     } catch (NoSuchFieldException ignored) {
-                        // json没有表头，无法判断哪些字段是纯客户端字段，只能根据bean是否有同名field来判断
-                        // 如果没有该filed,则判定为客户端字段，忽略即可
+                        // JSON files don't have headers, so we can't determine which fields are client-only.
+                        // We can only determine based on whether the bean has a field with the same name.
+                        // If the field doesn't exist, it's considered a client field and is ignored.
                     } catch (Exception e) {
-                        logger.error(String.format("配置表[%s] 字段[%s]转换异常", clazz.getSimpleName(), colName), e);
+                        logger.error(String.format("Configuration table [%s] field [%s] conversion exception", clazz.getSimpleName(), colName), e);
                         throw e;
                     }
                 }
@@ -69,7 +70,7 @@ public class JsonDataReader extends BaseDataReader implements DataReader {
             }
             return records;
         } catch (Exception e) {
-            logger.error(String.format("配置表[%s]解析异常", clazz.getSimpleName()), e);
+            logger.error(String.format("Configuration table [%s] parsing exception", clazz.getSimpleName()), e);
             throw new RuntimeException(e);
         }
     }

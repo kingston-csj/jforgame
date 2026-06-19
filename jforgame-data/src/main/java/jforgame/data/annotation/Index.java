@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 标记一个字段或者方法为索引
+ * Marks a field or method as an index
  */
 @Documented
 @Target({ElementType.FIELD, ElementType.METHOD})
@@ -20,11 +20,11 @@ public @interface Index {
     String name() default "";
 
     /**
-     * 是否唯一索引
-     * 当设置为true时，索引值不能重复，表示同一个索引值只能对应一个数据
+     * Whether this is a unique index
+     * When set to true, index values cannot be duplicated, meaning one index value can only correspond to one data record
      * {@link jforgame.data.Container#getUniqueRecordByIndex(String, Object)}
-     * 若配置数据中存在重复的索引值，则在加载数据时，抛出异常 {@link Container#inject}
-     * @return true表示唯一索引
+     * If duplicate index values exist in configuration data, an exception will be thrown during data loading {@link Container#inject}
+     * @return true indicates a unique index
      */
     boolean unique() default false;
 }
