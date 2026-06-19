@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * protobuf 消息编码解码器
- * 使用该编码器，服务端与客户端通过protobuf方式进行通信
- * 对于一个消息类，服务器仅需在消息类上添加{@link ProtobufClass}注解即可
- * 服务器可以通过{@link ProtobufIDLGenerator}生成对应的.proto文件
+ * Protobuf message encoder and decoder.
+ * Using this codec, server and client communicate through protobuf.
+ * For a message class, the server only needs to add {@link ProtobufClass} annotation on the message class.
+ * The server can generate the corresponding .proto file through {@link ProtobufIDLGenerator}.
  */
 public class ProtobufCodec implements MessageCodec {
 
@@ -33,7 +33,7 @@ public class ProtobufCodec implements MessageCodec {
 
 	@Override
 	public byte[] encode(Object message) {
-		//写入具体消息的内容
+		// Write the content of the specific message
 		byte[] body = null;
 		Class msgClazz = message.getClass();
 		try {

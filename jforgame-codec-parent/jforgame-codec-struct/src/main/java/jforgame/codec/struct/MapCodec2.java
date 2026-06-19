@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Map 编解码器（Key 强制为 String 类型，兼容json格式）
- * 元素Value可以是父类或抽象类
+ * Map codec (Key is forced to String type, compatible with json format).
+ * Value element can be parent class or abstract class.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.MapCodec
@@ -22,7 +22,7 @@ public class MapCodec2 extends Codec {
     @Override
     @SuppressWarnings("all")
     public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
-        // 读取 Map 大小（short 类型）
+        // Read Map size (short type)
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Map size less than zero!");
@@ -43,11 +43,11 @@ public class MapCodec2 extends Codec {
             }
         }
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-        // 循环解码键值对（Key 固定为 String）
+        // Loop to decode key-value pairs (Key is fixed as String)
         for (int i = 0; i < size; i++) {
-            // 解码 Key（强制用 StringCodec）
+            // Decode Key (forced to use StringCodec)
             String key = (String) getSerializer(String.class).decode(in, String.class, null);
-            // 解码 Value（用指定的 Value 类型编解码器）
+            // Decode Value (using the specified Value type codec)
             if (status == 1) {
                 eleType = messageFactory.getMessage(ByteBuffUtil.readInt(in));
             }
@@ -62,7 +62,7 @@ public class MapCodec2 extends Codec {
     @Override
     public void encode(ByteBuffer out, Object target, Class<?> wrapper) {
         if (target == null) {
-            // 空 Map 写入 size=0
+            // Write empty Map with size=0
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
         }
@@ -77,10 +77,10 @@ public class MapCodec2 extends Codec {
             return;
         }
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-//        key统一为string，根据value类型判断状态
-//        1:基本类型，写入状态0;
-//        2:不是基本类型，且元素类型是一样的，且不是抽象类(接口)写入状态0
-//        3:否则，写入状态1，然后在迭代的时候，同时写入每个元素的类型id
+//        Key is uniformly string, status is determined by value type
+//        1: Basic type, write status 0;
+//        2: Not basic type, and element types are the same, and not abstract class (interface), write status 0
+//        3: Otherwise, write status 1, then during iteration, also write each element's type id
         byte status = 0;
         if (!TypeUtil.isPrimitiveOrString(wrapper)) {
             Set<Class<?>> elemType = new HashSet<>();
@@ -102,7 +102,7 @@ public class MapCodec2 extends Codec {
         }
         ByteBuffUtil.writeByte(out, status);
 
-        // 循环编码键值对（Key 强制为 String）
+        // Loop to encode key-value pairs (Key is fixed as String)
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -112,9 +112,9 @@ public class MapCodec2 extends Codec {
                 throw new IllegalStateException("Map value is null, key: " + key);
             }
 
-            // 编码 value
+            // Encode value
             getSerializer(String.class).encode(out, key, null);
-            // 编码 Value（根据实际类型获取编解码器）
+            // Encode Value (get codec according to actual type)
             if (status == 1) {
                 eleType = value.getClass();
                 int messageId = messageFactory.getMessageId(eleType);

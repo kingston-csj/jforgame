@@ -7,7 +7,7 @@ import jforgame.commons.util.JsonUtil;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 基于json的编解码方式，最为简单实用，特别实用于小游戏等清轻量级游戏服务器
+ * JSON-based encoding and decoding method, the simplest and most practical, especially suitable for lightweight game servers like mini games.
  * @since 4.0.0
  */
 public class JsonCodec implements MessageCodec {

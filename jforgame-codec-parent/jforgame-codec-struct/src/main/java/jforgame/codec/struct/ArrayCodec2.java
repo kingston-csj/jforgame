@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 数组属性序列化
- * 数组的元素可以是父类或抽象类
- * 数组长度不能超过Short.MAX_VALUE，即最多65535
+ * Array property serialization.
+ * Array elements can be parent class or abstract class.
+ * Array length cannot exceed Short.MAX_VALUE, which is 65535 at most.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.ArrayCodec
@@ -29,7 +29,7 @@ public class ArrayCodec2 extends Codec {
         if (size == 0) {
             return array;
         }
-        // 元素类型状态： 0代表基本类型或者元素类型一致，1代表元素类型不一致
+        // Element type status: 0 means basic type or same element type, 1 means element types are different
         byte status = ByteBuffUtil.readByte(in);
 
         if (StructCodecEnvironment.collectionSerializeMode == CollectionSerializeMode.STRICT_HOMOGENEOUS) {
@@ -68,12 +68,12 @@ public class ArrayCodec2 extends Codec {
         if (size == 0) {
             return;
         }
-//        1:基本类型，写入状态0;
-//        2:不是基本类型，且元素类型是一样的，且不是抽象类(接口)写入状态0
-//        3:否则，写入状态1，然后在迭代的时候，同时写入每个元素的类型id
+//        1: Basic type, write status 0;
+//        2: Not basic type, and element types are the same, and not abstract class (interface), write status 0
+//        3: Otherwise, write status 1, then during iteration, also write each element's type id
         byte status = 0;
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-        // 基本类型，写入状态码：0
+        // Basic type, write status code: 0
         if (!TypeUtil.isPrimitiveOrString(wrapper)) {
             Set<Class<?>> elemType = new HashSet<>();
             for (int i = 0; i < size; i++) {
@@ -84,7 +84,7 @@ public class ArrayCodec2 extends Codec {
                 Class<?> clazz = elem.getClass();
                 elemType.add(clazz);
             }
-            // 集合元素类型不一致，写入状态码：1
+            // Element types are inconsistent, write status code: 1
             if (elemType.size() > 1 || Modifier.isAbstract(wrapper.getModifiers()) || Modifier.isInterface(wrapper.getModifiers())) {
                 status = (byte) 1;
             }

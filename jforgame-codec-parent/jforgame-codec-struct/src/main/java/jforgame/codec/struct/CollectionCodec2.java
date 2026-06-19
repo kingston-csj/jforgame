@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 集合属性序列化
- * 集合的元素可以是父类或抽象类
- * 集合长度不能超过Short.MAX_VALUE，即最多65535
+ * Collection property serialization.
+ * Collection elements can be parent class or abstract class.
+ * Collection length cannot exceed Short.MAX_VALUE, which is 65535 at most.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.CollectionCodec
@@ -46,7 +46,7 @@ public class CollectionCodec2 extends Codec {
         if (size == 0) {
             return result;
         }
-        // 元素类型状态： 0代表基本类型或者元素类型一致，1代表元素类型不一致
+        // Element type status: 0 means basic type or same element type, 1 means element types are different
         byte status = ByteBuffUtil.readByte(in);
         if (StructCodecEnvironment.collectionSerializeMode == CollectionSerializeMode.STRICT_HOMOGENEOUS) {
             if (status == 1) {
@@ -86,8 +86,8 @@ public class CollectionCodec2 extends Codec {
         }
         byte status = 0;
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-        // 基本类型，写入状态码：0
-        // 集合元素类型一致，写入状态码：1
+        // Basic type, write status code: 0
+        // Collection element types are consistent, write status code: 1
         if (!TypeUtil.isPrimitiveOrString(wrapper)) {
             Set<Class<?>> elemType = new HashSet<>();
             for (Object elem : collection) {
@@ -97,7 +97,7 @@ public class CollectionCodec2 extends Codec {
                 Class<?> clazz = elem.getClass();
                 elemType.add(clazz);
             }
-            // 集合元素类型不一致
+            // Collection element types are inconsistent
             if (elemType.size() > 1 || Modifier.isAbstract(wrapper.getModifiers()) || Modifier.isInterface(wrapper.getModifiers())) {
                 status = (byte) 1;
             }

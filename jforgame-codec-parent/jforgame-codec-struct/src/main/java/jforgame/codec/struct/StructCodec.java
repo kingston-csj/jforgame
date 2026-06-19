@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 基于bean结构体的消息体编码解码
- * 1. 支持基本类型
- * 2. 支持数组类型
- * 3. 支持集合类型
- * 4. 支持自定义类型
- * 默认情况下，集合的元素必须遵守严格同构模式，即所有元素必须与wrapper类型完全一致，不允许子类/异构
- * 若允许元素为wrapper的子类/实现类，则构造函数useUpgradeVersion必须设置为true，且由于集合元素可能不是同构元素，需要{@link LiteMessageFactory}记录所有元素的真实类型
+ * Message encoding and decoding based on bean structure.
+ * 1. Supports basic types
+ * 2. Supports array types
+ * 3. Supports collection types
+ * 4. Supports custom types
+ * By default, collection elements must strictly follow the homogeneous mode, meaning all elements must be exactly the same as the wrapper type, subclasses/heterogeneous types are not allowed.
+ * If subclass/implementation of wrapper is allowed, the constructor useUpgradeVersion must be set to true, and since collection elements may not be homogeneous, you need {@link LiteMessageFactory} to record the actual type of all elements.
  */
 public class StructCodec implements MessageCodec {
 
@@ -27,10 +27,10 @@ public class StructCodec implements MessageCodec {
     private final ThreadLocal<ByteBuffer> localBuff;
 
     /**
-     * 创建一个消息体编解码器
+     * Create a message codec
      *
-     * @param writeBuffSize 单个消息体编码后的最大长度
-     * @param useUpgradeVersion 是否启用升级版本，若为true,代表集合元素可以使用继承模式
+     * @param writeBuffSize max length after encoding a single message
+     * @param useUpgradeVersion whether to enable upgrade version, if true, collection elements can use inheritance mode
      */
     public StructCodec(int writeBuffSize, boolean useUpgradeVersion) {
         this.localBuff = ThreadLocal.withInitial(() -> ByteBuffer.allocate(writeBuffSize));
@@ -39,7 +39,7 @@ public class StructCodec implements MessageCodec {
             if (StructCodecEnvironment.messageFactory == null) {
                 throw new IllegalArgumentException("messageFactory is null");
             }
-            // 切换集合相关编解码
+            // Switch collection related codecs
             this.upgradeCodec();
         }
     }
@@ -64,7 +64,7 @@ public class StructCodec implements MessageCodec {
     }
 
     public Object decode(Class<?> msgClazz, byte[] body) {
-        // 消息序列化这里的buff已经是一个完整的包体
+        // The buffer here is already a complete package
         ByteBuffer in = ByteBuffer.allocate(body.length);
         in.put(body);
         in.flip();

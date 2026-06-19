@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 集合属性序列化
- * 注：由于集合元素bean没有像Message一样注册id，
- * 因此集合的元素不能是父类或抽象类
- * 集合长度不能超过Short.MAX_VALUE，即最多65535
+ * Collection property serialization.
+ * Note: Since collection element beans are not registered with an id like Message,
+ * collection elements cannot be parent class or abstract class.
+ * Collection length cannot exceed Short.MAX_VALUE, which is 65535 at most.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.CollectionCodec

@@ -4,10 +4,10 @@ import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 
 /**
- * 数组属性序列化
- * 注：由于数组元素bean没有像Message一样注册id，
- * 因此数组的元素不能是父类或抽象类
- * 数组长度不能超过Short.MAX_VALUE，即最多65535
+ * Array property serialization.
+ * Note: Since array element beans are not registered with an id like Message,
+ * array elements cannot be parent class or abstract class.
+ * Array length cannot exceed Short.MAX_VALUE, which is 65535 at most.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.ArrayCodec2

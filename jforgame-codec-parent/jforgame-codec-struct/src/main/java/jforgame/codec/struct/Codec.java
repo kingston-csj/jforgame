@@ -10,10 +10,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 消息体编码解码基类，同时管理所有类型的字段编解码器
- * 除了基础类型的编码解码，还支持集合类型的编码解码，暂不支持Map类型
- * 本工具对于整数的编解码，并没有使用不定长编码，而是使用固定长度编码
- * 如果业务有特殊需要，可以自行实现整数的不定长编解码方式，并通过{@link #replace(Class, Codec)}接口替换。
+ * Base class for message encoding and decoding, also manages all type field codecs.
+ * Besides basic type encoding/decoding, also supports collection type encoding/decoding, Map type is not supported for now.
+ * This tool uses fixed-length encoding for integers, not variable-length encoding.
+ * If business has special needs, you can implement variable-length encoding for integers yourself and replace it through {@link #replace(Class, Codec)} interface.
  */
 public abstract class Codec {
 
@@ -84,7 +84,7 @@ public abstract class Codec {
                 if (Modifier.isFinal(modifier) || Modifier.isStatic(modifier) || Modifier.isTransient(modifier)) {
                     continue;
                 }
-                // 忽略服务器字段
+                // Ignore server-only fields
                 if (field.isAnnotationPresent(FieldIgnore.class)) {
                     continue;
                 }
@@ -103,22 +103,22 @@ public abstract class Codec {
     }
 
     /**
-     * 消息解码
+     * Message decoding
      *
-     * @param in      buff to read
+     * @param in      buffer to read
      * @param type    class type
-     * @param wrapper 集合元素包装类
+     * @param wrapper collection element wrapper class
      * @return request message
      */
     public abstract Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper);
 
 
     /**
-     * 消息编码
+     * Message encoding
      *
-     * @param out     buff to write
+     * @param out     buffer to write
      * @param value   message object
-     * @param wrapper 集合元素包装类
+     * @param wrapper collection element wrapper class
      */
     public abstract void encode(ByteBuffer out, Object value, Class<?> wrapper);
 

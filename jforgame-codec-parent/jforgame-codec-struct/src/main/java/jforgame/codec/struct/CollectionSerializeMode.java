@@ -1,7 +1,7 @@
 package jforgame.codec.struct;
 
 /**
- * 对通信协议对象的集合字段采用的序列化方式， 涉及以下几种类型
+ * Serialization mode for collection fields in communication protocol objects, includes the following types
  *
  * @see ArrayCodec
  * @see CollectionCodec
@@ -10,11 +10,11 @@ package jforgame.codec.struct;
 enum CollectionSerializeMode {
 
     /**
-     * 严格同构模式：所有元素必须与wrapper类型完全一致，不允许子类/异构，协议简洁（status=0，无messageId）
+     * Strict homogeneous mode: all elements must be exactly the same as wrapper type, subclasses/heterogeneous types are not allowed, protocol is concise (status=0, no messageId)
      */
     STRICT_HOMOGENEOUS,
     /**
-     * 子类继承多态模式：允许元素为wrapper的子类/实现类，支持多态还原（status可为1，每个元素单独写入messageId）
+     * Subclass polymorphic mode: allows elements to be subclass/implementation of wrapper, supports polymorphic restoration (status can be 1, each element writes messageId separately)
      */
     SUB_CLASS_POLYMORPHIC
 

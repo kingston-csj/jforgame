@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Map 编解码器（Key 强制为 String 类型，兼容json格式）
- * 元素Value不可以是父类或抽象类
+ * Map codec (Key is forced to String type, compatible with json format).
+ * Value element cannot be parent class or abstract class.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
  * @see jforgame.codec.struct.MapCodec2
@@ -16,7 +16,7 @@ public class MapCodec extends Codec {
     @Override
     @SuppressWarnings("all")
     public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
-        // 读取 Map 大小（short 类型）
+        // Read Map size (short type)
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Map size less than zero!");
@@ -26,15 +26,15 @@ public class MapCodec extends Codec {
             throw new IllegalArgumentException("MapCodec: valueType is null");
         }
 
-        // Value 类型：优先用 wrapper 传入的类型，否则默认 Object
+        // Value type: prefer the type passed by wrapper, otherwise default to Object
         Class<?> actualValueType = valueType != null ? valueType : Object.class;
         Codec valueCodec = getSerializer(actualValueType);
 
-        // 循环解码键值对（Key 固定为 String）
+        // Loop to decode key-value pairs (Key is fixed as String)
         for (int i = 0; i < size; i++) {
-            // 解码 Key（强制用 StringCodec）
+            // Decode Key (forced to use StringCodec)
             String key = (String) getSerializer(String.class).decode(in, String.class, null);
-            // 解码 Value（用指定的 Value 类型编解码器）
+            // Decode Value (using the specified Value type codec)
             Object value = valueCodec.decode(in, actualValueType, null);
             result.put(key, value);
         }
@@ -45,7 +45,7 @@ public class MapCodec extends Codec {
     @Override
     public void encode(ByteBuffer out, Object target, Class<?> wrapper) {
         if (target == null) {
-            // 空 Map 写入 size=0
+            // Write empty Map with size=0
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
         }
@@ -57,11 +57,11 @@ public class MapCodec extends Codec {
         }
         ByteBuffUtil.writeShort(out, (short) size);
 
-        // 循环编码键值对（Key 强制为 String）
+        // Loop to encode key-value pairs (Key is fixed as String)
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
-            // 编码 Key
+            // Encode Key
             getSerializer(String.class).encode(out, key, null);
             if (value == null) {
                 throw new IllegalStateException("Map value is null, key: " + key);

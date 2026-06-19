@@ -14,9 +14,9 @@ public class FieldCodecMeta {
 
     private Codec codec;
     /**
-     * 由于java是假泛型，需要存储集合元素的类型
-     * 如果是collection/list，数组第一个为集合元素的类型
-     * 如果是map，数组第一个为字典key类型，第二个为字典value类型
+     * Since Java has fake generics, need to store collection element types.
+     * If it's collection/list, the first element of the array is the collection element type.
+     * If it's map, the first element of the array is the map key type, the second is the map value type.
      */
     private Class<?>[] wrapper;
 
@@ -27,7 +27,7 @@ public class FieldCodecMeta {
         meta.type = type;
         meta.codec = codec;
         meta.wrapper = new Class[2];
-        // 处理 Collection 类型（存储元素类型）
+        // Handle Collection type (store element type)
         if (Collection.class.isAssignableFrom(type)) {
             Type genericType = field.getGenericType();
             if (!(genericType instanceof ParameterizedType)) {
@@ -36,18 +36,18 @@ public class FieldCodecMeta {
             Type arg = ((ParameterizedType) genericType).getActualTypeArguments()[0];
             meta.wrapper[0] = extractClass(arg, field);
         } else if (type.isArray()) {
-            // 处理数组类型（存储元素类型）
+            // Handle array type (store element type)
             meta.wrapper[0] = type.getComponentType();
-        }  // 处理 Map 类型（Key 固定为 String，只存储 Value 类型）
+        }  // Handle Map type (Key is fixed as String, only store Value type)
         else if (Map.class.isAssignableFrom(type)) {
-            // 泛型参数：[0]是Key（忽略，强制为String，兼容json格式），[1]是Value类型
+            // Generic parameters: [0] is Key (ignored, forced to String, compatible with json format), [1] is Value type
             Type genericType = field.getGenericType();
             if (!(genericType instanceof ParameterizedType)) {
                 throw new IllegalStateException("Map field generic type is missing: " + field);
             }
             Type[] actualTypes = ((ParameterizedType) genericType).getActualTypeArguments();
-//            meta.wrapper[0] = extractClass(actualTypes[0], field); // key 类型
-            meta.wrapper[0] = extractClass(actualTypes[1], field); // value 类型
+//            meta.wrapper[0] = extractClass(actualTypes[0], field); // key type
+            meta.wrapper[0] = extractClass(actualTypes[1], field); // value type
         }
         return meta;
     }
