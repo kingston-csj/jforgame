@@ -4,23 +4,23 @@ import jforgame.threadmodel.BaseTask;
 import jforgame.threadmodel.actor.Actor;
 
 /**
- * 邮件抽象基类
- * 所有投递到Actor邮箱的消息都应该继承此类
+ * Mail abstract base class
+ * All messages delivered to Actor mailbox should extend this class
  */
 public abstract class Mail extends BaseTask {
 
     /**
-     * 邮件创建时间
+     * Mail creation time
      */
     protected final long createdTime;
 
     /**
-     * 发送者（可选，用于追踪）
+     * Sender (optional, for tracing)
      */
     protected Actor sender;
 
     /**
-     * 接收者（可选，用于追踪）
+     * Receiver (optional, for tracing)
      */
     protected Actor receiver;
 
@@ -29,48 +29,53 @@ public abstract class Mail extends BaseTask {
     }
 
     /**
-     * 邮件处理逻辑，子类必须实现
-     * 负责执行具体的业务逻辑
+     * Mail processing logic, subclasses must implement
+     * Responsible for executing specific business logic
      */
     @Override
     public abstract void action();
 
 
     /**
-     * 设置目标接收者
-     * @param sender 发送者
+     * Set sender
+     *
+     * @param sender sender
      */
     public void setSender(Actor sender) {
         this.sender = sender;
     }
 
     /**
-     * 获取目标
-     * @return 发送者
+     * Get sender
+     *
+     * @return sender
      */
     public Actor getSender() {
         return sender;
     }
 
     /**
-     * 设置发送者
-     * @param receiver 接收者
+     * Set receiver
+     *
+     * @param receiver receiver
      */
     public void setReceiver(Actor receiver) {
         this.receiver = receiver;
     }
 
     /**
-     * 获取发送者
-     * @return 接收者
+     * Get receiver
+     *
+     * @return receiver
      */
     public Actor getReceiver() {
         return receiver;
     }
 
     /**
-     * 获取邮件创建时间
-     * @return 邮件创建时间
+     * Get mail creation time
+     *
+     * @return mail creation time
      */
     public long getCreatedTime() {
         return createdTime;

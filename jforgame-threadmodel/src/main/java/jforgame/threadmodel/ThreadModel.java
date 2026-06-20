@@ -4,27 +4,27 @@ package jforgame.threadmodel;
 import jforgame.threadmodel.actor.ActorSystem;
 
 /**
- * 系统任务的底层执行模型。
+ * System task underlying execution model.
  * <p>
- * 该抽象只关心并发执行层面的基础问题，例如：
- * 任务如何排队、任务在哪个线程执行、如何关闭、如何避免并发冲突，
- * 以及如何基于 key 做 hash 分发或 actor 调度。
+ * This abstraction only concerns basic concurrency issues such as:
+ * task queuing, which thread executes tasks, graceful shutdown, concurrency conflict avoidance,
+ * and how to do hash-based dispatch or actor scheduling by key.
  * <p>
- * {@link ThreadModel} 不感知 socket、session、message 等业务语义，
- * 它只负责接收一个 {@link Runnable} 并按自身模型执行。
- * 上层若要表达“一个网络请求应该被投递到哪个执行单元”，
- * 应该使用 socket 模块中的请求调度抽象，而不是直接把业务路由规则塞进这里。
+ * {@link ThreadModel} does not understand business semantics like socket, session, message, etc.
+ * It only receives a {@link Runnable} and executes it according to its own model.
+ * Upper layers wanting to express "which execution unit a network request should be dispatched to"
+ * should use request dispatch abstractions in the socket module, not directly embedding business routing rules here.
  * <p>
- * 常见实现：
- * {@link jforgame.threadmodel.dispatch.DispatchThreadModel} 适合按关键字分发到固定工作线程；
- * {@link ActorSystem} 适合通过 Actor 邮箱串行处理任务，减轻线程冷热不均问题。
+ * Common implementations:
+ * {@link jforgame.threadmodel.dispatch.DispatchThreadModel} is suitable for dispatching to fixed worker threads by keyword;
+ * {@link ActorSystem} is suitable for serial task processing through Actor mailbox, reducing thread hot-cold imbalance.
  *
  * @since 3.0.0
  */
 public interface ThreadModel {
 
     /**
-     * 接收新任务
+     * Accept new task
      *
      * @param task command task
      */
@@ -32,14 +32,14 @@ public interface ThreadModel {
 
 
     /**
-     * 关闭线程模型，不接收新任务
+     * Shutdown the thread model, no longer accepts new tasks
      */
     void shutDown();
 
     /**
-     * 线程池是否已关闭
+     * Check if the thread pool is shutdown
      *
-     * @return true 如果线程池已关闭
+     * @return true if the thread pool is shutdown
      */
     boolean isShutdown();
 }

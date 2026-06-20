@@ -1,9 +1,7 @@
 package jforgame.threadmodel.actor.config;
 
 /**
- * 邮箱配置类
- *
- * @author wupeng0528
+ * Mailbox configuration class
  */
 public class MailboxConfig {
 
@@ -12,18 +10,18 @@ public class MailboxConfig {
     public static final int TYPE_PRIORITY = 3;
 
     /**
-     * 邮箱类型
+     * Mailbox type
      */
     private int type;
 
     /**
-     * 邮箱容量 (-1 表示无限制)
+     * Mailbox capacity (-1 means unlimited)
      */
     private int capacity;
 
 
     public MailboxConfig() {
-        // 默认配置
+        // Default configuration
         this.type = TYPE_UNBOUNDED;
         this.capacity = 512;
     }
@@ -50,18 +48,18 @@ public class MailboxConfig {
     }
 
     /**
-     * 判断是否为有界邮箱
+     * Check if it is a bounded mailbox
      *
-     * @return 是否为有界邮箱
+     * @return whether it is bounded
      */
     public boolean isBounded() {
         return capacity > 0;
     }
 
     /**
-     * 判断是否为优先级邮箱
+     * Check if it is a priority mailbox
      *
-     * @return 是否为优先级邮箱
+     * @return whether it is priority
      */
     public boolean isPriority() {
         return type == TYPE_PRIORITY;

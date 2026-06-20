@@ -1,18 +1,18 @@
 package jforgame.threadmodel.actor.mail;
 
 /**
- * actor基本任务
- * 根据消息类型进行分发
+ * Actor basic task
+ * Dispatches based on message type
  */
 public abstract class SimpleMail extends Mail {
 
     /**
-     * 消息类型
+     * Message type
      */
     private final String type;
 
     /**
-     * 邮件内容， 由子类自行定义与解析
+     * Mail content, defined and parsed by subclasses
      */
     private final Object[] content;
 

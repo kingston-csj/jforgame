@@ -7,9 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * 无界邮箱实现
- *
- * @author wupeng0528
+ * Unbounded mailbox implementation
  */
 public class UnboundedMailbox extends Mailbox {
 

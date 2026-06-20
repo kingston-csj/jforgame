@@ -13,8 +13,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 /**
- * 对{@link DispatchThreadModel}进行增强，使之拥有监控线程的能力
- * 当业务线程因为死锁，死循环，耗时过长等情况时，会被监控线程检测，并自动打印对应线程的堆栈信息|
+ * Enhanced version of {@link DispatchThreadModel} with thread monitoring capability.
+ * When a business thread is blocked by deadlock, infinite loop, or long execution time,
+ * the monitoring thread will detect it and automatically print the stack trace information of the corresponding thread.
+ *
  * @since 3.3.0
  */
 public class MonitoredDispatchThreadModel extends DispatchThreadModel {
@@ -24,21 +26,21 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
     private final ConcurrentMap<Thread, BaseDispatchTask> currentTasks = new ConcurrentHashMap<>();
 
     /**
-     * 默认监控间隔
+     * Default monitor interval
      */
     private static final long DEFAULT_MONITOR_INTERVAL = TimeUtil.MILLIS_PER_SECOND * 2;
     /**
-     * 默认最大执行时间
+     * Default maximum execution time
      */
     private static final long DEFAULT_MAX_EXEC_TIME = TimeUtil.MILLIS_PER_SECOND;
 
     /**
-     * 监控线程每隔XX时间tick一次
+     * Monitor thread tick interval
      */
     private final long monitorInterval;
 
     /**
-     * 任务最大执行时间，超过该时间，会被判定为超时
+     * Maximum task execution time, tasks exceeding this time will be marked as timeout
      */
     private final long maxExecMillis;
 
@@ -59,7 +61,7 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
             throw new NullPointerException("task is null");
         }
         BaseDispatchTask dispatchTask = (BaseDispatchTask) task;
-        // 代理任务
+        // Wrapper task
         BaseDispatchTask wrapper = new BaseDispatchTask() {
             @Override
             public void action() {
@@ -68,7 +70,7 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
                 try {
                     task.run();
                 } finally {
-                    // 防止执行异常，一直显示超时
+                    // Prevent abnormal execution from continuously showing timeout
                     currentTasks.remove(t);
                 }
             }
@@ -77,6 +79,9 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
         super.accept(wrapper);
     }
 
+    /**
+     * Task monitor thread
+     */
     class TaskMonitor implements Runnable {
 
         @Override
@@ -93,9 +98,9 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
                     if (task != null) {
                         long now = System.currentTimeMillis();
                         if (now - task.getStartTime() > maxExecMillis) {
-                            logger.error("监测到线程[{}]执行任务超时", t.getName());
-                            // 打印线程栈信息
-                            logger.error("线程[{}]对应的堆栈信息:{}", t.getName(), formatStackTrace(t.getStackTrace()));
+                            logger.error("Detected thread [{}] task timeout", t.getName());
+                            // Print thread stack trace
+                            logger.error("Stack trace for thread [{}]: {}", t.getName(), formatStackTrace(t.getStackTrace()));
                         }
                     }
                 }
@@ -104,17 +109,17 @@ public class MonitoredDispatchThreadModel extends DispatchThreadModel {
     }
 
     /**
-     * 格式化线程栈信息
+     * Format thread stack trace
      */
     private String formatStackTrace(StackTraceElement[] stackTrace) {
         if (stackTrace == null || stackTrace.length == 0) {
-            return "无堆栈信息";
+            return "No stack trace information";
         }
 
-        return "\n" + Arrays.stream(stackTrace).map(element -> String.format("  %s.%s(%s:%d)", element.getClassName(),    // 类名
-                        element.getMethodName(),  // 方法名
-                        element.getFileName(),    // 文件名
-                        element.getLineNumber())) // 行号
+        return "\n" + Arrays.stream(stackTrace).map(element -> String.format("  %s.%s(%s:%d)", element.getClassName(),    // Class name
+                        element.getMethodName(),  // Method name
+                        element.getFileName(),    // File name
+                        element.getLineNumber())) // Line number
                 .collect(Collectors.joining("\n"));
     }
 

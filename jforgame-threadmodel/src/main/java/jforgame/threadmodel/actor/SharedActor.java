@@ -1,12 +1,12 @@
 package jforgame.threadmodel.actor;
 
 /**
- * 共享Actor，对于一些无逻辑主体，例如登录队列，所提供的虚拟Actor组件
+ * Shared Actor, a virtual Actor component for entities without logical subjects, such as login queues
  */
 public class SharedActor {
 
     /**
-     * 由若干个Actor组成一个集体
+     * A group composed of several Actors
      */
     private final Actor[] group;
 
@@ -16,29 +16,31 @@ public class SharedActor {
 
 
     /**
-     * 根据key获取共享Actor
+     * Get shared Actor based on key
      *
-     * @param key 共享Actor的key
-     * @return 共享Actor
+     * @param key shared Actor key
+     * @return shared Actor
      */
     public Actor getSharedActor(long key) {
-        // Math.abs + 强转在极值上有坑（abs(Integer.MIN_VALUE) 仍为负
-        // 所以这里使用 floorMod 来替代取余操作
+        // Math.abs + cast has edge case issues (abs(Integer.MIN_VALUE) is still negative)
+        // So using floorMod here instead of modulo operation
         int index = Math.floorMod(Long.hashCode(key), group.length);
         return group[index];
     }
 
     /**
-     * 获取工作线程数量
-     * @return 工作线程数量
+     * Get worker thread count
+     *
+     * @return worker thread count
      */
     public int getWorkerSize() {
         return group.length;
     }
 
     /**
-     * 获取邮箱组
-     * @return 邮箱组
+     * Get mailbox group
+     *
+     * @return mailbox group
      */
     public Actor[] getGroup() {
         return group;

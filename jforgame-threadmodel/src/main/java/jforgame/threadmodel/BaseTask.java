@@ -2,27 +2,27 @@ package jforgame.threadmodel;
 
 
 /**
- * 线程池的基本任务单元
+ * Base task unit for thread pool
  */
 public abstract class BaseTask implements Runnable {
 
     /**
-     * 任务开始时间
+     * Task start time
      */
     protected long startTime;
 
     /**
-     * 任务结束时间
+     * Task end time
      */
     protected long endTime;
 
     /**
-     * 具体业务执行
+     * Actual business execution
      */
     public abstract void action();
 
     /**
-     * 任务执行切面，注意：子类无法覆盖该方法
+     * Task execution aspect, note: subclasses cannot override this method
      */
     @Override
     public final void run() {

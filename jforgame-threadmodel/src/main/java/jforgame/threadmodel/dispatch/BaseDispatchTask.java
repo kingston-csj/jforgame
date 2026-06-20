@@ -4,12 +4,12 @@ package jforgame.threadmodel.dispatch;
 import jforgame.threadmodel.BaseTask;
 
 /**
- * 基于分发模型的任务
+ * Task based on dispatch model
  */
 public abstract class BaseDispatchTask extends BaseTask {
 
     /**
-     * 任务分发的key，该key用于绑定具体的线程
+     * Task dispatch key, used to bind to a specific thread
      */
     protected long dispatchKey;
 

@@ -11,15 +11,17 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 基于关键字分发的线程模型，该模型会预定义一组线程，每个线程会绑定一个任务队列。当接收一个新任务的时候，会根据{@link BaseDispatchTask#getDispatchKey()}绑定到一个具体的线程，
- * 该线程循环从自己的任务队列中取出任务并执行，直到任务队列为空则阻塞
+ * Keyword-based dispatch thread model.
+ * This model predefines a group of threads, each thread bound to a task queue.
+ * When receiving a new task, it binds to a specific thread based on {@link BaseDispatchTask#getDispatchKey()}.
+ * The thread continuously takes tasks from its own queue and executes them until the queue is empty, then blocks.
  */
 public class DispatchThreadModel implements ThreadModel {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatchThreadModel.class);
 
     /**
-     * task worker pool
+     * Task dispatcher
      */
     private final Worker[] workerPool;
 
@@ -31,7 +33,9 @@ public class DispatchThreadModel implements ThreadModel {
     }
 
     /**
-     * @param workCapacity worker count in thread group
+     * Worker thread count
+     *
+     * @param workCapacity worker thread count
      */
     public DispatchThreadModel(int workCapacity) {
         ThreadFactory threadFactory = new NamedThreadFactory("message-business");
@@ -67,10 +71,10 @@ public class DispatchThreadModel implements ThreadModel {
     }
 
     /**
-     * when receiving a task, the executor will calculate the thread index based on the {@link BaseDispatchTask#getDispatchKey()}
-     * for example, if the executor group has N threads, the task will be dispatched to the thread which index is (dispatchKey() % N)
+     * When receiving a task, calculates the thread index for dispatch based on {@link BaseDispatchTask#getDispatchKey()}.
+     * For example: if the thread pool has N threads, the task will be dispatched to the thread with index (dispatchKey % N)
      *
-     * @param task command task
+     * @param task task to execute
      */
     @Override
     public void accept(Runnable task) {
@@ -86,8 +90,7 @@ public class DispatchThreadModel implements ThreadModel {
     }
 
     /**
-     * when this executor shuts down, it will no longer accept new task
-     * and the remained tasks will be abandoned either.
+     * Shuts down the executor, no longer accepts new tasks, and remaining tasks will be discarded.
      */
     @Override
     public void shutDown() {

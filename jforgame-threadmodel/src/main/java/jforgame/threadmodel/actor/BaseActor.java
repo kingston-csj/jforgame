@@ -13,46 +13,47 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Actor基类，提供默认实现
- * 由于java不支持多继承，继承该类后，便无法继承其他类，
- * 若需要继承其他类，建议采用组合模式，把该类作为一个属性
+ * Base Actor class providing default implementation
+ * Since Java does not support multiple inheritance, extending this class prevents inheriting from other classes.
+ * If you need to extend another class, it is recommended to use the composition pattern,
+ * making this class a field attribute.
  */
 public class BaseActor implements Actor {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * 任务堆积警戒值，超过这个值会预警
+     * Task accumulation warning threshold, warnings are triggered when exceeding this value
      */
     static int THRESHOLD = 100;
 
     /**
-     * 单次处理最大任务数，防止其他任务饥饿
+     * Maximum number of tasks processed per run, to prevent other tasks from starvation
      */
     static int MAX_TASKS_PER_RUN = 50;
 
     /**
-     * 绑定的邮箱
+     * Bound mailbox
      */
     private Mailbox mailBox;
 
     /**
-     * actor名称/路径
+     * Actor name/path
      */
     private final String actorPath;
 
     /**
-     * 当前任务是否在parent队列里
+     * Whether current task is in the parent queue
      */
     private AtomicBoolean queued = new AtomicBoolean(false);
 
     /**
-     * actor是否仍然处于可接收消息状态
+     * Whether actor is still in a state to receive messages
      */
     private final AtomicBoolean active = new AtomicBoolean(true);
 
     /**
-     * 所属的actor系统
+     * Parent actor system
      */
     private final ActorSystem actorSystem;
 
@@ -61,9 +62,9 @@ public class BaseActor implements Actor {
         this.actorSystem = actorSystem;
         this.actorPath = actorPath;
         ActorSystemConfig systemConfig = actorSystem.getSystemConfig();
-        // 根据路径获取部署配置
+        // Get deployment configuration based on path
         ActorDeploymentConfig deploymentConfig = systemConfig.getDeploymentConfig(actorPath);
-        // 根据配置创建邮箱
+        // Create mailbox based on configuration
         String mailboxName = deploymentConfig.getMailbox();
         MailboxConfig mailboxConfig = systemConfig.getMailboxConfig(mailboxName);
         this.mailBox = MailboxFactory.createMailbox(mailboxConfig);
@@ -102,7 +103,7 @@ public class BaseActor implements Actor {
     }
 
     /**
-     * 负责遍历和调度Mailbox中的Mail, 原子性执行，不会出现并发问题
+     * Responsible for iterating and dispatching Mail in Mailbox, atomic execution, no concurrency issues
      */
     @Override
     public void run() {
@@ -112,12 +113,12 @@ public class BaseActor implements Actor {
         }
         int size = mailBox.getTaskSize();
         if (size > THRESHOLD) {
-            logger.warn("[{}]任务堆积严重，任务数量[{}]", actorPath, size);
+            logger.warn("[{}] Heavy task accumulation, task count [{}]", actorPath, size);
         }
 
         try {
-            // 防止任务一直占线
-            // 限制单次处理任务数量，防止其他actor饥饿
+            // Prevent tasks from monopolizing execution
+            // Limit single-run task count to prevent other actors from starvation
             int processedCount = 0;
             Runnable mail;
             while ((mail = mailBox.poll()) != null && processedCount < MAX_TASKS_PER_RUN) {
@@ -125,12 +126,12 @@ public class BaseActor implements Actor {
                 processedCount++;
             }
         } catch (Exception e) {
-            logger.error("[{}]任务执行异常", actorPath, e);
+            logger.error("[{}] Task execution exception", actorPath, e);
         } finally {
-            // 无条件重置queued状态
+            // Unconditionally reset queued state
             queued.set(false);
 
-            // 如果还有消息，重新提交
+            // If there are still messages, resubmit
             if (active.get() && !mailBox.isEmpty() && actorSystem.running.get()) {
                 if (queued.compareAndSet(false, true)) {
                     actorSystem.accept(this);

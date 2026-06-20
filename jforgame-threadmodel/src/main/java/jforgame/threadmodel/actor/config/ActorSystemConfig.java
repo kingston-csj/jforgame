@@ -4,47 +4,47 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Actor系统配置类
+ * Actor system configuration class
  */
 public class ActorSystemConfig {
 
     /**
-     * 线程池核心线程数
+     * Thread pool core thread count
      */
     private int corePoolSize = Runtime.getRuntime().availableProcessors();
 
     /**
-     * 线程池最大线程数
+     * Thread pool maximum thread count
      */
     private int maxPoolSize = Runtime.getRuntime().availableProcessors() * 2;
 
     /**
-     * 线程池 keep-alive 时间
+     * Thread pool keep-alive time
      */
     private int keepAliveSeconds = 60;
 
     /**
-     * 系统共享Actor数量
+     * System shared Actor count
      */
     private int systemSharedActorCount = 2;
 
     /**
-     * ActorSystem 线程池队列容量（<=0 表示无界）
+     * ActorSystem thread pool queue capacity (<=0 means unbounded)
      */
     private int queueCapacity = 0;
 
     /**
-     * 默认邮箱配置
+     * Default mailbox configuration
      */
     private MailboxConfig defaultMailbox;
 
     /**
-     * 自定义邮箱配置
+     * Custom mailbox configurations
      */
     private Map<String, MailboxConfig> mailboxes;
 
     /**
-     * Actor部署配置
+     * Actor deployment configurations
      */
     private Map<String, ActorDeploymentConfig> deployments;
 
@@ -58,61 +58,61 @@ public class ActorSystemConfig {
         this.mailboxes = new HashMap<>();
         this.deployments = new HashMap<>();
 
-        // 初始化预定义配置
+        // Initialize predefined configurations
         initPredefinedConfigs();
     }
 
     /**
-     * 初始化预定义的配置
+     * Initialize predefined configurations
      */
     private void initPredefinedConfigs() {
-        // 有界邮箱配置
+        // Bounded mailbox configuration
         MailboxConfig boundedMailbox = new MailboxConfig();
         boundedMailbox.setType(MailboxConfig.TYPE_BOUNDED);
         boundedMailbox.setCapacity(512);
         mailboxes.put(MAILBOX_BOUNDED, boundedMailbox);
 
-        // 优先级邮箱配置
+        // Priority mailbox configuration
         MailboxConfig priorityMailbox = new MailboxConfig();
         priorityMailbox.setType(MailboxConfig.TYPE_PRIORITY);
         priorityMailbox.setCapacity(1000);
         mailboxes.put(MAILBOX_PRIORITY, priorityMailbox);
 
-        // 默认Actor部署配置
+        // Default Actor deployment configuration
         ActorDeploymentConfig defaultDeployment = new ActorDeploymentConfig();
         defaultDeployment.setMailbox(MAILBOX_DEFAULT);
         deployments.put("default", defaultDeployment);
 
-        // 玩家Actor部署配置
+        // Player Actor deployment configuration
         ActorDeploymentConfig playerDeployment = new ActorDeploymentConfig();
         playerDeployment.setMailbox("bounded-mailbox");
         deployments.put("/player/*", playerDeployment);
 
-        // 系统Actor部署配置
+        // System Actor deployment configuration
         ActorDeploymentConfig systemDeployment = new ActorDeploymentConfig();
         systemDeployment.setMailbox("default-mailbox");
         deployments.put("/system/*", systemDeployment);
 
-        // 高优先级Actor部署配置
+        // High priority Actor deployment configuration
         ActorDeploymentConfig priorityDeployment = new ActorDeploymentConfig();
         priorityDeployment.setMailbox("priority-mailbox");
         deployments.put("/priority/*", priorityDeployment);
     }
 
     /**
-     * 根据Actor路径获取部署配置
+     * Get deployment configuration based on Actor path
      *
-     * @param actorPath Actor路径
-     * @return 部署配置
+     * @param actorPath Actor path
+     * @return deployment configuration
      */
     public ActorDeploymentConfig getDeploymentConfig(String actorPath) {
-        // 精确匹配
+        // Exact match first
         ActorDeploymentConfig config = deployments.get(actorPath);
         if (config != null) {
             return config;
         }
 
-        // 模式匹配，按最长前缀优先，避免依赖Map遍历顺序
+        // Pattern matching, longest prefix wins
         ActorDeploymentConfig bestMatch = null;
         int bestPrefixLength = -1;
         for (Map.Entry<String, ActorDeploymentConfig> entry : deployments.entrySet()) {
@@ -129,32 +129,32 @@ public class ActorSystemConfig {
             return bestMatch;
         }
 
-        // 返回默认配置
+        // Return default configuration
         return deployments.get("default");
     }
 
     /**
-     * 注册自定义部署配置，亦可覆盖默认的部署配置
+     * Register custom deployment configuration, can also override default deployment configuration
      *
-     * @param actorPath 部署配置名称
-     * @param config    部署配置
+     * @param actorPath deployment configuration name
+     * @param config    deployment configuration
      */
     public void registerDeploymentConfig(String actorPath, ActorDeploymentConfig config) {
         deployments.put(actorPath, config);
     }
 
     /**
-     * 注册自定义邮箱配置
+     * Register custom mailbox configuration
      *
-     * @param mailboxName 邮箱名称
-     * @param config      邮箱配置
+     * @param mailboxName mailbox name
+     * @param config      mailbox configuration
      */
     public void registerMailboxConfig(String mailboxName, MailboxConfig config) {
         mailboxes.put(mailboxName, config);
     }
 
     /**
-     * 简单的模式匹配
+     * Simple pattern matching
      */
     private boolean matchPattern(String path, String pattern) {
         if (pattern.endsWith("/*")) {
@@ -172,10 +172,10 @@ public class ActorSystemConfig {
     }
 
     /**
-     * 获取邮箱配置
+     * Get mailbox configuration
      *
-     * @param mailboxName 邮箱名称
-     * @return 邮箱配置
+     * @param mailboxName mailbox name
+     * @return mailbox configuration
      */
     public MailboxConfig getMailboxConfig(String mailboxName) {
         if (mailboxName == null || "default".equals(mailboxName) || MAILBOX_DEFAULT.equals(mailboxName)) {

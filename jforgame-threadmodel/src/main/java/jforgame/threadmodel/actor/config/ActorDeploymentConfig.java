@@ -1,14 +1,12 @@
 package jforgame.threadmodel.actor.config;
 
 /**
- * Actor部署配置类
- *
- * @author wupeng0528
+ * Actor deployment configuration class
  */
 public class ActorDeploymentConfig {
 
     /**
-     * 使用的邮箱名称
+     * Mailbox name to use
      */
     private String mailbox;
 

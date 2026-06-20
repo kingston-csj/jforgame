@@ -7,43 +7,42 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * 有界邮箱实现
- * @author wupeng0528
+ * Bounded mailbox implementation
  */
 public class BoundedMailbox extends Mailbox {
-    
+
     private final MailboxConfig config;
-    
+
     public BoundedMailbox(MailboxConfig config) {
         super(createBoundedQueue(config.getCapacity()));
         this.config = config;
     }
-    
+
     private static BlockingQueue<Mail> createBoundedQueue(int capacity) {
         return new ArrayBlockingQueue<>(capacity > 0 ? capacity : 512);
     }
-    
+
     @Override
     public void receive(Mail mail) {
         if (!this.mails.offer(mail)) {
-            // 当队列满时，根据配置决定是丢弃还是阻塞
+            // When queue is full, decide whether to discard or block based on configuration
             handleQueueFull(mail);
         }
     }
-    
+
     /**
-     * 处理队列满的情况(预留)
+     * Handle queue full situation (reserved for future use)
      */
     private void handleQueueFull(Mail mail) {
-        // 可以根据配置决定策略：
-        // 1. 丢弃新消息
-        // 2. 丢弃旧消息
-        // 3. 阻塞等待
-        // 4. 抛出异常
-        
+        // Can decide strategy based on configuration:
+        // 1. Discard new message
+        // 2. Discard old message
+        // 3. Block and wait
+        // 4. Throw exception
+
         throw new IllegalStateException("BoundedMailbox queue is full, capacity: " + config.getCapacity());
     }
-    
+
     public MailboxConfig getConfig() {
         return config;
     }

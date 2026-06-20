@@ -8,22 +8,24 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * 邮箱
- * 一级任务队列为线程池 {@link ActorSystem#threadPool}
- * actor模型里的邮箱, 邮箱相当于一个二级队列， 当{@link ActorSystem#threadPool}的每一个任务被执行时，该邮箱的任务会按顺序串行执行
- * 绝对不存在同一个actor的邮箱被多个线程同时执行，保证了线程安全
- * 需要注意的是，同一个actor的邮箱在同一时刻只会被一个线程执行，但在不同时刻，有可能在不同的线程执行
+ * Mailbox
+ * The primary task queue is the thread pool {@link ActorSystem#threadPool}
+ * In the actor model, a mailbox is a secondary queue. When each task in {@link ActorSystem#threadPool} is executed,
+ * the mailbox's tasks are executed sequentially.
+ * The same actor's mailbox is absolutely never executed by multiple threads simultaneously, ensuring thread safety.
+ * Note that the same actor's mailbox is only executed by one thread at a time, but at different times,
+ * it may be executed by different threads.
  */
 public class Mailbox {
     /**
-     * 邮箱中的任务队列
+     * Task queue in the mailbox
      */
     protected BlockingQueue<Mail> mails;
 
     /**
-     * 创建一个指定大小的邮箱
+     * Create a mailbox with specified size
      *
-     * @param size 邮箱大小
+     * @param size mailbox size
      */
     public Mailbox(int size) {
         this.mails = new ArrayBlockingQueue<>(size);
@@ -31,18 +33,18 @@ public class Mailbox {
 
 
     /**
-     * 创建一个自定义任务队列的邮箱
+     * Create a mailbox with custom task queue
      *
-     * @param mails 任务队列
+     * @param mails task queue
      */
     public Mailbox(BlockingQueue<Mail> mails) {
         this.mails = mails;
     }
 
     /**
-     * 接收一封邮件
+     * Receive a mail
      *
-     * @param mail 邮件
+     * @param mail mail
      */
     public void receive(Mail mail) {
         if (!this.mails.offer(mail)) {
@@ -51,34 +53,34 @@ public class Mailbox {
     }
 
     /**
-     * 获取当前邮件数量
+     * Get current mail count
      *
-     * @return 当前邮件数量
+     * @return current mail count
      */
     public int getTaskSize() {
         return mails.size();
     }
 
     /**
-     * 判断邮箱是否为空
+     * Check if mailbox is empty
      *
-     * @return 是否为空
+     * @return whether it is empty
      */
     public boolean isEmpty() {
         return mails.isEmpty();
     }
 
     /**
-     * 从邮箱中取出一封邮件
+     * Take a mail from the mailbox
      *
-     * @return 邮件
+     * @return mail
      */
     public Mail poll() {
         return mails.poll();
     }
 
     /**
-     * 清空邮箱
+     * Clear the mailbox
      */
     public void clear() {
         mails.clear();

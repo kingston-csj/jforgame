@@ -6,30 +6,31 @@ import jforgame.threadmodel.actor.mailbox.Mailbox;
 import java.util.Objects;
 
 /**
- * Actor抽象模型, 一个Actor代表一个对象，拥有一个邮箱，用于接收消息。
+ * Actor abstract model, an Actor represents an object with a mailbox for receiving messages.
  */
 public interface Actor extends Runnable {
 
     /**
-     * 绑定的邮箱
-     * @return 邮箱
+     * Get the bound mailbox
+     *
+     * @return mailbox
      */
     Mailbox getMailbox();
 
     /**
-     * 发送消息到当前Actor
+     * Send a message to this Actor
      *
-     * @param message 邮件消息
+     * @param message mail message
      */
     default void tell(Mail message) {
         tell(message, null);
     }
 
     /**
-     * 发送消息到当前Actor
+     * Send a message to this Actor
      *
-     * @param message 消息
-     * @param sender  发送者
+     * @param message message
+     * @param sender sender
      */
     default void tell(Mail message, Actor sender) {
         Objects.requireNonNull(message);
@@ -42,8 +43,9 @@ public interface Actor extends Runnable {
 
 
     /**
-     * 获取Actor模型名称，例如player, monster, guild等
-     * @return Actor模型名称
+     * Get the Actor model name, e.g., player, monster, guild, etc.
+     *
+     * @return Actor model name
      */
     default String getModel() {
         return getClass().getSimpleName();

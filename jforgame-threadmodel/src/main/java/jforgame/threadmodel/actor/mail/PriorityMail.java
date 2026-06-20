@@ -1,14 +1,12 @@
 package jforgame.threadmodel.actor.mail;
 
 /**
- * 支持优先级的邮件实现
- *
- * @author wupeng0528
+ * Priority mail implementation
  */
 public abstract class PriorityMail extends SimpleMail {
 
     /**
-     * 邮件优先级
+     * Mail priority
      */
     private final int priority;
 
@@ -22,17 +20,17 @@ public abstract class PriorityMail extends SimpleMail {
     }
 
     /**
-     * 高优先级邮件（数值越大优先级越高）
+     * High priority mail (higher number means higher priority)
      */
     public static final int HIGH_PRIORITY = 100;
 
     /**
-     * 普通优先级邮件
+     * Normal priority mail
      */
     public static final int NORMAL_PRIORITY = 50;
 
     /**
-     * 低优先级邮件
+     * Low priority mail
      */
     public static final int LOW_PRIORITY = 10;
 }

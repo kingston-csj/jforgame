@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * actor线程模型
- * 负责actor调度
- * 如果选择将创建的actor注册到该容器，需要自行管理actor的生命周期，请及时调用{@link #removeActor(String)}，避免内存泄露
+ * Actor thread model
+ * Responsible for actor scheduling
+ * If you choose to register created actors to this container, you need to manage the actor lifecycle yourself.
+ * Please call {@link #removeActor(String)} in time to avoid memory leaks.
  */
 public class ActorSystem implements ThreadModel {
 
@@ -30,7 +31,7 @@ public class ActorSystem implements ThreadModel {
     private final ThreadPoolExecutor threadPool;
 
     /**
-     * 所有注册的actor（注册后，请自行管理，避免内存泄露）
+     * All registered actors (after registration, manage them yourself to avoid memory leaks)
      */
     private final Map<String, Actor> actors = new ConcurrentHashMap<>();
 
@@ -42,7 +43,7 @@ public class ActorSystem implements ThreadModel {
 
     public ActorSystem(ActorSystemConfig systemConfig) {
         this.systemConfig = systemConfig;
-        // 根据配置创建线程池
+        // Create thread pool based on configuration
         NamedThreadFactory threadFactory = new NamedThreadFactory("actor-system");
         int queueCapacity = systemConfig.getQueueCapacity();
         LinkedBlockingQueue<Runnable> queue = queueCapacity > 0 ? new LinkedBlockingQueue<>(queueCapacity) : new LinkedBlockingQueue<>();
@@ -55,7 +56,7 @@ public class ActorSystem implements ThreadModel {
                 threadFactory
         );
 
-        // 创建共享Actor组
+        // Create shared actor group
         int sharedActorCount = Math.max(1, systemConfig.getSystemSharedActorCount());
         Actor[] actorGroup = new Actor[sharedActorCount];
         for (int i = 0; i < actorGroup.length; i++) {
@@ -80,9 +81,9 @@ public class ActorSystem implements ThreadModel {
     }
 
     /**
-     * 移除指定的actor
+     * Remove the specified actor
      *
-     * @param actorPath actor路径
+     * @param actorPath actor path
      */
     public void removeActor(String actorPath) {
         Actor removed = actors.remove(actorPath);
@@ -92,9 +93,9 @@ public class ActorSystem implements ThreadModel {
     }
 
     /**
-     * 获取或创建actor
+     * Get or create actor
      *
-     * @param actorPath actor路径
+     * @param actorPath actor path
      * @return actor
      */
     public Actor getOrCreateActor(String actorPath) {
@@ -103,10 +104,10 @@ public class ActorSystem implements ThreadModel {
     }
 
     /**
-     * 绑定共享actor
+     * Bind shared actor
      *
-     * @param key 共享actor键值
-     * @return 共享actor
+     * @param key shared actor key
+     * @return shared actor
      */
     public Actor bindingSharedActor(long key) {
         return sharedActor.getSharedActor(key);
@@ -115,8 +116,9 @@ public class ActorSystem implements ThreadModel {
     @Override
     public void accept(Runnable task) {
         ensureRunning();
-        // 这里不要使用submit()方法，因为submit 会额外创建 FutureTask ，在大量消息投递场景下会产生不必要的分配
-        // ActorSystem 这类 fire-and-forget 更适合 execute
+        // Do not use submit() here, because submit creates additional FutureTask,
+        // which causes unnecessary allocation in high-volume message delivery scenarios.
+        // ActorSystem is more suitable for execute (fire-and-forget).
         try {
             threadPool.execute(task);
         } catch (RejectedExecutionException e) {
@@ -127,20 +129,20 @@ public class ActorSystem implements ThreadModel {
     @Override
     public void shutDown() {
         if (running.compareAndSet(true, false)) {
-            logger.info("开始关闭ActorSystem...");
+            logger.info("Starting to shutdown ActorSystem...");
             try {
-                // 清空Actor注册表
+                // Clear actor registry
                 actors.clear();
 
-                // 关闭业务执行器
+                // Shutdown business executor
                 threadPool.shutdown();
                 if (!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
                     threadPool.shutdownNow();
                 }
 
-                logger.info("ActorSystem关闭完成");
+                logger.info("ActorSystem shutdown completed");
             } catch (Exception e) {
-                logger.error("ActorSystem关闭异常", e);
+                logger.error("ActorSystem shutdown exception", e);
             }
         }
     }
@@ -165,7 +167,7 @@ public class ActorSystem implements ThreadModel {
     }
 
     /**
-     * 获取统计信息
+     * Get statistics
      */
     @Override
     public String toString() {

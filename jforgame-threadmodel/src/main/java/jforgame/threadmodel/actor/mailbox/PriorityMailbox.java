@@ -9,9 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
- * 优先级邮箱实现
- *
- * @author wupeng0528
+ * Priority mailbox implementation
  */
 public class PriorityMailbox extends Mailbox {
 
@@ -30,6 +28,9 @@ public class PriorityMailbox extends Mailbox {
         return new PriorityBlockingQueue<>(capacity > 0 ? capacity : 1000, comparator);
     }
 
+    /**
+     * Default mail priority comparator
+     */
     public static class DefaultMailPriorityComparator implements Comparator<Mail> {
         @Override
         public int compare(Mail m1, Mail m2) {
@@ -38,7 +39,7 @@ public class PriorityMailbox extends Mailbox {
                 return priorityCompare;
             }
 
-            // 同优先级下，按照创建时间排序（FIFO）
+            // For same priority, sort by creation time (FIFO)
             return Long.compare(m1.getCreatedTime(), m2.getCreatedTime());
         }
 
