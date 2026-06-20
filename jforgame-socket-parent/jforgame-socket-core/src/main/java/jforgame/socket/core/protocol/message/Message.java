@@ -3,15 +3,16 @@ package jforgame.socket.core.protocol.message;
 import jforgame.socket.core.protocol.annotation.MessageMeta;
 
 /**
- * 通信消息基础接口
- * 该接口是可选的，你可以使用自己的方式来收集所有的消息类并绑定其cmd
+ * Base communication message interface.
+ * This interface is optional, you can use your own way to collect all message classes and bind their cmd.
  * @see MessageFactory
  */
 public interface Message {
 
     /**
-     * 消息模块，每一个消息绑定一个业务模块，可以极大提高业务逻辑的清晰度，也可以方便对模块作切面控制，例如：功能开关
-     * @return 消息模块
+     * Message module, each message is bound to a business module, which can greatly improve the clarity of business logic
+     * and facilitate aspect control for modules, such as feature switches.
+     * @return message module
      */
     default short getModule() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);
@@ -22,10 +23,10 @@ public interface Message {
     }
 
     /**
-     * 消息cmd，每个消息都有一个唯一的cmd，用于在通信中识别消息类型
-     * 消息类型不可重复
-     * 每一个消息都会绑定到一个唯一的方法执行者
-     * @return 消息cmd
+     * Message cmd, each message has a unique cmd for identifying message types in communication.
+     * Message types cannot be duplicated.
+     * Each message will be bound to a unique method executor.
+     * @return message cmd
      */
     default int getCmd() {
         MessageMeta annotation = getClass().getAnnotation(MessageMeta.class);

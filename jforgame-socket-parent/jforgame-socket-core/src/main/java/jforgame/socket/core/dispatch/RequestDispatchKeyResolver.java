@@ -3,19 +3,19 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 请求分发键解析器。
- * 用于从会话和请求上下文中提取线程模型需要的路由键。
+ * Request dispatch key resolver.
+ * Used to extract routing keys required by the thread model from session and request context.
  * @since 4.0.0
  */
 @FunctionalInterface
 public interface RequestDispatchKeyResolver {
 
     /**
-     * 解析分发键
+     * Resolve dispatch key
      *
      * @param session socket session
-     * @param context 请求上下文
-     * @return 分发键
+     * @param context request context
+     * @return dispatch key
      */
     long resolve(IdSession session, RequestContext context);
 }

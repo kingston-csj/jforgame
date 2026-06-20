@@ -1,5 +1,6 @@
 /**
- * support目录提供部分接口的默认实现。客户端代码可以选择直接使用以减少代码开发量。
- * 如果需要细节定制，可以自行实现。
+ * The support directory provides default implementations for some interfaces.
+ * Client code can choose to use them directly to reduce development workload.
+ * If detail customization is needed, you can implement them yourself.
  */
 package jforgame.socket.core.support;

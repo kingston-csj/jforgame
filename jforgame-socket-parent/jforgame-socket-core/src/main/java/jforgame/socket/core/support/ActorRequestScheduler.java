@@ -10,7 +10,7 @@ import jforgame.threadmodel.actor.Actor;
 import jforgame.threadmodel.actor.mail.Mail;
 
 /**
- * 基于 Actor 的请求调度器，由业务方决定将请求投递到哪个 Actor。
+ * Request scheduler based on Actor model. The business party decides which Actor to deliver the request to.
  */
 public class ActorRequestScheduler implements RequestScheduler {
 

@@ -3,15 +3,16 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 消息处理接口，用于处理具体的消息
+ * Message handler interface for processing specific messages
  */
 public interface MessageHandler {
 
     /**
-     * 消息处理方法
+     * Message handling method
      *
-     * @param context 消息处理上下文
-     * @return true 若返回true，则继续到下一个消息处理节点（如果有的话）;否则，则中断此消息的执行
+     * @param session socket session
+     * @param context message handling context
+     * @return true to continue to the next message handler node (if any); false to interrupt message execution
      * @throws Exception when handling message
      */
     boolean messageReceived(IdSession session, RequestContext context) throws Exception;

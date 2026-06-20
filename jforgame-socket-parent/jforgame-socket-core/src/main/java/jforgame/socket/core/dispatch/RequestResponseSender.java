@@ -3,22 +3,22 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 请求响应发送器。
- * 当一个路由方法有返回值的时候，框架会自动把这个返回值作为响应发送给客户端（包含index字段）
- * 当返回值是void时，框架将忽略返回结果。
- * 用于定义路由方法返回响应对象后，框架应如何将结果下发给客户端或网关。
- * 当逻辑服使用直连客户端模式，直接使用{@link IdSession#send(int,Object)};
- * 若逻辑服使用网关模式，则需要使用能够适配网关的发送方式，例如包装成携带实际内容的转发消息
+ * Request response sender.
+ * When a routed method has a return value, the framework automatically sends this return value as a response to the client (including index field).
+ * When the return value is void, the framework ignores the return result.
+ * Used to define how the framework should send results to the client or gateway after a routed method returns a response object.
+ * When logic server uses direct client connection mode, directly use {@link IdSession#send(int,Object)};
+ * If logic server uses gateway mode, need to use a sending method that can adapt to the gateway, such as wrapping into a forward message with actual content.
  * @since 4.0.0
  */
 @FunctionalInterface
 public interface RequestResponseSender {
 
     /**
-     * 发送响应
+     * Send response
      * @see RequestContext#getRequest()
      * @param session        socket session
-     * @param requestContext 请求上下文
+     * @param requestContext request context
      */
     void send(IdSession session, RequestContext requestContext);
 }

@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 对客户端发送的消息进行预处理
- * 包括：绑定消息处理器， 将相关参数转化为处理器的方法入参
+ * Preprocesses messages sent by clients.
+ * Includes: binding message handlers, converting parameters to handler method arguments.
  * @since 3.0.0
  */
 public class PreprocessingMessageHandler implements MessageHandler {
@@ -17,16 +17,16 @@ public class PreprocessingMessageHandler implements MessageHandler {
     private static final Logger logger = LoggerFactory.getLogger(MessageHandler.class);
 
     /**
-     * 消息工厂
+     * Message factory
      */
     private MessageFactory messageFactory;
     /**
-     * 参数转换器
+     * Parameter converter
      */
     private MessageParameterConverter messageParameterConverter;
 
     /**
-     * 消息处理注册器
+     * Message handler register
      */
     private MessageHandlerRegister messageHandlerRegister;
 

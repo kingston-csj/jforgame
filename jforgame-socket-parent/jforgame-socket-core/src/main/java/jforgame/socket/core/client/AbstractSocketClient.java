@@ -8,13 +8,13 @@ import jforgame.socket.core.dispatch.SocketIoDispatcherAdapter;
 import jforgame.socket.core.protocol.message.MessageFactory;
 
 /**
- * 抽象的socket客户端
- * 提供更多的连接细节，参数配置
+ * Abstract socket client
+ * Provides more connection details and parameter configuration
  */
 public abstract class AbstractSocketClient implements SocketClient {
 
     /**
-     * 啥事都不做的io dispatcher，当客户端不需要捕捉SocketIoDispatcher的各种IO事件旰，可使用该对象
+     * A no-op io dispatcher, can be used when client doesn't need to capture various IO events of SocketIoDispatcher
      */
     public static final SocketIoDispatcher EMPTY_DISPATCHER = new SocketIoDispatcherAdapter();
 

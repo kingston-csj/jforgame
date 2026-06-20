@@ -4,7 +4,7 @@ import jforgame.socket.core.session.IdSession;
 import jforgame.socket.core.protocol.message.MessageFactory;
 
 /**
- * 默认的消息参数转换器
+ * Default message parameter converter
  */
 public class DefaultMessageParameterConverter implements MessageParameterConverter {
 
@@ -18,8 +18,8 @@ public class DefaultMessageParameterConverter implements MessageParameterConvert
     public Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, RequestContext context) {
         Object message = context.getRequest();
         Object[] result = new Object[methodParams == null ? 0 : methodParams.length];
-        // 方法签名如果有两个参数，则为  method(IdSession session, Object message);
-        //        如果有三个参数，则为  method(IdSession session, int index, Object message);
+        // Method signature with two parameters: method(IdSession session, Object message);
+        // Method signature with three parameters: method(IdSession session, int index, Object message);
         for (int i = 0; i < result.length; i++) {
             Class<?> param = methodParams[i];
             if (i == 0) {

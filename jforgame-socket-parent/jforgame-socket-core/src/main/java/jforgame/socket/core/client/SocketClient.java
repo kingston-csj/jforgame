@@ -5,26 +5,26 @@ import jforgame.socket.core.session.IdSession;
 import java.io.IOException;
 
 /**
- * socket客户端接口，用于连接服务器
+ * Socket client interface, used to connect to server
  */
 public interface SocketClient {
 
     /**
-     * 打开一个会话，该方法会阻塞，直到连接成功，确保返回的IdSession是可用的
-     * @return 会话
-     * @throws IOException 连接失败
+     * Opens a session, this method blocks until connection is successful, ensuring the returned IdSession is usable
+     * @return session
+     * @throws IOException connection failed
      */
     IdSession openSession() throws IOException;
 
     /**
-     * 关闭会话
-     * @throws IOException 关闭失败
+     * Closes the session
+     * @throws IOException close failed
      */
     void close() throws IOException;
 
     /**
-     * 获取会话
-     * @return 会话
+     * Gets the session
+     * @return session
      */
     IdSession getSession();
 

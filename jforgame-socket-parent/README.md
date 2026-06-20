@@ -25,7 +25,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 不细心观察，很难看出，这两段代码，仅仅只有导入的包路径有一个单词的差异。其他地方无需改动一行代码！！
 
 ### 1.2.socket/websocket切换，仅有几个字母的差异
-游戏立项时选了socket作为通信方式，本来顺风顺水，结果项目经理突然蹦出一句 “要做小程序版”。我当场瞳孔地震：小游戏哪能跑原生socket啊！当着面只能装难：“领导，这活儿麻烦了，底层全得扒了重改，没个把月摸不清门道……” 转头回到工位，手指翻飞敲了一行代码就搞定了，嘴角疯狂上扬：得，这下该客户端的兄弟头疼怎么对接了！  
+游戏立项时选了socket作为通信方式，本来顺风顺水，结果项目经理突然蹦出一句 "要做小程序版"。我当场瞳孔地震：小游戏哪能跑原生socket啊！当着面只能装难："领导，这活儿麻烦了，底层全得扒了重改，没个把月摸不清门道……" 转头回到工位，手指翻飞敲了一行代码就搞定了，嘴角疯狂上扬：得，这下该客户端的兄弟头疼怎么对接了！  
 使用netty构建的socket服务器  
 ```
     socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.valueOf(ServerConfig.getInstance().getServerPort()))
@@ -42,7 +42,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
             .setMessageCodec(new StructMessageCodec())
             .setSocketIoDispatcher(new MessageIoDispatcher(ServerScanPaths.MESSAGE_PATH))
             .build();
-```  
+```
 需要注意的是，原生mina并不支持websocket，如果需要使用websocket，请选择jforgame-socket-netty模块。  
 
 ### 1.3.消息编解码的切换
@@ -50,11 +50,26 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 如果选择Protobuf，那么就new一个ProtobufMessageCodec。如果希望用自定义的协议，就new一个StructMessageCodec。如果采用json，就new一个JsonCodec。  
 就是这么简单!!
 
-## 2.嵌入式跨服
+## 2.消息编解码原理
+
+本框架的NIO框架同时支持Mina和Netty两个版本，用户根据需要自行选择。
+
+通信的消息解码其实分成两个步骤：
+
+1. 将一段字节流拆解成一个完整的消息包（包括包头及包体，其中包头由长度及消息元信息组成）
+2. 根据包头元数据获得消息类信息，再反序列化成为一个java实体
+
+其中第一步代码逻辑跟所选的NIO框架强相关，涉及到粘包处理，对buff的操作比较复杂。
+
+第二步由于已经拿到完整的消息包体数据，对buf的操作比较简单。直接用java NIO的ByteBuff即可解决。
+
+编码是解码的逆步骤，这里就不再赘述。
+
+## 3.嵌入式跨服
 现在的游戏，没有一个跨服玩法，都不好意思说这是个网络游戏了。  
 常规的游戏服务器，开发跨服，需要使用到第三方库，例如什么grpc，rmi，protobuf-rpc等等。增加了复杂度和开发人员的理解成本。  
 
-### 2.1.逻辑服与跨服统一API
+### 3.1.逻辑服与跨服统一API
 跨服，其实就是一个特殊的游戏服，直接new一个新的socket服务器节点即可  
 而且，由于跨服属于服务器内部通信，完全不需要与客户端协商，直接用你最喜欢的消息编解码方式即可！
 ```
@@ -70,7 +85,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
     }
 ```
 
-### 2.2.强大的客户端通信API
+### 3.2.强大的客户端通信API
 提供四种方式处理跨服通信，总有一种，符合您的口味~~  
 #### 请求-阻塞模式
   ```
@@ -88,7 +103,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
             ResHello response = (ResHello) callBack;
             System.err.println(response);
         }
-    
+
         @Override
         public void onError(Throwable error) {
             System.out.println("----onError");
@@ -99,7 +114,7 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 
 #### future模式
   ```
-    // future可以实现嵌套调用，避免“回调地狱”
+    // future可以实现嵌套调用，避免"回调地狱"
     RpcMessageClient.future(session, new ReqHello()).thenCompose(o -> {
         ResHello response2 = (ResHello) o;
         System.out.println("rpc 消息future调用");
@@ -117,8 +132,8 @@ socketServer = TcpSocketServerBuilder.newBuilder().bindingPort(HostAndPort.value
 ```
     // 发送方
     session.send(new ReqHello());
-    
-    // 接收方  
+
+    // 接收方
 	@RequestHandler
 	public void onResHello(IdSession session, ResHello response) {
         // 处理逻辑

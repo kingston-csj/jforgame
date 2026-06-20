@@ -13,7 +13,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import java.util.List;
 
 /**
- * websocket帧聚合器，处理大数据请求，将客户端多个帧为一个完整的帧
+ * WebSocket frame aggregator, handles large data requests, aggregates multiple frames from client into one complete frame
  * @since 2.4.0
  */
 public class WebSocketFrameAggregator extends MessageToMessageDecoder<WebSocketFrame> {
@@ -30,18 +30,18 @@ public class WebSocketFrameAggregator extends MessageToMessageDecoder<WebSocketF
             composite = ctx.alloc().compositeBuffer();
         }
 
-        // 检查是否超过最大长度
+        // Check if exceeding maximum length
         if (composite.readableBytes() > maxFrameSize) {
             throw new TooLongFrameException("WebSocket frame length exceeded " + maxFrameSize + " bytes");
         }
 
-        // 追加数据
+        // Append data
         composite.addComponent(true, frame.content().retain());
 
-        // 如果是最后一个帧，聚合完成
+        // If it's the last frame, aggregation is complete
         if (frame.isFinalFragment()) {
             ByteBuf content = composite;
-            composite = null; // 重置状态
+            composite = null; // Reset state
 
             if (frame instanceof TextWebSocketFrame) {
                 out.add(new TextWebSocketFrame(content));

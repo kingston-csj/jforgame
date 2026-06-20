@@ -9,12 +9,12 @@ import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 
 /**
- * 默认消息io分发器
+ * Default message IO dispatcher
  */
 public class DefaultSocketIoHandler extends IoHandlerAdapter {
 
     /**
-     * 消息分发器
+     * Message dispatcher
      */
     private SocketIoDispatcher messageDispatcher;
 
@@ -38,7 +38,7 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
         assert frame instanceof RequestDataFrame;
         RequestDataFrame requestDataFrame = (RequestDataFrame) frame;
         IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
-        //交由消息分发器处理
+        // Delegate to message dispatcher for processing
         RequestContext requestContext = new RequestContext();
         requestContext.setRequest(requestDataFrame.getMessage());
         requestContext.setHeader(requestDataFrame.getHeader());

@@ -1,18 +1,18 @@
 package jforgame.socket.core.protocol.message;
 
 /**
- * 套接字数据帧，用于标识客户端一个完整的消息包
+ * Socket data frame, used to identify a complete message package from client
  */
 public class SocketDataFrame {
 
     /**
-     * 客户端序号，若处理的是客户端请求包，返回消息时带上客户端的序号
-     * 若由服务器主动下发的消息，该字段为0
+     * Client sequence number. If processing a client request package, return the message with client's sequence number.
+     * If the message is actively sent by server, this field is 0.
      */
     private int index;
 
     /**
-     * 具体消息包
+     * Specific message package
      */
     private Object message;
 

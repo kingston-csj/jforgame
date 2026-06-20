@@ -6,9 +6,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 客户端请求响应Future，用于处理客户端的响应数据
- * 如果客户端是通过{@link RpcMessageClient#request(IdSession, Object)}同步的方式发送请求，则响应数据会以{@link #waitResponseMessage(long)}的方式返回给调用者;
- * 若客户端是通过{@link RpcMessageClient#callBack(IdSession, Object, RequestCallback)} 异步的方式发送请求，则响应数据会以{@link #putResponseMessage(Object)}的方式返回给调用者;
+ * Client request response Future, used to handle client response data.
+ * If client sends request synchronously via {@link RpcMessageClient#request(IdSession, Object)},
+ * the response will be returned via {@link #waitResponseMessage(long)};
+ * If client sends request asynchronously via {@link RpcMessageClient#callBack(IdSession, Object, RequestCallback)},
+ * the response will be returned via {@link #putResponseMessage(Object)};
  */
 public class RequestResponseFuture {
 
@@ -39,15 +41,15 @@ public class RequestResponseFuture {
     public RequestResponseFuture waitResponseMessage(long timeout) {
         try {
             boolean completed = this.countDownLatch.await(timeout, TimeUnit.MILLISECONDS);
-            // [可选]提前绑定异常，也可等待CallBackService#scanExpiredRequest扫描
+            // [Optional] Set exception in advance, CallBackService#scanExpiredRequest will also handle it as fallback
             if (!completed && this.cause == null) {
                 this.cause = new CallbackTimeoutException("request timeout, no reply");
             }
         } catch (InterruptedException e) {
-            // 恢复中断状态（标准并发编程规范）
+            // Restore interrupt status (standard concurrent programming practice)
             Thread.currentThread().interrupt();
             this.cause = e;
-            // 唤醒等待
+            // Wake up waiting
             this.countDownLatch.countDown();
         }
         return this;

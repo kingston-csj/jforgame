@@ -6,15 +6,15 @@ import jforgame.socket.core.support.SessionResponseSender;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**
- * 常用请求调度器工厂。
+ * Common request scheduler factory.
  * <p>
- * 这一层属于 socket 请求处理流程，负责把 {@code IdSession + RequestContext}
- * 这样的请求语义映射到具体执行载体。
+ * This layer belongs to the socket request processing flow, responsible for mapping request semantics like {@code IdSession + RequestContext}
+ * to specific execution carriers.
  * <p>
- * 与 {@code ThreadModel} 相比，它不关心线程池如何排队或如何关闭，
- * 而是关心“这个请求该投到哪”：
- * 是按分发键进入 {@link DispatchThreadModel}，
- * 还是根据业务规则选择目标 Actor，
+ * Compared with {@code ThreadModel}, it doesn't care about how the thread pool queues or shuts down,
+ * but cares about "where should this request be sent":
+ * whether to enter {@link DispatchThreadModel} by dispatch key,
+ * or select target Actor according to business rules.
  * @since 4.0.0
  */
 public final class RequestSchedulers {

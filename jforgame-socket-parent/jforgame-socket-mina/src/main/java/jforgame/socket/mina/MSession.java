@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 基于mina的会话实现，提供了会话相关的操作方法。
- * 会话是指客户端与服务器之间的一次通信，会话中包含了客户端与服务器的连接信息、会话属性等。
- * 会话的生命周期从客户端连接到服务器开始，到客户端断开连接或服务器主动关闭会话结束。
- * 会话还可以包含一些扩展属性，用于存储会话相关的信息。
+ * Session implementation based on MINA, provides session-related operations.
+ * A session is a single communication between client and server, containing connection information and session attributes.
+ * The session lifecycle starts when client connects to server and ends when client disconnects or server proactively closes the session.
+ * Sessions can also contain some extended attributes for storing session-related information.
  */
 public class MSession implements IdSession {
 
@@ -26,7 +26,7 @@ public class MSession implements IdSession {
     protected IoSession session;
 
     /**
-     * 拓展属性
+     * Extended attributes
      */
     protected Map<String, Object> attrs = new HashMap<>();
 

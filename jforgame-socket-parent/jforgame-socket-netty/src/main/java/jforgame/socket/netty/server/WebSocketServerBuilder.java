@@ -9,14 +9,14 @@ import jforgame.socket.core.protocol.message.MessageFactory;
 import java.io.File;
 
 /**
- * websocket服务器构建器
+ * WebSocket server builder
  */
 public class WebSocketServerBuilder {
 
     /**
-     * 创建新的构建器
+     * Create new builder
      *
-     * @return 构建器
+     * @return builder
      */
     public static WebSocketServerBuilder newBuilder() {
         return new WebSocketServerBuilder();
@@ -29,20 +29,20 @@ public class WebSocketServerBuilder {
     private String websocketPath = "/ws";
 
     /**
-     * 最大协议字节数（包头+包体）
+     * Maximum protocol bytes (header + body)
      */
     int maxProtocolBytes = 512 * 1024;
 
     //    private SslContext sslContext;
-//    private boolean enableSsl = false; // 默认不启用SSL
-//    private boolean useSelfSignedCert = true; // 是否使用自签名证书
-    private String certDomain; // 证书域名
-    private File certChainFile; // 证书链文件
-    private File privateKeyFile; // 私钥文件
-    private String keyPassword; // 私钥密码
+//    private boolean enableSsl = false; // SSL not enabled by default
+//    private boolean useSelfSignedCert = true; // Whether to use self-signed certificate
+    private String certDomain; // Certificate domain
+    private File certChainFile; // Certificate chain file
+    private File privateKeyFile; // Private key file
+    private String keyPassword; // Private key password
 
     /**
-     * websocket帧数据类型，默认是文本格式
+     * WebSocket frame data type, default is text format.
      * 0 - TEXT
      * 1 - BINARY
      */
@@ -55,9 +55,9 @@ public class WebSocketServerBuilder {
     private int idleMilliSeconds;
 
     /**
-     * 设置消息分发器
+     * Set message dispatcher
      *
-     * @param socketIoDispatcher 消息分发器
+     * @param socketIoDispatcher message dispatcher
      * @return this
      */
     public WebSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
@@ -66,9 +66,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置消息工厂
+     * Set message factory
      *
-     * @param messageFactory 消息工厂
+     * @param messageFactory message factory
      * @return this
      */
     public WebSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
@@ -77,9 +77,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置消息编码器
+     * Set message codec
      *
-     * @param messageCodec 消息编码器
+     * @param messageCodec message codec
      * @return this
      */
     public WebSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
@@ -88,9 +88,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置websocket路径
+     * Set websocket path
      *
-     * @param websocketPath websocket路径
+     * @param websocketPath websocket path
      * @return this
      */
     public WebSocketServerBuilder setWebsocketPath(String websocketPath) {
@@ -99,9 +99,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 绑定端口
+     * Bind port
      *
-     * @param hostPort 端口
+     * @param hostPort port
      * @return this
      */
     public WebSocketServerBuilder bindingPort(HostAndPort hostPort) {
@@ -110,9 +110,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置连接空闲时间，单位毫秒
+     * Set connection idle time in milliseconds
      *
-     * @param idleMilliSeconds 连接空闲时间，单位毫秒
+     * @param idleMilliSeconds connection idle time in milliseconds
      * @return this
      */
     public WebSocketServerBuilder setIdleMilliSeconds(int idleMilliSeconds) {
@@ -121,9 +121,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置最大协议字节数（包头+包体）
+     * Set maximum protocol bytes (header + body)
      *
-     * @param maxProtocolBytes 最大协议字节数
+     * @param maxProtocolBytes maximum protocol bytes
      * @return this
      */
     public WebSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
@@ -132,9 +132,9 @@ public class WebSocketServerBuilder {
     }
 
     /**
-     * 设置websocket帧数据类型
+     * Set websocket frame data type
      *
-     * @param frameType 帧数据类型，0 - TEXT, 1 - BINARY
+     * @param frameType frame data type, 0 - TEXT, 1 - BINARY
      * @return this
      */
     public WebSocketServerBuilder setFrameType(int frameType) {
@@ -147,37 +147,37 @@ public class WebSocketServerBuilder {
 
 
 //    /**
-//     * 启动自签名证书
+//     * Enable self-signed certificate
 //     *
-//     * @param domain 证书域名
+//     * @param domain certificate domain
 //     * @return
 //     */
 //    public WebSocketServerBuilder useSelfSignedCertificate(String domain) {
-//        this.enableSsl = true; // 自动启用SSL
+//        this.enableSsl = true; // Auto enable SSL
 //        this.useSelfSignedCert = true;
 //        this.certDomain = domain;
 //        return this;
 //    }
 //
 //    /**
-//     * 启动正式证书
+//     * Enable formal certificate
 //     *
-//     * @param certChainFile  证书文件
-//     * @param privateKeyFile 私钥文件
+//     * @param certChainFile  certificate file
+//     * @param privateKeyFile private key file
 //     */
 //    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile) {
 //        return useFormalCertificate(certChainFile, privateKeyFile, null);
 //    }
 //
 //    /**
-//     * 启动正式证书
+//     * Enable formal certificate
 //     *
-//     * @param certChainFile  证书文件
-//     * @param privateKeyFile 私钥文件
-//     * @param keyPassword    私钥密码，如果没有则传null
+//     * @param certChainFile  certificate file
+//     * @param privateKeyFile private key file
+//     * @param keyPassword    private key password, pass null if none
 //     */
 //    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile, String keyPassword) {
-//        this.enableSsl = true; // 自动启用SSL
+//        this.enableSsl = true; // Auto enable SSL
 //        this.useSelfSignedCert = false;
 //        this.certChainFile = certChainFile;
 //        this.privateKeyFile = privateKeyFile;
@@ -186,19 +186,19 @@ public class WebSocketServerBuilder {
 //    }
 //
 //    /**
-//     * 直接设置SSL上下文
-//     * 预留接口，用于高级用户手动设置SSL上下文
+//     * Directly set SSL context
+//     * Reserved interface for advanced users to manually set SSL context
 //     *
 //     * @param sslContext
 //     */
 //    public WebSocketServerBuilder setSslContext(SslContext sslContext) {
-//        this.enableSsl = true; // 自动启用SSL
+//        this.enableSsl = true; // Auto enable SSL
 //        this.sslContext = sslContext;
 //        return this;
 //    }
 
     public WebSocketServer build() {
-        // 验证必要参数
+        // Validate required parameters
         if (socketIoDispatcher == null) {
             throw new IllegalArgumentException("socketIoDispatcher must not null");
         }
@@ -212,12 +212,12 @@ public class WebSocketServerBuilder {
             throw new IllegalArgumentException("hostPort must not null");
         }
 
-        // 配置SSL上下文
+        // Configure SSL context
 //        if (enableSsl) {
 //            if (sslContext == null) {
 //                try {
 //                    if (useSelfSignedCert) {
-//                        // 使用自签名证书
+//                        // Use self-signed certificate
 //                        SelfSignedCertificate ssc = certDomain != null ?
 //                                new SelfSignedCertificate(certDomain) :
 //                                new SelfSignedCertificate();
@@ -225,7 +225,7 @@ public class WebSocketServerBuilder {
 //                                .forServer(ssc.certificate(), ssc.privateKey())
 //                                .build();
 //                    } else {
-//                        // 使用正式证书
+//                        // Use formal certificate
 //                        if (certChainFile == null || privateKeyFile == null) {
 //                            throw new IllegalArgumentException("certChainFile and privateKeyFile must not null when using formal certificate");
 //                        }
@@ -241,7 +241,7 @@ public class WebSocketServerBuilder {
 //            }
 //        }
 
-        // 创建并配置服务器实例
+        // Create and configure server instance
         WebSocketServer socketServer = new WebSocketServer();
 //        socketServer.sslContext = sslContext;
         socketServer.nodeConfig = hostPort;

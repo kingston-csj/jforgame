@@ -14,11 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Netty会话
- * 此类封装了Netty的Channel对象，提供了会话相关的操作方法。
- * 会话是指客户端与服务器之间的一次通信，会话中包含了客户端与服务器的连接信息、会话属性等。
- * 会话的生命周期从客户端连接到服务器开始，到客户端断开连接或服务器主动关闭会话结束。
- * 会话还可以包含一些扩展属性，用于存储会话相关的信息。
+ * Netty session.
+ * This class encapsulates Netty's Channel object, providing session-related operation methods.
+ * A session refers to a communication between client and server, containing connection information and session attributes.
+ * The lifecycle of a session starts when the client connects to the server and ends when the client disconnects
+ * or the server actively closes the session.
+ * Sessions can also contain some extended attributes for storing session-related information.
  */
 public class NSession implements IdSession {
 

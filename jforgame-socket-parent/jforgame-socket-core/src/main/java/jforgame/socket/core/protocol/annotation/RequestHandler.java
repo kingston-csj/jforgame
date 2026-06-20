@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用于标记一个方法为请求处理方法
- * 类似于springMVC的@RequestMapping注解
+ * Used to mark a method as a request handling method.
+ * Similar to @RequestMapping annotation in SpringMVC.
  */
 @Documented
 @Target(ElementType.METHOD)

@@ -38,7 +38,7 @@ public class WebSocketServer implements ServerNode {
 
     ChannelIoHandler messageIoHandler;
 
-    // 避免使用默认线程数参数
+    // Avoid using default thread count parameter
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
 
@@ -52,7 +52,7 @@ public class WebSocketServer implements ServerNode {
 
 
     /**
-     * 最大协议字节数（二进制为包头+包体, 文本为json字符串长度）
+     * Max protocol bytes (binary is header+body, text is json string length)
      */
     int maxProtocolBytes = 512 * 1024;
 
@@ -65,16 +65,16 @@ public class WebSocketServer implements ServerNode {
     SslContext sslContext;
 
     /**
-     * websocket帧数据类型--文本帧
+     * websocket frame data type -- text frame
      */
     public static int FRAME_TYPE_TEXT = 0;
     /**
-     * websocket帧数据类型--二进制帧
+     * websocket frame data type -- binary frame
      */
     public static int FRAME_TYPE_BINARY = 1;
 
     /**
-     * websocket帧数据类型
+     * websocket frame data type
      */
     int frameType;
 
@@ -113,7 +113,7 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("httpServerCodec", new HttpServerCodec());
             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(64 * 1024));
-            // 规范化ws的url, 过滤 ?后面的参数
+            // Normalize ws url, filter parameters after ?
             pipeline.addLast("normalizationUrl", new ChannelDuplexHandler() {
                 @Override
                 public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -135,7 +135,7 @@ public class WebSocketServer implements ServerNode {
             pipeline.addLast("socketFrameToMessage", new WebSocketFrameToSocketDataCodec(frameType, messageCodec, messageFactory));
 
             if (idleMilliSeconds > 0) {
-                // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
+                // If client XXX does not send/receive packets, UserEventTriggered event will be triggered to IdleEventHandler
                 pipeline.addLast(new IdleStateHandler(0, 0, idleMilliSeconds,
                         TimeUnit.MILLISECONDS));
                 pipeline.addLast("serverIdleHandler", new ServerIdleHandler(socketIoDispatcher));

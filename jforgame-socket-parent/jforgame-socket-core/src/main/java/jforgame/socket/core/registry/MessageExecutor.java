@@ -2,22 +2,22 @@ package jforgame.socket.core.registry;
 
 import java.lang.reflect.Method;
 /**
- * 消息执行器，用于执行具体的消息处理方法
+ * Message executor, for executing specific message handling methods
  */
 public interface MessageExecutor {
     /**
-     * 消息处理方法
-     * @return 消息处理方法
+     * Message handling method
+     * @return message handling method
      */
     Method getMethod();
     /**
-     * 消息处理方法的参数类型
-     * @return 消息处理方法的参数类型
+     * Parameter types of message handling method
+     * @return parameter types of message handling method
      */
     Class<?>[] getParams();
     /**
-     * 消息处理的具体执行者
-     * @return 消息处理方法的参数类型
+     * The actual executor of message handling
+     * @return the handler
      */
     Object getHandler();
 }

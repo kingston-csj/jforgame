@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 请求执行支持类，负责串联默认调用流程、响应发送和拦截器链。
+ * Request execution support class, responsible for connecting default call flow, response sending and interceptor chain.
  * @since 4.0.0
  */
 final class RequestExecutionSupport {

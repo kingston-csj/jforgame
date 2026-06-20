@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
- * TCP客户端
- * 此类封装了Mina的NioSocketConnector对象，提供了TCP客户端的连接、发送消息、关闭连接等操作。
+ * TCP client.
+ * This class encapsulates Mina's NioSocketConnector object, providing TCP client connection, message sending,
+ * connection closing and other operations.
  */
 public class TcpSocketClient extends AbstractSocketClient {
 

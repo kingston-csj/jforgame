@@ -5,7 +5,7 @@ import jforgame.socket.core.dispatch.RequestResponseSender;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 默认响应发送器，直接通过当前 session 回包。
+ * Default response sender, directly returns packet through current session.
  */
 public class SessionResponseSender implements RequestResponseSender {
 

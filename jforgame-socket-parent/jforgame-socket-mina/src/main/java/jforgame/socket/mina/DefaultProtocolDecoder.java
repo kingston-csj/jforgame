@@ -14,25 +14,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 协议栈编码器
- * 此类提供默认的私有协议栈编码器。
- * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
- * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
- * 消息体仅包含待编码的消息字节流，具体编码需通过 {@link MessageCodec} 接口的 {@link MessageCodec#encode (Object)} 方法实现。
+ * Protocol stack encoder.
+ * This class provides a default private protocol stack encoder.
+ * A complete data frame consists of two parts: message head and message body:
+ * The message head contains the length of the data frame and message ID metadata, message sequence number (managed by client).
+ * The message body only contains the message byte stream to be encoded. The specific encoding needs to be implemented
+ * through the {@link MessageCodec#encode(Object)} method of the {@link MessageCodec} interface.
  */
 public class DefaultProtocolDecoder extends CumulativeProtocolDecoder {
 
     private final Logger logger = LoggerFactory.getLogger("socketserver");
     /**
-     * 最大的协议数据长度
+     * Maximum protocol data length
      */
     private final int maxProtocolBytes;
     /**
-     * 消息工厂
+     * Message factory
      */
     private MessageFactory messageFactory;
     /**
-     * 消息解码器
+     * Message decoder
      */
     private MessageCodec messageCodec;
 

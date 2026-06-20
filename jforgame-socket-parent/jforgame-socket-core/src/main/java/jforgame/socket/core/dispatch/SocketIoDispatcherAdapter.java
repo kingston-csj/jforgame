@@ -3,7 +3,7 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 用于适配SocketIoDispatcher接口的默认实现
+ * Default implementation for adapting SocketIoDispatcher interface
  */
 public class SocketIoDispatcherAdapter implements SocketIoDispatcher {
     @Override

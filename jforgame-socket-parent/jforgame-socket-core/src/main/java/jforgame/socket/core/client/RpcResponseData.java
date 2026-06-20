@@ -2,7 +2,7 @@ package jforgame.socket.core.client;
 
 
 /**
- * rpc 响应数据
+ * RPC response data
  */
 public class RpcResponseData {
 

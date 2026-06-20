@@ -1,11 +1,13 @@
 /**
- * 提供绝大部分NettySocket开发基础组件的默认实现，包括服务端和客户端。
- * 由于Netty只是一个纯NIO网络框架，考虑到客户端代码对于私有协议栈的设计，消息编解码，io链式处理差异性比较大，
- * 多样性主要在于{@link io.netty.bootstrap.ServerBootstrap#childHandler(ChannelHandler)}的接口非常灵活，
- * 在框架里不适合设计得太拘束，应该往宽松的方向设计。当然，你也可以使用大部分接口的默认实现，这对于实现一个游戏
- * 网络框架已足矣。
- * 如果你需要增加消息的加解密，或者其他扩展，可优先选择后置钩子 {@link jforgame.socket.netty.server.ExtendedChannelHandler}
- * 如果你希望修改私有协议栈，推荐使用类覆盖的方式替换框架本身的类定义(主要是替换DefaultProtocolDecoder与DefaultProtocolEncoder)
+ * Provides default implementations of most basic components for NettySocket development, including server and client.
+ * Since Netty is just a pure NIO network framework, considering the differences in private protocol stack design,
+ * message encoding/decoding, and IO chain processing in client code,
+ * the diversity mainly comes from the flexibility of the {@link io.netty.bootstrap.ServerBootstrap#childHandler(ChannelHandler)} interface,
+ * the framework should not be designed too restrictively, but should be designed in a more relaxed direction.
+ * Of course, you can also use the default implementations of most interfaces, which is sufficient for implementing a game
+ * network framework.
+ * If you need to add message encryption/decryption or other extensions, you can preferably use the post-hook {@link jforgame.socket.netty.server.ExtendedChannelHandler}
+ * If you want to modify the private protocol stack, it is recommended to use class override to replace the framework's own class definitions (mainly replacing DefaultProtocolDecoder and DefaultProtocolEncoder)
  */
 package jforgame.socket.netty;
 

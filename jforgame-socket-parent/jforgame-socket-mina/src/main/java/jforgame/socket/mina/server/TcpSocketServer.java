@@ -25,7 +25,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 
 /**
- * TCP协议的Socket服务器
+ * TCP protocol Socket server
  */
 public class TcpSocketServer implements ServerNode {
 
@@ -74,7 +74,7 @@ public class TcpSocketServer implements ServerNode {
                     new ProtocolCodecFilter(new DefaultProtocolCodecFactory(messageFactory, messageCodec, maxProtocolSize)));
         }
 
-        //指定业务逻辑处理器
+        // Specify business logic handler
         acceptor.setHandler(new DefaultSocketIoHandler(socketIoDispatcher));
 
         for (HostAndPort node : nodesConfig) {

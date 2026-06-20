@@ -3,46 +3,46 @@ package jforgame.socket.core.protocol.message;
 import java.util.Collection;
 
 /**
- * 消息工厂，用于注册和获取消息类
+ * Message factory, for registering and retrieving message classes
  */
 public interface MessageFactory {
 
     /**
-     * 注册消息类
+     * Register message class
      *
-     * @param cmd   消息id
-     * @param clazz 消息类
+     * @param cmd   message id
+     * @param clazz message class
      */
     void registerMessage(int cmd, Class<?> clazz);
 
     /**
-     * 通过消息号获取消息类
+     * Get message class by message id
      *
-     * @param cmd 消息id
-     * @return 消息类
+     * @param cmd message id
+     * @return message class
      */
     Class<?> getMessage(int cmd);
 
     /**
-     * 通过消息类获取消息号
+     * Get message id by message class
      *
-     * @param clazz 消息类
-     * @return 消息号
+     * @param clazz message class
+     * @return message id
      */
     int getMessageId(Class<?> clazz);
 
     /**
-     * 检查是否包含指定的消息类
+     * Check if the specified message class is contained
      *
-     * @param clazz 消息类
-     * @return 是否包含
+     * @param clazz message class
+     * @return true if contained
      */
     boolean contains(Class<?> clazz);
 
     /**
-     * 获取所有已注册的消息类
+     * Get all registered message classes
      *
-     * @return 所有已注册的消息类
+     * @return all registered message classes
      * @since 1.2.0
      */
     Collection<Class<?>> registeredClassTypes();

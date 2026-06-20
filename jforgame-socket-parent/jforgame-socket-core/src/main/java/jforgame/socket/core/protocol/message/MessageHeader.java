@@ -1,10 +1,10 @@
 package jforgame.socket.core.protocol.message;
 
 /**
- * 私有协议栈——消息包头定义
- * 这里用接口定义，用户可根据需要，对指定字段（例如cmd）的类型进行修改
- * 例如：网络io可将cmd定义为short型，应用程序统一以int接收。
- * 这样可节省部分网络IO，同时，这类对象属于“短命小对象”，对gc影响很小
+ * Private protocol stack - message header definition.
+ * Defined using interface, users can modify the type of specified fields (e.g., cmd) according to their needs.
+ * For example: network io can define cmd as short type, while application uniformly receives as int.
+ * This saves some network IO, and these objects are "short-lived small objects" with little impact on GC.
  */
 public interface MessageHeader {
 
@@ -14,17 +14,17 @@ public interface MessageHeader {
     void read(byte[] bytes);
 
     /**
-     * 私有协议栈的总长度，包括包头+包体
-     * @return 私有协议栈的总长度
+     * Total length of private protocol stack, including header + body
+     * @return total length of private protocol stack
      */
     int getMsgLength();
 
     void setMsgLength(int msgLength);
 
     /**
-     * 消息包序号（由客户端保证自增长）
-     * 可用于客户端回调，消息重放检测
-     * @return 消息包序号
+     * Message sequence number (guaranteed auto-incremented by client).
+     * Can be used for client callbacks, message replay detection.
+     * @return message sequence number
      */
     int getIndex();
 
@@ -33,8 +33,8 @@ public interface MessageHeader {
 
 
     /**
-     * 消息类型
-     * @return 消息类型
+     * Message type
+     * @return message type
      */
     int getCmd();
 

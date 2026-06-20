@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 默认的消息处理注册器
+ * Default message handler register
  */
 public class DefaultMessageHandlerRegister implements MessageHandlerRegister {
 

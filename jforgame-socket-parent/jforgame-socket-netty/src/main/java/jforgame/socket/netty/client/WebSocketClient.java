@@ -34,7 +34,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * WebSocket客户端
+ * WebSocket client
  */
 public class WebSocketClient extends AbstractSocketClient {
 
@@ -42,11 +42,11 @@ public class WebSocketClient extends AbstractSocketClient {
     private final String wsPath;
     private SslContext sslContext;
     private boolean useSsl = false;
-    //  用于等待WebSocket握手完成的同步锁
+    //  Used for synchronization lock waiting for WebSocket handshake completion
     private CountDownLatch handshakeLatch;
-    //  记录握手是否成功
+    //  Record whether handshake was successful
     private boolean handshakeSuccess;
-    //  记录握手失败原因
+    //  Record handshake failure cause
     private Throwable handshakeFailureCause;
 
     public WebSocketClient(SocketIoDispatcher messageDispatcher, MessageFactory messageFactory,
@@ -67,7 +67,7 @@ public class WebSocketClient extends AbstractSocketClient {
 
     @Override
     public IdSession openSession() throws IOException {
-        // 初始化同步锁和状态变量（省略，同之前的代码）
+        // Initialize synchronization lock and state variables
         handshakeLatch = new CountDownLatch(1);
         handshakeSuccess = false;
         handshakeFailureCause = null;
@@ -77,11 +77,11 @@ public class WebSocketClient extends AbstractSocketClient {
             String host = targetAddress.getHost();
             int port = targetAddress.getPort();
             String path = wsPath == null || wsPath.isEmpty() ? "/" : wsPath;
-            // 确保路径以斜杠开头
+            // Ensure path starts with slash
             if (!path.startsWith("/")) {
                 path = "/" + path;
             }
-            // 创建WebSocket URI
+            // Create WebSocket URI
             URI websocketUri = new URI(scheme, null, host, port, path, null, null);
             Bootstrap b = new Bootstrap();
             b.group(group)
@@ -91,33 +91,33 @@ public class WebSocketClient extends AbstractSocketClient {
                         protected void initChannel(SocketChannel ch) {
                             ChannelPipeline pipeline = ch.pipeline();
 
-                            // SSL 处理器（如需，放在最前面）
+                            // SSL handler (if needed, put at the front)
                             if (sslContext != null) {
                                 pipeline.addLast(sslContext.newHandler(ch.alloc()));
                             }
 
-                            // HTTP 基础处理器（WebSocket 基于 HTTP 握手）
+                            // HTTP basic handler (WebSocket is based on HTTP handshake)
                             pipeline.addLast(
                                     new HttpClientCodec(),
                                     new HttpObjectAggregator(512 * 1024)
                             );
 
-                            // WebSocket 协议处理器（核心，负责握手和帧处理）
+                            // WebSocket protocol handler (core, responsible for handshake and frame processing)
                             WebSocketClientProtocolHandler wsHandler = new WebSocketClientProtocolHandler(
                                     WebSocketClientHandshakerFactory.newHandshaker(
                                             websocketUri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()
                                     ),
-                                    true,  // 自动处理关闭帧
-                                    false, // 不丢弃 Pong 帧
-                                    5000   // 握手超时时间（毫秒）
+                                    true,  // Auto handle close frame
+                                    false, // Do not discard Pong frame
+                                    5000   // Handshake timeout in milliseconds
                             );
                             pipeline.addLast(wsHandler);
 
-                            // 添加 HandshakeCompletionListener 到 pipeline 中
-                            // 必须放在 WebSocketClientProtocolHandler 之后，才能收到它发出的 HandshakeComplete 事件
+                            // Add HandshakeCompletionListener to pipeline
+                            // Must be placed after WebSocketClientProtocolHandler to receive its HandshakeComplete event
                             pipeline.addLast(new HandshakeCompletionListener());
 
-                            // 业务处理器（编解码器、消息分发器等，放在最后）
+                            // Business handler (codec, message dispatcher, etc., put at the end)
                             pipeline.addLast(new WebSocketFrameToSocketDataCodec(messageCodec, messageFactory));
                             pipeline.addLast((new CallbackHandler()));
                             pipeline.addLast(new ChannelIoHandler(ioDispatcher));
@@ -125,22 +125,22 @@ public class WebSocketClient extends AbstractSocketClient {
                     });
             ChannelFuture connectFuture = b.connect(host, port).sync();
             Channel channel = connectFuture.channel();
-            // 后续连接、等待握手等逻辑（省略）
-            // 等待握手结果（最多等待 6 秒，避免无限阻塞）
+            // Subsequent connection, wait for handshake and other logic (omitted)
+            // Wait for handshake result (up to 6 seconds to avoid infinite blocking)
             boolean isHandshakeDone = handshakeLatch.await(6, TimeUnit.SECONDS);
             if (!isHandshakeDone) {
-                // 极端情况：监听器未收到任何事件（如网络中断），主动关闭通道
+                // Extreme case: listener did not receive any event (e.g., network interruption), proactively close channel
                 channel.close().sync();
-                throw new IOException("WebSocket握手等待超时");
+                throw new IOException("WebSocket handshake wait timeout");
             }
-            // 检查握手结果
+            // Check handshake result
             if (!handshakeSuccess) {
-                // 握手失败（超时或异常），关闭通道并抛出异常
+                // Handshake failed (timeout or exception), close channel and throw exception
                 channel.close().sync();
-                throw new IOException("WebSocket握手失败", handshakeFailureCause);
+                throw new IOException("WebSocket handshake failed", handshakeFailureCause);
             }
 
-            // 握手成功，返回可用的 session
+            // Handshake successful, return available session
             IdSession session = new NSession(channel);
             this.session = session;
             return session;
@@ -156,7 +156,7 @@ public class WebSocketClient extends AbstractSocketClient {
             if (session != null) {
                 session.close();
             }
-            // 关闭EventLoopGroup（等待所有任务完成）
+            // Close EventLoopGroup (wait for all tasks to complete)
             group.shutdownGracefully().sync();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -168,39 +168,39 @@ public class WebSocketClient extends AbstractSocketClient {
     private class HandshakeCompletionListener extends ChannelInboundHandlerAdapter {
         @Override
         public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-            // 监听 Netty 原生的 ClientHandshakeStateEvent 枚举事件
+            // Listen for Netty native ClientHandshakeStateEvent events
             if (evt instanceof WebSocketClientProtocolHandler.ClientHandshakeStateEvent) {
                 WebSocketClientProtocolHandler.ClientHandshakeStateEvent handshakeEvent = (WebSocketClientProtocolHandler.ClientHandshakeStateEvent) evt;
                 switch (handshakeEvent) {
                     case HANDSHAKE_ISSUED:
                         break;
                     case HANDSHAKE_COMPLETE:
-                        // 握手成功（标记状态，释放锁）
+                        // Handshake successful (mark status, release lock)
                         handshakeSuccess = true;
                         handshakeFailureCause = null;
-                        handshakeLatch.countDown(); // 释放主线程的阻塞
+                        handshakeLatch.countDown(); // Release main thread blocking
                         break;
 
                     case HANDSHAKE_TIMEOUT:
-                        // 握手超时（标记失败，释放锁）
+                        // Handshake timeout (mark failure, release lock)
                         handshakeSuccess = false;
                         handshakeFailureCause = new IOException(
-                                "WebSocket握手超时");
+                                "WebSocket handshake timeout");
                         handshakeLatch.countDown();
                         break;
                 }
             }
-            // 继续传递其他事件（不拦截 Netty 其他原生事件）
+            // Continue passing other events (do not intercept Netty's other native events)
             super.userEventTriggered(ctx, evt);
         }
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-            // 处理握手过程中的其他异常（如 SSL 握手失败、服务器拒绝连接）
+            // Handle other exceptions during handshake (e.g., SSL handshake failure, server rejecting connection)
             if (!handshakeSuccess && handshakeLatch.getCount() > 0) {
                 handshakeSuccess = false;
                 handshakeFailureCause = cause;
-                handshakeLatch.countDown(); // 避免主线程无限阻塞
+                handshakeLatch.countDown(); // Avoid main thread infinite blocking
             }
             super.exceptionCaught(ctx, cause);
         }

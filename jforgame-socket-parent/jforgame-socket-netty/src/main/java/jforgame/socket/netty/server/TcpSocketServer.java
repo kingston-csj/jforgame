@@ -23,21 +23,21 @@ public class TcpSocketServer implements ServerNode {
 
     private static final Logger logger = LoggerFactory.getLogger("socketserver");
     /**
-     * 节点配置，支持绑定多个端口
+     * Node configuration, supports binding multiple ports.
      */
     protected List<HostAndPort> nodesConfig;
     protected ChannelInitializer<SocketChannel> childChannelInitializer;
 
     private final int CORE_SIZE = Runtime.getRuntime().availableProcessors();
-    // 避免使用默认线程数参数
+    // Avoid using default thread count parameter
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     /**
-     * 是否使用epoll
+     * Whether to use epoll.
      */
     boolean useEpollForLinux;
     /**
-     * 是否使用池化缓冲区
+     * Whether to use pooled buffer.
      */
     boolean usePooledBuff;
 

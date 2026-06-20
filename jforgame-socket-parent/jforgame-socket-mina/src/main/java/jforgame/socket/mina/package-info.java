@@ -1,9 +1,12 @@
 /**
- * 提供绝大部分NettySocket开发基础组件的默认实现，包括服务端和客户端。
- * 由于Netty只是一个纯NIO网络框架，考虑到客户端代码对于私有协议栈的设计，消息编解码，io链式处理差异性比较大，
- * 多样性主要在于{@link org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder}的接口非常灵活，
- * 在框架里不适合设计得太拘束，应该往宽松的方向设计。当然，你也可以使用大部分接口的默认实现，这对于实现一个游戏
- * 网络框架已足矣。
- * 如果你希望修改私有协议栈，或者增加消息加解密，推荐使用类覆盖的方式替换框架本身的类定义(主要是替换DefaultProtocolDecoder与DefaultProtocolEncoder)
+ * Provides default implementations of most basic components for NettySocket development, including server and client.
+ * Since Netty is just a pure NIO network framework, considering the differences in private protocol stack design,
+ * message encoding/decoding, and IO chain processing in client code are quite large.
+ * The diversity is mainly because the interface of {@link org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder} is very flexible.
+ * It is not suitable to design too restrictively in the framework, it should be designed in a more relaxed direction.
+ * Of course, you can also use the default implementations of most interfaces, which is sufficient for implementing a game
+ * network framework.
+ * If you wish to modify the private protocol stack or add message encryption/decryption, it is recommended to use class
+ * overriding to replace the framework's own class definitions (mainly replacing DefaultProtocolDecoder and DefaultProtocolEncoder)
  */
 package jforgame.socket.mina;

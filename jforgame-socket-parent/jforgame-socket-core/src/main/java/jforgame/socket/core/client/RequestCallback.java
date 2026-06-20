@@ -1,21 +1,21 @@
 package jforgame.socket.core.client;
 
 /**
- * 请求对应的回调接口
+ * Callback interface for request responses
  */
 public interface RequestCallback<T> {
 
     /**
-     * 回调成功的处理
+     * Callback for successful response
      *
-     * @param callBack 回调的响应消息
+     * @param callBack response message
      */
     void onSuccess(T callBack);
 
     /**
-     * 回调失败的处理
+     * Callback for failed response
      *
-     * @param error 错误信息
+     * @param error error information
      */
     void onError(Throwable error);
 

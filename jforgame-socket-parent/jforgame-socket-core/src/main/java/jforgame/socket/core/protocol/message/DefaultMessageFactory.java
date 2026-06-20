@@ -7,17 +7,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * 默认的消息注册工厂
+ * Default message registration factory
  */
 public class DefaultMessageFactory implements MessageFactory {
 
     /**
-     * 消息id到消息类的映射
+     * Mapping from message id to message class
      */
     private final Map<Integer, Class<?>> id2Clazz = new ConcurrentHashMap<>();
 
     /**
-     * 消息类到消息id的映射
+     * Mapping from message class to message id
      */
     private final Map<Class<?>, Integer> clazz2Id = new ConcurrentHashMap<>();
 

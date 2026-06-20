@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 协议栈解码器
- * 此类提供默认的私有协议栈解码器。
- * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
- * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
- * 消息体包括需要由{@link MessageCodec}解码的字节消息。
+ * Protocol stack decoder.
+ * This class provides a default private protocol stack decoder.
+ * A complete data frame consists of two parts: message head and message body:
+ * The message head contains the length of the data frame and message ID metadata, message sequence number (managed by client).
+ * The message body includes the byte message that needs to be decoded by {@link MessageCodec}.
  *
  * @see MessageCodec#decode(Class, byte[])
  */
@@ -70,16 +70,16 @@ public class DefaultProtocolEncoder implements ProtocolEncoder {
         int msgLength = body.length + DefaultMessageHeader.SIZE;
         int cmd = messageFactory.getMessageId(message.getClass());
 
-        // 写入包头
-        //消息内容长度
+        // Write header
+        // message content length
         buffer.putInt(msgLength);
         buffer.putInt(frame.getIndex());
-        // 写入cmd类型
+        // Write cmd type
         buffer.putInt(cmd);
 
-        // 写入包体
+        // Write body
         buffer.put(body);
-        // 回到buff字节数组头部
+        // Return to buffer byte array head
         buffer.flip();
 
         trafficObserver.onOutbound(cmd, msgLength);

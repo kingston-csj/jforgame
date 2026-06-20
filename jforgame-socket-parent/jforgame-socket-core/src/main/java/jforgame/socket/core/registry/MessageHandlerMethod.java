@@ -6,21 +6,21 @@ import jforgame.socket.core.protocol.annotation.RequestHandler;
 import java.lang.reflect.Method;
 
 /**
- * 默认的消息执行器
+ * Default message executor
  */
 public class MessageHandlerMethod implements MessageExecutor {
 
     /**
-     * 对应消息路由的指定方法 {@link RequestHandler}
+     * Corresponding method annotated with {@link RequestHandler}
      * @see MessageRoute
      */
     private Method method;
     /**
-     * 对应消息路由的指定方法的参数类型
+     * Parameter types of the corresponding method
      */
     private Class<?>[] params;
     /**
-     * 对应消息路由对象
+     * Corresponding message route object
      * @see MessageRoute
      */
     private Object handler;

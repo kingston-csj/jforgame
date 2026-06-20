@@ -3,41 +3,41 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 请求执行拦截器
- * 用于扩展一次请求在业务线程中的执行过程，可在方法调用前后追加日志、监控、鉴权，
- * 或在异常发生时进行统一处理。
+ * Request execution interceptor.
+ * Used to extend the execution process of a request in the business thread, can add logging, monitoring, authentication before and after method calls,
+ * or handle exceptions uniformly.
  * @since 4.0.0
  */
 public interface RequestExecutionInterceptor {
 
     /**
-     * 在请求方法执行前回调。
+     * Callback before request method execution.
      *
      * @param session        socket session
-     * @param requestContext 请求上下文
+     * @param requestContext request context
      */
     default void beforeExecute(IdSession session, RequestContext requestContext) {
     }
 
     /**
-     * 在请求方法执行完成后回调。
+     * Callback after request method execution completes.
      * <p>
-     * 如果处理方法返回了响应对象，则此时响应已经写回到 {@code requestContext}，
-     * 且默认响应下发逻辑也已经执行完成。
+     * If the handling method returns a response object, the response has been written back to {@code requestContext},
+     * and the default response dispatch logic has also been executed.
      *
      * @param session        socket session
-     * @param requestContext 请求上下文
+     * @param requestContext request context
      */
     default void afterExecute(IdSession session, RequestContext requestContext) {
     }
 
     /**
-     * 处理执行阶段抛出的异常。
+     * Handles exceptions thrown during execution.
      *
      * @param session        socket session
-     * @param requestContext 请求上下文
-     * @param throwable      异常对象
-     * @return 返回 {@code true} 表示异常已被处理，框架不再打印默认错误日志
+     * @param requestContext request context
+     * @param throwable      exception object
+     * @return {@code true} means the exception has been handled, framework will not print default error logs
      */
     default boolean handleException(IdSession session, RequestContext requestContext, Throwable throwable) {
         return false;

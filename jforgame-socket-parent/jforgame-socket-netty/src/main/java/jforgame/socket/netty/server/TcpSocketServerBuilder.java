@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * tcp服务器构建器
+ * TCP server builder
  */
 public class TcpSocketServerBuilder {
 
@@ -31,7 +31,7 @@ public class TcpSocketServerBuilder {
     List<HostAndPort> ipPortNodes = new ArrayList<>();
 
     /**
-     * 最大协议字节数（包头+包体）
+     * Maximum protocol bytes (header + body)
      */
     int maxProtocolBytes = 4096;
 
@@ -42,12 +42,12 @@ public class TcpSocketServerBuilder {
     ChainedMessageDispatcher socketIoDispatcher;
 
     /**
-     * 自定义私有协议栈解码器
+     * Custom private protocol stack decoder
      */
     ByteToMessageDecoder protocolDecoder;
 
     /**
-     * 自定义私有协议栈编码器
+     * Custom private protocol stack encoder
      */
     MessageToByteEncoder<Object> protocolEncoder;
 
@@ -56,8 +56,8 @@ public class TcpSocketServerBuilder {
     private ServerIdleHandler serverIdleHandler;
 
     /**
-     * 若某连接在指定的时间段内没有数据传输，则关闭该连接，单位为毫秒。
-     * 默认为0，代表不启用
+     * If a connection has no data transmission within the specified time period, the connection will be closed. Unit is milliseconds.
+     * Default is 0, meaning not enabled
      */
     private int idleTime;
 
@@ -72,9 +72,9 @@ public class TcpSocketServerBuilder {
 
 
     /**
-     * 设置消息分发器
+     * Set message dispatcher
      *
-     * @param socketIoDispatcher 消息分发器
+     * @param socketIoDispatcher message dispatcher
      * @return this
      */
     public TcpSocketServerBuilder setSocketIoDispatcher(ChainedMessageDispatcher socketIoDispatcher) {
@@ -83,9 +83,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置消息工厂
+     * Set message factory
      *
-     * @param messageFactory 消息工厂
+     * @param messageFactory message factory
      * @return this
      */
     public TcpSocketServerBuilder setMessageFactory(MessageFactory messageFactory) {
@@ -94,9 +94,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置消息编码器
+     * Set message codec
      *
-     * @param messageCodec 消息编码器
+     * @param messageCodec message codec
      * @return this
      */
     public TcpSocketServerBuilder setMessageCodec(MessageCodec messageCodec) {
@@ -105,9 +105,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置绑定端口
+     * Set bind port
      *
-     * @param node 端口节点
+     * @param node port node
      * @return this
      */
     public TcpSocketServerBuilder bindingPort(HostAndPort node) {
@@ -116,9 +116,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置最大协议字节数
+     * Set max protocol bytes
      *
-     * @param maxProtocolBytes 最大协议字节数
+     * @param maxProtocolBytes max protocol bytes
      * @return this
      */
     public TcpSocketServerBuilder setMaxProtocolBytes(int maxProtocolBytes) {
@@ -127,9 +127,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置空闲时间，单位毫秒
+     * Set idle time in milliseconds
      *
-     * @param idleTime 空闲时间
+     * @param idleTime idle time
      * @return this
      */
     public TcpSocketServerBuilder setIdleTime(int idleTime) {
@@ -138,9 +138,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置是否使用epoll
+     * Set whether to use epoll
      *
-     * @param useEpollForLinux 是否使用epoll
+     * @param useEpollForLinux whether to use epoll
      * @return this
      */
     public TcpSocketServerBuilder setUseEpollForLinux(boolean useEpollForLinux) {
@@ -149,9 +149,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置是否使用池化缓冲区
+     * Set whether to use pooled buffer
      *
-     * @param usePooledBuff 是否使用池化缓冲区
+     * @param usePooledBuff whether to use pooled buffer
      * @return this
      */
     public TcpSocketServerBuilder setUsePooledBuff(boolean usePooledBuff) {
@@ -160,9 +160,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置扩展通道处理器
+     * Set extended channel handler
      *
-     * @param extChannelHandler 扩展通道处理器
+     * @param extChannelHandler extended channel handler
      * @return this
      */
     public TcpSocketServerBuilder setExtChannelHandler(ExtendedChannelHandler extChannelHandler) {
@@ -171,9 +171,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置自定义私有协议栈解码器
+     * Set custom private protocol stack decoder
      *
-     * @param protocolDecoder 自定义私有协议栈解码器
+     * @param protocolDecoder custom private protocol stack decoder
      * @return this
      */
     public TcpSocketServerBuilder setProtocolDecoder(ByteToMessageDecoder protocolDecoder) {
@@ -182,9 +182,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 设置自定义私有协议栈编码器
+     * Set custom private protocol stack encoder
      *
-     * @param protocolEncoder 自定义私有协议栈编码器
+     * @param protocolEncoder custom private protocol stack encoder
      * @return this
      */
     public TcpSocketServerBuilder setProtocolEncoder(MessageToByteEncoder<Object> protocolEncoder) {
@@ -193,9 +193,9 @@ public class TcpSocketServerBuilder {
     }
 
     /**
-     * 构建服务端
+     * Build server
      *
-     * @return TcpSocketServer tcp服务器
+     * @return TcpSocketServer tcp server
      */
     public TcpSocketServer build() {
         TcpSocketServer socketServer = new TcpSocketServer();
@@ -246,7 +246,7 @@ public class TcpSocketServerBuilder {
             }
 
             if (idleTime > 0) {
-                // 客户端XXX没收发包，便会触发UserEventTriggered事件到IdleEventHandler
+                // If client XXX does not send/receive packets, UserEventTriggered event will be triggered to IdleEventHandler
                 pipeline.addLast(new IdleStateHandler(0, 0, idleTime,
                         TimeUnit.MILLISECONDS));
                 pipeline.addLast("serverIdleHandler", new ServerIdleHandler(socketIoDispatcher));

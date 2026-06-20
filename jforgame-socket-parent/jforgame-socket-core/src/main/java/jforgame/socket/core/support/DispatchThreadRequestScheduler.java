@@ -10,7 +10,7 @@ import jforgame.threadmodel.dispatch.BaseDispatchTask;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**
- * 基于 DispatchThreadModel 的请求调度器。
+ * Request scheduler based on DispatchThreadModel.
  */
 public class DispatchThreadRequestScheduler implements RequestScheduler {
 

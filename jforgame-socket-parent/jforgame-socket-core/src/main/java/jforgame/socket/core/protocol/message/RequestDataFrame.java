@@ -1,17 +1,17 @@
 package jforgame.socket.core.protocol.message;
 
 /**
- * 解析过的私有协议栈包结构
+ * Parsed private protocol stack package structure
  */
 public class RequestDataFrame {
 
     /**
-     * 消息包头
+     * Message header
      */
     private MessageHeader header;
 
     /**
-     * 消息包体，即消息的具体内容
+     * Message body, the specific content of the message
      */
     private Object message;
 

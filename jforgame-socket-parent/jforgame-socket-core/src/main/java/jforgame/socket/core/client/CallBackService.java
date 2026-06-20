@@ -14,8 +14,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 处理客户端请求回调服务
- * 包括同步和异步两种方式
+ * Client request callback service
+ * Supports both synchronous and asynchronous modes
  */
 public class CallBackService {
 
@@ -40,7 +40,7 @@ public class CallBackService {
             synchronized (CallBackService.class) {
                 if (self == null) {
                     self = new CallBackService();
-                    // 定时器任务，1 个线程足够！
+                    // Timer task, 1 thread is enough!
                     self.service = Executors.newSingleThreadScheduledExecutor(
                             new NamedThreadFactory("socket-client-timer"));
 
@@ -63,7 +63,7 @@ public class CallBackService {
     }
 
     /**
-     * 定时异常过期的回调
+     * Periodically scan and expire timed-out callbacks
      */
     public void scanExpiredRequest() {
         List<RequestResponseFuture> rfList = new LinkedList<>();
@@ -103,7 +103,7 @@ public class CallBackService {
 
         RequestCallback callback = future.getRequestCallback();
         if (callback != null) {
-            // 执行回调
+            // Execute callback
             future.executeRequestCallback();
         }
     }

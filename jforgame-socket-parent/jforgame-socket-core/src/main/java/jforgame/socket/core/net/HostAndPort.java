@@ -1,17 +1,17 @@
 package jforgame.socket.core.net;
 
 /**
- * socket连接的主机与端口
+ * Host and port for socket connection
  */
 public class HostAndPort {
 
     /**
-     * 主机地址
+     * Host address
      */
     private String host;
 
     /**
-     * socket连接的端口
+     * Port for socket connection
      */
     private int port;
 

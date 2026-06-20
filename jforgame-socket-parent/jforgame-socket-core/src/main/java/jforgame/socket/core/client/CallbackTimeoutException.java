@@ -1,7 +1,7 @@
 package jforgame.socket.core.client;
 
 /**
- * 回调超时异常
+ * Callback timeout exception
  */
 public class CallbackTimeoutException extends RuntimeException {
 

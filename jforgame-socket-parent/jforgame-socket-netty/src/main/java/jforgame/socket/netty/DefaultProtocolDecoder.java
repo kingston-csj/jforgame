@@ -15,18 +15,18 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * 协议栈解码器
- * 此类提供默认的私有协议栈解码器。
- * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
- * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
- * 消息体包括需要由{@link MessageCodec}解码的字节消息。
+ * Protocol stack decoder.
+ * This class provides a default private protocol stack decoder.
+ * A complete data frame consists of two parts: message head and message body:
+ * The message head contains the length of the data frame and message ID metadata, message sequence number (managed by client).
+ * The message body includes the byte message that needs to be decoded by {@link MessageCodec}.
  *
  * @see MessageCodec#decode(Class, byte[])
  */
 public class DefaultProtocolDecoder extends ByteToMessageDecoder {
 
     /**
-     * 最大协议字节数（包头+包体）
+     * Max protocol bytes (header + body)
      */
     private int maxProtocolBytes;
 

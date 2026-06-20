@@ -14,13 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 协议栈编码器
- * 此类提供默认的私有协议栈编码器。
- * 一个完整的数据帧包含消息头（message head）和消息体（message body）两部分：
- * 消息头包含数据帧的长度（length of the data frame）和消息 ID 元数据（message id meta），消息序号（客户端自行管理）。
- * 消息体仅包含待编码的消息字节流，具体编码需通过 {@link MessageCodec} 接口的 {@link MessageCodec#encode (Object)} 方法实现。
- * 注意：此类标注了 {@link io.netty.channel.ChannelHandler.Sharable} 注解，因此可在不同的通道流水线（channel pipeline）中共享该编码器实例。
- * 如果使用共享对象，请确保{@link #messageCodec}实例线程安全
+ * Protocol stack encoder.
+ * This class provides a default private protocol stack encoder.
+ * A complete data frame consists of two parts: message head and message body:
+ * The message head contains the length of the data frame and message ID metadata, message sequence number (managed by client).
+ * The message body only contains the message byte stream to be encoded. The specific encoding needs to be implemented
+ * through the {@link MessageCodec#encode(Object)} method of the {@link MessageCodec} interface.
+ * Note: This class is annotated with {@link io.netty.channel.ChannelHandler.Sharable} annotation, so it can be shared
+ * across different channel pipelines.
+ * If using shared objects, make sure the {@link #messageCodec} instance is thread-safe.
  */
 @ChannelHandler.Sharable
 public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
@@ -49,15 +51,15 @@ public class DefaultProtocolEncoder extends MessageToByteEncoder<Object> {
         int cmd = messageFactory.getMessageId(dataFrame.getMessage().getClass());
         try {
             byte[] body = messageCodec.encode(dataFrame.getMessage());
-            // 写入包头
-            //消息内容长度
+            // Write header
+            // message content length
             int msgLength = body.length + DefaultMessageHeader.SIZE;
             out.writeInt(msgLength);
             out.writeInt(dataFrame.getIndex());
-            // 写入cmd类型
+            // Write cmd type
             out.writeInt(cmd);
 
-            // 写入包体
+            // Write body
             out.writeBytes(body);
 
             trafficObserver.onOutbound(cmd, msgLength);

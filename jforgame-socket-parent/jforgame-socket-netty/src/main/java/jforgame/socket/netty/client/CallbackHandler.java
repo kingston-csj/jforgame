@@ -8,7 +8,7 @@ import jforgame.socket.core.client.RpcResponseData;
 import jforgame.socket.core.protocol.message.RequestDataFrame;
 
 /**
- * 回调处理器，用于绑定请求与响应的关系
+ * Callback handler, used to bind the relationship between request and response.
  */
 public class CallbackHandler extends ChannelInboundHandlerAdapter {
 

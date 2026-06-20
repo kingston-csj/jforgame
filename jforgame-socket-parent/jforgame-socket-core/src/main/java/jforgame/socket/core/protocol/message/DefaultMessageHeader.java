@@ -3,7 +3,7 @@ package jforgame.socket.core.protocol.message;
 import java.nio.ByteBuffer;
 
 /**
- * 默认的消息头
+ * Default message header
  */
 public class DefaultMessageHeader implements MessageHeader {
 
@@ -14,19 +14,19 @@ public class DefaultMessageHeader implements MessageHeader {
 
 
     /**
-     * 消息总长度，包括包头的12个字节，以及包体的长度
+     * Total message length, including 12 bytes of header and body length
      */
     private int msgLength;
 
     /**
-     * 消息包序，由客户端维护
-     * 可用于客户端回调设计；或者服务器检测消息重播
-     * 由客户端自行保证自增长
+     * Message sequence number, maintained by client.
+     * Can be used for client callback design; or server message replay detection.
+     * Client guarantees self-incrementing.
      */
     private int index;
 
     /**
-     * 消息类型
+     * Message type
      */
     private int cmd;
 

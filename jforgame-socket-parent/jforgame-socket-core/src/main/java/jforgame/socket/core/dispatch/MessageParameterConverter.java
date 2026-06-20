@@ -4,17 +4,17 @@ import jforgame.socket.core.protocol.annotation.RequestHandler;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * 消息参数转换器，用于将消息参数转换为被{@link RequestHandler}注解的方法的实参
+ * Message parameter converter, converts message parameters to actual method arguments annotated with {@link RequestHandler}
  */
 public interface MessageParameterConverter {
 
      /**
-      * 将各种参数转为被{@link RequestHandler}注解的方法的实参
+      * Converts various parameters to actual method arguments annotated with {@link RequestHandler}
       *
-      * @param session      会话
-      * @param methodParams 方法参数
-      * @param context      请求上下文
-      * @return 转化后的方法实参
+      * @param session      socket session
+      * @param methodParams method parameters
+      * @param context      request context
+      * @return converted method arguments
       */
      Object[] convertToMethodParams(IdSession session, Class<?>[] methodParams, RequestContext context);
 

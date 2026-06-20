@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 /**
- * TCP客户端
+ * TCP client
  */
 public class TcpSocketClient extends AbstractSocketClient {
 

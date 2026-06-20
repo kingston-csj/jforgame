@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 通道io处理器，把netty各种事件都转发给框架内置的消息分发器
+ * Channel IO handler, forwards various Netty events to the built-in message dispatcher of the framework.
  */
 @ChannelHandler.Sharable
 public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
@@ -21,7 +21,7 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
     private final static Logger logger = LoggerFactory.getLogger("socketserver");
 
     /**
-     * 消息分发器
+     * Message dispatcher
      */
     private final SocketIoDispatcher messageDispatcher;
 

@@ -23,8 +23,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 /**
- * websocket 消息帧与框架数据帧之间的编解码器
- * 将 {@link WebSocketFrame} 转换为 {@link SocketDataFrame} 或其他类型的消息
+ * Codec between websocket message frame and framework data frame.
+ * Converts {@link WebSocketFrame} to {@link SocketDataFrame} or other types of messages.
  */
 public class WebSocketFrameToSocketDataCodec extends MessageToMessageCodec<WebSocketFrame, Object> {
 
@@ -35,12 +35,12 @@ public class WebSocketFrameToSocketDataCodec extends MessageToMessageCodec<WebSo
 
     private static final int MIN_BUFF_THRESHOLD = 1024;
 
-    // 编码buff本地缓存
+    // Encode buffer local cache
     private static final ThreadLocal<ByteBuf> smallBufferCache = ThreadLocal.withInitial(
-            () -> ByteBufAllocator.DEFAULT.buffer(MIN_BUFF_THRESHOLD) // 使用默认池化分配器，初始容量 1KB
+            () -> ByteBufAllocator.DEFAULT.buffer(MIN_BUFF_THRESHOLD) // Use default pooled allocator, initial capacity 1KB
     );
 
-    // 数据帧类型
+    // Data frame type
     private int frameType;
 
     public WebSocketFrameToSocketDataCodec(MessageCodec messageCodec, MessageFactory messageFactory) {
@@ -58,7 +58,7 @@ public class WebSocketFrameToSocketDataCodec extends MessageToMessageCodec<WebSo
         if (o instanceof SocketDataFrame) {
             SocketDataFrame socketDataFrame = (SocketDataFrame) o;
             Object message = socketDataFrame.getMessage();
-            // 文本格式
+            // Text format
             if (frameType == WebSocketServer.FRAME_TYPE_TEXT) {
                 String json = JsonUtil.object2String(message);
                 WebSocketJsonFrame frame = new WebSocketJsonFrame();
@@ -67,7 +67,7 @@ public class WebSocketFrameToSocketDataCodec extends MessageToMessageCodec<WebSo
                 frame.msg = json;
                 list.add(new TextWebSocketFrame(JsonUtil.object2String(frame)));
             } else {
-                // 二进制格式
+                // Binary format
                 byte[] body = this.messageCodec.encode(message);
                 MessageHeader header = new DefaultMessageHeader();
                 header.setCmd(this.messageFactory.getMessageId(message.getClass()));
@@ -76,22 +76,22 @@ public class WebSocketFrameToSocketDataCodec extends MessageToMessageCodec<WebSo
                 int requiredSize = header.getMsgLength();
                 ByteBuf buffer;
                 boolean usedCacheBuff = false;
-                if (requiredSize <= MIN_BUFF_THRESHOLD) { // 小消息使用缓存
+                if (requiredSize <= MIN_BUFF_THRESHOLD) { // Small messages use cache
                     buffer = smallBufferCache.get();
-                    // 检查引用计数，若已释放则重新创建
+                    // Check reference count, recreate if already released
                     if (buffer.refCnt() == 0) {
                         buffer = ctx.alloc().buffer(MIN_BUFF_THRESHOLD);
-                        smallBufferCache.set(buffer); // 更新缓存
+                        smallBufferCache.set(buffer); // Update cache
                     }
                     usedCacheBuff = true;
-                    buffer.clear(); // 清空复用
+                    buffer.clear(); // Clear for reuse
                 } else {
-                    // 大消息按需分配
+                    // Large messages allocate on demand
                     buffer = ctx.alloc().buffer(requiredSize);
                 }
 
                 if (usedCacheBuff) {
-                    // 手动增加计数器，防止转成BinaryWebSocketFrame后被自动释放
+                    // Manually increase reference count to prevent automatic release after converting to BinaryWebSocketFrame
                     buffer.retain();
                 }
 

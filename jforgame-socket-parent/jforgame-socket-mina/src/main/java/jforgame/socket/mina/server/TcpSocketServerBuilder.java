@@ -9,8 +9,8 @@ import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * TCP服务器构建器
- * 此类用于构建TCP服务器，提供了设置服务器参数、绑定端口、构建服务器等操作。
+ * TCP server builder.
+ * This class is used to build TCP server, providing operations such as setting server parameters, binding ports, and building server.
  */
 public class TcpSocketServerBuilder {
 

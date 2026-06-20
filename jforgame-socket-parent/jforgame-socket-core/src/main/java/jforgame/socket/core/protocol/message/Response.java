@@ -1,17 +1,18 @@
 package jforgame.socket.core.protocol.message;
 
 /**
- * 通用响应类
- * 对于每一个Req请求协议，都有对应的Res响应协议
- * 推荐使用该类作为响应协议的基类，客户端可以在更高的抽象层统一处理错误码
- * 而对于服务器主动推送给客户端的消息，则无须使用该类
- * 注意：使用该基类，必须确保通信协议层能对父类字段进行序列化和反序列化。
- * json/struct均支持对父类字段进行序列化和反序列化，而原生protobuf尚不支持
+ * Common response class.
+ * For each Req request protocol, there is a corresponding Res response protocol.
+ * It is recommended to use this class as the base class for response protocols.
+ * Clients can uniformly handle error codes at a higher abstraction layer.
+ * For messages actively pushed by server to clients, there is no need to use this class.
+ * Note: When using this base class, ensure the communication protocol layer can serialize and deserialize parent class fields.
+ * json/struct both support serialization/deserialization of parent class fields, while native protobuf does not support it yet.
  */
 public abstract class Response implements Message {
 
     /**
-     * 错误状态码，0为成功，非0为错误码
+     * Error status code, 0 means success, non-zero means error code
      */
     private int code;
 

@@ -8,42 +8,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 对于客户端的每一个请求，在生命周期内，都有一个供框架执行的上下文
+ * For each client request, there is a context for framework execution during its lifecycle
  */
 public class RequestContext {
 
     /**
-     * 消息执行器
+     * Message executor
      */
     private MessageExecutor methodExecutor;
 
     /**
-     * 请求消息包
+     * Request message packet
      */
     private Object request;
 
     /**
-     * 请求消息包对应的包头
+     * Message header corresponding to the request
      */
     private MessageHeader header;
 
     /**
-     * 实际传递到消息执行者的具体参数
+     * Actual parameters passed to the message executor
      */
     private Object[] params;
 
     /**
-     * 处理过程中遇到的异常
+     * Exception encountered during processing
      */
     private Throwable error;
 
     /**
-     * 对应的处理结果(可为空)
+     * Corresponding processing result (can be null)
      */
     private Object response;
 
     /**
-     * 拓展属性
+     * Extended attributes
      */
     private Map<String, Object> attributes;
 

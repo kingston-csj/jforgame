@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
- * 流量统计，统计输入，输出流的字节数量，消息数量
+ * Traffic statistics, counts input/output byte count and message count
  */
 public class TrafficStatistic {
 
@@ -24,20 +24,20 @@ public class TrafficStatistic {
 
 
     /**
-     * input <messageId, totalBytesLength>
+     * input <messageId, totalCount>
      */
     private static ConcurrentMap<Integer, AtomicInteger> receivedNumbers = new ConcurrentHashMap<>();
 
     /**
-     * output <messageId, totalBytesLength>
+     * output <messageId, totalCount>
      */
     private static ConcurrentMap<Integer, AtomicInteger> sentNumbers = new ConcurrentHashMap<>();
 
     /**
-     * 添加收到的字节数
+     * Add received bytes
      *
-     * @param cmd     消息id
-     * @param msgLength 消息长度
+     * @param cmd     message id
+     * @param msgLength message length
      */
     public static void addReceivedBytes(int cmd, int msgLength) {
         receivedBytes.putIfAbsent(cmd, new AtomicLong());
@@ -45,10 +45,10 @@ public class TrafficStatistic {
     }
 
     /**
-     * 添加发送的字节数
+     * Add sent bytes
      *
-     * @param cmd     消息id
-     * @param msgLength 消息长度
+     * @param cmd     message id
+     * @param msgLength message length
      */
     public static void addSentBytes(int cmd, int msgLength) {
         sentBytes.putIfAbsent(cmd, new AtomicLong());
@@ -56,9 +56,9 @@ public class TrafficStatistic {
     }
 
     /**
-     * 添加收到的消息数
+     * Add received message count
      *
-     * @param cmd 消息id
+     * @param cmd message id
      */
     public static void addReceivedNumber(int cmd) {
         receivedNumbers.putIfAbsent(cmd, new AtomicInteger());
@@ -66,9 +66,9 @@ public class TrafficStatistic {
     }
 
     /**
-     * 添加发送的消息数
+     * Add sent message count
      *
-     * @param cmd 消息id
+     * @param cmd message id
      */
     public static void addSentNumber(int cmd) {
         sentNumbers.putIfAbsent(cmd, new AtomicInteger());
@@ -76,7 +76,7 @@ public class TrafficStatistic {
     }
 
     /**
-     * 重置收到的字节数和消息数
+     * Reset received bytes and message count
      */
     public static void resetReceivedBytes() {
         receivedBytes.clear();
@@ -84,7 +84,7 @@ public class TrafficStatistic {
     }
 
     /**
-     * 重置发送的字节数和消息数
+     * Reset sent bytes and message count
      */
     public static void resetSentBytes() {
         sentBytes.clear();
@@ -92,34 +92,34 @@ public class TrafficStatistic {
     }
 
     /**
-     * 展示已接收的字节数
+     * Show received bytes
      *
-     * @return &lt;消息id, 字节数&gt;
+     * @return &lt;messageId, bytes&gt;
      */
     public static Map<Integer, Long> showReceivedBytes() {
         return receivedBytes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get()));
     }
 
     /**
-     * 显示已发送的字节数
+     * Show sent bytes
      *
-     * @return &lt;消息id, 字节数&gt;
+     * @return &lt;messageId, bytes&gt;
      */
     public static Map<Integer, Long> showSentBytes() {
         return sentBytes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get()));
     }
 
     /**
-     * 显示已接收的消息数
-     * @return &lt;消息id, 消息数&gt;
+     * Show received message count
+     * @return &lt;messageId, count&gt;
      */
     public static Map<Integer, Integer> showReceivedNumbers() {
         return receivedNumbers.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get()));
     }
 
     /**
-     * 显示已发送的消息数
-     * @return &lt;消息id, 消息数&gt;
+     * Show sent message count
+     * @return &lt;messageId, count&gt;
      */
     public static Map<Integer, Integer> showSentNumbers() {
         return sentNumbers.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().get()));

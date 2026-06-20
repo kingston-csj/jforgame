@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 消息路由注解，用于标记一个类为消息路由类
+ * Message route annotation, used to mark a class as a message route class
  */
 @Documented
 @Target(ElementType.TYPE)
@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 public @interface MessageRoute {
 
     /**
-     * 对应的模块号(可选项)
-     * 优先使用该参数，而不是{@link  MessageMeta#module()}，避免同一模块下的协议都重复申明
-     * @return 模块号
+     * Corresponding module number (optional).
+     * Prefer to use this parameter instead of {@link MessageMeta#module()}, to avoid duplicate declaration of protocols in the same module.
+     * @return module number
      */
     short module() default 0;
 }

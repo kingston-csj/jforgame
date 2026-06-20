@@ -1,7 +1,7 @@
 package jforgame.socket.core.monitoring;
 
 /**
- * 默认流量观测器，内部仍然复用 {@link TrafficStatistic} 完成统计。
+ * Default traffic observer, internally reuses {@link TrafficStatistic} for statistics.
  */
 public class DefaultTrafficObserver implements MessageTrafficObserver {
 

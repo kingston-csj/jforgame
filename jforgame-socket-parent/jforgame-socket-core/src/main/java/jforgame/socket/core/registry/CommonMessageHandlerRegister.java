@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * 通用的消息处理注册器，用于注册消息处理方法
+ * Common message handler register, used to register message handling methods
  */
 public class CommonMessageHandlerRegister extends DefaultMessageHandlerRegister {
 
@@ -24,7 +24,7 @@ public class CommonMessageHandlerRegister extends DefaultMessageHandlerRegister 
     private MessageFactory messageFactory;
 
     /**
-     * 扫描路径动态创建MessageRoute实例，用于非spring环境
+     * Scan path to dynamically create MessageRoute instances, for non-spring environment
      * @param scanPath path to scan class with Annotation {@link MessageRoute}
      * @param messageFactory factory of message
      */
@@ -62,7 +62,7 @@ public class CommonMessageHandlerRegister extends DefaultMessageHandlerRegister 
     }
 
     /**
-     * 根据MessageRoute实例集合进行注册，用于spring环境
+     * Register based on MessageRoute instance collection, for spring environment.
      * @param routes message routes
      * @param messageFactory  factory of message
      */
