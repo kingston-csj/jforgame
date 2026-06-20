@@ -19,8 +19,10 @@ public class DynamicClassLoader extends ClassLoader {
     private final Map<String, byte[]> classBytes;
 
     /**
-     * 这里指定app classloader，不能用上下文加载器,因为如果在springmvc接口触发热更时,这里的classloader是tomcat的TomcatEmbeddedWebappClassLoader
-     * 对于新类，转由app classloader加载,应用程序才可以直接使用, 否则会报 ClassNotFoundException
+     * The app classloader is specified here; do not use the context classloader, because when hot-swapping is
+     * triggered from a springmvc endpoint, the classloader here is tomcat's TomcatEmbeddedWebappClassLoader.
+     * For new classes, delegating to the app classloader allows the application to use them directly,
+     * otherwise a ClassNotFoundException will be thrown.
      */
     private final ClassLoader appClassLoader;
 
@@ -47,20 +49,20 @@ public class DynamicClassLoader extends ClassLoader {
      */
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        // 检查是否有我们需要动态加载的类字节码
+        // Check whether there is bytecode for a class we need to load dynamically
         byte[] data = classBytes.get(name);
         if (data == null) {
             throw new ClassNotFoundException(name);
         }
         try {
-            // 检查应用类加载器是否已经加载了这个类
+            // Check whether the application classloader has already loaded this class
             boolean isLoadedByAppClassLoader = isLoadedByAppClassLoader(name);
             if (isLoadedByAppClassLoader) {
-                // 如果已被appClassLoader加载，用当前类加载器重新加载
+                // If already loaded by appClassLoader, reload it with the current classloader
                 logger.info("reload class {} with dynamicClassLoader", name);
                 return defineClass(name, data, 0, data.length);
             } else {
-                // 如果未被加载，尝试用appClassLoader加载
+                // If not loaded yet, try to load it with appClassLoader
                 logger.info("load new class {} with AppClassLoader", name);
                 return defineClassWithAppClassLoader(name, data);
             }
@@ -72,7 +74,7 @@ public class DynamicClassLoader extends ClassLoader {
 
     private boolean isLoadedByAppClassLoader(String className) {
         try {
-            // 尝试用appClassLoader加载类，如果成功则说明已加载
+            // Try to load the class with appClassLoader; if it succeeds, the class has already been loaded
             appClassLoader.loadClass(className);
             return true;
         } catch (ClassNotFoundException e) {
@@ -81,11 +83,11 @@ public class DynamicClassLoader extends ClassLoader {
     }
 
     private Class<?> defineClassWithAppClassLoader(String name, byte[] data) throws Exception {
-        // 检查appClassLoader是否已经定义了这个类
+        // Check whether appClassLoader has already defined this class
         try {
             return appClassLoader.loadClass(name);
         } catch (ClassNotFoundException e) {
-            // 如果没有，使用反射让appClassLoader定义这个类
+            // If not, use reflection to let appClassLoader define this class
             Method method = ClassLoader.class.getDeclaredMethod(
                     "defineClass", String.class, byte[].class, int.class, int.class);
             method.setAccessible(true);

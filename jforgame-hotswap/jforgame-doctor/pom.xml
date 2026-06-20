@@ -16,8 +16,8 @@
     <description>jforgame hostswap util</description>
 
     <dependencies>
-        <!-- tools.jar包，jdk9+不用外部导入
-         所以这里用了optional参数，如果是jdk8及以下，需要客户端代码自行添加-->
+        <!-- tools.jar dependency; no external import is needed on jdk9+,
+         so the optional flag is used here. On jdk8 and below, client code must add it manually -->
         <dependency>
             <groupId>com.github.olivergondza</groupId>
             <artifactId>maven-jdk-tools-wrapper</artifactId>
@@ -25,8 +25,8 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <!-- jdk9+  com.sun.tools.classfile不允许外部代码访问
-            改成使用asm获取byte数组对应的className-->
+        <!-- On jdk9+, com.sun.tools.classfile is not accessible to external code,
+            so ASM is used instead to get the className from the byte array -->
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>

@@ -10,33 +10,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyAgent {
-    // 目标类全限定名
+    // Fully qualified name of the target class
     private static final String TARGET_CLASS = "jforgame.hotswap.JavaDoctor";
 
-    // 缓存JavaDoctor的类加载器（JVM生命周期内唯一，无需重复获取）
+    // Cache the classloader of JavaDoctor (unique within the JVM lifecycle, no need to fetch it repeatedly)
     private static volatile ClassLoader CACHED_HOST_CLASS_LOADER = null;
 
     public static void agentmain(String args, Instrumentation inst) {
         ClassLoader classLoader = null;
         try {
-            // ========== 核心：多方式兜底获取宿主类加载器 ==========
+            // ========== Core: obtain the host classloader through multiple fallback strategies ==========
             classLoader = getHostClassLoader(inst);
             if (classLoader == null) {
                 throw new RuntimeException("cannot get host class loader");
             }
-            // 1. 用宿主类加载器加载JavaDoctor
+            // 1. Load JavaDoctor with the host classloader
             Class<?> javaDoctorClass = classLoader.loadClass(TARGET_CLASS);
 
-            // 2. 读取fixData字段
+            // 2. Read the fixData field
             Field fixDataField = javaDoctorClass.getDeclaredField("fixData");
             fixDataField.setAccessible(true);
             byte[] fixData = (byte[]) fixDataField.get(null);
 
             if (fixData == null || fixData.length == 0) {
-                throw new RuntimeException("fixData为空，无热更类数据");
+                throw new RuntimeException("fixData is empty, no hot-swap class data");
             }
 
-            // 3. 解析fixData中的类字节码
+            // 3. Parse the class bytecode from fixData
             DataInputStream dis = new DataInputStream(new ByteArrayInputStream(fixData));
             int fileSize = dis.readInt();
 
@@ -49,7 +49,7 @@ public class MyAgent {
                 reloadFiles.put(className, body);
             }
 
-            // 4. 执行类重定义
+            // 4. Perform the class redefinition
             StringBuilder sb = new StringBuilder("redefine [");
             for (Map.Entry<String, byte[]> entry : reloadFiles.entrySet()) {
                 String className = entry.getKey();
@@ -60,7 +60,7 @@ public class MyAgent {
                     sb.append(className).append(";");
                 } catch (ClassNotFoundException ignore) {
                 } catch (Exception e) {
-                    // 异常赋值到exception字段，不写入独立日志
+                    // Assign the exception to the exception field; do not write to a separate log
                     Field exceptionField = javaDoctorClass.getDeclaredField("exception");
                     exceptionField.setAccessible(true);
                     exceptionField.set(null, e);
@@ -68,20 +68,20 @@ public class MyAgent {
                 }
             }
 
-            // 5. 赋值log字段
+            // 5. Assign the log field
             sb.append("] finished");
             Field logField = javaDoctorClass.getDeclaredField("log");
             logField.setAccessible(true);
             logField.set(null, sb.toString());
 
-            // 清空异常字段
+            // Clear the exception field
             Field exceptionField = javaDoctorClass.getDeclaredField("exception");
             exceptionField.setAccessible(true);
             exceptionField.set(null, null);
 
         } catch (Exception e) {
             try {
-                // 异常赋值到exception字段供宿主程序感知
+                // Assign the exception to the exception field so the host program can be aware of it
                 Class<?> javaDoctorClass = classLoader.loadClass(TARGET_CLASS);
                 Field exceptionField = javaDoctorClass.getDeclaredField("exception");
                 exceptionField.setAccessible(true);
@@ -93,14 +93,14 @@ public class MyAgent {
     }
 
     private static ClassLoader getHostClassLoader(Instrumentation inst) {
-        // 1. 优先用缓存（JVM内只获取一次）
+        // 1. Prefer the cache (fetched only once within the JVM)
         if (CACHED_HOST_CLASS_LOADER != null) {
             return CACHED_HOST_CLASS_LOADER;
         }
 
         ClassLoader classLoader = null;
 
-        // 2. 方式1（最优）：从Instrumentation已加载的类中提取
+        // 2. Strategy 1 (preferred): extract it from the classes already loaded by Instrumentation
         try {
             for (Class<?> clazz : inst.getAllLoadedClasses()) {
                 if (TARGET_CLASS.equals(clazz.getName())) {
@@ -112,12 +112,12 @@ public class MyAgent {
             e.printStackTrace();
         }
 
-        // 3. 方式3（最终兜底）：获取SystemClassLoader（即AppClassLoader）
+        // 3. Strategy 2 (final fallback): get the SystemClassLoader (i.e. AppClassLoader)
         if (classLoader == null) {
             classLoader = ClassLoader.getSystemClassLoader();
         }
 
-        // 缓存获取到的类加载器（后续无需重复遍历）
+        // Cache the obtained classloader (no need to iterate again later)
         if (classLoader != null) {
             CACHED_HOST_CLASS_LOADER = classLoader;
         }

@@ -27,9 +27,9 @@ public class JavaDoctor {
         DynamicClassLoader classLoader = new DynamicClassLoader(filePath);
         Map<String, byte[]> classBytes = classLoader.getClassBytes();
         for (Map.Entry<String, byte[]> entry : classBytes.entrySet()) {
-            // 这里使用loadClass, 严格遵循双类委派机制
-            // 对于已经加载的类，不重复加载
-            // 只加载新的类
+            // Use loadClass here to strictly follow the parent-delegation model
+            // Classes that have already been loaded are not loaded again
+            // Only the new classes are loaded
             classLoader.loadClass(entry.getKey());
         }
 
@@ -51,7 +51,7 @@ public class JavaDoctor {
 
     private static boolean redefineClasses(String path, Map<String, byte[]> classBytes) {
         try {
-            // 拿到当前jvm的进程id
+            // Get the process id of the current jvm
             String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
             VirtualMachine vm = VirtualMachine.attach(pid);
             log = "empty";
