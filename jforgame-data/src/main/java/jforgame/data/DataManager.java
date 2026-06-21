@@ -128,6 +128,7 @@ public class DataManager implements DataRepository {
         // Special handling for common table
         if (CommonData.class == table) {
             tableName = options.getCommonTableName();
+            definition.setResourceTable(tableName);
         }
         tableDefinitions.put(tableName, definition);
 

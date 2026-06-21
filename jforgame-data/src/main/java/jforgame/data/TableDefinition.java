@@ -107,4 +107,8 @@ public class TableDefinition {
     public String getResourceTable() {
         return resourceTable;
     }
+
+    public void setResourceTable(String resourceTable) {
+        this.resourceTable = resourceTable;
+    }
 }
