@@ -29,7 +29,9 @@ final class RequestExecutionSupport {
     void execute(IdSession session, RequestContext requestContext) {
         try {
             for (RequestExecutionInterceptor interceptor : interceptors) {
-                interceptor.beforeExecute(session, requestContext);
+                if (!interceptor.beforeExecute(session, requestContext)) {
+                    return;
+                }
             }
 
             MethodCaller methodCaller = MethodHandleUtils.getCaller(requestContext.getMethodExecutor().getMethod());

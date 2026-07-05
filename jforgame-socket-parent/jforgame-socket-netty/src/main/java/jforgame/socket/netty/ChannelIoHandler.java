@@ -53,6 +53,7 @@ public class ChannelIoHandler extends ChannelInboundHandlerAdapter {
         final Channel channel = context.channel();
         IdSession session = ChannelUtils.getSessionBy(channel);
         RequestContext requestContext = new RequestContext();
+        requestContext.setSession(session);
         requestContext.setRequest(requestDataFrame.getMessage());
         requestContext.setHeader(requestDataFrame.getHeader());
         messageDispatcher.dispatch(session, requestContext);

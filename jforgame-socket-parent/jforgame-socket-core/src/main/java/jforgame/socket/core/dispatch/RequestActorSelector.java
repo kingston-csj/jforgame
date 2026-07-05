@@ -1,6 +1,5 @@
 package jforgame.socket.core.dispatch;
 
-import jforgame.socket.core.session.IdSession;
 import jforgame.threadmodel.actor.Actor;
 
 /**
@@ -14,9 +13,8 @@ public interface RequestActorSelector {
     /**
      * Select target Actor
      *
-     * @param session socket session
      * @param context request context
      * @return target Actor
      */
-    Actor select(IdSession session, RequestContext context);
+    Actor select(RequestContext context);
 }

@@ -142,7 +142,7 @@ MessageCodec jsonCodec = new JsonCodec();
 // 方式二：使用Protobuf（高性能）
 MessageCodec protobufCodec = new ProtobufCodec();
 
-// 方式三：使用Struct（最高性能）
+// 方式三：使用Struct（高拓展性，支持异构元素）
 MessageCodec structCodec = new StructCodec();
 ```
 

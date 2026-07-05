@@ -3,7 +3,11 @@ package jforgame.socket.core.dispatch;
 import jforgame.socket.core.support.ActorRequestScheduler;
 import jforgame.socket.core.support.DispatchThreadRequestScheduler;
 import jforgame.socket.core.support.SessionResponseSender;
+import jforgame.threadmodel.actor.Actor;
+import jforgame.threadmodel.actor.ActorSystem;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
+
+import java.util.function.Function;
 
 /**
  * Common request scheduler factory.
@@ -40,18 +44,25 @@ public final class RequestSchedulers {
         return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver, responseSender, interceptors);
     }
 
-    public static RequestScheduler newActorScheduler(RequestActorSelector actorSelector) {
-        return newActorScheduler(actorSelector, SessionResponseSender.INSTANCE);
-    }
-
-    public static RequestScheduler newActorScheduler(RequestActorSelector actorSelector,
-                                                     RequestExecutionInterceptor... interceptors) {
-        return newActorScheduler(actorSelector, SessionResponseSender.INSTANCE, interceptors);
-    }
-
-    public static RequestScheduler newActorScheduler(RequestActorSelector actorSelector,
+    /**
+     * <p>
+     * 已绑定 Actor 的会话（如登录玩家）路由到解析结果，未绑定的会话
+     * （如登录请求本身）落到 {@link ActorSystem#bindingSharedActor(long)} 兜底。
+     *
+     * @param actorSystem        Actor 系统，提供兜底共享 Actor
+     * @param boundActorResolver 会话 → 绑定 Actor 的解析函数，返回 null 表示未绑定
+     */
+    public static RequestScheduler newActorScheduler(ActorSystem actorSystem,
+                                                     Function<RequestContext, Actor> boundActorResolver,
                                                      RequestResponseSender responseSender,
                                                      RequestExecutionInterceptor... interceptors) {
-        return new ActorRequestScheduler(actorSelector, responseSender, interceptors);
+        return new ActorRequestScheduler(new SessionBindingActorSelector(actorSystem, boundActorResolver),
+                responseSender, interceptors);
+    }
+
+    public static RequestScheduler newActorScheduler(ActorSystem actorSystem,
+                                                     Function<RequestContext, Actor> boundActorResolver,
+                                                     RequestExecutionInterceptor... interceptors) {
+        return newActorScheduler(actorSystem, boundActorResolver, SessionResponseSender.INSTANCE, interceptors);
     }
 }

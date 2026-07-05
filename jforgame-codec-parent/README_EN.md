@@ -142,7 +142,7 @@ MessageCodec jsonCodec = new JsonCodec();
 // Method 2: Use Protobuf (high performance)
 MessageCodec protobufCodec = new ProtobufCodec();
 
-// Method 3: Use Struct (best performance)
+// Method 3: Use Struct (High scalability)
 MessageCodec structCodec = new StructCodec();
 ```
 
@@ -169,4 +169,3 @@ PlayerMessage decoded = (PlayerMessage) codec.decode(PlayerMessage.class, data);
 4. **Field Type Restrictions**:
    - Struct collection elements cannot be parent class or abstract class by default (unless upgrade version is enabled)
    - Map Key type is forced to String
-5. **Performance Ranking**: Struct > Protobuf > JSON

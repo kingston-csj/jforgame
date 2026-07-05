@@ -31,7 +31,7 @@ public class ActorRequestScheduler implements RequestScheduler {
 
     @Override
     public void schedule(IdSession session, RequestContext context) {
-        Actor actor = actorSelector.select(session, context);
+        Actor actor = actorSelector.select(context);
         if (actor == null) {
             throw new IllegalStateException("target actor is null");
         }

@@ -37,6 +37,9 @@ public final class JsonUtil {
     }
 
     public static String object2String(Object object) {
+        if (object == null) {
+            return null;
+        }
         StringWriter writer = new StringWriter();
         try {
             MAPPER.writeValue(writer, object);
@@ -47,11 +50,13 @@ public final class JsonUtil {
         return writer.toString();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T string2Object(String json, Class<T> clazz) {
+        if (StringUtil.isEmpty(json)) {
+            return null;
+        }
         JavaType type = typeFactory.constructType(clazz);
         try {
-            return (T) MAPPER.readValue(json, type);
+            return MAPPER.readValue(json, type);
         } catch (Exception e) {
             logger.error("", e);
             return null;
@@ -89,7 +94,6 @@ public final class JsonUtil {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T[] string2Array(String json, Class<T> clazz) {
         ArrayType type = typeFactory.constructArrayType(clazz);
         try {

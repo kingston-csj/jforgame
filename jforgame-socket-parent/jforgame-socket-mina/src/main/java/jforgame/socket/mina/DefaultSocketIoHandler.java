@@ -40,6 +40,7 @@ public class DefaultSocketIoHandler extends IoHandlerAdapter {
         IdSession userSession = (IdSession) session.getAttribute(USER_SESSION);
         // Delegate to message dispatcher for processing
         RequestContext requestContext = new RequestContext();
+        requestContext.setSession(userSession);
         requestContext.setRequest(requestDataFrame.getMessage());
         requestContext.setHeader(requestDataFrame.getHeader());
         messageDispatcher.dispatch(userSession, requestContext);

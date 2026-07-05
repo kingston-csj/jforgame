@@ -37,7 +37,7 @@ public class DispatchThreadRequestScheduler implements RequestScheduler {
 
     @Override
     public void schedule(IdSession session, RequestContext context) {
-        final long dispatchKey = dispatchKeyResolver.resolve(session, context);
+        final long dispatchKey = dispatchKeyResolver.resolve(context);
         BaseDispatchTask task = new BaseDispatchTask() {
             @Override
             public void action() {

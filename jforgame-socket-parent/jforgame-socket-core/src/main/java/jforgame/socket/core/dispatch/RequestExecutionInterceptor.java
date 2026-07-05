@@ -6,6 +6,7 @@ import jforgame.socket.core.session.IdSession;
  * Request execution interceptor.
  * Used to extend the execution process of a request in the business thread, can add logging, monitoring, authentication before and after method calls,
  * or handle exceptions uniformly.
+ *
  * @since 4.0.0
  */
 public interface RequestExecutionInterceptor {
@@ -15,8 +16,10 @@ public interface RequestExecutionInterceptor {
      *
      * @param session        socket session
      * @param requestContext request context
+     * @return {@code true} means the request can be processed, {@code false} means the request is rejected
      */
-    default void beforeExecute(IdSession session, RequestContext requestContext) {
+    default boolean beforeExecute(IdSession session, RequestContext requestContext) {
+        return true;
     }
 
     /**

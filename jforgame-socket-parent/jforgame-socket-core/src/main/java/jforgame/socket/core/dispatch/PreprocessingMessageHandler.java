@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PreprocessingMessageHandler implements MessageHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessageHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(PreprocessingMessageHandler.class);
 
     /**
      * Message factory

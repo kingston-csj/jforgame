@@ -42,6 +42,7 @@ public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
                 }
             } catch (Exception e) {
                 logger.error("", e);
+                break;
             }
         }
     }
