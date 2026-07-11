@@ -1,6 +1,5 @@
 package jforgame.demo.game;
 
-import jforgame.demo.game.accout.entity.AccountManager;
 import jforgame.demo.game.gm.GmManager;
 import jforgame.demo.game.login.LoginManager;
 import jforgame.demo.game.player.PlayerManager;
@@ -13,8 +12,6 @@ import java.util.Arrays;
  * 管理game包下所有manager
  */
 public class GameContext {
-
-    public static AccountManager accountManager = new AccountManager();
 
     public static GmManager gmManager = new GmManager();
 

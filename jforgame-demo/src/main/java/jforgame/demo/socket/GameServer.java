@@ -33,8 +33,6 @@ public class GameServer {
 
     private ServerNode socketServer;
 
-    private ServerNode httpServer;
-
     private ServerNode crossServer;
 
     private DispatchThreadModel gameExecutor = new DispatchThreadModel();
@@ -137,7 +135,6 @@ public class GameServer {
         // 各种业务逻辑的关闭写在这里。。。
         try {
             socketServer.shutdown();
-            httpServer.shutdown();
             if (crossServer != null) {
                 crossServer.shutdown();
             }

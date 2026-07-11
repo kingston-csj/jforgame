@@ -22,7 +22,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
     public MessageIoDispatcher(String scanPath) {
         this(scanPath, GameMessageFactory.getInstance(),
                 RequestSchedulers.newDispatchScheduler(GameServer.getThreadModel(),
-                        (session, context) -> ((Number) session.getAttribute(SessionProperties.DISTRIBUTE_KEY)).longValue()));
+                        (session) -> ((Number) session.getAttribute(SessionProperties.DISTRIBUTE_KEY)).longValue()));
     }
 
     public MessageIoDispatcher(String scanPath, MessageFactory messageFactory, RequestScheduler requestScheduler) {

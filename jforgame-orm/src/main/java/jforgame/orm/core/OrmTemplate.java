@@ -110,7 +110,7 @@ public class OrmTemplate {
      * @return query result map
      * @throws SQLException sql exception
      */
-    public Map<String, Object> selectOne(String sql) throws SQLException {
+    public Map<String, Object> queryMap(String sql) throws SQLException {
         Map<String, Object> result = new HashMap<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -143,7 +143,7 @@ public class OrmTemplate {
      * @return query result map list
      * @throws SQLException sql exception
      */
-    public List<Map<String, Object>> selectAll(String sql) throws SQLException {
+    public List<Map<String, Object>> queryMapList(String sql) throws SQLException {
         List<Map<String, Object>> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
