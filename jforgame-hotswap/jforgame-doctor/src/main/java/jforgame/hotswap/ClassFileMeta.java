@@ -1,29 +1,21 @@
 package jforgame.hotswap;
 
-
-import org.objectweb.asm.ClassReader;
-
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * This class provides a way to get bytes data and its className of a file.
- * It should be noted that the class uses some apis form tools.jar.
+ * 纯JDK原生API解析class文件，无ASM等外部依赖
  */
 class ClassFileMeta {
 
-    byte[] data;
-
-    String className;
+    private byte[] data;
+    private String className;
 
     public ClassFileMeta(File file) throws Exception {
-        data = Files.readAllBytes(file.toPath());
-        className = readClassName(data);
-    }
-
-    private String readClassName(byte[] data)  {
-        ClassReader classReader = new ClassReader(data);
-        return classReader.getClassName().replaceAll("/",".");
+        Path path = file.toPath();
+        this.data = Files.readAllBytes(path);
+        this.className = ClassByteUtil.parseClassNameFromRawClassBytes(this.data);
     }
 
     public byte[] getData() {
@@ -33,4 +25,5 @@ class ClassFileMeta {
     public String getClassName() {
         return className;
     }
+
 }

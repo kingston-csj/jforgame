@@ -42,7 +42,7 @@ class FileUtil {
                     try (FileInputStream fis = new FileInputStream(file)) {
                         byte[] bytes = new byte[fis.available()];
                         fis.read(bytes);
-                        classBytes.put(fileMeta.className, bytes);
+                        classBytes.put(fileMeta.getClassName(), bytes);
                     }
                 } catch (Exception e) {
                     logger.error("", e);

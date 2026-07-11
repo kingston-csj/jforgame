@@ -25,13 +25,6 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <!-- On jdk9+, com.sun.tools.classfile is not accessible to external code,
-            so ASM is used instead to get the className from the byte array -->
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>9.1</version>
-        </dependency>
     </dependencies>
 
 </project>
