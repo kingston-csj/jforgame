@@ -141,9 +141,10 @@ jforgame采用组件化的方式，每个模块都是一个独立的组件，用
     test[模块]：新增/调整测试用例
     doc[模块]：补充、更新文档
     refactor[模块]：代码重构/结构调整
+    upgrade[模块]：升级依赖/插件版本
     clean[模块]：移除废弃工具方法与冗余代码
     ```
-
+e
    ## 特别鸣谢
    感谢网友[CarsonQizhao](https://github.com/CarsonQizhao)提供的commons多个优秀的工具类;  
    感谢网友[wupeng0528](https://github.com/wupeng0528)为threadmodel模块引入Akka风格的Actor配置系统;    
