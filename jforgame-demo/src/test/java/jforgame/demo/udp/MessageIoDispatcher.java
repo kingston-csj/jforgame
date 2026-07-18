@@ -25,7 +25,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
     public MessageIoDispatcher() {
         LoginRouter router = new LoginRouter();
         this.handlerRegister = new CommonMessageHandlerRegister(Collections.singletonList(router), messageFactory);
-        this.requestScheduler = RequestSchedulers.newDispatchScheduler(GameServer.getThreadModel(), (session, context) -> session.hashCode());
+        this.requestScheduler = RequestSchedulers.newDispatchScheduler(GameServer.getThreadModel(), (context) -> context.getSession().hashCode());
         MessageHandler messageHandler = (session, context) -> {
             Object message = context.getRequest();
             int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
