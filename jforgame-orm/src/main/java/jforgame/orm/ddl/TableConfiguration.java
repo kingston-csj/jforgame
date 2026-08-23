@@ -6,8 +6,12 @@ import jforgame.orm.entity.StatefulEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +26,7 @@ class TableConfiguration {
             tableDefinition.setTableName(tableName);
             tables.put(tableName, tableDefinition);
             fillColumns(entity, tableDefinition);
+            fillIndexes(entity, tableDefinition);
         }
     }
 
@@ -39,7 +44,6 @@ class TableConfiguration {
                             columnDef.setName(f.getName());
                         }
                         columnDef.setPrimary(f.getAnnotation(Id.class) != null);
-                        // Primary key, value cannot be null
                         if (f.isAnnotationPresent(Id.class)) {
                             columnDef.setNullable(false);
                         } else {
@@ -49,6 +53,40 @@ class TableConfiguration {
                         tableDefinition.addColumn(columnDef);
                     });
             currClazz = currClazz.getSuperclass();
+        }
+    }
+
+    private void fillIndexes(Class<?> entity, TableDefinition tableDefinition) {
+        Table tableAnn = entity.getAnnotation(Table.class);
+        if (tableAnn == null) {
+            return;
+        }
+        Index[] indexes = tableAnn.indexes();
+        if (indexes == null) {
+            return;
+        }
+        for (Index idx : indexes) {
+            String name = idx.name();
+            if (StringUtil.isEmpty(name)) {
+                continue;
+            }
+            String columnList = idx.columnList();
+            if (StringUtil.isEmpty(columnList)) {
+                continue;
+            }
+            String[] parts = columnList.split(",");
+            List<String> columnNames = new ArrayList<>(parts.length);
+            for (String p : parts) {
+                String trimmed = p.trim();
+                if (StringUtil.isNotEmpty(trimmed)) {
+                    columnNames.add(trimmed);
+                }
+            }
+            if (columnNames.isEmpty()) {
+                continue;
+            }
+            IndexMetadata meta = new IndexMetadata(name, idx.unique(), columnNames);
+            tableDefinition.addIndex(meta);
         }
     }
 

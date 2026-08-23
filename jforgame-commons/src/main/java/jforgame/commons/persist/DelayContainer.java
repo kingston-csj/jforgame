@@ -1,5 +1,6 @@
 package jforgame.commons.persist;
 
+import jforgame.commons.persist.dlq.DeadLetterQueue;
 import jforgame.commons.thread.NamedThreadFactory;
 
 import java.util.ConcurrentModificationException;

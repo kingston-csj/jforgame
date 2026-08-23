@@ -413,6 +413,7 @@
 ### jforgame-orm
 
     entity字段允许使用基本类型，不强迫使用包装类
+    补充JPA注解关于Table#indexes联合索引的语义
 
 ### jforgame-commons
 

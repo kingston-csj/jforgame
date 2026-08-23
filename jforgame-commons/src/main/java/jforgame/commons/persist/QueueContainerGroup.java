@@ -1,5 +1,7 @@
 package jforgame.commons.persist;
 
+import jforgame.commons.persist.dlq.DeadLetterQueue;
+
 import java.util.Arrays;
 
 /**

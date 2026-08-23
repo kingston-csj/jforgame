@@ -1,5 +1,7 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.dlq;
 
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.SavingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

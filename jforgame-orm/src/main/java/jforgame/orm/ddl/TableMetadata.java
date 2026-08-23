@@ -59,6 +59,10 @@ class TableMetadata {
         return columns;
     }
 
+    public Map<String, IndexMetadata> getIndexes() {
+        return indexes;
+    }
+
     public Set<String> getColumnNames() {
         return columns.keySet();
     }

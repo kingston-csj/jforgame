@@ -17,16 +17,8 @@ public class SchemaCreator implements SchemaStrategy {
 
     private Logger logger = org.slf4j.LoggerFactory.getLogger(SchemaCreator.class);
 
-    /**
-     * Execute create strategy: Drop all tables and recreate
-     *
-     * @param con        database connection
-     * @param codeTables set of table classes defined in code
-     * @throws SQLException SQL exception
-     */
     @Override
     public void doExecute(Connection con, Set<Class<?>> codeTables) throws SQLException {
-        // Disable auto-commit, start transaction
         boolean autoCommit = con.getAutoCommit();
         con.setAutoCommit(false);
         try {
@@ -36,38 +28,26 @@ public class SchemaCreator implements SchemaStrategy {
             DatabaseSchema databaseMetadata = new DatabaseSchema(con);
             List<String> tables = databaseMetadata.getTables(con);
 
-            // 1. Drop all existing tables
             dropAllTables(con, tables);
-            // 2. Recreate all tables
             createAllTables(con, tableConfiguration.getTables());
+            createAllIndexes(con, tableConfiguration.getTables());
 
-            // Commit transaction
             con.commit();
             logger.info("Database schema creation completed");
         } catch (SQLException e) {
-            // Rollback transaction
             con.rollback();
             logger.error("Database schema creation failed, rolled back", e);
             throw e;
         } finally {
-            // Restore auto-commit setting
             con.setAutoCommit(autoCommit);
         }
     }
 
-    /**
-     * Drop all tables
-     *
-     * @param con            database connection
-     * @param existingTables list of existing table names
-     * @throws SQLException SQL exception
-     */
     private void dropAllTables(Connection con, List<String> existingTables) throws SQLException {
         if (existingTables.isEmpty()) {
             logger.info("No tables to drop in database");
             return;
         }
-        // Disable foreign key constraint check
         try (Statement stmt = con.createStatement()) {
             stmt.execute("SET FOREIGN_KEY_CHECKS = 0");
         }
@@ -79,22 +59,13 @@ public class SchemaCreator implements SchemaStrategy {
                 stmt.execute(dropSql);
             } catch (SQLException e) {
                 logger.warn("Failed to drop table {}: {}", tableName, e.getMessage());
-                // Continue to drop other tables, do not interrupt the process
             }
         }
-        // Re-enable foreign key constraint check
         try (Statement stmt = con.createStatement()) {
             stmt.execute("SET FOREIGN_KEY_CHECKS = 1");
         }
     }
 
-    /**
-     * Create all tables
-     *
-     * @param con       database connection
-     * @param tablesDef table definition map
-     * @throws SQLException SQL exception
-     */
     private void createAllTables(Connection con, Map<String, TableDefinition> tablesDef) throws SQLException {
         if (tablesDef.isEmpty()) {
             logger.info("No tables to create");
@@ -112,7 +83,25 @@ public class SchemaCreator implements SchemaStrategy {
                 stmt.execute(createSql);
             } catch (SQLException e) {
                 logger.error("Failed to create table {}: {}", tableName, e.getMessage());
-                throw e; // Interrupt process when table creation fails
+                throw e;
+            }
+        }
+    }
+
+    private void createAllIndexes(Connection con, Map<String, TableDefinition> tablesDef) throws SQLException {
+        if (tablesDef.isEmpty()) {
+            return;
+        }
+        for (TableDefinition tableDef : tablesDef.values()) {
+            List<String> indexSqls = tableDef.sqlCreateIndexStrings();
+            for (String indexSql : indexSqls) {
+                logger.info("Executing schema --> {}", indexSql);
+                try (Statement stmt = con.createStatement()) {
+                    stmt.execute(indexSql);
+                } catch (SQLException e) {
+                    logger.error("Failed to create index on table {}: {}", tableDef.getTableName(), e.getMessage());
+                    throw e;
+                }
             }
         }
     }

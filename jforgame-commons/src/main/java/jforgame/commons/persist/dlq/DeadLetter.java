@@ -1,4 +1,6 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.dlq;
+
+import jforgame.commons.persist.Entity;
 
 /**
  * Dead letter entry, stores entity and failure metadata

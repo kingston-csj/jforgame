@@ -54,6 +54,7 @@ public class SchemaMigrator implements SchemaStrategy {
             if (!tablesMetadata.containsKey(tableName)) {
                 // Table does not exist in database, create it
                 result.add(tableDef.sqlCreateString());
+                result.addAll(tableDef.sqlCreateIndexStrings());
             } else {
                 // Table exists in database, check if there are new fields. Do not handle deleted fields
                 Iterator<String> it = tableDef.sqlAlterStrings(tablesMetadata.get(tableName));

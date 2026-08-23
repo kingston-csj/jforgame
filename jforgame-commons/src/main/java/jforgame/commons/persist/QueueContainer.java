@@ -1,6 +1,7 @@
 package jforgame.commons.persist;
 
 
+import jforgame.commons.persist.dlq.DeadLetterQueue;
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.commons.util.TimeUtil;
 

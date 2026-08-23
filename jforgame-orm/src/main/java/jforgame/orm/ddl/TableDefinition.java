@@ -1,16 +1,20 @@
 package jforgame.orm.ddl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class TableDefinition {
 
     private String tableName;
 
     private Map<String, ColumnDefinition> columns = new LinkedHashMap<>();
+
+    private List<IndexMetadata> indexes = new ArrayList<>();
 
     private String comment;
 
@@ -26,8 +30,16 @@ class TableDefinition {
         columns.put(column.getName(), column);
     }
 
+    public void addIndex(IndexMetadata index) {
+        indexes.add(index);
+    }
+
     public Map<String, ColumnDefinition> getColumns() {
         return columns;
+    }
+
+    public List<IndexMetadata> getIndexes() {
+        return indexes;
     }
 
     public String sqlCreateString() {
@@ -53,13 +65,6 @@ class TableDefinition {
             if (col.isPrimary()) {
                 buf.append("  PRIMARY KEY ");
             }
-//            if ( col.isUnique() ) {
-//                String keyName = Constraint.generateName( "UK_", this, col );
-//                UniqueKey uk = getOrCreateUniqueKey( keyName );
-//                uk.addColumn( col );
-//                buf.append( dialect.getUniqueDelegate()
-//                        .getColumnDefinitionUniquenessFragment( col ) );
-//            }
 
             String columnComment = col.getComment();
             if (columnComment != null) {
@@ -69,17 +74,21 @@ class TableDefinition {
                 buf.append(", ");
             }
         }
-//        if ( hasPrimaryKey() ) {
-//            buf.append( ", " )
-//                    .append( getPrimaryKey().sqlConstraintString( dialect ) );
-//        }
-//
+
         buf.append(')');
         if (comment != null) {
             buf.append(comment);
         }
 
         return buf.toString();
+    }
+
+    public List<String> sqlCreateIndexStrings() {
+        List<String> result = new ArrayList<>();
+        for (IndexMetadata index : indexes) {
+            result.add(index.toSql(tableName));
+        }
+        return result;
     }
 
     public Iterator<String> sqlAlterStrings(TableMetadata tableMetadata) {
@@ -93,7 +102,6 @@ class TableDefinition {
             final ColumnDefinition column = iter.next();
             ColumnMetadata columnInfo = tableMetadata.getColumnMetadata(column.getName());
             if (columnInfo == null) {
-                // the column doesnt exist at all.
                 StringBuilder alter = new StringBuilder(root.toString())
                         .append(" ADD COLUMN ")
                         .append(column.getName())
@@ -116,9 +124,28 @@ class TableDefinition {
 
                 String columnComment = column.getComment();
                 if (columnComment != null) {
-                    alter.append(column.getComment());
+                    alter.append(columnComment);
                 }
                 results.add(alter.toString());
+            }
+        }
+
+        Set<String> existingIndexKeys = new HashSet<>();
+        for (IndexMetadata dbIdx : tableMetadata.getIndexes().values()) {
+            existingIndexKeys.add(dbIdx.signatureKey());
+        }
+        for (IndexMetadata codeIdx : indexes) {
+            if (!existingIndexKeys.contains(codeIdx.signatureKey())) {
+                boolean sameNameDiff = false;
+                for (IndexMetadata dbIdx : tableMetadata.getIndexes().values()) {
+                    if (dbIdx.getName().equalsIgnoreCase(codeIdx.getName())) {
+                        sameNameDiff = true;
+                        break;
+                    }
+                }
+                if (!sameNameDiff) {
+                    results.add(codeIdx.toSql(tableName));
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 package jforgame.commons.persist;
 
+import jforgame.commons.persist.dlq.DeadLetterQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

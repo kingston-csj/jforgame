@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 
 /**
-     * Database table field schema
-     */
+ * Database table field schema
+ */
 class ColumnMetadata {
 
     private final String name;
@@ -27,7 +27,7 @@ class ColumnMetadata {
         isNullable = rs.getString("IS_NULLABLE");
         typeCode = rs.getInt("DATA_TYPE");
         typeName = new StringTokenizer(rs.getString("TYPE_NAME"), "() ").nextToken();
-        
+
         // Build full type name including length information
         String baseTypeName = rs.getString("TYPE_NAME");
         if (columnSize > 0) {
@@ -78,29 +78,31 @@ class ColumnMetadata {
 
     /**
      * Check if it is an integer type
+     *
      * @param typeCode SQL type code
      * @return whether it is an integer type
      */
     private boolean isIntegerType(int typeCode) {
         // Determine integer type based on java.sql.Types definition
         return typeCode == java.sql.Types.TINYINT ||
-               typeCode == java.sql.Types.SMALLINT ||
-               typeCode == java.sql.Types.INTEGER ||
-               typeCode == java.sql.Types.BIGINT;
+                typeCode == java.sql.Types.SMALLINT ||
+                typeCode == java.sql.Types.INTEGER ||
+                typeCode == java.sql.Types.BIGINT;
     }
 
     /**
      * Check if it is a long text type
+     *
      * @param typeName type name
      * @return whether it is a long text type
      */
     private boolean isLongTextType(String typeName) {
         String lowerTypeName = typeName.toLowerCase();
         return lowerTypeName.equals("longtext") ||
-               lowerTypeName.equals("mediumtext") ||
-               lowerTypeName.equals("text") ||
-               lowerTypeName.equals("longblob") ||
-               lowerTypeName.equals("mediumblob") ||
-               lowerTypeName.equals("blob");
+                lowerTypeName.equals("mediumtext") ||
+                lowerTypeName.equals("text") ||
+                lowerTypeName.equals("longblob") ||
+                lowerTypeName.equals("mediumblob") ||
+                lowerTypeName.equals("blob");
     }
 }

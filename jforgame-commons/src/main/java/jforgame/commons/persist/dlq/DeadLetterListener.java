@@ -1,4 +1,4 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.dlq;
 
 /**
  * Listener for dead letter events

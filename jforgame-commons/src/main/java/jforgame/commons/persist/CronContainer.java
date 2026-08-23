@@ -1,5 +1,6 @@
 package jforgame.commons.persist;
 
+import jforgame.commons.persist.dlq.DeadLetterQueue;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
