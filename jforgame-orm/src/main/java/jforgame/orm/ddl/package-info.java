@@ -1,7 +1,9 @@
 /**
- * Reference Hibernate's automatic table creation tool.
- * Combines update and validate strategies.
- * Draws from update strategy: auto create tables, auto add fields, do not delete fields.
- * Draws from validate strategy: give error when table field code is inconsistent with database.
+ * Light‑weight DDL schema utilities, referenced from Hibernate hbm2ddl.
+ * <ul>
+ *     <li>create: Drop & recreate tables at startup</li>
+ *     <li>update: Auto‑create tables and add new columns, never remove existing columns</li>
+ *     <li>validate: Validate metadata‑database consistency without modifying schema</li>
+ * </ul>
  */
 package jforgame.orm.ddl;

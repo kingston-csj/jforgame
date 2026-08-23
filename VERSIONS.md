@@ -424,6 +424,7 @@
 ### jforgame-data
     CommonData#key add @Index annotation
     ResourceOptions add ignoreConfig attribute
+    ExcelDataReader对类型为公式的单元格，直接使用单元格缓存结果
 
 ### jforgame-socket-netty
 

@@ -10,8 +10,21 @@ import java.util.Set;
 
 class TableMetadata {
 
+    /**
+     * Catalog, reserved for JPA specification compatibility.
+     * <p>Currently has no practical usage, full‑qualified table name generation delegated to dialect.
+     */
     private final String catalog;
+
+    /**
+     * Schema, reserved for JPA specification compatibility.
+     * <p>Currently has no practical usage, full‑qualified table name generation delegated to dialect.
+     */
     private final String schema;
+
+    /**
+     * Physical database table name.
+     */
     private final String name;
     /**
      * All column information.
@@ -95,7 +108,6 @@ class TableMetadata {
 
     private void initIndexes(DatabaseMetaData meta) throws SQLException {
         try (ResultSet rs = meta.getIndexInfo(catalog, schema, name, false, true)) {
-
             while (rs.next()) {
                 if (rs.getShort("TYPE") == DatabaseMetaData.tableIndexStatistic) {
                     continue;

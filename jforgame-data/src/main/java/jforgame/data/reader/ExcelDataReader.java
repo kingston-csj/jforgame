@@ -126,12 +126,44 @@ public class ExcelDataReader extends BaseDataReader implements DataReader {
         if (cell == null) {
             return "";
         }
-        // Convert to string uniformly
-        // Converter will automatically convert to the required business type
-        if (cell.getCellType() != CellType.STRING) {
-            cell.setCellType(CellType.STRING);
+        CellType cellType = cell.getCellType();
+        // ==========公式单元格，直接读取Excel缓存好的结果，不重新计算公式==========
+        if (cellType == CellType.FORMULA) {
+            // 获取缓存的结果类型
+            CellType cachedType = cell.getCachedFormulaResultType();
+            return getCellByRealType(cell, cachedType);
         }
-        return cell.getStringCellValue();
+        // 普通单元格
+        return getCellByRealType(cell, cellType);
+    }
+
+    /**
+     * according to the real cell type to get the value
+     */
+    private String getCellByRealType(Cell cell, CellType realType) {
+        switch (realType) {
+            case STRING:
+                return cell.getStringCellValue().trim();
+            case NUMERIC:
+                double num = cell.getNumericCellValue();
+                // Remove .0 for integers
+                if (num == Math.floor(num) && !Double.isInfinite(num)) {
+                    return String.valueOf((long) num);
+                }
+                return String.valueOf(num);
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case BLANK:
+                return "";
+            case ERROR:
+                logger.warn("cell formula error, sheet:{},row:{},col:{}",
+                        cell.getSheet().getSheetName(), cell.getRowIndex(), cell.getColumnIndex());
+                return "";
+            default:
+                // 未知类型，强制转字符串
+                cell.setCellType(CellType.STRING);
+                return cell.getStringCellValue().trim();
+        }
     }
 
     private CellColumn[] readExcelRow(CellHeader[] headers, String[] exportHeader, Row row) {

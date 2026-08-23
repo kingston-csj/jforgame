@@ -5,6 +5,10 @@ import jforgame.commons.util.StringUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This ORM does not support @Column(unique=true).
+ * All uniqueness constraints(single‑column & composite) shall be declared via @Index(unique = true) inside @Table.indexes
+ */
 class ColumnDefinition {
 
     private static Map<Class<?>, String> java2jdbc = new HashMap<>();
@@ -22,7 +26,7 @@ class ColumnDefinition {
         java2jdbc.put(Double.TYPE, "double");
         java2jdbc.put(Long.class, "bigint");
         java2jdbc.put(Long.TYPE, "bigint");
-        // String, default to largest size to avoid overflow
+        // String, default to the largest size to avoid overflow
         java2jdbc.put(String.class, "longtext");
     }
 
@@ -76,12 +80,12 @@ class ColumnDefinition {
         return jdbcType;
     }
 
-    public void setJdbcType(Class<?> clazz, String jdbcType) {
+    public void setJdbcType(Class<?> javaType, String jdbcType) {
         if (StringUtil.isNotEmpty(jdbcType)) {
             this.jdbcType = jdbcType;
         } else {
-            if (java2jdbc.containsKey(clazz)) {
-                this.jdbcType = java2jdbc.get(clazz);
+            if (java2jdbc.containsKey(javaType)) {
+                this.jdbcType = java2jdbc.get(javaType);
             } else {
                 this.jdbcType = java2jdbc.get(String.class);
             }
