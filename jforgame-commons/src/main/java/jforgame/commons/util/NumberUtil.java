@@ -24,8 +24,8 @@ public final class NumberUtil {
     /**
      * Convert object to boolean value with custom default fallback.
      * Rule:
-     * "true" / "1" -> true
-     * "false" / "0" -> false
+     * "true" / "1" return true
+     * "false" / "0" return false
      * null or unrecognized content returns default value.
      * Automatically trim whitespace and ignore case.
      *

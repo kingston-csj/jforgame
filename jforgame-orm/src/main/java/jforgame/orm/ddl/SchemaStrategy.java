@@ -12,9 +12,10 @@ public interface SchemaStrategy {
 
     /**
      * Specific execution logic.
-     * @param con database connection. Note: follows the "who creates, who closes" ownership principle. This method will not automatically close the connection. Make sure the client code closes it.
-     * @param codeTables
-     * @throws SQLException
+     * @param con database connection. Note: follows the "who creates, who closes" ownership principle.
+     *            This method will not automatically close the connection. Make sure the client code closes it.
+     * @param codeTables set of entity classes to be processed
+     * @throws SQLException when a database access error occurs
      */
     void doExecute(Connection con, Set<Class<?>> codeTables) throws SQLException;
 }

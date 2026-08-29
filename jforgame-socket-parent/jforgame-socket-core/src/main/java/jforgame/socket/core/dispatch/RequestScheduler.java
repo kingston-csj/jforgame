@@ -15,7 +15,7 @@ public interface RequestScheduler {
     /**
      * Wrap request data into business task object, then enqueue task to dedicated business thread model.
      * <p>
-     * Invoked on network IO thread, only performs lightweight task encapsulation & enqueue operation,
+     * Invoked on network IO thread, only performs lightweight task encapsulation and enqueue operation,
      * returns instantly without any blocking.
      * All heavy logic including reflection method invoke, database access, business computation
      * will be executed later on independent business threads via wrapped task action.

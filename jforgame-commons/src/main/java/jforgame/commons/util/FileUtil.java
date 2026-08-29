@@ -53,6 +53,7 @@ public final class FileUtil {
      *
      * @param inputStream targetInputStream
      * @return text content of the file
+     * @throws IOException throw IOException when IOException happens
      */
     public static String readFullText(InputStream inputStream) throws IOException {
         StringBuilder result = new StringBuilder();
