@@ -5,16 +5,15 @@ import jforgame.data.annotation.DataTable;
 import jforgame.data.common.CommonContainer;
 import jforgame.data.common.CommonData;
 import jforgame.data.reader.DataReader;
+import jforgame.data.reader.FileTableDataLoader;
+import jforgame.data.reader.TableDataLoader;
 import jforgame.data.validate.CustomValidator;
 import jforgame.data.validate.DataValidator;
 import jforgame.data.validate.ForeignKeyValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class DataManager implements DataRepository {
 
     private final ResourceOptions options;
 
-    private final DataReader dataReader;
+    private final TableDataLoader tableDataLoader;
 
     /**
      * Configuration table definitions, key is always lowercase table name
@@ -55,9 +54,24 @@ public class DataManager implements DataRepository {
      */
     private final List<DataValidator> validators = new LinkedList<>();
 
+    @Deprecated
     public DataManager(ResourceOptions options, DataReader dataReader) {
         this.options = options;
-        this.dataReader = dataReader;
+        this.validators.add(new ForeignKeyValidator(this));
+        this.validators.add(new CustomValidator(this));
+        // wrap reader into default file loader internally
+        this.tableDataLoader = new FileTableDataLoader(dataReader);
+    }
+
+    /**
+     * New constructor, inject custom table data loader.
+     *
+     * @param options         global resource options
+     * @param tableDataLoader data‑source loader strategy
+     */
+    public DataManager(ResourceOptions options, TableDataLoader tableDataLoader) {
+        this.options = options;
+        this.tableDataLoader = tableDataLoader;
         this.validators.add(new ForeignKeyValidator(this));
         this.validators.add(new CustomValidator(this));
     }
@@ -144,22 +158,23 @@ public class DataManager implements DataRepository {
             throw new IllegalStateException(table + " not found");
         }
         try {
-            Resource resource = new FileSystemResource(options.getLocation() + definition.getResourceTable() + options.getSuffix());
-            List<?> records = new LinkedList<>();
+            List<?> records = Collections.emptyList();
             Container container = new Container<>();
             if (containerDefinitions.containsKey(table)) {
                 container = containerDefinitions.get(table).newInstance();
             }
             try {
-                records = dataReader.read(resource.getInputStream(), definition.getClazz());
+                // Delegate data‑fetching work to strategy loader
+                records = tableDataLoader.load(definition, options);
                 logger.info("loaded table {} with {} records", table, records.size());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 if (!options.isIgnoreConfig()) {
+                    // Common table can be missing without throwing exception
                     if (table.equals(options.getCommonTableName())) {
-                        // Allow not using common table functionality
-                        logger.error("loaded table {} failed", table);
+                        logger.error("loaded table {} failed", table, e);
+                        records = Collections.emptyList();
                     } else {
-                        throw new IllegalStateException(String.format("cannot read %s data file", table));
+                        throw new IllegalStateException(String.format("cannot read %s data file", table), e);
                     }
                 }
             }

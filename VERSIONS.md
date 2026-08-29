@@ -408,7 +408,7 @@
 
     新增基于json的消息编解码工具
 
-## V4.1.0
+## V4.1.0 (2026-8-30)
 
 ### jforgame-orm
 
@@ -432,6 +432,12 @@
     websocket服务器支持自适应帧类型，frameType为0代表自动根据客户端上行编码类型选择编码方式
     修复 websocket 数据分片聚合 bug，废弃jforgame.socket.netty.server.WebSocketFrameAggregator
 
+## V4.2.0 
+
+### jforgame-data
+    增加TableDataLoader抽象层，支持数据库作为配置数据源
+
+
 ## V5.0.0 api变动！！(计划)
 
 ### jforgame-codec-struct
@@ -451,3 +457,6 @@
 ### jforgame-socket-mina
 
     DefaultClientSocketIoHandler更名为CallbackHandler
+
+### jforgame-data
+    DataReader更名为FileDataReader
