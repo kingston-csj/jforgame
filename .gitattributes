@@ -1,0 +1,4 @@
+jforgame-demo/script/** linguist-vendored=true
+jforgame-demo/service.sh linguist-vendored=true
+jforgame-demo/src/main/resources/templates/** linguist-vendored=true
+jforgame-demo/src/test/resources/** linguist-vendored=true

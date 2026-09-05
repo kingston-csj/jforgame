@@ -30,7 +30,7 @@
       ├── jforgame-socket-netty  --netty版实现，包含Socket/WebSocket，包含服务端与客户端
       ├── jforgame-socket-mina   --mina版实现， 只包含Socket服务端与客户端， 不支持WebSocket相关
   ├── jforgame-orm     --专门为游戏服务器定制的orm库，用于数据库表记录与程序pojo对象的相互转换        
-  ├── jforgame-data    --配置数据功能模块，提供csv/excel/json读取、数据校验、热更新和二级缓存能力       
+  ├── jforgame-data    --配置数据功能模块，支持csv/excel/json/数据库多种数据源、包含数据校验、热更新和二级缓存能力       
   ├── jforgame-data-spring-boot-starter    --jforgame-data 的 Spring Boot starter，负责属性绑定和自动装配       
   ├── jforgame-hotswap  --支持游戏业务热更新
   ├── jforgame-codec-parent         --用于socket通信的数据编解码  
