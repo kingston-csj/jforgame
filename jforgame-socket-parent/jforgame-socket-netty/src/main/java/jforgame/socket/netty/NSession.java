@@ -3,8 +3,8 @@ package jforgame.socket.netty;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import jforgame.socket.core.session.IdSession;
 import jforgame.socket.core.protocol.message.SocketDataFrame;
+import jforgame.socket.core.session.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Netty session.
@@ -25,6 +26,17 @@ public class NSession implements IdSession {
 
     private static Logger logger = LoggerFactory.getLogger(IdSession.class);
 
+
+    /**
+     * Session ID
+     */
+    private final String id;
+
+    /**
+     * Owner ID, such as playerID or ServerID
+     */
+    private String ownerId;
+
     /**
      * socket io channel
      */
@@ -37,8 +49,25 @@ public class NSession implements IdSession {
 
     public NSession(Channel channel) {
         super();
+        this.id = UUID.randomUUID().toString().replace("-", "");
         this.channel = channel;
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
 
     @Override
     public void send(Object packet) {

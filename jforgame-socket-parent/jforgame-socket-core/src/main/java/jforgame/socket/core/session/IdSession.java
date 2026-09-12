@@ -16,19 +16,30 @@ import java.net.InetSocketAddress;
  */
 public interface IdSession extends Closeable {
 
+    @Deprecated
     String ID = "ID";
 
     /**
-     * get a unique session identifier
+     * get a unique session identifier (read only)
      *
      * @return Return a unique session identifier
      */
-    default String getId() {
-        if (getAttribute(ID) != null) {
-            return getAttribute(ID).toString();
-        }
-        return "";
-    }
+    String getId();
+
+    /**
+     * get session owner id
+     *
+     * @return owner id
+     */
+    String getOwnerId();
+
+    /**
+     * set session owner id
+     *
+     * @param ownerId owner id
+     */
+    void setOwnerId(String ownerId);
+
 
     /**
      * session message without index
@@ -41,8 +52,9 @@ public interface IdSession extends Closeable {
     /**
      * session message before close session
      * the message will be wrapped to {@link SocketDataFrame}
-     * @throws IOException if exception
+     *
      * @param packet message to send
+     * @throws IOException if exception
      * @since 2.2.2
      */
     void sendAndClose(Object packet) throws IOException;
@@ -100,6 +112,7 @@ public interface IdSession extends Closeable {
      * nio raw session
      * //     * @see io.netty.channel.Channel
      * //     * @see org.apache.mina.core.session.IoSession
+     *
      * @return NSession or MSession
      */
     Object getRawSession();

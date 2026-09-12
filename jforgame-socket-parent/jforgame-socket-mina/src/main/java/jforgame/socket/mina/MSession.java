@@ -1,7 +1,7 @@
 package jforgame.socket.mina;
 
-import jforgame.socket.core.session.IdSession;
 import jforgame.socket.core.protocol.message.SocketDataFrame;
+import jforgame.socket.core.session.IdSession;
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.session.IoSession;
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Session implementation based on MINA, provides session-related operations.
@@ -20,8 +21,19 @@ import java.util.Map;
  * Sessions can also contain some extended attributes for storing session-related information.
  */
 public class MSession implements IdSession {
-
     private static Logger logger = LoggerFactory.getLogger(IdSession.class);
+
+
+    /**
+     * Session ID
+     */
+    private final String id;
+
+    /**
+     * Owner ID, such as playerID or ServerID
+     */
+    private String ownerId;
+
 
     protected IoSession session;
 
@@ -31,7 +43,23 @@ public class MSession implements IdSession {
     protected Map<String, Object> attrs = new HashMap<>();
 
     public MSession(IoSession session) {
+        this.id = UUID.randomUUID().toString().replace("-", "");
         this.session = session;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override

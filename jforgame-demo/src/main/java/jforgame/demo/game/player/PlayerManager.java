@@ -87,7 +87,7 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         PlayerEnt player = GameContext.playerManager.get(playerId);
         if (player != null) {
             //绑定session与玩家id
-            session.setAttribute(IdSession.ID, playerId);
+            session.setOwnerId(String.valueOf(playerId));
             //加入在线列表
             GameContext.playerManager.add2Online(player);
 

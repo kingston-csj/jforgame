@@ -437,6 +437,9 @@
 ### jforgame-data
     增加TableDataLoader抽象层，支持数据库作为配置数据源
 
+### jforgame-socket-core
+    Session增加OwnerId（宿主）,例如表示玩家id或服务器节点id
+
 
 ## V5.0.0 api变动！！(计划)
 
