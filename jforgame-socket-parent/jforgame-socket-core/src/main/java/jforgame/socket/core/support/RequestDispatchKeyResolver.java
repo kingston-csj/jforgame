@@ -1,4 +1,6 @@
-package jforgame.socket.core.dispatch;
+package jforgame.socket.core.support;
+
+import jforgame.socket.core.dispatch.RequestContext;
 
 /**
  * Request dispatch key resolver.

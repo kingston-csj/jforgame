@@ -4,7 +4,7 @@
 主版本号(Major version).次版本号(Minor version).修订号(Revision number)，如:1.2.3
 
 *主版本号: 版本的主要变更，通常添加重大特性，或者代码重构（无法向下兼容），会增加主版本号，如从1.x升级到2.x.  
-*次版本号: 版本的次要变更，修复bug或增加小特性会增加次版本号，尽量向下兼容，如从2.1升级到2.2.  
+*次版本号: 版本的次要变更，修复bug或增加小特性会增加次版本号，尽量向下兼容，如从2.1升级到2.2. （部分版本可能涉及到类路径移动，会在版本文档进行说明） 
 *修订号: 版本的微小变更，通常修复bug或优化功能会增加修订号，如从2.2.1升级到2.2.2.
 
 # 版本更新说明
@@ -242,7 +242,7 @@
 
 ### jforgame-socket
 
-    调整ServerNode的类路径(API类路径变动！！)
+    调整ServerNode的类路径(注意，涉及API类路径变动！！)
 
 ### jforgame-socket-netty
 
@@ -439,6 +439,7 @@
 
 ### jforgame-socket-core
     Session增加OwnerId（宿主）,例如表示玩家id或服务器节点id
+    与线程模型相关的代码统一移到support子包(注意，涉及API类路径变动！！)
 
 
 ## V5.0.0 api变动！！(计划)
@@ -454,8 +455,8 @@
 
 ### jforgame-socket-core
     MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
-    ChainedMessageDispatcher#addMessageHandler更名为addIoMessageFilter
-    与threadmodel解耦,(DispatchThreadRequestScheduler,ActorRequestScheduler,RequestSchedulers,RequestActorSelector,SessionBindingActorSelector)等文件属于装配层
+    ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
+    support子包，后续移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
 
 ### jforgame-socket-mina
 

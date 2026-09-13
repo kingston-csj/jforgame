@@ -1,7 +1,6 @@
 package jforgame.socket.core.support;
 
 import jforgame.socket.core.dispatch.RequestContext;
-import jforgame.socket.core.dispatch.RequestDispatchKeyResolver;
 import jforgame.socket.core.dispatch.RequestExecutionInterceptor;
 import jforgame.socket.core.dispatch.RequestResponseSender;
 import jforgame.socket.core.dispatch.RequestScheduler;

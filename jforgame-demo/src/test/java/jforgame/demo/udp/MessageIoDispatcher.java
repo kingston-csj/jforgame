@@ -10,7 +10,7 @@ import jforgame.socket.core.dispatch.RequestScheduler;
 import jforgame.socket.core.registry.MessageHandlerRegister;
 import jforgame.socket.core.registry.MessageExecutor;
 import jforgame.socket.core.protocol.message.MessageFactory;
-import jforgame.socket.core.dispatch.RequestSchedulers;
+import jforgame.socket.core.support.RequestSchedulers;
 
 import java.util.Collections;
 
