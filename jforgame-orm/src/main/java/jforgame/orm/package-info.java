@@ -12,8 +12,8 @@
  * </ul>
  * <p>
  * Game‑server oriented persistence model: single‑table operations, cache‑first, periodic batch async persistence,
- * eventual‑consistency guaranteed by persist containers {@link jforgame.commons.persist.PersistContainer}
- * and {@link jforgame.commons.persist.SavingStrategy}.
+ * eventual‑consistency guaranteed by persist containers {@link jforgame.commons.persist.container.PersistContainer}
+ * and {@link jforgame.commons.persist.strategy.SavingStrategy}.
  * <ul>
  * <li>DbUtils‑like lightweight API</li>
  * <li>Multi‑data‑source support</li>

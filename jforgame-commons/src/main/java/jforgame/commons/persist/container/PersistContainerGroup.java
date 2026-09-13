@@ -1,4 +1,8 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.container;
+
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.strategy.HashShardingStrategy;
+import jforgame.commons.persist.strategy.ShardingStrategy;
 
 import java.util.Arrays;
 

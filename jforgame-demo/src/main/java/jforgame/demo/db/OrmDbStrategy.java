@@ -1,7 +1,7 @@
 package jforgame.demo.db;
 
 import jforgame.commons.persist.Entity;
-import jforgame.commons.persist.SavingStrategy;
+import jforgame.commons.persist.strategy.SavingStrategy;
 import jforgame.orm.entity.BaseEntity;
 
 /**

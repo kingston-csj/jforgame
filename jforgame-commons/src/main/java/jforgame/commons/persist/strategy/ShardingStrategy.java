@@ -1,4 +1,7 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.strategy;
+
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.container.PersistContainerGroup;
 
 /**
  * Sharding strategy for persist container group

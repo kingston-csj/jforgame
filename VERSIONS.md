@@ -238,11 +238,11 @@
     MessageTask更名为ClientRequestTask，去掉dispatchKey字段
     SocketIoDispatcher#dispatch()参数由RequestDataFrame变更为RequestContext，整合请求的所有上下文信息
 
-## V3.1.0(2025-12-1)
+## V3.1.0(2025-12-1) (注意，涉及API类路径变动！！)
 
 ### jforgame-socket
 
-    调整ServerNode的类路径(注意，涉及API类路径变动！！)
+    调整ServerNode的类路径(涉及API类路径变动！！)
 
 ### jforgame-socket-netty
 
@@ -432,15 +432,17 @@
     websocket服务器支持自适应帧类型，frameType为0代表自动根据客户端上行编码类型选择编码方式
     修复 websocket 数据分片聚合 bug，废弃jforgame.socket.netty.server.WebSocketFrameAggregator
 
-## V4.2.0 
+## V4.2.0 (注意，涉及API类路径变动！！)
 
 ### jforgame-data
     增加TableDataLoader抽象层，支持数据库作为配置数据源
 
 ### jforgame-socket-core
-    Session增加OwnerId（宿主）,例如表示玩家id或服务器节点id
-    与线程模型相关的代码统一移到support子包(注意，涉及API类路径变动！！)
+    Session增加OwnerId代表宿主,例如表示玩家id或服务器节点id
+    与线程模型相关的代码统一移到support子包(涉及API类路径变动！！)
 
+### jforgame-commons
+    persist模块内部类路径结构调整(涉及API类路径变动！！)
 
 ## V5.0.0 api变动！！(计划)
 
@@ -451,6 +453,7 @@
 ### jforgame-commons
 
     DbService更名为EntityPersister
+    移除QueueContainerGroup废弃容器，统一使用PersistContainerGroup进行组装
     persist作为独立模块
 
 ### jforgame-socket-core

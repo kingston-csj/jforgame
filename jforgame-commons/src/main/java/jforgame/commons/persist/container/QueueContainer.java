@@ -1,6 +1,8 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.container;
 
 
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.strategy.SavingStrategy;
 import jforgame.commons.persist.dlq.DeadLetterQueue;
 import jforgame.commons.thread.NamedThreadFactory;
 import jforgame.commons.util.TimeUtil;

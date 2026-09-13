@@ -1,5 +1,7 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.container;
 
+
+import jforgame.commons.persist.Entity;
 
 /**
  * Persistence container

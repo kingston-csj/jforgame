@@ -1,5 +1,7 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.container;
 
+import jforgame.commons.persist.Entity;
+import jforgame.commons.persist.strategy.SavingStrategy;
 import jforgame.commons.persist.dlq.DeadLetterQueue;
 
 import java.util.Arrays;
@@ -7,6 +9,7 @@ import java.util.Arrays;
 /**
  * Persistence in queue group form
  * Combine several queue containers into a queue group, perform modulo operation based on entity id, similar to database table partitioning strategy
+ * use {@link PersistContainerGroup} instead
  */
 @Deprecated
 public class QueueContainerGroup extends BasePersistContainer {

@@ -2,9 +2,9 @@ package jforgame.demo.db;
 
 import jforgame.commons.persist.DbService;
 import jforgame.commons.persist.Entity;
-import jforgame.commons.persist.PersistContainer;
-import jforgame.commons.persist.QueueContainer;
-import jforgame.commons.persist.SavingStrategy;
+import jforgame.commons.persist.container.PersistContainer;
+import jforgame.commons.persist.container.QueueContainer;
+import jforgame.commons.persist.strategy.SavingStrategy;
 import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.orm.entity.BaseEntity;

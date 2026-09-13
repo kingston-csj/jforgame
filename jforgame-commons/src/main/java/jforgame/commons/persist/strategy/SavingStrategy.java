@@ -1,4 +1,6 @@
-package jforgame.commons.persist;
+package jforgame.commons.persist.strategy;
+
+import jforgame.commons.persist.Entity;
 
 /**
  * Persistence strategy
