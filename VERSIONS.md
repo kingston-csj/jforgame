@@ -444,6 +444,10 @@
 ### jforgame-commons
     persist模块内部类路径结构调整(涉及API类路径变动！！)
 
+### jforgame-parent
+    Bumps org.apache.logging.log4j from 2.0.7 to 2.22.0
+    Bumps com.fasterxml.jackson.core:jackson-core from 2.18.6 to 2.18.8.
+
 ## V5.0.0 api变动！！(计划)
 
 ### jforgame-codec-struct
