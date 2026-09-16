@@ -31,7 +31,7 @@
         <quartz.version>2.3.2</quartz.version>
         <groovy.version>2.4.21</groovy.version>
         <log4j.version>1.2.17</log4j.version>
-        <log4j2.version>2.25.4</log4j2.version>
+        <log4j2.version>2.25.5</log4j2.version>
         <logback.version>1.2.13</logback.version>
         <spring-boot.version>2.6.3</spring-boot.version>
         <poi.version>5.4.0</poi.version>
