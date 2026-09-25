@@ -64,7 +64,7 @@ public class DataManager implements DataRepository {
     }
 
     /**
-     * New constructor, inject custom table data loader.
+     * inject custom table data loader.
      *
      * @param options         global resource options
      * @param tableDataLoader data‑source loader strategy

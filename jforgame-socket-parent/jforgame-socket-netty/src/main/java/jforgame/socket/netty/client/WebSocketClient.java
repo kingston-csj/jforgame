@@ -18,6 +18,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.core.client.AbstractSocketClient;
 import jforgame.socket.core.dispatch.SocketIoDispatcher;
@@ -36,13 +38,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * WebSocket client
+ * SSL usage:
+ * 1. If wsPath starts with wss://, this client will automatically enable SSL.
+ * 2. Test environment with self-signed server certificate:
+ * use {@link #useInsecureSslForTest()} or provide a custom trust policy via {@link #setSslContext(SslContext)}.
+ * 3. Production environment with formal certificate:
+ * connect directly with wss://domain/path and do not use {@link #useInsecureSslForTest()}.
  */
 public class WebSocketClient extends AbstractSocketClient {
 
     private final EventLoopGroup group = new NioEventLoopGroup(1);
     private final String wsPath;
     private SslContext sslContext;
-    private boolean useSsl = false;
     //  Used for synchronization lock waiting for WebSocket handshake completion
     private CountDownLatch handshakeLatch;
     //  Record whether handshake was successful
@@ -74,6 +81,33 @@ public class WebSocketClient extends AbstractSocketClient {
         this(EMPTY_DISPATCHER, messageFactory, messageCodec, WebSocketFrameType.FRAME_TYPE_TEXT, hostPort, wsPath);
     }
 
+    /**
+     * Inject a custom client SSL context.
+     * Typical usage:
+     * 1. Production environment: provide a custom trust store or mutual TLS configuration.
+     * 2. Test environment: provide a custom trust policy instead of trusting all certificates.
+     */
+    public WebSocketClient setSslContext(SslContext sslContext) {
+        this.sslContext = sslContext;
+        return this;
+    }
+
+    /**
+     * Test-only helper.
+     * Trusts all server certificates so the client can connect to a wss server using a self-signed certificate.
+     * Do not use this in production.
+     */
+    public WebSocketClient useInsecureSslForTest() {
+        try {
+            this.sslContext = SslContextBuilder.forClient()
+                    .trustManager(InsecureTrustManagerFactory.INSTANCE)
+                    .build();
+            return this;
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to initialize test ssl context", e);
+        }
+    }
+
     @Override
     public IdSession openSession() throws IOException {
         // Initialize synchronization lock and state variables
@@ -82,16 +116,36 @@ public class WebSocketClient extends AbstractSocketClient {
         handshakeFailureCause = null;
 
         try {
-            String scheme = useSsl ? "wss" : "ws";
-            String host = targetAddress.getHost();
-            int port = targetAddress.getPort();
-            String path = wsPath == null || wsPath.isEmpty() ? "/" : wsPath;
-            // Ensure path starts with slash
-            if (!path.startsWith("/")) {
-                path = "/" + path;
+            URI websocketUri;
+            String host;
+            int port;
+
+            // If wsPath already carries ws:// or wss://, use it directly.
+            // In particular, wss:// means SSL should be enabled for this connection.
+            if (wsPath != null && (wsPath.startsWith("ws://") || wsPath.startsWith("wss://"))) {
+                websocketUri = URI.create(wsPath);
+                host = websocketUri.getHost();
+                port = websocketUri.getPort();
+                if (port < 0) {
+                    port = "wss".equalsIgnoreCase(websocketUri.getScheme()) ? 443 : 80;
+                }
+            } else {
+                String path = wsPath == null || wsPath.isEmpty() ? "/" : wsPath;
+                if (!path.startsWith("/")) {
+                    path = "/" + path;
+                }
+                host = targetAddress.getHost();
+                port = targetAddress.getPort();
+                websocketUri = new URI("ws", null, host, port, path, null, null);
             }
-            // Create WebSocket URI
-            URI websocketUri = new URI(scheme, null, host, port, path, null, null);
+
+            // For formal certificates, the default client SSL context is usually enough.
+            // For self-signed certificates in test environments, call useInsecureSslForTest()
+            // or inject a custom sslContext before openSession().
+            if ("wss".equalsIgnoreCase(websocketUri.getScheme()) && sslContext == null) {
+                sslContext = SslContextBuilder.forClient().build();
+            }
+
             Bootstrap b = new Bootstrap();
             b.group(group).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
                 @Override

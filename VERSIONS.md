@@ -441,12 +441,15 @@
     Session增加OwnerId代表宿主,例如表示玩家id或服务器节点id
     与线程模型相关的代码统一移到support子包(涉及API类路径变动！！)
 
+### jforgame-socket-netty
+    WebSocketServer和WebSocketClient增加对ssl的支持
+
 ### jforgame-commons
     persist模块内部类路径结构调整(涉及API类路径变动！！)
 
 ### jforgame-parent
     Bumps org.apache.logging.log4j from 2.0.7 to 2.22.0
-    Bumps com.fasterxml.jackson.core:jackson-core from 2.18.6 to 2.18.8.
+    Bumps com.fasterxml.jackson.core:jackson-core from 2.18.6 to 2.18.8
 
 ## V5.0.0 api变动！！(计划)
 
@@ -463,7 +466,7 @@
 ### jforgame-socket-core
     MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
     ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
-    support子包，后续移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
+    support子包移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
 
 ### jforgame-socket-mina
 

@@ -1,5 +1,8 @@
 package jforgame.socket.netty.server;
 
+import io.netty.handler.ssl.SslContext;
+import io.netty.handler.ssl.SslContextBuilder;
+import io.netty.handler.ssl.util.SelfSignedCertificate;
 import jforgame.codec.MessageCodec;
 import jforgame.socket.core.dispatch.ChainedMessageDispatcher;
 import jforgame.socket.core.net.HostAndPort;
@@ -7,10 +10,18 @@ import jforgame.socket.core.protocol.message.MessageFactory;
 import jforgame.socket.netty.ChannelIoHandler;
 import jforgame.socket.netty.WebSocketFrameType;
 
+import javax.net.ssl.SSLException;
 import java.io.File;
+import java.security.cert.CertificateException;
 
 /**
  * WebSocket server builder
+ * SSL usage:
+ * 1. Test environment: use {@link #useSelfSignedCertificate(String)} to let Netty generate
+ * a self-signed certificate at runtime.
+ * 2. Production environment: use {@link #useFormalCertificate(File, File)} or
+ * {@link #useFormalCertificate(File, File, String)} to load the formal certificate and private key.
+ * 3. Advanced usage: use {@link #setSslContext(SslContext)} to inject a custom SSL context.
  */
 public class WebSocketServerBuilder {
 
@@ -34,9 +45,9 @@ public class WebSocketServerBuilder {
      */
     int maxProtocolBytes = 512 * 1024;
 
-    //    private SslContext sslContext;
-//    private boolean enableSsl = false; // SSL not enabled by default
-//    private boolean useSelfSignedCert = true; // Whether to use self-signed certificate
+    private SslContext sslContext;
+    private boolean enableSsl = false; // SSL not enabled by default
+    private boolean useSelfSignedCert = true; // Whether to use self-signed certificate
     private String certDomain; // Certificate domain
     private File certChainFile; // Certificate chain file
     private File privateKeyFile; // Private key file
@@ -157,56 +168,66 @@ public class WebSocketServerBuilder {
     }
 
 
-//    /**
-//     * Enable self-signed certificate
-//     *
-//     * @param domain certificate domain
-//     * @return
-//     */
-//    public WebSocketServerBuilder useSelfSignedCertificate(String domain) {
-//        this.enableSsl = true; // Auto enable SSL
-//        this.useSelfSignedCert = true;
-//        this.certDomain = domain;
-//        return this;
-//    }
-//
-//    /**
-//     * Enable formal certificate
-//     *
-//     * @param certChainFile  certificate file
-//     * @param privateKeyFile private key file
-//     */
-//    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile) {
-//        return useFormalCertificate(certChainFile, privateKeyFile, null);
-//    }
-//
-//    /**
-//     * Enable formal certificate
-//     *
-//     * @param certChainFile  certificate file
-//     * @param privateKeyFile private key file
-//     * @param keyPassword    private key password, pass null if none
-//     */
-//    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile, String keyPassword) {
-//        this.enableSsl = true; // Auto enable SSL
-//        this.useSelfSignedCert = false;
-//        this.certChainFile = certChainFile;
-//        this.privateKeyFile = privateKeyFile;
-//        this.keyPassword = keyPassword;
-//        return this;
-//    }
-//
-//    /**
-//     * Directly set SSL context
-//     * Reserved interface for advanced users to manually set SSL context
-//     *
-//     * @param sslContext
-//     */
-//    public WebSocketServerBuilder setSslContext(SslContext sslContext) {
-//        this.enableSsl = true; // Auto enable SSL
-//        this.sslContext = sslContext;
-//        return this;
-//    }
+    /**
+     * Enable self-signed certificate, just for test
+     * Typical usage: local development / joint debugging / automated tests.
+     * Do not use this in production because the certificate is not trusted by browsers or standard clients.
+     *
+     * @param domain certificate domain
+     * @return this
+     */
+    public WebSocketServerBuilder useSelfSignedCertificate(String domain) {
+        this.enableSsl = true; // Auto enable SSL
+        this.useSelfSignedCert = true;
+        this.certDomain = domain;
+        return this;
+    }
+
+    /**
+     * Enable formal certificate
+     * Typical usage: production or pre-release environment.
+     * The certificate domain should match the domain used by the client when connecting with wss://.
+     *
+     * @param certChainFile  certificate file
+     * @param privateKeyFile private key file
+     * @return this
+     */
+    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile) {
+        return useFormalCertificate(certChainFile, privateKeyFile, null);
+    }
+
+    /**
+     * Enable formal certificate
+     * Typical usage: production or pre-release environment.
+     * The certificate domain should match the domain used by the client when connecting with wss://.
+     *
+     * @param certChainFile  certificate file
+     * @param privateKeyFile private key file
+     * @param keyPassword    private key password, pass null if none
+     * @return this
+     */
+    public WebSocketServerBuilder useFormalCertificate(File certChainFile, File privateKeyFile, String keyPassword) {
+        this.enableSsl = true; // Auto enable SSL
+        this.useSelfSignedCert = false;
+        this.certChainFile = certChainFile;
+        this.privateKeyFile = privateKeyFile;
+        this.keyPassword = keyPassword;
+        return this;
+    }
+
+    /**
+     * Directly set SSL context
+     * Reserved interface for advanced users to manually set SSL context
+     * Suitable when certificate loading or trust policy is managed outside this builder.
+     *
+     * @param sslContext ssl context
+     * @return this
+     */
+    public WebSocketServerBuilder setSslContext(SslContext sslContext) {
+        this.enableSsl = true; // Auto enable SSL
+        this.sslContext = sslContext;
+        return this;
+    }
 
     public WebSocketServer build() {
         // Validate required parameters
@@ -224,37 +245,33 @@ public class WebSocketServerBuilder {
         }
 
         // Configure SSL context
-//        if (enableSsl) {
-//            if (sslContext == null) {
-//                try {
-//                    if (useSelfSignedCert) {
-//                        // Use self-signed certificate
-//                        SelfSignedCertificate ssc = certDomain != null ?
-//                                new SelfSignedCertificate(certDomain) :
-//                                new SelfSignedCertificate();
-//                        sslContext = SslContextBuilder
-//                                .forServer(ssc.certificate(), ssc.privateKey())
-//                                .build();
-//                    } else {
-//                        // Use formal certificate
-//                        if (certChainFile == null || privateKeyFile == null) {
-//                            throw new IllegalArgumentException("certChainFile and privateKeyFile must not null when using formal certificate");
-//                        }
-//                        SslContextBuilder builder = SslContextBuilder.forServer(certChainFile, privateKeyFile);
-//                        if (keyPassword != null) {
-//                            builder.keyManager(certChainFile, privateKeyFile, keyPassword);
-//                        }
-//                        sslContext = builder.build();
-//                    }
-//                } catch (CertificateException | SSLException e) {
-//                    throw new RuntimeException("Failed to initialize SSL context", e);
-//                }
-//            }
-//        }
+        if (enableSsl && sslContext == null) {
+            try {
+                if (useSelfSignedCert) {
+                    SelfSignedCertificate ssc = certDomain != null
+                            ? new SelfSignedCertificate(certDomain)
+                            : new SelfSignedCertificate();
+                    sslContext = SslContextBuilder
+                            .forServer(ssc.certificate(), ssc.privateKey())
+                            .build();
+                } else {
+                    if (certChainFile == null || privateKeyFile == null) {
+                        throw new IllegalArgumentException("certChainFile and privateKeyFile must not null when using formal certificate");
+                    }
+                    SslContextBuilder builder = SslContextBuilder.forServer(certChainFile, privateKeyFile);
+                    if (keyPassword != null) {
+                        builder.keyManager(certChainFile, privateKeyFile, keyPassword);
+                    }
+                    sslContext = builder.build();
+                }
+            } catch (CertificateException | SSLException e) {
+                throw new RuntimeException("Failed to initialize SSL context", e);
+            }
+        }
 
         // Create and configure server instance
         WebSocketServer socketServer = new WebSocketServer();
-//        socketServer.sslContext = sslContext;
+        socketServer.sslContext = sslContext;
         socketServer.nodeConfig = hostPort;
         socketServer.maxProtocolBytes = maxProtocolBytes;
         socketServer.messageCodec = messageCodec;
