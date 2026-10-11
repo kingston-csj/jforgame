@@ -432,7 +432,10 @@
     websocket服务器支持自适应帧类型，frameType为0代表自动根据客户端上行编码类型选择编码方式
     修复 websocket 数据分片聚合 bug，废弃jforgame.socket.netty.server.WebSocketFrameAggregator
 
-## V4.2.0 (注意，涉及API类路径变动！！)
+## V4.2.0到4.4.0 跳过版本
+
+
+## V4.5.0 (2026-10-11) (注意，涉及API类路径变动！！)
 
 ### jforgame-data
     增加TableDataLoader抽象层，支持数据库作为配置数据源
