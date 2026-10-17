@@ -46,21 +46,10 @@ public class Log4J2AppLogger implements AppLogger {
             if (rootLogger.getAppenders().isEmpty()) {
                 PatternLayout layout = PatternLayout.newBuilder()
                         .withConfiguration(config)
-                        .withPattern("%d{yyyy-MM-dd HH:mm:ss} %-5p %c{35} - %m%n")
+                        .withPattern("%d{yyyyMMdd HH:mm:ss} %-5p %c{35} - %m%n")
                         .build();
-                TimeBasedTriggeringPolicy policy = TimeBasedTriggeringPolicy.newBuilder()
-                        .withInterval(1)
-                        .withModulate(true)
-                        .build();
-                RollingFileAppender appender = RollingFileAppender.newBuilder()
-                        .setConfiguration(config)
-                        .withName("APP_MAIN")
-                        .withFileName(LOG_PATH + "/app.log")
-                        .withFilePattern(LOG_PATH + "/app.log.%d{yyyy-MM-dd}")
-                        .withPolicy(policy)
-                        .withAppend(true)
-                        .setLayout(layout)
-                        .build();
+                RollingFileAppender appender = buildRollingAppender(config, "APP_MAIN",
+                        LOG_PATH + "/app.log", layout, jforgame.logger.LoggerConfig.RollingPeriod.DAILY);
                 appender.start();
                 config.addAppender(appender);
                 rootLogger.addAppender(appender, Level.INFO, null);
@@ -82,28 +71,15 @@ public class Log4J2AppLogger implements AppLogger {
         synchronized (context) {
             Configuration config = context.getConfiguration();
             String appenderName = "CLASSIFY_" + name;
-            String fileName = name.toLowerCase();
-            String filePath = LOG_PATH + "/" + fileName + "/" + fileName + ".log";
-            String filePattern = filePath + ".%d{yyyy-MM-dd}";
+            String filePath = jforgame.logger.LoggerConfig.resolveFilePath(name);
+            jforgame.logger.LoggerConfig.RollingPeriod rollingPeriod = jforgame.logger.LoggerConfig.resolveRollingPeriod(name);
 
             if (config.getAppender(appenderName) == null) {
                 PatternLayout layout = PatternLayout.newBuilder()
                         .withConfiguration(config)
                         .withPattern(LOG_PATTERN)
                         .build();
-                TimeBasedTriggeringPolicy policy = TimeBasedTriggeringPolicy.newBuilder()
-                        .withInterval(1)
-                        .withModulate(true)
-                        .build();
-                RollingFileAppender appender = RollingFileAppender.newBuilder()
-                        .setConfiguration(config)
-                        .withName(appenderName)
-                        .withFileName(filePath)
-                        .withFilePattern(filePattern)
-                        .withPolicy(policy)
-                        .withAppend(true)
-                        .setLayout(layout)
-                        .build();
+                RollingFileAppender appender = buildRollingAppender(config, appenderName, filePath, layout, rollingPeriod);
                 appender.start();
                 config.addAppender(appender);
             }
@@ -120,6 +96,24 @@ public class Log4J2AppLogger implements AppLogger {
             loggerConfig.setAdditive(false);
             context.updateLoggers();
         }
+    }
+
+    private static RollingFileAppender buildRollingAppender(Configuration config, String appenderName,
+                                                            String filePath, PatternLayout layout,
+                                                            jforgame.logger.LoggerConfig.RollingPeriod rollingPeriod) {
+        TimeBasedTriggeringPolicy policy = TimeBasedTriggeringPolicy.newBuilder()
+                .withInterval(1)
+                .withModulate(true)
+                .build();
+        return RollingFileAppender.newBuilder()
+                .setConfiguration(config)
+                .withName(appenderName)
+                .withFileName(filePath)
+                .withFilePattern(rollingPeriod.log4j2FilePattern(filePath))
+                .withPolicy(policy)
+                .withAppend(true)
+                .setLayout(layout)
+                .build();
     }
 
     @Override

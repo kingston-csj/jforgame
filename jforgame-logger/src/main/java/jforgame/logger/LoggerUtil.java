@@ -6,13 +6,29 @@ import org.slf4j.LoggerFactory;
 /**
  * Logger utility class
  * Logs recorded using {@link Logger#error(String)} will be redirected to the exception directory without stack trace.
- * Logs recorded using {@link #info} are treated as operational logs, output to corresponding directories based on log type.
- * All parameters are formatted as key-value pairs separated by '|', convenient for third-party parsing.
+ * Supports three info log categories:
+ * 1. Normal log: use org.slf4j.LoggerFactory.getLogger API
+ * All logs are written to the unified "app" file and roll daily.
+ * 2. System log: or {@link #logSystem(String, String)}.
+ * This is a semantic wrapper over normal classified logs, also rolling daily.
+ * 3. Business log: use  {@link #logBusiness(String)}.
+ * All business logs are written to the unified "business" file and roll hourly.
+ * All parameters are formatted as json, convenient for third-party parsing.
  * Logs recorded using {@link #error(String, Exception)} will be redirected to the exception directory with stack trace.
  */
 public class LoggerUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggerUtil.class);
+
+    /**
+     * Output info‑level log message
+     *
+     * @param format    log message format string
+     * @param arguments arguments for format placeholder
+     */
+    public static void info(String format, Object... arguments) {
+        LOGGER.info(format, arguments);
+    }
 
     /**
      * Log an exception at the ERROR level with an accompanying message.
@@ -29,44 +45,24 @@ public class LoggerUtil {
     }
 
     /**
-     * Logs info message with automatic classification by logger type, each type has its own directory
-     *
-     * @param loggerName the log type name
-     * @param content    to log content
+     * Logs a system message.
+     * System logs are written to an independent file based on loggerName and roll daily.
      */
-    public static void info(String loggerName, String content) {
-        AppLogger logger = LoggerBuilder.getLogger(loggerName);
-        logger.info(content);
+    public static void logSystem(String loggerName, String content) {
+        logInternal(loggerName, content);
     }
 
     /**
-     * Logs info message with automatic classification by logger type, each type has its own directory
-     *
-     * @param logger the log type name
-     * @param args   parameters, must be even number (key-value pairs)
+     * Logs a business message.
+     * Business logs are written to the unified "business" file and roll hourly.
      */
-    public static void info(String logger, Object... args) {
-        logInternal(logger, args);
+    public static void logBusiness(String content) {
+        logInternal(LoggerConfig.BUSINESS_LOGGER_NAME, content);
     }
 
-    private static void logInternal(String loggerName, Object... args) {
-        if (args.length == 0) {
-            return;
-        }
-        if (args.length % 2 != 0) {
-            throw new IllegalArgumentException("args.length must be even");
-        }
+    private static void logInternal(String loggerName, String content) {
         AppLogger logger = LoggerBuilder.getLogger(loggerName);
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0, n = args.length; i < n; i += 2) {
-            String key = String.valueOf(args[i]);
-            Object value = args[i + 1];
-            sb.append(key).append("|")
-                    .append(value).append("|");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        logger.info(sb.toString());
+        logger.info(content);
     }
 
 }

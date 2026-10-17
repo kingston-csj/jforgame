@@ -12,6 +12,40 @@ final class LoggerConfig {
      */
     public static final String LOG_PATH = System.getProperty("jforgame.log.path", "./logs");
 
+    static final String BUSINESS_LOGGER_NAME = "business";
+
+    static boolean isBusinessLogger(String loggerName) {
+        return BUSINESS_LOGGER_NAME.equalsIgnoreCase(loggerName);
+    }
+
+    static RollingPeriod resolveRollingPeriod(String loggerName) {
+        return isBusinessLogger(loggerName) ? RollingPeriod.HOURLY : RollingPeriod.DAILY;
+    }
+
+    static String resolveFilePath(String loggerName) {
+        String fileName = loggerName.toLowerCase();
+        return LOG_PATH + "/" + fileName + "/" + fileName + ".log";
+    }
+
+    enum RollingPeriod {
+        DAILY("yyyyMMdd"),
+        HOURLY("yyyyMMddHH");
+
+        private final String datePattern;
+
+        RollingPeriod(String datePattern) {
+            this.datePattern = datePattern;
+        }
+
+        String log4j2FilePattern(String filePath) {
+            return filePath + ".%d{" + datePattern + "}";
+        }
+
+        String log4jDatePattern() {
+            return "'.'" + datePattern;
+        }
+    }
+
     private LoggerConfig() {
     }
 }

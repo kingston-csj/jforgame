@@ -47,9 +47,9 @@ public class Log4JAppLogger implements AppLogger {
             if (!appenders.hasMoreElements()) {
                 DailyRollingFileAppender appender = new DailyRollingFileAppender();
                 appender.setName("APP_MAIN");
-                appender.setLayout(new PatternLayout("%d{yyyy-MM-dd HH:mm:ss} %-5p %c{35} - %m%n"));
+                appender.setLayout(new PatternLayout("%d{yyyyMMdd HH:mm:ss} %-5p %c{35} - %m%n"));
                 appender.setFile(LOG_PATH + "/app.log");
-                appender.setDatePattern("'.'yyyy-MM-dd");
+                appender.setDatePattern(LoggerConfig.RollingPeriod.DAILY.log4jDatePattern());
                 appender.setAppend(true);
                 appender.activateOptions();
                 rootLogger.setLevel(Level.INFO);
@@ -71,13 +71,13 @@ public class Log4JAppLogger implements AppLogger {
         if (logger.getAppender(appenderName) != null) {
             return;
         }
-        String fileName = name.toLowerCase();
-        String filePath = LOG_PATH + "/" + fileName + "/" + fileName + ".log";
+        String filePath = LoggerConfig.resolveFilePath(name);
+        LoggerConfig.RollingPeriod rollingPeriod = LoggerConfig.resolveRollingPeriod(name);
         DailyRollingFileAppender appender = new DailyRollingFileAppender();
         appender.setName(appenderName);
         appender.setLayout(new PatternLayout(LOG_PATTERN));
         appender.setFile(filePath);
-        appender.setDatePattern("'.'yyyy-MM-dd");
+        appender.setDatePattern(rollingPeriod.log4jDatePattern());
         appender.setAppend(true);
         appender.activateOptions();
 

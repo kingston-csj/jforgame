@@ -42,8 +42,8 @@ public class LogbackAppLogger implements AppLogger {
                 return;
             }
             LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-            String fileName = name.toLowerCase();
-            String rollingPattern = LOG_PATH + "/" + fileName + "/" + fileName + ".log.%d{yyyy-MM-dd}";
+            String filePath = LoggerConfig.resolveFilePath(name);
+            LoggerConfig.RollingPeriod rollingPeriod = LoggerConfig.resolveRollingPeriod(name);
 
             PatternLayoutEncoder encoder = new PatternLayoutEncoder();
             encoder.setContext(context);
@@ -52,13 +52,14 @@ public class LogbackAppLogger implements AppLogger {
 
             TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
             policy.setContext(context);
-            policy.setFileNamePattern(rollingPattern);
+            policy.setFileNamePattern(rollingPeriod.log4j2FilePattern(filePath));
             policy.setMaxHistory(MAX_HISTORY_DAYS);
 
             RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
             appender.setContext(context);
             appender.setName(appenderName);
             appender.setAppend(true);
+            appender.setFile(filePath);
             appender.setEncoder(encoder);
             appender.setRollingPolicy(policy);
             policy.setParent(appender);

@@ -454,6 +454,11 @@
     Bumps org.apache.logging.log4j from 2.0.7 to 2.22.0
     Bumps com.fasterxml.jackson.core:jackson-core from 2.18.6 to 2.18.8
 
+## V4.6.0
+
+### jforgame-logger
+    增加LoggerUtil#logSystem记录系统日志（按天滚动）和logBusiness记录业务日志（按小时滚动）
+
 ## V5.0.0 api变动！！(计划)
 
 ### jforgame-codec-struct

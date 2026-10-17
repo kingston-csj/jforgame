@@ -56,7 +56,7 @@ bin/
 
 jforgame-demo/game_protocol
 
-
+.codegraph
 
 # temp ignore
 **/logs/
