@@ -7,6 +7,10 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.classic.filter.LevelFilter;
+import ch.qos.logback.classic.filter.ThresholdFilter;
+import ch.qos.logback.core.ConsoleAppender;
+import ch.qos.logback.core.spi.FilterReply;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -16,16 +20,77 @@ import org.slf4j.LoggerFactory;
  */
 public class LogbackAppLogger implements AppLogger {
 
-    private static final String LOG_PATH = LoggerConfig.LOG_PATH;
     private static final String LOG_PATTERN = "%m%n";
     private static final int MAX_HISTORY_DAYS = 15;
 
     private final Logger delegate;
 
     public LogbackAppLogger(String name) {
+        LoggerBuilder.initialize();
         Logger logger = (Logger) LoggerFactory.getLogger(name);
         configure(name, logger);
         this.delegate = logger;
+    }
+
+    static void initializeDefaultConfiguration() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        synchronized (context) {
+            context.reset();
+            context.getStatusManager().clear();
+            ConsoleAppender<ILoggingEvent> console = new ConsoleAppender<>();
+            console.setContext(context);
+            console.setName("Console");
+            console.setEncoder(buildRootEncoder(context));
+            console.start();
+            Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
+            root.setLevel(Level.INFO);
+            root.addAppender(console);
+            root.addAppender(buildRootAppender(context, "App", LoggerConfig.LOG_PATH + "/app.log", false));
+            root.addAppender(buildRootAppender(context, "Exception", LoggerConfig.LOG_PATH + "/exception/exception.log", true));
+        }
+    }
+
+    private static PatternLayoutEncoder buildRootEncoder(LoggerContext context) {
+        PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+        encoder.setContext(context);
+        encoder.setPattern(LoggerConfig.DEFAULT_PATTERN);
+        encoder.start();
+        return encoder;
+    }
+
+    private static RollingFileAppender<ILoggingEvent> buildRootAppender(LoggerContext context, String name,
+                                                                       String file, boolean errorOnly) {
+        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
+        appender.setContext(context);
+        appender.setName(name);
+        appender.setFile(file);
+        appender.setAppend(true);
+        appender.setEncoder(buildRootEncoder(context));
+        TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy<>();
+        policy.setContext(context);
+        policy.setParent(appender);
+        policy.setFileNamePattern(file + ".%d{yyyy-MM-dd}");
+        policy.setMaxHistory(LoggerConfig.DEFAULT_HISTORY_DAYS);
+        policy.setCleanHistoryOnStart(true);
+        policy.start();
+        appender.setRollingPolicy(policy);
+        if (errorOnly) {
+            LevelFilter filter = new LevelFilter();
+            filter.setContext(context);
+            filter.setLevel(Level.ERROR);
+            filter.setOnMatch(FilterReply.ACCEPT);
+            filter.setOnMismatch(FilterReply.DENY);
+            filter.start();
+            appender.addFilter(filter);
+        } else {
+            ThresholdFilter filter = new ThresholdFilter();
+            filter.setContext(context);
+            filter.setLevel("INFO");
+            filter.start();
+            appender.addFilter(filter);
+        }
+        appender.start();
+        return appender;
     }
 
     /**

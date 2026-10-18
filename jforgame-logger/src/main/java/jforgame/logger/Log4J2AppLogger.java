@@ -7,8 +7,16 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.RollingFileAppender;
 import org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy;
 import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
+import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Log4j2 implementation of {@link AppLogger}
@@ -16,48 +24,48 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
  */
 public class Log4J2AppLogger implements AppLogger {
 
-    private static final String LOG_PATH = jforgame.logger.LoggerConfig.LOG_PATH;
     private static final String LOG_PATTERN = "%m%n";
-    private static volatile boolean ROOT_APPENDER_READY = false;
 
     private final Logger delegate;
 
     public Log4J2AppLogger(String name) {
-        ensureRootAppender();
+        LoggerBuilder.initialize();
         configure(name);
         this.delegate = LogManager.getLogger(name);
     }
 
-    /**
-     * Ensures root logger has an appender configured
-     * Uses double-checked locking for thread safety
-     */
-    private static void ensureRootAppender() {
-        if (ROOT_APPENDER_READY) {
-            return;
+    static void initializeDefaultConfiguration() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        synchronized (context) {
+            ConfigurationBuilder<BuiltConfiguration> builder = ConfigurationBuilderFactory.newConfigurationBuilder();
+            builder.setConfigurationName("jforgame");
+            builder.setStatusLevel(Level.WARN);
+            builder.add(builder.newAppender("Console", "Console").addAttribute("target", "SYSTEM_OUT")
+                    .add(builder.newLayout("PatternLayout").addAttribute("pattern", jforgame.logger.LoggerConfig.DEFAULT_PATTERN + "%ex")));
+            builder.add(buildRootAppender(builder, "App", jforgame.logger.LoggerConfig.LOG_PATH + "/app.log", false));
+            builder.add(buildRootAppender(builder, "Exception", jforgame.logger.LoggerConfig.LOG_PATH + "/exception/exception.log", true));
+            builder.add(builder.newRootLogger(Level.INFO).add(builder.newAppenderRef("Console"))
+                    .add(builder.newAppenderRef("App")).add(builder.newAppenderRef("Exception")));
+            context.start(builder.build(false));
         }
-        synchronized (Log4J2AppLogger.class) {
-            if (ROOT_APPENDER_READY) {
-                return;
-            }
-            LoggerContext context = (LoggerContext) LogManager.getContext(false);
-            Configuration config = context.getConfiguration();
-            LoggerConfig rootLogger = config.getRootLogger();
-            if (rootLogger.getAppenders().isEmpty()) {
-                PatternLayout layout = PatternLayout.newBuilder()
-                        .withConfiguration(config)
-                        .withPattern("%d{yyyyMMdd HH:mm:ss} %-5p %c{35} - %m%n")
-                        .build();
-                RollingFileAppender appender = buildRollingAppender(config, "APP_MAIN",
-                        LOG_PATH + "/app.log", layout, jforgame.logger.LoggerConfig.RollingPeriod.DAILY);
-                appender.start();
-                config.addAppender(appender);
-                rootLogger.addAppender(appender, Level.INFO, null);
-                rootLogger.setLevel(Level.INFO);
-                context.updateLoggers();
-            }
-            ROOT_APPENDER_READY = true;
-        }
+    }
+
+    private static AppenderComponentBuilder buildRootAppender(ConfigurationBuilder<BuiltConfiguration> builder,
+                                                              String name, String file, boolean errorOnly) {
+        Path path = Paths.get(file);
+        return builder.newAppender(name, "RollingFile").addAttribute("fileName", file)
+                .addAttribute("filePattern", file + ".%d{yyyy-MM-dd}")
+                .add(builder.newFilter(errorOnly ? "LevelMatchFilter" : "ThresholdFilter",
+                        Filter.Result.ACCEPT, Filter.Result.DENY).addAttribute("level", errorOnly ? "ERROR" : "INFO"))
+                .add(builder.newLayout("PatternLayout").addAttribute("pattern", jforgame.logger.LoggerConfig.DEFAULT_PATTERN + "%ex"))
+                .addComponent(builder.newComponent("Policies").addComponent(builder.newComponent("TimeBasedTriggeringPolicy")
+                        .addAttribute("interval", 1).addAttribute("modulate", true)))
+                .addComponent(builder.newComponent("DefaultRolloverStrategy")
+                        .addComponent(builder.newComponent("Delete").addAttribute("basePath", path.getParent().toString())
+                                .addAttribute("maxDepth", 1)
+                                .addComponent(builder.newComponent("IfFileName").addAttribute("glob", path.getFileName() + ".*"))
+                                .addComponent(builder.newComponent("IfLastModified")
+                                        .addAttribute("age", jforgame.logger.LoggerConfig.DEFAULT_HISTORY_DAYS + "D"))));
     }
 
     /**

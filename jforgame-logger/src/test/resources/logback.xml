@@ -1,0 +1,48 @@
+<configuration>
+    <!-- 控制台输出（所有级别，可选） -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- INFO 日志（包含 INFO/WARN/ERROR，即所有 INFO 及以上级别） -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/app.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+        <!-- 接受 INFO 及以上级别（默认，可省略，这里显式声明） -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level> <!-- 只处理 INFO 及以上 -->
+        </filter>
+    </appender>
+
+    <!-- ERROR 专用日志（仅 ERROR 级别） -->
+    <appender name="exception" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/exception/exception.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss}%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <!-- 仅接受 ERROR 级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch> <!-- 匹配 ERROR 则接受 -->
+            <onMismatch>DENY</onMismatch> <!-- 不匹配则拒绝（INFO/WARN 等） -->
+        </filter>
+    </appender>
+
+    <!-- 根日志配置：同时输出到 info（含 ERROR）和 exception（仅 ERROR） -->
+    <root level="INFO"> <!-- 处理 INFO 及以上级别 -->
+        <appender-ref ref="STDOUT"/> <!-- 控制台（可选） -->
+        <appender-ref ref="info"/> <!-- INFO/WARN/ERROR 都写入 app.log -->
+        <appender-ref ref="exception"/> <!-- 仅 ERROR 写入 exception.log -->
+    </root>
+
+</configuration>

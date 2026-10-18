@@ -12,6 +12,9 @@ final class LoggerConfig {
      */
     public static final String LOG_PATH = System.getProperty("jforgame.log.path", "./logs");
 
+    static final String DEFAULT_PATTERN = "%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5p %c{35} - %m%n";
+    static final int DEFAULT_HISTORY_DAYS = 30;
+
     static final String BUSINESS_LOGGER_NAME = "business";
 
     static boolean isBusinessLogger(String loggerName) {

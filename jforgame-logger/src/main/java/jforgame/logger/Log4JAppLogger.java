@@ -4,9 +4,10 @@ import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.varia.LevelMatchFilter;
+import org.apache.log4j.varia.DenyAllFilter;
 import org.slf4j.helpers.MessageFormatter;
-
-import java.util.Enumeration;
 
 /**
  * Log4j (1.x) implementation of {@link AppLogger}
@@ -17,46 +18,49 @@ import java.util.Enumeration;
  */
 public class Log4JAppLogger implements AppLogger {
 
-    private static final String LOG_PATH = LoggerConfig.LOG_PATH;
     private static final String LOG_PATTERN = "%m%n";
-    private static volatile boolean ROOT_APPENDER_READY = false;
 
     private final Logger delegate;
 
     public Log4JAppLogger(String name) {
-        ensureRootAppender();
+        LoggerBuilder.initialize();
         Logger logger = Logger.getLogger(name);
         configure(name, logger);
         this.delegate = logger;
     }
 
-    /**
-     * Ensures root logger has an appender configured
-     * Uses double-checked locking for thread safety
-     */
-    private static void ensureRootAppender() {
-        if (ROOT_APPENDER_READY) {
-            return;
+    static void initializeDefaultConfiguration() {
+        Logger rootLogger = Logger.getRootLogger();
+        synchronized (rootLogger) {
+            org.apache.log4j.LogManager.resetConfiguration();
+            ConsoleAppender console = new ConsoleAppender(new PatternLayout(LoggerConfig.DEFAULT_PATTERN),
+                    ConsoleAppender.SYSTEM_OUT);
+            console.setName("Console");
+            rootLogger.setLevel(Level.INFO);
+            rootLogger.addAppender(console);
+            rootLogger.addAppender(buildRootAppender("App", LoggerConfig.LOG_PATH + "/app.log", false));
+            rootLogger.addAppender(buildRootAppender("Exception", LoggerConfig.LOG_PATH + "/exception/exception.log", true));
         }
-        synchronized (Log4JAppLogger.class) {
-            if (ROOT_APPENDER_READY) {
-                return;
-            }
-            Logger rootLogger = Logger.getRootLogger();
-            Enumeration<?> appenders = rootLogger.getAllAppenders();
-            if (!appenders.hasMoreElements()) {
-                DailyRollingFileAppender appender = new DailyRollingFileAppender();
-                appender.setName("APP_MAIN");
-                appender.setLayout(new PatternLayout("%d{yyyyMMdd HH:mm:ss} %-5p %c{35} - %m%n"));
-                appender.setFile(LOG_PATH + "/app.log");
-                appender.setDatePattern(LoggerConfig.RollingPeriod.DAILY.log4jDatePattern());
-                appender.setAppend(true);
-                appender.activateOptions();
-                rootLogger.setLevel(Level.INFO);
-                rootLogger.addAppender(appender);
-            }
-            ROOT_APPENDER_READY = true;
+    }
+
+    private static RetentionDailyRollingFileAppender buildRootAppender(String name, String file, boolean errorOnly) {
+        RetentionDailyRollingFileAppender appender = new RetentionDailyRollingFileAppender();
+        appender.setName(name);
+        appender.setFile(file);
+        appender.setAppend(true);
+        appender.setDatePattern("'.'yyyy-MM-dd");
+        appender.setMaxHistory(LoggerConfig.DEFAULT_HISTORY_DAYS);
+        appender.setThreshold(errorOnly ? Level.ERROR : Level.INFO);
+        appender.setLayout(new PatternLayout(LoggerConfig.DEFAULT_PATTERN));
+        if (errorOnly) {
+            LevelMatchFilter filter = new LevelMatchFilter();
+            filter.setLevelToMatch("ERROR");
+            filter.setAcceptOnMatch(true);
+            appender.addFilter(filter);
+            appender.addFilter(new DenyAllFilter());
         }
+        appender.activateOptions();
+        return appender;
     }
 
     /**

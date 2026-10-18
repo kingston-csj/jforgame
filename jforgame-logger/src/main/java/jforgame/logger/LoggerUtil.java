@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Logger utility class
- * Logs recorded using {@link Logger#error(String)} will be redirected to the exception directory without stack trace.
+ * Logging is configured in memory automatically, without generating configuration files.
+ * With the default configuration, ERROR logs are also written to the exception directory.
  * Supports three info log categories:
  * 1. Normal log: use org.slf4j.LoggerFactory.getLogger API
  * All logs are written to the unified "app" file and roll daily.
@@ -13,10 +14,14 @@ import org.slf4j.LoggerFactory;
  * This is a semantic wrapper over normal classified logs, also rolling daily.
  * 3. Business log: use  {@link #logBusiness(String)}.
  * All business logs are written to the unified "business" file and roll hourly.
- * All parameters are formatted as json, convenient for third-party parsing.
+ * info/error parameters use SLF4J placeholder formatting; classified logs write the supplied content directly.
  * Logs recorded using {@link #error(String, Exception)} will be redirected to the exception directory with stack trace.
  */
 public class LoggerUtil {
+
+    static {
+        LoggerBuilder.initialize();
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggerUtil.class);
 

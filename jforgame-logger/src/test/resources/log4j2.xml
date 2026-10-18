@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" shutdownHook="disable">
+
+
+    <Properties>
+        <Property name="LOG_HOME">./logs</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} %-4r [%t] %-5level %logger{35} - %msg%n%ex</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+        <!-- INFO 及以上日志，按天滚动，保留 30 天 -->
+        <RollingRandomAccessFile name="RollingFileAppender" fileName="${LOG_HOME}/app.log"
+                                 filePattern="${LOG_HOME}/app.log.%d{yyyy-MM-dd}">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}" maxDepth="1">
+                    <IfFileName glob="app.log.*" />
+                    <IfLastModified age="30D" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+        <!-- 仅 ERROR 日志，包含异常堆栈，按天滚动，保留 30 天 -->
+        <RollingRandomAccessFile name="ExceptionAppender" fileName="${LOG_HOME}/exception/exception.log"
+                                 filePattern="${LOG_HOME}/exception/exception.log.%d{yyyy-MM-dd}">
+            <LevelMatchFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+            <PatternLayout pattern="${LOG_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${LOG_HOME}/exception" maxDepth="1">
+                    <IfFileName glob="exception.log.*" />
+                    <IfLastModified age="30D" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <!-- INFO/WARN/ERROR 输出到控制台和 app.log，ERROR 额外输出到异常日志 -->
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFileAppender" />
+            <AppenderRef ref="ExceptionAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

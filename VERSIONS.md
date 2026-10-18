@@ -458,6 +458,7 @@
 
 ### jforgame-logger
     增加LoggerUtil#logSystem记录系统日志（按天滚动）和logBusiness记录业务日志（按小时滚动）
+    项目无需额外配置log4j.xml 或 logback.xml等文件
 
 ## V5.0.0 api变动！！(计划)
 
