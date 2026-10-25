@@ -456,21 +456,23 @@
 
 ## V4.6.0
 
-### jforgame-logger
-    增加LoggerUtil#logSystem记录系统日志（按天滚动）和logBusiness记录业务日志（按小时滚动）
-    项目无需额外配置log4j.xml 或 logback.xml等文件
+### jforgame-commons
+    JsonUtil 方法执行失败时抛出JsonParseException运行期异常而不是返回空
 
 ## V5.0.0 api变动！！(计划)
 
 ### jforgame-codec-struct
 
-    MapCodec/MapCodec2 key支持除String以外的其他基本类型
+    MapCodec/MapCodec2 key增加对Integer的支持（只支持Integer和String，其他基本类型无实际意义）
 
 ### jforgame-commons
 
     DbService更名为EntityPersister
     移除QueueContainerGroup废弃容器，统一使用PersistContainerGroup进行组装
     persist作为独立模块
+
+### jforgame-codec
+    MessageCodec#decode()编码失败时抛出MessageCodecException，而不是return null
 
 ### jforgame-socket-core
     MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
