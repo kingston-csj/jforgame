@@ -20,4 +20,10 @@ public @interface MessageRoute {
      * @return module number
      */
     short module() default 0;
+
+    /**
+     * Corresponding module name (optional). just for api doc
+     * @return module name
+     */
+    String name() default "";
 }
