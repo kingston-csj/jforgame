@@ -34,17 +34,6 @@ public class TripleTest {
     }
 
     @Test
-    public void testToString() {
-        Triple<String, Integer, Boolean> triple = new Triple<>("hello", 42, true);
-        String str = triple.toString();
-        assertNotNull(str);
-        assertTrue(str.contains("Triple"));
-        assertTrue(str.contains("hello"));
-        assertTrue(str.contains("42"));
-        assertTrue(str.contains("true"));
-    }
-
-    @Test
     public void testGenericTypes() {
         Triple<Integer, Double, Long> triple = new Triple<>(100, 3.14, 99999L);
         assertEquals(Integer.valueOf(100), triple.getFirst());

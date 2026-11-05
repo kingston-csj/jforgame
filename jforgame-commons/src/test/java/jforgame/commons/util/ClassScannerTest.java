@@ -16,7 +16,7 @@ public class ClassScannerTest {
         // Scan jforgame.commons.ds package
         Set<Class<?>> classes = ClassScanner.listClasses("jforgame.commons.ds");
         assertNotNull(classes);
-        assertTrue(classes.size() > 0);
+        assertFalse(classes.isEmpty());
         // Should find our package classes
         assertTrue(classes.contains(jforgame.commons.ds.CircleQueue.class));
         assertTrue(classes.contains(jforgame.commons.ds.Pair.class));
@@ -34,7 +34,7 @@ public class ClassScannerTest {
     public void testListAllSubclasses() {
         Set<Class<?>> classes = ClassScanner.listAllSubclasses("jforgame.commons.ds", Object.class);
         assertNotNull(classes);
-        assertTrue(classes.size() > 0);
+        assertFalse(classes.isEmpty());
     }
 
     @Test

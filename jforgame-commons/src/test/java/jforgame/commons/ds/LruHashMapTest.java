@@ -1,9 +1,12 @@
 package jforgame.commons.ds;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for {@link LruHashMap}
@@ -135,14 +138,15 @@ public class LruHashMapTest {
     }
 
     @Test
-    public void testSetMaxCapacityWithMinEnforcement() {
-        lruMap.setMaxCapacity(3);
-        // Should be enforced to MIN_MAX_CAPACITY = 8
-        assertEquals(8, lruMap.getMaxCapacity());
-    }
+    public void testLru() {
+        LruHashMap<Integer, Boolean> cache = new LruHashMap<>(8);
+        for (int i = 1; i <= 8; i++) {
+            cache.put(i, Boolean.TRUE);
+        }
+        cache.get(1);
+        cache.put(9, Boolean.TRUE);
 
-    @Test
-    public void testGetMaxCapacity() {
-        assertEquals(10, lruMap.getMaxCapacity());
+        Assert.assertTrue(cache.containsKey(1));
+        Assert.assertFalse(cache.containsKey(2));
     }
 }

@@ -34,9 +34,9 @@ public class NumberUtilTest {
 
     @Test
     public void testBooleanValueDefault() {
-        assertEquals(false, NumberUtil.booleanValue(null));
-        assertEquals(true, NumberUtil.booleanValue(null, true));
-        assertEquals(false, NumberUtil.booleanValue(null, false));
+        assertFalse(NumberUtil.booleanValue(null));
+        assertTrue(NumberUtil.booleanValue(null, true));
+        assertFalse(NumberUtil.booleanValue(null, false));
     }
 
     @Test

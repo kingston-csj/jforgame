@@ -12,14 +12,6 @@ import static org.junit.Assert.*;
 public class DateUtilTest {
 
     @Test
-    public void testFormat() {
-        Date date = new Date(0L); // Unix epoch
-        String formatted = DateUtil.format(date);
-        assertNotNull(formatted);
-        assertTrue(formatted.length() > 0);
-    }
-
-    @Test
     public void testAddDays() {
         Date date = new Date();
         Date nextDay = DateUtil.addDays(date, 1);

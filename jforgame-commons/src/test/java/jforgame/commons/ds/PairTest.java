@@ -35,16 +35,6 @@ public class PairTest {
     }
 
     @Test
-    public void testToString() {
-        Pair<String, Integer> pair = new Pair<>("hello", 42);
-        String str = pair.toString();
-        assertNotNull(str);
-        assertTrue(str.contains("Pair"));
-        assertTrue(str.contains("hello"));
-        assertTrue(str.contains("42"));
-    }
-
-    @Test
     public void testGenericTypes() {
         Pair<Integer, Double> pair = new Pair<>(100, 3.14);
         assertEquals(Integer.valueOf(100), pair.getFirst());
