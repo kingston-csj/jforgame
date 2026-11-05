@@ -8,14 +8,12 @@ public class TestLruHashMap {
 
 	@Test
 	public void testLru() {
-		LruHashMap<Integer, Integer> cache = new LruHashMap<>(5);
-    	cache.put(1, 1);
-    	cache.put(2, 2);
-    	cache.put(3, 3);
-    	cache.put(4, 4);
-    	cache.put(5, 5);
+		LruHashMap<Integer, Boolean> cache = new LruHashMap<>(8);
+        for (int i = 1; i <= 8; i++) {
+            cache.put(i,Boolean.TRUE);
+        }
     	cache.get(1);
-    	cache.put(6, 6);
+    	cache.put(9, Boolean.TRUE);
     	
     	Assert.assertTrue(cache.containsKey(1));
     	Assert.assertFalse(cache.containsKey(2));
