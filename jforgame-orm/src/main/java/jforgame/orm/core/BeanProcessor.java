@@ -137,6 +137,10 @@ public class BeanProcessor {
 
             // convert value to target type
             value = convertValue(value, targetType, field);
+            if (value == null) {
+                // Retain the initial values of attributes when entity construction
+                return;
+            }
 
             if (setter != null) {
                 if (TypeUtil.isCompatibleType(value, setter.getParameterTypes()[0])) {
