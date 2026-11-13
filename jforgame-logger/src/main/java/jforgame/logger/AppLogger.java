@@ -3,6 +3,7 @@ package jforgame.logger;
 /**
  * Logger interface
  * Usage: {@link LoggerUtil}
+ * @since 3.5.0
  */
 public interface AppLogger {
 

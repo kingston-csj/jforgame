@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>io.github.jforgame</groupId>
+        <artifactId>jforgame-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>jforgame-cache</artifactId>
+    <name>jforgame-cache</name>
+    <description>jforgame entity cache core, no framework dependency</description>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-commons</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
+            <artifactId>concurrentlinkedhashmap-lru</artifactId>
+            <version>1.4.2</version>
+            <!-- 只在使用LruSoftCache缓存的时候自行引入-->
+            <scope>provided</scope>
+        </dependency>
+        <!-- example implementation of DatabaseAccessor, test sources only -->
+        <dependency>
+            <groupId>io.github.jforgame</groupId>
+            <artifactId>jforgame-orm</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

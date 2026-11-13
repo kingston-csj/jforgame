@@ -50,6 +50,8 @@
         <module>jforgame-data-spring-boot-starter</module>
         <module>jforgame-orm</module>
         <module>jforgame-threadmodel</module>
+        <module>jforgame-cache</module>
+        <module>jforgame-cache-spring-boot-starter</module>
         <module>jforgame-demo</module>
     </modules>
     <issueManagement>

@@ -470,6 +470,9 @@
     jforgame.codec.struct.ByteBuffUtil.readUtf8()防止OOM
     为Int, Long增加变长编码支持（类似Protocol Buffers）
 
+### jforgame-orm
+    BeanProcessor 当遇到null字符串保留构造函数默认值而不是报错
+
 ## V5.0.0 api变动！！(计划)
 
 ### jforgame-codec-struct

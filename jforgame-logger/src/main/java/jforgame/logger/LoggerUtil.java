@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * All business logs are written to the unified "business" file and roll hourly.
  * info/error parameters use SLF4J placeholder formatting; classified logs write the supplied content directly.
  * Logs recorded using {@link #error(String, Exception)} will be redirected to the exception directory with stack trace.
+ * @since 3.5.0
  */
 public class LoggerUtil {
 
