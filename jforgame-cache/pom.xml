@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.jforgame</groupId>
-            <artifactId>jforgame-commons</artifactId>
+            <artifactId>jforgame-persist</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

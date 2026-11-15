@@ -16,7 +16,7 @@
     <url>https://github.com/jforgame/jforgame</url>
 
     <properties>
-        <revision>4.6.0</revision>
+        <revision>5.0.0</revision>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -41,6 +41,7 @@
 
     <modules>
         <module>jforgame-commons</module>
+        <module>jforgame-persist</module>
         <module>jforgame-logger</module>
         <module>jforgame-runtime</module>
         <module>jforgame-codec-parent</module>

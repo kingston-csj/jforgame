@@ -478,14 +478,16 @@
     DbService更名为EntityPersister
     移除QueueContainerGroup废弃容器，统一使用PersistContainerGroup进行组装
 
+### jforgame-persist
+    从commons升级为独立模块
+
 TODO: 
 
 ### jforgame-codec-struct
 
     MapCodec/MapCodec2 key增加对Integer的支持（只支持Integer和String，其他基本类型无实际意义）
 
-### jforgame-commons
-    persist作为独立模块
+
 
 ### jforgame-codec
     MessageCodec#decode()编码失败时抛出MessageCodecException，而不是return null

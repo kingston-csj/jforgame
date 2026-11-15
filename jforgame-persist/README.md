@@ -1,4 +1,4 @@
-# 异步数据持久化模块 (jforgame-commons/persist)
+# 异步数据持久化模块 (jforgame-persist)
 
 ## 概述
 
