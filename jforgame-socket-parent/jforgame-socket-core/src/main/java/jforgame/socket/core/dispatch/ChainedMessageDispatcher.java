@@ -26,11 +26,11 @@ public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
     protected List<IoMessageFilter> dispatchChain = new ArrayList<>();
 
     /**
-     * Adds a message handler to the end of the current chain
-     * @param handler message handler
+     * Adds a message filter to the end of the current chain
+     * @param filter message handler
      */
-    public void addMessageHandler(IoMessageFilter handler) {
-        this.dispatchChain.add(handler);
+    public void addIoFilter(IoMessageFilter filter) {
+        this.dispatchChain.add(filter);
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Configuration table reader based on CSV files
  */
-public class CsvDataReader extends BaseDataReader implements DataReader {
+public class CsvDataReader extends BaseDataReader implements FileDataReader {
 
     public CsvDataReader(ConversionService dataConversionService) {
         super(dataConversionService);

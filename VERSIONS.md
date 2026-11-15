@@ -489,6 +489,9 @@
     MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
     ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
 
+### jforgame-data
+    DataReader更名为FileDataReader
+
 TODO: 
 
 ### jforgame-codec-struct
@@ -505,5 +508,3 @@ TODO:
 
 
 
-### jforgame-data
-    DataReader更名为FileDataReader

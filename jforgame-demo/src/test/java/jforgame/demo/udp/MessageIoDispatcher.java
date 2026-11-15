@@ -40,7 +40,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             return true;
         };
 
-        addMessageHandler(ioMessageFilter);
+        addIoFilter(ioMessageFilter);
     }
 
     @Override

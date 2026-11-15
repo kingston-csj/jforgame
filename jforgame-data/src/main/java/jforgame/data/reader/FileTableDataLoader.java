@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class FileTableDataLoader implements TableDataLoader {
 
-    private final DataReader fileDataReader;
+    private final FileDataReader fileDataReader;
 
-    public FileTableDataLoader(DataReader fileDataReader) {
+    public FileTableDataLoader(FileDataReader fileDataReader) {
         this.fileDataReader = fileDataReader;
     }
 

@@ -4,7 +4,7 @@ import jforgame.commons.util.ClassScanner;
 import jforgame.data.annotation.DataTable;
 import jforgame.data.common.CommonContainer;
 import jforgame.data.common.CommonData;
-import jforgame.data.reader.DataReader;
+import jforgame.data.reader.FileDataReader;
 import jforgame.data.reader.FileTableDataLoader;
 import jforgame.data.reader.TableDataLoader;
 import jforgame.data.validate.CustomValidator;
@@ -55,7 +55,7 @@ public class DataManager implements DataRepository {
     private final List<DataValidator> validators = new LinkedList<>();
 
     @Deprecated
-    public DataManager(ResourceOptions options, DataReader dataReader) {
+    public DataManager(ResourceOptions options, FileDataReader dataReader) {
         this.options = options;
         this.validators.add(new ForeignKeyValidator(this));
         this.validators.add(new CustomValidator(this));

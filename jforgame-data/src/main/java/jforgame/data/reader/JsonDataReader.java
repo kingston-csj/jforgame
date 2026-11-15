@@ -17,7 +17,7 @@ import java.util.Map;
  * Uses JSON file as data source
  * The key of each record in the JSON file is similar to the Excel header
  */
-public class JsonDataReader extends BaseDataReader implements DataReader {
+public class JsonDataReader extends BaseDataReader implements FileDataReader {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

@@ -5,7 +5,7 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
 import java.util.List;
 
-public interface DataReader {
+public interface FileDataReader {
 
     /**
      * Converts input stream to record collection

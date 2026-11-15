@@ -7,7 +7,7 @@ import jforgame.data.common.ConfigResourceRegistry;
 import jforgame.data.convertor.JsonToArrayConvertor;
 import jforgame.data.convertor.JsonToListConvertor;
 import jforgame.data.convertor.JsonToMapConvertor;
-import jforgame.data.reader.DataReader;
+import jforgame.data.reader.FileDataReader;
 import jforgame.data.reader.ExcelDataReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -24,7 +24,7 @@ public class ResourceAutoConfiguration {
     // Explicitly specify the name of the ConversionService Bean to inject
     @Bean
     @ConditionalOnMissingBean
-    public DataReader createDataReader(
+    public FileDataReader createDataReader(
             @Qualifier("dataConversionService") ConversionService dataConversionService) {
         return new ExcelDataReader(dataConversionService);
     }
@@ -47,7 +47,7 @@ public class ResourceAutoConfiguration {
 
     @Bean(name = {"dataManager"})
     @DependsOn({"dataConversionService"})
-    public DataManager createDataManager(ResourceOptions resourceOptions, DataReader dataReader) {
+    public DataManager createDataManager(ResourceOptions resourceOptions, FileDataReader dataReader) {
         DataManager dataManager = new DataManager(resourceOptions, dataReader);
         dataManager.init();
         return dataManager;

@@ -28,7 +28,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
     public MessageIoDispatcher(String scanPath, MessageFactory messageFactory, RequestScheduler requestScheduler) {
         this.handlerRegister = new CommonMessageHandlerRegister(scanPath, messageFactory);
         // 客户端请求消息预处理
-        addMessageHandler(new PreprocessingIoMessageFilter(messageFactory, handlerRegister));
+        addIoFilter(new PreprocessingIoMessageFilter(messageFactory, handlerRegister));
 
         IoMessageFilter ioMessageFilter = (session, context) -> {
             // 预处理阶段已经完成路由匹配和方法绑定，这里只负责调度到业务线程模型
@@ -36,7 +36,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             return true;
         };
 
-        addMessageHandler(ioMessageFilter);
+        addIoFilter(ioMessageFilter);
     }
 
     @Override

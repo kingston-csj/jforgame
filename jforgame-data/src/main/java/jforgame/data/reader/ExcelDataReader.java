@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Configuration table reader based on Excel files
  */
-public class ExcelDataReader extends BaseDataReader implements DataReader {
+public class ExcelDataReader extends BaseDataReader implements FileDataReader {
 
     public ExcelDataReader(ConversionService dataConversionService) {
         super(dataConversionService);
