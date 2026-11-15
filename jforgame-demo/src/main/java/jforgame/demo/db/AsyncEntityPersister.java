@@ -1,6 +1,6 @@
 package jforgame.demo.db;
 
-import jforgame.commons.persist.DbService;
+import jforgame.commons.persist.EntityPersister;
 import jforgame.commons.persist.Entity;
 import jforgame.commons.persist.container.PersistContainer;
 import jforgame.commons.persist.container.QueueContainer;
@@ -12,11 +12,11 @@ import jforgame.orm.entity.BaseEntity;
 /**
  * 用户数据异步持久化的服务
  */
-public class AsyncDbService implements DbService {
+public class AsyncEntityPersister implements EntityPersister {
 
-    private static volatile AsyncDbService instance = new AsyncDbService();
+    private static volatile AsyncEntityPersister instance = new AsyncEntityPersister();
 
-    public static AsyncDbService getInstance() {
+    public static AsyncEntityPersister getInstance() {
         return instance;
     }
 

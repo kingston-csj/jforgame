@@ -5,20 +5,20 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for {@link DbService} interface
+ * Unit tests for {@link EntityPersister} interface
  */
-public class DbServiceTest {
+public class EntityPersisterTest {
 
     @Test
     public void testInterfaceMethods() {
         // Verify that interface defines expected methods
-        assertEquals(3, DbService.class.getDeclaredMethods().length);
+        assertEquals(3, EntityPersister.class.getDeclaredMethods().length);
     }
 
     @Test
     public void testSaveToDb() {
         TestEntity entity = new TestEntity(1, "test");
-        TestDbService service = new TestDbService();
+        TestEntityPersister service = new TestEntityPersister();
         assertFalse(service.saveCalled);
 
         service.saveToDb(entity);
@@ -29,7 +29,7 @@ public class DbServiceTest {
     @Test
     public void testDeleteFromDb() {
         TestEntity entity = new TestEntity(1, "test");
-        TestDbService service = new TestDbService();
+        TestEntityPersister service = new TestEntityPersister();
         assertFalse(service.deleteCalled);
 
         service.deleteFromDb(entity);
@@ -39,7 +39,7 @@ public class DbServiceTest {
 
     @Test
     public void testShutDown() {
-        TestDbService service = new TestDbService();
+        TestEntityPersister service = new TestEntityPersister();
         assertFalse(service.shutdownCalled);
 
         service.shutDown();
@@ -60,7 +60,7 @@ public class DbServiceTest {
         }
     }
 
-    private static class TestDbService implements DbService {
+    private static class TestEntityPersister implements EntityPersister {
         boolean saveCalled = false;
         boolean deleteCalled = false;
         boolean shutdownCalled = false;

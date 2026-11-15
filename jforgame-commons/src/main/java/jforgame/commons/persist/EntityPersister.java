@@ -3,7 +3,7 @@ package jforgame.commons.persist;
 /**
  * Data persistence service
  */
-public interface DbService {
+public interface EntityPersister {
 
     /**
      * Persist data entity to database

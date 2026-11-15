@@ -5,7 +5,7 @@ import jforgame.commons.util.ClassScanner;
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.ServerConfig;
 import jforgame.demo.ServerScanPaths;
-import jforgame.demo.db.AsyncDbService;
+import jforgame.demo.db.AsyncEntityPersister;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.core.CronSchedulerHelper;
@@ -147,7 +147,7 @@ public class GameServer {
         } catch (Exception e) {
             logger.error("", e);
         }
-        AsyncDbService.getInstance().shutDown();
+        AsyncEntityPersister.getInstance().shutDown();
         stopWatch.stop();
         logger.error("游戏服关闭成功，耗时[{}]毫秒", stopWatch.getTime());
     }

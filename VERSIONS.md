@@ -473,16 +473,18 @@
 ### jforgame-orm
     BeanProcessor 当遇到null字符串保留构造函数默认值而不是报错
 
-## V5.0.0 api变动！！(计划)
+## V5.0.0 api变动！！
+### jforgame-commons
+    DbService更名为EntityPersister
+    移除QueueContainerGroup废弃容器，统一使用PersistContainerGroup进行组装
+
+TODO: 
 
 ### jforgame-codec-struct
 
     MapCodec/MapCodec2 key增加对Integer的支持（只支持Integer和String，其他基本类型无实际意义）
 
 ### jforgame-commons
-
-    DbService更名为EntityPersister
-    移除QueueContainerGroup废弃容器，统一使用PersistContainerGroup进行组装
     persist作为独立模块
 
 ### jforgame-codec
