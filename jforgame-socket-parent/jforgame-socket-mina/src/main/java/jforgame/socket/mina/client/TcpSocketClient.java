@@ -52,7 +52,7 @@ public class TcpSocketClient extends AbstractSocketClient {
             NioSocketConnector connector = new NioSocketConnector();
             connector.getFilterChain().addLast("codec",
                     new ProtocolCodecFilter(protocolCodecFactory));
-            connector.setHandler(new DefaultClientSocketIoHandler(ioDispatcher));
+            connector.setHandler(new CallbackHandler(ioDispatcher));
 
             ConnectFuture future = connector.connect(new InetSocketAddress(targetAddress.getHost(), targetAddress.getPort()));
             future.awaitUninterruptibly();

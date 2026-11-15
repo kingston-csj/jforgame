@@ -481,6 +481,10 @@
 ### jforgame-persist
     从commons升级为独立模块
 
+### jforgame-socket-mina
+
+    DefaultClientSocketIoHandler更名为CallbackHandler
+
 TODO: 
 
 ### jforgame-codec-struct
@@ -497,9 +501,7 @@ TODO:
     ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
     support子包移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
 
-### jforgame-socket-mina
 
-    DefaultClientSocketIoHandler更名为CallbackHandler
 
 ### jforgame-data
     DataReader更名为FileDataReader

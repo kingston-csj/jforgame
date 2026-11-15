@@ -9,8 +9,8 @@ import org.apache.mina.core.session.IoSession;
 /**
  * Default client SocketIoHandler
  */
-public class DefaultClientSocketIoHandler extends DefaultSocketIoHandler {
-    public DefaultClientSocketIoHandler(SocketIoDispatcher messageDispatcher) {
+public class CallbackHandler extends DefaultSocketIoHandler {
+    public CallbackHandler(SocketIoDispatcher messageDispatcher) {
         super(messageDispatcher);
     }
 
