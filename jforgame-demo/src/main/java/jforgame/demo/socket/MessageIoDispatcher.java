@@ -50,7 +50,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
         long playerId = SessionManager.INSTANCE.getPlayerIdBy(session);
         if (playerId > 0) {
             logger.info("角色[{}]close session", playerId);
-            PlayerEnt player = GameContext.playerManager.get(playerId);
+            PlayerEnt player = GameContext.playerManager.getEntity(playerId);
             BaseDispatchTask closeTask = new BaseDispatchTask() {
                 @Override
                 public void action() {

@@ -126,6 +126,8 @@ public class GameServer {
     private void gameLogicInit() {
         // 游戏启动时，各种业务初始化写在这里吧
         GameContext.playerManager.loadAllPlayerProfiles();
+
+        GameContext.playerManager.getPlayer(123123325L);
         // 跨服天梯
 //		LadderFightManager.getInstance().init();
 

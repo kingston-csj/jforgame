@@ -39,7 +39,7 @@ public class GmManager {
 	 * @return
 	 */
 	public void receiveCommand(long playerId, String content) {
-		PlayerEnt player = GameContext.playerManager.get(playerId);
+		PlayerEnt player = GameContext.playerManager.getEntity(playerId);
 		//判断权限
 		if (!hasExecPower(player)) {
 			return;

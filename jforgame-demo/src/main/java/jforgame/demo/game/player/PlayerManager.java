@@ -1,8 +1,9 @@
 package jforgame.demo.game.player;
 
+import jforgame.cache.BaseEntityCacheService;
 import jforgame.commons.util.NumberUtil;
-import jforgame.demo.cache.BaseCacheService;
-import jforgame.demo.db.AsyncDbService;
+import jforgame.demo.cache.GuavaCacheStore;
+import jforgame.demo.cache.JdbcDatabaseAccessor;
 import jforgame.demo.db.DbUtils;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.core.MessagePusher;
@@ -15,7 +16,6 @@ import jforgame.demo.game.player.model.PlayerProfile;
 import jforgame.demo.listener.EventDispatcher;
 import jforgame.demo.listener.EventType;
 import jforgame.demo.socket.SessionManager;
-import jforgame.demo.utils.IdGenerator;
 import jforgame.socket.core.session.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +29,13 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * 玩家业务管理器
  */
-public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
+public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public PlayerManager() {
+        super(PlayerEnt.class, new JdbcDatabaseAccessor(), new GuavaCacheStore());
+    }
 
     private final ConcurrentMap<Long, PlayerEnt> onlines = new ConcurrentHashMap<>();
 
@@ -60,16 +64,13 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         playerProfiles.put(baseInfo.getId(), baseInfo);
     }
 
-    private void createNewPlayer(IdSession session, String name) {
-        PlayerEnt player = new PlayerEnt();
-        player.setId(IdGenerator.getNextId());
-        player.setName(name);
-
-        long playerId = player.getId();
-        // 手动放入缓存
-        super.put(playerId, player);
-
-        AsyncDbService.getInstance().saveToDb(player);
+    private PlayerEnt createNewPlayer(long playerId, String name) {
+        PlayerEnt player = getOrCreate(playerId, () -> {
+            PlayerEnt playerEnt = new PlayerEnt();
+            playerEnt.setId(playerId);
+            playerEnt.setName(name);
+            return playerEnt;
+        });
 
         PlayerProfile baseInfo = new PlayerProfile();
         baseInfo.setId(playerId);
@@ -78,13 +79,21 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
         baseInfo.setName(player.getName());
         addPlayerProfile(baseInfo);
 
-        ResCreateNewPlayer response = new ResCreateNewPlayer();
-        response.setPlayerId(playerId);
-        MessagePusher.pushMessage(session, response);
+        return player;
     }
 
+
+    public PlayerEnt getPlayer(long playerId) {
+        return getOrCreate(playerId, () -> {
+            PlayerEnt playerEnt = new PlayerEnt();
+            playerEnt.setId(playerId);
+            return playerEnt;
+        });
+    }
+
+
     public void handlePlayerLogin(IdSession session, long playerId) {
-        PlayerEnt player = GameContext.playerManager.get(playerId);
+        PlayerEnt player = GameContext.playerManager.getEntity(playerId);
         if (player != null) {
             //绑定session与玩家id
             session.setOwnerId(String.valueOf(playerId));
@@ -92,30 +101,24 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
             GameContext.playerManager.add2Online(player);
 
             player.setLevel(999);
-            GameContext.playerManager.save(player);
+            GameContext.playerManager.putEntity(player);
 
             SessionManager.INSTANCE.registerNewPlayer(playerId, session);
             //检查日重置
             GameContext.playerManager.checkDailyReset(player);
         } else {
-            createNewPlayer(session, "" + playerId);
+            createNewPlayer(playerId, playerId + "");
+            ResCreateNewPlayer response = new ResCreateNewPlayer();
+            response.setPlayerId(playerId);
+            MessagePusher.pushMessage(session, response);
         }
-    }
-
-    /**
-     * 从用户表里读取玩家数据
-     */
-    @Override
-    public PlayerEnt load(Long playerId) throws Exception {
-        String sql = "SELECT * FROM playerent where Id = ? ";
-        return DbUtils.queryOne(DbUtils.DB_USER, sql, PlayerEnt.class, playerId);
     }
 
     public PlayerEnt getOnlinePlayer(long playerId) {
         if (!onlines.containsKey(playerId)) {
             return null;
         }
-        return get(playerId);
+        return getEntity(playerId);
     }
 
     /**
@@ -165,11 +168,11 @@ public class PlayerManager extends BaseCacheService<Long, PlayerEnt> {
      * @param player
      */
     private void onDailyReset(PlayerEnt player) {
-        save(player);
+        putEntity(player);
     }
 
     public void playerLogout(long playerId) {
-        PlayerEnt player = GameContext.playerManager.get(playerId);
+        PlayerEnt player = GameContext.playerManager.getEntity(playerId);
         if (player == null) {
             return;
         }

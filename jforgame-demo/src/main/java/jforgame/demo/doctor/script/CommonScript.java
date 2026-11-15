@@ -28,10 +28,10 @@ public class CommonScript {
 
 			// replace public method, in order to fix bug in product environment
 			@Override
-			public PlayerEnt load(Long playerId) throws Exception {
+			public PlayerEnt getEntity(Object playerId) {
 				sayHello();
 				PlayerEnt newPlayer = new PlayerEnt();
-				newPlayer.setId(playerId);
+				newPlayer.setId((Long) playerId);
 				newPlayer.setName("robot");
 				return newPlayer;
 			}
@@ -42,7 +42,7 @@ public class CommonScript {
 
             field.set(GameContext.playerManager, newMgr);
 
-            PlayerEnt player = GameContext.playerManager.load(12345L);
+            PlayerEnt player = GameContext.playerManager.getEntity(12345L);
 			System.err.println(player.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
