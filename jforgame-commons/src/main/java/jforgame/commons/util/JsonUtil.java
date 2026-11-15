@@ -81,7 +81,7 @@ public final class JsonUtil {
     }
 
     /**
-     * Parses a JSON string into a Map<String, Object>.
+     * Parses a JSON string into a Map
      * Throws JsonParseException if the JSON is invalid.
      */
     public static Map<String, Object> string2Map(String json) {
