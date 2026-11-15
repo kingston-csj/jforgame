@@ -5,7 +5,7 @@ import jforgame.demo.socket.GameServer;
 import jforgame.socket.core.dispatch.ChainedMessageDispatcher;
 import jforgame.socket.core.registry.CommonMessageHandlerRegister;
 import jforgame.socket.core.session.IdSession;
-import jforgame.socket.core.dispatch.MessageHandler;
+import jforgame.socket.core.dispatch.IoMessageFilter;
 import jforgame.socket.core.dispatch.RequestScheduler;
 import jforgame.socket.core.registry.MessageHandlerRegister;
 import jforgame.socket.core.registry.MessageExecutor;
@@ -26,7 +26,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
         LoginRouter router = new LoginRouter();
         this.handlerRegister = new CommonMessageHandlerRegister(Collections.singletonList(router), messageFactory);
         this.requestScheduler = RequestSchedulers.newDispatchScheduler(GameServer.getThreadModel(), (context) -> context.getSession().hashCode());
-        MessageHandler messageHandler = (session, context) -> {
+        IoMessageFilter ioMessageFilter = (session, context) -> {
             Object message = context.getRequest();
             int cmd = GameMessageFactory.getInstance().getMessageId(message.getClass());
             MessageExecutor cmdExecutor = handlerRegister.getMessageExecutor(cmd);
@@ -40,7 +40,7 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
             return true;
         };
 
-        addMessageHandler(messageHandler);
+        addMessageHandler(ioMessageFilter);
     }
 
     @Override

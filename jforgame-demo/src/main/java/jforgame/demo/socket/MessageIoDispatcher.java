@@ -5,9 +5,9 @@ import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.socket.core.dispatch.ChainedMessageDispatcher;
 import jforgame.socket.core.registry.CommonMessageHandlerRegister;
 import jforgame.socket.core.session.IdSession;
-import jforgame.socket.core.dispatch.MessageHandler;
+import jforgame.socket.core.dispatch.IoMessageFilter;
 import jforgame.socket.core.registry.MessageHandlerRegister;
-import jforgame.socket.core.dispatch.PreprocessingMessageHandler;
+import jforgame.socket.core.dispatch.PreprocessingIoMessageFilter;
 import jforgame.socket.core.protocol.message.MessageFactory;
 import jforgame.socket.core.dispatch.RequestScheduler;
 import jforgame.socket.core.support.RequestSchedulers;
@@ -28,15 +28,15 @@ public class MessageIoDispatcher extends ChainedMessageDispatcher {
     public MessageIoDispatcher(String scanPath, MessageFactory messageFactory, RequestScheduler requestScheduler) {
         this.handlerRegister = new CommonMessageHandlerRegister(scanPath, messageFactory);
         // 客户端请求消息预处理
-        addMessageHandler(new PreprocessingMessageHandler(messageFactory, handlerRegister));
+        addMessageHandler(new PreprocessingIoMessageFilter(messageFactory, handlerRegister));
 
-        MessageHandler messageHandler = (session, context) -> {
+        IoMessageFilter ioMessageFilter = (session, context) -> {
             // 预处理阶段已经完成路由匹配和方法绑定，这里只负责调度到业务线程模型
             requestScheduler.schedule(session, context);
             return true;
         };
 
-        addMessageHandler(messageHandler);
+        addMessageHandler(ioMessageFilter);
     }
 
     @Override

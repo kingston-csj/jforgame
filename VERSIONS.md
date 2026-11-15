@@ -485,6 +485,10 @@
 
     DefaultClientSocketIoHandler更名为CallbackHandler
 
+### jforgame-socket-core
+    MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
+    ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
+
 TODO: 
 
 ### jforgame-codec-struct
@@ -497,8 +501,6 @@ TODO:
     MessageCodec#decode()编码失败时抛出MessageCodecException，而不是return null
 
 ### jforgame-socket-core
-    MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
-    ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
     support子包移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
 
 

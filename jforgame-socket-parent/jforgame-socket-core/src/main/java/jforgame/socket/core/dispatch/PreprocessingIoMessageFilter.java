@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
  * Includes: binding message handlers, converting parameters to handler method arguments.
  * @since 3.0.0
  */
-public class PreprocessingMessageHandler implements MessageHandler {
+public class PreprocessingIoMessageFilter implements IoMessageFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(PreprocessingMessageHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(PreprocessingIoMessageFilter.class);
 
     /**
      * Message factory
@@ -30,13 +30,13 @@ public class PreprocessingMessageHandler implements MessageHandler {
      */
     private MessageHandlerRegister messageHandlerRegister;
 
-    public PreprocessingMessageHandler(MessageFactory messageFactory, MessageParameterConverter msgParameterConverter, MessageHandlerRegister messageHandlerRegister) {
+    public PreprocessingIoMessageFilter(MessageFactory messageFactory, MessageParameterConverter msgParameterConverter, MessageHandlerRegister messageHandlerRegister) {
         this.messageFactory = messageFactory;
         this.messageParameterConverter = msgParameterConverter;
         this.messageHandlerRegister = messageHandlerRegister;
     }
 
-    public PreprocessingMessageHandler(MessageFactory messageFactory, MessageHandlerRegister messageHandlerRegister) {
+    public PreprocessingIoMessageFilter(MessageFactory messageFactory, MessageHandlerRegister messageHandlerRegister) {
         this.messageFactory = messageFactory;
         this.messageParameterConverter = new DefaultMessageParameterConverter(messageFactory);
         this.messageHandlerRegister = messageHandlerRegister;
@@ -44,7 +44,7 @@ public class PreprocessingMessageHandler implements MessageHandler {
 
 
     @Override
-    public boolean messageReceived(IdSession session, RequestContext context) throws Exception {
+    public boolean filter(IdSession session, RequestContext context) throws Exception {
         int cmd = messageFactory.getMessageId(context.getRequest().getClass());
         MessageExecutor cmdExecutor = messageHandlerRegister.getMessageExecutor(cmd);
         if (cmdExecutor == null) {

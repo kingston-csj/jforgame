@@ -7,7 +7,7 @@ import jforgame.socket.core.session.IdSession;
  * Controls the execution chain by return value: return false to intercept and terminate subsequent processing flow.
  */
 @FunctionalInterface
-public interface MessageHandler {
+public interface IoMessageFilter {
 
     /**
      * Filter received socket message on network IO thread
@@ -24,6 +24,6 @@ public interface MessageHandler {
      * false = intercept this message, break the whole processing chain immediately
      * @throws Exception throwable during message pre-filter process
      */
-    boolean messageReceived(IdSession session, RequestContext context) throws Exception;
+    boolean filter(IdSession session, RequestContext context) throws Exception;
 
 }

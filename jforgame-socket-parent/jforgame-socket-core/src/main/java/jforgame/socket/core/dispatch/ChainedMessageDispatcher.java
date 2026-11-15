@@ -13,7 +13,7 @@ import java.util.List;
  * Each ChainedMessageDispatcher may have multiple message handler nodes.
  * When a message is passed to a message handler, the handler can choose to pass the message to the next node or stop the message propagation.
  *
- * @see MessageHandler#messageReceived(IdSession, RequestContext)
+ * @see IoMessageFilter#filter(IdSession, RequestContext)
  */
 public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
 
@@ -23,21 +23,21 @@ public abstract class ChainedMessageDispatcher implements SocketIoDispatcher {
      * Chain of message handlers
      * Iterates through handlers in the chain, stops and returns if any handler returns false
      */
-    protected List<MessageHandler> dispatchChain = new ArrayList<>();
+    protected List<IoMessageFilter> dispatchChain = new ArrayList<>();
 
     /**
      * Adds a message handler to the end of the current chain
      * @param handler message handler
      */
-    public void addMessageHandler(MessageHandler handler) {
+    public void addMessageHandler(IoMessageFilter handler) {
         this.dispatchChain.add(handler);
     }
 
     @Override
     public void dispatch(IdSession session, RequestContext context) {
-        for (MessageHandler messageHandler : dispatchChain) {
+        for (IoMessageFilter ioMessageFilter : dispatchChain) {
             try {
-                if (!messageHandler.messageReceived(session, context)) {
+                if (!ioMessageFilter.filter(session, context)) {
                     break;
                 }
             } catch (Exception e) {
