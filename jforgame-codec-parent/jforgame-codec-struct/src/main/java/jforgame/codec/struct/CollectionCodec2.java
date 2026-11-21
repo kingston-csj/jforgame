@@ -22,7 +22,7 @@ public class CollectionCodec2 extends Codec {
 
     @Override
     @SuppressWarnings("all")
-    public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+    public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Collection size less than zero!");
@@ -55,7 +55,7 @@ public class CollectionCodec2 extends Codec {
         }
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
         for (int i = 0; i < size; i++) {
-            Class<?> elementType = wrapper;
+            Class<?> elementType = wrapper[0];
             if (status == 1) {
                 int messageId = ByteBuffUtil.readInt(in);
                 elementType = messageFactory.getMessage(messageId);
@@ -70,7 +70,7 @@ public class CollectionCodec2 extends Codec {
     }
 
     @Override
-    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object value, Class<?>[] wrapper) {
         if (value == null) {
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
@@ -88,7 +88,7 @@ public class CollectionCodec2 extends Codec {
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
         // Basic type, write status code: 0
         // Collection element types are consistent, write status code: 1
-        if (!TypeUtil.isPrimitiveOrString(wrapper)) {
+        if (!TypeUtil.isPrimitiveOrString(wrapper[0])) {
             Set<Class<?>> elemType = new HashSet<>();
             for (Object elem : collection) {
                 if (elem == null) {
@@ -98,7 +98,7 @@ public class CollectionCodec2 extends Codec {
                 elemType.add(clazz);
             }
             // Collection element types are inconsistent
-            if (elemType.size() > 1 || Modifier.isAbstract(wrapper.getModifiers()) || Modifier.isInterface(wrapper.getModifiers())) {
+            if (elemType.size() > 1 || Modifier.isAbstract(wrapper[0].getModifiers()) || Modifier.isInterface(wrapper[0].getModifiers())) {
                 status = (byte) 1;
             }
         }
@@ -114,14 +114,14 @@ public class CollectionCodec2 extends Codec {
             if (elem == null) {
                 throw new IllegalStateException("Collection element is null");
             }
-            Class<?> eleType = wrapper;
+            Class<?> eleType = wrapper[0];
             if (status == 1) {
                 eleType = elem.getClass();
                 int messageId = messageFactory.getMessageId(eleType);
                 ByteBuffUtil.writeInt(out, messageId);
             }
             Codec fieldCodec = getSerializer(eleType);
-            fieldCodec.encode(out, elem, eleType);
+            fieldCodec.encode(out, elem, new Class<?>[]{eleType});
         }
     }
 

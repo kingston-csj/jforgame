@@ -1,93 +1,96 @@
 package jforgame.codec.struct;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public final class ByteBuffUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(ByteBuffUtil.class);
+    private static final int MAX_STRING_BYTES = 10 * 1024 * 1024;
 
-    public static boolean readBoolean(ByteBuffer buf) {
-        return buf.get() > 0;
-    }
+	private static final Logger logger = LoggerFactory.getLogger(ByteBuffUtil.class);
 
-    public static void writeBoolean(ByteBuffer buf, boolean value) {
-        buf.put(value ? (byte) 1 : (byte) 0);
-    }
+	public static boolean readBoolean(ByteBuffer buf) {
+		return buf.get() > 0;
+	}
 
-    public static byte readByte(ByteBuffer buf) {
-        return buf.get();
-    }
+	public static void writeBoolean(ByteBuffer buf, boolean value) {
+		buf.put(value ? (byte)1: (byte)0);
+	}
 
-    public static void writeByte(ByteBuffer buf, byte value) {
-        buf.put(value);
-    }
+	public static byte readByte(ByteBuffer buf) {
+		return buf.get();
+	}
 
-    public static char readChar(ByteBuffer buf) {
-        return buf.getChar();
-    }
+	public static void writeByte(ByteBuffer buf, byte value) {
+		buf.put(value);
+	}
 
-    public static void writeChar(ByteBuffer buf, char value) {
-        buf.putChar(value);
-    }
+	public static char readChar(ByteBuffer buf) {
+		return buf.getChar();
+	}
 
-    public static short readShort(ByteBuffer buf) {
-        return buf.getShort();
-    }
+	public static void writeChar(ByteBuffer buf, char value) {
+		buf.putChar(value);
+	}
 
-    public static void writeShort(ByteBuffer buf, short value) {
-        buf.putShort(value);
-    }
+	public static short readShort(ByteBuffer buf) {
+		return buf.getShort();
+	}
 
-    public static int readInt(ByteBuffer buf) {
-        return buf.getInt();
-    }
+	public static void writeShort(ByteBuffer buf, short value) {
+		buf.putShort(value);
+	}
 
-    public static void writeInt(ByteBuffer buf, int value) {
-        buf.putInt(value);
-    }
+	public static int readInt(ByteBuffer buf) {
+		return buf.getInt();
+	}
 
-    public static long readLong(ByteBuffer buf) {
-        return buf.getLong();
-    }
+	public static void writeInt(ByteBuffer buf, int value) {
+		buf.putInt(value);
+	}
 
-    public static void writeLong(ByteBuffer buf, long value) {
-        buf.putLong(value);
-    }
+	public static long readLong(ByteBuffer buf) {
+		return buf.getLong();
+	}
 
-    public static float readFloat(ByteBuffer buf) {
-        return buf.getFloat();
-    }
+	public static void writeLong(ByteBuffer buf, long value) {
+		buf.putLong(value);
+	}
 
-    public static void writeFloat(ByteBuffer buf, float value) {
-        buf.putFloat(value);
-    }
+	public static float readFloat(ByteBuffer buf) {
+		return buf.getFloat();
+	}
 
-    public static double readDouble(ByteBuffer buf) {
-        return buf.getDouble();
-    }
+	public static void writeFloat(ByteBuffer buf, float value) {
+		buf.putFloat(value);
+	}
 
-    public static void writeDouble(ByteBuffer buf, double value) {
-        buf.putDouble(value);
-    }
+	public static double readDouble(ByteBuffer buf) {
+		return buf.getDouble();
+	}
 
-    public static String readUtf8(ByteBuffer buf) {
-        int strSize = buf.getInt();
-        if (strSize < 0
-                || strSize > buf.remaining()) {
-            throw new IllegalArgumentException(
-                    "Invalid UTF-8 byte length: " + strSize);
+	public static void writeDouble(ByteBuffer buf, double value) {
+		buf.putDouble(value);
+	}
+
+	public static String readUtf8(ByteBuffer buf) {
+		int strSize = buf.getInt();
+        if (strSize < 0) {
+            throw new IllegalArgumentException("Invalid string length: " + strSize);
         }
-        byte[] content = new byte[strSize];
-        buf.get(content);
+        if (strSize > MAX_STRING_BYTES) {
+            throw new IllegalArgumentException("String length exceeds limit: " + strSize + " > " + MAX_STRING_BYTES);
+        }
+		byte[] content = new byte[strSize];
+		buf.get(content);
         return new String(content, StandardCharsets.UTF_8);
     }
 
-    public static void writeUtf8(ByteBuffer buf, String msg) {
-        byte[] content;
+	public static void writeUtf8(ByteBuffer buf, String msg) {
+		byte[] content ;
         if (msg == null) {
             msg = "";
         }

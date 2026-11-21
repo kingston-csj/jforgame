@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +41,8 @@ public abstract class Codec {
         register(Set.class, new CollectionCodec());
         register(Object[].class, new ArrayCodec());
         register(Map.class, new MapCodec());
+        register(HashMap.class, new MapCodec());
+        register(LinkedHashMap.class, new MapCodec());
     }
 
     /**
@@ -107,10 +111,11 @@ public abstract class Codec {
      *
      * @param in      buffer to read
      * @param type    class type
-     * @param wrapper collection element wrapper class
+     * @param wrapper collection/array: [element type]; map: [key type, value type]
      * @return request message
      */
-    public abstract Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper);
+    public abstract Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper);
+
 
 
     /**
@@ -118,8 +123,9 @@ public abstract class Codec {
      *
      * @param out     buffer to write
      * @param value   message object
-     * @param wrapper collection element wrapper class
+     * @param wrapper collection/array: [element type]; map: [key type, value type]
      */
-    public abstract void encode(ByteBuffer out, Object value, Class<?> wrapper);
+    public abstract void encode(ByteBuffer out, Object value, Class<?>[] wrapper);
+
 
 }

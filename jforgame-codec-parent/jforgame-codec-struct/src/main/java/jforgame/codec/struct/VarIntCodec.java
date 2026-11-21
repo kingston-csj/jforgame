@@ -24,7 +24,7 @@ public class VarIntCodec extends Codec {
      * @return decoded signed int value
      */
     @Override
-    public Integer decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+    public Integer decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
         int rawUnsigned = readVarInt(in);
         return zigZagDecode32(rawUnsigned);
     }
@@ -38,7 +38,7 @@ public class VarIntCodec extends Codec {
      * @param wrapper wrapper class type
      */
     @Override
-    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object value, Class<?>[] wrapper) {
         int num = (Integer) value;
         int zigZagVal = zigZagEncode32(num);
         writeVarInt(out, zigZagVal);

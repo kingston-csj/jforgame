@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Map codec (Key is forced to String type, compatible with json format).
+ * Map codec with homogeneous Integer or String keys.
  * Value element can be parent class or abstract class.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
@@ -20,17 +20,16 @@ import java.util.Set;
 public class MapCodec2 extends Codec {
 
     @Override
-    @SuppressWarnings("all")
-    public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
+    public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
+        MapCodec.validateWrapper(wrapper);
+        Class<?> keyType = wrapper[0];
+        Class<?> valueType = wrapper[1];
         // Read Map size (short type)
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Map size less than zero!");
         }
-        Map<String, Object> result = new HashMap<>(size);
-        if (valueType == null) {
-            throw new IllegalArgumentException("MapCodec: valueType is null");
-        }
+        Map<Object, Object> result = new HashMap<>(size);
         if (size == 0) {
             return result;
         }
@@ -43,10 +42,10 @@ public class MapCodec2 extends Codec {
             }
         }
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-        // Loop to decode key-value pairs (Key is fixed as String)
+        Codec keyCodec = getSerializer(keyType);
+        // Decode keys according to the declared generic type.
         for (int i = 0; i < size; i++) {
-            // Decode Key (forced to use StringCodec)
-            String key = (String) getSerializer(String.class).decode(in, String.class, null);
+            Object key = keyCodec.decode(in, keyType, null);
             // Decode Value (using the specified Value type codec)
             if (status == 1) {
                 eleType = messageFactory.getMessage(ByteBuffUtil.readInt(in));
@@ -60,14 +59,18 @@ public class MapCodec2 extends Codec {
     }
 
     @Override
-    public void encode(ByteBuffer out, Object target, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object target, Class<?>[] wrapper) {
+        MapCodec.validateWrapper(wrapper);
+        Class<?> keyType = wrapper[0];
+        Class<?> valueType = wrapper[1];
         if (target == null) {
             // Write empty Map with size=0
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
         }
 
-        Map<String, Object> map = (Map<String, Object>) target;
+        Map<?, ?> map = (Map<?, ?>) target;
+        MapCodec.validateKeys(map, keyType);
         int size = map.size();
         if (size > Short.MAX_VALUE) {
             throw new RuntimeException("Map size less than zero or exceed max short value!");
@@ -77,20 +80,20 @@ public class MapCodec2 extends Codec {
             return;
         }
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
-//        Key is uniformly string, status is determined by value type
+//        Status is determined by value type
 //        1: Basic type, write status 0;
 //        2: Not basic type, and element types are the same, and not abstract class (interface), write status 0
 //        3: Otherwise, write status 1, then during iteration, also write each element's type id
         byte status = 0;
-        if (!TypeUtil.isPrimitiveOrString(wrapper)) {
+        if (!TypeUtil.isPrimitiveOrString(valueType)) {
             Set<Class<?>> elemType = new HashSet<>();
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
                 Object value = entry.getValue();
                 if (value != null) {
                     elemType.add(value.getClass());
                 }
             }
-            if (elemType.size() > 1 || Modifier.isAbstract(wrapper.getModifiers()) || Modifier.isInterface(wrapper.getModifiers())) {
+            if (elemType.size() > 1 || Modifier.isAbstract(valueType.getModifiers()) || Modifier.isInterface(valueType.getModifiers())) {
                 status = 1;
             }
         }
@@ -102,18 +105,19 @@ public class MapCodec2 extends Codec {
         }
         ByteBuffUtil.writeByte(out, status);
 
-        // Loop to encode key-value pairs (Key is fixed as String)
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
+        Codec keyCodec = getSerializer(keyType);
+        // Encode keys according to the declared generic type.
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            Object key = entry.getKey();
             Object value = entry.getValue();
-            Class<?> eleType = wrapper;
+            Class<?> eleType = valueType;
 
             if (value == null) {
                 throw new IllegalStateException("Map value is null, key: " + key);
             }
 
-            // Encode value
-            getSerializer(String.class).encode(out, key, null);
+            // Encode Key
+            keyCodec.encode(out, key, null);
             // Encode Value (get codec according to actual type)
             if (status == 1) {
                 eleType = value.getClass();

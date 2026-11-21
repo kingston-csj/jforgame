@@ -87,7 +87,7 @@ public class StructCodec implements MessageCodec {
             Codec messageCodec = Codec.getSerializer(message.getClass());
             messageCodec.encode(allocator, message, null);
         } catch (Exception e) {
-            logger.error("read message failed ", e);
+            logger.error("encode message failed ", e);
         }
         allocator.flip();
         byte[] body = new byte[allocator.remaining()];

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Map codec (Key is forced to String type, compatible with json format).
+ * Map codec with homogeneous Integer or String keys.
  * Value element cannot be parent class or abstract class.
  *
  * @see jforgame.codec.struct.CollectionSerializeMode
@@ -13,29 +13,47 @@ import java.util.Map;
  */
 public class MapCodec extends Codec {
 
+    static void validateWrapper(Class<?>[] wrapper) {
+        if (wrapper == null || wrapper.length < 2 || wrapper[1] == null) {
+            throw new IllegalArgumentException("Map wrapper must contain key and value types");
+        }
+        validateKeyType(wrapper[0]);
+    }
+
+    static void validateKeyType(Class<?> keyType) {
+        if (keyType != String.class && keyType != Integer.class && keyType != int.class) {
+            throw new IllegalArgumentException("Map key type must be Integer or String: " + keyType);
+        }
+    }
+
+    static void validateKeys(Map<?, ?> map, Class<?> keyType) {
+        Class<?> boxedKeyType = keyType == int.class ? Integer.class : keyType;
+        for (Object key : map.keySet()) {
+            if (key == null || key.getClass() != boxedKeyType) {
+                throw new IllegalArgumentException("Map keys must be non-null and match " + boxedKeyType.getName());
+            }
+        }
+    }
+
     @Override
-    @SuppressWarnings("all")
-    public Object decode(ByteBuffer in, Class<?> type, Class<?> valueType) {
+    public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
+        validateWrapper(wrapper);
+        Class<?> keyType = wrapper[0];
+        Class<?> valueType = wrapper[1];
         // Read Map size (short type)
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Map size less than zero!");
         }
-        Map<String, Object> result = new HashMap<>(size);
-        if (valueType == null) {
-            throw new IllegalArgumentException("MapCodec: valueType is null");
-        }
+        Map<Object, Object> result = new HashMap<>(size);
+        Codec valueCodec = getSerializer(valueType);
 
-        // Value type: prefer the type passed by wrapper, otherwise default to Object
-        Class<?> actualValueType = valueType != null ? valueType : Object.class;
-        Codec valueCodec = getSerializer(actualValueType);
-
-        // Loop to decode key-value pairs (Key is fixed as String)
+        Codec keyCodec = getSerializer(keyType);
+        // Decode keys according to the declared generic type.
         for (int i = 0; i < size; i++) {
-            // Decode Key (forced to use StringCodec)
-            String key = (String) getSerializer(String.class).decode(in, String.class, null);
+            Object key = keyCodec.decode(in, keyType, null);
             // Decode Value (using the specified Value type codec)
-            Object value = valueCodec.decode(in, actualValueType, null);
+            Object value = valueCodec.decode(in, valueType, null);
             result.put(key, value);
         }
 
@@ -43,36 +61,38 @@ public class MapCodec extends Codec {
     }
 
     @Override
-    public void encode(ByteBuffer out, Object target, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object target, Class<?>[] wrapper) {
+        validateWrapper(wrapper);
+        Class<?> keyType = wrapper[0];
+        Class<?> valueType = wrapper[1];
         if (target == null) {
             // Write empty Map with size=0
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
         }
 
-        Map<String, Object> map = (Map<String, Object>) target;
+        Map<?, ?> map = (Map<?, ?>) target;
+        MapCodec.validateKeys(map, keyType);
         int size = map.size();
         if (size > Short.MAX_VALUE) {
             throw new RuntimeException("Map size less than zero or exceed max short value!");
         }
         ByteBuffUtil.writeShort(out, (short) size);
 
-        // Loop to encode key-value pairs (Key is fixed as String)
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
+        Codec keyCodec = getSerializer(keyType);
+        // Encode keys according to the declared generic type.
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            Object key = entry.getKey();
             Object value = entry.getValue();
             // Encode Key
-            getSerializer(String.class).encode(out, key, null);
+            keyCodec.encode(out, key, null);
             if (value == null) {
                 throw new IllegalStateException("Map value is null, key: " + key);
             }
-            if (wrapper == null) {
-                throw new IllegalArgumentException("MapCodec: valueType is null");
+            if (value.getClass() != valueType) {
+                throw new IllegalStateException("MapCodec only supports strict homogeneous values, value type: " + value.getClass().getName() + ", wrapper: " + valueType.getName());
             }
-            if (value.getClass() != wrapper) {
-                throw new IllegalStateException("MapCodec only supports strict homogeneous values, value type: " + value.getClass().getName() + ", wrapper: " + wrapper.getName());
-            }
-            Codec valueCodec = getSerializer(wrapper);
+            Codec valueCodec = getSerializer(valueType);
             valueCodec.encode(out, value, null);
         }
     }

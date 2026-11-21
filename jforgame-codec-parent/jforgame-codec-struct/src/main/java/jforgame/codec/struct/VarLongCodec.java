@@ -18,13 +18,13 @@ public class VarLongCodec extends Codec {
      * Read VarInt raw value first, then apply ZigZag decode to restore signed long.
      */
     @Override
-    public Long decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+    public Long decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
         long rawUnsigned = readVarInt64(in);
         return zigZagDecode64(rawUnsigned);
     }
 
     @Override
-    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object value, Class<?>[] wrapper) {
         long num = (Long) value;
         long zigZagVal = zigZagEncode64(num);
         writeVarInt64(out, zigZagVal);

@@ -20,12 +20,12 @@ import java.util.Set;
 public class ArrayCodec2 extends Codec {
 
     @Override
-    public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+    public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Array size less than zero!");
         }
-        Object array = ReflectUtil.newArray(type, wrapper, size);
+        Object array = ReflectUtil.newArray(type, wrapper[0], size);
         if (size == 0) {
             return array;
         }
@@ -40,7 +40,7 @@ public class ArrayCodec2 extends Codec {
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
 
         for (int i = 0; i < size; i++) {
-            Class<?> eleType = wrapper;
+            Class<?> eleType = wrapper[0];
             if (status == 1) {
                 int messageId = ByteBuffUtil.readInt(in);
                 eleType = messageFactory.getMessage(messageId);
@@ -54,7 +54,7 @@ public class ArrayCodec2 extends Codec {
     }
 
     @Override
-    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object value, Class<?>[] wrapper) {
         if (value == null) {
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
@@ -74,7 +74,7 @@ public class ArrayCodec2 extends Codec {
         byte status = 0;
         LiteMessageFactory messageFactory = StructCodecEnvironment.messageFactory;
         // Basic type, write status code: 0
-        if (!TypeUtil.isPrimitiveOrString(wrapper)) {
+        if (!TypeUtil.isPrimitiveOrString(wrapper[0])) {
             Set<Class<?>> elemType = new HashSet<>();
             for (int i = 0; i < size; i++) {
                 Object elem = Array.get(value, i);
@@ -85,7 +85,7 @@ public class ArrayCodec2 extends Codec {
                 elemType.add(clazz);
             }
             // Element types are inconsistent, write status code: 1
-            if (elemType.size() > 1 || Modifier.isAbstract(wrapper.getModifiers()) || Modifier.isInterface(wrapper.getModifiers())) {
+            if (elemType.size() > 1 || Modifier.isAbstract(wrapper[0].getModifiers()) || Modifier.isInterface(wrapper[0].getModifiers())) {
                 status = (byte) 1;
             }
         }
@@ -104,14 +104,14 @@ public class ArrayCodec2 extends Codec {
                 throw new IllegalStateException("Array element is null");
             }
             Class<?> clazz = elem.getClass();
-            Class<?> eleType = wrapper;
+            Class<?> eleType = wrapper[0];
             if (status == 1) {
                 eleType = elem.getClass();
                 int messageId = messageFactory.getMessageId(eleType);
                 ByteBuffUtil.writeInt(out, messageId);
             }
             Codec fieldCodec = Codec.getSerializer(clazz);
-            fieldCodec.encode(out, elem, eleType);
+            fieldCodec.encode(out, elem, new Class<?>[]{eleType});
         }
     }
 

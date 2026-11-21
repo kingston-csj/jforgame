@@ -21,7 +21,7 @@ public class CollectionCodec extends Codec {
 
     @Override
     @SuppressWarnings("all")
-    public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+    public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
         int size = ByteBuffUtil.readShort(in);
         if (size < 0) {
             throw new RuntimeException("Collection size less than zero!");
@@ -47,8 +47,8 @@ public class CollectionCodec extends Codec {
         }
 
         for (int i = 0; i < size; i++) {
-            Codec fieldCodec = getSerializer(wrapper);
-            Object eleValue = fieldCodec.decode(in, wrapper, null);
+            Codec fieldCodec = getSerializer(wrapper[0]);
+            Object eleValue = fieldCodec.decode(in, wrapper[0], null);
             result.add(eleValue);
         }
 
@@ -56,7 +56,7 @@ public class CollectionCodec extends Codec {
     }
 
     @Override
-    public void encode(ByteBuffer out, Object value, Class<?> wrapper) {
+    public void encode(ByteBuffer out, Object value, Class<?>[] wrapper) {
         if (value == null) {
             ByteBuffUtil.writeShort(out, (short) 0);
             return;
@@ -72,8 +72,8 @@ public class CollectionCodec extends Codec {
             if (elem == null) {
                 throw new IllegalStateException("Collection element is null");
             }
-            if (elem.getClass() != wrapper) {
-                throw new IllegalStateException("CollectionCodec only supports strict homogeneous elements, element type: " + elem.getClass().getName() + ", wrapper: " + wrapper.getName());
+            if (elem.getClass() != wrapper[0]) {
+                throw new IllegalStateException("CollectionCodec only supports strict homogeneous elements, element type: " + elem.getClass().getName() + ", wrapper: " + wrapper[0].getName());
             }
             Class<?> clazz = elem.getClass();
             Codec fieldCodec = getSerializer(clazz);

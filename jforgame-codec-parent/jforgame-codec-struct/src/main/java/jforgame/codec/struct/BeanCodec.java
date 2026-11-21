@@ -24,7 +24,7 @@ public class BeanCodec extends Codec {
 	}
 
 	@Override
-	public Object decode(ByteBuffer in, Class<?> type, Class<?> wrapper) {
+	public Object decode(ByteBuffer in, Class<?> type, Class<?>[] wrapper) {
 		try {
 			Object bean = type.newInstance();
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
@@ -41,7 +41,7 @@ public class BeanCodec extends Codec {
 	}
 
 	@Override
-	public void encode(ByteBuffer out, Object message, Class<?> wrapper) {
+	public void encode(ByteBuffer out, Object message, Class<?>[] wrapper) {
 		try {
 			for (FieldCodecMeta fieldMeta : fieldsMeta) {
 				Field field = fieldMeta.getField();
