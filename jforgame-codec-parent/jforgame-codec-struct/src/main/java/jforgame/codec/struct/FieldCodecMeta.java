@@ -60,7 +60,8 @@ public class FieldCodecMeta {
         if (type instanceof Class) {
             return (Class<?>) type;
         }
-        if (type instanceof WildcardType wildcard) {
+        if (type instanceof WildcardType ) {
+            WildcardType wildcard = (WildcardType) type;
             Type[] upperBounds = wildcard.getUpperBounds();
             // Kotlin covariant lists expose '? extends T'; T is the declared wire type.
             // An unbounded or lower-bounded wildcard cannot identify a concrete wire type.

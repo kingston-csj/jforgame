@@ -500,11 +500,8 @@
 ### jforgame-codec
     MessageCodec#decode()编码失败时抛出MessageCodecException，而不是return null
 
-TODO: 
-
-
 ### jforgame-socket-core
-    support子包移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
+    新增jforgame-socket-threadmodel模块，用于聚合socket与线程模型
 
 
 

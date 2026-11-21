@@ -44,13 +44,14 @@
         <module>jforgame-persist</module>
         <module>jforgame-logger</module>
         <module>jforgame-runtime</module>
+        <module>jforgame-threadmodel</module>
         <module>jforgame-codec-parent</module>
         <module>jforgame-socket-parent</module>
+        <module>jforgame-socket-threadmodel</module>
         <module>jforgame-hotswap</module>
         <module>jforgame-data</module>
         <module>jforgame-data-spring-boot-starter</module>
         <module>jforgame-orm</module>
-        <module>jforgame-threadmodel</module>
         <module>jforgame-cache</module>
         <module>jforgame-cache-spring-boot-starter</module>
         <module>jforgame-demo</module>
