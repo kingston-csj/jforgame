@@ -1,11 +1,21 @@
 package jforgame.socket.core.dispatch;
 
+import jforgame.socket.core.execution.RequestProcessor;
 import jforgame.socket.core.session.IdSession;
 
 /**
- * Request scheduler, used to deliver client request messages to specific business thread models.
- * This interface wraps request into independent task entity on IO thread and enqueues it;
- * real business logic runs in isolated business threads(Actor/sharded thread pool).
+ * Request scheduler that delivers preprocessed requests to a business thread model from the network IO thread.
+ * <p>
+ * Scheduling only selects the target Actor or shard, wraps the request in a task, and enqueues it.
+ * These operations must remain lightweight and must not block the IO thread.
+ * Once dequeued, the task invokes {@link RequestProcessor} on a business thread
+ * to run interceptors, invoke the handler, send the response, and handle execution errors.
+ * </p>
+ * <p>
+ * The scheduler determines where a request runs; the processor determines how it is processed.
+ * Implementations must not execute the request processing flow directly inside
+ * {@link #schedule(IdSession, RequestContext)}.
+ * </p>
  *
  * @since v4.0.0
  */

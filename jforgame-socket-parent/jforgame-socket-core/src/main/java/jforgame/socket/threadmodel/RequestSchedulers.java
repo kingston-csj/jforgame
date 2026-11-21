@@ -1,10 +1,15 @@
-package jforgame.socket.core.support;
+package jforgame.socket.threadmodel;
 
 import jforgame.socket.core.dispatch.RequestContext;
-import jforgame.socket.core.dispatch.RequestExecutionInterceptor;
-import jforgame.socket.core.dispatch.RequestResponseSender;
+import jforgame.socket.core.execution.RequestExecutionInterceptor;
+import jforgame.socket.core.execution.RequestResponseSender;
 import jforgame.socket.core.dispatch.RequestScheduler;
-import jforgame.socket.core.dispatch.SessionBindingActorSelector;
+import jforgame.socket.threadmodel.actor.SessionBindingActorSelector;
+import jforgame.socket.core.execution.RequestProcessor;
+import jforgame.socket.threadmodel.actor.ActorRequestScheduler;
+import jforgame.socket.threadmodel.dispatch.DispatchThreadRequestScheduler;
+import jforgame.socket.threadmodel.dispatch.RequestDispatchKeyResolver;
+import jforgame.socket.core.support.SessionResponseSender;
 import jforgame.threadmodel.actor.Actor;
 import jforgame.threadmodel.actor.ActorSystem;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
@@ -12,7 +17,10 @@ import jforgame.threadmodel.dispatch.DispatchThreadModel;
 import java.util.function.Function;
 
 /**
- * Common request scheduler factory.
+ * Request scheduler factory that creates request processors and injects them into concrete schedulers.
+ * <p>
+ * Schedulers select execution targets and enqueue tasks on the IO thread;
+ * processors execute the request processing flow on business threads.
  * <p>
  * This layer belongs to the socket request processing flow, responsible for mapping request semantics like {@code IdSession + RequestContext}
  * to specific execution carriers.
@@ -43,7 +51,8 @@ public final class RequestSchedulers {
                                                         RequestDispatchKeyResolver dispatchKeyResolver,
                                                         RequestResponseSender responseSender,
                                                         RequestExecutionInterceptor... interceptors) {
-        return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver, responseSender, interceptors);
+        RequestProcessor processor = new RequestProcessor(responseSender, interceptors);
+        return new DispatchThreadRequestScheduler(threadModel, dispatchKeyResolver, processor);
     }
 
     /**
@@ -58,8 +67,8 @@ public final class RequestSchedulers {
                                                      Function<RequestContext, Actor> boundActorResolver,
                                                      RequestResponseSender responseSender,
                                                      RequestExecutionInterceptor... interceptors) {
-        return new ActorRequestScheduler(new SessionBindingActorSelector(actorSystem, boundActorResolver),
-                responseSender, interceptors);
+        RequestProcessor processor = new RequestProcessor(responseSender, interceptors);
+        return new ActorRequestScheduler(new SessionBindingActorSelector(actorSystem, boundActorResolver), processor);
     }
 
     public static RequestScheduler newActorScheduler(ActorSystem actorSystem,

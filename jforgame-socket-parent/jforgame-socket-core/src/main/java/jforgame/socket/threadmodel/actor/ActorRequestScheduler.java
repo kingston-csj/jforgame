@@ -1,31 +1,29 @@
-package jforgame.socket.core.support;
+package jforgame.socket.threadmodel.actor;
 
-import jforgame.socket.core.dispatch.RequestResponseSender;
+import jforgame.socket.core.execution.RequestProcessor;
 import jforgame.socket.core.session.IdSession;
 import jforgame.socket.core.dispatch.RequestContext;
-import jforgame.socket.core.dispatch.RequestExecutionInterceptor;
 import jforgame.socket.core.dispatch.RequestScheduler;
 import jforgame.threadmodel.actor.Actor;
 import jforgame.threadmodel.actor.mail.Mail;
 
 /**
- * Request scheduler based on Actor model. The business party decides which Actor to deliver the request to.
+ * Request scheduler based on the Actor model.
+ * <p>
+ * Selects the target Actor through {@link RequestActorSelector} and delivers mail on the IO thread.
+ * Once dequeued, the mail invokes the injected {@link RequestProcessor} on the Actor's business thread.
+ * </p>
  */
 public class ActorRequestScheduler implements RequestScheduler {
 
     private final RequestActorSelector actorSelector;
 
-    private final RequestExecutionSupport requestExecutionSupport;
-
-    public ActorRequestScheduler(RequestActorSelector actorSelector, RequestExecutionInterceptor... interceptors) {
-        this(actorSelector, SessionResponseSender.INSTANCE, interceptors);
-    }
+    private final RequestProcessor processor;
 
     public ActorRequestScheduler(RequestActorSelector actorSelector,
-                                 RequestResponseSender responseSender,
-                                 RequestExecutionInterceptor... interceptors) {
+                                 RequestProcessor processor) {
         this.actorSelector = actorSelector;
-        this.requestExecutionSupport = new RequestExecutionSupport(responseSender, interceptors);
+        this.processor = processor;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class ActorRequestScheduler implements RequestScheduler {
         actor.tell(new Mail() {
             @Override
             public void action() {
-                requestExecutionSupport.execute(session, context);
+                processor.process(session, context);
             }
         });
     }

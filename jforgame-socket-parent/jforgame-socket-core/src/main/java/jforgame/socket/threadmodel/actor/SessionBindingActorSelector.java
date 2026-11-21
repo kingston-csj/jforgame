@@ -1,7 +1,7 @@
-package jforgame.socket.core.dispatch;
+package jforgame.socket.threadmodel.actor;
 
+import jforgame.socket.core.dispatch.RequestContext;
 import jforgame.socket.core.session.IdSession;
-import jforgame.socket.core.support.RequestActorSelector;
 import jforgame.threadmodel.actor.Actor;
 import jforgame.threadmodel.actor.ActorSystem;
 

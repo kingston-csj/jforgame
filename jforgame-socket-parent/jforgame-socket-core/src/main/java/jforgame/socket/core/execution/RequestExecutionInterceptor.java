@@ -1,5 +1,6 @@
-package jforgame.socket.core.dispatch;
+package jforgame.socket.core.execution;
 
+import jforgame.socket.core.dispatch.RequestContext;
 import jforgame.socket.core.session.IdSession;
 
 /**

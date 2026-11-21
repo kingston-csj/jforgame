@@ -1,15 +1,19 @@
-package jforgame.socket.core.support;
+package jforgame.socket.threadmodel.dispatch;
 
 import jforgame.socket.core.dispatch.RequestContext;
-import jforgame.socket.core.dispatch.RequestExecutionInterceptor;
-import jforgame.socket.core.dispatch.RequestResponseSender;
 import jforgame.socket.core.dispatch.RequestScheduler;
+import jforgame.socket.core.execution.RequestProcessor;
 import jforgame.socket.core.session.IdSession;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 import jforgame.threadmodel.dispatch.DispatchThreadModel;
 
 /**
- * Request scheduler based on DispatchThreadModel.
+ * Request scheduler based on a sharded thread model.
+ * <p>
+ * Resolves the dispatch key, wraps the request in a task, and submits it to {@link DispatchThreadModel}
+ * on the IO thread. Once dequeued, the task invokes the injected {@link RequestProcessor}
+ * on the corresponding shard's business thread.
+ * </p>
  */
 public class DispatchThreadRequestScheduler implements RequestScheduler {
 
@@ -17,21 +21,14 @@ public class DispatchThreadRequestScheduler implements RequestScheduler {
 
     private final RequestDispatchKeyResolver dispatchKeyResolver;
 
-    private final RequestExecutionSupport requestExecutionSupport;
+    private final RequestProcessor processor;
 
     public DispatchThreadRequestScheduler(DispatchThreadModel threadModel,
                                           RequestDispatchKeyResolver dispatchKeyResolver,
-                                          RequestExecutionInterceptor... interceptors) {
-        this(threadModel, dispatchKeyResolver, SessionResponseSender.INSTANCE, interceptors);
-    }
-
-    public DispatchThreadRequestScheduler(DispatchThreadModel threadModel,
-                                          RequestDispatchKeyResolver dispatchKeyResolver,
-                                          RequestResponseSender responseSender,
-                                          RequestExecutionInterceptor... interceptors) {
+                                          RequestProcessor processor) {
         this.threadModel = threadModel;
         this.dispatchKeyResolver = dispatchKeyResolver;
-        this.requestExecutionSupport = new RequestExecutionSupport(responseSender, interceptors);
+        this.processor = processor;
     }
 
     @Override
@@ -40,7 +37,7 @@ public class DispatchThreadRequestScheduler implements RequestScheduler {
         BaseDispatchTask task = new BaseDispatchTask() {
             @Override
             public void action() {
-                requestExecutionSupport.execute(session, context);
+                processor.process(session, context);
             }
 
             @Override

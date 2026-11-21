@@ -10,7 +10,7 @@ import jforgame.socket.core.registry.MessageHandlerRegister;
 import jforgame.socket.core.dispatch.PreprocessingIoMessageFilter;
 import jforgame.socket.core.protocol.message.MessageFactory;
 import jforgame.socket.core.dispatch.RequestScheduler;
-import jforgame.socket.core.support.RequestSchedulers;
+import jforgame.socket.threadmodel.RequestSchedulers;
 import jforgame.threadmodel.dispatch.BaseDispatchTask;
 
 import java.io.IOException;

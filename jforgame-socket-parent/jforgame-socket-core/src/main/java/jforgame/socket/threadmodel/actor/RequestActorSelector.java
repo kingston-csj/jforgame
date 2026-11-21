@@ -1,4 +1,4 @@
-package jforgame.socket.core.support;
+package jforgame.socket.threadmodel.actor;
 
 import jforgame.socket.core.dispatch.RequestContext;
 import jforgame.threadmodel.actor.Actor;

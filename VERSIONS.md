@@ -488,6 +488,8 @@
 ### jforgame-socket-core
     MessageHandler更名为IoMessageFilter，messageReceived更名为filter，强调io层处理
     ChainedMessageDispatcher#addMessageHandler更名为addIoFilter
+    RequestExecutionSupport更名为RequestProcessor
+    代码内部结构调整
 
 ### jforgame-data
     DataReader更名为FileDataReader
