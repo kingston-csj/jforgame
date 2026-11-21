@@ -1,6 +1,7 @@
 package jforgame.codec.struct;
 
 import jforgame.codec.MessageCodec;
+import jforgame.codec.MessageCodecException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ public class StructCodec implements MessageCodec {
     /**
      * Create a message codec
      *
-     * @param writeBuffSize max length after encoding a single message
+     * @param writeBuffSize     max length after encoding a single message
      * @param useUpgradeVersion whether to enable upgrade version, if true, collection elements can use inheritance mode
      */
     public StructCodec(int writeBuffSize, boolean useUpgradeVersion) {
@@ -63,19 +64,19 @@ public class StructCodec implements MessageCodec {
         this(DEFAULT_WRITE_BUFF_SIZE, false);
     }
 
-    public Object decode(Class<?> msgClazz, byte[] body) {
+    public Object decode(Class<?> clazz, byte[] body) {
         // The buffer here is already a complete package
         ByteBuffer in = ByteBuffer.allocate(body.length);
         in.put(body);
         in.flip();
 
         try {
-            Codec messageCodec = Codec.getSerializer(msgClazz);
-            return messageCodec.decode(in, msgClazz, null);
+            Codec messageCodec = Codec.getSerializer(clazz);
+            return messageCodec.decode(in, clazz, null);
         } catch (Exception e) {
-            logger.error("", e);
+            logger.error("struct codec decode failed for message {}", clazz.getName(), e);
+            throw new MessageCodecException("struct codec decode failed for message " + clazz.getName(), e);
         }
-        return null;
     }
 
     @Override
@@ -87,7 +88,8 @@ public class StructCodec implements MessageCodec {
             Codec messageCodec = Codec.getSerializer(message.getClass());
             messageCodec.encode(allocator, message, null);
         } catch (Exception e) {
-            logger.error("encode message failed ", e);
+            logger.error("struct codec encode failed for message {}", message.getClass().getName(), e);
+            throw new MessageCodecException("struct codec encode failed for message " + message.getClass().getName(), e);
         }
         allocator.flip();
         byte[] body = new byte[allocator.remaining()];

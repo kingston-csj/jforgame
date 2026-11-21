@@ -497,11 +497,11 @@
 ### jforgame-codec-struct
 
     MapCodec/MapCodec2 key增加对Integer的支持（只支持Integer和String，其他基本类型无实际意义）
-
-
-TODO: 
 ### jforgame-codec
     MessageCodec#decode()编码失败时抛出MessageCodecException，而不是return null
+
+TODO: 
+
 
 ### jforgame-socket-core
     support子包移至新模块 jforgame-socket-threadmodel-support， 与threadmodel解耦
