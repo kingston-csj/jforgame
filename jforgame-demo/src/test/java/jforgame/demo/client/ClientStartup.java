@@ -4,9 +4,9 @@ package jforgame.demo.client;
 import jforgame.codec.struct.StructCodec;
 import jforgame.commons.util.JsonUtil;
 import jforgame.demo.ServerConfig;
+import jforgame.demo.framework.socket.GameMessageFactory;
 import jforgame.demo.game.hello.ReqHello;
 import jforgame.demo.game.hello.ResHello;
-import jforgame.demo.socket.GameMessageFactory;
 import jforgame.socket.core.client.RequestCallback;
 import jforgame.socket.core.client.RpcMessageClient;
 import jforgame.socket.core.client.SocketClient;
@@ -29,11 +29,11 @@ public class ClientStartup {
         hostPort.setPort(serverPort);
 
         SocketIoDispatcher msgDispatcher = new SocketIoDispatcherAdapter() {
-                @Override
-                public void dispatch(IdSession session, RequestContext context) {
-                    Object message = context.getRequest();
-                    System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
-                }
+            @Override
+            public void dispatch(IdSession session, RequestContext context) {
+                Object message = context.getRequest();
+                System.err.println("收到消息<-- " + message.getClass().getSimpleName() + "=" + JsonUtil.object2String(message));
+            }
 
             @Override
             public void exceptionCaught(IdSession session, Throwable cause) {
@@ -41,8 +41,7 @@ public class ClientStartup {
             }
         };
 
-        SocketClient socketClient = new WebSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructCodec(), 1, hostPort, "wss://127.0.0.1:" + serverPort + "/ws")
-                .useInsecureSslForTest();
+        SocketClient socketClient = new WebSocketClient(msgDispatcher, GameMessageFactory.getInstance(), new StructCodec(), 1, hostPort, "ws://127.0.0.1:" + serverPort + "/ws");
         IdSession session = socketClient.openSession();
 
         ClientPlayer robot = new ClientPlayer(session);

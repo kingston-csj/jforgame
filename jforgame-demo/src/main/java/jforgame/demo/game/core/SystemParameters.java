@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 
-import jforgame.demo.db.DbUtils;
+import jforgame.demo.framework.db.DbUtils;
 import jforgame.demo.game.logger.LoggerUtils;
 
 /**

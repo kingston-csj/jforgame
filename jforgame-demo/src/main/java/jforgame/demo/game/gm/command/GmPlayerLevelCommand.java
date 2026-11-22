@@ -2,7 +2,7 @@ package jforgame.demo.game.gm.command;
 
 import java.util.List;
 
-import jforgame.demo.db.AsyncEntityPersister;
+import jforgame.demo.framework.db.AsyncEntityPersister;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigPlayerLevel;
 import jforgame.demo.game.database.config.storage.ConfigPlayerLevelStorage;

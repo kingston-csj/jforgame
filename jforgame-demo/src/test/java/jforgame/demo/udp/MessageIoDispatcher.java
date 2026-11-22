@@ -1,7 +1,7 @@
 package jforgame.demo.udp;
 
-import jforgame.demo.socket.GameMessageFactory;
-import jforgame.demo.socket.GameServer;
+import jforgame.demo.framework.socket.GameMessageFactory;
+import jforgame.demo.framework.socket.GameServer;
 import jforgame.socket.core.dispatch.ChainedMessageDispatcher;
 import jforgame.socket.core.registry.CommonMessageHandlerRegister;
 import jforgame.socket.core.session.IdSession;

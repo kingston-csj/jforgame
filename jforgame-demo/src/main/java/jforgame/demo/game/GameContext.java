@@ -2,7 +2,6 @@ package jforgame.demo.game;
 
 import jforgame.commons.eventbus.EventBus;
 import jforgame.demo.game.gm.GmManager;
-import jforgame.demo.game.login.LoginManager;
 import jforgame.demo.game.player.PlayerManager;
 import jforgame.demo.game.skill.SkillManager;
 
@@ -15,8 +14,6 @@ import java.util.Arrays;
 public class GameContext {
 
     public static GmManager gmManager = new GmManager();
-
-    public static LoginManager loginManager = new LoginManager();
 
     public static PlayerManager playerManager = new PlayerManager();
 

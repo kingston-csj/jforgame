@@ -1,14 +1,14 @@
 package jforgame.demo.game.player.message;
 
 import jforgame.demo.game.Modules;
-import jforgame.demo.game.login.LoginDataPool;
+import jforgame.demo.game.player.PlayerDataPool;
 import jforgame.socket.core.protocol.annotation.MessageMeta;
 import jforgame.socket.core.protocol.message.Message;
 
 /**
  * 请求－账号登录
  */
-@MessageMeta(module = Modules.LOGIN, cmd = LoginDataPool.REQ_LOGIN)
+@MessageMeta(module = Modules.LOGIN, cmd = PlayerDataPool.REQ_LOGIN)
 public class ReqPlayerLogin implements Message {
 
     /**

@@ -3,7 +3,7 @@ package jforgame.demo.game.core;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigNotice;
 import jforgame.demo.game.database.config.storage.ConfigNoticeStorage;
-import jforgame.demo.socket.SessionManager;
+import jforgame.demo.framework.socket.SessionManager;
 import jforgame.socket.core.session.IdSession;
 import jforgame.socket.core.protocol.message.Message;
 import org.apache.mina.core.session.IoSession;

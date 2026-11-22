@@ -2,7 +2,7 @@ package jforgame.demo.game.gm.command;
 
 import java.util.List;
 
-import jforgame.demo.doctor.HotswapManager;
+import jforgame.demo.framework.doctor.HotswapManager;
 import jforgame.demo.game.database.user.PlayerEnt;
 import jforgame.demo.game.gm.message.ResGmResult;
 

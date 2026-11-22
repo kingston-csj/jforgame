@@ -6,11 +6,6 @@ public class PlayerProfile {
 
     private String name;
 
-    /**
-     * 职业
-     */
-    private int job;
-
     private int level;
 
     public long getId() {
@@ -29,14 +24,6 @@ public class PlayerProfile {
         this.name = name;
     }
 
-    public int getJob() {
-        return job;
-    }
-
-    public void setJob(int job) {
-        this.job = job;
-    }
-
     public int getLevel() {
         return level;
     }
@@ -47,8 +34,7 @@ public class PlayerProfile {
 
     @Override
     public String toString() {
-        return "PlayerBaseInfo [id=" + id + ", name=" + name + ", job=" + job + ", level="
-                + level + "]";
+        return "PlayerBaseInfo [id=" + id + ", name=" + name + ", level=" + level + "]";
     }
 
 

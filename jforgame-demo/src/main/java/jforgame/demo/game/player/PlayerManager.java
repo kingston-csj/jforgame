@@ -2,18 +2,20 @@ package jforgame.demo.game.player;
 
 import jforgame.cache.BaseEntityCacheService;
 import jforgame.commons.util.NumberUtil;
-import jforgame.demo.cache.GuavaCacheStore;
-import jforgame.demo.cache.JdbcDatabaseAccessor;
-import jforgame.demo.db.DbUtils;
+import jforgame.demo.framework.cache.GuavaCacheStore;
+import jforgame.demo.framework.cache.JdbcDatabaseAccessor;
+import jforgame.demo.framework.db.DbUtils;
 import jforgame.demo.game.GameContext;
 import jforgame.demo.game.core.MessagePusher;
 import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.user.PlayerEnt;
+import jforgame.demo.game.logger.LoggerFunction;
+import jforgame.demo.game.logger.LoggerUtils;
 import jforgame.demo.game.player.events.PlayerLogoutEvent;
-import jforgame.demo.game.player.message.ResCreateNewPlayer;
-import jforgame.demo.game.player.message.ResKickPlayer;
+import jforgame.demo.game.player.message.ResPlayerLogin;
+import jforgame.demo.game.player.message.PushPlayerKick;
 import jforgame.demo.game.player.model.PlayerProfile;
-import jforgame.demo.socket.SessionManager;
+import jforgame.demo.framework.socket.SessionManager;
 import jforgame.socket.core.session.IdSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +51,6 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
             for (Map<String, Object> record : result) {
                 PlayerProfile baseInfo = new PlayerProfile();
                 baseInfo.setId(NumberUtil.longValue(record.get("id")));
-                baseInfo.setJob(NumberUtil.intValue(record.get("job")));
                 baseInfo.setName((String) record.get("name"));
                 addPlayerProfile(baseInfo);
             }
@@ -73,7 +74,6 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
         PlayerProfile baseInfo = new PlayerProfile();
         baseInfo.setId(playerId);
         baseInfo.setLevel(player.getLevel());
-        baseInfo.setJob(player.getJob());
         baseInfo.setName(player.getName());
         addPlayerProfile(baseInfo);
 
@@ -92,6 +92,7 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
 
     public void handlePlayerLogin(IdSession session, long playerId) {
         PlayerEnt player = GameContext.playerManager.getEntity(playerId);
+        LoggerUtils.logPlayer(LoggerFunction.Net, String.valueOf(playerId), "model", "login");
         if (player != null) {
             //绑定session与玩家id
             session.setOwnerId(String.valueOf(playerId));
@@ -106,7 +107,7 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
             GameContext.playerManager.checkDailyReset(player);
         } else {
             createNewPlayer(playerId, playerId + "");
-            ResCreateNewPlayer response = new ResCreateNewPlayer();
+            ResPlayerLogin response = new ResPlayerLogin();
             response.setPlayerId(playerId);
             MessagePusher.pushMessage(session, response);
         }
@@ -186,7 +187,7 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
         }
         removeFromOnline(player);
         IdSession session = SessionManager.INSTANCE.getSessionBy(playerId);
-        MessagePusher.pushMessage(session, new ResKickPlayer());
+        MessagePusher.pushMessage(session, new PushPlayerKick());
     }
 
 }

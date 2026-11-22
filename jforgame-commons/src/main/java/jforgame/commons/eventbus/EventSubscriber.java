@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * Marks a class as an event subscriber.
  * <p>
  * In a non-Spring environment, subscriber classes can be discovered by package scanning
- * (see {@link jforgame.commons.util.ClassScanner#listClassesWithAnnotation(String, Class)}) instead of being registered manually.
+ * see {@link jforgame.commons.util.ClassScanner#listClassesWithAnnotation(String, Class)} instead of being registered manually.
  */
 @Documented
 @Target(ElementType.TYPE)

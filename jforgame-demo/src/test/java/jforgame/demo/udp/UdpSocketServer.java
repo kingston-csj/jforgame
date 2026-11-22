@@ -11,7 +11,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.StructCodec;
-import jforgame.demo.socket.GameMessageFactory;
+import jforgame.demo.framework.socket.GameMessageFactory;
 import jforgame.socket.core.net.HostAndPort;
 import jforgame.socket.core.server.ServerNode;
 import jforgame.socket.core.dispatch.SocketIoDispatcher;

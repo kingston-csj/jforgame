@@ -13,7 +13,7 @@ import jforgame.codec.MessageCodec;
 import jforgame.codec.struct.Codec;
 import jforgame.codec.struct.StructCodec;
 import jforgame.commons.util.JsonUtil;
-import jforgame.demo.socket.GameMessageFactory;
+import jforgame.demo.framework.socket.GameMessageFactory;
 import jforgame.socket.core.client.AbstractSocketClient;
 import jforgame.socket.netty.NSession;
 import jforgame.socket.core.net.HostAndPort;

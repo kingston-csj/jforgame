@@ -2,19 +2,16 @@ package jforgame.demo.game.logger;
 
 
 import jforgame.commons.util.DateUtil;
-import jforgame.demo.game.database.user.PlayerEnt;
+import jforgame.commons.util.JsonUtil;
+import jforgame.demo.ServerConfig;
 import jforgame.logger.LoggerUtil;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class LoggerUtils {
 
-    /**
-     * Log an exception at the ERROR level with an accompanying message.
-     *
-     * @param errMsg the message accompanying the exception
-     * @param e      the exception to log
-     */
     public static void error(String errMsg, Exception e) {
         LoggerUtil.error(errMsg, e);
     }
@@ -23,30 +20,54 @@ public class LoggerUtils {
         LoggerUtil.error(format, arguments);
     }
 
-    public static void info(LoggerBusiness logger, Object... args) {
-        Object[] newArgs = new Object[args.length + 4];
+    public static void info(LoggerFunction logger, Object... args) {
+        if (args.length == 0) {
+            return;
+        }
+        if (args.length % 2 != 0) {
+            String errorMsg = String.format("logger %s, args %s", logger, JsonUtil.object2String(args));
+            throw new IllegalArgumentException(errorMsg);
+        }
 
-        // 写入拓展的固定字段（放在最前面）
-        newArgs[0] = "time";
-        newArgs[1] = System.currentTimeMillis();
-        newArgs[2] = "date";
-        newArgs[3] = DateUtil.format(new Date());
+        Map<String, Object> root = new LinkedHashMap<>();
+        root.put("time", System.currentTimeMillis());
+        root.put("date", DateUtil.format(new Date()));
+        root.put("sid", ServerConfig.getInstance().getServerId());
 
-        System.arraycopy(args, 0, newArgs, 4, args.length);
-        // 调用真正的日志输出
-        LoggerUtil.info(logger.name(), newArgs);
+        // 业务参数全部塞进 ext 子对象
+        Map<String, Object> ext = new LinkedHashMap<>();
+        for (int i = 0; i < args.length; i += 2) {
+            String key = String.valueOf(args[i]);
+            Object val = args[i + 1];
+            ext.put(key, val);
+        }
+        root.put("ext", ext);
+
+        String json = JsonUtil.object2String(root);
+        LoggerUtil.info(logger.name(), json);
     }
 
-    public static void logPlayer(LoggerBusiness logger, PlayerEnt player, Object... args) {
-        // 拓展args参数
-        Object[] newArgs = new Object[args.length + 8];
-        newArgs[0] = "time";
-        newArgs[1] = System.currentTimeMillis();
-        newArgs[2] = "date";
-        newArgs[3] = DateUtil.format(new Date());
-        newArgs[4] = "playerId";
-        newArgs[5] = player.getId();
-        System.arraycopy(args, 0, newArgs, 8, args.length);
-        LoggerUtil.info(logger.name(), newArgs);
+    public static void logPlayer(LoggerFunction logger, String playerId, Object... args) {
+        if (args.length == 0) {
+            return;
+        }
+        if (args.length % 2 != 0) {
+            String errorMsg = String.format("logger %s, args %s", logger, JsonUtil.object2String(args));
+            throw new IllegalArgumentException(errorMsg);
+        }
+        Map<String, Object> root = new LinkedHashMap<>();
+        root.put("time", System.currentTimeMillis());
+        root.put("date", DateUtil.format(new Date()));
+        root.put("sid", ServerConfig.getInstance().getServerId());
+        root.put("playerId", playerId);
+        Map<String, Object> ext = new LinkedHashMap<>();
+        for (int i = 0; i < args.length; i += 2) {
+            String key = String.valueOf(args[i]);
+            Object val = args[i + 1];
+            ext.put(key, val);
+        }
+        root.put("ext", ext);
+        String json = JsonUtil.object2String(root);
+        LoggerUtil.info(logger.name(), json);
     }
 }

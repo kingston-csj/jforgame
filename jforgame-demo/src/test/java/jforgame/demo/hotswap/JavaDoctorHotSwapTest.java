@@ -1,6 +1,6 @@
 package jforgame.demo.hotswap;
 
-import jforgame.demo.doctor.HotswapManager;
+import jforgame.demo.framework.doctor.HotswapManager;
 import jforgame.hotswap.JavaDoctor;
 
 public class JavaDoctorHotSwapTest {

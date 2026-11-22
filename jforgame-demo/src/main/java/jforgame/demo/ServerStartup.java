@@ -1,6 +1,6 @@
 package jforgame.demo;
 
-import jforgame.demo.socket.GameServer;
+import jforgame.demo.framework.socket.GameServer;
 import jforgame.logger.LoggerBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
