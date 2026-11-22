@@ -32,6 +32,9 @@ jforgame
 ├── jforgame-socket-netty  -- Netty implementation with WebSocket server & client support
 ├── jforgame-socket-mina   -- Mina implementation (without WebSocket support)
 ├── jforgame-orm     -- Game-server-oriented custom ORM library for conversion between database table records and POJO objects
+├── jforgame-cache   -- Entity cache API providing a unified "cache + persistence" entrypoint for `Entity` implementations, independent of any container or ORM
+├── jforgame-cache-spring-boot-starter -- Spring Boot integration for jforgame-cache, offering `@EntityCacheAutowired`, `SpringCacheStore`, and `JpaDatabaseAccessor` auto-configuration
+├── jforgame-persist -- Asynchronous data persistence module based on queues, delivering high throughput and low latency with dead-letter queue support
 ├── jforgame-data -- Configuration data module, providing CSV/Excel/JSON loading, validation, hot reload and secondary cache support
 ├── jforgame-data-spring-boot-starter -- Spring Boot starter for jforgame-data, responsible for property binding and auto-configuration
 ├── jforgame-hotswap  -- Supports business code hot replacement
@@ -43,6 +46,72 @@ jforgame
 ```
 
 jforgame follows a component-based design. Each module is independent, allowing developers to import only required components.For example, if only Socket communication is needed, simply introduce jforgame-socket-netty or jforgame-socket-mina.
+
+## Core Module Highlights
+
+### jforgame-cache — Entity Cache API
+
+Provides a unified "cache + persistence" entrypoint for entities implementing `jforgame.commons.persist.Entity`. The core module is free of container and ORM coupling — it is decoupled from concrete implementations via SPI.
+
+**Core API**
+
+| Interface / Class | Description |
+| --- | --- |
+| `EntityCacheService<E>` | Top-level cache service interface: `getEntity` / `putEntity` / `removeEntity` |
+| `BaseEntityCacheService<E>` | Default implementation with constructor injection; additionally exposes segmented-lock `getOrCreate` |
+| `DatabaseAccessor` | Database access SPI, implemented by the business layer; contracts are `load` / `saveOrUpdate` / `remove` |
+| `CacheStore` | Cache storage SPI, replaceable with any cache (ConcurrentHashMap, Spring Cache, LRU, etc.) |
+| `EntityCacheServiceFactory` | Factory interface that reuses service instances per entity type |
+
+**Concurrency behavior**: `getOrCreate` uses 10-segment `ReentrantLock` (modulo `id.hashCode()`) for double-checking, preventing concurrent creation of entities with the same primary key.
+
+For full usage details and SPI contracts see [jforgame-cache/README_EN.md](jforgame-cache/README_EN.md).
+
+### jforgame-cache-spring-boot-starter — Spring Boot Integration
+
+Enables jforgame-cache in Spring Boot with auto-configuration and annotation-driven injection.
+
+**Key Features**
+
+- `@EntityCacheAutowired` — annotate a `BaseEntityCacheService<E>` field and the corresponding cache service is injected automatically from the field's generic type
+- `SpringCacheStore` — delegates entity caching to Spring `CacheManager`, so Caffeine, Redis and other providers can share the same configuration
+- `JpaDatabaseAccessor` — auto-registered when JPA + Hibernate are on the classpath and a unique `EntityManagerFactory` is present
+- Auto-configuration — `EntityCacheAutoConfiguration` registers `EntityCacheServiceFactory`, `SpringCacheStore`, `LocalCacheStore` and other beans conditionally
+
+**CacheStore resolution priority**: custom application bean → `SpringCacheStore` when `CacheManager` is on the classpath → `LocalCacheStore` (demo only). For production, prefer `SpringCacheStore` or `LruSoftCacheStore`.
+
+For full usage see [jforgame-cache-spring-boot-starter/README_EN.md](jforgame-cache-spring-boot-starter/README_EN.md).
+
+### jforgame-persist — Asynchronous Data Persistence
+
+Queue-based asynchronous persistence mechanism for high-throughput, low-latency data sinks such as game player archiving.
+
+**Container Types**
+
+| Container | Description | Use Case |
+| --- | --- | --- |
+| `QueueContainer` | FIFO container backed by `BlockingQueue` | General async persistence, single-thread consumption |
+| `DelayContainer` | Container with delay semantics | Non-real-time data (e.g. delayed offline player archiving) |
+| `CronContainer` | Cron-expression-based scheduled container | Periodic batch persistence |
+| `PersistContainerGroup` | Group of containers + `ShardingStrategy` | High-concurrency scenarios, multi-threaded parallel persistence |
+
+**Dead-Letter Queue Mechanism**
+
+Persistence failures are routed to a dead-letter queue (DLQ) instead of being retried indefinitely and wasting threads:
+
+- Configurable `maxRetryCount`; entities exceeding the threshold move to the DLQ
+- `DeadLetterListener` receives dead-letter events (can bridge to alerting systems)
+- Individual reprocess `reprocess(key)`, batch `batchReprocess()`, full reset `reset()` are all supported
+
+```java
+DeadLetterQueue dlq = new DeadLetterQueue(3);
+dlq.addListener(deadLetter -> log.error("Persistence failed: {}", deadLetter.getKey()));
+QueueContainer container = new QueueContainer("player", strategy, dlq);
+container.receive(playerEntity);
+```
+
+For the full flow diagram and best practices see [jforgame-persist/README.md](jforgame-persist/README.md).
+
 
 ## Quick Start
 
