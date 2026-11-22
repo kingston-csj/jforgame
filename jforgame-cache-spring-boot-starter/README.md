@@ -4,6 +4,7 @@
 
 - `@EntityCacheAutowired` 实体缓存服务自动注入；
 - `SpringCacheStore`，把实体缓存委托给 Spring `CacheManager`；
+- 默认的 `JpaDatabaseAccessor`，基于 JPA/Hibernate，存在 `EntityManagerFactory` 时自动装配；
 - 自动配置与缓存实现的按需装配。
 
 ## 引入依赖
@@ -12,7 +13,7 @@
 <dependency>
     <groupId>io.github.jforgame</groupId>
     <artifactId>jforgame-cache-spring-boot-starter</artifactId>
-    <version>4.6.0</version>
+    <version>latest</version>
 </dependency>
 ```
 
@@ -25,22 +26,21 @@ Spring Cache 在 starter 中是 `provided` 依赖。需要把缓存交给 Spring
 </dependency>
 ```
 
+`spring-boot-starter-data-jpa` 同样是 `provided` 依赖。使用默认的 JPA/Hibernate 访问器时需要自行引入（见下文）。
+
 ## 前置条件
 
-1. 提供一个 `DatabaseAccessor` Bean，否则 `EntityCacheServiceFactory` 无法创建；
-2. 选择缓存实现（见下文）。**推荐 `SpringCacheStore` 或 `LruSoftCacheStore`**。
+1. 使用 JPA/Hibernate 时无需手写 `DatabaseAccessor`：starter 在存在 `EntityManagerFactory` 时自动注册 `JpaDatabaseAccessor`；
+2. 使用 MyBatis、jforgame-orm 等其他持久化框架时，需自行提供 `DatabaseAccessor` Bean，否则 `EntityCacheServiceFactory` 无法创建；
+3. 选择缓存实现（见下文）。**推荐 `SpringCacheStore` 或 `LruSoftCacheStore`**。
 
 ## 快速开始
+
+使用 JPA/Hibernate 时，只需声明缓存实现：
 
 ```java
 @Configuration
 public class CacheConfig {
-
-    @Bean
-    public DatabaseAccessor databaseAccessor(DataSource dataSource) {
-        // 可以基于 jforgame-orm、MyBatis 或任意持久化框架实现
-        return new MyBatisDatabaseAccessor();
-    }
 
     @Bean
     public CacheStore cacheStore() {
@@ -60,6 +60,29 @@ public class UserService {
     public User getUser(long id) {
         return userCache.getEntity(id);
     }
+}
+```
+
+### 默认 DatabaseAccessor（JPA/Hibernate）
+
+当类路径存在 JPA 与 Hibernate，且容器中存在唯一的 `EntityManagerFactory` 时，starter 自动注册 `JpaDatabaseAccessor`。实体需要满足：
+
+- 使用 JPA 注解（`@Entity`、`@Id` 等）；
+- 实现 `jforgame.commons.persist.Entity`；
+- 主键类型正确实现 `equals` / `hashCode`。
+
+行为与限制：
+
+- `load` 使用独立的 `EntityManager`，返回后立即关闭，因此**懒加载关联不可用**，缓存实体应使用 EAGER 或 fetch join；
+- 每次写操作使用独立的本地事务，不参与外层 Spring 事务；JTA 环境不支持；
+- 基于 Hibernate `Session#saveOrUpdate`，自动处理新增/更新以及自增主键回填；
+- 如需使用 MyBatis、jforgame-orm 等，声明自己的 `DatabaseAccessor` Bean 即可覆盖默认实现。
+
+```java
+@Bean
+public DatabaseAccessor databaseAccessor(DataSource dataSource) {
+    // 使用其他持久化框架时自行实现
+    return new MyBatisDatabaseAccessor();
 }
 ```
 
@@ -117,11 +140,11 @@ public CacheStore cacheStore(CacheManager cacheManager) {
 ```java
 @Bean
 public CacheStore cacheStore() {
-    return new LruSoftCacheStore(10_000);
+    return new LruSoftCacheStore(1_000);
 }
 ```
 
-容量说明：`hardMaxSize` 是**每个 cacheName** 的硬缓存容量，软缓存容量为其 2 倍，因此单个 cacheName 最多保留约 `3 × hardMaxSize` 个 key。该实现是进程内的，不提供分布式一致性。
+容量说明：`hardMaxSize` 是**每个 cacheName** 的硬缓存容量，软缓存容量为其 2 倍。该实现是进程内的，不提供分布式一致性。
 
 ## 配置项
 
@@ -143,11 +166,13 @@ public CacheStore cacheStore() {
 | --- | --- | --- |
 | `EntityCacheServiceFactory` | 无自定义工厂 | 注入 `DatabaseAccessor` 与 `CacheStore` |
 | `EntityCacheServiceInjectProcessor` | 始终注册 | 处理 `@EntityCacheAutowired` |
+| `JpaDatabaseAccessor` | 存在 `EntityManagerFactory` 且无自定义 `DatabaseAccessor` | 基于 JPA/Hibernate 的默认实现 |
 | `SpringCacheStore` | 存在 `CacheManager` 且无自定义 `CacheStore` | 委托 Spring Cache |
 | `LocalCacheStore` | 无 `CacheManager` 且无自定义 `CacheStore` | 仅作演示/兜底 |
 
 ## 注意事项
 
-- 未提供 `DatabaseAccessor` Bean 时，应用启动会失败；这是有意的快速失败。
+- 使用 JPA/Hibernate 时默认无需提供 `DatabaseAccessor`；其他持久化框架未提供该 Bean 时，应用启动会失败，这是有意的快速失败。
+- JPA 默认实现不参与外层事务，且返回的实体是游离态，不能依赖懒加载关联。
 - 缓存 key 直接使用 `Entity#getId()`，主键类型需正确实现 `equals` / `hashCode`。
 - 数据库操作成功后才会更新缓存；数据库异常时缓存保持不变。

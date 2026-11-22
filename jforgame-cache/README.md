@@ -2,18 +2,7 @@
 
 实体缓存 API。为实现了 `jforgame.commons.persist.Entity` 的实体提供「缓存 + 持久化」的统一读写入口，核心模块不绑定任何容器或 ORM。
 
-## 模块组成
-
-| 模块 | 依赖 | 说明 |
-| --- | --- | --- |
-| `jforgame-cache` | `jforgame-commons` | 纯 Java 核心 API：缓存服务、缓存存储 SPI、数据库访问 SPI |
-| `jforgame-cache-spring-boot-starter` | `jforgame-cache`、Spring Cache | Spring 集成：自动注入、`CacheManager` 适配、自动配置 |
-
----
-
-## 核心 API（`jforgame-cache`）
-
-包名：`jforgame.cache`
+## 核心 API
 
 ### EntityCacheService\<E>
 
@@ -77,13 +66,11 @@ BaseEntityCacheService(
 
 ### LocalCacheStore
 
-基于 `ConcurrentHashMap` 的默认 `CacheStore` 实现，适用于单机、无外部缓存场景。
+基于 `ConcurrentHashMap` 的默认 `CacheStore` 实现，无容量上限，无过期机制，仅用于示例，不推荐生产使用。
 
 ```java
 CacheStore cacheStore = new LocalCacheStore();
 ```
-
-每个 `cacheName` 对应一个独立的 `ConcurrentHashMap`；不做过期、容量限制或持久化。
 
 ### EntityBuilder\<E>
 
@@ -138,111 +125,4 @@ userCache.removeEntity(user);
 ---
 
 ## Spring Boot Starter API
-
-包名：`jforgame.cache.spring`
-
-### 依赖与前置条件
-
-引入 `jforgame-cache-spring-boot-starter` 后：
-
-1. 必须由业务层提供 `DatabaseAccessor` Bean，否则自动配置的 `EntityCacheServiceFactory` 无法创建；
-2. Spring Cache 为可选依赖：类路径上存在 `CacheManager` 时使用 `SpringCacheStore` 委托 Spring Cache；不存在时自动回退到 `LocalCacheStore`。
-
-### @EntityCacheAutowired
-
-标记在 `BaseEntityCacheService<E>` 类型的字段上，启动时自动注入对应实体的缓存服务。
-
-```java
-@Service
-public class UserService {
-
-    @EntityCacheAutowired
-    private BaseEntityCacheService<User> userCache;
-}
-```
-
-注入规则：
-
-- 字段类型必须是 `BaseEntityCacheService` 的子类型；
-- 从字段的泛型实参提取实体类（如 `BaseEntityCacheService<User>` → `User`）；
-- 同一实体类在容器内复用同一服务实例。
-
-### EntityCacheProperties
-
-配置前缀：`jforgame.cache`
-
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `jforgame.cache.base-packages` | `List<String>` | 空（扫描全部） | 限定 `@EntityCacheAutowired` 的 Bean 扫描包，按类名前缀匹配。 |
-
-### SpringCacheStore
-
-`CacheStore` 的 Spring 实现，委托给 `CacheManager`。
-
-```java
-SpringCacheStore(CacheManager cacheManager)
-```
-
-- 缓存名即 `BaseEntityCacheService.getCacheName()`，默认是实体类简单名；
-- `CacheManager` 中不存在对应名称的缓存时，读写会抛出 `IllegalStateException`。使用 Redis 等固定缓存名的实现时，需要预先创建同名缓存；使用 `ConcurrentMapCacheManager` 时默认动态创建。
-
-### 自动配置
-
-`EntityCacheAutoConfiguration` 注册以下 Bean：
-
-| Bean | 条件 | 说明 |
-| --- | --- | --- |
-| `CacheStore` | 存在 `CacheManager` 且无自定义 `CacheStore` | `SpringCacheStore` |
-| `CacheStore` | 类路径无 `CacheManager` 且无自定义 `CacheStore` | `LocalCacheStore` |
-| `EntityCacheServiceFactory` | 容器中无自定义工厂 | 注入 `DatabaseAccessor` 与 `CacheStore` |
-| `EntityCacheServiceInjectProcessor` | 始终注册 | `BeanPostProcessor`，处理 `@EntityCacheAutowired` |
-
-自动配置通过 `META-INF/spring.factories` 与 `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` 注册。
-
----
-
-## 扩展点
-
-### 自定义 DatabaseAccessor
-
-实现 `DatabaseAccessor` 并注册为 Bean（或手动传给 `BaseEntityCacheService`），即可接入 MyBatis、JPA、远程存储等：
-
-```java
-public class MyBatisDatabaseAccessor implements DatabaseAccessor {
-
-    @Override
-    public <E> E load(Class<E> entityClass, Object id) {
-        return sqlSession.selectOne(entityClass.getSimpleName() + ".selectById", id);
-    }
-
-    @Override
-    public void saveOrUpdate(Entity<?> entity) {
-        // insert or update
-    }
-
-    @Override
-    public void remove(Entity<?> entity) {
-        // delete by id
-    }
-}
-```
-
-### 自定义 CacheStore
-
-实现 `CacheStore` 并注册为 Bean，可覆盖 starter 自动选择的缓存实现（`SpringCacheStore` 或 `LocalCacheStore`）：
-
-```java
-@Bean
-public CacheStore cacheStore() {
-    return new LocalCacheStore();
-}
-```
-
----
-
-## 注意事项
-
-- 实体主键由 `Entity#getId()` 提供，缓存 key 直接使用该返回值，主键类型需正确实现 `equals` / `hashCode`。
-- 缓存写回发生在数据库操作成功之后；数据库操作抛异常时不会更新缓存。
-- `getEntity` 不回填 `null`，避免缓存穿透保护需要由业务层自行处理。
-- `LocalCacheStore` 不做容量与过期控制，长期运行的服务建议使用带淘汰策略的 `CacheStore`。
+参考 jforgame-cache-spring-boot-starter 模块的相关文档

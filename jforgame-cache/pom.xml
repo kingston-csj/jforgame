@@ -20,7 +20,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
             <artifactId>concurrentlinkedhashmap-lru</artifactId>
@@ -28,13 +27,5 @@
             <!-- 只在使用LruSoftCache缓存的时候自行引入-->
             <scope>provided</scope>
         </dependency>
-        <!-- example implementation of DatabaseAccessor, test sources only -->
-        <dependency>
-            <groupId>io.github.jforgame</groupId>
-            <artifactId>jforgame-orm</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 </project>

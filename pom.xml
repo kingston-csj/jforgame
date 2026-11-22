@@ -37,6 +37,7 @@
         <poi.version>5.4.0</poi.version>
         <hikari.version>4.0.3</hikari.version>
         <oshi.version>6.6.0</oshi.version>
+        <jpa.version>2.2.3</jpa.version>
     </properties>
 
     <modules>
