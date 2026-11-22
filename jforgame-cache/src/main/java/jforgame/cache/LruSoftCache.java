@@ -5,18 +5,16 @@ import com.googlecode.concurrentlinkedhashmap.Weighers;
 
 import java.lang.ref.SoftReference;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * A two-level cache backed by a hard LRU cache and a soft-reference cache.
+ * A two-level local cache that combines a bounded LRU hard cache with a soft-reference
+ * secondary cache. Entries evicted from the hard cache are retained in the soft cache
+ * until they are either promoted back or garbage collected.
  *
- * <p>Values are stored in {@code hardCache} for fast access. When the hard cache
- * reaches its capacity and evicts an entry, the evicted value is wrapped in a
- * {@link SoftReference} and placed into {@code softCache}. This allows recently
- * evicted entries to be recovered if they have not yet been garbage collected.
- *
- * <p>The soft cache is also bounded: it holds at most twice the hard cache capacity,
- * so cleared references cannot accumulate without limit. When it overflows, its least
- * recently used entries are discarded.
+ * <p>This implementation supports time-based eviction based on the last access time.
+ * If an entry has not been read or written within the configured TTL, it is removed
+ * during periodic cleanup triggered by write operations.
  *
  * @param <K> the type of keys maintained by this cache
  * @param <V> the type of mapped values
@@ -29,32 +27,69 @@ class LruSoftCache<K, V> {
     private static final int SOFT_CAPACITY_FACTOR = 2;
 
     /**
+     * Default number of put operations between cleanup runs.
+     */
+    private static final long DEFAULT_CLEANUP_INTERVAL = 100;
+
+    /**
+     * Time-to-live in milliseconds based on last access time.
+     * A value of zero or negative means entries never expire.
+     */
+    private final long ttlMillis;
+
+    /**
+     * How many put operations must occur before the next cleanup is triggered.
+     */
+    private final long cleanupInterval;
+
+    /**
+     * Monotonically increasing counter tracking put operations since the last cleanup.
+     */
+    private final AtomicLong putCounter = new AtomicLong(0);
+
+    /**
      * The primary cache with a bounded LRU eviction policy.
      */
-    private final ConcurrentMap<K, V> hardCache;
+    private final ConcurrentMap<K, CacheEntry<V>> hardCache;
 
     /**
      * The secondary cache that holds soft references to evicted entries.
-     * Entries in this map may be cleared by the garbage collector under memory pressure,
-     * and the map itself is bounded to twice the hard cache capacity.
      */
-    private final ConcurrentMap<K, SoftReference<V>> softCache;
+    private final ConcurrentMap<K, SoftReference<CacheEntry<V>>> softCache;
 
     /**
-     * Constructs a new {@code LruSoftCache} with the specified maximum capacity.
+     * Constructs a new {@code LruSoftCache} with the specified maximum capacity
+     * and time-to-live. Cleanup runs every 100 put operations.
      *
-     * @param maxSize the maximum number of entries the hard cache can hold
+     * @param maxSize   the maximum number of entries the hard cache can hold
+     * @param ttlMillis the maximum idle time in milliseconds before an entry is
+     *                  considered expired; zero or negative means no expiration
      */
-    public LruSoftCache(int maxSize) {
-        this.softCache = new ConcurrentLinkedHashMap.Builder<K, SoftReference<V>>()
+    public LruSoftCache(int maxSize, long ttlMillis) {
+        this(maxSize, ttlMillis, DEFAULT_CLEANUP_INTERVAL);
+    }
+
+    /**
+     * Constructs a new {@code LruSoftCache} with full control over cleanup frequency.
+     *
+     * @param maxSize         the maximum number of entries the hard cache can hold
+     * @param ttlMillis       the maximum idle time in milliseconds before an entry is
+     *                        considered expired; zero or negative means no expiration
+     * @param cleanupInterval the number of put operations between cleanup runs
+     */
+    public LruSoftCache(int maxSize, long ttlMillis, long cleanupInterval) {
+        this.ttlMillis = ttlMillis;
+        this.cleanupInterval = cleanupInterval > 0 ? cleanupInterval : DEFAULT_CLEANUP_INTERVAL;
+
+        this.softCache = new ConcurrentLinkedHashMap.Builder<K, SoftReference<CacheEntry<V>>>()
                 .maximumWeightedCapacity((long) maxSize * SOFT_CAPACITY_FACTOR)
                 .weigher(Weighers.singleton())
                 .build();
-        this.hardCache = new ConcurrentLinkedHashMap.Builder<K, V>()
+
+        this.hardCache = new ConcurrentLinkedHashMap.Builder<K, CacheEntry<V>>()
                 .maximumWeightedCapacity(maxSize)
                 .weigher(Weighers.singleton())
-                // When an entry is evicted from the hard cache, move it into the soft cache.
-                .listener((key, value) -> softCache.put(key, new SoftReference<>(value)))
+                .listener((key, entry) -> softCache.put(key, new SoftReference<>(entry)))
                 .build();
     }
 
@@ -65,6 +100,9 @@ class LruSoftCache<K, V> {
      * is replaced and returned. The corresponding soft reference is removed so
      * that the hard cache remains the authoritative source.
      *
+     * <p>Expired entries are cleaned up only when the put counter reaches the
+     * configured interval, avoiding the cost of a full traversal on every write.
+     *
      * @param k the key with which the specified value is to be associated
      * @param v the value to be associated with the specified key
      * @return the previous value associated with the key, or {@code null} if there was no mapping
@@ -73,14 +111,26 @@ class LruSoftCache<K, V> {
         if (v == null) {
             return null;
         }
-        V previous = hardCache.put(k, v);
+
+        if (ttlMillis > 0 && putCounter.incrementAndGet() >= cleanupInterval) {
+            putCounter.set(0);
+            cleanUpExpiredEntries();
+        }
+
+        CacheEntry<V> newEntry = new CacheEntry<>(v);
+        CacheEntry<V> oldEntry = hardCache.put(k, newEntry);
         softCache.remove(k);
-        return previous;
+
+        return (oldEntry != null) ? oldEntry.value : null;
     }
 
     /**
      * Returns the value to which the specified key is mapped, or {@code null}
      * if this cache contains no mapping for the key.
+     *
+     * <p>This method does not enforce expiration. If the entry exists in the hard
+     * cache, it is returned regardless of whether it has exceeded the TTL. The last
+     * access time is updated so that actively used entries remain alive.
      *
      * <p>If the hard cache does not contain the key, the soft cache is consulted.
      * When a live value is found in the soft cache, it is promoted back into the
@@ -90,27 +140,28 @@ class LruSoftCache<K, V> {
      * @return the value associated with the key, or {@code null} if not found
      */
     public V get(K k) {
-        V value = hardCache.get(k);
-        if (value != null) {
-            return value;
+        CacheEntry<V> entry = hardCache.get(k);
+        if (entry != null) {
+            entry.lastAccessTime = System.currentTimeMillis();
+            return entry.value;
         }
 
-        SoftReference<V> ref = softCache.get(k);
+        SoftReference<CacheEntry<V>> ref = softCache.get(k);
         if (ref == null) {
             return null;
         }
 
-        value = ref.get();
-        if (value == null) {
-            // The softly referenced value has been garbage collected.
+        CacheEntry<V> softEntry = ref.get();
+        if (softEntry == null) {
             softCache.remove(k);
             return null;
         }
 
-        // Promote the recovered value back into the hard cache and drop the soft entry.
+        softEntry.lastAccessTime = System.currentTimeMillis();
         softCache.remove(k);
-        hardCache.put(k, value);
-        return value;
+        hardCache.put(k, softEntry);
+
+        return softEntry.value;
     }
 
     /**
@@ -121,7 +172,8 @@ class LruSoftCache<K, V> {
      */
     public V remove(K k) {
         softCache.remove(k);
-        return hardCache.remove(k);
+        CacheEntry<V> entry = hardCache.remove(k);
+        return (entry != null) ? entry.value : null;
     }
 
     /**
@@ -130,5 +182,46 @@ class LruSoftCache<K, V> {
     public void clear() {
         softCache.clear();
         hardCache.clear();
+        putCounter.set(0);
+    }
+
+    /**
+     * Removes entries from the hard cache whose last access time exceeds the
+     * configured TTL.
+     *
+     * <p>This method is invoked periodically during write operations, not on
+     * every put, to amortize the cost of iterating over the entire hard cache.
+     */
+    private void cleanUpExpiredEntries() {
+        long now = System.currentTimeMillis();
+        hardCache.entrySet().removeIf(entry -> (now - entry.getValue().lastAccessTime) > ttlMillis);
+    }
+
+    /**
+     * A cache entry that wraps the stored value and tracks the last access time.
+     *
+     * @param <V> the type of the cached value
+     */
+    private static class CacheEntry<V> {
+
+        /**
+         * The cached value.
+         */
+        final V value;
+
+        /**
+         * The last time this entry was read or written, in milliseconds since the epoch.
+         */
+        volatile long lastAccessTime;
+
+        /**
+         * Constructs a new cache entry with the given value.
+         *
+         * @param value the cached value
+         */
+        CacheEntry(V value) {
+            this.value = value;
+            this.lastAccessTime = System.currentTimeMillis();
+        }
     }
 }

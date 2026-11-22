@@ -55,7 +55,7 @@ public class BaseEntityCacheService<E extends Entity>
 
     /**
      * Gets an entity by ID from cache or database.
-     * If not in cache, loads from database using {@link DatabaseAccessor}.
+     * If not in cache, loads from database using {@link DatabaseAccessor}#load(Class, Object).
      *
      * @param id the entity ID
      * @return the entity, or null if not found
