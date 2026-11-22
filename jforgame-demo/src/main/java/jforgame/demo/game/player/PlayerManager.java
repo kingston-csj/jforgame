@@ -13,8 +13,6 @@ import jforgame.demo.game.player.events.PlayerLogoutEvent;
 import jforgame.demo.game.player.message.ResCreateNewPlayer;
 import jforgame.demo.game.player.message.ResKickPlayer;
 import jforgame.demo.game.player.model.PlayerProfile;
-import jforgame.demo.listener.EventDispatcher;
-import jforgame.demo.listener.EventType;
 import jforgame.demo.socket.SessionManager;
 import jforgame.socket.core.session.IdSession;
 import org.slf4j.Logger;
@@ -178,7 +176,7 @@ public class PlayerManager extends BaseEntityCacheService<PlayerEnt> {
         }
         logger.info("角色[{}]退出游戏", playerId);
 
-        EventDispatcher.getInstance().fireEvent(new PlayerLogoutEvent(EventType.LOGOUT, playerId));
+        GameContext.eventBus.post(new PlayerLogoutEvent(player));
     }
 
     public void kickPlayer(long playerId) {

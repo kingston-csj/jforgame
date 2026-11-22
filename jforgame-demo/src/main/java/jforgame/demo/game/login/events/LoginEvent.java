@@ -1,12 +1,12 @@
 package jforgame.demo.game.login.events;
 
-import jforgame.demo.listener.EventType;
-import jforgame.demo.listener.BasePlayerEvent;
+import jforgame.demo.game.database.user.PlayerEnt;
+import jforgame.demo.game.player.events.PlayerEvent;
 
-public class LoginEvent extends BasePlayerEvent {
+public class LoginEvent extends PlayerEvent {
 
-	public LoginEvent(EventType evtType, long playerId) {
-		super(evtType, playerId);
+	public LoginEvent(PlayerEnt player) {
+		super(player);
 	}
 
 }

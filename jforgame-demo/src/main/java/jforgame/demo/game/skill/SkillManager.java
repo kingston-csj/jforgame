@@ -4,11 +4,11 @@ import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.database.config.bean.ConfigSkill;
 import jforgame.demo.game.database.config.storage.ConfigSkillStorage;
 import jforgame.demo.game.database.user.PlayerEnt;
-import jforgame.demo.listener.BaseGameEvent;
+import jforgame.demo.game.player.events.PlayerEvent;
 
 public class SkillManager {
 
-	public void studyNewSkill(PlayerEnt player, BaseGameEvent event) {
+	public void studyNewSkill(PlayerEnt player, PlayerEvent event) {
 		int skillId = 1;
 		ConfigSkill configSkill = getSkillBy(skillId);
 

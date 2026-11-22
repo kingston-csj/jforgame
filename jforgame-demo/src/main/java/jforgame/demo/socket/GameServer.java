@@ -1,6 +1,7 @@
 package jforgame.demo.socket;
 
 import jforgame.codec.struct.StructCodec;
+import jforgame.commons.eventbus.EventSubscriber;
 import jforgame.commons.util.ClassScanner;
 import jforgame.commons.util.TimeUtil;
 import jforgame.demo.ServerConfig;
@@ -13,7 +14,6 @@ import jforgame.demo.game.core.SystemParameters;
 import jforgame.demo.game.database.config.ConfigDataPool;
 import jforgame.demo.game.logger.LoggerBusiness;
 import jforgame.demo.game.logger.LoggerUtils;
-import jforgame.demo.listener.ListenerManager;
 import jforgame.orm.core.OrmProcessor;
 import jforgame.orm.ddl.SchemaMigrator;
 import jforgame.orm.entity.BaseEntity;
@@ -80,7 +80,17 @@ public class GameServer {
         }
 
         // 事件驱动
-        ListenerManager.INSTANCE.init();
+
+        Set<Class<?>> subscriberClasses = ClassScanner.listClassesWithAnnotation(ServerScanPaths.LISTENER_PATH, EventSubscriber.class);
+        for (Class<?> subscriberClass : subscriberClasses) {
+            try {
+                GameContext.eventBus.register(subscriberClass.newInstance());
+            } catch (Exception e) {
+                logger.error("register event subscriber failed: " + subscriberClass.getName(), e);
+            }
+        }
+        GameContext.eventBus.registerAll(ServerScanPaths.LISTENER_PATH);
+
         // 初始化job定时任务
         CronSchedulerHelper.initAndStart();
         // 读取所有策划配置

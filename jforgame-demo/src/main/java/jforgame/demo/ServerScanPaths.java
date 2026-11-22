@@ -15,4 +15,9 @@ public class ServerScanPaths {
 	 * io通信消息
 	 */
 	public static final String MESSAGE_PATH = "jforgame.demo";
+
+	/**
+	 * 事件监听器
+	 */
+	public static final String LISTENER_PATH = "jforgame.demo.game";
 }

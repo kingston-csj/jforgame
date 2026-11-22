@@ -1,16 +1,14 @@
 package jforgame.demo.game.player.events;
 
-import jforgame.demo.listener.BasePlayerEvent;
-import jforgame.demo.listener.EventType;
+import jforgame.demo.game.database.user.PlayerEnt;
 
 /**
  * 玩家登出事件
- *
  */
-public class PlayerLogoutEvent extends BasePlayerEvent {
+public class PlayerLogoutEvent extends PlayerEvent {
 
-	public PlayerLogoutEvent(EventType evtType, long playerId) {
-		super(evtType, playerId);
+	public PlayerLogoutEvent(PlayerEnt player) {
+		super(player);
 	}
 
 }

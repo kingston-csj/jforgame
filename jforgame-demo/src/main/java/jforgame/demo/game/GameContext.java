@@ -1,5 +1,6 @@
 package jforgame.demo.game;
 
+import jforgame.commons.eventbus.EventBus;
 import jforgame.demo.game.gm.GmManager;
 import jforgame.demo.game.login.LoginManager;
 import jforgame.demo.game.player.PlayerManager;
@@ -20,6 +21,8 @@ public class GameContext {
     public static PlayerManager playerManager = new PlayerManager();
 
     public static SkillManager skillManager = new SkillManager();
+
+    public static EventBus eventBus = new EventBus();
 
     public static void init() {
         Class c = GameContext.class;
